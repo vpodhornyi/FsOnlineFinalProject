@@ -1,20 +1,19 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import {createRoot} from "react-dom/client";
 import {Provider} from "react-redux";
 import App from "@containers/AppContainer";
 import store from '../src/redux/store';
-import {HashRouter as Router} from "react-router-dom";
+import {HashRouter} from "react-router-dom";
 import Auth from "./pages/Auth";
 import 'normalize.css';
 
 
-const reduxStore = store()
+const reduxStore = store();
+const root = createRoot(document.getElementById("root"));
 
-ReactDOM.render(
+root.render(
   <Provider store={reduxStore}>
-    <Router>
-      <App/>
-    </Router>
-  </Provider>,
-  document.getElementById("root")
-)
+  <HashRouter>
+    <App/>
+  </HashRouter>
+</Provider>);

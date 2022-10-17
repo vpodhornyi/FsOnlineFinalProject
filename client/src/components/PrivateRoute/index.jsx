@@ -18,4 +18,4 @@ const PrivateRoute = ({isPublic, isAdminRoute, ...route}) => {
   return <Route {...route} />
 }
 
-export default PrivateRoute
+export default PrivateRoute;
