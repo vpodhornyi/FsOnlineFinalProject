@@ -3,6 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:4000",
+  "watch": {
+    "stylelint-dev": {
+      "patterns": [
+        "/src/**/*.scss"
+      ],
+      "extensions": "scss"
+    }
+  },
   "dependencies": {
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
@@ -29,12 +37,17 @@
     "redux-actions": "^2.6.5",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.1",
+    "stylelint-config-standard": "^29.0.0",
     "thunk": "^0.0.1",
     "web-vitals": "^3.0.3"
   },
   "scripts": {
-    "start": "set NODE_OPTIONS=--max_old_space_size=8192 && react-app-rewired start",
-    "build": "react-app-rewired build",
+    "stylelint-dev": "stylelint 'src/**/*.scss' --cache --cache-location './.stylelintcache'; exit 0",
+    "stylelint-build": "stylelint 'src/**/*.scss'",
+    "watch-styles-sass": "npm-watch",
+    "start-js": "set NODE_OPTIONS=--max_old_space_size=8192 && react-app-rewired start",
+    "start": "npm-run-all -p watch-styles-sass start-js",
+    "build": "npm run stylelint-build && react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject"
   },
