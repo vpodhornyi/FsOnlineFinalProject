@@ -22,7 +22,7 @@ const CUSTOM_BUTTON_Sing_UP_STYLE = `
     }`;
 const CUSTOM_BUTTON_Sing_UP_NAME = 'Sing up';
 
-export default () => {
+const SingUpSecondStep =  () => {
   const dispatch = useDispatch();
   const {openDialog} = DIALOG_ACTIONS;
 
@@ -82,4 +82,6 @@ export default () => {
       </Box>
     </>
   );
-}
+};
+
+export default SingUpSecondStep;

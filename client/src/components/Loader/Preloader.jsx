@@ -1,19 +1,24 @@
-import React from "react"
-import cx from "classnames"
+import React from "react";
+import cx from "classnames";
 
 
-import css from "./styles.module.scss"
+import css from "./styles.module.scss";
+import PropTypes from "prop-types";
 
 const Preloader = ({ loaded }) => {
   return (
     <div
       className={cx("app-loader", css.loader, {
-        [css.loaderHide]: loaded,
+        [css.loader-hide]: loaded,
       })}
     >
 
     </div>
   )
+};
+
+Preloader.propTypes = {
+  loaded: PropTypes.boolean,
 }
 
-export default Preloader
+export default Preloader;

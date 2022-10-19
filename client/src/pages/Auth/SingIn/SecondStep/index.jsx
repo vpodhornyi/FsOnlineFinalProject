@@ -22,7 +22,7 @@ const CUSTOM_BUTTON_LOG_IN_STYLE = `
     }`;
 const CUSTOM_BUTTON_LOG_IN_NAME = 'Log in';
 
-export default () => {
+const SingInSecondStep = () => {
   const dispatch = useDispatch();
   const {openDialog, closeDialog} = DIALOG_ACTIONS;
 
@@ -71,10 +71,13 @@ export default () => {
             />
           </Grid>
           <DialogContentText sx={{fontSize: 15, pt: 3}}>
-            Don't have an account? Sign up
+            {`Don't have an account? Sign up`}
           </DialogContentText>
         </Box>
       </DialogContent>
     </Box>
   );
-}
+};
+
+export default SingInSecondStep;
+

@@ -3,7 +3,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 
-export default () => {
+const DateOfBirth = () => {
   return (
     <>
       <DialogContentText sx={{pt: 10, fontWeight: 600, color: '#000'}}>Date of birth </DialogContentText>
@@ -24,4 +24,6 @@ export default () => {
       </Grid>
     </>
   )
-}
+};
+
+export default DateOfBirth;
