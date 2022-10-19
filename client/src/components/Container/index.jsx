@@ -1,9 +1,7 @@
 import React from 'react';
 
 const Container = (props) => {
-  return (
-
-  )
+  return ();
 }
 
 export default Container;
