@@ -40,7 +40,7 @@ const CUSTOM_BUTTON_FORGOT_PASSWORD_STYLE = `
     }`;
 const CUSTOM_BUTTON_FORGOT_PASSWORD_NAME = 'Forgot password?';
 
-export default () => {
+const SingInFirstStep = () => {
   const dispatch = useDispatch();
   const {openDialog, closeDialog} = DIALOG_ACTIONS;
 
@@ -100,7 +100,7 @@ export default () => {
               />
             </Grid>
             <DialogContentText sx={{fontSize: 15, pt: 5}}>
-              Don't have an account? Sign up
+              {`Don't have an account? Sign up`}
             </DialogContentText>
           </DialogContent>
         </Box>
@@ -108,3 +108,5 @@ export default () => {
     </Box>
   );
 }
+
+export default SingInFirstStep;

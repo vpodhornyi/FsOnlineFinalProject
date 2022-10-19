@@ -41,7 +41,7 @@ const CUSTOM_BUTTON_SING_IN_STYLE = `
     }`;
 const CUSTOM_BUTTON_SING_IN_NAME = 'Sing in';
 
-export default () => {
+const Auth = () => {
   const dispatch = useDispatch();
   const {openDialog} = DIALOG_ACTIONS;
   const matches = useMediaQuery('(max-width:600px)');
@@ -120,4 +120,6 @@ export default () => {
       </Grid>
     </Grid>
   );
-}
+};
+
+export default Auth;

@@ -22,7 +22,7 @@ const CUSTOM_BUTTON_NEXT_STYLE = `
     }`;
 const CUSTOM_BUTTON_NEXT_NAME = 'Next';
 
-export default () => {
+const SingUpFirstStep = () => {
   const dispatch = useDispatch();
   const {closeDialog, openDialog} = DIALOG_ACTIONS;
 
@@ -75,4 +75,6 @@ export default () => {
       </Box>
     </>
   );
-}
+};
+
+export default SingUpFirstStep;

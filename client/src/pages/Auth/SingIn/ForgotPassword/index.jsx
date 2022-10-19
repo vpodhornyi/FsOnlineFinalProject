@@ -22,7 +22,7 @@ const CUSTOM_BUTTON_SEARCH_STYLE = `
     }`;
 const CUSTOM_BUTTON_SERCH_NAME = 'Search';
 
-export default () => {
+const ForgotPassword = () => {
   const dispatch = useDispatch();
   const {openDialog, closeDialog} = DIALOG_ACTIONS;
 
@@ -53,7 +53,8 @@ export default () => {
         <Box>
           <Grid>
             <Grid item sx={{padding: '10px 0 20px 0'}}>
-              <TextField id="fogotPasswordData" sx={{width: '100%'}} label="Enter your email or username" variant="outlined"/>
+              <TextField id="fogotPasswordData" sx={{width: '100%'}} label="Enter your email or username"
+                         variant="outlined"/>
             </Grid>
           </Grid>
         </Box>
@@ -69,4 +70,6 @@ export default () => {
       </DialogContent>
     </Box>
   );
-}
+};
+
+export default ForgotPassword;

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Stack from '@mui/material/Stack';
 import {useButton} from '@mui/base/ButtonUnstyled';
 import {styled} from '@mui/system';
+import Preloader from "../Loader/Preloader";
 
 const CustomButtonRootF = style => styled('button')`
   padding: 10px 15px;
@@ -37,12 +38,21 @@ CustomButton.propTypes = {
   children: PropTypes.node,
 };
 
-export default function UseButton(props) {
+export default function UseButton({name, customStyle, onclickAction}) {
   const dispatch = useDispatch();
-  const {name, customStyle, onclickAction} = props;
   const CustomButtonRoot = CustomButtonRootF(customStyle);
-  
+
   return <CustomButton
     onClick={() => dispatch(onclickAction())}
     CustomButtonRoot={CustomButtonRoot}>{name}</CustomButton>
-}
+};
+
+CustomButton.propTypes = {
+  CustomButtonRoot: PropTypes.object,
+};
+
+UseButton.propTypes = {
+  name: PropTypes.string,
+  customStyle: PropTypes.string,
+  onclickAction: PropTypes.func,
+};

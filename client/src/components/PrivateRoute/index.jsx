@@ -1,6 +1,7 @@
-import React from "react"
-import {Redirect, Route} from "react-router-dom"
-import {useSelector} from "react-redux"
+import React from "react";
+import {Redirect, Route} from "react-router-dom";
+import {useSelector} from "react-redux";
+import PropTypes from "prop-types";
 
 const PrivateRoute = ({isPublic, isAdminRoute, ...route}) => {
   const {authorized, user: {isAdmin}} = useSelector((state) => state.auth)
@@ -16,6 +17,11 @@ const PrivateRoute = ({isPublic, isAdminRoute, ...route}) => {
 
   // return authorized ? <Route {...route} /> : <Redirect to="/"/>
   return <Route {...route} />
+};
+
+PrivateRoute.propTypes = {
+  isPublic: PropTypes.boolean,
+  isAdminRoute: PropTypes.boolean,
 }
 
 export default PrivateRoute;
