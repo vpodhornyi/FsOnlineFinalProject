@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 const PageLoader = ({ loaded = true, ...res }) => {
   return (
     loaded && (
-      <div {...res} className={cx("app-loader", css.app-loader)}>
+      <div {...res} className={cx("app-loader", css['app-loader'])}>
 
       </div>
     )
@@ -15,7 +15,7 @@ const PageLoader = ({ loaded = true, ...res }) => {
 };
 
 PageLoader.propTypes = {
-  loaded: PropTypes.boolean,
+  loaded: PropTypes.bool,
 }
 
 export default PageLoader;
