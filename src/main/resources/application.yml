@@ -1,0 +1,61 @@
+server:
+  port: 9000
+spring:
+  h2:
+    console:
+      enabled: true
+      settings:
+        trace: false
+logging:
+  level:
+    org:
+      hibernate: debug
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+---
+spring:
+  sql:
+    init:
+      mode: always
+  datasource:
+    url: jdbc:postgresql://localhost:5432/twitter
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+      generate_ststistics: true
+    show-sql: true
+  # Для накатки данных базы надо отключить ddl-auto
+  #    hibernate:
+  #      ddl-auto: validate
+  config:
+    activate:
+      on-profile: local
+---
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+      generate_ststistics: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
+  config:
+    activate:
+      on-profile: local
