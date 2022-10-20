@@ -10,12 +10,14 @@ import Home from "@pages/Home";
 const routes = [
   {
     isPublic: true,
+    isAdminRoute: false,
     exact: true,
     path: "/",
     element: lazy(() => import("@pages/Auth")),
   },
   {
     isPublic: false,
+    isAdminRoute: false,
     exact: true,
     path: "/home",
     element: lazy(() => import("@pages/Home")),

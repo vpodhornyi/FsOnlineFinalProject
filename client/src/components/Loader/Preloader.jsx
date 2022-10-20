@@ -9,7 +9,7 @@ const Preloader = ({ loaded }) => {
   return (
     <div
       className={cx("app-loader", css.loader, {
-        [css.loader-hide]: loaded,
+        [css['loader-hide']]: loaded,
       })}
     >
 
@@ -18,7 +18,7 @@ const Preloader = ({ loaded }) => {
 };
 
 Preloader.propTypes = {
-  loaded: PropTypes.boolean,
+  loaded: PropTypes.bool,
 }
 
 export default Preloader;

@@ -20,8 +20,8 @@ const PrivateRoute = ({isPublic, isAdminRoute, ...route}) => {
 };
 
 PrivateRoute.propTypes = {
-  isPublic: PropTypes.boolean,
-  isAdminRoute: PropTypes.boolean,
+  isPublic: PropTypes.bool,
+  isAdminRoute: PropTypes.bool,
 }
 
 export default PrivateRoute;
