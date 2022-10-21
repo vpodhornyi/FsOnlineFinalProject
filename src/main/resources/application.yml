@@ -37,7 +37,7 @@ spring:
   #      ddl-auto: validate
   config:
     activate:
-      on-profile: local
+      on-profile: dev
 ---
 
 spring:
