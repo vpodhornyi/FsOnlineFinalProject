@@ -30,7 +30,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
-      generate_ststistics: true
+      generate_statistics: true
     show-sql: true
   # Для накатки данных базы надо отключить ddl-auto
   #    hibernate:
@@ -52,7 +52,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
-      generate_ststistics: true
+      generate_statistics: true
     generate-ddl: true
     hibernate:
       ddl-auto: create
