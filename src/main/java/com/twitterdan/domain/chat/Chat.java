@@ -1,7 +1,7 @@
-package com.twitter.danit.domain.chat;
+package com.twitterdan.domain.chat;
 
-import com.twitter.danit.domain.BaseEntity;
-import com.twitter.danit.domain.user.User;
+import com.twitterdan.domain.BaseEntity;
+import com.twitterdan.domain.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

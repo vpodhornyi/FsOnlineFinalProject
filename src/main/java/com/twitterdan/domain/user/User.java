@@ -1,9 +1,9 @@
-package com.twitter.danit.domain.user;
+package com.twitterdan.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.twitter.danit.domain.BaseEntity;
-import com.twitter.danit.domain.chat.Chat;
-import com.twitter.danit.domain.tweet.Tweet;
+import com.twitterdan.domain.BaseEntity;
+import com.twitterdan.domain.chat.Chat;
+import com.twitterdan.domain.tweet.Tweet;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

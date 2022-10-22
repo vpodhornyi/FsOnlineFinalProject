@@ -1,8 +1,8 @@
-package com.twitter.danit.domain.notification;
+package com.twitterdan.domain.notification;
 
-import com.twitter.danit.domain.BaseEntity;
-import com.twitter.danit.domain.tweet.Tweet;
-import com.twitter.danit.domain.user.User;
+import com.twitterdan.domain.BaseEntity;
+import com.twitterdan.domain.tweet.Tweet;
+import com.twitterdan.domain.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

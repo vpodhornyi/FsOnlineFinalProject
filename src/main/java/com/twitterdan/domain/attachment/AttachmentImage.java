@@ -1,7 +1,7 @@
-package com.twitter.danit.domain.attachment;
+package com.twitterdan.domain.attachment;
 
-import com.twitter.danit.domain.BaseEntity;
-import com.twitter.danit.domain.tweet.Tweet;
+import com.twitterdan.domain.BaseEntity;
+import com.twitterdan.domain.tweet.Tweet;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

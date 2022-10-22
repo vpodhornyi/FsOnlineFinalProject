@@ -1,4 +1,4 @@
-package com.twitter.danit.domain.tweet;
+package com.twitterdan.domain.tweet;
 
 public enum TweetType {
   TWEET,

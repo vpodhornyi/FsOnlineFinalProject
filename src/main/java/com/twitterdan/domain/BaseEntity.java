@@ -1,4 +1,4 @@
-package com.twitter.danit.domain;
+package com.twitterdan.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
