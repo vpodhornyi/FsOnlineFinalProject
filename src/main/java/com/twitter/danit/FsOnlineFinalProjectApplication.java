@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class FsOnlineFinalProjectApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(FsOnlineFinalProjectApplication.class, args)
+    SpringApplication.run(FsOnlineFinalProjectApplication.class, args);
   }
 
 };
