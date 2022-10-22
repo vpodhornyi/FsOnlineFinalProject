@@ -1,0 +1,67 @@
+server:
+  port: 8000
+spring:
+  profiles:
+    active: local
+  h2:
+    console:
+      enabled: true
+      settings:
+        trace: false
+logging:
+  level:
+    root:
+    com:
+    org:
+#    file: logs.log
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+    import: optional:secrets.properties[.properties]
+  datasource:
+    url: jdbc:h2:mem:db_name
+    username: name
+    password: password
+    driver-class-name: org.h2.Driver
+  jpa:
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        #        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+      generate_statistics: false
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+jwt:
+  expiration: time mls
+  expirationRefresh: time mls
+  expirationPasswordRefresh: time mls
+  expirationPasswordReset: time mls
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  sql:
+    init:
+      mode: always
+  datasource:
+    url: jdbc:postgresql://localhost:port_number/db_name
+    username: name
+    password: password
+    driver_class_name: org.postgresql.Driver
+  jpa:
+    database: postgresql
+    defer_datasource_initialization: true # true оставить ТОЛЬКО для самого первого запуска, когда в пустую БД заливаем данные! далее сделать false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        generate_ddl: true
+      generate_statistics: false
+    show_sql: false
+    hibernate:
+      ddl_auto: update
