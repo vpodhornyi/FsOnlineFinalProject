@@ -37,10 +37,10 @@ spring:
       ddl-auto: update
     show-sql: false
 jwt:
-  expiration: 2*1200
-  expirationRefresh: 7*24*1200
-  expirationPasswordRefresh: 3*24*1200
-  expirationPasswordReset: 3*1200
+  expiration: time mls
+  expirationRefresh: time mls
+  expirationPasswordRefresh: time mls
+  expirationPasswordReset: time mls
 ---
 spring:
   config:
@@ -50,7 +50,7 @@ spring:
     init:
       mode: always
   datasource:
-    url: jdbc:postgresql://localhost:5432/db_name
+    url: jdbc:postgresql://localhost:port_number/db_name
     username: name
     password: password
     driver_class_name: org.postgresql.Driver
