@@ -1,4 +1,4 @@
-package com.twitter.danit.model.notification;
+package com.twitter.danit.domain.notification;
 
 public enum NotificationType {
   LIKE,

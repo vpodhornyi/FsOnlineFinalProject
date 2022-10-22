@@ -1,8 +1,7 @@
-package com.twitter.danit.model.notification;
+package com.twitter.danit.domain.tweet;
 
-import com.twitter.danit.model.BaseEntity;
-import com.twitter.danit.model.tweet.Tweet;
-import com.twitter.danit.model.user.User;
+import com.twitter.danit.domain.BaseEntity;
+import com.twitter.danit.domain.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,27 +15,20 @@ import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
 
 @Entity
-@Table(name = "notifications")
+@Table(name = "tweet_actions")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Notification extends BaseEntity {
+public class TweetAction extends BaseEntity {
 
   @Enumerated(EnumType.STRING)
   @Column(length = 20)
-  private NotificationType notificationType;
-
-  @ManyToOne
-  @JoinColumn(name = "receiver_id")
-  private User userReceiver;
-
-  @ManyToOne
-  @JoinColumn(name = "initiator_id")
-  private User userInitiator;
+  private ActionType actionType;
 
   @ManyToOne
   @JoinColumn(name = "tweet_id")
   private Tweet tweet;
 
-  private boolean isRead;
+  @ManyToOne
+  private User user;
 }
