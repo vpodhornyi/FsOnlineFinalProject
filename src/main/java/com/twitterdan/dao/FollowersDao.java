@@ -1,4 +1,4 @@
-package com.twitter_dan.dao;
+package com.twitterdan.dao;
 
 public class FollowersDao {
 }

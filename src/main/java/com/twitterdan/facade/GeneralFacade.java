@@ -1,4 +1,4 @@
-package com.twitter_dan.facade;
+package com.twitterdan.facade;
 
 public interface GeneralFacade {
 }

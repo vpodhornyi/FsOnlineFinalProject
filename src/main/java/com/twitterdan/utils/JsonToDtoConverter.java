@@ -1,4 +1,4 @@
-package com.twitter_dan.utils;
+package com.twitterdan.utils;
 
 public class JsonToDtoConverter {
 }

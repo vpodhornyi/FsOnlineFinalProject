@@ -1,4 +1,4 @@
-package com.twitter_dan.service;
+package com.twitterdan.service;
 
 public class JwtTokenFilter {
 }
