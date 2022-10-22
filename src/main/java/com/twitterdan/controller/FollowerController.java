@@ -1,4 +1,4 @@
 package com.twitterdan.controller;
 
-public class FollowersController {
+public class FollowerController {
 }
