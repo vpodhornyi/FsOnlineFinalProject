@@ -9,7 +9,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
-import {DIALOG_ACTIONS} from "@redux/dialog/action";
+import LogoIcon from '@components/Icons/LogoIcon';
+import {openDialog, closeDialog} from "@redux/dialog/action";
 import OrLine from '../../components/OrLine';
 import CustomButton from '../../../../components/CustomButton';
 import SingInSecondStep from '../SecondStep';
@@ -42,7 +43,6 @@ const CUSTOM_BUTTON_FORGOT_PASSWORD_NAME = 'Forgot password?';
 
 const SingInFirstStep = () => {
   const dispatch = useDispatch();
-  const {openDialog, closeDialog} = DIALOG_ACTIONS;
 
   return (
     <Box sx={{padding: '0 100px', width: '400px', height: '100%',}}>
@@ -59,7 +59,12 @@ const SingInFirstStep = () => {
                     onClick={() => dispatch(closeDialog())}>
           <CloseIcon/>
         </IconButton>
-        <TwitterIcon sx={{fontSize: 40, color: MAIN_COLOR}}/>
+        <LogoIcon
+          styles={{
+            fontSize: 40,
+            color: MAIN_COLOR
+          }}
+        />
       </Box>
       <Box sx={{
         height: '90%',

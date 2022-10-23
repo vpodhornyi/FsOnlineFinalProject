@@ -9,11 +9,10 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
-import {DIALOG_ACTIONS} from "@redux/dialog/action";
+import {openDialog} from "@redux/dialog/action";
 import CustomButton from '../../../../components/CustomButton';
 import SignUpFirstStep from '../FirstStep';
 
-const MAIN_COLOR = '#1D9BF0';
 const CUSTOM_BUTTON_Sing_UP_STYLE = `
     background-color: #000;
     color: #fff;
@@ -24,7 +23,6 @@ const CUSTOM_BUTTON_Sing_UP_NAME = 'Sing up';
 
 const SingUpSecondStep =  () => {
   const dispatch = useDispatch();
-  const {openDialog} = DIALOG_ACTIONS;
 
   return (
     <>
