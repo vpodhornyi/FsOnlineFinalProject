@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import "./css/sidebarc.scss";
+import "./css/sidebar.css";
 
 import TwitterIcon from '@mui/icons-material/Twitter';
 import HomeIcon from '@mui/icons-material/Home';

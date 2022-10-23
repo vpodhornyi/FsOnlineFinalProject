@@ -42,8 +42,8 @@
     "web-vitals": "^3.0.3"
   },
   "scripts": {
-    "stylelint-dev": "stylelint 'src/**/*.scss' --cache --cache-location './.stylelintcache'; exit 0",
-    "stylelint-build": "stylelint 'src/**/*.scss'",
+    "stylelint-dev": "stylelint \"src/**/*.scss\" --cache --cache-location './.stylelintcache'; exit 0",
+    "stylelint-build": "stylelint \"src/**/*.scss\"",
     "watch-styles-sass": "npm-watch",
     "start-js": "set NODE_OPTIONS=--max_old_space_size=8192 && react-app-rewired start",
     "start": "npm run -p watch-styles-sass start-js",

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import "./css/sidebar-media.scss"
+import "./css/sidebar-media.css"
 import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Button from '@mui/material/Button';
@@ -29,6 +29,7 @@ import ExploreIcon from '@mui/icons-material/Explore';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import {useState} from "react";
+import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
 
 export default function SidebarMedia() {
     const [state, setState] = useState({
@@ -145,6 +146,12 @@ export default function SidebarMedia() {
                         </div>
                     </Box>
                 </SwipeableDrawer>
+
+                <div className="bottom-tweet">
+                    <Avatar sx={{bgcolor: deepOrange[500]}} className="btn-media sidebar-hover">
+                        <HistoryEduIcon/>
+                    </Avatar>
+                </div>
 
                 <BottomNavigation sx={{ width: "100%", position: "fixed", top: "92vh"}}  value={value} onChange={handleChangeBottomNav}>
                     <BottomNavigationAction label="" value="home" icon={<HomeIcon/>}/>
