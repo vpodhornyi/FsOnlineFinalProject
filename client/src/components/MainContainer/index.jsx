@@ -10,7 +10,7 @@ const MainContainer = (props) => {
         Here goes the primary column with twits
       </Grid>
       <Grid item md={5} s={5} xs={5} height="100vh">
-        <Container>Here goes the right sidebar</Container>
+        Here goes the right sidebar
       </Grid>
     </Grid>
   );
