@@ -14,7 +14,17 @@ import {getHeaderState} from "@redux/header/selector";
 import LogoIcon from "@components/Icons/LogoIcon";
 
 const Sidebar = () => {
-  const {navItems, logo, more} = useSelector(getHeaderState);
+  const {
+    navItems,
+    logo: {
+      color,
+      href
+    },
+    more: {
+      iconName,
+      text
+    }
+  } = useSelector(getHeaderState);
   const [popup, setPopup] = useState(null);
   const screenWidth = window.screen.width;
   const handlePopupOpen = ev => setPopup(ev.currentTarget);
@@ -37,8 +47,8 @@ const Sidebar = () => {
         }}>
           <Box>
             <Link
-              color={logo && logo.color}
-              href={logo && logo.href}>
+              color={color}
+              href={href}>
               <LogoIcon/>
             </Link>
             <MenuList>
@@ -50,7 +60,7 @@ const Sidebar = () => {
                   color={color}
                   href={href}/>)
               )}
-              <CustomMenuItem iconName={more && more.iconName} text={more && more.text}></CustomMenuItem>
+              <CustomMenuItem iconName={iconName} text={text}></CustomMenuItem>
             </MenuList>
 
             {/*        <div className="content__item-btn">
