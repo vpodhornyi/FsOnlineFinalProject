@@ -1,4 +1,4 @@
-package com.twitter.danit;
+package com.twitterdan;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
