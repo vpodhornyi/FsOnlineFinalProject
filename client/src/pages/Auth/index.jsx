@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import CustomButton from '@components/CustomButton';
-import LogoIcon from '@components/Icons/LogoIcon';
+import LogoIcon from '@components/icons/LogoIcon';
 import OrLine from './components/OrLine';
 import SignUpFirstStep from './SignUp/FirstStep';
 import LogInFirstStep from './SingIn/FirstStep';

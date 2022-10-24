@@ -5,18 +5,19 @@ import {Link} from "@mui/material";
 import CustomMenuItem from "./CustomMenuItem";
 
 
-const MenuItemLink = ({iconName, text, href, color}) => (
-  <Link href={href} color={color} underline="none">
-    <CustomMenuItem iconName={iconName} text={text} color={color}/>
+const MenuItemLink = ({iconName, text, href, iconStyle, textStyle}) => (
+  <Link href={href} underline="none">
+    <CustomMenuItem iconName={iconName} text={text} iconStyle={iconStyle} textStyle={textStyle}/>
   </Link>
 );
 
 MenuItemLink.propTypes = {
   iconName: PropTypes.string,
   text: PropTypes.string,
+  active: PropTypes.bool,
   href: PropTypes.string,
-  color: PropTypes.string,
-  style: PropTypes.object,
+  iconStyle: PropTypes.object,
+  textStyle: PropTypes.object,
 }
 
 export default MenuItemLink;

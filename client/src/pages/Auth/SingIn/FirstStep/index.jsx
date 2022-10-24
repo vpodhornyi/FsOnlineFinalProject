@@ -9,7 +9,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
-import LogoIcon from '@components/Icons/LogoIcon';
+import LogoIcon from '@components/icons/LogoIcon';
 import {openDialog, closeDialog} from "@redux/dialog/action";
 import OrLine from '../../components/OrLine';
 import CustomButton from '../../../../components/CustomButton';

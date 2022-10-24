@@ -8,23 +8,11 @@ import {deepOrange} from "@mui/material/colors";
 import Popover from '@mui/material/Popover';
 import {Typography, MenuList, Link, Container, Box} from "@mui/material";
 import SidebarMedia from "./SidebarMedia";
-import MenuItemLink from "@components/Navigations/MenuItemLink";
-import CustomMenuItem from "@components/Navigations/CustomMenuItem";
-import {getHeaderState} from "@redux/header/selector";
-import LogoIcon from "@components/Icons/LogoIcon";
+import MainMenu from "@components/navigations/MainMenu";
+import LogoIcon from "@components/icons/LogoIcon";
+import {getLogoIconState} from "@redux/business/logoIcon/selector";
 
 const Sidebar = () => {
-  const {
-    navItems,
-    logo: {
-      color,
-      href
-    },
-    more: {
-      iconName,
-      text
-    }
-  } = useSelector(getHeaderState);
   const [popup, setPopup] = useState(null);
   const screenWidth = window.screen.width;
   const handlePopupOpen = ev => setPopup(ev.currentTarget);
@@ -32,50 +20,38 @@ const Sidebar = () => {
 
   const isOpen = Boolean(popup);
   const popupId = open ? 'options' : undefined;
-
+  const {
+    logo: {
+      color,
+      href
+    },
+  } = useSelector(getLogoIconState);
 
   return (
     <>
-      {screenWidth < 420 ?
-        <SidebarMedia/> :
+      {/*{screenWidth < 420 ?*/}
+      {/*  <SidebarMedia/> :*/}
 
-        <Container sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          height: "100vh"
+      <Container sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        height: "100vh"
+      }}>
+        <Box>
+          <Link
+            color={color}
+            href={href}>
+            <LogoIcon/>
+          </Link>
+          <MainMenu/>
+        </Box>
+        <Box sx={{
+          backgroundColor: "#fe0000"
         }}>
-          <Box>
-            <Link
-              color={color}
-              href={href}>
-              <LogoIcon/>
-            </Link>
-            <MenuList>
-              {navItems.map(({text, iconName, color, href}) => (
-                <MenuItemLink
-                  key={text}
-                  iconName={iconName}
-                  text={text}
-                  color={color}
-                  href={href}/>)
-              )}
-              <CustomMenuItem iconName={iconName} text={text}></CustomMenuItem>
-            </MenuList>
-
-            {/*        <div className="content__item-btn">
-              <div>Tweet</div>
-            </div>
-            <Avatar sx={{bgcolor: deepOrange[500]}} className="btn-media sidebar-hover">
-              <HistoryEduIcon/>
-            </Avatar>*/}
-          </Box>
-          <Box sx={{
-            backgroundColor: "#fe0000"
-          }}>
-            Avatar
-          </Box>
-          {/*          <div className="sidebar__footer sidebar-hover" onClick={handlePopupOpen} aria-describedby={popupId}>
+          Avatar
+        </Box>
+{/*                  <div className="sidebar__footer sidebar-hover" onClick={handlePopupOpen} aria-describedby={popupId}>
             <Avatar sx={{bgcolor: deepOrange[500]}}>N</Avatar>
             <div className="footer__data">
               тут будет стоять аттрибут src на аву юзера
@@ -85,9 +61,9 @@ const Sidebar = () => {
             <div className="footer__options">
               <MoreHorizIcon/>
             </div>
-          </div>*/}
+          </div>
 
-          {/*          <Popover
+                  <Popover
             id={popupId}
             open={isOpen}
             anchorEl={popup}
@@ -103,8 +79,8 @@ const Sidebar = () => {
               <Typography>Log out @username</Typography>
             </div>
           </Popover>*/}
-        </Container>
-      }
+      </Container>
+      {/*}*/}
     </>
   );
 };
