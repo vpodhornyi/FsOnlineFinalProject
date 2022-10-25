@@ -22,7 +22,6 @@ import javax.persistence.JoinColumn;
 public class TweetAction extends BaseEntity {
 
   @Enumerated(EnumType.STRING)
-  @Column(length = 20)
   private ActionType actionType;
 
   @ManyToOne

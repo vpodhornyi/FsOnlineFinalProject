@@ -59,5 +59,4 @@ public class User extends BaseEntity {
 
   @ManyToMany
   private Set<Chat> chats;
-
 }
