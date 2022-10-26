@@ -13,11 +13,10 @@ import java.io.Serializable;
 
 @MappedSuperclass
 @Getter
-@Setter
 @NoArgsConstructor
 public abstract class BaseEntity extends Auditable<String> implements Serializable {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id", nullable = false, updatable = false)
   private Long id;
 }
