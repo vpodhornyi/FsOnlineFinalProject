@@ -53,5 +53,13 @@ export const URLS = {
         TRANSACTION: "/account/transaction",
     }
 }
+    /**
+     https://axios-http.com/ru/docs/interceptors
+     перехват запросов
+
+
+
+
+     **/
 
 export default api

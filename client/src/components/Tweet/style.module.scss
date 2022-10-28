@@ -1,0 +1,87 @@
+.wrapper{
+  cursor: pointer;
+  padding-right: 0.625rem;
+  padding-left:0.625rem;
+  border-top: 1px solid  rgb(239, 243, 244);
+  color:  rgb(83, 100, 113);
+  width: 600px
+};
+.followerBlock{
+  display: flex;
+  align-items: center;
+}
+.person{
+  width: 14px;
+  height: 14px;
+}
+.followerText{
+  display: inline-block;
+  font-weight: 700;
+ color: inherit;
+}
+.content{
+  display: flex;
+  justify-content: space-between
+}
+.postInfo{
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.125rem;
+}
+.name{
+  color: #000;
+}
+.avatar{
+  width: 43px;
+  height: 43px;
+  margin-right: 0.688rem;
+}
+.avatar:hover{
+opacity: 0.8;
+}
+.verified{
+  width: 18px;
+  height: 18px;
+  color: rgb(29, 155, 240);
+  margin:0 0.125rem;
+}
+.listIcon{
+  margin-right: 5px;
+}
+
+.icon{
+  padding: 1rem;
+}
+.reply:hover .listIcon{
+background-color: lightcyan;
+  border-radius: 50%;
+}
+.reply:hover .icon{
+  color: rgb(29, 155, 240);
+}
+.reply:hover .text{
+  color: rgb(29, 155, 240);
+}
+.retweet:hover .listIcon{
+  background-color: lightgreen;
+  border-radius: 50%;
+}
+.retweet:hover .icon{
+  color: green;
+}
+.retweet:hover .text{
+  color: green;
+}
+.heart:hover .listIcon{
+  background-color: lightpink;
+  border-radius: 50%;
+}
+.heart:hover .icon{
+  color: pink;
+}
+.heart:hover .text{
+  color: pink;
+}
+
+
+
