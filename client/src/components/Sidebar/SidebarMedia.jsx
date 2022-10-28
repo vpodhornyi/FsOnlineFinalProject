@@ -5,80 +5,54 @@ import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
 import Avatar from "@mui/material/Avatar";
-import {deepOrange} from "@mui/material/colors";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
-import ArticleIcon from "@mui/icons-material/Article";
-import PersonIcon from "@mui/icons-material/Person";
 import Divider from '@mui/material/Divider';
 import { styled } from '@mui/material/styles';
-import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
-import MuiAccordionSummary from '@mui/material/AccordionSummary';
-import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
     BottomNavigation,
     BottomNavigationAction,
+    MenuList,
     Typography
 } from "@mui/material";
-import DisplaySettingsIcon from '@mui/icons-material/DisplaySettings';
-import LogoutIcon from '@mui/icons-material/Logout';
 import HomeIcon from '@mui/icons-material/Home';
 import ExploreIcon from '@mui/icons-material/Explore';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import {useState} from "react";
+import {useSelector} from "react-redux";
+import {getMainMenuState} from "../../redux/business/menu/mainMenu/selector";
+import MenuItemLink from "./components/MenuItemLink";
+import {EXPLORE_ROUTE, HOME_ROUTE, MESSAGES_ROUTE, NOTIFICATIONS_ROUTE} from "../../utils/constants";
+import {useNavigate} from "react-router-dom";
+import TweetButton from "./components/TweetButton";
+import Dropdown from "../Dropdown/Dropdown";
 
 export default function SidebarMedia() {
+    const navigate = useNavigate();
+
     const [state, setState] = useState({
         left: false,
     });
 
-    const [value, setValue] = useState('home');
+    const [value, setValue] = useState(HOME_ROUTE);
 
-    const handleChangeBottomNav = (event, newValue) => {
-        setValue(newValue);
-    };
+    const {mainMenuStyle, mediaNavItems, themeColor, textStyle, dropdownData} = useSelector(getMainMenuState);
 
-    const AccordionSummary = styled((props) => (
-        <MuiAccordionSummary
-            expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: '12px', color: "white" }} />}
-            {...props}
-        />
-    ))(({ theme }) => ({
-        fontSize: '12px',
-        padding: 0,
-        backgroundColor: 'black',
-        flexDirection: 'row-reverse',
-        '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
-            transform: 'rotate(90deg)',
-        },
-        '& .MuiAccordionSummary-content': {
-            marginLeft: theme.spacing(1),
-        },
-    }));
-
-    const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-        padding: 0,
-        borderTop: '1px solid rgba(0, 0, 0, .125)',
-    }));
+    const StyledMenuList = styled(props => (<MenuList {...props}/>))(({theme}) => ({...mainMenuStyle}));
 
     const toggleDrawer = (anchor, open) => (event) => {
         setState({...state, [anchor]: open});
     };
 
-    const [expanded, setExpanded] = useState('');
-
-    const handleChange = (panel) => (event, newExpanded) => {
-        setExpanded(newExpanded ? panel : false);
+    const handleChangeBottomNav = (event, newValue) => {
+        setValue(newValue);
+        navigate(newValue);
     };
 
     return (
         <div>
             <React.Fragment key={"left"}>
                 <Button onClick={toggleDrawer("left", true)}>
-                    <Avatar sx={{bgcolor: deepOrange[500]}}>N</Avatar>
+                    <Avatar sx={{bgcolor: themeColor}}>N</Avatar>
                 </Button>
                 <SwipeableDrawer
                     anchor={"left"}
@@ -96,63 +70,60 @@ export default function SidebarMedia() {
                                 <CloseIcon onClick={toggleDrawer("left", false)}/>
                             </div>
                             <div className="sidebar__info">
-                                <Avatar sx={{bgcolor: deepOrange[500]}}>N</Avatar>
+                                <Avatar sx={{bgcolor: themeColor}}>N</Avatar>
                                 <p className="sidebar__info-add">
                                     +
                                 </p>
                             </div>
-                            <div className="sidebar__subinfo">
-                                <p>username</p>
-                                <p>@username</p>
-                            </div>
-                            <div className="sidebar__followers">
-                                <p><strong style={{color: "white"}}>8</strong> Followers</p>
-                                <p><strong style={{color: "white"}}>0</strong> Followings</p>
-                            </div>
+                            <Box sx={{margin: "-10px 0 20px 0"}}>
+                                <Typography>username</Typography>
+                                <Typography sx={{color: "gray"}}>@username</Typography>
+                            </Box>
 
-                            <div className="sidebar__links">
-                                <BookmarkIcon/>
-                                <span>Bookmarks</span>
-                            </div>
-                            <div className="sidebar__links">
-                                <ArticleIcon/>
-                                <span>Lists</span>
-                            </div>
-                            <div className="sidebar__links">
-                                <PersonIcon/>
-                                <span>Profile</span>
-                            </div>
+                            <Box sx={{"& ": {
+                                    display: "flex",
+                                    margin: "0 0 20px 0"
+                                }, "& > .MuiTypography-root": {
+                                    fontSize: "14px",
+                                    color: "gray",
+                                    margin: "0 12px 0 0"
+                                }}}>
+                                <Typography><strong>8</strong> Followers</Typography>
+                                <Typography><strong>0</strong> Followings</Typography>
+                            </Box>
+
+                            <StyledMenuList
+                                sx={{"& .MuiButtonBase-root": {padding: "0"}}}
+                                onClick={toggleDrawer("left", false)}
+                            >   {mediaNavItems.map(({text, iconName, color, href}) => (
+                                    <MenuItemLink
+                                        key={text}
+                                        iconName={iconName}
+                                        text={text}
+                                        textStyle={textStyle}
+                                        iconStyle={{color, fontSize: 30}}
+                                        href={href}
+                                    />
+                                ))}
+                            </StyledMenuList>
 
                             <Divider sx={{ bgcolor: "gray", marginBottom: "40px" }}/>
 
-                            <div>
-                                <Accordion sx={{bgcolor: "black", color: "white"}} expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
-                                    <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-                                        <Typography sx={{fontSize: 14}}>Settings and Support</Typography>
-                                    </AccordionSummary>
-                                    <AccordionDetails>
-                                        <div className="sidebar__links sidebar__links-small">
-                                            <DisplaySettingsIcon/>
-                                            <span>Display</span>
-                                        </div>
-                                        <div className="sidebar__links sidebar__links-small">
-                                            <LogoutIcon/>
-                                            <span>Logout</span>
-                                        </div>
-                                    </AccordionDetails>
-                                </Accordion>
-                            </div>
+                            <Dropdown head={dropdownData.head} content={dropdownData.content}/>
+
                         </div>
                     </Box>
                 </SwipeableDrawer>
 
                 <BottomNavigation sx={{ width: "100%", position: "fixed", top: "92vh"}}  value={value} onChange={handleChangeBottomNav}>
-                    <BottomNavigationAction label="" value="home" icon={<HomeIcon/>}/>
-                    <BottomNavigationAction label="" value="search" icon={<ExploreIcon/>}/>
-                    <BottomNavigationAction label="" value="notifications" icon={<NotificationsIcon/>} />
-                    <BottomNavigationAction label="" value="messages" icon={<MailOutlineIcon />}/>
+                        <BottomNavigationAction label="" value={HOME_ROUTE} icon={<HomeIcon/>}/>
+                        <BottomNavigationAction label="" value={EXPLORE_ROUTE} icon={<ExploreIcon/>}/>
+                        <BottomNavigationAction label="" value={NOTIFICATIONS_ROUTE} icon={<NotificationsIcon/>}/>
+                        <BottomNavigationAction label="" value={MESSAGES_ROUTE} icon={<MailOutlineIcon />}/>
                 </BottomNavigation>
             </React.Fragment>
+
+            <TweetButton/>
         </div>
     );
 }

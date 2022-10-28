@@ -1,6 +1,6 @@
 import React from "react";
 import IconsByName from "./IconByName"
-import {getLogoIconState} from "@redux/business/logoIcon/selector";
+import {getLogoIconState} from "../../redux/business/logoIcon/selector";
 import {useSelector} from "react-redux";
 import PropTypes from "prop-types";
 

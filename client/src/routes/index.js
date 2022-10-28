@@ -1,52 +1,67 @@
 import {lazy} from "react";
+import {
+  AUTH_ROUTE,
+  BOOKMARKS_ROUTE,
+  EXPLORE_ROUTE,
+  HOME_ROUTE,
+  LISTS_ROUTE, LOGOUT_ROUTE,
+  MESSAGES_ROUTE,
+  NOTIFICATIONS_ROUTE
+} from "../utils/constants";
 
 const routes = [
   {
     isPublic: true,
     exact: true,
-    path: "/",
+    path: AUTH_ROUTE,
     element: lazy(() => import("@pages/Auth")),
   },
   {
     isPublic: false,
     exact: true,
-    path: "/home",
+    path: HOME_ROUTE,
     element: lazy(() => import("@pages/Main")),
   },
   {
     isPublic: false,
     exact: true,
-    path: "/explore",
+    path: EXPLORE_ROUTE,
     element: lazy(() => import("@pages/Main")),
   },
   {
     isPublic: false,
     exact: true,
-    path: "/notifications",
+    path: NOTIFICATIONS_ROUTE,
     element: lazy(() => import("@pages/Main")),
   },
   {
     isPublic: false,
     exact: true,
-    path: "/messages",
+    path: MESSAGES_ROUTE,
     element: lazy(() => import("@pages/Main")),
   },
   {
     isPublic: false,
     exact: true,
-    path: "/bookmarks",
+    path: BOOKMARKS_ROUTE,
     element: lazy(() => import("@pages/Main")),
   },
   {
     isPublic: false,
     exact: true,
-    path: "/lists",
+    path: LISTS_ROUTE,
     element: lazy(() => import("@pages/Main")),
   },
   {
     isPublic: false,
     exact: true,
     path: "/user_name",
+    element: lazy(() => import("@pages/Main")),
+  },
+  {
+    isPublic: false,
+    exact: true,
+    path: LOGOUT_ROUTE,
     element: lazy(() => import("@pages/Main")),
   },
 ];

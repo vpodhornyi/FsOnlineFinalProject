@@ -1,8 +1,8 @@
 import React from "react";
 
-import PropTypes from "prop-types";
+import IconByName from "../../icons/IconByName";
 import {MenuItem, ListItemIcon, ListItemText} from "@mui/material";
-import IconByName from "@components/icons/IconByName";
+import PropTypes from "prop-types";
 
 
 const CustomMenuItem = ({iconName, text, iconStyle, textStyle}) => (
