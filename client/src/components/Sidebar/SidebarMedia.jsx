@@ -1,5 +1,5 @@
 import * as React from 'react';
-import "./css/sidebar-media.scss"
+import "./css/sidebar-media.css"
 import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Button from '@mui/material/Button';
