@@ -1,3 +1,4 @@
+//? Doesn't understand  function arguments
 export const passwordValidator = ( require = true ) => ( _, value ) => {
     if (value && require) {
         if (/\s/.test( value )) {
