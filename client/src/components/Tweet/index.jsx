@@ -8,39 +8,13 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Tooltip,
   Typography,
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import VerifiedIcon from "@mui/icons-material/Verified";
-import {
-  DownloadIcon,
-  HeartIcon,
-  MoreIcon,
-  ReplyIcon,
-  RetweetIcon,
-} from "./icons";
+import { MoreIcon } from "./icons";
 import css from "./style.module.scss";
-
-const TEST_TWEET = {
-  name: "Volodimir",
-  userTag: "@Volodimir454608907",
-  avatarImgUrl: "https://via.placeholder.com/600/24f355",
-  ourFollowers: "Paul Massaro",
-  created_at: " . 8 hour",
-  body: "German donated Panzerhaubitze 2000s rain fire from above on Russian forces around Bakhmut.",
-  likes: [1, 2, 3, 4, 5, 6, 7, 8, 9],
-  reply: [
-    {
-      name: "Petro",
-      userTag: "@Petro454608907",
-      avatarImgUrl: "https://via.placeholder.com/150/d32776",
-      ourFollowers: ["Paul Djonsonuik"],
-      likes: [1, 2, 3, 4, 5, 6, 7, 8, 9],
-      reply: [],
-    },
-  ],
-};
+import { ICONS, TEST_TWEET } from "./tweetData";
 
 const Tweet = () => {
   const { name, avatarImgUrl, ourFollowers, userTag, body, created_at } =
@@ -48,7 +22,11 @@ const Tweet = () => {
 
   return (
     <Card
-      sx={{ color: "rgb(83, 100, 113)", textDecoration: "none" }}
+      sx={{
+        borderRadius: 0,
+        color: "rgb(83, 100, 113)",
+        textDecoration: "none",
+      }}
       className={css.wrapper}
     >
       <Box className={css.followerBlock}>
@@ -93,37 +71,24 @@ const Tweet = () => {
             </Box>
           </Box>
         </Box>{" "}
-        <MoreIcon />
+        <Box className={css.iconBlue}>
+          <MoreIcon className={css.icon} />
+        </Box>
       </Box>
       <List
-        component="div"
+        component="ul"
         disablePadding
         sx={{ display: "flex", justifyContent: "space-around" }}
       >
-        <ListItem className={css.reply}>
-          <ListItemIcon className={css.listIcon}>
-            <ReplyIcon className={css.icon} />
-          </ListItemIcon>
-
-          <ListItemText className={css.text} primary="462" />
-        </ListItem>
-        <ListItem className={css.retweet}>
-          <ListItemIcon className={css.listIcon}>
-            <RetweetIcon className={css.icon} />
-          </ListItemIcon>
-          <ListItemText className={css.text} primary="671" />
-        </ListItem>{" "}
-        <ListItem className={css.heart}>
-          <ListItemIcon className={css.listIcon}>
-            <HeartIcon className={css.icon} />
-          </ListItemIcon>
-          <ListItemText primary="11.6K" className={css.text} />
-        </ListItem>{" "}
-        <ListItem>
-          <ListItemIcon>
-            <DownloadIcon />
-          </ListItemIcon>
-        </ListItem>
+        {ICONS.length &&
+          ICONS.map((itemData, index) => (
+            <ListItem key={index} className={itemData.itemClassName}>
+              <ListItemIcon>{itemData.icon}</ListItemIcon>
+              {itemData.text && (
+                <ListItemText className={css.text} primary={itemData.text} />
+              )}
+            </ListItem>
+          ))}
       </List>
     </Card>
   );
