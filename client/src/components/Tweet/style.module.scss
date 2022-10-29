@@ -4,7 +4,7 @@
   padding-left:0.625rem;
   border-top: 1px solid  rgb(239, 243, 244);
   color:  rgb(83, 100, 113);
-  width: 600px
+  max-width: 600px
 };
 .followerBlock{
   display: flex;
@@ -25,6 +25,7 @@
 }
 .postInfo{
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   margin-bottom: 0.125rem;
 }
@@ -52,34 +53,31 @@ opacity: 0.8;
 .icon{
   padding: 1rem;
 }
-.reply:hover .listIcon{
-background-color: lightcyan;
+
+.iconBlue:hover .icon{
+  background-color: lightcyan;
+  color: rgb(29, 155, 240);
   border-radius: 50%;
 }
-.reply:hover .icon{
+.iconBlue:hover .text{
   color: rgb(29, 155, 240);
 }
-.reply:hover .text{
-  color: rgb(29, 155, 240);
-}
-.retweet:hover .listIcon{
+
+.iconGreen:hover .icon{
+  color: green;
   background-color: lightgreen;
   border-radius: 50%;
 }
-.retweet:hover .icon{
+.iconGreen:hover .text{
   color: green;
 }
-.retweet:hover .text{
-  color: green;
-}
-.heart:hover .listIcon{
+
+.iconPink:hover .icon{
+  color: pink;
   background-color: lightpink;
   border-radius: 50%;
 }
-.heart:hover .icon{
-  color: pink;
-}
-.heart:hover .text{
+.iconPink:hover .text{
   color: pink;
 }
 
