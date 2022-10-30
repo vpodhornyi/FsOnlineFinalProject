@@ -3,7 +3,6 @@ import React from "react";
 import {
   Avatar,
   Card,
-  CardMedia,
   ImageList,
   ImageListItem,
   Link,
@@ -16,11 +15,12 @@ import {
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import VerifiedIcon from "@mui/icons-material/Verified";
-import { MoreIcon } from "./icons";
 import css from "./style.module.scss";
 import { ICONS, TEST_TWEET } from "./tweetData";
+import PropTypes from "prop-types";
+import { MoreIcon } from "../../media/icons";
 
-const Tweet = () => {
+const Tweet = ({ openModal = false }) => {
   const {
     name,
     avatarImgUrl,
@@ -30,13 +30,14 @@ const Tweet = () => {
     created_at,
     images,
   } = TEST_TWEET;
-
+  const borderCard = openModal ? "none" : "1px solid  rgb(239, 243, 244)";
   return (
     <Card
       sx={{
         borderRadius: 0,
         color: "rgb(83, 100, 113)",
         textDecoration: "none",
+        border: borderCard,
       }}
       className={css.wrapper}
     >
@@ -89,16 +90,17 @@ const Tweet = () => {
         </Box>
       </Box>
       <ImageList className={css.imgWrapper}>
-        {images.map((item) => (
-          <ImageListItem key={item.img}>
-            <img
-              src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-              srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-              alt={item.title}
-              loading="lazy"
-            />
-          </ImageListItem>
-        ))}
+        {!openModal &&
+          images.map((item) => (
+            <ImageListItem key={item.img}>
+              <img
+                src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
+                srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                alt={item.title}
+                loading="lazy"
+              />
+            </ImageListItem>
+          ))}
       </ImageList>
 
       <List
@@ -120,5 +122,8 @@ const Tweet = () => {
       </List>
     </Card>
   );
+};
+Tweet.propTypes = {
+  openModal: PropTypes.bool,
 };
 export default Tweet;
