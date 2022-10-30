@@ -1,6 +1,11 @@
-import { DownloadIcon, HeartIcon, ReplyIcon, RetweetIcon } from "./icons";
 import React from "react";
 import css from "./style.module.scss";
+import {
+  DownloadIcon,
+  HeartIcon,
+  ReplyIcon,
+  RetweetIcon,
+} from "../../media/icons";
 export const TEST_TWEET = {
   name: "Volodimir",
   userTag: "@Volodimir454608907",
