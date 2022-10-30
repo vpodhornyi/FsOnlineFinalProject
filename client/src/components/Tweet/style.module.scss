@@ -46,6 +46,15 @@ opacity: 0.8;
   color: rgb(29, 155, 240);
   margin:0 0.125rem;
 }
+.imgWrapper{
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  }
+.media{
+    max-width: 300px;
+  height: 300px;
+}
 .listIcon{
   margin-right: 5px;
 }
