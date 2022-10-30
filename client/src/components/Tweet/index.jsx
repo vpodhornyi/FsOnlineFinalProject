@@ -3,11 +3,15 @@ import React from "react";
 import {
   Avatar,
   Card,
+  CardMedia,
+  ImageList,
+  ImageListItem,
   Link,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
@@ -17,8 +21,15 @@ import css from "./style.module.scss";
 import { ICONS, TEST_TWEET } from "./tweetData";
 
 const Tweet = () => {
-  const { name, avatarImgUrl, ourFollowers, userTag, body, created_at } =
-    TEST_TWEET;
+  const {
+    name,
+    avatarImgUrl,
+    ourFollowers,
+    userTag,
+    body,
+    created_at,
+    images,
+  } = TEST_TWEET;
 
   return (
     <Card
@@ -72,9 +83,24 @@ const Tweet = () => {
           </Box>
         </Box>{" "}
         <Box className={css.iconBlue}>
-          <MoreIcon className={css.icon} />
+          <Tooltip title={"More"}>
+            <MoreIcon className={css.icon} />
+          </Tooltip>{" "}
         </Box>
       </Box>
+      <ImageList className={css.imgWrapper}>
+        {images.map((item) => (
+          <ImageListItem key={item.img}>
+            <img
+              src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
+              srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+              alt={item.title}
+              loading="lazy"
+            />
+          </ImageListItem>
+        ))}
+      </ImageList>
+
       <List
         component="ul"
         disablePadding
@@ -83,7 +109,9 @@ const Tweet = () => {
         {ICONS.length &&
           ICONS.map((itemData, index) => (
             <ListItem key={index} className={itemData.itemClassName}>
-              <ListItemIcon>{itemData.icon}</ListItemIcon>
+              <Tooltip title={itemData.tooltip}>
+                <ListItemIcon>{itemData.icon}</ListItemIcon>
+              </Tooltip>{" "}
               {itemData.text && (
                 <ListItemText className={css.text} primary={itemData.text} />
               )}
