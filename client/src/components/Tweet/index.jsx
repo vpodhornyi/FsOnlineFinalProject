@@ -32,7 +32,7 @@ const Tweet = ({ openModal = false }) => {
   } = TEST_TWEET;
   const borderCard = openModal ? "none" : "1px solid  rgb(239, 243, 244)";
   return (
-    <Card
+    <Box
       sx={{
         borderRadius: 0,
         color: "rgb(83, 100, 113)",
@@ -55,9 +55,18 @@ const Tweet = ({ openModal = false }) => {
       <Box className={css.content}>
         <Box sx={{ display: "flex" }}>
           {" "}
-          <Avatar alt={name} src={avatarImgUrl} className={css.avatar}></Avatar>
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
+            <Avatar
+              alt={name}
+              src={avatarImgUrl}
+              className={css.avatar}
+            ></Avatar>
+            {openModal && (
+              <Box className={css.avatarSpan} variant={"span"}></Box>
+            )}
+          </Box>
           <Box>
-            <Box>
+            <Box sx={{ marginLeft: 0.688 }}>
               <Box className={css.postInfo}>
                 <Link
                   sx={{ fontSize: "inherit", fontWeight: 700, color: "black" }}
@@ -89,38 +98,45 @@ const Tweet = ({ openModal = false }) => {
           </Tooltip>{" "}
         </Box>
       </Box>
-      <ImageList className={css.imgWrapper}>
-        {!openModal &&
-          images.map((item) => (
-            <ImageListItem key={item.img}>
-              <img
-                src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-                srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                alt={item.title}
-                loading="lazy"
-              />
-            </ImageListItem>
-          ))}
-      </ImageList>
+      {!openModal && (
+        <>
+          <ImageList className={css.imgWrapper}>
+            {!openModal &&
+              images.map((item) => (
+                <ImageListItem key={item.img}>
+                  <img
+                    src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
+                    srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                    alt={item.title}
+                    loading="lazy"
+                  />
+                </ImageListItem>
+              ))}
+          </ImageList>
 
-      <List
-        component="ul"
-        disablePadding
-        sx={{ display: "flex", justifyContent: "space-around" }}
-      >
-        {ICONS.length &&
-          ICONS.map((itemData, index) => (
-            <ListItem key={index} className={itemData.itemClassName}>
-              <Tooltip title={itemData.tooltip}>
-                <ListItemIcon>{itemData.icon}</ListItemIcon>
-              </Tooltip>{" "}
-              {itemData.text && (
-                <ListItemText className={css.text} primary={itemData.text} />
-              )}
-            </ListItem>
-          ))}
-      </List>
-    </Card>
+          <List
+            component="ul"
+            disablePadding
+            sx={{ display: "flex", justifyContent: "space-around" }}
+          >
+            {ICONS.length &&
+              ICONS.map((itemData, index) => (
+                <ListItem key={index} className={itemData.itemClassName}>
+                  <Tooltip title={itemData.tooltip}>
+                    <ListItemIcon>{itemData.icon}</ListItemIcon>
+                  </Tooltip>{" "}
+                  {itemData.text && (
+                    <ListItemText
+                      className={css.text}
+                      primary={itemData.text}
+                    />
+                  )}
+                </ListItem>
+              ))}
+          </List>
+        </>
+      )}
+    </Box>
   );
 };
 Tweet.propTypes = {

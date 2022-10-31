@@ -20,7 +20,7 @@ root.render(
   <Provider store={reduxStore}>
     <HashRouter>
       {/*<App />*/}
-      {/*<Reply />*/}
+      <Reply />
       <Tweet />
     </HashRouter>
   </Provider>
