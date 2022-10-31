@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import css from "./style.module.scss";
 import { CloseIcon } from "../../media/icons";
 import Box from "@mui/material/Box";
+import { TweetForm } from "../TweetForm";
 const Reply = () => {
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
@@ -32,6 +33,7 @@ const Reply = () => {
           </IconButton>
         </Box>
         <Tweet openModal={true} />
+        <TweetForm buttonText={"Reply"} placeholderText={"Tweet your reply"} />
       </Dialog>
     </div>
   );

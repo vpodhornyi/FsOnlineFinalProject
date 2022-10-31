@@ -1,10 +1,11 @@
 .wrapper{
   cursor: pointer;
-  padding-right: 0.625rem;
-  padding-left:0.625rem;
+  position: relative;
+  padding-right: 1rem;
+  padding-left:1rem;
   border-top: 1px solid  rgb(239, 243, 244);
   color:  rgb(83, 100, 113);
-  max-width: 600px
+  max-width: 600px;
 };
 .followerBlock{
   display: flex;
@@ -21,7 +22,8 @@
 }
 .content{
   display: flex;
-  justify-content: space-between
+  justify-content: space-between;
+
 }
 .postInfo{
   display: flex;
@@ -35,11 +37,26 @@
 .avatar{
   width: 43px;
   height: 43px;
-  margin-right: 0.688rem;
+  margin-bottom: 5px;
 }
 .avatar:hover{
 opacity: 0.8;
 }
+.avatarSpan{
+  display: inline-block;
+  width: 1px;
+  background: rgb(207, 217, 222);
+  margin: 0 auto;
+  height: 100%;
+}
+//.content:before{
+//  content: "";
+//  position: absolute;
+//  border:1px solid rgb(207, 217, 222); ;
+//  top: 65px;
+//  left: 35px;
+//  bottom: 0;
+//}
 .verified{
   width: 18px;
   height: 18px;
