@@ -3,8 +3,7 @@ import {createRoot} from "react-dom/client";
 import {Provider} from "react-redux";
 import App from "@containers/AppContainer";
 import store from '../src/redux/store';
-import {HashRouter} from "react-router-dom";
-import Auth from "./pages/Auth";
+import {BrowserRouter} from "react-router-dom";
 import 'normalize.css';
 
 
@@ -13,7 +12,7 @@ const root = createRoot(document.getElementById("root"));
 
 root.render(
   <Provider store={reduxStore}>
-  <HashRouter>
+  <BrowserRouter>
     <App/>
-  </HashRouter>
+  </BrowserRouter>
 </Provider>);

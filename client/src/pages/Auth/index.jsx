@@ -1,18 +1,15 @@
 import * as React from 'react';
 import {useDispatch} from 'react-redux';
-import {styled} from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import CustomButton from '../../components/CustomButton';
+import CustomButton from '@components/CustomButton';
+import LogoIcon from '@components/icons/LogoIcon';
 import OrLine from './components/OrLine';
 import SignUpFirstStep from './SignUp/FirstStep';
 import LogInFirstStep from './SingIn/FirstStep';
-import {DIALOG_ACTIONS} from "@redux/dialog/action";
+import {openDialog} from "@redux/dialog/action";
 
 const MAIN_COLOR = '#1D9BF0';
 const WIDTH_BUTTON_CONTAINER = '300px';
@@ -43,7 +40,6 @@ const CUSTOM_BUTTON_SING_IN_NAME = 'Sing in';
 
 const Auth = () => {
   const dispatch = useDispatch();
-  const {openDialog} = DIALOG_ACTIONS;
   const matches = useMediaQuery('(max-width:600px)');
 
   return (
@@ -55,7 +51,12 @@ const Auth = () => {
       }}>
         <Grid container sx={{pl: 2, pb: 10}}>
           <Container>
-            <TwitterIcon sx={{fontSize: 50, color: MAIN_COLOR}}/>
+            <LogoIcon
+              styles={{
+                fontSize: 50,
+                color: MAIN_COLOR
+              }}
+            />
             <Box sx={{
               fontFamily: 'Arial',
               fontWeight: 600,
@@ -112,10 +113,12 @@ const Auth = () => {
           background: '#1D9BF0 url("https://abs.twimg.com/sticky/illustrations/lohp_en_1302x955.png") no-repeat center center fixed',
           backgroundSize: 'cover',
         }}>
-          <TwitterIcon sx={{
-            fontSize: matches ? 250 : 450,
-            color: '#fff'
-          }}/>
+          <LogoIcon
+            styles={{
+              fontSize: matches ? 250 : 450,
+              color: '#fff'
+            }}
+          />
         </Box>
       </Grid>
     </Grid>

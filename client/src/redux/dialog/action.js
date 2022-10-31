@@ -13,15 +13,10 @@ export const ACTIONS = {
   ...actions.actions,
 }
 
-const openDialog = (Component, props) => dispatch => {
+export const openDialog = (Component, props) => dispatch => {
   dispatch(ACTIONS.openDialog({Component, props}));
 }
 
-const closeDialog = () => dispatch => {
+export const closeDialog = () => dispatch => {
   dispatch(ACTIONS.closeDialog());
-}
-
-export const DIALOG_ACTIONS = {
-  openDialog,
-  closeDialog,
 }
