@@ -7,14 +7,13 @@ import {styled} from '@mui/system';
 import Preloader from "../Loader/Preloader";
 
 const CustomButtonRootF = style => styled('button')`
-  padding: 10px 15px;
+  padding: 5px 20px;
   border-radius: 30px;
-  width: 100%;
   font-weight: 600;
   font-family: Helvetica, Arial, sans-serif;
   font-size: 14px;
-  transition: all 200ms ease;
   cursor: pointer;
+  border: 0;
  
   ${style}
 `;
@@ -28,9 +27,9 @@ const CustomButton = React.forwardRef(function CustomButton(props, ref) {
   });
 
   return (
-    <CustomButtonRoot {...getRootProps()}>
-      {children}
-    </CustomButtonRoot>
+      <CustomButtonRoot {...getRootProps()}>
+        {children}
+      </CustomButtonRoot>
   );
 });
 
@@ -43,8 +42,8 @@ export default function UseButton({name, customStyle, onclickAction}) {
   const CustomButtonRoot = CustomButtonRootF(customStyle);
 
   return <CustomButton
-    onClick={() => dispatch(onclickAction())}
-    CustomButtonRoot={CustomButtonRoot}>{name}</CustomButton>
+      onClick={() => dispatch(onclickAction())}
+      CustomButtonRoot={CustomButtonRoot}>{name}</CustomButton>
 };
 
 CustomButton.propTypes = {
