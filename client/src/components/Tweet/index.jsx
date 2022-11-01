@@ -19,8 +19,28 @@ import css from "./style.module.scss";
 import { ICONS, TEST_TWEET } from "./tweetData";
 import PropTypes from "prop-types";
 import { MoreIcon } from "../../media/icons";
+import Reply from "../Reply/Reply";
+import {
+  AvatarDecorate,
+  AvatarSpan,
+  AvatarWrapper,
+  Content,
+  HeaderInfo,
+  HeaderInfoLink,
+  PostInfo,
+  TweetContainer,
+  UserAvatar,
+  UserName,
+} from "./style";
 
 const Tweet = ({ openModal = false }) => {
+  const [open, setOpen] = React.useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
   const {
     name,
     avatarImgUrl,
@@ -32,111 +52,113 @@ const Tweet = ({ openModal = false }) => {
   } = TEST_TWEET;
   const borderCard = openModal ? "none" : "1px solid  rgb(239, 243, 244)";
   return (
-    <Box
-      sx={{
-        borderRadius: 0,
-        color: "rgb(83, 100, 113)",
-        textDecoration: "none",
-        border: borderCard,
-      }}
-      className={css.wrapper}
-    >
-      <Box className={css.followerBlock}>
-        <PersonIcon className={css.person} />
-
-        <Link
-          sx={{ color: "inherit", fontWeight: 700 }}
-          className={css.followerText}
-          underline={"hover"}
-        >
-          {ourFollowers}
-        </Link>
-      </Box>
-      <Box className={css.content}>
-        <Box sx={{ display: "flex" }}>
-          {" "}
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Avatar
-              alt={name}
-              src={avatarImgUrl}
-              className={css.avatar}
-            ></Avatar>
-            {openModal && (
-              <Box className={css.avatarSpan} variant={"span"}></Box>
-            )}
-          </Box>
-          <Box>
-            <Box sx={{ marginLeft: 0.688 }}>
-              <Box className={css.postInfo}>
-                <Link
-                  sx={{ fontSize: "inherit", fontWeight: 700, color: "black" }}
-                  variant="h2"
-                  underline={"hover"}
-                  className={css.name}
-                >
-                  {name}
-                </Link>
-                <VerifiedIcon className={css.verified} />
-                <Typography variant="h4" sx={{ font: "inherit" }}>
-                  {userTag}
-                </Typography>
-                <Link
-                  variant="h4"
-                  sx={{ font: "inherit", color: "inherit" }}
-                  underline={"hover"}
-                >
-                  {created_at}
-                </Link>
-              </Box>
-              <Typography variant="p">{body}</Typography>
-            </Box>
-          </Box>
-        </Box>{" "}
-        <Box className={css.iconBlue}>
-          <Tooltip title={"More"}>
-            <MoreIcon className={css.icon} />
-          </Tooltip>{" "}
-        </Box>
-      </Box>
-      {!openModal && (
-        <>
-          <ImageList className={css.imgWrapper}>
-            {!openModal &&
-              images.map((item) => (
-                <ImageListItem key={item.img}>
-                  <img
-                    src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-                    srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                    alt={item.title}
-                    loading="lazy"
+    <>
+      <TweetContainer>
+        <HeaderInfo>
+          <PersonIcon sx={{ width: 14, height: 14 }} />
+          <HeaderInfoLink underline={"hover"}>{ourFollowers}</HeaderInfoLink>
+        </HeaderInfo>
+        <Content>
+          <Box sx={{ display: "flex" }}>
+            {" "}
+            <AvatarWrapper>
+              <UserAvatar alt={name} src={avatarImgUrl}></UserAvatar>
+              {openModal && <AvatarDecorate variant={"span"}></AvatarDecorate>}
+            </AvatarWrapper>
+            <Box>
+              <Box sx={{ marginLeft: 0.688 }}>
+                <PostInfo>
+                  <UserName variant="h2" underline={"hover"}>
+                    {name}
+                  </UserName>
+                  <VerifiedIcon
+                    sx={{ w: 18, h: 18, color: "#1d9bf0", margin: "0 0.125" }}
                   />
-                </ImageListItem>
-              ))}
-          </ImageList>
-
-          <List
-            component="ul"
-            disablePadding
-            sx={{ display: "flex", justifyContent: "space-around" }}
-          >
-            {ICONS.length &&
-              ICONS.map((itemData, index) => (
-                <ListItem key={index} className={itemData.itemClassName}>
-                  <Tooltip title={itemData.tooltip}>
-                    <ListItemIcon>{itemData.icon}</ListItemIcon>
-                  </Tooltip>{" "}
-                  {itemData.text && (
-                    <ListItemText
-                      className={css.text}
-                      primary={itemData.text}
+                  <Typography variant="h4" sx={{ font: "inherit" }}>
+                    {userTag}
+                  </Typography>
+                  <Link
+                    variant="h4"
+                    sx={{ font: "inherit", color: "inherit" }}
+                    underline={"hover"}
+                  >
+                    {created_at}
+                  </Link>
+                </PostInfo>
+                <Typography variant="p">{body}</Typography>
+              </Box>
+            </Box>
+          </Box>{" "}
+          {!openModal && (
+            <Box className={css.iconBlue}>
+              <Tooltip title={"More"}>
+                <MoreIcon className={css.icon} />
+              </Tooltip>{" "}
+            </Box>
+          )}
+        </Content>
+        {!openModal && (
+          <>
+            <ImageList className={css.imgWrapper}>
+              {!openModal &&
+                images.map((item, i) => (
+                  <ImageListItem key={i}>
+                    <img
+                      src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
+                      srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                      alt={item.title}
+                      loading="lazy"
                     />
-                  )}
-                </ListItem>
-              ))}
-          </List>
-        </>
-      )}
-    </Box>
+                  </ImageListItem>
+                ))}
+            </ImageList>
+
+            <List
+              component="ul"
+              disablePadding
+              sx={{ display: "flex", justifyContent: "space-around" }}
+            >
+              {ICONS.length &&
+                ICONS.map((itemData, index) => (
+                  <ListItem
+                    key={index}
+                    sx={{
+                      ["@media (max-width:700px)"]: {
+                        p: 0,
+                      },
+                    }}
+                    className={itemData.itemClassName}
+                  >
+                    <Tooltip
+                      sx={{
+                        ["@media (max-width:700px)"]: {
+                          p: 0,
+                        },
+                      }}
+                      title={itemData.tooltip}
+                    >
+                      <ListItemIcon
+                        onClick={() =>
+                          itemData.tooltip === "Reply" && handleClickOpen()
+                        }
+                      >
+                        {itemData.icon}
+                      </ListItemIcon>
+                    </Tooltip>{" "}
+                    {itemData.text && (
+                      <ListItemText
+                        className={css.text}
+                        primary={itemData.text}
+                      />
+                    )}
+                  </ListItem>
+                ))}
+            </List>
+          </>
+        )}
+      </TweetContainer>
+      <Reply open={open} handleClose={handleClose} />
+    </>
   );
 };
 Tweet.propTypes = {
