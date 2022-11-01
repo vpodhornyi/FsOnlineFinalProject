@@ -9,7 +9,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
-import {DIALOG_ACTIONS} from "@redux/dialog/action";
+import {openDialog, closeDialog} from "@redux/dialog/action";
 import OrLine from '../../components/OrLine';
 import CustomButton from '../../../../components/CustomButton';
 
@@ -20,11 +20,10 @@ const CUSTOM_BUTTON_SEARCH_STYLE = `
       &:hover {
         background-color: #444;
     }`;
-const CUSTOM_BUTTON_SERCH_NAME = 'Search';
+const CUSTOM_BUTTON_SEARCH_NAME = 'Search';
 
 const ForgotPassword = () => {
   const dispatch = useDispatch();
-  const {openDialog, closeDialog} = DIALOG_ACTIONS;
 
   return (
     <Box sx={{padding: '0 100px', width: '400px', height: '100%',}}>
@@ -62,7 +61,7 @@ const ForgotPassword = () => {
           <Grid item sx={{padding: '10px 0 30px 0'}}>
             <CustomButton
               customStyle={CUSTOM_BUTTON_SEARCH_STYLE}
-              name={CUSTOM_BUTTON_SERCH_NAME}
+              name={CUSTOM_BUTTON_SEARCH_NAME}
               onclickAction={() => openDialog()}
             />
           </Grid>
