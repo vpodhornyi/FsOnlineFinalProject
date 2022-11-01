@@ -1,5 +1,6 @@
-import api from "@service/API"
+import API from "@service/API"
 
+const {api} = API;
 export const setAuthToken = (token) => {
   if (token) {
     api.defaults.headers.common.Authorization = `Bearer ${token}`

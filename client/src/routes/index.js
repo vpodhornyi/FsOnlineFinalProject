@@ -12,6 +12,7 @@ import {
 const routes = [
   {
     isPublic: true,
+    isLogin: true,
     exact: true,
     path: AUTH_ROUTE,
     element: lazy(() => import("@pages/Auth")),

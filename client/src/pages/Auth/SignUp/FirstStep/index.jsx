@@ -48,7 +48,7 @@ const SingUpFirstStep = () => {
         justifyContent: 'space-between',
       }}>
         <Box>
-          <DialogTitle>Create your account</DialogTitle>
+          <DialogTitle sx={{textAlign: 'center'}}>Create your account</DialogTitle>
           <DialogContent>
             <Grid>
               <Grid item xs={12} sx={{padding: '10px 0'}}>

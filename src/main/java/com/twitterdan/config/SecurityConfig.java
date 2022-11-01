@@ -22,7 +22,7 @@ public class SecurityConfig {
 
   public SecurityConfig(JwtFilter jwtFilter,
                         @Value("${api.version}/auth/account") String account,
-                        @Value("${api.version}/auth/authorize") String login,
+                        @Value("${api.version}/auth/login") String login,
                         @Value("${api.version}/auth/access") String token) {
     this.jwtFilter = jwtFilter;
     this.account = account;

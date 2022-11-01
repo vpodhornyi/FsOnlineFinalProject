@@ -26,10 +26,4 @@ public class UserController {
 
     return ResponseEntity.ok(user);
   }
-
-  @GetMapping("/logout")
-  public void logout() {
-    String userTag = (String) jwtAuthService.getAuthInfo().getPrincipal();
-    jwtAuthService.deleteAllByLogin(userTag);
-  }
 }
