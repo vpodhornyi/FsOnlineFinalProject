@@ -9,14 +9,16 @@ import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Column;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @MappedSuperclass
 @Getter
 @NoArgsConstructor
 public abstract class BaseEntity extends Auditable<String> implements Serializable {
+  @NotNull
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "id", nullable = false, updatable = false)
   private Long id;
 }
