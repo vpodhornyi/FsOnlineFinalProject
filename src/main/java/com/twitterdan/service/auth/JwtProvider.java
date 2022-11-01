@@ -1,7 +1,12 @@
 package com.twitterdan.service.auth;
 
 import com.twitterdan.domain.user.User;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.NonNull;
@@ -19,9 +24,9 @@ import java.util.Date;
 @Slf4j
 @Component
 public class JwtProvider {
-  private int ACCESS_LEAVE_MINUTES = 5;
-  private int REFRESH_LEAVE_DAYS = 30;
-  public final String USER_LOGIN_FIELD = "userTag";
+  private int accessLeaveMinutes = 5;
+  private int refreshLeaveDays = 30;
+  public final String userLoginField = "userTag";
 
   private final SecretKey jwtAccessSecret;
   private final SecretKey jwtRefreshSecret;
@@ -32,8 +37,8 @@ public class JwtProvider {
     @Value("${jwt.secret.access}") String jwtAccessSecret,
     @Value("${jwt.secret.refresh}") String jwtRefreshSecret) {
 
-    this.ACCESS_LEAVE_MINUTES = accessLeave;
-    this.REFRESH_LEAVE_DAYS = refreshLeave;
+    this.accessLeaveMinutes = accessLeave;
+    this.refreshLeaveDays = refreshLeave;
     this.jwtAccessSecret = getSecretKey(jwtAccessSecret);
     this.jwtRefreshSecret = getSecretKey(jwtRefreshSecret);
   }
@@ -45,19 +50,19 @@ public class JwtProvider {
 
   public String generateAccessToken(@NonNull User user) {
     final LocalDateTime now = LocalDateTime.now();
-    final Instant accessExpirationInstant = now.plusMinutes(ACCESS_LEAVE_MINUTES).atZone(ZoneId.systemDefault()).toInstant();
+    final Instant accessExpirationInstant = now.plusMinutes(accessLeaveMinutes).atZone(ZoneId.systemDefault()).toInstant();
     final Date accessExpiration = Date.from(accessExpirationInstant);
     return Jwts.builder()
       .setSubject(user.getUserTag())
       .setExpiration(accessExpiration)
       .signWith(jwtAccessSecret)
-      .claim(USER_LOGIN_FIELD, user.getUserTag())
+      .claim(userLoginField, user.getUserTag())
       .compact();
   }
 
   public String generateRefreshToken(@NonNull User user) {
     final LocalDateTime now = LocalDateTime.now();
-    final Instant refreshExpirationInstant = now.plusDays(REFRESH_LEAVE_DAYS).atZone(ZoneId.systemDefault()).toInstant();
+    final Instant refreshExpirationInstant = now.plusDays(refreshLeaveDays).atZone(ZoneId.systemDefault()).toInstant();
     final Date refreshExpiration = Date.from(refreshExpirationInstant);
     return Jwts.builder()
       .setSubject(user.getUserTag())

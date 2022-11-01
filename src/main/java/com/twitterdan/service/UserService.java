@@ -31,7 +31,9 @@ public class UserService implements BaseService<User> {
   public User getById(Long userId) {
     Optional<User> optionalUser = userJpaDao.findById(userId);
 
-    if (optionalUser.isPresent()) return optionalUser.get();
+    if (optionalUser.isPresent()) {
+      return optionalUser.get();
+    }
 
     throw new CouldNotFindAccountException();
   }
@@ -39,7 +41,9 @@ public class UserService implements BaseService<User> {
   public User getByEmail(String email) {
     Optional<User> optionalUser = userJpaDao.findByEmail(email);
 
-    if (optionalUser.isPresent()) return optionalUser.get();
+    if (optionalUser.isPresent()) {
+      return optionalUser.get();
+    }
 
     throw new CouldNotFindAccountException();
   }
@@ -47,7 +51,9 @@ public class UserService implements BaseService<User> {
   public User getByUserTag(String userTag) {
     Optional<User> optionalUser = userJpaDao.findByUserTag(userTag);
 
-    if (optionalUser.isPresent()) return optionalUser.get();
+    if (optionalUser.isPresent()) {
+      return optionalUser.get();
+    }
 
     throw new CouldNotFindAccountException();
   }

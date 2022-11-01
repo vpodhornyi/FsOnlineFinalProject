@@ -8,6 +8,8 @@ import java.util.Optional;
 
 public interface UserJpaDao extends CrudRepository<User, Integer>, JpaSpecificationExecutor<User> {
   Optional<User> findById(Long id);
+
   Optional<User> findByEmail(String email);
+
   Optional<User> findByUserTag(String userTag);
 }

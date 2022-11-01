@@ -1,6 +1,10 @@
 package com.twitterdan.service.auth;
 
-import com.twitterdan.domain.auth.*;
+import com.twitterdan.domain.auth.AccountCheckResponse;
+import com.twitterdan.domain.auth.AccountCheckRequest;
+import com.twitterdan.domain.auth.JwtResponse;
+import com.twitterdan.domain.auth.JwtRequest;
+import com.twitterdan.domain.auth.JwtAuthentication;
 import lombok.NonNull;
 
 public interface AuthService {
