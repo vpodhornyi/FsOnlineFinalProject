@@ -16,18 +16,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
   private final JwtFilter jwtFilter;
-  private final String ping;
   private final String account;
   private final String login;
   private final String token;
 
   public SecurityConfig(JwtFilter jwtFilter,
-                        @Value("/ping") String ping,
                         @Value("${api.version}/auth/account") String account,
                         @Value("${api.version}/auth/authorize") String login,
                         @Value("${api.version}/auth/access") String token) {
     this.jwtFilter = jwtFilter;
-    this.ping = ping;
     this.account = account;
     this.login = login;
     this.token = token;
@@ -42,7 +39,7 @@ public class SecurityConfig {
       .and()
       .authorizeHttpRequests(
         auth -> auth
-          .antMatchers(ping, account, login, token).permitAll()
+          .antMatchers(account, login, token).permitAll()
           .anyRequest().authenticated()
           .and()
           .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
