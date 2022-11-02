@@ -1,8 +1,13 @@
 server:
-  port: 8000
+  port: ${port}
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-stacktrace: never
+    include-exception: false
 spring:
   profiles:
-    active: local
+    active: dev
   h2:
     console:
       enabled: true
@@ -20,10 +25,14 @@ spring:
     activate:
       on-profile: local
     import: optional:secrets.properties[.properties]
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:data-ps.sql
   datasource:
-    url: jdbc:h2:mem:db_name
-    username: name
-    password: password
+    url: jdbc:h2:mem:${h2.dbName}
+    username: ${h2.user}
+    password:
     driver-class-name: org.h2.Driver
   jpa:
     defer-datasource-initialization: true
@@ -36,11 +45,11 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: false
-jwt:
-  expiration: time mls
-  expirationRefresh: time mls
-  expirationPasswordRefresh: time mls
-  expirationPasswordReset: time mls
+#jwt:
+#  expiration: time mls
+#  expirationRefresh: time mls
+#  expirationPasswordRefresh: time mls
+#  expirationPasswordReset: time mls
 ---
 spring:
   config:
@@ -49,10 +58,12 @@ spring:
   sql:
     init:
       mode: always
+#      data-locations: classpath:data-ps.sql
+  #      schema-locations: classpath:schema-h2.sql
   datasource:
-    url: jdbc:postgresql://localhost:port_number/db_name
-    username: name
-    password: password
+    url: jdbc:postgresql://localhost:${postgres.port}/${postgres.dbName}
+    username: ${postgres.user}
+    password: ${postgres.password}
     driver_class_name: org.postgresql.Driver
   jpa:
     database: postgresql

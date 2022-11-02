@@ -1,5 +1,6 @@
 /**/secrets.properties
 /**/application.yml
+/**/application.properties
 
 HELP.md
 target/

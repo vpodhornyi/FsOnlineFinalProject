@@ -26,7 +26,7 @@ export default () => {
 
   if (accessToken) {
     setAuthToken(accessToken)
-    store.dispatch(AUTH_ACTIONS.fetchProfile())
+    // store.dispatch(AUTH_ACTIONS.fetchProfile())
   }
 
   return store;

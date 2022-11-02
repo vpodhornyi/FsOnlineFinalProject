@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 const LogoIcon = ({styles}) => {
   const {logo: {iconName}} = useSelector(getLogoIconState);
 
-  return <IconsByName iconName={iconName} styles={styles}/>;
+  return <IconsByName iconName={iconName} iconStyle={styles}/>;
 };
 
 LogoIcon.propTypes = {
