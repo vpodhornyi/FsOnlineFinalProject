@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
-import {DIALOG_ACTIONS} from "@redux/dialog/action";
+import {closeDialog, openDialog} from "@redux/dialog/action";
 import CustomButton from '../../../../components/CustomButton';
 import SignUpSecondStep from '../SecondStep';
 import DateOfBirth from '../../components/DateOfBirth';
@@ -24,7 +24,6 @@ const CUSTOM_BUTTON_NEXT_NAME = 'Next';
 
 const SingUpFirstStep = () => {
   const dispatch = useDispatch();
-  const {closeDialog, openDialog} = DIALOG_ACTIONS;
 
   return (
     <>
@@ -41,7 +40,6 @@ const SingUpFirstStep = () => {
                     onClick={() => dispatch(closeDialog())}>
           <CloseIcon/>
         </IconButton>
-        <TwitterIcon sx={{fontSize: 40, color: MAIN_COLOR}}/>
       </Box>
       <Box sx={{
         height: '100%',

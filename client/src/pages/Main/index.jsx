@@ -4,6 +4,8 @@ import Container from "@mui/material/Container";
 import MainContainer from "@components/MainContainer";
 import Box from "@mui/material/Box";
 import { useTheme } from "@emotion/react";
+import Sidebar from "@components/Sidebar/Sidebar";
+
 const Main = () => {
   const theme = useTheme();
   return (
@@ -22,7 +24,7 @@ const Main = () => {
         }}
       >
         <Grid item justifyContent="center" xl={3} lg={2} md={2} sm={2}>
-          <span>Here goes the left sidebar</span>
+          <Sidebar/>
         </Grid>
         <Grid
           item
@@ -39,5 +41,6 @@ const Main = () => {
     </>
   );
 };
+
 
 export default Main;

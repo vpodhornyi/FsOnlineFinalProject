@@ -1,0 +1,16 @@
+.sidebar__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 16px;
+  padding: 10px;
+}
+
+.footer__data {
+  margin: 0 0 0 -5%;
+}
+
+.footer__data > p {
+  margin: 0;
+  padding: 0;
+}
