@@ -9,7 +9,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
-import {DIALOG_ACTIONS} from "@redux/dialog/action";
+import {openDialog, closeDialog} from "@redux/dialog/action";
 import OrLine from '../../components/OrLine';
 import CustomButton from '../../../../components/CustomButton';
 
@@ -24,7 +24,6 @@ const CUSTOM_BUTTON_LOG_IN_NAME = 'Log in';
 
 const SingInSecondStep = () => {
   const dispatch = useDispatch();
-  const {openDialog, closeDialog} = DIALOG_ACTIONS;
 
   return (
     <Box sx={{padding: '0 100px', width: '400px', height: '100%',}}>

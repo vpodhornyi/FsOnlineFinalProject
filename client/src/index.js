@@ -6,6 +6,8 @@ import store from "../src/redux/store";
 import { BrowserRouter } from "react-router-dom";
 import "normalize.css";
 
+
+
 const reduxStore = store();
 const root = createRoot(document.getElementById("root"));
 
@@ -16,3 +18,4 @@ root.render(
     </BrowserRouter>
   </Provider>
 );
+
