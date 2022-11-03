@@ -7,7 +7,7 @@ import { HashRouter } from "react-router-dom";
 import Auth from "./pages/Auth";
 import "normalize.css";
 import Tweet from "./components/Tweet";
-import Reply from "./components/Reply/Reply";
+import Index from "./components/Reply";
 
 const reduxStore = store();
 const root = createRoot(document.getElementById("root"));
@@ -19,9 +19,7 @@ function DialogWindow() {
 root.render(
   <Provider store={reduxStore}>
     <HashRouter>
-      {/*<App />*/}
-      <Reply />
-      <Tweet />
+      <App />
     </HashRouter>
   </Provider>
 );
