@@ -1,5 +1,4 @@
 import React from "react";
-import css from "./style.module.scss";
 import {
   DownloadIcon,
   HeartIcon,
@@ -32,26 +31,59 @@ export const TEST_TWEET = {
 };
 export const ICONS = [
   {
-    itemClassName: css.iconBlue,
-    icon: <ReplyIcon className={css.icon} />,
+    itemClassName: {
+      "&:hover svg": {
+        backgroundColor: "lightcyan",
+        color: "rgb(29, 155, 240)",
+        borderRadius: "50%",
+      },
+      "&:hover span": {
+        color: "rgb(29, 155, 240)",
+      },
+    },
+    icon: <ReplyIcon sx={{ padding: 1 }} />,
     text: 462,
     tooltip: "Reply",
   },
   {
-    itemClassName: css.iconGreen,
-    icon: <RetweetIcon className={css.icon}></RetweetIcon>,
+    itemClassName: {
+      "&:hover svg": {
+        backgroundColor: "lightgreen",
+        color: "green",
+        borderRadius: "50%",
+      },
+      "&:hover span": {
+        color: "green",
+      },
+    },
+    icon: <RetweetIcon sx={{ padding: 1 }}></RetweetIcon>,
     text: 671,
     tooltip: "Retweet",
   },
   {
-    itemClassName: css.iconPink,
-    icon: <HeartIcon className={css.icon}></HeartIcon>,
+    itemClassName: {
+      "&:hover svg": {
+        backgroundColor: "lightpink",
+        color: "pink",
+        borderRadius: "50%",
+      },
+      "&:hover span": {
+        color: "pink",
+      },
+    },
+    icon: <HeartIcon sx={{ padding: 1 }}></HeartIcon>,
     text: "11.6K",
     tooltip: "Like",
   },
   {
-    itemClassName: css.iconBlue,
-    icon: <DownloadIcon className={css.icon}></DownloadIcon>,
+    itemClassName: {
+      "&:hover svg": {
+        backgroundColor: "lightcyan",
+        color: "rgb(29, 155, 240)",
+        borderRadius: "50%",
+      },
+    },
+    icon: <DownloadIcon sx={{ padding: 1 }}></DownloadIcon>,
     tooltip: "Share",
   },
 ];

@@ -68,7 +68,7 @@ export const TweetBtn = styled(Button)({
   textTransform: "inherit",
   ["@media (max-width:700px)"]: {
     position: "absolute",
-    top: 10,
-    right: 10,
+    top: 5,
+    right: 5,
   },
 });

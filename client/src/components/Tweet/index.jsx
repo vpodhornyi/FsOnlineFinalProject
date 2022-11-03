@@ -1,10 +1,7 @@
 import Box from "@mui/material/Box";
 import React from "react";
 import {
-  Avatar,
-  Card,
   ImageList,
-  ImageListItem,
   Link,
   List,
   ListItem,
@@ -15,24 +12,23 @@ import {
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import VerifiedIcon from "@mui/icons-material/Verified";
-import css from "./style.module.scss";
 import { ICONS, TEST_TWEET } from "./tweetData";
 import PropTypes from "prop-types";
 import { MoreIcon } from "../../media/icons";
-import Reply from "../Reply/Reply";
+import Index from "../Reply";
 import {
   AvatarDecorate,
-  AvatarSpan,
   AvatarWrapper,
   Content,
   HeaderInfo,
   HeaderInfoLink,
+  IconBlue,
   PostInfo,
   TweetContainer,
   UserAvatar,
   UserName,
 } from "./style";
-
+import CustomImageList from "../CustomImageList";
 const Tweet = ({ openModal = false }) => {
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
@@ -50,7 +46,6 @@ const Tweet = ({ openModal = false }) => {
     created_at,
     images,
   } = TEST_TWEET;
-  const borderCard = openModal ? "none" : "1px solid  rgb(239, 243, 244)";
   return (
     <>
       <TweetContainer>
@@ -90,27 +85,24 @@ const Tweet = ({ openModal = false }) => {
             </Box>
           </Box>{" "}
           {!openModal && (
-            <Box className={css.iconBlue}>
+            <IconBlue>
               <Tooltip title={"More"}>
-                <MoreIcon className={css.icon} />
+                <MoreIcon sx={{ padding: 1 }} />
               </Tooltip>{" "}
-            </Box>
+            </IconBlue>
           )}
         </Content>
         {!openModal && (
           <>
-            <ImageList className={css.imgWrapper}>
-              {!openModal &&
-                images.map((item, i) => (
-                  <ImageListItem key={i}>
-                    <img
-                      src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-                      srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                      alt={item.title}
-                      loading="lazy"
-                    />
-                  </ImageListItem>
-                ))}
+            <ImageList
+              variant="masonry"
+              cols={3}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              {!openModal && <CustomImageList itemData={images} />}
             </ImageList>
 
             <List
@@ -126,8 +118,8 @@ const Tweet = ({ openModal = false }) => {
                       ["@media (max-width:700px)"]: {
                         p: 0,
                       },
+                      ...itemData.itemClassName,
                     }}
-                    className={itemData.itemClassName}
                   >
                     <Tooltip
                       sx={{
@@ -145,19 +137,14 @@ const Tweet = ({ openModal = false }) => {
                         {itemData.icon}
                       </ListItemIcon>
                     </Tooltip>{" "}
-                    {itemData.text && (
-                      <ListItemText
-                        className={css.text}
-                        primary={itemData.text}
-                      />
-                    )}
+                    {itemData.text && <ListItemText primary={itemData.text} />}
                   </ListItem>
                 ))}
             </List>
           </>
         )}
       </TweetContainer>
-      <Reply open={open} handleClose={handleClose} />
+      <Index open={open} handleClose={handleClose} />
     </>
   );
 };
