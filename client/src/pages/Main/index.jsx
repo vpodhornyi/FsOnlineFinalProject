@@ -8,26 +8,31 @@ const Main = () => {
   const theme = useTheme();
   return (
     <>
-      <Grid container justifyContent="center" spacing={0} height="100vh">
-        <Grid
-          item
-          justifyContent="center"
-          xl={3}
-          lg={2}
-          md={2}
-          sm={2}
-          sx={{
-            [theme.breakpoints.down("sm")]: {
-              display: "none",
-            },
-            [theme.breakpoints.up("sm")]: {
-              display: "block",
-            },
-          }}
-        >
+      <Grid
+        container
+        justifyContent="center"
+        spacing={0}
+        sx={{
+          [theme.breakpoints.down("sm")]: {
+            direction: "column",
+          },
+          [theme.breakpoints.up("sm")]: {
+            direction: "row",
+          },
+        }}
+      >
+        <Grid item justifyContent="center" xl={3} lg={2} md={2} sm={2}>
           <span>Here goes the left sidebar</span>
         </Grid>
-        <Grid item xl={9} lg={10} md={10} sm={10} justifyContent="center">
+        <Grid
+          item
+          xl={9}
+          lg={10}
+          md={10}
+          sm={10}
+          xs={12}
+          justifyContent="center"
+        >
           <MainContainer />
         </Grid>
       </Grid>
