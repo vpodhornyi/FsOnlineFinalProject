@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -16,18 +17,26 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
   private final JwtFilter jwtFilter;
+  private final String h2;
   private final String account;
   private final String login;
   private final String token;
 
   public SecurityConfig(JwtFilter jwtFilter,
+                        @Value("h2-console") String h2,
                         @Value("${api.version}/auth/account") String account,
                         @Value("${api.version}/auth/login") String login,
                         @Value("${api.version}/auth/access") String token) {
     this.jwtFilter = jwtFilter;
     this.account = account;
+    this.h2 = h2;
     this.login = login;
     this.token = token;
+  }
+
+  @Bean
+  public WebSecurityCustomizer webSecurityCustomizer() {
+    return (web) -> web.ignoring().antMatchers("/h2-console/**");
   }
 
   @Bean
@@ -39,7 +48,7 @@ public class SecurityConfig {
       .and()
       .authorizeHttpRequests(
         auth -> auth
-          .antMatchers(account, login, token).permitAll()
+          .antMatchers(h2, account, login, token).permitAll()
           .anyRequest().authenticated()
           .and()
           .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
