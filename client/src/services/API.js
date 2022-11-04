@@ -1,5 +1,5 @@
 import axios from "axios"
-import {getTokens, setAuthToken} from "@utils"
+import {getTokens, setAuthToken, setHeaderAuthorization} from "@utils"
 
 const BASE_URL = "/api/v0";
 const api = axios.create({
@@ -13,6 +13,7 @@ api.interceptors.response.use(res => res.data, async error => {
     originalRequest._retry = true;
     const {refreshToken} = getTokens();
     const {data: {type, accessToken}} = await axios.post(`${BASE_URL}/auth/access`, {refreshToken})
+    setHeaderAuthorization(accessToken, type);
     setAuthToken(accessToken);
     originalRequest.headers.Authorization = `${type} ${accessToken}`;
 
