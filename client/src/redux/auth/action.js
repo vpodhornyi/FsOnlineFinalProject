@@ -59,6 +59,7 @@ export const logout = () => async dispatch => {
     await api.get(URLS.AUTH.LOGOUT)
     setAuthToken();
     setRefreshToken();
+    setHeaderAuthorization();
     dispatch(ACTIONS.logout.success());
 
   } catch (err) {
