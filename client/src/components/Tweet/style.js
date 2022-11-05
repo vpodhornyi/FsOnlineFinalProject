@@ -1,6 +1,5 @@
 import { styled } from "@mui/material/styles";
 import { Avatar, Box, Link } from "@mui/material";
-import { makeStyles } from "tss-react/mui";
 export const TweetContainer = styled(Box)({
   borderRadius: 0,
   color: "rgb(83, 100, 113)",
@@ -13,15 +12,7 @@ export const TweetContainer = styled(Box)({
   borderTop: "1px solid  rgb(239, 243, 244)",
   maxWidth: 600,
 });
-export const HeaderInfo = styled(Box)({
-  display: "flex",
-  alignItems: "center",
-});
-export const HeaderInfoLink = styled(Link)({
-  display: "inline-block",
-  color: "inherit",
-  fontWeight: 700,
-});
+
 export const Content = styled(Box)({
   display: "flex",
   justifyContent: "space-between",

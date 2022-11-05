@@ -14,7 +14,13 @@ export const TEST_TWEET = {
   body: "German donated Panzerhaubitze 2000s rain fire from above on Russian forces around Bakhmut.",
   likes: [1, 2, 3, 4, 5, 6, 7, 8, 9],
   images: [
-    { img: "https://via.placeholder.com/150", title: "test" },
+    {
+      img:
+        "https://via.placeholder.com/300.png/09f/fff\n" +
+        "\n" +
+        "C/O https://placeholder.com/",
+      title: "test",
+    },
     { img: "https://via.placeholder.com/150", title: "test" },
     { img: "https://via.placeholder.com/150", title: "test" },
   ],
@@ -23,7 +29,6 @@ export const TEST_TWEET = {
       name: "Petro",
       userTag: "@Petro454608907",
       avatarImgUrl: "https://via.placeholder.com/150/d32776",
-      ourFollowers: ["Paul Djonsonuik"],
       likes: [1, 2, 3, 4, 5, 6, 7, 8, 9],
       reply: [],
     },

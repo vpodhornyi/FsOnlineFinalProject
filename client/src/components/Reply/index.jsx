@@ -8,7 +8,7 @@ import Box from "@mui/material/Box";
 import { TweetForm } from "../TweetForm";
 import PropTypes from "prop-types";
 import useMediaQuery from "@mui/material/useMediaQuery";
-const Index = ({ open = false, handleClose }) => {
+const Reply = ({ userInfo, open = false, handleClose }) => {
   const matches = useMediaQuery("(max-width:700px)");
   return (
     <Dialog
@@ -22,13 +22,14 @@ const Index = ({ open = false, handleClose }) => {
           <CloseIcon />
         </IconButton>
       </Box>
-      <Tweet openModal={true} />
-      <TweetForm buttonText={"Index"} placeholderText={"Tweet your reply"} />
+      <Tweet userInfo={userInfo} openReply={true} />
+      <TweetForm buttonText={"Reply"} placeholderText={"Tweet your reply"} />
     </Dialog>
   );
 };
-Index.propTypes = {
+Reply.propTypes = {
+  userInfo: PropTypes.object,
   open: PropTypes.bool,
   handleClose: PropTypes.func,
 };
-export default Index;
+export default Reply;
