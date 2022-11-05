@@ -8,7 +8,7 @@ import {
   MESSAGES_ROUTE,
   NOTIFICATIONS_ROUTE
 } from "../utils/constants";
-
+import UserProfile from "../pages/UserProfile/UserProfile";
 const routes = [
   {
     isPublic: true,
@@ -55,8 +55,8 @@ const routes = [
   {
     isPublic: false,
     exact: true,
-    path: "/user_name",
-    element: lazy(() => import("@pages/Main")),
+    path: "/:username",
+    element: UserProfile,
   },
   {
     isPublic: false,

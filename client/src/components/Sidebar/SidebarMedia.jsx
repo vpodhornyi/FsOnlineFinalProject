@@ -25,6 +25,7 @@ import {EXPLORE_ROUTE, HOME_ROUTE, MESSAGES_ROUTE, NOTIFICATIONS_ROUTE} from "..
 import {useNavigate} from "react-router-dom";
 import TweetButton from "./components/TweetButton";
 import Dropdown from "../Dropdown/Dropdown";
+import {StyledTypography} from "../StyledComponents/styledComponents";
 
 export default function SidebarMedia() {
     const navigate = useNavigate();
@@ -88,8 +89,8 @@ export default function SidebarMedia() {
                                     color: "gray",
                                     margin: "0 12px 0 0"
                                 }}}>
-                                <Typography><strong>8</strong> Followers</Typography>
-                                <Typography><strong>0</strong> Followings</Typography>
+                                <StyledTypography><strong style={{color: "black"}}>10</strong> Followers</StyledTypography>
+                                <StyledTypography sx={{marginLeft: "10px"}}><strong style={{color: "black"}}>10</strong> Followings</StyledTypography>
                             </Box>
 
                             <StyledMenuList
