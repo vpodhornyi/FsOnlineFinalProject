@@ -10,18 +10,15 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import PersonIcon from "@mui/icons-material/Person";
 import VerifiedIcon from "@mui/icons-material/Verified";
-import { ICONS, TEST_TWEET } from "./tweetData";
+import { ICONS } from "./tweetData";
 import PropTypes from "prop-types";
 import { MoreIcon } from "../../media/icons";
-import Index from "../Reply";
+import Reply from "../Reply";
 import {
   AvatarDecorate,
   AvatarWrapper,
   Content,
-  HeaderInfo,
-  HeaderInfoLink,
   IconBlue,
   PostInfo,
   TweetContainer,
@@ -29,7 +26,7 @@ import {
   UserName,
 } from "./style";
 import CustomImageList from "../CustomImageList";
-const Tweet = ({ openModal = false }) => {
+const Tweet = ({ openReply = false, userInfo }) => {
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
     setOpen(true);
@@ -37,28 +34,16 @@ const Tweet = ({ openModal = false }) => {
   const handleClose = () => {
     setOpen(false);
   };
-  const {
-    name,
-    avatarImgUrl,
-    ourFollowers,
-    userTag,
-    body,
-    created_at,
-    images,
-  } = TEST_TWEET;
+  const { name, avatarImgUrl, userTag, body, created_at, images } = userInfo;
   return (
     <>
       <TweetContainer>
-        <HeaderInfo>
-          <PersonIcon sx={{ width: 14, height: 14 }} />
-          <HeaderInfoLink underline={"hover"}>{ourFollowers}</HeaderInfoLink>
-        </HeaderInfo>
         <Content>
           <Box sx={{ display: "flex" }}>
             {" "}
             <AvatarWrapper>
               <UserAvatar alt={name} src={avatarImgUrl}></UserAvatar>
-              {openModal && <AvatarDecorate variant={"span"}></AvatarDecorate>}
+              {openReply && <AvatarDecorate variant={"span"}></AvatarDecorate>}
             </AvatarWrapper>
             <Box>
               <Box sx={{ marginLeft: 0.688 }}>
@@ -84,7 +69,7 @@ const Tweet = ({ openModal = false }) => {
               </Box>
             </Box>
           </Box>{" "}
-          {!openModal && (
+          {!openReply && (
             <IconBlue>
               <Tooltip title={"More"}>
                 <MoreIcon sx={{ padding: 1 }} />
@@ -92,7 +77,7 @@ const Tweet = ({ openModal = false }) => {
             </IconBlue>
           )}
         </Content>
-        {!openModal && (
+        {!openReply && (
           <>
             <ImageList
               variant="masonry"
@@ -102,7 +87,7 @@ const Tweet = ({ openModal = false }) => {
                 justifyContent: "center",
               }}
             >
-              {!openModal && <CustomImageList itemData={images} />}
+              {!openReply && <CustomImageList itemData={images} />}
             </ImageList>
 
             <List
@@ -144,11 +129,12 @@ const Tweet = ({ openModal = false }) => {
           </>
         )}
       </TweetContainer>
-      <Index open={open} handleClose={handleClose} />
+      <Reply userInfo={userInfo} open={open} handleClose={handleClose} />
     </>
   );
 };
 Tweet.propTypes = {
-  openModal: PropTypes.bool,
+  openReply: PropTypes.bool,
+  userInfo: PropTypes.object,
 };
 export default Tweet;
