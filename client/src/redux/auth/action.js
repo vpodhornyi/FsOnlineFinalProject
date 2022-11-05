@@ -26,8 +26,9 @@ export const isAccountExist = (login) => async dispatch => {
     return true;
 
   } catch (err) {
+    //TODO show error
     dispatch(ACTIONS.isAccountExist.fail());
-    console.log('isAccountExist error - ', err.response.data);
+    console.log('isAccountExist error - ', err);
     return false;
   }
 }
@@ -49,8 +50,9 @@ export const authorize = ({login, password}) => async dispatch => {
     dispatch(ACTIONS.authorize.success());
 
   } catch (err) {
+    //TODO show error
     dispatch(ACTIONS.authorize.fail());
-    console.log("login error - ", err.response.data)
+    console.log("login error - ", err);
   }
 }
 
@@ -63,6 +65,7 @@ export const logout = () => async dispatch => {
     dispatch(ACTIONS.logout.success());
 
   } catch (err) {
-    console.log('logout error - ', err.response.data);
+    //TODO show error
+    console.log('logout error - ', err);
   }
 }
