@@ -24,21 +24,17 @@ import java.util.Date;
 @Slf4j
 @Component
 public class JwtProvider {
-  private int accessLeaveMinutes = 5;
-  private int refreshLeaveDays = 30;
-  public final String userLoginField = "userTag";
+  @Value("${jwt.access.leave.minutes}")
+  private int accessLeaveMinutes;
+  @Value("${jwt.refresh.leave.days}")
+  private int refreshLeaveDays;
+  @Value("${jwt.authorization.user.field}")
+  private String userLoginField;
 
   private final SecretKey jwtAccessSecret;
   private final SecretKey jwtRefreshSecret;
 
-  public JwtProvider(
-    @Value("${jwt.access.leave.minutes}") int accessLeave,
-    @Value("${jwt.refresh.leave.days}") int refreshLeave,
-    @Value("${jwt.secret.access}") String jwtAccessSecret,
-    @Value("${jwt.secret.refresh}") String jwtRefreshSecret) {
-
-    this.accessLeaveMinutes = accessLeave;
-    this.refreshLeaveDays = refreshLeave;
+  public JwtProvider(@Value("${jwt.secret.access}") String jwtAccessSecret, @Value("${jwt.secret.refresh}") String jwtRefreshSecret) {
     this.jwtAccessSecret = getSecretKey(jwtAccessSecret);
     this.jwtRefreshSecret = getSecretKey(jwtRefreshSecret);
   }
