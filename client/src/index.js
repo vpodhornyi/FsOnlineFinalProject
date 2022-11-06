@@ -8,16 +8,14 @@ import "normalize.css";
 import Tweet from "./components/Tweet";
 import { TEST_TWEET } from "./components/Tweet/tweetData";
 
-
-
 const reduxStore = store();
 const root = createRoot(document.getElementById("root"));
 
 root.render(
   <Provider store={reduxStore}>
     <BrowserRouter>
-      <App />
+      {/*<App />*/}
+      <Tweet userInfo={TEST_TWEET} />
     </BrowserRouter>
   </Provider>
 );
-
