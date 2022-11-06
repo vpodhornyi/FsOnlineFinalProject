@@ -31,5 +31,13 @@ export const URLS = {
     _ROOT: "/user",
   }
 }
+    /**
+     https://axios-http.com/ru/docs/interceptors
+     перехват запросов
+
+
+
+
+     **/
 
 export default {api, axios};
