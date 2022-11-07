@@ -35,7 +35,7 @@ const UserProfile = () => {
     const handleOnMouseLeave = (e) => e.target.innerText = "Following";
 
     return (
-        <Container maxWidth={"sm"} sx={{width: "100%"}}>
+        <Container sx={{width: "100%"}}>
             <Box sx={{
                 height: "100vh",
                 width: "100%",
