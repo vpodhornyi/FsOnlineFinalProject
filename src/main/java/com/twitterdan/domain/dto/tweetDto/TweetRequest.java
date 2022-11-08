@@ -17,5 +17,13 @@ public class TweetRequest {
         private String body;
         private User user;
 
+    @Override
+    public String toString() {
+        return "TweetRequest{" +
+                "tweetType=" + tweetType +
+                ", body='" + body + '\'' +
+                ", user=" + user.getUserTag() +
+                '}';
     }
+}
 

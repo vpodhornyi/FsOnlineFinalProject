@@ -21,16 +21,15 @@ import java.util.stream.Collectors;
 @RequestMapping("/tweets")
 @Slf4j
 public class TweetController {
-
         private final TweetService tweetService;
         private final TweetRequestMapper tweetRequestMapper;
-        private final TweetResponseMapper tweetResposnseMapper;
+        private final TweetResponseMapper tweetResponseMapper;
 
         public TweetController(TweetService tweetService, TweetRequestMapper tweetRequestMapper, TweetResponseMapper tweetResponseMapper) {
-            this.tweetService = tweetService;
-            this.tweetRequestMapper = tweetRequestMapper;
-            this.tweetResposnseMapper = tweetResponseMapper;
-        }
+        this.tweetService = tweetService;
+        this.tweetRequestMapper = tweetRequestMapper;
+        this.tweetResponseMapper = tweetResponseMapper;
+    }
 
 
         @GetMapping
@@ -39,7 +38,7 @@ public class TweetController {
             if (tweets.size() == 0) {
                 log.info("empty list");
             }
-            return tweets.stream().map(tweetResposnseMapper::convertToDto).collect(Collectors.toList());
+            return tweets.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
         }
 
         @GetMapping("/{id}")
@@ -48,7 +47,7 @@ public class TweetController {
             if (tweet.equals(new Tweet())) {
                 log.info("Tweet isEmpty");
             }
-            return tweetResposnseMapper.convertToDto(tweet);
+            return tweetResponseMapper.convertToDto(tweet);
         }
 
         @DeleteMapping("/{id}")
