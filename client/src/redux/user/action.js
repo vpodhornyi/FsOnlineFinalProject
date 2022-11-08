@@ -1,7 +1,6 @@
 import {createActions} from '../utils';
-import API, {URLS} from "@service/API";
+import api, {URLS} from "@service/API";
 
-const {api, axios} = API;
 const actions = createActions(
   {
       async: [],

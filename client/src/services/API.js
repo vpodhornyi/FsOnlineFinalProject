@@ -25,8 +25,8 @@ api.interceptors.response.use(res => res.data, async error => {
 
 export const URLS = {
   AUTH: {
-    IS_ACCOUNT_EXIST: `${BASE_URL}/auth/account`,
-    AUTHORIZE: `${BASE_URL}/auth/login`,
+    IS_ACCOUNT_EXIST: `/auth/account`,
+    AUTHORIZE: `/auth/login`,
     LOGOUT: `/auth/logout`,
   },
   USER: {
@@ -42,4 +42,4 @@ export const URLS = {
 
      **/
 
-export default {api, axios};
+export default api;

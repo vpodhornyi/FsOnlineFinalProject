@@ -1,10 +1,9 @@
 import {createActions} from '../utils';
-import API, {URLS} from "@service/API";
+import api, {URLS} from "@service/API";
 import {setAuthToken, setHeaderAuthorization, setRefreshToken} from "@utils";
 import {openDialog, closeDialog} from "@redux/dialog/action";
 import SingInSecondStep from '@pages/Auth/SingIn/SecondStep';
 
-const {api, axios} = API;
 const actions = createActions(
   {
     async: ["IS_ACCOUNT_EXIST", "AUTHORIZE", "LOGOUT"],
@@ -21,7 +20,7 @@ export const ACTIONS = {
 export const isAccountExist = (login) => async dispatch => {
   try {
     dispatch(ACTIONS.isAccountExist.request());
-    const {data} = await axios.post(URLS.AUTH.IS_ACCOUNT_EXIST, {login})
+    const data = await api.post(URLS.AUTH.IS_ACCOUNT_EXIST, {login})
     dispatch(ACTIONS.isAccountExist.success(data));
     return true;
 
@@ -42,7 +41,7 @@ export const runSecondLoginStep = (login) => async dispatch => {
 export const authorize = ({login, password}) => async dispatch => {
   try {
     dispatch(ACTIONS.authorize.request());
-    const {data: {type, accessToken, refreshToken}} = await axios.post(URLS.AUTH.AUTHORIZE, {login, password});
+    const {type, accessToken, refreshToken} = await api.post(URLS.AUTH.AUTHORIZE, {login, password});
     dispatch(closeDialog());
     setHeaderAuthorization(accessToken, type);
     setAuthToken(accessToken);

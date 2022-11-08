@@ -1,6 +1,4 @@
-import API from "@service/API";
-
-const {api} = API;
+import api from "@service/API";
 
 export const setHeaderAuthorization = (token, type) => {
   if (token) {
