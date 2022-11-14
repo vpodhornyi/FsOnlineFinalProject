@@ -60,4 +60,11 @@ public class User extends BaseEntity {
   @ManyToMany
   private Set<Chat> chats;
 
+  public void addTweet (Tweet tweet) {
+    tweets.add(tweet);
+    tweet.setUser(this);
+  }
+
+
+
 }
