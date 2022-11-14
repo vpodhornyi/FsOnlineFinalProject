@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import App from "@containers/AppContainer";
 import store from "../src/redux/store";
 import { BrowserRouter } from "react-router-dom";
-import "normalize.css";
+import "./normolize.css";
 
 const reduxStore = store();
 const root = createRoot(document.getElementById("root"));
