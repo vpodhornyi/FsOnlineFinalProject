@@ -1,5 +1,5 @@
 import api from "@service/API"
-
+//Задаем или удаляем токен при авторизации
 export const setAuthToken = (token) => {
   if (token) {
     api.defaults.headers.common.Authorization = `Bearer ${token}`
@@ -9,7 +9,7 @@ export const setAuthToken = (token) => {
     localStorage.removeItem("auth_token")
   }
 }
-
+//Задаємо токен для оновлення
 export const setRefreshToken = (token) => {
   if (token) {
     localStorage.setItem("refreshToken", token)
@@ -17,7 +17,7 @@ export const setRefreshToken = (token) => {
     localStorage.removeItem("refreshToken")
   }
 }
-
+//Овертаємо два види токенів
 export const getTokens = () => {
   return {
     accessToken: localStorage.getItem("auth_token"),
