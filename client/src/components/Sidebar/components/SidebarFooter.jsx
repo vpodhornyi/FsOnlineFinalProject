@@ -34,7 +34,7 @@ const SidebarFooter = ({theme}) => {
 
     return (
         <>
-            <div aria-describedby={id} onClick={handleClick}>
+            <div onClick={handleClick}>
                 <StyledFooter>
                     <div className="sidebar__footer">
                         <Avatar sx={{bgcolor: theme}}>N</Avatar>
