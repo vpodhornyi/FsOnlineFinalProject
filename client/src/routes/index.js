@@ -18,7 +18,7 @@ const routes = [
     element: lazy(() => import("@pages/Auth")),
   },
   {
-    isPublic: false,
+    isPublic: true,
     exact: true,
     path: HOME_ROUTE,
     element: lazy(() => import("@pages/Main")),
@@ -36,10 +36,10 @@ const routes = [
     element: lazy(() => import("@pages/Main")),
   },
   {
-    isPublic: false,
+    isPublic: true,
     exact: true,
     path: MESSAGES_ROUTE,
-    element: lazy(() => import("@pages/Main")),
+    element: lazy(() => import("@pages/Messages")),
   },
   {
     isPublic: false,
