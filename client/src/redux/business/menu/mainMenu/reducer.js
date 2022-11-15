@@ -8,7 +8,7 @@ import {
 } from "../../../../utils/constants";
 
 const textTheme = '#000000';
-const theme = deepOrange[500];
+const colorTheme = deepOrange[500];
 
 const INIT = {
     mainMenuStyle: {
@@ -62,14 +62,15 @@ const INIT = {
         }
     },
     buttonStyles: {
-        backgroundColor: theme,
+        backgroundColor: colorTheme,
         borderRadius: 30,
         marginTop: "15px",
         color: "white",
         padding: "10px",
-        width: "100%",
+        width: "170px",
+        maxWidth: "100%",
         "&:hover": {
-            backgroundColor: theme
+            backgroundColor: colorTheme
         }
     },
     dropdownData: {
@@ -96,7 +97,7 @@ const INIT = {
         {
             iconName: "ExploreOutlined",
             iconActive: "Explore",
-            text: 'Explorer',
+            text: 'Explore',
             color: textTheme,
             href: EXPLORE_ROUTE
         },
@@ -133,8 +134,14 @@ const INIT = {
             iconActive: "Person",
             text: 'Profile',
             color: textTheme,
-            href: '/#/user_name' // ?
+            href: '/userprofile'
         },
+        {
+            iconName: "DisplaySettingsOutlined",
+            iconActive: "DisplaySettingsOutlined",
+            text: "Display",
+            color: textTheme,
+        }
     ],
     mediaNavItems: [
         {
@@ -156,14 +163,9 @@ const INIT = {
             iconActive: "Person",
             text: 'Profile',
             color: textTheme,
-            href: '/#/user_name' // ?
+            href: '/userprofile'
         }
     ],
-    more: {
-        iconName: "MoreHoriz",
-        text: 'More',
-        children: []
-    },
     textStyle: {
         active: {
             '& > span': {
@@ -173,7 +175,7 @@ const INIT = {
         marginLeft: "10px",
         color: textTheme
     },
-    themeColor: theme,
+    themeColor: colorTheme,
 };
 
 export default (state = INIT) => state;
