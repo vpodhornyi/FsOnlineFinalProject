@@ -1,5 +1,5 @@
 server:
-  port: ${port}
+  port: port_number
   error:
     include-message: always
     include-binding-errors: always
@@ -7,7 +7,7 @@ server:
     include-exception: false
 spring:
   profiles:
-    active: ${profile}
+    active: dev
   h2:
     console:
       enabled: true
@@ -30,8 +30,8 @@ spring:
       mode: always
       data-locations: classpath:data-ps.sql
   datasource:
-    url: jdbc:h2:mem:${h2.dbName}
-    username: ${h2.user}
+    url: jdbc:h2:mem:testdb
+    username: sa
     password:
     driver-class-name: org.h2.Driver
   jpa:
@@ -61,9 +61,9 @@ spring:
 #      data-locations: classpath:data-ps.sql
   #      schema-locations: classpath:schema-h2.sql
   datasource:
-    url: jdbc:postgresql://localhost:${postgres.port}/${postgres.dbName}
-    username: ${postgres.user}
-    password: ${postgres.password}
+    url: jdbc:postgresql://localhost:5432/db_name
+    username:
+    password:
     driver_class_name: org.postgresql.Driver
   jpa:
     database: postgresql
@@ -76,3 +76,27 @@ spring:
     show_sql: false
     hibernate:
       ddl_auto: update
+
+api:
+  version: /api/v0
+
+#jwt auth config
+jwt:
+  secret:
+    access: ZddN3xkiGziZvyJMNwRYidT+pumQe7PCZr7TSK7MxPBKRuYa9hwFJfXTDJPhsraqVvDfhWiJMjXJS1VWRuE8hA==
+    refresh: 65tu9kn6htFNbc8C9PZ2NIwyx9JB3H699FxbAswDFOyZTvMrHisSM8wf47zOkYGlVL3mPwIpq4iQjBq74PZOyg==
+  access:
+    leave:
+      minutes: 1
+  refresh:
+    leave:
+      days: 30
+  authorization:
+    user:
+      field: userTag
+
+#Cloudinary configuration
+cloudinary:
+  cloud_name: dz8sgyn3r
+  api_key: 643955683374753
+  api_secret: y3mO_uMCz6NRRvcSyl6KxGv-RpE
