@@ -1,6 +1,7 @@
 import {createActions} from '../utils'
 import api, {URLS} from "@service/API"
 import {catchError, getTokens, setAuthToken, setRefreshToken} from "../../utils";
+//! Реалізувати методи, які підкреслюються сірим
 
 const actions = createActions(
     {
