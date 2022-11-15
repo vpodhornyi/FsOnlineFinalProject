@@ -7,7 +7,7 @@ server:
     include-exception: false
 spring:
   profiles:
-    active: dev
+    active: ${profile}
   h2:
     console:
       enabled: true

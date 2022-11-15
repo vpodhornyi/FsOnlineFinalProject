@@ -6,6 +6,7 @@ import com.twitterdan.utils.auth.JwtUtils;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -25,6 +26,8 @@ public class JwtFilter extends GenericFilterBean {
 
   private static final String AUTHORIZATION = "Authorization";
 
+  @Value("${jwt.authorization.user.field}")
+  private String userLoginField;
   private final JwtProvider jwtProvider;
 
   @Override
@@ -35,7 +38,7 @@ public class JwtFilter extends GenericFilterBean {
 
     if (token != null && jwtProvider.validateAccessToken(token)) {
       final Claims claims = jwtProvider.getAccessClaims(token);
-      final JwtAuthentication jwtInfoToken = JwtUtils.generate(claims);
+      final JwtAuthentication jwtInfoToken = JwtUtils.generate(claims, userLoginField);
       jwtInfoToken.setAuthenticated(true);
       log.info(token);
       log.info(jwtInfoToken.toString());

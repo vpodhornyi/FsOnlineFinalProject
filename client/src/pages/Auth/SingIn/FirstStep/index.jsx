@@ -10,11 +10,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 import LogoIcon from '@components/icons/LogoIcon';
 import {openDialog, closeDialog} from "@redux/dialog/action";
-import {isAccountExist} from "@redux/auth/action";
+import {runSecondLoginStep} from "@redux/auth/action";
 import {getLoginName} from "@redux/auth/selector";
 import OrLine from '../../components/OrLine';
 import CustomButton from '@components/CustomButton';
-import SingInSecondStep from '../SecondStep';
 import ForgotPassword from '../ForgotPassword';
 
 const MAIN_COLOR = '#1D9BF0';
@@ -115,7 +114,7 @@ const SingInFirstStep = () => {
               <CustomButton
                 customStyle={CUSTOM_BUTTON_NEXT_STYLE}
                 name={CUSTOM_BUTTON_NEXT_NAME}
-                onclickAction={() => isAccountExist(login)}
+                onclickAction={() => runSecondLoginStep(login)}
               />
             </Grid>
             <Grid item sx={{padding: '10px 0 30px 0'}}>
