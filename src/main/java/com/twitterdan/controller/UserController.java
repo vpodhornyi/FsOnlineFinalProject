@@ -1,29 +1,37 @@
 package com.twitterdan.controller;
 
 import com.twitterdan.domain.user.User;
+import com.twitterdan.dto.user.UserResponse;
+import com.twitterdan.facade.user.UserRequestMapper;
+import com.twitterdan.facade.user.UserResponseMapper;
 import com.twitterdan.service.UserService;
-import com.twitterdan.service.auth.JwtAuthService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
+@RequestMapping("/user")
 @RequiredArgsConstructor
-@RequestMapping("${api.version}/user")
-@Validated
 public class UserController {
-
   private final UserService userService;
-  private final JwtAuthService jwtAuthService;
+  private final UserRequestMapper userRequestMapper;
+  private final UserResponseMapper userResponseMapper;
 
-  @GetMapping
-  public ResponseEntity<Object> getUser() {
-    String userTag = (String) jwtAuthService.getAuthInfo().getPrincipal();
-    User user = userService.getByUserTag(userTag);
-
-    return ResponseEntity.ok(user);
+  @GetMapping("/all")
+  public List<UserResponse> getAll() {
+    List<User> users = userService.getAll();
+    return users.stream().map(userResponseMapper::convertToDto).collect(Collectors.toList());
   }
+
+  @GetMapping("/{userId}")
+  public UserResponse getById(@PathVariable Long userId) {
+    User user = userService.findById(userId);
+    return userResponseMapper.convertToDto(user);
+  }
+
 }

@@ -1,75 +1,42 @@
 package com.twitterdan.service;
 
-import com.twitterdan.dao.UserJpaDao;
+import com.twitterdan.dao.UserRepository;
 import com.twitterdan.domain.user.User;
-import com.twitterdan.exception.CouldNotFindAccountException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
-public class UserService implements BaseService<User> {
+public class UserService {
 
-  private final UserJpaDao userJpaDao;
+  @Autowired
+  private UserRepository userRepository;
 
-  @Override
-  public List<User> findAll() {
-    return null;
-  }
-
-  @Override
-  public List<User> getAllPageable(int size, int pageNumber) {
-    return null;
-  }
-
-  @Override
-  public User getById(Long userId) {
-    Optional<User> optionalUser = userJpaDao.findById(userId);
-
-    if (optionalUser.isPresent()) {
-      return optionalUser.get();
+  public User createNewUser(User user) throws Exception {
+    if (userRepository.findByEmail(user.getEmail()) != null) {
+      throw new Exception("User already exists!");
+    } else {
+      return userRepository.save(user);
     }
-
-    throw new CouldNotFindAccountException();
   }
 
-  public User getByEmail(String email) {
-    Optional<User> optionalUser = userJpaDao.findByEmail(email);
-
-    if (optionalUser.isPresent()) {
-      return optionalUser.get();
-    }
-
-    throw new CouldNotFindAccountException();
+  public List<User> getAll() {
+    return userRepository.findAll();
   }
 
-  public User getByUserTag(String userTag) {
-    Optional<User> optionalUser = userJpaDao.findByUserTag(userTag);
-
-    if (optionalUser.isPresent()) {
-      return optionalUser.get();
-    }
-
-    throw new CouldNotFindAccountException();
+  public User updateUser(User user) {
+    return userRepository.save(user);
   }
 
-  @Override
-  public void update(User obj) {
-
+  public User findById(Long id) {
+    return userRepository.findById(id).orElse(new User());
   }
 
-  @Override
-  public void create(User obj) {
-    userJpaDao.save(obj);
-  }
-
-  @Override
-  public void delete(Integer id) {
-
+  public Boolean deleteUserById(Long id) {
+    userRepository.deleteById(id);
+    return true;
   }
 }
