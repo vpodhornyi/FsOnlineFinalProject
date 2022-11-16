@@ -14,7 +14,7 @@ import Auth from "../pages/Auth";
 import Lists from "../pages/Lists/Lists";
 import Explore from "../pages/Explore/Explore";
 import Notifications from "../pages/Notifications/Notifications";
-import Messages from "../pages/Messages/Messages";
+import Messages from "../pages/Messages";
 import Bookmarks from "../pages/Bookmarks/Bookmarks";
 const routes = [
   {
