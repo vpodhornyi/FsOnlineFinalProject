@@ -16,6 +16,7 @@
     "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.10.9",
+    "@mui/system": "^5.10.12",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
@@ -40,6 +41,7 @@
     "redux-thunk": "^2.4.1",
     "stylelint-config-standard": "^29.0.0",
     "thunk": "^0.0.1",
+    "tss-react": "^4.4.2",
     "web-vitals": "^3.0.3"
   },
   "scripts": {
