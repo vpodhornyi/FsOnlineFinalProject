@@ -10,10 +10,27 @@ const INIT_STATE = {
   user: {
     isBlocked: false,
     isAdmin: false,
-    accounts: [],
-    _id: "",
-    email: "",
-    fullName: "",
+    id: 1,
+    name: "Bob",
+    userTag: "bob1234",
+    email: "abc@gmail.com",
+    password: "1111",
+    birthDate: null,
+    bio: null,
+    location: null,
+    avatarImgUrl: "http://res.cloudinary.com/dz8sgyn3r/image/upload/v1668538981/bof2vd1yymddc4tc2nrv.jpg",
+    headerImgUrl: "http://res.cloudinary.com/dz8sgyn3r/image/upload/v1668538979/rgamxtlantrufkow7f90.jpg",
+    followers: [
+      2,
+      4
+    ],
+    followings: [
+      2,
+      4
+    ],
+    tweets: [
+      1
+    ]
   },
 }
 

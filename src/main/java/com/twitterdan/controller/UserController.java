@@ -15,6 +15,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@CrossOrigin("*")
 @RestController
 @AllArgsConstructor
 @RequestMapping("/users")
@@ -30,11 +31,19 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/{id}")
-    public UserResponseDto findById(
-            @PathVariable(name = "id") Long id
+//    @GetMapping("/{id}")
+//    public UserResponseDto findById(
+//            @PathVariable(name = "id") Long id
+//    ) {
+//        User user = userService.findById(id);
+//        return userResponseMapper.convertToDto(user);
+//    }
+
+    @GetMapping("/{userTag}")
+    public UserResponseDto findByUserTag (
+            @PathVariable(name = "userTag") String userTag
     ) {
-        User user = userService.findById(id);
+        User user = userService.findByUserTag(userTag);
         return userResponseMapper.convertToDto(user);
     }
 
@@ -49,6 +58,6 @@ public class UserController {
 
     @ExceptionHandler({Exception.class, MethodArgumentNotValidException.class})
     public ResponseEntity<Object> handleException(Exception ex) {
-        return new ResponseEntity<>(ex.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(ex.getCause(), HttpStatus.BAD_REQUEST);
     }
 }

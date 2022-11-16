@@ -1,7 +1,7 @@
 import React, {useRef, useState} from 'react';
 
 import {closeDialog} from "../../../redux/dialog/action";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import Box from "@mui/material/Box";
 import CloseIcon from "@mui/icons-material/Close";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -16,6 +16,8 @@ import LinkedCameraOutlinedIcon from '@mui/icons-material/LinkedCameraOutlined';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+import axios from "axios";
+import {getPersonalData} from "../../../redux/auth/selector";
 
 const EditForm = () => {
     const dispatch = useDispatch();
@@ -24,6 +26,7 @@ const EditForm = () => {
     const iconFileUpload = useRef(null);
     const handleBackgroundClick = e => backgroundFileUpload.current.click();
     const handleIconClick = e => iconFileUpload.current.click();
+    const authUser = useSelector(getPersonalData);
 
     const [name, setName] = useState("");
     const [bio, setBio] = useState("");
@@ -36,24 +39,39 @@ const EditForm = () => {
     const [day, setDay] = useState(0);
     const [year, setYear] = useState(0);
 
-
     const handleMonthChange = e => setMonth(e.target.value);
     const handleDayChange = e => setDay(+e.target.value);
     const handleYearChange = e => setYear(+e.target.value);
     const handleNameChange = e => setName(e.target.value);
     const handleBioChange = e => setBio(e.target.value);
     const handleLocationChange = e => setLocation(e.target.value);
-    const handleSaveClick = e => console.log({
-        backgroundPreview: backgroundPreviewUrl,
-        name,
-        bio,
-        location,
-        backgroundPreviewUrl,
-        iconUrl,
-        day,
-        month,
-        year
-    });
+
+    const handleSaveClick = async () => {
+        if (backgroundFile instanceof Object) {
+            const formData = new FormData();
+            formData.append("upload", backgroundFile);
+            formData.append("userId", String(authUser.id));
+            formData.append("uploadType", "UPDATE_PROFILE_HEADER");
+            await axios.post(`${process.env.REACT_APP_DEV_API_URL}cloud/image`, formData);
+        }
+
+        if (iconFile instanceof Object) {
+            const formData = new FormData();
+            formData.append("upload", iconFile);
+            formData.append("userId", String(authUser.id));
+            formData.append("uploadType", "UPDATE_PROFILE_AVATAR");
+            await axios.post(`${process.env.REACT_APP_DEV_API_URL}cloud/image`, formData);
+        }
+
+        await axios.put(`${process.env.REACT_APP_DEV_API_URL}users/${authUser?.id}`, {
+            name,
+            bio,
+            location,
+            birth: `${day}.${month}.${year}`,
+        });
+
+        dispatch(closeDialog());
+    }
 
     const handleRemoveBackground = e => {
         setBackgroundPreviewUrl("");

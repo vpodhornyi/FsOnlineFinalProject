@@ -26,6 +26,7 @@ import {useNavigate} from "react-router-dom";
 import TweetButton from "./components/TweetButton";
 import Dropdown from "../Dropdown/Dropdown";
 import {StyledTypography} from "../StyledComponents/styledComponents";
+import {getPersonalData} from "../../redux/auth/selector";
 
 export default function SidebarMedia() {
     const navigate = useNavigate();
@@ -33,6 +34,8 @@ export default function SidebarMedia() {
     const [state, setState] = useState({
         left: false,
     });
+
+    const user = useSelector(getPersonalData)
 
     const [value, setValue] = useState(HOME_ROUTE);
 
@@ -71,14 +74,14 @@ export default function SidebarMedia() {
                                 <CloseIcon onClick={toggleDrawer("left", false)}/>
                             </div>
                             <div className="sidebar__info">
-                                <Avatar sx={{bgcolor: themeColor}}>N</Avatar>
+                                <Avatar src={user?.avatarImgUrl} sx={{bgcolor: themeColor}}>N</Avatar>
                                 <p className="sidebar__info-add">
                                     +
                                 </p>
                             </div>
                             <Box sx={{margin: "-10px 0 20px 0"}}>
-                                <Typography>username</Typography>
-                                <Typography sx={{color: "gray"}}>@username</Typography>
+                                <Typography>{user?.name}</Typography>
+                                <Typography sx={{color: "gray"}}>@{user?.userTag}</Typography>
                             </Box>
 
                             <Box sx={{"& ": {
@@ -89,8 +92,8 @@ export default function SidebarMedia() {
                                     color: "gray",
                                     margin: "0 12px 0 0"
                                 }}}>
-                                <StyledTypography><strong style={{color: "black"}}>10</strong> Followers</StyledTypography>
-                                <StyledTypography sx={{marginLeft: "10px"}}><strong style={{color: "black"}}>10</strong> Followings</StyledTypography>
+                                <StyledTypography><strong style={{color: "black"}}>{user?.followers.length}</strong> Followers</StyledTypography>
+                                <StyledTypography sx={{marginLeft: "10px"}}><strong style={{color: "black"}}>{user?.followings.length}</strong> Followings</StyledTypography>
                             </Box>
 
                             <StyledMenuList

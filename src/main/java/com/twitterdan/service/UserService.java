@@ -25,9 +25,14 @@ public class UserService {
         return userDao.findAll();
     }
 
+//    @Transactional(readOnly = true)
+//    public User findById(Long id) {
+//        return userDao.findById(id).get();
+//    }
+
     @Transactional(readOnly = true)
-    public User findById(Long id) {
-        return userDao.findById(id).get();
+    public User findByUserTag(String userTag) {
+        return userDao.findByUserTag(userTag);
     }
 
     public boolean updateUserProfile(Long id, UserProfileUpdateRequestDto dto) {
@@ -36,28 +41,20 @@ public class UserService {
         String dtoName = dto.getName();
         String dtoBio = dto.getBio();
         String dtoLocation = dto.getLocation();
-        String dtoBackground = dto.getHeaderImgUrl();
-        String dtoAvatar = dto.getAvatarImgUrl();
         String dtoBirth = dto.getBirth();
 
         if (user.isPresent()) {
-            if (dtoName != null) {
+            if (dtoName != null && dtoName.length() > 0) {
                 user.get().setName(dtoName);
             }
-            if (dtoBio != null) {
+            if (dtoBio != null && dtoBio.length() > 0) {
                 user.get().setBio(dtoBio);
             }
-            if (dtoLocation != null) {
+            if (dtoLocation != null && dtoLocation.length() > 0) {
                 user.get().setLocation(dtoLocation);
             }
-            if (dtoBackground != null) {
-                user.get().setHeaderImgUrl(dtoBackground);
-            }
-            if (dtoAvatar != null) {
-                user.get().setAvatarImgUrl(dtoAvatar);
-            }
 
-            if (dtoBirth != null) {
+            if (dtoBirth != null && dtoBirth.length() > 4) {
                 try {
                     DateFormat format = new SimpleDateFormat("d.MM.yyyy");
                     Date date = format.parse(dtoBirth);
@@ -68,6 +65,30 @@ public class UserService {
 
             }
 
+            userDao.save(user.get());
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean updateUserHeader (Long id, String headerImgUrl) {
+        Optional<User> user = userDao.findById(id);
+
+        if (user.isPresent()) {
+            user.get().setHeaderImgUrl(headerImgUrl);
+            userDao.save(user.get());
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean updateUserAvatar (Long id, String avatarImgUrl) {
+        Optional<User> user = userDao.findById(id);
+
+        if (user.isPresent()) {
+            user.get().setAvatarImgUrl(avatarImgUrl);
             userDao.save(user.get());
             return true;
         }

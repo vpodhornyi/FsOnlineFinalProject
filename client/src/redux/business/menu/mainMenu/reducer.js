@@ -134,7 +134,7 @@ const INIT = {
             iconActive: "Person",
             text: 'Profile',
             color: textTheme,
-            href: '/userprofile'
+            href: '/bob1234'
         },
         {
             iconName: "DisplaySettingsOutlined",
@@ -163,7 +163,7 @@ const INIT = {
             iconActive: "Person",
             text: 'Profile',
             color: textTheme,
-            href: '/userprofile'
+            href: '/bob1234'
         }
     ],
     textStyle: {
