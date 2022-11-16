@@ -22,7 +22,6 @@ import javax.persistence.JoinColumn;
 public class Tweet extends BaseEntity {
 
   @Enumerated(EnumType.STRING)
-  @Column(length = 20)
   private TweetType tweetType;
 
   private String body;

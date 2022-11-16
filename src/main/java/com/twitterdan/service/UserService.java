@@ -39,4 +39,12 @@ public class UserService {
     userRepository.deleteById(id);
     return true;
   }
+
+  public User getByUserTag(String userTag) {
+    return userRepository.findByUserTag(userTag);
+  }
+
+  public User getByEmail(String email) {
+    return userRepository.findByUserTag(email);
+  }
 }
