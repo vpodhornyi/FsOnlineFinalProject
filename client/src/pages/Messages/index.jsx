@@ -16,7 +16,7 @@ const Home = () => {
 
 const styles = ({theme}) => ({
   display: 'flex',
-  height: '100%',
+  height: '100vh',
   width: '100%',
 
   [theme.breakpoints.up('md')]: {
