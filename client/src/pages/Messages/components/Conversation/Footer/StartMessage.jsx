@@ -12,7 +12,7 @@ const StartMessage = () => {
   const dispatch = useDispatch();
 
   const onChange = (e) => {
-    setText(e.target.value);
+    setText(() => e.target.value);
   }
 
   const buttonClickSend = () => {
