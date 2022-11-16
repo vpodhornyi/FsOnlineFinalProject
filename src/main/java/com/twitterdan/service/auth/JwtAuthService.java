@@ -8,6 +8,7 @@ import com.twitterdan.domain.auth.JwtRequest;
 import com.twitterdan.domain.auth.RefreshJwtStore;
 import com.twitterdan.domain.auth.JwtAuthentication;
 import com.twitterdan.domain.user.User;
+import com.twitterdan.exception.CouldNotFindAccountException;
 import com.twitterdan.exception.WrongPasswordException;
 import com.twitterdan.service.UserService;
 import io.jsonwebtoken.Claims;
@@ -30,27 +31,39 @@ public class JwtAuthService implements AuthService {
 
   @Override
   public AccountCheckResponse account(@NonNull AccountCheckRequest req) {
-    try {
-      userService.getByUserTag(req.getLogin());
-    } catch (Exception e) {
-      userService.getByEmail(req.getLogin());
+    User user = userService.getByUserTag(req.getLogin());
+
+    if (user == null) {
+      throw new CouldNotFindAccountException();
     }
+
+    user = userService.getByEmail(req.getLogin());
+
+    if (user == null) {
+      throw new CouldNotFindAccountException();
+    }
+
     return new AccountCheckResponse(req.getLogin());
   }
 
   @Override
   public JwtResponse login(@NonNull JwtRequest req) {
-    User user;
+    User user = userService.getByUserTag(req.getLogin());
 
-    try {
-      user = userService.getByUserTag(req.getLogin());
-    } catch (Exception e) {
-      user = userService.getByEmail(req.getLogin());
+    if (user == null) {
+      throw new CouldNotFindAccountException();
+    }
+
+    user = userService.getByEmail(req.getLogin());
+
+    if (user == null) {
+      throw new CouldNotFindAccountException();
     }
 
     if (user.getPassword().equals(req.getPassword())) {
       return getJwtResponse(user);
     }
+
     throw new WrongPasswordException();
   }
 

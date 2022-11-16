@@ -1,5 +1,6 @@
 package com.twitterdan.service;
 
+import com.twitterdan.dao.UserJpaDao;
 import com.twitterdan.dao.UserRepository;
 import com.twitterdan.domain.user.User;
 import lombok.RequiredArgsConstructor;
@@ -38,5 +39,13 @@ public class UserService {
   public Boolean deleteUserById(Long id) {
     userRepository.deleteById(id);
     return true;
+  }
+
+  public User getByUserTag(String userTag) {
+    return userRepository.findByUserTag(userTag);
+  }
+
+  public User getByEmail(String email) {
+    return userRepository.findByUserTag(email);
   }
 }
