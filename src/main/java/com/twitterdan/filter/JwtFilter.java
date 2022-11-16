@@ -25,7 +25,6 @@ import java.io.IOException;
 public class JwtFilter extends GenericFilterBean {
 
   private static final String AUTHORIZATION = "Authorization";
-
   @Value("${jwt.authorization.user.field}")
   private String userLoginField;
   private final JwtProvider jwtProvider;

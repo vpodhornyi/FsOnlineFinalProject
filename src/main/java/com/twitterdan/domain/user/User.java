@@ -17,7 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.Column;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Set;
 
 
@@ -38,7 +38,7 @@ public class User extends BaseEntity {
 
   @Column(nullable = false)
   private String password;
-  private Date birthDate;
+  private LocalDate birthDate;
   private String bio;
   private String location;
   private String avatarImgUrl;

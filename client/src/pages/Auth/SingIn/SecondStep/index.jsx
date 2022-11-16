@@ -32,7 +32,7 @@ const SingInSecondStep = () => {
   const loginName = useSelector(getLoginName);
 
   const onChange = e => {
-    setPassword(e.target.value);
+    setPassword(() => e.target.value);
   }
 
   return (

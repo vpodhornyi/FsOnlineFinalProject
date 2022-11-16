@@ -55,7 +55,7 @@ const SingInFirstStep = () => {
   const dispatch = useDispatch();
 
   const onChange = (e) => {
-    setLogin(e.target.value);
+    setLogin(() => e.target.value);
   }
 
   return (
