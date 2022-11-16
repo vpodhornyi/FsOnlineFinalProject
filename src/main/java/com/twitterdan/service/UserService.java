@@ -1,6 +1,5 @@
 package com.twitterdan.service;
 
-import com.twitterdan.dao.UserJpaDao;
 import com.twitterdan.dao.UserRepository;
 import com.twitterdan.domain.user.User;
 import lombok.RequiredArgsConstructor;
