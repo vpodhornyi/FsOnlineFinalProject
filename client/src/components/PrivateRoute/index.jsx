@@ -2,14 +2,19 @@ import React from "react";
 import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
+import {AUTH_ROUTE, HOME_ROUTE} from "@utils/constants";
 
-const PrivateRoute = ({ route }) => {
-  const { authorized } = useSelector((state) => state.auth);
-  const { isPublic, element: Element } = route;
 
-  if (isPublic) return <Element />;
+const PrivateRoute = ({route}) => {
+  const {authorized} = useSelector((state) => state.auth);
+  const {isPublic, isLogin, element: Element} = route;
 
-  return authorized ? <Element /> : <Navigate to="/" />;
+  if (authorized && isLogin) return <Navigate to={HOME_ROUTE}/>;
+  
+  if (isPublic) return <Element/>;
+
+  return authorized ? <Element/> : <Navigate to={AUTH_ROUTE}/>
+
 };
 
 PrivateRoute.propTypes = {

@@ -8,61 +8,69 @@ import {
   MESSAGES_ROUTE,
   NOTIFICATIONS_ROUTE
 } from "../utils/constants";
-
+import UserProfile from "../pages/UserProfile/UserProfile";
+import Main from "../pages/Main";
+import Auth from "../pages/Auth";
+import Lists from "../pages/Lists/Lists";
+import Explore from "../pages/Explore/Explore";
+import Notifications from "../pages/Notifications/Notifications";
+import Messages from "../pages/Messages";
+import Bookmarks from "../pages/Bookmarks/Bookmarks";
 const routes = [
   {
     isPublic: true,
+    isLogin: true,
     exact: true,
     path: AUTH_ROUTE,
-    element: lazy(() => import("@pages/Auth")),
+    element: Auth,
   },
   {
     isPublic: false,
     exact: true,
     path: HOME_ROUTE,
-    element: lazy(() => import("@pages/Main")),
+    element: Main,
   },
   {
     isPublic: false,
     exact: true,
     path: EXPLORE_ROUTE,
-    element: lazy(() => import("@pages/Main")),
+    element: Explore,
   },
   {
     isPublic: false,
     exact: true,
     path: NOTIFICATIONS_ROUTE,
-    element: lazy(() => import("@pages/Main")),
+    element: Notifications,
   },
   {
     isPublic: false,
     exact: true,
     path: MESSAGES_ROUTE,
-    element: lazy(() => import("@pages/Main")),
+    element: Messages,
   },
   {
     isPublic: false,
     exact: true,
     path: BOOKMARKS_ROUTE,
-    element: lazy(() => import("@pages/Main")),
+    element: Bookmarks,
   },
   {
     isPublic: false,
     exact: true,
     path: LISTS_ROUTE,
-    element: lazy(() => import("@pages/Main")),
+    element: Lists
   },
   {
     isPublic: false,
     exact: true,
-    path: "/user_name",
-    element: lazy(() => import("@pages/Main")),
+    path: "/:username",
+    element: UserProfile,
   },
   {
     isPublic: false,
     exact: true,
     path: LOGOUT_ROUTE,
-    element: lazy(() => import("@pages/Main")),
+    element: Auth,
   },
 ];
 
