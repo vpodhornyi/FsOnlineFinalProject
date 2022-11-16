@@ -1,5 +1,0 @@
-/*этот класс-костыль, который я не смог подключить в строку 41 ( bulletClass: `swiper-pagination-bullet ${styles['swiper-pagination-bullet']}` ) в локальном компоненте SwiperUserPic.js -файл стилей SwiperUserPic.module.css */
-.swiper-pagination-bullet-active {
-    color: #fff;
-    background: #007aff;
-}

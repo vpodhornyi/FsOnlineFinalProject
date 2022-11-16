@@ -1,7 +1,0 @@
-{
-  "privateMessages": "/queue/dating/",
-  "uncheckedMessages": "/queue/dating/number.of.unchecked.messages/",
-  "thisPersonLikedYou": "/queue/dating/person.Liked.you/",
-  "youHaveTotalLikes": "/queue/dating/total.likes/",
-  "generalNotifications": "/topic/dating.announcements"
-}

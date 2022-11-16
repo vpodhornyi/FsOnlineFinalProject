@@ -1,6 +1,0 @@
-https://favicon.io/favicon-converter/
-
-
-https://stackoverflow.com/questions/61836949/why-is-my-favicon-not-working-in-my-next-js-app
-
-https://www.codegrepper.com/code-examples/javascript/add+favicon+in+nextjs

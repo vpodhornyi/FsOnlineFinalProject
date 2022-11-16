@@ -1,0 +1,2 @@
+<!-- нужно для подключения конвертера, но сейчас конвертер ZonedDateTimeConverter не используется:-->
+<class>com.hub.accommodation.util.zonedDateTime_Converters.ZonedDateTimeConverter</class>
