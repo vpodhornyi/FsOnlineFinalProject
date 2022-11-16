@@ -23,7 +23,6 @@ import javax.persistence.JoinColumn;
 public class Notification extends BaseEntity {
 
   @Enumerated(EnumType.STRING)
-  @Column(length = 20)
   private NotificationType notificationType;
 
   @ManyToOne
