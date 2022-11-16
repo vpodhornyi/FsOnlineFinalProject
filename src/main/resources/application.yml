@@ -1,0 +1,103 @@
+server:
+  port: 4000
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-stacktrace: never
+    include-exception: false
+spring:
+  profiles:
+    active: dev
+  h2:
+    console:
+      enabled: true
+      settings:
+        trace: false
+logging:
+  level:
+    root:
+    com:
+    org:
+#    file: logs.log
+
+api:
+  version: /api/v0
+
+#jwt auth config
+jwt:
+  secret:
+    access: ZddN3xkiGziZvyJMNwRYidT+pumQe7PCZr7TSK7MxPBKRuYa9hwFJfXTDJPhsraqVvDfhWiJMjXJS1VWRuE8hA==
+    refresh: 65tu9kn6htFNbc8C9PZ2NIwyx9JB3H699FxbAswDFOyZTvMrHisSM8wf47zOkYGlVL3mPwIpq4iQjBq74PZOyg==
+  access:
+    leave:
+      minutes: 1
+  refresh:
+    leave:
+      days: 30
+  authorization:
+    user:
+      field: userTag
+
+#Cloudinary configuration
+cloudinary:
+  cloud_name: dz8sgyn3r
+  api_key: 643955683374753
+  api_secret: y3mO_uMCz6NRRvcSyl6KxGv-RpE
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+    import: optional:secrets.properties[.properties]
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:data-ps.sql
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        #        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+      generate_statistics: false
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+#jwt:
+#  expiration: time mls
+#  expirationRefresh: time mls
+#  expirationPasswordRefresh: time mls
+#  expirationPasswordReset: time mls
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  sql:
+    init:
+      mode: always
+#      data-locations: classpath:data-ps.sql
+  #      schema-locations: classpath:schema-h2.sql
+  datasource:
+    url: jdbc:postgresql://localhost:5432/twitter
+    username: postgres
+    password: root
+    driver_class_name: org.postgresql.Driver
+  jpa:
+    database: postgresql
+    defer_datasource_initialization: true # true оставить ТОЛЬКО для самого первого запуска, когда в пустую БД заливаем данные! далее сделать false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        generate_ddl: true
+      generate_statistics: false
+    show_sql: false
+    hibernate:
+      ddl_auto: update
