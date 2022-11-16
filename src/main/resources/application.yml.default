@@ -19,6 +19,31 @@ logging:
     com:
     org:
 #    file: logs.log
+
+api:
+  version: /api/v0
+
+#jwt auth config
+jwt:
+  secret:
+    access: ZddN3xkiGziZvyJMNwRYidT+pumQe7PCZr7TSK7MxPBKRuYa9hwFJfXTDJPhsraqVvDfhWiJMjXJS1VWRuE8hA==
+    refresh: 65tu9kn6htFNbc8C9PZ2NIwyx9JB3H699FxbAswDFOyZTvMrHisSM8wf47zOkYGlVL3mPwIpq4iQjBq74PZOyg==
+  access:
+    leave:
+      minutes: 1
+  refresh:
+    leave:
+      days: 30
+  authorization:
+    user:
+      field: userTag
+
+#Cloudinary configuration
+cloudinary:
+  cloud_name: dz8sgyn3r
+  api_key: 643955683374753
+  api_secret: y3mO_uMCz6NRRvcSyl6KxGv-RpE
+
 ---
 spring:
   config:
@@ -76,27 +101,3 @@ spring:
     show_sql: false
     hibernate:
       ddl_auto: update
-
-api:
-  version: /api/v0
-
-#jwt auth config
-jwt:
-  secret:
-    access: ZddN3xkiGziZvyJMNwRYidT+pumQe7PCZr7TSK7MxPBKRuYa9hwFJfXTDJPhsraqVvDfhWiJMjXJS1VWRuE8hA==
-    refresh: 65tu9kn6htFNbc8C9PZ2NIwyx9JB3H699FxbAswDFOyZTvMrHisSM8wf47zOkYGlVL3mPwIpq4iQjBq74PZOyg==
-  access:
-    leave:
-      minutes: 1
-  refresh:
-    leave:
-      days: 30
-  authorization:
-    user:
-      field: userTag
-
-#Cloudinary configuration
-cloudinary:
-  cloud_name: dz8sgyn3r
-  api_key: 643955683374753
-  api_secret: y3mO_uMCz6NRRvcSyl6KxGv-RpE

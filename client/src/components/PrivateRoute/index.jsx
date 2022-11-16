@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import {AUTH_ROUTE, HOME_ROUTE} from "@utils/constants";
 
 const PrivateRoute = ({route}) => {
-  const {authorized} = useSelector((state) => state.auth)
+  const {authorized} = useSelector((state) => state.auth);
   const {isPublic, isLogin, element: Element} = route;
 
   if (authorized && isLogin) return <Navigate to={HOME_ROUTE}/>;
