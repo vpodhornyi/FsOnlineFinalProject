@@ -14,8 +14,9 @@ import {
 import UserProfileData from "./components/UserProfileData";
 import {openDialog} from "../../redux/dialog/action";
 import EditForm from "./components/EditForm";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import axios from "axios";
+import {getPersonalData} from "../../redux/auth/selector";
 
 function a11yProps(index) {
     return {
@@ -29,15 +30,16 @@ const UserProfile = () => {
     const [tabVal, setTabVal] = useState(0)
     const [user, setUser] = useState(null);
     const dispatch = useDispatch();
+    const authUser =  useSelector(getPersonalData);
 
     async function fetchUser () {
-        const {data} = await axios.get(`${process.env.REACT_APP_DEV_API_URL}users/${username}`);
+        const {data} = await axios.get(`${process.env.REACT_APP_DEV_API_URL}users/?userTag=${username}`);
         setUser(data);
     }
 
     useEffect(  () => {
         fetchUser();
-    }, [username]);
+    }, [username, authUser]);
 
     const handleTabVal = (e, newVal) => setTabVal(newVal);
 
@@ -49,6 +51,7 @@ const UserProfile = () => {
             <CircularProgress disableShrink />
         </Container>
     }
+
 
     return (
         <Container sx={{width: "100%"}}>
@@ -63,35 +66,40 @@ const UserProfile = () => {
                     <Box sx={{position: "relative", top: "-8%", padding: "0 10px"}}>
                         <Box sx={{display: "flex", justifyContent: "space-between"}}>
                             <UserIcon src={user?.avatarImgUrl} width={120} height={120} iconLetter={user?.name[0].toUpperCase()}/>
-                            {/*<StyledDarkButton variant="contained">Follow</StyledDarkButton>*/}
-                            {/*<StyledLightButton*/}
-                            {/*    sx={{*/}
-                            {/*        "&:hover": {*/}
-                            {/*            borderColor: "rgb(253, 201, 206)",*/}
-                            {/*            color: "rgb(244, 33, 46)",*/}
-                            {/*            backgroundColor: "rgba(244, 33, 46, 0.1)",*/}
-                            {/*            transition: "0.5s",*/}
-                            {/*        }*/}
-                            {/*    }}*/}
-                            {/*    variant="contained"*/}
-                            {/*    onMouseEnter={handleOnMouseEnter}*/}
-                            {/*    onMouseLeave={handleOnMouseLeave}*/}
-                            {/*>Following*/}
-                            {/*</StyledLightButton>*/}
-                            <StyledLightButton sx={{
-                                "&:hover": {
-                                    backgroundColor: "rgba(15, 20, 25, 0.1)",
-                                }
-                            }}
-                                               onClick={() => {dispatch(openDialog(EditForm))}}
-                            >
-                                Edit
-                            </StyledLightButton>
+                            {
+                                authUser?.userTag === username ?
+                                    <StyledLightButton sx={
+                                        {"&:hover": {backgroundColor: "rgba(15, 20, 25, 0.1)"}}
+                                    } onClick={() => {dispatch(openDialog(EditForm))}}>
+                                        Edit
+                                    </StyledLightButton>
+                                    :
+                                    <>
+                                        {authUser?.followings.includes(user.id)
+                                            ?
+                                            <StyledLightButton
+                                                sx={{
+                                                    "&:hover": {
+                                                        borderColor: "rgb(253, 201, 206)",
+                                                        color: "rgb(244, 33, 46)",
+                                                        backgroundColor: "rgba(244, 33, 46, 0.1)",
+                                                        transition: "0.5s",
+                                                    }
+                                                }}
+                                                variant="contained"
+                                                onMouseEnter={handleOnMouseEnter}
+                                                onMouseLeave={handleOnMouseLeave}
+                                            >Following</StyledLightButton>
+                                            :
+                                            <StyledDarkButton variant="contained">Follow</StyledDarkButton>
+                                        }
+                                    </>
+                            }
                         </Box>
 
                         <UserProfileData
                             username={user?.name}
-                            profileName={user?.userTag}
+                            userTag={user?.userTag}
                             joinedDate={"July 20"}
                             location={user?.location}
                             bio={user?.bio}

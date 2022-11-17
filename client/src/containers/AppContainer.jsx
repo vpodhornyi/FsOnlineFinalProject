@@ -1,5 +1,5 @@
-import React, {Suspense, useMemo} from "react";
-import {useSelector} from "react-redux";
+import React, {Suspense, useEffect, useMemo} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import {Routes, Route, useLocation} from "react-router-dom";
 import {PageLoader, Preloader} from "@components/Loader";
 import PrivateRoute from "@components/PrivateRoute";
@@ -8,9 +8,13 @@ import routes from "../routes";
 import {AUTH_ROUTE, LOGOUT_ROUTE} from "../utils/constants";
 import Container from "@mui/material/Container";
 import Sidebar from "../components/Sidebar/Sidebar";
+import {getAuthUser} from "../redux/auth/action";
+import {getPersonalData} from "../redux/auth/selector";
 
 const AppContainer = () => {
     const {pathname} = useLocation();
+    const dispatch = useDispatch();
+    const authUser = useSelector(getPersonalData);
 
     const loading = useSelector((state) => state.auth.loading);
 
@@ -21,6 +25,10 @@ const AppContainer = () => {
         )),
         []
     );
+
+    useEffect(() => {
+        dispatch(getAuthUser(authUser?.id))
+    }, [])
 
     return (
         <>

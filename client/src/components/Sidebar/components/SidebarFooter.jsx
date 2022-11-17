@@ -25,7 +25,7 @@ const SidebarFooter = ({theme}) => {
     const id = open ? 'footer-popover' : undefined;
 
 
-    const user = useSelector(getPersonalData)
+    const authUser = useSelector(getPersonalData)
     const {footerStyles} = useSelector(getMainMenuState)
 
     const matches = useMediaQuery('(max-width:1280px)');
@@ -37,10 +37,10 @@ const SidebarFooter = ({theme}) => {
             <div onClick={handleClick}>
                 <StyledFooter>
                     <div className="sidebar__footer">
-                        <Avatar src={user?.avatarImgUrl} sx={{bgcolor: theme}}>N</Avatar>
+                        <Avatar src={authUser?.avatarImgUrl} sx={{bgcolor: theme}}>{authUser?.name[0].toUpperCase()}</Avatar>
                         <div className="footer__data">
-                            <Typography>{user?.name}</Typography>
-                            <Typography>@{user?.userTag}</Typography>
+                            <Typography>{authUser?.name}</Typography>
+                            <Typography>@{authUser?.userTag}</Typography>
                         </div>
                         <div className="footer__options">
                             <MoreHorizIcon/>

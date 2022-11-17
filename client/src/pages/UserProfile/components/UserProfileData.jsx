@@ -6,12 +6,12 @@ import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import {StyledTypography, userProfileSecondaryFontColor} from "../../../components/StyledComponents/styledComponents";
 import PropTypes from "prop-types";
 
-const UserProfileData = ({username, profileName, joinedDate, followers, followings, bio, location}) => {
+const UserProfileData = ({username, userTag, joinedDate, followers, followings, bio, location}) => {
     return (
         <>
             <Box sx={{margin: "15px 0 20px 0"}}>
                 <Typography sx={{fontSize: "18px"}}><strong>{username}</strong></Typography>
-                <Typography sx={{color: userProfileSecondaryFontColor, fontSize: "12px"}}>@{profileName}</Typography>
+                <Typography sx={{color: userProfileSecondaryFontColor, fontSize: "12px"}}>@{userTag}</Typography>
             </Box>
 
             <Box>
@@ -48,7 +48,7 @@ const UserProfileData = ({username, profileName, joinedDate, followers, followin
 
 UserProfileData.propTypes = {
     username: PropTypes.string,
-    profileName: PropTypes.string,
+    userTag: PropTypes.string,
     joinedDate: PropTypes.string,
     followers: PropTypes.number,
     followings: PropTypes.number,

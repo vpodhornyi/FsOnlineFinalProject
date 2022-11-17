@@ -31,17 +31,17 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
-//    @GetMapping("/{id}")
-//    public UserResponseDto findById(
-//            @PathVariable(name = "id") Long id
-//    ) {
-//        User user = userService.findById(id);
-//        return userResponseMapper.convertToDto(user);
-//    }
+    @GetMapping("/{id}")
+    public UserResponseDto findById(
+            @PathVariable(name = "id") Long id
+    ) {
+        User user = userService.findById(id);
+        return userResponseMapper.convertToDto(user);
+    }
 
-    @GetMapping("/{userTag}")
+    @GetMapping("/")
     public UserResponseDto findByUserTag (
-            @PathVariable(name = "userTag") String userTag
+            @RequestParam(name = "userTag") String userTag
     ) {
         User user = userService.findByUserTag(userTag);
         return userResponseMapper.convertToDto(user);

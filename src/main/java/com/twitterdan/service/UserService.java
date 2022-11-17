@@ -25,10 +25,10 @@ public class UserService {
         return userDao.findAll();
     }
 
-//    @Transactional(readOnly = true)
-//    public User findById(Long id) {
-//        return userDao.findById(id).get();
-//    }
+    @Transactional(readOnly = true)
+    public User findById(Long id) {
+        return userDao.findById(id).get();
+    }
 
     @Transactional(readOnly = true)
     public User findByUserTag(String userTag) {
@@ -42,6 +42,7 @@ public class UserService {
         String dtoBio = dto.getBio();
         String dtoLocation = dto.getLocation();
         String dtoBirth = dto.getBirth();
+        String dtoHeaderImgUrl = dto.getHeaderImgUrl();
 
         if (user.isPresent()) {
             if (dtoName != null && dtoName.length() > 0) {
@@ -65,6 +66,10 @@ public class UserService {
 
             }
 
+            if (dtoHeaderImgUrl != null && dtoHeaderImgUrl.length() == 0) {
+                user.get().setHeaderImgUrl("");
+            }
+
             userDao.save(user.get());
             return true;
         }
@@ -72,27 +77,23 @@ public class UserService {
         return false;
     }
 
-    public boolean updateUserHeader (Long id, String headerImgUrl) {
+    public void updateUserHeader (Long id, String headerImgUrl) {
         Optional<User> user = userDao.findById(id);
 
         if (user.isPresent()) {
             user.get().setHeaderImgUrl(headerImgUrl);
             userDao.save(user.get());
-            return true;
         }
 
-        return false;
     }
 
-    public boolean updateUserAvatar (Long id, String avatarImgUrl) {
+    public void updateUserAvatar (Long id, String avatarImgUrl) {
         Optional<User> user = userDao.findById(id);
 
         if (user.isPresent()) {
             user.get().setAvatarImgUrl(avatarImgUrl);
             userDao.save(user.get());
-            return true;
         }
 
-        return false;
     }
 }

@@ -62,7 +62,7 @@ public class ImageController {
     @PostMapping(value = "/image")
     public ResponseEntity<String> post(
             @RequestParam(value = "upload") MultipartFile uploadFile,
-            @RequestParam(value = "userId") String id,
+            @RequestParam(value = "entityId") String id,
             @RequestParam(value = "uploadType") UploadTypes uploadType) {
         Cloudinary cloud = new Cloudinary("cloudinary://" + apiKey + ":" + apiSecret + "@" + cloudName);
 

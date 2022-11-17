@@ -49,7 +49,7 @@ const DateOfBirth = (props) => {
                         onChange={setDay}
                     >
                         {days.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
+                            <MenuItem key={option.value} value={String(option.value)}>
                                 {option.label}
                             </MenuItem>
                         ))}
@@ -65,7 +65,7 @@ const DateOfBirth = (props) => {
                         onChange={setYear}
                     >
                         {years.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
+                            <MenuItem key={option.value} value={String(option.value)}>
                                 {option.label}
                             </MenuItem>
                         ))}
@@ -79,9 +79,9 @@ const DateOfBirth = (props) => {
 DateOfBirth.propTypes = {
     month: PropTypes.string,
     setMonth: PropTypes.func,
-    day: PropTypes.number,
+    day: PropTypes.string,
     setDay: PropTypes.func,
-    year: PropTypes.number,
+    year: PropTypes.string,
     setYear: PropTypes.func
 }
 
