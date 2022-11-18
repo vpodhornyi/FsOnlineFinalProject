@@ -6,9 +6,11 @@ import {
   RetweetIcon,
 } from "../../media/icons";
 export const TEST_TWEET = {
+  id: "1",
   name: "Volodimir",
   userTag: "@Volodimir454608907",
   avatarImgUrl: "https://via.placeholder.com/600/24f355",
+  tweetType: "TWEET",
   ourFollowers: "Paul Massaro",
   created_at: " . 8 hour",
   body: "German donated Panzerhaubitze 2000s rain fire from above on Russian forces around Bakhmut.",

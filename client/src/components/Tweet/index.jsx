@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   ImageList,
   Link,
@@ -26,6 +26,7 @@ import {
   UserName,
 } from "./style";
 import CustomImageList from "../CustomImageList";
+import { deleteTweet, getTweets } from "../../utils/tweetApi";
 const Tweet = ({ openReply = false, userInfo }) => {
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
@@ -34,7 +35,18 @@ const Tweet = ({ openReply = false, userInfo }) => {
   const handleClose = () => {
     setOpen(false);
   };
-  const { name, avatarImgUrl, userTag, body, created_at, images } = userInfo;
+  const { id, name, avatarImgUrl, userTag, body, created_at, images } =
+    userInfo;
+  useEffect(() => {
+    (async function getCustomers() {
+      try {
+        const tweets = await getTweets();
+        console.log(tweets);
+      } catch (e) {
+        console.log("Could not fetch expenses!");
+      }
+    })();
+  }, []);
   return (
     <>
       <TweetContainer>
@@ -71,8 +83,8 @@ const Tweet = ({ openReply = false, userInfo }) => {
           </Box>{" "}
           {!openReply && (
             <IconBlue>
-              <Tooltip title={"More"}>
-                <MoreIcon sx={{ padding: 1 }} />
+              <Tooltip title={"Delete"}>
+                <MoreIcon onClick={() => deleteTweet(id)} sx={{ padding: 1 }} />
               </Tooltip>{" "}
             </IconBlue>
           )}
