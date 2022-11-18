@@ -17,6 +17,7 @@ import EditForm from "./components/EditForm";
 import {useDispatch, useSelector} from "react-redux";
 import axios from "axios";
 import {getPersonalData} from "../../redux/auth/selector";
+import {getUserByUserTag} from "../../services/userApi";
 
 function a11yProps(index) {
     return {
@@ -33,8 +34,12 @@ const UserProfile = () => {
     const authUser =  useSelector(getPersonalData);
 
     async function fetchUser () {
-        const {data} = await axios.get(`${process.env.REACT_APP_DEV_API_URL}users/?userTag=${username}`);
-        setUser(data);
+        try {
+            const data = await getUserByUserTag(username);
+            setUser(data);
+        } catch (e) {
+            console.log("request error", e)
+        }
     }
 
     useEffect(  () => {
@@ -51,7 +56,6 @@ const UserProfile = () => {
             <CircularProgress disableShrink />
         </Container>
     }
-
 
     return (
         <Container sx={{width: "100%"}}>

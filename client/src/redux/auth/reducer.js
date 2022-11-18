@@ -4,9 +4,6 @@ import {
     GET_USER_REQUEST,
     GET_USER_SUCCESS,
     GET_USER_ERROR,
-    UPDATE_USER_REQUEST,
-    UPDATE_USER_SUCCESS,
-    UPDATE_USER_ERROR,
 } from "./action";
 
 const {accessToken} = getTokens();
@@ -54,12 +51,6 @@ export default (state = INIT_STATE, action) => {
             return {...state, user: action.payload, loading: false}
         case GET_USER_ERROR:
             return {...state, loading: false, error: action.payload}
-        case UPDATE_USER_REQUEST:
-            return {...state, loading: true}
-        case UPDATE_USER_SUCCESS:
-            return {...state, loading: false}
-        case UPDATE_USER_ERROR:
-            return {...state, loading: false, user: action.payload}
         case String(ACTIONS.login.request):
         case String(ACTIONS.signup.request):
         case String(ACTIONS.profile.request):

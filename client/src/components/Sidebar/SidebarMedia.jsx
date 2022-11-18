@@ -1,5 +1,4 @@
 import * as React from 'react';
-import "./css/sidebar-media.css"
 import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Button from '@mui/material/Button';
@@ -19,7 +18,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import {useState} from "react";
 import {useSelector} from "react-redux";
-import {getMainMenuState} from "../../redux/business/menu/mainMenu/selector";
+import {sidebarMenu} from "./data/sidebarMenu";
 import MenuItemLink from "./components/MenuItemLink";
 import {EXPLORE_ROUTE, HOME_ROUTE, MESSAGES_ROUTE, NOTIFICATIONS_ROUTE} from "../../utils/constants";
 import {useNavigate} from "react-router-dom";
@@ -35,11 +34,17 @@ export default function SidebarMedia() {
         left: false,
     });
 
-    const user = useSelector(getPersonalData)
+    const sidebarInfo = {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+    }
+
+    const authUser = useSelector(getPersonalData)
 
     const [value, setValue] = useState(HOME_ROUTE);
 
-    const {mainMenuStyle, mediaNavItems, themeColor, textStyle, dropdownData} = useSelector(getMainMenuState);
+    const {mainMenuStyle, mediaNavItems, themeColor, textStyle, dropdownData} = sidebarMenu;
 
     const StyledMenuList = styled(props => (<MenuList {...props}/>))(({theme}) => ({...mainMenuStyle}));
 
@@ -56,7 +61,7 @@ export default function SidebarMedia() {
         <div>
             <React.Fragment key={"left"}>
                 <Button onClick={toggleDrawer("left", true)}>
-                    <Avatar sx={{bgcolor: themeColor}}>N</Avatar>
+                    <Avatar sx={{bgcolor: themeColor}}>{authUser?.name[0].toUpperCase()}</Avatar>
                 </Button>
                 <SwipeableDrawer
                     anchor={"left"}
@@ -68,20 +73,29 @@ export default function SidebarMedia() {
                         sx={{width: 250}}
                         role="presentation"
                     >
-                        <div className="sidebar-media">
-                            <div className="sidebar__info sidebar__info-mg">
-                                <p>Account Info</p>
+                        <div style={{
+                            padding: "15px",
+                            boxSizing: "border-box",
+                            minHeight: "100vh"
+                        }}>
+                            <div style={sidebarInfo}>
+                                <Typography>Account Info</Typography>
                                 <CloseIcon onClick={toggleDrawer("left", false)}/>
                             </div>
-                            <div className="sidebar__info">
-                                <Avatar src={user?.avatarImgUrl} sx={{bgcolor: themeColor}}>N</Avatar>
-                                <p className="sidebar__info-add">
+                            <div style={sidebarInfo}>
+                                <Avatar src={authUser?.avatarImgUrl} sx={{bgcolor: themeColor}}>N</Avatar>
+                                <p style={{
+                                    border: "1px solid gray",
+                                    padding: "3px 10px",
+                                    borderRadius: "50%",
+                                    fontSize: "25px"
+                                }}>
                                     +
                                 </p>
                             </div>
                             <Box sx={{margin: "-10px 0 20px 0"}}>
-                                <Typography>{user?.name}</Typography>
-                                <Typography sx={{color: "gray"}}>@{user?.userTag}</Typography>
+                                <Typography>{authUser?.name}</Typography>
+                                <Typography sx={{color: "gray"}}>@{authUser?.userTag}</Typography>
                             </Box>
 
                             <Box sx={{"& ": {
@@ -92,8 +106,8 @@ export default function SidebarMedia() {
                                     color: "gray",
                                     margin: "0 12px 0 0"
                                 }}}>
-                                <StyledTypography><strong style={{color: "black"}}>{user?.followers.length}</strong> Followers</StyledTypography>
-                                <StyledTypography sx={{marginLeft: "10px"}}><strong style={{color: "black"}}>{user?.followings.length}</strong> Followings</StyledTypography>
+                                <StyledTypography><strong style={{color: "black"}}>{authUser?.followers.length}</strong> Followers</StyledTypography>
+                                <StyledTypography sx={{marginLeft: "10px"}}><strong style={{color: "black"}}>{authUser?.followings.length}</strong> Followings</StyledTypography>
                             </Box>
 
                             <StyledMenuList

@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
-import {Box, MenuItem, Typography} from "@mui/material";
+import {Box, Typography} from "@mui/material";
 import {useSelector} from "react-redux";
 import {getPersonalData} from "../../../redux/auth/selector";
 import Avatar from "@mui/material/Avatar";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import PropTypes from "prop-types";
 import {styled} from "@mui/system";
-import {getMainMenuState} from "../../../redux/business/menu/mainMenu/selector";
+import {sidebarMenu} from "../data/sidebarMenu";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Popup, {StyledPopupText, StyledPopupTextWrap} from "./Popup";
 import {useNavigate} from "react-router-dom";
@@ -24,9 +24,8 @@ const SidebarFooter = ({theme}) => {
     const open = Boolean(anchorEl);
     const id = open ? 'footer-popover' : undefined;
 
-
     const authUser = useSelector(getPersonalData)
-    const {footerStyles} = useSelector(getMainMenuState)
+    const {footerStyles} = sidebarMenu;
 
     const matches = useMediaQuery('(max-width:1280px)');
     const StyledFooter = styled(props => (<Box {...props}/>))
@@ -36,13 +35,21 @@ const SidebarFooter = ({theme}) => {
         <>
             <div onClick={handleClick}>
                 <StyledFooter>
-                    <div className="sidebar__footer">
+                    <div style={{
+                        display: 'flex',
+                        justifyContent:'space-between',
+                        alignItems: 'center',
+                        fontSize: "16px",
+                        padding: "10px",
+                    }} className={"sidebar__footer"}>
                         <Avatar src={authUser?.avatarImgUrl} sx={{bgcolor: theme}}>{authUser?.name[0].toUpperCase()}</Avatar>
-                        <div className="footer__data">
+                        <div style={{
+                            margin: "0 10px 0 10px"
+                        }} className={"footer__data"}>
                             <Typography>{authUser?.name}</Typography>
                             <Typography>@{authUser?.userTag}</Typography>
                         </div>
-                        <div className="footer__options">
+                        <div className={"footer__options"}>
                             <MoreHorizIcon/>
                         </div>
                     </div>

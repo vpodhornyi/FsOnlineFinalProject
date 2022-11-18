@@ -1,27 +1,25 @@
 import React, {useState} from "react";
-import "./css/sidebarc.css"
 import {useSelector} from 'react-redux';
 import SidebarMenu from "./components/SidebarMenu";
 import {Container} from "@mui/material";
-import Popover from '@mui/material/Popover';
 import SidebarFooter from "./components/SidebarFooter";
-import {getMainMenuState} from "../../redux/business/menu/mainMenu/selector";
+import {sidebarMenu} from "./data/sidebarMenu"
 import SidebarMedia from "./SidebarMedia";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 const Sidebar = () => {
     const matches = useMediaQuery('(max-width:450px)');
-
-    const {
-        themeColor,
-    } = useSelector(getMainMenuState);
+    const {themeColor} = sidebarMenu;
 
     return (
         <>
             {
                 matches ?
                     <SidebarMedia/> :
-                    <div className={"sidebar-wrapper"}>
+                    <div style={{
+                        maxWidth: "25%",
+                        boxSizing: "border-box"
+                    }}>
                         <Container sx={{
                             display: "flex",
                             flexDirection: "column",

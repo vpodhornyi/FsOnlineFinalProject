@@ -1,11 +1,10 @@
 import React from 'react';
 import Avatar from "@mui/material/Avatar";
-import {useSelector} from "react-redux";
-import {getMainMenuState} from "../../../redux/business/menu/mainMenu/selector";
+import {sidebarMenu} from "../../../components/Sidebar/data/sidebarMenu"
 import PropTypes from "prop-types";
 
 const UserIcon = ({width, height, src, iconLetter, children}) => {
-    const {themeColor} = useSelector(getMainMenuState);
+    const {themeColor} = sidebarMenu;
 
     return (
         <>

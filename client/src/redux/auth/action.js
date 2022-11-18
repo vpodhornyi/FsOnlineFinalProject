@@ -2,14 +2,12 @@ import {createActions} from '../utils'
 import api, {URLS} from "@service/API"
 import {catchError, getTokens, setAuthToken, setRefreshToken} from "../../utils";
 import axios from "axios";
+import {getUserById} from "../../services/userApi";
 //! Реалізувати методи, які підкреслюються сірим
 
 export const GET_USER_REQUEST = "GET_USER_REQUEST";
 export const GET_USER_SUCCESS = "GET_USER_SUCCESS";
 export const GET_USER_ERROR = "GET_USER_ERROR";
-export const UPDATE_USER_REQUEST = "UPDATE_USER_REQUEST";
-export const UPDATE_USER_SUCCESS = "UPDATE_USER_SUCCESS";
-export const UPDATE_USER_ERROR = "UPDATE_USER_ERROR";
 
 const actions = createActions(
     {
@@ -29,28 +27,12 @@ export const ACTIONS = {
 export const getAuthUser = (id) => async (dispatch) => {
     try {
         dispatch({type: GET_USER_REQUEST});
-        const response = await axios.get(`${process.env.REACT_APP_DEV_API_URL}users/${id}`);
-        dispatch({ type: GET_USER_SUCCESS, payload: response.data });
-
+        const res = await getUserById(id);
+        dispatch({ type: GET_USER_SUCCESS, payload: res});
     }catch (e) {
-        catchError(e);
         dispatch({
             type: GET_USER_ERROR,
             payload: `Failed to get auth user. ` + String(e),
-        });
-    }
-}
-
-export const updateUser = (id, data) => async (dispatch) => {
-    try {
-        dispatch({type: UPDATE_USER_REQUEST});
-        const response = await axios.put(`${process.env.REACT_APP_DEV_API_URL}users/${id}`);
-        dispatch({type: UPDATE_USER_SUCCESS, payload: response.data});
-    } catch (e) {
-        catchError(e);
-        dispatch({
-            type: UPDATE_USER_ERROR,
-            payload: `Failed to update user. ` + String(e),
         });
     }
 }

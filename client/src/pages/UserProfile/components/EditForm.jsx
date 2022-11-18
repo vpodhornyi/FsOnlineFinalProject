@@ -16,11 +16,11 @@ import LinkedCameraOutlinedIcon from '@mui/icons-material/LinkedCameraOutlined';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
-import axios from "axios";
 import {getPersonalData} from "../../../redux/auth/selector";
 import {getAuthUser} from "../../../redux/auth/action";
 import {uploadImage} from "../../../utils/uploadImage";
 import {Backdrop, CircularProgress} from "@mui/material";
+import {updateUser} from "../../../services/userApi";
 
 const EditForm = () => {
     const dispatch = useDispatch();
@@ -61,17 +61,18 @@ const EditForm = () => {
             await uploadImage(avatarFile, authUser.id, "UPDATE_PROFILE_AVATAR")
         }
 
-        await axios.put(`${process.env.REACT_APP_DEV_API_URL}users/${authUser?.id}`, {
-            name,
-            bio,
-            location,
-            birth: `${day}.${month}.${year}`,
-        });
+        await updateUser(
+            authUser?.id,
+            {
+                name,
+                bio,
+                location,
+                birth: `${day}.${month}.${year}`
+            }
+        );
 
         if (authUser?.headerImgUrl !== null && authUser.headerImgUrl.length > 0 && headerFile === "") {
-            await axios.put(`${process.env.REACT_APP_DEV_API_URL}users/${authUser?.id}`, {
-                headerImgUrl: "",
-            });
+            await updateUser(authUser?.id, {headerImgUrl: ""});
         }
 
         dispatch(getAuthUser(authUser?.id));
