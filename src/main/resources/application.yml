@@ -46,10 +46,6 @@ cloudinary:
 
 ---
 spring:
-  sql:
-    init:
-      mode: always
-      data-locations: classpath:data.sql
   config:
     activate:
       on-profile: local

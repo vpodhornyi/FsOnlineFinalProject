@@ -17,6 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.Column;
+import java.util.Date;
 import java.util.Set;
 
 

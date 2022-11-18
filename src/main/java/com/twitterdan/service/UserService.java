@@ -18,25 +18,25 @@ import java.util.Optional;
 @Transactional
 @RequiredArgsConstructor
 public class UserService {
-    private final UserDao userDao;
+    private final UserDao userRepository;
 
     @Transactional(readOnly = true)
     public List<User> findAll() {
-        return userDao.findAll();
+        return userRepository.findAll();
     }
 
     @Transactional(readOnly = true)
     public User findById(Long id) {
-        return userDao.findById(id).get();
+        return userRepository.findById(id).get();
     }
 
     @Transactional(readOnly = true)
     public User findByUserTag(String userTag) {
-        return userDao.findByUserTag(userTag);
+        return userRepository.findByUserTag(userTag);
     }
 
     public boolean updateUserProfile(Long id, UserProfileUpdateRequestDto dto) {
-        Optional<User> user = userDao.findById(id);
+        Optional<User> user = userRepository.findById(id);
 
         String dtoName = dto.getName();
         String dtoBio = dto.getBio();
@@ -70,7 +70,7 @@ public class UserService {
                 user.get().setHeaderImgUrl("");
             }
 
-            userDao.save(user.get());
+            userRepository.save(user.get());
             return true;
         }
 
@@ -78,22 +78,51 @@ public class UserService {
     }
 
     public void updateUserHeader (Long id, String headerImgUrl) {
-        Optional<User> user = userDao.findById(id);
+        Optional<User> user = userRepository.findById(id);
 
         if (user.isPresent()) {
             user.get().setHeaderImgUrl(headerImgUrl);
-            userDao.save(user.get());
+            userRepository.save(user.get());
         }
 
     }
 
     public void updateUserAvatar (Long id, String avatarImgUrl) {
-        Optional<User> user = userDao.findById(id);
+        Optional<User> user = userRepository.findById(id);
 
         if (user.isPresent()) {
             user.get().setAvatarImgUrl(avatarImgUrl);
-            userDao.save(user.get());
+            userRepository.save(user.get());
         }
 
+    }
+
+    public User createNewUser(User user) throws Exception {
+        if (userRepository.findByEmail(user.getEmail()) != null) {
+            throw new Exception("User already exists!");
+        } else {
+            return userRepository.save(user);
+        }
+    }
+
+    public List<User> getAll() {
+        return userRepository.findAll();
+    }
+
+    public User updateUser(User user) {
+        return userRepository.save(user);
+    }
+
+    public Boolean deleteUserById(Long id) {
+        userRepository.deleteById(id);
+        return true;
+    }
+
+    public User getByUserTag(String userTag) {
+        return userRepository.findByUserTag(userTag);
+    }
+
+    public User getByEmail(String email) {
+        return userRepository.findByUserTag(email);
     }
 }
