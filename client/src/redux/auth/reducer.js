@@ -49,9 +49,9 @@ export default (state = INIT_STATE, {payload, type}) => {
         loading: true
       }
     case GET_USER_SUCCESS:
-      return {...state, user: action.payload, loading: false}
+      return {...state, user: payload, loading: false}
     case GET_USER_ERROR:
-      return {...state, loading: false, error: action.payload}
+      return {...state, loading: false, error: payload}
     case String(ACTIONS.isAccountExist.request):
     case String(ACTIONS.authorize.request):
       return {
