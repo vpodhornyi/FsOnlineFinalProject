@@ -16,7 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.ManyToMany;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
-import java.util.Date;
+import javax.persistence.Column;
 import java.util.Set;
 
 
@@ -28,8 +28,14 @@ import java.util.Set;
 public class User extends BaseEntity {
 
   private String name;
+
+  @Column(unique = true, nullable = false)
   private String userTag;
+
+  @Column(unique = true, nullable = false)
   private String email;
+
+  @Column(nullable = false)
   private String password;
   private Date birthDate;
   private String bio;

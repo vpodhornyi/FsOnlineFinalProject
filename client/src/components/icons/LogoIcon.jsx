@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 const LogoIcon = ({styles}) => {
   const {iconName} = twitterIcon;
 
-  return <IconsByName iconName={iconName} styles={styles}/>;
+  return <IconsByName iconName={iconName} iconStyle={styles}/>;
 };
 
 LogoIcon.propTypes = {

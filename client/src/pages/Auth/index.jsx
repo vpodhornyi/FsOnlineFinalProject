@@ -15,6 +15,9 @@ const MAIN_COLOR = '#1D9BF0';
 const WIDTH_BUTTON_CONTAINER = '300px';
 const CUSTOM_BUTTON_SING_UP_WITH_GOOGLE_STYLE = `
     background-color: #fff;
+    width: 100%;
+    padding: 10px 15px;
+    transition: all 200ms ease;
     color: #000;
     border: 1px solid #DDDFE2;
       &:hover {
@@ -24,6 +27,9 @@ const CUSTOM_BUTTON_SING_UP_WITH_GOOGLE_NAME = 'Sing up with Google';
 const CUSTOM_BUTTON_SING_UP_WITH_EMAIL_STYLE = `
     background-color: ${MAIN_COLOR};
     color: #fff;
+    padding: 10px 15px;
+    width: 100%;
+    transition: all 200ms ease;
     border: none;
       &:hover {
         background-color: #0D80D8;
@@ -32,6 +38,9 @@ const CUSTOM_BUTTON_SING_UP_WITH_EMAIL_NAME = 'Sing up with email';
 const CUSTOM_BUTTON_SING_IN_STYLE = `
     background-color: #fff;
     color: #1D9BF0;
+    padding: 10px 15px;
+    width: 100%;
+    transition: all 200ms ease;
     border: 1px solid #DDDFE2;
       &:hover {
         background-color: #DBE7F0;
@@ -39,7 +48,6 @@ const CUSTOM_BUTTON_SING_IN_STYLE = `
 const CUSTOM_BUTTON_SING_IN_NAME = 'Sing in';
 
 const Auth = () => {
-  const dispatch = useDispatch();
   const matches = useMediaQuery('(max-width:600px)');
 
   return (

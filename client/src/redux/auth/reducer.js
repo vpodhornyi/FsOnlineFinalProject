@@ -5,6 +5,8 @@ import {
     GET_USER_SUCCESS,
     GET_USER_ERROR,
 } from "./action";
+import {getTokens} from "@utils";
+import {ACTIONS} from "./action";
 
 const {accessToken} = getTokens();
 
@@ -39,94 +41,47 @@ const INIT_STATE = {
     },
     error: "",
 }
-
-export default (state = INIT_STATE, action) => {
-    switch (action.type) {
-        case GET_USER_REQUEST:
-            return {
-                ...state,
-                loading: true
-            }
-        case GET_USER_SUCCESS:
-            return {...state, user: action.payload, loading: false}
-        case GET_USER_ERROR:
-            return {...state, loading: false, error: action.payload}
-        case String(ACTIONS.login.request):
-        case String(ACTIONS.signup.request):
-        case String(ACTIONS.profile.request):
-        case String(ACTIONS.topup.request):
-        case String(ACTIONS.transfer.request):
-        case String(ACTIONS.createaccount.request):
-        case String(ACTIONS.changecurrency.request):
-            return {
-                ...state,
-                loading: true,
-            }
-        case String(ACTIONS.login.success):
-        case String(ACTIONS.signup.success):
-        case String(ACTIONS.profile.success):
-            return {
-                ...state,
-                authorized: true,
-                loading: false,
-                user: action.payload,
-            }
-        case String(ACTIONS.login.fail):
-        case String(ACTIONS.signup.fail):
-        case String(ACTIONS.profile.fail):
-            return {
-                ...state,
-                authorized: false,
-                loading: false,
-            }
-        case String(ACTIONS.logout):
-            return {
-                ...INIT_STATE,
-                authorized: false,
-            }
-
-        case String(ACTIONS.transfer.success):
-            return {
-                ...state,
-                loading: false,
-                user: {
-                    ...state.user,
-                    accounts: action.payload
-                }
-            }
-        case String(ACTIONS.topup.success):
-        case String(ACTIONS.changecurrency.success):
-            return {
-                ...state,
-                loading: false,
-                user: {
-                    ...state.user,
-                    accounts: state.user.accounts.map(ac => {
-                        if (action.payload.number === ac.number) {
-                            return action.payload;
-                        }
-                        return ac;
-                    })
-                }
-            }
-        case String(ACTIONS.createaccount.success):
-            return {
-                ...state,
-                loading: false,
-                user: {
-                    ...state.user,
-                    accounts: state.user.accounts.concat(action.payload)
-                }
-            }
-        case String(ACTIONS.topup.fail):
-        case String(ACTIONS.transfer.fail):
-        case String(ACTIONS.createaccount.fail):
-        case String(ACTIONS.changecurrency.fail):
-            return {
-                ...state,
-                loading: false,
-            }
-        default:
-            return state
-    }
+export default (state = INIT_STATE, {payload, type}) => {
+  switch (type) {
+    case GET_USER_REQUEST:
+      return {
+        ...state,
+        loading: true
+      }
+    case GET_USER_SUCCESS:
+      return {...state, user: action.payload, loading: false}
+    case GET_USER_ERROR:
+      return {...state, loading: false, error: action.payload}
+    case String(ACTIONS.isAccountExist.request):
+    case String(ACTIONS.authorize.request):
+      return {
+        ...state,
+        loading: true,
+      }
+    case String(ACTIONS.isAccountExist.success):
+      return {
+        ...state,
+        loginName: payload.login,
+        loading: false,
+      }
+    case String(ACTIONS.authorize.success):
+      return {
+        ...INIT_STATE,
+        authorized: true,
+        loading: false,
+      }
+    case String(ACTIONS.logout.success):
+      return {
+        ...INIT_STATE,
+        authorized: false,
+      }
+    case String(ACTIONS.isAccountExist.fail):
+    case String(ACTIONS.authorize.fail):
+      return {
+        ...state,
+        loading: false,
+      }
+    default:
+      return state
+  }
 }

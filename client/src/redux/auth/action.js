@@ -1,28 +1,32 @@
-import {createActions} from '../utils'
-import api, {URLS} from "@service/API"
-import {catchError, getTokens, setAuthToken, setRefreshToken} from "../../utils";
-import axios from "axios";
-import {getUserById} from "../../services/userApi";
-//! Реалізувати методи, які підкреслюються сірим
+import {createActions} from '../utils';
+import api, {URLS} from "@service/API";
+import {setAuthToken, setHeaderAuthorization, setRefreshToken} from "@utils";
+import {openDialog, closeDialog} from "@redux/dialog/action";
+import SingInSecondStep from '@pages/Auth/SingIn/SecondStep';
 
 export const GET_USER_REQUEST = "GET_USER_REQUEST";
 export const GET_USER_SUCCESS = "GET_USER_SUCCESS";
 export const GET_USER_ERROR = "GET_USER_ERROR";
 
 const actions = createActions(
-    {
-        actions: ["LOGOUT"],
-        async: ["LOGIN", "SIGNUP", "PROFILE", "TOPUP", "CREATEACCOUNT", "TRANSFER", "CHANGECURRENCY"],
-    },
-    {
-        prefix: "auth",
-    }
-)
+  {
+    async: ["IS_ACCOUNT_EXIST", "AUTHORIZE", "LOGOUT"],
+  },
+  {
+    prefix: "auth",
+  }
+);
 
 export const ACTIONS = {
-    ...actions.actions,
-    ...actions.async,
+  ...actions.async,
 }
+
+export const isAccountExist = (login) => async dispatch => {
+  try {
+    dispatch(ACTIONS.isAccountExist.request());
+    const data = await api.post(URLS.AUTH.IS_ACCOUNT_EXIST, {login})
+    dispatch(ACTIONS.isAccountExist.success(data));
+    return true;
 
 export const getAuthUser = (id) => async (dispatch) => {
     try {
@@ -47,111 +51,47 @@ const logOut = () => (dispatch) => {
     dispatch(ACTIONS.logout())
 }
 
-const logIn = (values) => (dispatch) => {
-    dispatch(ACTIONS.login.request())
-
-    api
-        .post(URLS.USER.LOG_IN, values)
-        .then((data) => {
-            // successToastMessage("Successfully logged in!")
-            setAuthToken(data.jwt)
-            setRefreshToken(data.refreshToken)
-            dispatch(ACTIONS.login.success(data.user))
-        })
-        .catch((err) => {
-            catchError(err)
-            dispatch(ACTIONS.login.fail())
-        })
+  } catch (err) {
+    //TODO show error
+    dispatch(ACTIONS.isAccountExist.fail());
+    console.log('isAccountExist error - ', err);
+    return false;
+  }
 }
 
-const signUp = (values) => (dispatch) => {
-    dispatch(ACTIONS.signup.request())
-
-    api
-        .post(URLS.USER.SIGN_UP, values)
-        .then((data) => {
-            // successToastMessage("Successfully signed up!")
-            setAuthToken(data.jwt)
-            setRefreshToken(data.refreshToken)
-            dispatch(ACTIONS.signup.success(data.user))
-        })
-        .catch((err) => {
-            catchError(err)
-            dispatch(ACTIONS.signup.fail())
-        })
+export const runSecondLoginStep = (login) => async dispatch => {
+  if (await dispatch(isAccountExist(login))) {
+    dispatch(openDialog(SingInSecondStep));
+  }
 }
 
-const topUp = (values) => (dispatch) => {
-    dispatch(ACTIONS.topup.request())
+export const authorize = ({login, password}) => async dispatch => {
+  try {
+    dispatch(ACTIONS.authorize.request());
+    const {type, accessToken, refreshToken} = await api.post(URLS.AUTH.AUTHORIZE, {login, password});
+    dispatch(closeDialog());
+    setHeaderAuthorization(accessToken, type);
+    setAuthToken(accessToken);
+    setRefreshToken(refreshToken);
+    dispatch(ACTIONS.authorize.success());
 
-    api
-        .put(URLS.ACCOUNT.TOP_UP, values)
-        .then((data) => {
-            // successToastMessage("Successfully top up!")
-            dispatch(ACTIONS.topup.success(data))
-        })
-        .catch((err) => {
-            catchError(err)
-            dispatch(ACTIONS.topup.fail())
-        })
+  } catch (err) {
+    //TODO show error
+    dispatch(ACTIONS.authorize.fail());
+    console.log("login error - ", err);
+  }
 }
 
-const changecurrency = (values) => (dispatch) => {
-    dispatch(ACTIONS.changecurrency.request())
+export const logout = () => async dispatch => {
+  try {
+    await api.get(URLS.AUTH.LOGOUT)
+    setAuthToken();
+    setRefreshToken();
+    setHeaderAuthorization();
+    dispatch(ACTIONS.logout.success());
 
-    api
-        .put(URLS.ACCOUNT.CHANGE_CURRENCY, values)
-        .then((data) => {
-            // successToastMessage("Successfully change currency!")
-            dispatch(ACTIONS.changecurrency.success(data))
-        })
-        .catch((err) => {
-            catchError(err)
-            dispatch(ACTIONS.changecurrency.fail())
-        })
-}
-
-const createAccount = (values) => (dispatch) => {
-    dispatch(ACTIONS.createaccount.request())
-
-    api
-        .post(URLS.ACCOUNT._ROOT, values)
-        .then((data) => {
-            // successToastMessage("Successfully create account!")
-            dispatch(ACTIONS.createaccount.success(data))
-        })
-        .catch((err) => {
-            catchError(err)
-            dispatch(ACTIONS.createaccount.fail())
-        })
-}
-
-const fetchProfile = () => (dispatch) => {
-    const {accessToken} = getTokens()
-    dispatch(ACTIONS.profile.request())
-
-    api
-        .get(URLS.USER.PROFILE, {
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
-        })
-        .then((data) => {
-            // successToastMessage("Welcome back!")
-            dispatch(ACTIONS.login.success(data))
-        })
-        .catch((err) => {
-            catchError(err)
-            dispatch(performLogout())
-        })
-}
-
-export const API_ACTIONS = {
-    logIn,
-    signUp,
-    logOut,
-    fetchProfile,
-    createAccount,
-    topUp,
-    changecurrency
+  } catch (err) {
+    //TODO show error
+    console.log('logout error - ', err);
+  }
 }
