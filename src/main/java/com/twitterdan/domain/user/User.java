@@ -1,6 +1,7 @@
 package com.twitterdan.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.twitterdan.domain.BaseEntity;
 import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.tweet.Tweet;
@@ -10,12 +11,7 @@ import lombok.Setter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.OneToMany;
-import javax.persistence.ManyToMany;
-import javax.persistence.JoinTable;
-import javax.persistence.JoinColumn;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
@@ -37,8 +33,9 @@ public class User extends BaseEntity {
   private String avatarImgUrl;
   private String headerImgUrl;
 
-  @OneToMany
+  @OneToMany(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private Set<Tweet> tweets;
 
   @LazyCollection(LazyCollectionOption.EXTRA)
@@ -59,5 +56,6 @@ public class User extends BaseEntity {
 
   @ManyToMany
   private Set<Chat> chats;
+
 
 }

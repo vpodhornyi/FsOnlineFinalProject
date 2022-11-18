@@ -12,8 +12,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TweetRequest {
-
-        private TweetType tweetType;
+        private Long id;
+        private String tweetType;
         private String body;
         private User user;
 

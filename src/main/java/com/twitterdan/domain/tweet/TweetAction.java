@@ -1,5 +1,6 @@
 package com.twitterdan.domain.tweet;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.twitterdan.domain.BaseEntity;
 import com.twitterdan.domain.user.User;
 import lombok.Getter;
@@ -30,5 +31,6 @@ public class TweetAction extends BaseEntity {
   private Tweet tweet;
 
   @ManyToOne
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private User user;
 }
