@@ -70,3 +70,7 @@ values
     (8, 'test message 8', 2, 4),
     (9, 'test message 9', 2, 5),
     (10, 'test message 10', 2, 4);
+ALTER TABLE ATTACHMENT_IMAGES
+    ADD FOREIGN KEY (tweet_id) REFERENCES TWEETS (id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE;

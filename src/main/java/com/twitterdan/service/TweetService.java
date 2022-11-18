@@ -34,7 +34,6 @@ public class TweetService {
         }
 
         public void deleteById(Long id) {
-
             tweetDao.deleteById(id);
 
 
