@@ -22,6 +22,7 @@ import {
   TwitterContainer,
 } from "./styles";
 import PropTypes from "prop-types";
+import { createTweet } from "../../utils/tweetApi";
 
 export const TweetForm = (props) => {
   const [tweetText, setTweetText] = useState("");
@@ -62,7 +63,10 @@ export const TweetForm = (props) => {
     setShowReplyText(true);
   };
 
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    console.log(tweetText);
+    createTweet({ tweetType: "TWEET", body: tweetText });
+  };
 
   return (
     <TwitterContainer>

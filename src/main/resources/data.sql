@@ -14,11 +14,11 @@ values (1, 2),
        (3, 5),
        (4, 1);
 
-INSERT INTO tweets (id, body, tweet_type, user_id)
-values (1, 'Bob test tweet', 'TWEET', 1),
-       (2, 'Jon test tweet', 'TWEET', 2),
-       (3, 'Lily test tweet', 'TWEET', 3),
-       (4, 'Marta tweet', 'TWEET', 4);
+INSERT INTO tweets ( body, tweet_type, user_id)
+values ('Bob test tweet', 'TWEET', 1),
+       ( 'Jon test tweet', 'TWEET', 2),
+       ( 'Lily test tweet', 'TWEET', 3),
+       ( 'Marta tweet', 'TWEET', 4);
 
 INSERT INTO tweet_actions (id, action_type, tweet_id, user_id)
 values (1, 'LIKE', 1, 2),

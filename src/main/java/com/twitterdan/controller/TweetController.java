@@ -3,7 +3,6 @@ package com.twitterdan.controller;
 import com.twitterdan.domain.dto.tweetDto.TweetRequest;
 import com.twitterdan.domain.dto.tweetDto.TweetResponse;
 import com.twitterdan.domain.tweet.Tweet;
-import com.twitterdan.domain.tweet.TweetType;
 import com.twitterdan.facade.tweetFacade.TweetRequestMapper;
 import com.twitterdan.facade.tweetFacade.TweetResponseMapper;
 import com.twitterdan.service.TweetService;
@@ -29,7 +28,7 @@ public class TweetController {
         public TweetController(TweetService tweetService, TweetRequestMapper tweetRequestMapper, TweetResponseMapper tweetResponseMapper) {
         this.tweetService = tweetService;
         this.tweetRequestMapper = tweetRequestMapper;
-        this.tweetResponseMapper = tweetResponseMapper;
+            this.tweetResponseMapper = tweetResponseMapper;
     }
 
 
