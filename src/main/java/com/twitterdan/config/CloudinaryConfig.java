@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@PropertySource("classpath:application.properties.default")
+@PropertySource("classpath:application.yml")
 public class CloudinaryConfig {
 
   @Value("${cloudinary.cloud_name}")

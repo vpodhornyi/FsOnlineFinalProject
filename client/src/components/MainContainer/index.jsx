@@ -3,6 +3,7 @@ import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import Main from "@pages/Main";
 import { useTheme } from "@emotion/react";
+import Searchbar from "@components/Searchbar";
 const MainContainer = (props) => {
   const theme = useTheme();
   return (
@@ -41,7 +42,7 @@ const MainContainer = (props) => {
           },
         }}
       >
-        Here goes the right sidebar
+        <Searchbar />
       </Grid>
     </Grid>
   );
