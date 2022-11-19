@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserResponse {
+  private Long id;
   private String name;
   private String userTag;
   private String email;

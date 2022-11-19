@@ -6,7 +6,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -46,5 +49,12 @@ public class UserService {
 
   public User getByEmail(String email) {
     return userRepository.findByUserTag(email);
+  }
+
+  public List<User> findByMatchesInNameOrUserTag(String text) {
+
+    Optional<List<User>> optionalUsers = userRepository.findByMatchingNameOrUserTag(text);
+
+    return optionalUsers.orElse(Collections.emptyList());
   }
 }

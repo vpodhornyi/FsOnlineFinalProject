@@ -27,7 +27,7 @@ export const getUsersRoutes = () => async dispatch => {
     }, 500)
 
   } catch (err) {
-    console.log('logout error - ', err);
+    console.log('getUsersRoutes error - ', err);
   }
 }
 
@@ -37,7 +37,7 @@ export const sendMessage = ({text, id}) => async dispatch => {
     // await api.get()
 
   } catch (err) {
-    console.log('logout error - ', err);
+    console.log('sendMessage error - ', err);
   }
 }
 
@@ -51,7 +51,7 @@ export const getConversation = ({id}) => async dispatch => {
     }, 500)
 
   } catch (err) {
-    console.log('logout error - ', err);
+    console.log('getConversation error - ', err);
   }
 }
 
@@ -59,13 +59,10 @@ export const searchUser = ({text}) => async dispatch => {
   try {
     dispatch(ACTIONS.searchUser.request());
     const data = await api.get(URLS.USER.SEARCH, {params: {text}});
-    setTimeout(() => {
-      dispatch(ACTIONS.searchUser.success());
-    }, 2000)
-
+    dispatch(ACTIONS.searchUser.success());
 
   } catch (err) {
-    console.log('logout error - ', err);
+    console.log('searchUser error - ', err);
     dispatch(ACTIONS.searchUser.fail());
   }
 }
