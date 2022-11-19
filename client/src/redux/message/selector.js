@@ -16,6 +16,7 @@ export const getMessageData = state => {
       isDetailLoading: data.detailLoading,
       searchUserLoading: data.searchUserLoading,
       chats: data.chats,
+      foundUsers: data.foundUsers,
       chatData: data.chatData,
       activeId: data.activeId,
       isChatSelected,

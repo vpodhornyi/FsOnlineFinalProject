@@ -3,7 +3,18 @@ VALUES (1, 'Bob', 'bob1234', '1111', 'abc@gmail.com'),
        (2, 'Jon', 'jon1932', '2222', 'xyz@email.com'),
        (3, 'Lily', 'lily4535', '3333', 'cap@marvel.com'),
        (4, 'Alex', 'alex123', '1111', 'alex@gmail.com'),
-       (5, 'Marta', 'marta123', '1111', 'marta@gmail.com');
+       (5, 'Marta', 'jlaien324', '1111', 'wsq@gmail.com'),
+       (6, 'Marta', 'adfafkk999', '1111', 'csdc@gmail.com'),
+       (7, 'Marta', 'jwednq323', '1111', 'sde@gmail.com'),
+       (8, 'Marta', 'dfkaslf994', '1111', 'vggrgv@gmail.com'),
+       (9, 'Marta', 'daslrfnk333', '1111', 'cscsd@gmail.com'),
+       (10, 'Marta', 'akdlcnj99', '1111', 'ujyj@gmail.com'),
+       (11, 'Marta', 'ewdjqlnl123', '1111', 'fgff@gmail.com'),
+       (12, 'Marta', 'kiutmde44', '1111', 'csfcfcr@gmail.com'),
+       (13, 'Marta', 'fewqkimm66', '1111', 'scwxfw@gmail.com'),
+       (14, 'Marta', 'qweflouhr22', '1111', 'edwff@gmail.com'),
+       (15, 'Marta', 'ewkdionwc00', '1111', 'exewxf@gmail.com'),
+       (16, 'Marta', 'wedwoqie0', '1111', 'rfegrtg@gmail.com');
 
 
 INSERT INTO followers (follower_id, followed_id)

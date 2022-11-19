@@ -10,7 +10,7 @@ const SearchTextField = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      text.trim() !== '' && dispatch(searchUser({text}))
+      dispatch(searchUser({text}))
     }, 500);
 
     return () => clearTimeout(timer)

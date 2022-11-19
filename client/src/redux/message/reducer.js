@@ -44,6 +44,7 @@ const INIT_STATE = {
       ]
     }
   ],
+  foundUsers: [],
   chatData: [
     {
       key: 'AS32edd23',
@@ -102,12 +103,22 @@ export default (state = INIT_STATE, {payload, type}) => {
         ...state,
         detailLoading: !state.detailLoading,
       };
+    case String(ACTIONS.resetFoundUsers):
+      return {
+        ...state,
+        foundUsers: [],
+      };
     case String(ACTIONS.searchUser.request):
       return {
         ...state,
         searchUserLoading: true,
       };
     case String(ACTIONS.searchUser.success):
+      return {
+        ...state,
+        foundUsers: payload,
+        searchUserLoading: false,
+      };
     case String(ACTIONS.searchUser.fail):
       return {
         ...state,

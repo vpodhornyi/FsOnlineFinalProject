@@ -37,14 +37,7 @@ const ChatRoute = ({chat, activeId}) => {
           </Box>
         </Box>
       </Box>
-      <Box className='MoreIcon' sx={{
-        display: 'none',
-        position: 'absolute',
-        top: '5px',
-        right: '5px',
-        zIndex: 1000,
-      }}>
-        {/*<CustomIconButton name='MoreHorizOutlined' title='More'/>*/}
+      <Box className='MoreIcon'>
         <More/>
       </Box>
     </BoxWrapper>);
@@ -60,6 +53,14 @@ const styles = ({theme}) => ({
 
   '&:hover': {
     backgroundColor: 'rgb(247, 249, 249)'
+  },
+
+  '& .MoreIcon': {
+    display: 'none',
+    position: 'absolute',
+    top: '5px',
+    right: '5px',
+    zIndex: 1000,
   },
 
   '&:hover > .MoreIcon': {

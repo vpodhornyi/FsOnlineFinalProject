@@ -60,7 +60,9 @@ const styles = ({theme}) => ({
   justifyContent: 'space-between',
 
   '& > .Overlay': {
-    overflow: 'overlay', overflowX: 'hidden', paddingRight: 15
+    overflow: 'overlay',
+    overflowX: 'hidden',
+    paddingRight: 15
   },
 
   '& > .MuiBox-root > .MessagesBox': {
