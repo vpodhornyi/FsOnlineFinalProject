@@ -1,18 +1,20 @@
 import React from "react";
-import {useDispatch} from "react-redux";
 import {styled} from "@mui/material/styles";
-import {Box, TextField} from "@mui/material";
+import {Box} from "@mui/material";
 import Header from "./Header";
 import IconByName from "@components/icons/IconByName";
+import SearchTextField from "./SearchTextField";
+import NewMessageLoading from "./NewMessageLoading";
 
 const Index = () => {
-  const dispatch = useDispatch();
-
   return (
     <BoxWrapper>
       <Header/>
-      <IconByName iconName='SearchOutlined'/>
-      <TextField id="standard-basic" placeholder="Search people" variant="standard" fullWidth/>
+      <Box sx={{position: 'relative', width: '100%'}}>
+        <IconByName iconName='SearchOutlined'/>
+        <SearchTextField/>
+        <NewMessageLoading/>
+      </Box>
     </BoxWrapper>);
 }
 
@@ -20,24 +22,10 @@ const styles = ({theme}) => ({
   width: '100%',
   height: '100%',
 
-  '& > .MuiSvgIcon-root': {
+  '& > .MuiBox-root > .MuiSvgIcon-root': {
     position: 'absolute',
-    top: 73,
+    top: 4,
     left: 17,
-  },
-
-  '& .MuiInputBase-root': {
-    paddingLeft: 50,
-    paddingBottom: 5,
-    borderBottom: '1px solid #DDDFE2',
-
-    '&:before': {
-      content: 'none'
-    },
-
-    '&:after': {
-      content: 'none'
-    }
   },
 
   [theme.breakpoints.up(700)]: {

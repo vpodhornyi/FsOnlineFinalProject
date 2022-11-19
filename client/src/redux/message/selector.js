@@ -14,6 +14,7 @@ export const getMessageData = state => {
     return {
       isNavigationLoading: data.navigationLoading,
       isDetailLoading: data.detailLoading,
+      searchUserLoading: data.searchUserLoading,
       chats: data.chats,
       chatData: data.chatData,
       activeId: data.activeId,

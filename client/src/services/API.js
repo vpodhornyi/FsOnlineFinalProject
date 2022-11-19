@@ -31,6 +31,7 @@ export const URLS = {
   },
   USER: {
     _ROOT: "/user",
+    SEARCH: '/user/search'
   }
 }
     /**

@@ -4,6 +4,7 @@ const INIT_STATE = {
   message: '',
   navigationLoading: false,
   detailLoading: false,
+  searchUserLoading: false,
   sendingMessage: false,
   isChatInfo: false,
   activeId: -1,
@@ -100,6 +101,17 @@ export default (state = INIT_STATE, {payload, type}) => {
       return {
         ...state,
         detailLoading: !state.detailLoading,
+      };
+    case String(ACTIONS.searchUser.request):
+      return {
+        ...state,
+        searchUserLoading: true,
+      };
+    case String(ACTIONS.searchUser.success):
+    case String(ACTIONS.searchUser.fail):
+      return {
+        ...state,
+        searchUserLoading: false,
       };
     case String(ACTIONS.setMessage):
       const {id, text} = payload;
