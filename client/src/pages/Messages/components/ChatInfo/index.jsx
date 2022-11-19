@@ -3,9 +3,16 @@ import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Header from "./Header";
 
+const styles = ({theme}) => ({
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column'
+});
+
+const StyledBox = styled(Box)(styles);
 
 const Index = () => {
-  const StyledBox = styled(Box)(styles);
+
 
   return (
     <StyledBox>
@@ -13,12 +20,5 @@ const Index = () => {
       <Box sx={{pt: 10}}>{'.............................TODO'}</Box>
     </StyledBox>);
 }
-
-const styles = ({theme}) => ({
-  width: '100%',
-  display: 'flex',
-  flexDirection: 'column'
-
-});
 
 export default Index;

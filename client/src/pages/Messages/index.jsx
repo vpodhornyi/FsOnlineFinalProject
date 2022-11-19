@@ -5,7 +5,6 @@ import CollectBox from './components/CollectBox';
 import SectionsBox from './components/SectionsBox';
 
 const Home = () => {
-  const BoxWrapper = styled(Box)(styles);
 
   return (
     <BoxWrapper>
@@ -18,10 +17,7 @@ const styles = ({theme}) => ({
   display: 'flex',
   height: '100vh',
   width: '100%',
-
-  [theme.breakpoints.up('md')]: {
-    width: '100%',
-  }
 });
+const BoxWrapper = styled(Box)(styles);
 
 export default Home;

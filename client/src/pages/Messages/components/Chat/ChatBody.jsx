@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
-import {useSelector, useDispatch} from "react-redux";
+import {useSelector} from "react-redux";
 import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Footer from "./Footer";
@@ -10,10 +10,8 @@ import {getMessageData} from "@redux/message/selector";
 
 const Conversation = () => {
   const [visible, setVisible] = useState(false);
-  const BoxWrapper = styled(Box)(styles);
   const overlayRef = useRef();
-  const dispatch = useDispatch();
-  const {conversationData} = useSelector(getMessageData);
+  const {chatData} = useSelector(getMessageData);
 
   const onBottom = () => {
     const height = overlayRef.current.offsetHeight;
@@ -31,9 +29,9 @@ const Conversation = () => {
     const maxScroll = scrollHeight - offsetHeight;
 
     if (scroll < maxScroll) {
-      // setVisible(true);
+      setVisible(true);
     } else if (scroll === maxScroll) {
-      // setVisible(false);
+      setVisible(false);
     }
   }
 
@@ -42,12 +40,12 @@ const Conversation = () => {
       <Box ref={overlayRef} className='Overlay' onScroll={onScrollEvent}>
         <Box className='MessagesBox'>
           <UserInfo/>
-          {conversationData.map(item => <Message key={item.key} left={!item.isAuth} text={item.text}/>)}
+          {chatData.map(item => <Message key={item.key} left={!item.isAuth} text={item.text}/>)}
         </Box>
       </Box>
-      {/*<Box onClick={onBottom}>*/}
-      {/*  <ScrollDownButton/>*/}
-      {/*</Box>*/}
+      <Box onClick={onBottom}>
+        {visible && <ScrollDownButton/>}
+      </Box>
       <Footer/>
     </BoxWrapper>);
 }
@@ -69,5 +67,7 @@ const styles = ({theme}) => ({
     overflow: 'overlay', paddingLeft: 15, paddingRight: 15,
   }
 });
+
+const BoxWrapper = styled(Box)(styles);
 
 export default Conversation;

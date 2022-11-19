@@ -1,3 +1,11 @@
+export const getCurrentChat = state => {
+  if (state) {
+    const data = JSON.parse(JSON.stringify(state.message));
+    const isChatSelected = data.activeId !== -1;
+    return isChatSelected ? data.chats.find(v => v.id === data.activeId) : {};
+  }
+}
+
 export const getMessageData = state => {
   if (state) {
     const data = JSON.parse(JSON.stringify(state.message));
@@ -6,9 +14,8 @@ export const getMessageData = state => {
     return {
       isNavigationLoading: data.navigationLoading,
       isDetailLoading: data.detailLoading,
-      conversations: data.conversations,
-      conversationData: data.conversationData,
-      user: isChatSelected ? data.conversations[data.activeId] : {},
+      chats: data.chats,
+      chatData: data.chatData,
       activeId: data.activeId,
       isChatSelected,
       isChatInfo: data.isChatInfo,

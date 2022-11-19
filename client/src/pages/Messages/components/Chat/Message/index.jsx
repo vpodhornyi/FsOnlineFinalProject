@@ -6,26 +6,6 @@ import Reaction from "./Reaction";
 import Time from "./Time";
 import PropTypes from "prop-types";
 
-const Index = ({left = false, text}) => {
-  const BoxWrapper = styled(Box)(styles);
-
-  return (
-    <BoxWrapper>
-      <Box className={left ? 'LeftMessage' : 'RightMessage'}>
-        <Box>
-          <MessageBox left={left} text={text}/>
-        </Box>
-        <Reaction/>
-        <Time/>
-      </Box>
-    </BoxWrapper>);
-}
-
-Index.propTypes = {
-  left: PropTypes.bool,
-  text: PropTypes.string,
-}
-
 const styles = ({theme}) => ({
   '& > .MuiBox-root': {
     display: 'flex',
@@ -55,5 +35,26 @@ const styles = ({theme}) => ({
     justifyContent: 'flex-start',
   },
 });
+
+const BoxWrapper = styled(Box)(styles);
+
+const Index = ({left = false, text}) => {
+
+  return (
+    <BoxWrapper>
+      <Box className={left ? 'LeftMessage' : 'RightMessage'}>
+        <Box>
+          <MessageBox left={left} text={text}/>
+        </Box>
+        <Reaction/>
+        <Time/>
+      </Box>
+    </BoxWrapper>);
+}
+
+Index.propTypes = {
+  left: PropTypes.bool,
+  text: PropTypes.string,
+}
 
 export default Index;

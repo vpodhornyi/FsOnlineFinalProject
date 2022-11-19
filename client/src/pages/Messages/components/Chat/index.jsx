@@ -5,10 +5,10 @@ import Box from "@mui/material/Box";
 import ChatHeader from "./Header";
 import {getMessageData} from "@redux/message/selector";
 import Loading from "@components/Loader/Loading";
-import ConversationBody from "./ConversationBody";
+import ChatBody from "./ChatBody";
+
 
 const Index = () => {
-  const BoxWrapper = styled(Box)(styles);
   const {isDetailLoading} = useSelector(getMessageData);
 
   return (
@@ -18,7 +18,7 @@ const Index = () => {
         <Box sx={{height: '100%'}}>
           <Loading/>
         </Box>
-        : <ConversationBody/>}
+        : <ChatBody/>}
     </BoxWrapper>);
 }
 
@@ -28,5 +28,7 @@ const styles = ({theme}) => ({
   display: 'flex',
   flexDirection: 'column',
 });
+
+const BoxWrapper = styled(Box)(styles);
 
 export default Index;

@@ -3,8 +3,6 @@ import {styled} from "@mui/material/styles";
 import Navigation from './Navigation';
 
 const SectionNavigation = () => {
-  const SectionWrapper = styled('section')(styles);
-
   return (
     <SectionWrapper>
       <Navigation/>
@@ -21,5 +19,7 @@ const styles = ({theme}) => ({
     width: 'auto',
   },
 });
+
+const SectionWrapper = styled('section')(styles);
 
 export default SectionNavigation;

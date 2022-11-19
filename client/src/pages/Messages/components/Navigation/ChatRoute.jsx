@@ -4,27 +4,25 @@ import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import {Avatar, Typography} from "@mui/material";
 import PropTypes from "prop-types";
-import CustomIconButton from "@components/buttons/CustomIconButton";
 import {getConversation} from "@redux/message/action";
 import More from './More';
 
-const UserRoute = ({user, activeId}) => {
+const ChatRoute = ({chat, activeId}) => {
   const dispatch = useDispatch();
-  const BoxWrapper = styled(Box)(styles);
 
   return (
     <BoxWrapper
-      onClick={() => dispatch(getConversation({id: user.id}))}
-      sx={activeId !== -1 && activeId === user.id ? {
+      onClick={() => dispatch(getConversation({id: chat.id}))}
+      sx={activeId !== -1 && activeId === chat.id ? {
         backgroundColor: 'rgb(239, 243, 244)',
         borderRight: '2px blue solid',
       } : {}}>
       <Box sx={{display: 'flex'}}>
-        <Avatar sx={{mr: '10px', width: '3rem', height: '3rem'}} src={user.avatarImgUrl}/>
+        <Avatar sx={{mr: '10px', width: '3rem', height: '3rem'}} src={chat.avatarImgUrl}/>
         <Box>
           <Box sx={{display: 'flex'}}>
-            <Typography sx={{fontWeight: 600}}>{user.name}</Typography>
-            <Typography sx={{ml: '5px'}}>{user.userTag}</Typography>
+            <Typography sx={{fontWeight: 600}}>{chat.title}</Typography>
+            <Typography sx={{ml: '5px'}}>{chat.userTag}</Typography>
             <Typography sx={{
               '&:before': {
                 content: '"·"',
@@ -52,11 +50,6 @@ const UserRoute = ({user, activeId}) => {
     </BoxWrapper>);
 }
 
-UserRoute.propTypes = {
-  user: PropTypes.object,
-  activeId: PropTypes.number,
-}
-
 const styles = ({theme}) => ({
   position: 'relative',
   padding: '14px',
@@ -74,4 +67,11 @@ const styles = ({theme}) => ({
   }
 });
 
-export default UserRoute;
+const BoxWrapper = styled(Box)(styles);
+
+ChatRoute.propTypes = {
+  chat: PropTypes.object,
+  activeId: PropTypes.number,
+}
+
+export default ChatRoute;

@@ -8,22 +8,6 @@ import Avatar from "./Avatar";
 import {openDialog} from "@redux/dialog/action";
 import DialogNewMessage from "../DialogNewMessage";
 
-const Header = () => {
-  const BoxWrapper = styled(Box)(styles);
-  const dispatch = useDispatch();
-
-  return (
-    <BoxWrapper>
-      <Box sx={{display: 'flex', alignItems: 'center'}}>
-        <Avatar/>
-        <Typography variant='h2'>Messages</Typography>
-      </Box>
-      <Box onClick={() => dispatch(openDialog(DialogNewMessage))}>
-        <CustomIconButton name='ForwardToInboxOutlined' title='New message'/>
-      </Box>
-    </BoxWrapper>
-  );
-}
 
 const styles = ({theme}) => ({
   boxSizing: 'border-box',
@@ -46,5 +30,23 @@ const styles = ({theme}) => ({
     fontWeight: theme.typography.fontWeightBold
   }
 });
+
+const BoxWrapper = styled(Box)(styles);
+
+const Header = () => {
+  const dispatch = useDispatch();
+
+  return (
+    <BoxWrapper>
+      <Box sx={{display: 'flex', alignItems: 'center'}}>
+        <Avatar/>
+        <Typography variant='h2'>Messages</Typography>
+      </Box>
+      <Box onClick={() => dispatch(openDialog(DialogNewMessage))}>
+        <CustomIconButton name='ForwardToInboxOutlined' title='New message'/>
+      </Box>
+    </BoxWrapper>
+  );
+}
 
 export default Header;

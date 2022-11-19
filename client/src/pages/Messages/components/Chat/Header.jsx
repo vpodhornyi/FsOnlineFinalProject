@@ -4,24 +4,23 @@ import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import {Avatar, Typography} from "@mui/material";
 import CustomIconButton from "@components/buttons/CustomIconButton";
-import {openChatInfo, resetActiveId} from "@redux/message/action";
-import {getMessageData} from "@redux/message/selector";
+import {ACTIONS as MESSAGE_ACTIONS} from "@redux/message/action";
+import {getCurrentChat} from "@redux/message/selector";
 
 const Header = () => {
-  const BoxWrapper = styled(Box)(styles);
   const dispatch = useDispatch();
-  const {user} = useSelector(getMessageData);
+  const currentChat = useSelector(getCurrentChat);
 
   return (
     <BoxWrapper>
       <Box sx={{display: 'flex', alignItems: 'center'}}>
-        <Box sx={{mr: '10px'}} className='backButton' onClick={() => dispatch(resetActiveId())}>
+        <Box sx={{mr: '10px'}} className='backButton' onClick={() => dispatch(MESSAGE_ACTIONS.resetActiveId())}>
           <CustomIconButton name='ArrowBackOutlined' title='Back'/>
         </Box>
-        <Avatar sx={{mr: '10px', width: '2.5rem', height: '2.5rem'}} src={user.avatarImgUrl}/>
-        <Typography variant='h2'>{user.name}</Typography>
+        <Avatar sx={{mr: '10px', width: '2.5rem', height: '2.5rem'}} src={currentChat.avatarImgUrl}/>
+        <Typography variant='h2'>{currentChat.title}</Typography>
       </Box>
-      <Box onClick={() => dispatch(openChatInfo())}>
+      <Box onClick={() => dispatch(MESSAGE_ACTIONS.openChatInfo())}>
         <CustomIconButton name='InfoOutlined' title='Details'/>
       </Box>
     </BoxWrapper>);
@@ -57,5 +56,7 @@ const styles = ({theme}) => ({
     }
   }
 });
+
+const BoxWrapper = styled(Box)(styles);
 
 export default Header;

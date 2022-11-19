@@ -2,12 +2,11 @@ import React from "react";
 import {useSelector} from "react-redux";
 import {styled} from "@mui/material/styles";
 import SelectMessage from "./SelectMessage";
-import Conversation from "./Conversation";
+import Conversation from "./Chat";
 import {getMessageData} from '@redux/message/selector';
-import ConversationInfo from "./ConversationInfo";
+import ConversationInfo from "./ChatInfo";
 
 const SectionDetails = () => {
-  const SectionWrapper = styled('section')(styles);
   const {isChatSelected, isChatInfo} = useSelector(getMessageData);
   const select = () => {
     switch (true) {
@@ -36,5 +35,7 @@ const styles = ({theme}) => ({
     display: 'block'
   }
 });
+
+const SectionWrapper = styled('section')(styles);
 
 export default SectionDetails;

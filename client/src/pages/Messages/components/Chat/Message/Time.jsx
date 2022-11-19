@@ -5,9 +5,19 @@ import {Box, Typography} from "@mui/material";
 import PropTypes from "prop-types";
 import Index from "./index";
 
+const styles = ({theme}) => ({
+  cursor: 'pointer',
+  width: '100%',
+  textAlign: 'end',
+  '& .MuiTypography-root': {
+    textAlign: 'right'
+  }
+
+});
+
+const BoxWrapper = styled(Box)(styles);
 
 const Time = ({left}) => {
-  const BoxWrapper = styled(Box)(styles);
   const dispatch = useDispatch();
 
   return (
@@ -19,15 +29,5 @@ const Time = ({left}) => {
 Time.propTypes = {
   left: PropTypes.bool,
 }
-
-const styles = ({theme}) => ({
-  cursor: 'pointer',
-  width: '100%',
-  textAlign: 'end',
-  '& .MuiTypography-root': {
-    textAlign: 'right'
-  }
-
-});
 
 export default Time;

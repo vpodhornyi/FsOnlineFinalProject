@@ -5,8 +5,15 @@ import {Box} from "@mui/material";
 import CustomIconButton from "@components/buttons/CustomIconButton";
 import More from "./More";
 
+const styles = ({theme}) => ({
+  display: 'flex',
+  opacity: 0,
+
+});
+
+const BoxWrapper = styled(Box)(styles);
+
 const Index = () => {
-  const BoxWrapper = styled(Box)(styles);
   const dispatch = useDispatch();
 
   return (
@@ -17,11 +24,5 @@ const Index = () => {
       <More/>
     </BoxWrapper>);
 }
-
-const styles = ({theme}) => ({
-  display: 'flex',
-  opacity: 0,
-
-});
 
 export default Index;

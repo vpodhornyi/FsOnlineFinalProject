@@ -8,14 +8,11 @@ import DialogNewMessage from "./DialogNewMessage";
 import {openDialog} from "@redux/dialog/action";
 
 const WelcomeToInbox = () => {
-  const StyledBox = styled(Box)(styles);
   const dispatch = useDispatch();
 
   return (
     <StyledBox>
-      <Box sx={{
-        width: '320px'
-      }}>
+      <Box>
         <Typography sx={{fontWeight: 600}} variant='h2'>Welcome to your inbox!</Typography>
         <Typography sx={{pb: 3, pt: 1}} variant='body1'>Drop a line, share Tweets and more with private conversation
           between you and others on Twitter</Typography>
@@ -34,6 +31,12 @@ const styles = ({theme}) => ({
   alignItems: 'flex-start',
   justifyContent: 'center',
 
+  '& > .MuiBox-root': {
+    width: '320px'
+  }
+
 });
+
+const StyledBox = styled(Box)(styles);
 
 export default WelcomeToInbox;

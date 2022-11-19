@@ -5,26 +5,6 @@ import Action from "./Action";
 import Message from "./Message";
 import PropTypes from "prop-types";
 
-const MessageBox = ({left, text}) => {
-  const BoxWrapper = styled(Box)(styles);
-
-  return (
-    <BoxWrapper>
-      {left ? (<>
-        <Message left={left} text={text}/>
-        <Action/>
-      </>) : (<>
-        <Action/>
-        <Message text={text}/>
-      </>)}
-    </BoxWrapper>);
-}
-
-MessageBox.propTypes = {
-  left: PropTypes.bool,
-  text: PropTypes.string,
-}
-
 const styles = ({theme}) => ({
   cursor: 'pointer',
   width: '87.5%',
@@ -42,5 +22,26 @@ const styles = ({theme}) => ({
     backgroundColor: '#1d9bf0',
   }
 });
+
+const BoxWrapper = styled(Box)(styles);
+
+const MessageBox = ({left, text}) => {
+
+  return (
+    <BoxWrapper>
+      {left ? (<>
+        <Message left={left} text={text}/>
+        <Action/>
+      </>) : (<>
+        <Action/>
+        <Message text={text}/>
+      </>)}
+    </BoxWrapper>);
+}
+
+MessageBox.propTypes = {
+  left: PropTypes.bool,
+  text: PropTypes.string,
+}
 
 export default MessageBox;

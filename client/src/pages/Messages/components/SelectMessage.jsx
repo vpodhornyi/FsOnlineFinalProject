@@ -7,8 +7,20 @@ import CustomFabButton from "@components/buttons/CustomFabButton";
 import DialogNewMessage from "./DialogNewMessage";
 import {openDialog} from "@redux/dialog/action";
 
+
+const styles = ({theme}) => ({
+  boxSizing: 'border-box',
+  width: '100%',
+  height: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+
+});
+
+const StyledBox = styled(Box)(styles);
+
 const SelectMessage = () => {
-  const StyledBox = styled(Box)(styles);
   const dispatch = useDispatch();
 
   return (
@@ -25,15 +37,5 @@ const SelectMessage = () => {
       </Box>
     </StyledBox>);
 }
-
-const styles = ({theme}) => ({
-  boxSizing: 'border-box',
-  width: '100%',
-  height: '100%',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-
-});
 
 export default SelectMessage;

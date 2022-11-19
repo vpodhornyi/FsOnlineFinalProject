@@ -1,12 +1,9 @@
 import React from "react";
-import {useSelector, useDispatch} from "react-redux";
 import {styled} from "@mui/material/styles";
 import {Box} from "@mui/material";
 import IconByName from "@components/icons/IconByName";
 
 const ScrollDownButton = () => {
-  const BoxWrapper = styled(Box)(styles);
-  const dispatch = useDispatch();
 
   return (
     <BoxWrapper>
@@ -28,5 +25,7 @@ const styles = ({theme}) => ({
     backgroundColor: 'rgb(230, 230, 230)',
   }
 });
+
+const BoxWrapper = styled(Box)(styles);
 
 export default ScrollDownButton;

@@ -4,7 +4,7 @@ import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import {Typography} from "@mui/material";
 import CustomIconButton from "@components/buttons/CustomIconButton";
-import {closeChatInfo} from "@redux/message/action";
+import {ACTIONS as MESSAGE_ACTIONS} from "@redux/message/action";
 
 const SectionNavigation = () => {
   const StyledBox = styled(Box)(styles);
@@ -12,7 +12,7 @@ const SectionNavigation = () => {
 
   return (
     <StyledBox>
-      <Box onClick={() => dispatch(closeChatInfo())}>
+      <Box onClick={() => dispatch(MESSAGE_ACTIONS.closeChatInfo())}>
         <CustomIconButton name='ArrowBackOutlined' title='Back'/>
       </Box>
       <Typography variant='h2'>Conversation info</Typography>

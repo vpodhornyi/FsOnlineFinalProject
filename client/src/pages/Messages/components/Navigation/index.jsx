@@ -4,15 +4,14 @@ import {styled} from "@mui/material/styles";
 import Header from "./Header";
 import SearchBox from "./SearchBox";
 import Box from "@mui/material/Box";
-import UserRoute from "./UserRoute";
+import ChatRoute from "./ChatRoute";
 import {getMessageData} from "@redux/message/selector";
 import Loading from "@components/Loader/Loading";
 import WelcomeToInbox from "../WelcomeToInbox";
 
 const Index = () => {
-  const BoxWrapper = styled(Box)(styles);
-  const {isNavigationLoading, conversations, activeId} = useSelector(getMessageData);
-  const isEmpty = !conversations.length;
+  const {isNavigationLoading, chats, activeId} = useSelector(getMessageData);
+  const isEmpty = !chats.length;
 
   return (
     <BoxWrapper>
@@ -24,7 +23,7 @@ const Index = () => {
         isEmpty ? <WelcomeToInbox/> :
           <>
             <SearchBox/>
-            <Box>{conversations.map(user => <UserRoute key={user.id} user={user} activeId={activeId}/>)}</Box>
+            <Box>{chats.map(chat => <ChatRoute key={chat.id} chat={chat} activeId={activeId}/>)}</Box>
           </>
       }
     </BoxWrapper>);
@@ -34,5 +33,7 @@ const styles = ({theme}) => ({
   height: '100%',
   width: '100%',
 });
+
+const BoxWrapper = styled(Box)(styles);
 
 export default Index;
