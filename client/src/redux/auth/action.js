@@ -1,21 +1,15 @@
 import {createActions} from '../utils';
+import {getTokens} from '../../utils';
 import api, {URLS} from "@service/API";
 import {setAuthToken, setHeaderAuthorization, setRefreshToken} from "@utils";
 import {openDialog, closeDialog} from "@redux/dialog/action";
 import SingInSecondStep from '@pages/Auth/SingIn/SecondStep';
 
-export const GET_USER_REQUEST = "GET_USER_REQUEST";
-export const GET_USER_SUCCESS = "GET_USER_SUCCESS";
-export const GET_USER_ERROR = "GET_USER_ERROR";
-
-const actions = createActions(
-  {
-    async: ["IS_ACCOUNT_EXIST", "AUTHORIZE", "LOGOUT"],
-  },
-  {
-    prefix: "auth",
-  }
-);
+const actions = createActions({
+  async: ["IS_ACCOUNT_EXIST", "AUTHORIZE", "LOGOUT", 'GET_AUTH_USER'],
+}, {
+  prefix: "auth",
+});
 
 export const ACTIONS = {
   ...actions.async,
@@ -28,34 +22,22 @@ export const isAccountExist = (login) => async dispatch => {
     dispatch(ACTIONS.isAccountExist.success(data));
     return true;
 
-export const getAuthUser = (id) => async (dispatch) => {
-    try {
-        dispatch({type: GET_USER_REQUEST});
-        const res = await getUserById(id);
-        dispatch({ type: GET_USER_SUCCESS, payload: res});
-    }catch (e) {
-        dispatch({
-            type: GET_USER_ERROR,
-            payload: `Failed to get auth user. ` + String(e),
-        });
-    }
-}
-
-const logOut = () => (dispatch) => {
-    api.get(URLS.USER.LOG_OUT)
-        .then(()=>{
-            // successToastMessage("Successfully logged out!")
-        })
-    setAuthToken()
-    setRefreshToken()
-    dispatch(ACTIONS.logout())
-}
-
-  } catch (err) {
-    //TODO show error
-    dispatch(ACTIONS.isAccountExist.fail());
-    console.log('isAccountExist error - ', err);
+  } catch (e) {
     return false;
+  }
+}
+
+export const getAuthUser = () => async (dispatch) => {
+  try {
+    const {accessToken} = getTokens();
+    const headers = {Authorization: `Bearer ${accessToken}`};
+
+    dispatch(ACTIONS.getAuthUser.request);
+    const data = await api.get(URLS.USER.ROOT, headers);
+    dispatch(ACTIONS.getAuthUser.success(data));
+
+  } catch (e) {
+    dispatch(ACTIONS.getAuthUser.fail(e));
   }
 }
 
@@ -92,6 +74,8 @@ export const logout = () => async dispatch => {
 
   } catch (err) {
     //TODO show error
+    //TODO ref success to fail
+    dispatch(ACTIONS.logout.success());
     console.log('logout error - ', err);
   }
 }

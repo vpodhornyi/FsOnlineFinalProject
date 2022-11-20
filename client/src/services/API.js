@@ -2,6 +2,7 @@ import axios from "axios";
 import {getTokens, setAuthToken, setHeaderAuthorization} from "@utils";
 
 const BASE_URL = "/api/v0";
+
 const api = axios.create({
   baseURL: BASE_URL,
 })
@@ -30,7 +31,7 @@ export const URLS = {
     LOGOUT: `/auth/logout`,
   },
   USER: {
-    _ROOT: "/user",
+    ROOT: "/users",
   }
 }
     /**

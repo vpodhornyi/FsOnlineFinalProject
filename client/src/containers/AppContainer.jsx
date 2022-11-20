@@ -27,7 +27,7 @@ const AppContainer = () => {
     );
 
     useEffect(() => {
-        dispatch(getAuthUser(authUser?.id))
+        dispatch(getAuthUser());
     }, []);
 
     return (

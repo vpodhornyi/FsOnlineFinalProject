@@ -1,7 +1,7 @@
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { getTokens, setAuthToken } from "@utils";
-import { API_ACTIONS as AUTH_ACTIONS } from "./auth/action";
+import {getAuthUser} from "./auth/action";
 
 import authReducer from "./auth/reducer";
 import dialogReducer from "./dialog/reducer";
@@ -24,7 +24,7 @@ export default () => {
 
   if (accessToken) {
     setAuthToken(accessToken)
-    // store.dispatch(AUTH_ACTIONS.fetchProfile())
+    // store.dispatch(getAuthUser());
   }
 
   return store;
