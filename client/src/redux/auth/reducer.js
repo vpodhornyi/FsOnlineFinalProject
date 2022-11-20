@@ -34,7 +34,6 @@ const INIT_STATE = {
   error: "",
 }
 export default (state = INIT_STATE, {payload, type}) => {
-  console.log(payload);
   switch (type) {
     case String(ACTIONS.getAuthUser.request):
       return {
@@ -81,6 +80,7 @@ export default (state = INIT_STATE, {payload, type}) => {
       return {
         ...state,
         loading: false,
+        authorized: false,
       }
     default:
       return state

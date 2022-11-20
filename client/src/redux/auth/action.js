@@ -1,7 +1,6 @@
 import {createActions} from '../utils';
-import {getTokens} from '../../utils';
 import api, {URLS} from "@service/API";
-import {setAuthToken, setHeaderAuthorization, setRefreshToken} from "@utils";
+import {setAuthToken, setTokenType, setHeaderAuthorization, setRefreshToken} from "@utils";
 import {openDialog, closeDialog} from "@redux/dialog/action";
 import SingInSecondStep from '@pages/Auth/SingIn/SecondStep';
 
@@ -29,11 +28,8 @@ export const isAccountExist = (login) => async dispatch => {
 
 export const getAuthUser = () => async (dispatch) => {
   try {
-    const {accessToken} = getTokens();
-    const headers = {Authorization: `Bearer ${accessToken}`};
-
     dispatch(ACTIONS.getAuthUser.request);
-    const data = await api.get(URLS.USER.ROOT, headers);
+    const data = await api.get(URLS.USER.ROOT);
     dispatch(ACTIONS.getAuthUser.success(data));
 
   } catch (e) {
@@ -55,6 +51,7 @@ export const authorize = ({login, password}) => async dispatch => {
     setHeaderAuthorization(accessToken, type);
     setAuthToken(accessToken);
     setRefreshToken(refreshToken);
+    setTokenType(type);
     dispatch(ACTIONS.authorize.success());
 
   } catch (err) {

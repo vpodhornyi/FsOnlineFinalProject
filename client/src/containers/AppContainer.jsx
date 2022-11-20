@@ -8,51 +8,46 @@ import routes from "../routes";
 import {AUTH_ROUTE, LOGOUT_ROUTE} from "../utils/constants";
 import Container from "@mui/material/Container";
 import Sidebar from "../components/Sidebar/Sidebar";
-import {getAuthUser} from "../redux/auth/action";
 import {getPersonalData} from "../redux/auth/selector";
 
 const AppContainer = () => {
-    const {pathname} = useLocation();
-    const dispatch = useDispatch();
-    const authUser = useSelector(getPersonalData);
+  const {pathname} = useLocation();
+  const dispatch = useDispatch();
+  const authUser = useSelector(getPersonalData);
 
-    const loading = useSelector((state) => state.auth.loading);
+  const loading = useSelector((state) => state.auth.loading);
 
-    const routeComponents = useMemo(() => routes.map(route => (
-            <Route key={route.path} path={route.path} element={
-                <PrivateRoute route={route}/>
-            }/>
-        )),
-        []
-    );
+  const routeComponents = useMemo(() => routes.map(route => (
+      <Route key={route.path} path={route.path} element={
+        <PrivateRoute route={route}/>
+      }/>
+    )),
+    []
+  );
 
-    useEffect(() => {
-        dispatch(getAuthUser());
-    }, []);
-
-    return (
-        <>
-            {
-                pathname !== AUTH_ROUTE && pathname !== LOGOUT_ROUTE ?
-                    <Container sx={{display: "flex"}}>
-                        <Sidebar/>
-                        <Preloader loaded={!loading}/>
-                        <DialogWindow/>
-                        <Suspense fallback={<PageLoader loaded={!loading}/>}>
-                            <Routes>{routeComponents}</Routes>
-                        </Suspense>
-                    </Container>
-                    :
-                    <>
-                        <Preloader loaded={!loading}/>
-                        <DialogWindow/>
-                        <Suspense fallback={<PageLoader loaded={!loading}/>}>
-                            <Routes>{routeComponents}</Routes>
-                        </Suspense>
-                    </>
-            }
-        </>
-    )
+  return (
+    <>
+      {
+        pathname !== AUTH_ROUTE && pathname !== LOGOUT_ROUTE ?
+          <Container sx={{display: "flex"}}>
+            <Sidebar/>
+            <Preloader loaded={!loading}/>
+            <DialogWindow/>
+            <Suspense fallback={<PageLoader loaded={!loading}/>}>
+              <Routes>{routeComponents}</Routes>
+            </Suspense>
+          </Container>
+          :
+          <>
+            <Preloader loaded={!loading}/>
+            <DialogWindow/>
+            <Suspense fallback={<PageLoader loaded={!loading}/>}>
+              <Routes>{routeComponents}</Routes>
+            </Suspense>
+          </>
+      }
+    </>
+  )
 }
 
 export default AppContainer;
