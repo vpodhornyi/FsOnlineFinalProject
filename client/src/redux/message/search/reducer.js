@@ -19,17 +19,18 @@ export default (state = INIT_STATE, {payload, type}) => {
         ...state,
         text: '',
       };
-    case String(ACTIONS.resetFoundUsers):
-      return {
-        ...state,
-        foundUsers: [],
-        text: '',
-      };
     case String(ACTIONS.grabUser):
       const {user} = payload;
       if (!state.grabbedUsers.find(v => v.id === user.id)) {
         state.grabbedUsers.push(user);
       }
+      return {
+        ...state,
+        text: '',
+        foundUsers: [],
+      };
+    case String(ACTIONS.deleteGrabbedUser):
+      state.grabbedUsers = state.grabbedUsers.filter(v => v.id !== payload.id)
       return {
         ...state,
         text: '',
@@ -50,6 +51,13 @@ export default (state = INIT_STATE, {payload, type}) => {
       return {
         ...state,
         searchUserLoading: false,
+      };
+    case String(ACTIONS.resetSearchUsers):
+      return {
+        ...state,
+        foundUsers: [],
+        grabbedUsers: [],
+        text: '',
       };
     default:
       return state;

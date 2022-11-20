@@ -11,7 +11,7 @@ import {ACTIONS as MESSAGE_SEARCH_ACTIONS} from "@redux/message/search/action";
 const SelectMessage = () => {
   const dispatch = useDispatch();
   const onClick = () => {
-    dispatch(MESSAGE_SEARCH_ACTIONS.resetFoundUsers());
+    dispatch(MESSAGE_SEARCH_ACTIONS.resetSearchUsers());
     dispatch(DIALOG_ACTIONS.openDialog({Component: DialogNewMessage}));
   }
 

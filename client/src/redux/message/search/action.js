@@ -5,7 +5,7 @@ const actions = createActions(
   {
     actions: [
       'SET_SEARCH_TEXT', 'RESET_SEARCH_TEXT',
-      'RESET_FOUND_USERS', 'GRAB_USER', 'DELETE_GRABBED_USER'
+      'RESET_SEARCH_USERS', 'GRAB_USER', 'DELETE_GRABBED_USER'
     ],
     async: ['SEARCH_USER'],
   },

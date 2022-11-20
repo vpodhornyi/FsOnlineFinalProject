@@ -13,7 +13,7 @@ import DialogNewMessage from "../DialogNewMessage";
 const Header = () => {
   const dispatch = useDispatch();
   const onClick = () => {
-    dispatch(MESSAGE_SEARCH_ACTIONS.resetFoundUsers());
+    dispatch(MESSAGE_SEARCH_ACTIONS.resetSearchUsers());
     dispatch(DIALOG_ACTIONS.openDialog({Component: DialogNewMessage}));
   }
 

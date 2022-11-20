@@ -3,11 +3,12 @@ import {useSelector, useDispatch} from "react-redux";
 import {styled} from "@mui/material/styles";
 import {Avatar, Box, Chip} from "@mui/material";
 import PropTypes from "prop-types";
+import {ACTIONS as MESSAGE_SEARCH_ACTIONS} from "@redux/message/search/action";
 
 const GrabbedUser = ({user}) => {
   const dispatch = useDispatch();
   const handleDelete = () => {
-    console.info('You clicked the delete icon.');
+    dispatch(MESSAGE_SEARCH_ACTIONS.deleteGrabbedUser({id: user.id}))
   };
 
   return (

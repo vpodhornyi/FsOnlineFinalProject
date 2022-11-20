@@ -1,13 +1,16 @@
 import React from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {styled} from "@mui/material/styles";
 import {Box, Chip, Typography} from "@mui/material";
 import CustomIconButton from "@components/buttons/CustomIconButton";
+import CustomFabButton from "@components/buttons/CustomFabButton";
 import {closeDialog} from "@redux/dialog/action";
+import {getMessageSearchData} from '@redux/message/search/selector';
 
 const Index = () => {
   const BoxWrapper = styled(Box)(styles);
   const dispatch = useDispatch();
+  const {isEmptyGrabbedUsers} = useSelector(getMessageSearchData);
 
   return (
     <BoxWrapper>
@@ -17,8 +20,8 @@ const Index = () => {
         </Box>
         <Typography variant='h2'>New message</Typography>
       </Box>
-      <Box>
-        <Chip label="Next"/>
+      <Box className={isEmptyGrabbedUsers && 'NextButtonWrapper'}>
+        <CustomFabButton name='Next' disabled={isEmptyGrabbedUsers}/>
       </Box>
     </BoxWrapper>);
 }
@@ -41,6 +44,20 @@ const styles = ({theme}) => ({
       fontWeight: 600,
       fontSize: '1.5rem'
     }
+  },
+
+  '& .NextButtonWrapper .CustomFabButton': {
+    backgroundColor: '#aaaaaa !important',
+  },
+
+  '& .CustomFabButton': {
+    backgroundColor: '#000000',
+    color: '#DBE7F0',
+    height: '2.2rem',
+
+    '&:hover': {
+      backgroundColor: '#000000',
+    },
   }
 
 });

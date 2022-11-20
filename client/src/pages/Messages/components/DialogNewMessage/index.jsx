@@ -2,7 +2,7 @@ import React from "react";
 import {useSelector} from "react-redux";
 import {styled} from "@mui/material/styles";
 import {Box} from "@mui/material";
-import Header from "./Header";
+import NewMassageHeader from "./NewMassageHeader";
 import IconByName from "@components/icons/IconByName";
 import SearchTextField from "./SearchTextField";
 import NewMessageLoading from "./NewMessageLoading";
@@ -15,15 +15,12 @@ const DialogNewMessage = () => {
 
   return (
     <BoxWrapper>
-      <Header/>
+      <NewMassageHeader/>
       <Box sx={{position: 'relative', width: '100%', borderBottom: '1px solid #DDDFE2',}}>
         <Box className='SearchIconWrapper'>
           <IconByName iconName='SearchOutlined'/>
         </Box>
         <SearchTextField/>
-        <Box sx={{height: 2}}>
-          <NewMessageLoading/>
-        </Box>
         <Box className='GrubbedUseBox'>
           {
             grabbedUsers.map(user => <GrabbedUser
@@ -31,6 +28,9 @@ const DialogNewMessage = () => {
               user={user}
             />)
           }
+        </Box>
+        <Box sx={{height: 2}}>
+          <NewMessageLoading/>
         </Box>
       </Box>
       <Box className='FoundUsersBox'>

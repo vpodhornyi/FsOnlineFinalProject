@@ -7,6 +7,7 @@ export const getMessageSearchData = state => {
       isSearchUserLoading: data.searchUserLoading,
       foundUsers: data.foundUsers,
       grabbedUsers: data.grabbedUsers,
+      isEmptyGrabbedUsers: !data.grabbedUsers.length,
     }
   }
 }
