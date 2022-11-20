@@ -1,11 +1,10 @@
 import React from "react";
-import IconsByName from "./IconByName"
-import {getLogoIconState} from "../../redux/business/logoIcon/selector";
-import {useSelector} from "react-redux";
+import IconsByName from "./IconByName";
+import {twitterIcon} from "../Sidebar/data/twitterIcon";
 import PropTypes from "prop-types";
 
 const LogoIcon = ({styles}) => {
-  const {logo: {iconName}} = useSelector(getLogoIconState);
+  const {iconName} = twitterIcon;
 
   return <IconsByName iconName={iconName} iconStyle={styles}/>;
 };

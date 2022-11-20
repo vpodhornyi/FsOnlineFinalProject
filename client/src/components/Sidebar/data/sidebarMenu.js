@@ -5,12 +5,12 @@ import {
     HOME_ROUTE, LISTS_ROUTE,
     MESSAGES_ROUTE,
     NOTIFICATIONS_ROUTE
-} from "../../../../utils/constants";
+} from "../../../utils/constants";
 
 const textTheme = '#000000';
 const colorTheme = deepOrange[500];
 
-const INIT = {
+export const sidebarMenu = {
     mainMenuStyle: {
         '& .MuiMenuItem-root': {
             borderRadius: 20,
@@ -74,17 +74,17 @@ const INIT = {
         }
     },
     dropdownData: {
-      head: "Settings",
-      content: [
-          {
-              iconName: "DisplaySettingsOutlined",
-              text: "Display"
-          },
-          {
-              iconName: "LogoutOutlined",
-              text: "Logout"
-          },
-      ]
+        head: "Settings",
+        content: [
+            {
+                iconName: "DisplaySettingsOutlined",
+                text: "Display"
+            },
+            {
+                iconName: "LogoutOutlined",
+                text: "Logout"
+            },
+        ]
     },
     navItems: [
         {
@@ -134,7 +134,7 @@ const INIT = {
             iconActive: "Person",
             text: 'Profile',
             color: textTheme,
-            href: '/userprofile'
+            href: '/bob1234'
         },
         {
             iconName: "DisplaySettingsOutlined",
@@ -163,7 +163,7 @@ const INIT = {
             iconActive: "Person",
             text: 'Profile',
             color: textTheme,
-            href: '/userprofile'
+            href: '/bob1234'
         }
     ],
     textStyle: {
@@ -178,4 +178,3 @@ const INIT = {
     themeColor: colorTheme,
 };
 
-export default (state = INIT) => state;

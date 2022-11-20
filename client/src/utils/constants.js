@@ -1,5 +1,3 @@
-export const mainColor = '#1D9BF0';
-
 export const AUTH_ROUTE = "/";
 export const HOME_ROUTE = "/home";
 export const EXPLORE_ROUTE = "/explore";

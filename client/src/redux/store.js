@@ -1,16 +1,17 @@
 import thunk from "redux-thunk";
-import { composeWithDevTools } from "redux-devtools-extension";
-import { getTokens, setAuthToken } from "@utils";
-import { API_ACTIONS as AUTH_ACTIONS } from "./auth/action";
+import {composeWithDevTools} from "redux-devtools-extension";
+import {getTokens, setHeaderAuthorization} from "@utils";
+import {interceptor} from "@service/API";
+import {getAuthUser} from "./auth/action";
 
 import authReducer from "./auth/reducer";
-import dialogReducer from "./dialog/reducer"
+import dialogReducer from "./dialog/reducer";
 import messageReducer from "./message/reducer";
 import messageSearchReducer from "./message/search/reducer";
 import logoIconReducer from "./business/logoIcon/reducer";
 import mainMenuReducer from "./business/menu/mainMenu/reducer";
 
-const { applyMiddleware, combineReducers, createStore } = require("redux");
+const {applyMiddleware, combineReducers, createStore} = require("redux");
 
 const reducer = combineReducers({
   auth: authReducer,
@@ -22,15 +23,16 @@ const reducer = combineReducers({
 })
 
 export default () => {
-  const { accessToken } = getTokens();
+  const {accessToken, tokenType} = getTokens();
   const store = createStore(
     reducer,
     composeWithDevTools(applyMiddleware(thunk))
   );
+  interceptor(store);
 
   if (accessToken) {
-    setAuthToken(accessToken)
-    // store.dispatch(AUTH_ACTIONS.fetchProfile())
+    setHeaderAuthorization(accessToken, tokenType)
+    store.dispatch(getAuthUser());
   }
 
   return store;

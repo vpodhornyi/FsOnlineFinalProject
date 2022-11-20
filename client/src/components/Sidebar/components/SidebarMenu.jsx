@@ -1,14 +1,12 @@
 import React from "react";
-import {useSelector} from 'react-redux';
 
-// import DisplaySettingsOutlinedIcon from '@mui/icons-material/DisplaySettingsOutlined';
 import MenuItemLink from "./MenuItemLink";
-import {getMainMenuState} from "../../../redux/business/menu/mainMenu/selector";
+import {sidebarMenu} from "../data/sidebarMenu";
 import {MenuList, Link} from "@mui/material";
 import {styled} from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import LogoIcon from "../../icons/LogoIcon";
-import {getLogoIconState} from "../../../redux/business/logoIcon/selector";
+import {twitterIcon} from "../data/twitterIcon";
 import Button from "@mui/material/Button";
 import TweetButton from "./TweetButton";
 import {useLocation} from "react-router-dom";
@@ -21,13 +19,8 @@ const SidebarMenu = () => {
         buttonStyles,
         navItems,
         textStyle,
-    } = useSelector(getMainMenuState);
-    const {
-        logo: {
-            color,
-            href
-        },
-    } = useSelector(getLogoIconState);
+    } = sidebarMenu;
+    const {color, href} = twitterIcon;
 
     const matches = useMediaQuery('(max-width:1280px)');
 

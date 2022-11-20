@@ -1,7 +1,7 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 
 import {closeDialog} from "../../../redux/dialog/action";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import Box from "@mui/material/Box";
 import CloseIcon from "@mui/icons-material/Close";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -16,76 +16,115 @@ import LinkedCameraOutlinedIcon from '@mui/icons-material/LinkedCameraOutlined';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+import {getPersonalData} from "../../../redux/auth/selector";
+import {getAuthUser} from "../../../redux/auth/action";
+import {uploadImage} from "../../../utils/uploadImage";
+import {Backdrop, CircularProgress} from "@mui/material";
+import {updateUser} from "../../../services/userApi";
 
 const EditForm = () => {
     const dispatch = useDispatch();
 
-    const backgroundFileUpload = useRef(null);
-    const iconFileUpload = useRef(null);
-    const handleBackgroundClick = e => backgroundFileUpload.current.click();
-    const handleIconClick = e => iconFileUpload.current.click();
+    const headerFileUpload = useRef(null);
+    const avatarFileUpload = useRef(null);
+    const handleHeaderFileClick = () => headerFileUpload.current.click();
+    const handleAvatarFileClick = () => avatarFileUpload.current.click();
+    const authUser = useSelector(getPersonalData);
 
-    const [name, setName] = useState("");
-    const [bio, setBio] = useState("");
-    const [location, setLocation] = useState("");
-    const [backgroundFile, setBackgroundFile] = useState("");
-    const [backgroundPreviewUrl, setBackgroundPreviewUrl] = useState("");
-    const [iconFile, setIconFile] = useState("");
-    const [iconUrl, setIconUrl] = useState("");
-    const [month, setMonth] = useState("");
-    const [day, setDay] = useState(0);
-    const [year, setYear] = useState(0);
-
+    const [loading, setLoading] = useState(false);
+    const [name, setName] = useState(authUser?.name || "");
+    const [bio, setBio] = useState(authUser?.bio ||"");
+    const [location, setLocation] = useState(authUser?.location || "");
+    const [headerFile, setHeaderFile] = useState("");
+    const [headerLocalUrl, setHeaderLocalUrl] = useState(authUser?.headerImgUrl || "");
+    const [avatarFile, setAvatarFile] = useState("");
+    const [avatarLocalUrl, setAvatarLocalUrl] = useState("");
+    const [month, setMonth] = useState(authUser.birthDate ? authUser.birthDate.substring(3, 5) : "");
+    const [day, setDay] = useState(authUser.birthDate ? authUser.birthDate.substring(0, 2) : "");
+    const [year, setYear] = useState(authUser.birthDate ? authUser.birthDate.substring(6, 10) : "");
 
     const handleMonthChange = e => setMonth(e.target.value);
-    const handleDayChange = e => setDay(+e.target.value);
-    const handleYearChange = e => setYear(+e.target.value);
+    const handleDayChange = e => setDay(e.target.value);
+    const handleYearChange = e => setYear(e.target.value);
     const handleNameChange = e => setName(e.target.value);
     const handleBioChange = e => setBio(e.target.value);
     const handleLocationChange = e => setLocation(e.target.value);
-    const handleSaveClick = e => console.log({
-        backgroundPreview: backgroundPreviewUrl,
-        name,
-        bio,
-        location,
-        backgroundPreviewUrl,
-        iconUrl,
-        day,
-        month,
-        year
-    });
 
-    const handleRemoveBackground = e => {
-        setBackgroundPreviewUrl("");
-        setBackgroundFile("");
+    const handleSaveClick = async () => {
+        setLoading(true);
+
+        if (headerFile instanceof Object) {
+            await uploadImage(headerFile, authUser.id, "UPDATE_PROFILE_HEADER")
+        }
+
+        if (avatarFile instanceof Object) {
+            await uploadImage(avatarFile, authUser.id, "UPDATE_PROFILE_AVATAR")
+        }
+
+        await updateUser(
+            authUser?.id,
+            {
+                name,
+                bio,
+                location,
+                birth: `${day}.${month}.${year}`
+            }
+        );
+
+        if (authUser?.headerImgUrl !== null && authUser.headerImgUrl.length > 0 && headerFile === "") {
+            await updateUser(authUser?.id, {headerImgUrl: ""});
+        }
+
+        dispatch(getAuthUser(authUser?.id));
+        dispatch(closeDialog());
     }
 
-    const handleBackgroundChange = e => {
+    useEffect(() => {
+        setLoading(false);
+    }, [authUser]);
+
+    const handleRemoveHeader = () => {
+        setHeaderLocalUrl("");
+        setHeaderFile("");
+    }
+
+    const handleHeaderChange = e => {
         e.preventDefault();
 
         const reader = new FileReader();
         const file = e.target.files[0];
 
         reader.onloadend = () => {
-            setBackgroundFile(file);
-            setBackgroundPreviewUrl(reader.result);
+            setHeaderFile(file);
+            setHeaderLocalUrl(reader.result);
         }
 
         reader.readAsDataURL(file);
     }
 
-    const handleIconChange = e => {
+    const handleAvatarChange = e => {
         e.preventDefault();
 
         const reader = new FileReader();
         const file = e.target.files[0];
 
         reader.onloadend = () => {
-            setIconFile(file);
-            setIconUrl(reader.result);
+            setAvatarFile(file);
+            setAvatarLocalUrl(reader.result);
         }
 
         reader.readAsDataURL(file);
+    }
+
+    if (loading) {
+        return (
+            <Backdrop
+                sx={{ color: '#fff', width: "100vw", zIndex: 100 }}
+                open={loading}
+            >
+                <CircularProgress color="inherit" />
+            </Backdrop>
+        );
     }
 
     return (
@@ -117,7 +156,7 @@ const EditForm = () => {
                 justifyContent: 'space-between',
             }}>
                 <DialogContent sx={{padding: 0}}>
-                    <UserBackground imageUrl={backgroundPreviewUrl} styles={{
+                    <UserBackground imageUrl={headerLocalUrl} styles={{
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
@@ -128,36 +167,36 @@ const EditForm = () => {
                             type="file"
                             accept="image/*"
                             style={{display: 'none'}}
-                            ref={backgroundFileUpload}
-                            onChange={handleBackgroundChange}
+                            ref={headerFileUpload}
+                            onChange={handleHeaderChange}
                         />
                         <Tooltip sx={{backgroundColor: "rgba(63, 67, 71, 0.75)"}} title="Add photo">
                             <IconButton
-                                onClick={handleBackgroundClick}
+                                onClick={handleHeaderFileClick}
                             >
                                 <LinkedCameraOutlinedIcon sx={{color: "white"}}/>
                             </IconButton>
                         </Tooltip>
                         {
-                            backgroundPreviewUrl ?
+                            headerLocalUrl ?
                                 <Tooltip sx={{backgroundColor: "rgba(63, 67, 71, 0.75)"}} title="Remove photo">
-                                    <IconButton onClick={handleRemoveBackground}>
+                                    <IconButton onClick={handleRemoveHeader}>
                                         <CancelOutlinedIcon sx={{color: "white"}}/>
                                     </IconButton>
                                 </Tooltip> : <></>
                         }
                     </UserBackground>
                     <Box sx={{padding: "0 10px", margin: "-8% 0 0 0", display: "inline-block"}}>
-                        <UserIcon src={iconUrl ? iconUrl : ""} width={85} height={85} iconLetter={""}>
+                        <UserIcon src={avatarLocalUrl || authUser?.avatarImgUrl} width={85} height={85} iconLetter={""}>
                             <input
                                 type="file"
                                 accept="image/*"
                                 style={{display: 'none'}}
-                                ref={iconFileUpload}
-                                onChange={handleIconChange}
+                                ref={avatarFileUpload}
+                                onChange={handleAvatarChange}
                             />
                             <Tooltip sx={{backgroundColor: "rgba(63, 67, 71, 0.75)"}} title="Add photo">
-                                <IconButton onClick={handleIconClick}>
+                                <IconButton onClick={handleAvatarFileClick}>
                                     <LinkedCameraOutlinedIcon sx={{color: "white"}}/>
                                 </IconButton>
                             </Tooltip>

@@ -1,17 +1,14 @@
 import {createActions} from '../utils';
 import api, {URLS} from "@service/API";
-import {setAuthToken, setHeaderAuthorization, setRefreshToken} from "@utils";
+import {setAuthToken, setTokenType, setHeaderAuthorization, setRefreshToken} from "@utils";
 import {openDialog, closeDialog} from "@redux/dialog/action";
 import SingInSecondStep from '@pages/Auth/SingIn/SecondStep';
 
-const actions = createActions(
-  {
-    async: ["IS_ACCOUNT_EXIST", "AUTHORIZE", "LOGOUT"],
-  },
-  {
-    prefix: "auth",
-  }
-);
+const actions = createActions({
+  async: ["IS_ACCOUNT_EXIST", "AUTHORIZE", "LOGOUT", 'GET_AUTH_USER'],
+}, {
+  prefix: "auth",
+});
 
 export const ACTIONS = {
   ...actions.async,
@@ -24,11 +21,19 @@ export const isAccountExist = (login) => async dispatch => {
     dispatch(ACTIONS.isAccountExist.success(data));
     return true;
 
-  } catch (err) {
-    //TODO show error
-    dispatch(ACTIONS.isAccountExist.fail());
-    console.log('isAccountExist error - ', err);
+  } catch (e) {
     return false;
+  }
+}
+
+export const getAuthUser = () => async (dispatch) => {
+  try {
+    dispatch(ACTIONS.getAuthUser.request);
+    const data = await api.get(URLS.USER.ROOT);
+    dispatch(ACTIONS.getAuthUser.success(data));
+
+  } catch (e) {
+    dispatch(ACTIONS.getAuthUser.fail(e));
   }
 }
 
@@ -46,6 +51,7 @@ export const authorize = ({login, password}) => async dispatch => {
     setHeaderAuthorization(accessToken, type);
     setAuthToken(accessToken);
     setRefreshToken(refreshToken);
+    setTokenType(type);
     dispatch(ACTIONS.authorize.success());
 
   } catch (err) {
@@ -65,6 +71,8 @@ export const logout = () => async dispatch => {
 
   } catch (err) {
     //TODO show error
+    //TODO ref success to fail
+    dispatch(ACTIONS.logout.success());
     console.log('logout error - ', err);
   }
 }
