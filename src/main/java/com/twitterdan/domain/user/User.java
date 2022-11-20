@@ -10,13 +10,7 @@ import lombok.Setter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.OneToMany;
-import javax.persistence.ManyToMany;
-import javax.persistence.JoinTable;
-import javax.persistence.JoinColumn;
-import javax.persistence.Column;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -43,9 +37,10 @@ public class User extends BaseEntity {
   private String location;
   private String avatarImgUrl;
   private String headerImgUrl;
-
+  @LazyCollection(LazyCollectionOption.EXTRA)
   @OneToMany
   @JoinColumn(name = "user_id")
+@JsonIgnore
   private Set<Tweet> tweets;
 
   @LazyCollection(LazyCollectionOption.EXTRA)
@@ -63,7 +58,8 @@ public class User extends BaseEntity {
     inverseJoinColumns = @JoinColumn(name = "followed_id"))
   @JsonIgnore
   private Set<User> followings;
-
+  @LazyCollection(LazyCollectionOption.EXTRA)
   @ManyToMany
+  @JsonIgnore
   private Set<Chat> chats;
 }

@@ -16,7 +16,7 @@ import java.io.Serializable;
 @Getter
 @NoArgsConstructor
 public abstract class BaseEntity extends Auditable<String> implements Serializable {
-  @NotNull
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id",  updatable = false)

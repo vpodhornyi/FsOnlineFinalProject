@@ -1,10 +1,10 @@
 package com.twitterdan.controller;
 
-import com.twitterdan.domain.dto.tweetDto.TweetRequest;
-import com.twitterdan.domain.dto.tweetDto.TweetResponse;
 import com.twitterdan.domain.tweet.Tweet;
-import com.twitterdan.facade.tweetFacade.TweetRequestMapper;
-import com.twitterdan.facade.tweetFacade.TweetResponseMapper;
+import com.twitterdan.dto.tweet.TweetRequest;
+import com.twitterdan.dto.tweet.TweetResponse;
+import com.twitterdan.facade.tweet.TweetRequestMapper;
+import com.twitterdan.facade.tweet.TweetResponseMapper;
 import com.twitterdan.service.TweetService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -61,9 +61,9 @@ public class TweetController {
 
         @PutMapping("/update")
         public void update(@Valid @RequestBody TweetRequest dto) {
-            Tweet tweet = tweetRequestMapper.convertToEntity(dto);
-            log.info(tweet + " - Object for update Tweet  ");
-           tweetService.save(tweet);
+
+            log.info(dto + " - Object for update Tweet  ");
+           tweetService.update(dto);
         }
 
         @PostMapping("/create")
