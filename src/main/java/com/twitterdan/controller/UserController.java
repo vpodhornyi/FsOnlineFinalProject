@@ -1,9 +1,9 @@
 package com.twitterdan.controller;
 
-import com.twitterdan.domain.dto.userDto.UserResponseDto;
 import com.twitterdan.domain.dto.userDto.UserProfileUpdateRequestDto;
 import com.twitterdan.domain.user.User;
-import com.twitterdan.facade.userFacade.UserResponseMapper;
+import com.twitterdan.dto.user.UserResponse;
+import com.twitterdan.facade.user.UserResponseMapper;
 import com.twitterdan.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,14 +25,14 @@ public class UserController {
     private final UserResponseMapper userResponseMapper;
 
     @GetMapping
-    public List<UserResponseDto> findAll() {
+    public List<UserResponse> findAll() {
         return userService.findAll().stream()
                 .map(userResponseMapper::convertToDto)
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public UserResponseDto findById(
+    public UserResponse findById(
             @PathVariable(name = "id") Long id
     ) {
         User user = userService.findById(id);
@@ -40,7 +40,7 @@ public class UserController {
     }
 
     @GetMapping("/")
-    public UserResponseDto findByUserTag (
+    public UserResponse findByUserTag (
             @RequestParam(name = "userTag") String userTag
     ) {
         User user = userService.findByUserTag(userTag);
