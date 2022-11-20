@@ -9,7 +9,7 @@ const INIT = {
 
 export default (state = INIT, action) => {
   const { payload, type } = action;
-  const { loading, Component } = payload
+  const { loading, Component, props } = payload
     ? payload
     : {
         loading: false,
@@ -22,12 +22,14 @@ export default (state = INIT, action) => {
       return {
         ...state,
         open: false,
+        props: {},
       };
     case String(ACTIONS.openDialog):
       return {
         ...state,
         open: true,
         Component,
+        props: props,
       };
     default:
       return state;

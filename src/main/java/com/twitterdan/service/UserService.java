@@ -1,12 +1,12 @@
 package com.twitterdan.service;
 
-import com.twitterdan.dao.UserDao;
+import com.twitterdan.dao.UserRepository;
+import com.twitterdan.domain.dto.userDto.UserProfileUpdateRequestDto;
 import com.twitterdan.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -19,7 +19,7 @@ import java.util.Optional;
 @Transactional
 @RequiredArgsConstructor
 public class UserService {
-    private final UserDao userRepository;
+    private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
     public List<User> findAll() {
@@ -114,10 +114,6 @@ public class UserService {
     return userRepository.save(user);
   }
 
-  public User findById(Long id) {
-    return userRepository.findById(id).orElse(new User());
-  }
-
   public Boolean deleteUserById(Long id) {
     userRepository.deleteById(id);
     return true;
@@ -132,7 +128,6 @@ public class UserService {
   }
 
   public List<User> findByMatchesInNameOrUserTag(String text) {
-
     Optional<List<User>> optionalUsers = userRepository.findByMatchingNameOrUserTag(text);
 
     return optionalUsers.orElse(Collections.emptyList());

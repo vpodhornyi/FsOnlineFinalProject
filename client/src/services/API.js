@@ -48,17 +48,9 @@ export const URLS = {
     LOGOUT: `/auth/logout`,
   },
   USER: {
-    _ROOT: "/user",
-    SEARCH: '/user/search'
+    _ROOT: "/users",
+    SEARCH: '/users/search'
   }
 }
-    /**
-     https://axios-http.com/ru/docs/interceptors
-     перехват запросов
-
-
-
-
-     **/
 
 export default api;

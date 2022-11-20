@@ -39,7 +39,7 @@ export const getAuthUser = () => async (dispatch) => {
 
 export const runSecondLoginStep = (login) => async dispatch => {
   if (await dispatch(isAccountExist(login))) {
-    dispatch(openDialog(SingInSecondStep));
+    dispatch(openDialog(SingInSecondStep, {login}));
   }
 }
 

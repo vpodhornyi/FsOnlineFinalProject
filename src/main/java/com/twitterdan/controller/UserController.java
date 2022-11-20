@@ -1,5 +1,6 @@
 package com.twitterdan.controller;
 
+import com.twitterdan.domain.dto.userDto.UserProfileUpdateRequestDto;
 import com.twitterdan.domain.user.User;
 import com.twitterdan.dto.user.UserResponse;
 import com.twitterdan.facade.user.UserResponseMapper;

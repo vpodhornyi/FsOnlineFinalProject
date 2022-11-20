@@ -11,8 +11,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 import {closeDialog} from "@redux/dialog/action";
 import {authorize} from "@redux/auth/action";
-import {getLoginName} from "@redux/auth/selector";
 import CustomButton from '@components/CustomButton';
+import PropTypes from "prop-types";
 
 const MAIN_COLOR = '#1D9BF0';
 const CUSTOM_BUTTON_LOG_IN_STYLE = `
@@ -26,17 +26,15 @@ const CUSTOM_BUTTON_LOG_IN_STYLE = `
     }`;
 const CUSTOM_BUTTON_LOG_IN_NAME = 'Log in';
 
-const SingInSecondStep = () => {
+const SingInSecondStep = ({props: {login}}) => {
   const dispatch = useDispatch();
   const [password, setPassword] = useState('');
-  const loginName = useSelector(getLoginName);
-
   const onChange = e => {
     setPassword(() => e.target.value);
   }
 
   return (
-    <Box sx={{padding: '0 100px', width: '380px', height: '95%',}}>
+    <Box sx={{padding: '0 100px', width: '380px', height: '80vh',}}>
       <Box sx={{
         display: 'flex',
         justifyContent: 'center',
@@ -63,7 +61,7 @@ const SingInSecondStep = () => {
           <Grid>
             <Grid item xs={12} sx={{pb: 1}}>
               <Grid item sx={{padding: '10px 0 20px 0'}}>
-                <TextField value={loginName}
+                <TextField value={login}
                            disabled={true}
                            id="email"
                            sx={{width: '100%'}}
@@ -87,7 +85,7 @@ const SingInSecondStep = () => {
             <CustomButton
               customStyle={CUSTOM_BUTTON_LOG_IN_STYLE}
               name={CUSTOM_BUTTON_LOG_IN_NAME}
-              onclickAction={() => authorize({login: loginName, password})}
+              onclickAction={() => authorize({login, password})}
             />
           </Grid>
           <DialogContentText sx={{fontSize: 15, pt: 3}}>
@@ -98,6 +96,11 @@ const SingInSecondStep = () => {
     </Box>
   );
 };
+
+SingInSecondStep.propTypes = {
+  props: PropTypes.object,
+  login: PropTypes.string,
+}
 
 export default SingInSecondStep;
 

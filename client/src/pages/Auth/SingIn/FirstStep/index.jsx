@@ -11,7 +11,6 @@ import TextField from '@mui/material/TextField';
 import LogoIcon from '@components/icons/LogoIcon';
 import {openDialog, closeDialog} from "@redux/dialog/action";
 import {runSecondLoginStep} from "@redux/auth/action";
-import {getLoginName} from "@redux/auth/selector";
 import OrLine from '../../components/OrLine';
 import CustomButton from '@components/CustomButton';
 import ForgotPassword from '../ForgotPassword';
@@ -51,7 +50,7 @@ const CUSTOM_BUTTON_FORGOT_PASSWORD_STYLE = `
 const CUSTOM_BUTTON_FORGOT_PASSWORD_NAME = 'Forgot password?';
 
 const SingInFirstStep = () => {
-  const [login, setLogin] = useState(useSelector(getLoginName));
+  const [login, setLogin] = useState('');
   const dispatch = useDispatch();
 
   const onChange = (e) => {
@@ -59,7 +58,7 @@ const SingInFirstStep = () => {
   }
 
   return (
-    <Box sx={{padding: '0 100px', width: '380px', height: '95%',}}>
+    <Box sx={{padding: '0 100px', width: '380px', height: '80vh',}}>
       <Box sx={{
         display: 'flex',
         justifyContent: 'center',

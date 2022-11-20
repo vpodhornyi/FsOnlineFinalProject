@@ -6,7 +6,7 @@ import {ACTIONS} from "@redux/dialog/action";
 import {styled} from "@mui/material/styles";
 
 const FormDialog = () => {
-  const {open} = useSelector(getDialogState);
+  const {open, props} = useSelector(getDialogState);
   const Component = useSelector(getDialogComponent);
   const dispatch = useDispatch();
 
@@ -14,7 +14,7 @@ const FormDialog = () => {
     <DialogWrapper
       open={open}
       onClose={() => dispatch(ACTIONS.closeDialog())}>
-      <Component/>
+      <Component props={props}/>
     </DialogWrapper>
   );
 }
