@@ -6,16 +6,17 @@ import {Typography} from "@mui/material";
 import CustomIconButton from "@components/buttons/CustomIconButton";
 import Avatar from "./Avatar";
 import {ACTIONS as DIALOG_ACTIONS} from "@redux/dialog/action";
-import {ACTIONS as MESSAGE_ACTIONS} from "@redux/message/action";
+import {ACTIONS as MESSAGE_SEARCH_ACTIONS} from "@redux/message/search/action";
 import DialogNewMessage from "../DialogNewMessage";
 
 
 const Header = () => {
   const dispatch = useDispatch();
   const onClick = () => {
-    dispatch(MESSAGE_ACTIONS.resetFoundUsers());
+    dispatch(MESSAGE_SEARCH_ACTIONS.resetFoundUsers());
     dispatch(DIALOG_ACTIONS.openDialog({Component: DialogNewMessage}));
   }
+
   return (
     <BoxWrapper>
       <Box sx={{display: 'flex', alignItems: 'center'}}>

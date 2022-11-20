@@ -4,7 +4,6 @@ const INIT_STATE = {
   message: '',
   navigationLoading: false,
   detailLoading: false,
-  searchUserLoading: false,
   sendingMessage: false,
   isChatInfo: false,
   activeId: -1,
@@ -44,7 +43,7 @@ const INIT_STATE = {
       ]
     }
   ],
-  foundUsers: [],
+  grabbedUsers: [],
   chatData: [
     {
       key: 'AS32edd23',
@@ -102,27 +101,6 @@ export default (state = INIT_STATE, {payload, type}) => {
       return {
         ...state,
         detailLoading: !state.detailLoading,
-      };
-    case String(ACTIONS.resetFoundUsers):
-      return {
-        ...state,
-        foundUsers: [],
-      };
-    case String(ACTIONS.searchUser.request):
-      return {
-        ...state,
-        searchUserLoading: true,
-      };
-    case String(ACTIONS.searchUser.success):
-      return {
-        ...state,
-        foundUsers: payload,
-        searchUserLoading: false,
-      };
-    case String(ACTIONS.searchUser.fail):
-      return {
-        ...state,
-        searchUserLoading: false,
       };
     case String(ACTIONS.setMessage):
       const {id, text} = payload;

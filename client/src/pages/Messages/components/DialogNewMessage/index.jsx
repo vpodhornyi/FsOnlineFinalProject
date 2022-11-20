@@ -1,22 +1,22 @@
 import React from "react";
-import {useSelector, useDispatch} from "react-redux";
+import {useSelector} from "react-redux";
 import {styled} from "@mui/material/styles";
 import {Box} from "@mui/material";
 import Header from "./Header";
 import IconByName from "@components/icons/IconByName";
 import SearchTextField from "./SearchTextField";
 import NewMessageLoading from "./NewMessageLoading";
-import {getMessageData} from "@redux/message/selector";
+import {getMessageSearchData} from "@redux/message/search/selector";
 import FoundUser from "./FoundUser";
+import GrabbedUser from "./GrabbedUser";
 
 const DialogNewMessage = () => {
-  const dispatch = useDispatch();
-  const {foundUsers} = useSelector(getMessageData);
+  const {foundUsers, grabbedUsers} = useSelector(getMessageSearchData);
 
   return (
     <BoxWrapper>
       <Header/>
-      <Box sx={{position: 'relative', width: '100%'}}>
+      <Box sx={{position: 'relative', width: '100%', borderBottom: '1px solid #DDDFE2',}}>
         <Box className='SearchIconWrapper'>
           <IconByName iconName='SearchOutlined'/>
         </Box>
@@ -24,8 +24,16 @@ const DialogNewMessage = () => {
         <Box sx={{height: 2}}>
           <NewMessageLoading/>
         </Box>
+        <Box className='GrubbedUseBox'>
+          {
+            grabbedUsers.map(user => <GrabbedUser
+              key={user?.id + user?.email}
+              user={user}
+            />)
+          }
+        </Box>
       </Box>
-      <Box className='FoundUsersWrapper'>
+      <Box className='FoundUsersBox'>
         {
           foundUsers.map(user => <FoundUser
             key={user?.id + user?.userTag}
@@ -46,7 +54,12 @@ const styles = ({theme}) => ({
     left: 17,
   },
 
-  '& .FoundUsersWrapper': {
+  '& .GrubbedUseBox': {
+    padding: '5px 0',
+    display: 'flex',
+  },
+
+  '& .FoundUsersBox': {
     width: '100%',
     overflow: 'overlay',
     overflowX: 'hidden',

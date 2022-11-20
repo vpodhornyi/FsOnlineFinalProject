@@ -5,8 +5,7 @@ const actions = createActions(
   {
     actions: [
       'SET_ACTIVE_ID', 'CLOSE_CHAT_INFO', 'OPEN_CHAT_INFO', 'RESET_ACTIVE_ID',
-      'NAVIGATION_LOADING', 'DETAIL_LOADING', 'SEND_MESSAGE', 'SET_MESSAGE',
-      'RESET_FOUND_USERS'
+      'NAVIGATION_LOADING', 'DETAIL_LOADING', 'SEND_MESSAGE', 'SET_MESSAGE'
     ],
     async: ['GET_CONVERSATION', 'SEARCH_USER'],
   },
@@ -55,21 +54,5 @@ export const getConversation = ({id}) => async dispatch => {
 
   } catch (err) {
     console.log('getConversation error - ', err);
-  }
-}
-
-export const searchUser = ({text}) => async dispatch => {
-  try {
-    if (text.trim() === '') {
-      dispatch(ACTIONS.searchUser.success([]));
-    } else {
-      dispatch(ACTIONS.searchUser.request());
-      const data = await api.get(URLS.USER.SEARCH, {params: {text}});
-      dispatch(ACTIONS.searchUser.success(data));
-    }
-
-  } catch (err) {
-    console.log('searchUser error - ', err);
-    dispatch(ACTIONS.searchUser.fail());
   }
 }

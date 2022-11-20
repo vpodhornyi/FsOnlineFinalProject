@@ -1,12 +1,13 @@
-import React, {useState, useEffect} from "react";
-import {useDispatch} from "react-redux";
+import React, {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import {styled} from "@mui/material/styles";
 import {TextField} from "@mui/material";
-import {searchUser} from "@redux/message/action";
+import {ACTIONS, searchUser} from "@redux/message/search/action";
+import {getMessageSearchData} from "@redux/message/search/selector";
 
 const SearchTextField = () => {
-  const [text, setText] = useState('');
   const dispatch = useDispatch();
+  const {text} = useSelector(getMessageSearchData);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -19,7 +20,7 @@ const SearchTextField = () => {
   return (
     <TextFieldWrapper
       value={text}
-      onChange={e => setText(e.target.value)}
+      onChange={e => dispatch(ACTIONS.setSearchText({text: e.target.value}))}
       placeholder="Search people"
       variant="standard"
       fullWidth/>
@@ -30,7 +31,6 @@ const styles = ({theme}) => ({
   '& .MuiInputBase-root': {
     paddingLeft: 50,
     paddingBottom: 5,
-    borderBottom: '1px solid #DDDFE2',
 
     '&:before': {
       content: 'none'

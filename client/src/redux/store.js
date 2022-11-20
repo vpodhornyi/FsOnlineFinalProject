@@ -6,6 +6,7 @@ import { API_ACTIONS as AUTH_ACTIONS } from "./auth/action";
 import authReducer from "./auth/reducer";
 import dialogReducer from "./dialog/reducer"
 import messageReducer from "./message/reducer";
+import messageSearchReducer from "./message/search/reducer";
 import logoIconReducer from "./business/logoIcon/reducer";
 import mainMenuReducer from "./business/menu/mainMenu/reducer";
 
@@ -15,6 +16,7 @@ const reducer = combineReducers({
   auth: authReducer,
   dialog: dialogReducer,
   message: messageReducer,
+  messageSearch: messageSearchReducer,
   logoIcon: logoIconReducer,
   mainMenu: mainMenuReducer,
 })

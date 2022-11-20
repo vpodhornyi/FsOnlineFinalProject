@@ -7,13 +7,13 @@ import {styled} from "@mui/material/styles";
 const CustomIconButton = ({name, title, size = 'medium', disabled = false, iconSize}) => {
   const StyledIconButton = styled(IconButton)(styles);
   return (
-    <Tooltip title={title}>
+    // <Tooltip title={title}>
       <Box>
         <StyledIconButton size={size} disabled={disabled}>
           <IconsByName iconName={name} iconSize={iconSize}/>
         </StyledIconButton>
       </Box>
-    </Tooltip>
+    // </Tooltip>
   )
 };
 
