@@ -1,6 +1,6 @@
 package com.twitterdan.service;
 
-import com.twitterdan.dao.TweetDao;
+import com.twitterdan.dao.TweetRepository;
 import com.twitterdan.domain.tweet.Tweet;
 import com.twitterdan.dto.tweet.TweetRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ public class TweetService {
 
 
         @Autowired
-        private TweetDao tweetDao;
+        private TweetRepository tweetDao;
 
 
         public List<Tweet> getAll() {
