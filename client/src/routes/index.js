@@ -8,7 +8,7 @@ import {
   MESSAGES_ROUTE,
   NOTIFICATIONS_ROUTE
 } from "../utils/constants";
-import UserProfile from "../pages/UserProfile/UserProfile";
+import UserProfile from "../pages/UserProfile";
 import Main from "../pages/Main";
 import Auth from "../pages/Auth";
 import Lists from "../pages/Lists/Lists";
