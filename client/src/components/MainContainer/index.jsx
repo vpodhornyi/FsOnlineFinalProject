@@ -1,11 +1,32 @@
-import React from "react";
+import React, { Suspense, useMemo } from "react";
 import Grid from "@mui/material/Grid";
+import { useSelector } from "react-redux";
 import Container from "@mui/material/Container";
 import Main from "@pages/Main";
+import routes from "../../routes";
 import { useTheme } from "@emotion/react";
 import Searchbar from "@components/Searchbar";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { PageLoader, Preloader } from "@components/Loader";
+import DialogWindow from "@components/DialogWindow";
+import PrivateRoute from "@components/PrivateRoute";
+import { AUTH_ROUTE, LOGOUT_ROUTE } from "../../utils/constants";
 const MainContainer = (props) => {
+  const { pathname } = useLocation();
+
   const theme = useTheme();
+  const loading = useSelector((state) => state.auth.loading);
+  const routeComponents = useMemo(
+    () =>
+      routes.map((route) => (
+        <Route
+          key={route.path}
+          path={route.path}
+          element={<PrivateRoute route={route} />}
+        />
+      )),
+    []
+  );
   return (
     <Grid
       container
@@ -24,7 +45,23 @@ const MainContainer = (props) => {
         height="100vh"
         justifyContent="center"
       >
-        Here goes the primary column with twits
+        {pathname !== AUTH_ROUTE && pathname !== LOGOUT_ROUTE ? (
+          <Container sx={{ display: "flex" }}>
+            <Preloader loaded={!loading} />
+            <DialogWindow />
+            <Suspense fallback={<PageLoader loaded={!loading} />}>
+              <Routes>{routeComponents}</Routes>
+            </Suspense>
+          </Container>
+        ) : (
+          <>
+            <Preloader loaded={!loading} />
+            <DialogWindow />
+            <Suspense fallback={<PageLoader loaded={!loading} />}>
+              <Routes>{routeComponents}</Routes>
+            </Suspense>
+          </>
+        )}
       </Grid>
       <Grid
         item

@@ -1,14 +1,21 @@
-import React from "react";
+import React, { Suspense, useMemo } from "react";
+import { useSelector } from "react-redux";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { PageLoader, Preloader } from "@components/Loader";
+import PrivateRoute from "@components/PrivateRoute";
+import DialogWindow from "@components/DialogWindow";
 
-import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
+import Sidebar from "../../components/Sidebar/Sidebar";
+import Grid from "@mui/material/Grid";
+
 import MainContainer from "@components/MainContainer";
 import Box from "@mui/material/Box";
 import { useTheme } from "@emotion/react";
-import Sidebar from "@components/Sidebar/Sidebar";
 
 const Main = () => {
   const theme = useTheme();
+
   return (
     <>
       <Grid
@@ -25,7 +32,7 @@ const Main = () => {
         }}
       >
         <Grid item justifyContent="center" xl={3} lg={2} md={2} sm={2}>
-          <Sidebar/>
+          <Sidebar />
         </Grid>
         <Grid
           item
@@ -42,7 +49,5 @@ const Main = () => {
     </>
   );
 };
-
-
 
 export default Main;

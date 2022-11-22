@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import "./colorCustomization.scss";
+import "./colorCustomization.css";
 import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
 
