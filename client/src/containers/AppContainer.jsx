@@ -12,8 +12,6 @@ import {getPersonalData} from "../redux/auth/selector";
 
 const AppContainer = () => {
   const {pathname} = useLocation();
-  const dispatch = useDispatch();
-  const authUser = useSelector(getPersonalData);
 
   const loading = useSelector((state) => state.auth.loading);
 

@@ -1,7 +1,7 @@
 import React from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {styled} from "@mui/material/styles";
-import {Box, Chip, Typography} from "@mui/material";
+import {Box, Typography} from "@mui/material";
 import CustomIconButton from "@components/buttons/CustomIconButton";
 import CustomFabButton from "@components/buttons/CustomFabButton";
 import {closeDialog} from "@redux/dialog/action";
@@ -12,6 +12,9 @@ const Index = () => {
   const dispatch = useDispatch();
   const {isEmptyGrabbedUsers} = useSelector(getMessageSearchData);
 
+  const next = () => {
+
+  }
   return (
     <BoxWrapper>
       <Box className='Title'>
@@ -20,7 +23,9 @@ const Index = () => {
         </Box>
         <Typography variant='h2'>New message</Typography>
       </Box>
-      <Box className={isEmptyGrabbedUsers && 'NextButtonWrapper'}>
+      <Box
+        onClick={() => next()}
+        className={isEmptyGrabbedUsers && 'NextButtonWrapper'}>
         <CustomFabButton name='Next' disabled={isEmptyGrabbedUsers}/>
       </Box>
     </BoxWrapper>);
