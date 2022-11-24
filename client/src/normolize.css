@@ -54,3 +54,7 @@ html, body {
 html {
     font-size: 14px;
 }
+
+#root {
+    height: 100%;
+}

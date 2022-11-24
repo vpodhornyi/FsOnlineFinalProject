@@ -3,6 +3,7 @@ import {composeWithDevTools} from "redux-devtools-extension";
 import {getTokens, setHeaderAuthorization} from "@utils";
 import {interceptor} from "@service/API";
 import {getAuthUser} from "./auth/action";
+import {createRoutes} from "../routes";
 
 import authReducer from "./auth/reducer";
 import dialogReducer from "./dialog/reducer";
@@ -24,6 +25,7 @@ export default () => {
     reducer,
     composeWithDevTools(applyMiddleware(thunk))
   );
+  createRoutes(store);
   interceptor(store);
 
   if (accessToken) {

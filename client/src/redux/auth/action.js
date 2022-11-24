@@ -5,12 +5,14 @@ import {openDialog, closeDialog} from "@redux/dialog/action";
 import SingInSecondStep from '@pages/Auth/SingIn/SecondStep';
 
 const actions = createActions({
+  actions: ['SET_ROUTES', 'SET_MENU'],
   async: ["IS_ACCOUNT_EXIST", "AUTHORIZE", "LOGOUT", 'GET_AUTH_USER'],
 }, {
   prefix: "auth",
 });
 
 export const ACTIONS = {
+  ...actions.actions,
   ...actions.async,
 }
 

@@ -1,10 +1,18 @@
 import React from 'react';
+import {Outlet} from "react-router-dom";
+import {PrimaryColumn, SidebarColumn} from "../../components";
 
 const Notifications = () => {
     return (
-      <div>
-          User Profile
-      </div>
+      <>
+        <PrimaryColumn>
+          Profile
+          <Outlet/>
+        </PrimaryColumn>
+        <SidebarColumn>
+          SidebarColumn Profile
+        </SidebarColumn>
+      </>
     );
 };
 
