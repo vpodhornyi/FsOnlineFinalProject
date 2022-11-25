@@ -7,7 +7,11 @@ const SectionNavigation = styled('section')(({theme}) => ({
   borderRight: '1px solid #DDDFE2',
 
   [theme.breakpoints.up('md')]: {
-    width: 'auto',
+    width: 320,
+  },
+
+  [theme.breakpoints.up('lg')]: {
+    width: 390,
   },
 }));
 

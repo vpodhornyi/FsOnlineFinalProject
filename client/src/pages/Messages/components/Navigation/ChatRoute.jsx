@@ -12,7 +12,7 @@ const ChatRoute = ({chat, activeId}) => {
 
   return (
     <BoxWrapper
-      onClick={() => dispatch(getConversation({id: chat.id}))}
+      // onClick={() => dispatch(getConversation({id: chat.id}))}
       sx={activeId !== -1 && activeId === chat.id ? {
         backgroundColor: 'rgb(239, 243, 244)',
         borderRight: '2px blue solid',

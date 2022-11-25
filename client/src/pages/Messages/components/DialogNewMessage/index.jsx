@@ -9,44 +9,49 @@ import NewMessageLoading from "./NewMessageLoading";
 import {getMessageSearchData} from "@redux/message/search/selector";
 import FoundUser from "./FoundUser";
 import GrabbedUser from "./GrabbedUser";
+import {Modal} from '../../../../components';
 
 const DialogNewMessage = () => {
   const {foundUsers, grabbedUsers} = useSelector(getMessageSearchData);
 
   return (
-    <BoxWrapper>
-      <NewMassageHeader/>
-      <Box sx={{position: 'relative', width: '100%', borderBottom: '1px solid #DDDFE2',}}>
-        <Box className='SearchIconWrapper'>
-          <IconByName iconName='SearchOutlined'/>
+    <Modal>
+      <BoxWrapper>
+        <NewMassageHeader/>
+        <Box sx={{position: 'relative', width: '100%', borderBottom: '1px solid #DDDFE2',}}>
+          <Box className='SearchIconWrapper'>
+            <IconByName iconName='SearchOutlined'/>
+          </Box>
+          <SearchTextField/>
+          <Box className='GrubbedUseBox'>
+            {
+              grabbedUsers.map(user => <GrabbedUser
+                key={user?.id + user?.email}
+                user={user}
+              />)
+            }
+          </Box>
+          <Box sx={{height: 2}}>
+            <NewMessageLoading/>
+          </Box>
         </Box>
-        <SearchTextField/>
-        <Box className='GrubbedUseBox'>
+        <Box className='FoundUsersBox'>
           {
-            grabbedUsers.map(user => <GrabbedUser
-              key={user?.id + user?.email}
+            foundUsers.map(user => <FoundUser
+              key={user?.id + user?.userTag}
               user={user}
             />)
           }
         </Box>
-        <Box sx={{height: 2}}>
-          <NewMessageLoading/>
-        </Box>
-      </Box>
-      <Box className='FoundUsersBox'>
-        {
-          foundUsers.map(user => <FoundUser
-            key={user?.id + user?.userTag}
-            user={user}
-          />)
-        }
-      </Box>
-    </BoxWrapper>);
+      </BoxWrapper>
+    </Modal>
+  );
 }
 
 const styles = ({theme}) => ({
-  width: '100%',
-  height: '100%',
+  width: '50vh',
+  height: '50vh',
+  backgroundColor: '#fefefe',
 
   '& .SearchIconWrapper': {
     position: 'absolute',

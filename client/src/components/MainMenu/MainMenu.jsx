@@ -20,19 +20,19 @@ const MainMenu = ({authorized, menu}) => {
           )}
         </NavLink>
       ))}
-      {authorized &&
+{/*      {authorized &&
         <MenuItem>
           <MainMenuButton
             isActive={false}
             iconName='MoreHoriz'
             text='More'/>
         </MenuItem>
-      }
+      }*/}
     </MenuNav>
   );
 }
 
-export const MenuNav = styled('nav')(({theme}) => ({
+const MenuNav = styled('nav')(({theme}) => ({
   display: 'flex',
   flexDirection: 'row',
 
@@ -42,7 +42,7 @@ export const MenuNav = styled('nav')(({theme}) => ({
   },
 }));
 
-export const MenuItem = styled('div')(({theme}) => ({
+const MenuItem = styled('div')(({theme}) => ({
   display: 'flex',
   cursor: 'pointer',
   color: theme.palette.action.active,

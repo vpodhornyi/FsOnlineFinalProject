@@ -1,18 +1,22 @@
 import React from "react";
+import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import {Avatar, Typography} from "@mui/material";
 import CustomIconButton from "@components/buttons/CustomIconButton";
 import {ACTIONS as MESSAGE_ACTIONS} from "@redux/message/action";
-import {getCurrentChat} from "@redux/message/selector";
+import {getCurrentChat, getMessageData} from "@redux/message/selector";
+import {StickyHeader} from '../../../../components';
 
 const Header = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const currentChat = useSelector(getCurrentChat);
-
+  const {activeId} = useSelector(getMessageData);
+  console.log(activeId);
   return (
-    <BoxWrapper>
+    <StyledStickyHeader>
       <Box sx={{display: 'flex', alignItems: 'center'}}>
         <Box sx={{mr: '10px'}} className='backButton' onClick={() => dispatch(MESSAGE_ACTIONS.resetActiveId())}>
           <CustomIconButton name='ArrowBackOutlined' title='Back'/>
@@ -20,25 +24,14 @@ const Header = () => {
         <Avatar sx={{mr: '10px', width: '2.5rem', height: '2.5rem'}} src={currentChat.avatarImgUrl}/>
         <Typography variant='h2'>{currentChat.title}</Typography>
       </Box>
-      <Box onClick={() => dispatch(MESSAGE_ACTIONS.openChatInfo())}>
+      <Box onClick={() => navigate(`/messages/${activeId}/info`)}>
         <CustomIconButton name='InfoOutlined' title='Details'/>
       </Box>
-    </BoxWrapper>);
+    </StyledStickyHeader>);
 }
 
 const styles = ({theme}) => ({
-  boxSizing: 'border-box',
-  padding: '10px 14px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  right: 0,
-  zIndex: 1000,
-  backgroundColor: 'rgba(255,255,255, 0.9)',
-
+  padding: '0 15px',
   '.avatarWrapper': {
     [theme.breakpoints.up('sm')]: {
       display: 'none',
@@ -57,6 +50,6 @@ const styles = ({theme}) => ({
   }
 });
 
-const BoxWrapper = styled(Box)(styles);
+const StyledStickyHeader = styled(StickyHeader)(styles);
 
 export default Header;

@@ -4,7 +4,8 @@ import {ACTIONS} from "./action";
 const {accessToken} = getTokens();
 
 const INIT_STATE = {
-  authorized: Boolean(accessToken),
+  // authorized: Boolean(accessToken),
+  authorized: true,
   loading: false,
   routes: [],
   menu: [],

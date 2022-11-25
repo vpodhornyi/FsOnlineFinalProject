@@ -7,7 +7,7 @@ const Default = () => <Box fontSize={20}>☺</Box>;
 
 const IconByName = ({iconName, iconStyle}) => {
   const Icon = MuiIcons[iconName];
-  return Icon ? <Icon sx={iconStyle}/> : <Default/>;
+  return Icon ? <Icon className='IconByName' sx={iconStyle}/> : <Default/>;
 };
 
 IconByName.propTypes = {

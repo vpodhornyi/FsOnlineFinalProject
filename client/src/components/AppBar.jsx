@@ -7,6 +7,7 @@ import Box from "@mui/material/Box";
 
 import {MainMenu, LogoIcon, CustomFabButton} from "../components";
 import {logout} from '@redux/auth/action';
+import SidebarFooter from "./Sidebar/components/SidebarFooter";
 
 
 const AppBar = ({authorized, menu}) => {
@@ -23,10 +24,11 @@ const AppBar = ({authorized, menu}) => {
         <MainMenu authorized={authorized} menu={menu}/>
       </Box>
       {authorized &&
-        <Box onClick={() => dispatch(logout())}>
+    /*    <Box onClick={() => dispatch(logout())}>
           <CustomFabButton
             name={"Logout"}/>
-        </Box>
+        </Box>*/
+        <SidebarFooter/>
       }
     </StyledBox>
   );

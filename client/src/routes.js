@@ -1,32 +1,76 @@
-import {lazy} from 'react';
+import React, {lazy} from 'react';
 import {ACTIONS} from './redux/auth/action';
+import {
+  Home,
+  Explore,
+  Notifications,
+  Messages,
+  Chat,
+  DialogNewMessage,
+  ChatInfo,
+  Bookmarks,
+  Lists,
+  UserProfile,
+} from "./pages";
+
+export function lazyLoadRoutes(path) {
+  const LazyElement = lazy(() => import(`./pages${path}`));
+
+  return (<LazyElement/>);
+}
 
 
-/*const foo = [
+export const routes = [
   {
-    path: '/home',
-    element: lazy(() => import(`@pages/Home`)),
+    path: "/home",
+    element: <Home/>,
+    children: [],
   },
   {
-    path: '/explore',
-    element: lazy(() => import(`@pages/Explore`)),
+    path: "/explore",
+    element: <Explore/>,
+    children: [],
   },
   {
-    path: '/profile',
-    element: lazy(() => import(`@pages/Profile`)),
+    path: "/notifications",
+    element: <Notifications/>,
+    children: [],
+  },
+  {
+    path: "/messages",
+    element: <Messages/>,
     children: [
+      {index: true, element: lazyLoadRoutes('/Messages/SelectMessage')},
       {
-        path: "/list",
-        element: lazy(() => import(`@pages/List`)),
+        path: ':id',
+        element: <Chat/>,
       },
+      {
+        path: ':id/info',
+        element: <ChatInfo/>,
+      },
+      {
+        path: 'compose',
+        element: <DialogNewMessage/>,
+      }
     ],
   },
   {
-    path: "*",
-    element: lazy(() => import(`@pages/NoMatch`)),
+    path: "/bookmarks",
+    element: <Bookmarks/>,
+    children: [],
   },
-]*/
-
+  {
+    path: "/user_tag",
+    element: <UserProfile/>,
+    children: [],
+  },
+  {
+    path: "/lists",
+    element: <Lists/>,
+    children: [],
+  },
+]
 
 const data = {
   Root: {
@@ -90,7 +134,7 @@ const data = {
   },
   List: {
     route: {
-      path: "/vpodhornyi/lists",
+      path: "/lists",
     },
     menu: {
       iconName: "ArticleOutlined",
@@ -100,7 +144,7 @@ const data = {
   },
   Profile: {
     route: {
-      path: "/vpodhornyi",
+      path: "/user_tag",
       isPublic: true,
     },
     menu: {

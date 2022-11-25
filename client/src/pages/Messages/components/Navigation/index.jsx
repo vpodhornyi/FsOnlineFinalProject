@@ -1,7 +1,7 @@
-import React from "react";
-import {useSelector} from "react-redux";
+import React, {useEffect} from "react";
+import {useSelector, use} from "react-redux";
 import {styled} from "@mui/material/styles";
-import Header from "./Header";
+import {useNavigate} from "react-router-dom";
 import SearchBox from "./SearchBox";
 import Box from "@mui/material/Box";
 import ChatRoute from "./ChatRoute";
@@ -10,27 +10,28 @@ import Loading from "@components/Loader/Loading";
 import WelcomeToInbox from "../WelcomeToInbox";
 
 const Index = () => {
-  const {isNavigationLoading, chats, activeId} = useSelector(getMessageData);
+  const navigate = useNavigate();
+  const {chats, activeId, isChatSelected} = useSelector(getMessageData);
   const isEmpty = !chats.length;
+
+  useEffect(() => {
+    isChatSelected && navigate(`/messages/${activeId}`)
+  }, []);
 
   return (
     <BoxWrapper>
-      <Header/>
-      {isNavigationLoading ?
-        <Box sx={{height: 'calc(100% - 114px)'}}>
-          <Loading/>
-        </Box> :
-        isEmpty ? <WelcomeToInbox/> :
-          <>
-            <SearchBox/>
-            <Box>{chats.map(chat => <ChatRoute key={chat.id} chat={chat} activeId={activeId}/>)}</Box>
-          </>
-      }
+      <>
+        <SearchBox/>
+        <Box>{chats.map(chat => {
+          return <Box key={chat.id} onClick={() => navigate(`/messages/${chat.id}`)}>
+            <ChatRoute chat={chat} activeId={activeId}/>
+          </Box>
+        })}</Box>
+      </>
     </BoxWrapper>);
 }
 
 const styles = ({theme}) => ({
-  height: '100%',
   width: '100%',
 });
 

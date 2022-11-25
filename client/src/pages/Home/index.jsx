@@ -1,21 +1,17 @@
 import React from "react";
 
-import Grid from "@mui/material/Grid";
-import Container from "@mui/material/Container";
-import MainContainer from "@components/MainContainer";
-import Box from "@mui/material/Box";
-import { useTheme } from "@emotion/react";
-import Sidebar from "@components/Sidebar/Sidebar";
+import {ColumnWrapper, PrimaryColumn, SitebarColumn} from '../../components';
 
-const Main = () => {
-  const theme = useTheme();
+const Home = () => {
+
   return (
-    <div>
-      Home
-    </div>
+    <ColumnWrapper>
+      <PrimaryColumn>Home primary column</PrimaryColumn>
+      <SitebarColumn>Home sitebar column</SitebarColumn>
+    </ColumnWrapper>
   );
 };
 
 
 
-export default Main;
+export default Home;

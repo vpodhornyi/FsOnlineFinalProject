@@ -4,7 +4,7 @@ import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import {Typography} from "@mui/material";
 import CustomFabButton from "@components/buttons/CustomFabButton";
-import DialogNewMessage from "./DialogNewMessage";
+import DialogNewMessage from "./components/DialogNewMessage";
 import {ACTIONS as DIALOG_ACTIONS} from "@redux/dialog/action";
 import {ACTIONS as MESSAGE_SEARCH_ACTIONS} from "@redux/message/search/action";
 
@@ -32,7 +32,6 @@ const SelectMessage = () => {
 
 const styles = ({theme}) => ({
   boxSizing: 'border-box',
-  width: '100%',
   height: '100%',
   display: 'flex',
   alignItems: 'center',

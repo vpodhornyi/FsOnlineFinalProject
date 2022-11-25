@@ -1,22 +1,25 @@
 import React from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import {Typography} from "@mui/material";
 import CustomIconButton from "@components/buttons/CustomIconButton";
 import {ACTIONS as MESSAGE_ACTIONS} from "@redux/message/action";
+import { getMessageData} from "@redux/message/selector";
+import {StickyHeader} from '../../../../components';
+import {useNavigate} from "react-router-dom";
 
 const SectionNavigation = () => {
-  const StyledBox = styled(Box)(styles);
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const {activeId} = useSelector(getMessageData);
 
   return (
-    <StyledBox>
-      <Box onClick={() => dispatch(MESSAGE_ACTIONS.closeChatInfo())}>
+    <StyledStickyHeader>
+      <Box onClick={() => navigate(-1)}>
         <CustomIconButton name='ArrowBackOutlined' title='Back'/>
       </Box>
       <Typography variant='h2'>Conversation info</Typography>
-    </StyledBox>);
+    </StyledStickyHeader>);
 }
 
 const styles = ({theme}) => ({
@@ -32,5 +35,7 @@ const styles = ({theme}) => ({
     fontWeight: theme.typography.fontWeightBold
   }
 });
+
+const StyledStickyHeader = styled(StickyHeader)(styles);
 
 export default SectionNavigation;

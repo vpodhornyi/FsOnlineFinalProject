@@ -1,19 +1,13 @@
 import React from 'react';
-import {Outlet} from "react-router-dom";
-import {PrimaryColumn, SidebarColumn} from "../../components";
+import {ColumnWrapper, PrimaryColumn, SitebarColumn} from "../../components";
 
-const Notifications = () => {
-    return (
-      <>
-        <PrimaryColumn>
-          Profile
-          <Outlet/>
-        </PrimaryColumn>
-        <SidebarColumn>
-          SidebarColumn Profile
-        </SidebarColumn>
-      </>
-    );
+const UserProfile = () => {
+  return (
+    <ColumnWrapper>
+      <PrimaryColumn>UserProfile primary column</PrimaryColumn>
+      <SitebarColumn>UserProfile sitebar column</SitebarColumn>
+    </ColumnWrapper>
+  );
 };
 
-export default Notifications;
+export default UserProfile;

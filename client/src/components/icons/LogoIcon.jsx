@@ -1,12 +1,9 @@
 import React from "react";
 import IconsByName from "./IconByName";
-import {twitterIcon} from "../Sidebar/data/twitterIcon";
 import PropTypes from "prop-types";
 
 const LogoIcon = ({styles}) => {
-  const {iconName} = twitterIcon;
-
-  return <IconsByName iconName={iconName} iconStyle={styles}/>;
+  return <IconsByName iconName='Twitter' iconStyle={styles}/>;
 };
 
 LogoIcon.propTypes = {

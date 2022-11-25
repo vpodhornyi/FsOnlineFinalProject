@@ -62,31 +62,7 @@ const INIT_STATE = {
       isAuth: true,
       text: 'How are you?',
       userId: 2,
-    },
-    {
-      key: '123klk312',
-      isAuth: false,
-      text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis harum modi necessitatibus,' +
-        ' non nostrum perspiciatis rem sint vero voluptas voluptatum! Architecto cumque deleniti eligendi' +
-        ' eum possimus provident quibusdam quo totam.',
-      userId: 2,
-    },
-    {
-      key: 'da23rfewge',
-      isAuth: true,
-      text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis harum modi necessitatibus,' +
-        ' non nostrum perspiciatis rem sint vero voluptas voluptatum! Architecto cumque deleniti eligendi' +
-        ' eum possimus provident quibusdam quo totam.',
-      userId: 1,
-    },
-    {
-      key: '546grege434',
-      isAuth: false,
-      text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis harum modi necessitatibus,' +
-        ' non nostrum perspiciatis rem sint vero voluptas voluptatum! Architecto cumque deleniti eligendi' +
-        ' eum possimus provident quibusdam quo totam.',
-      userId: 1,
-    },
+    }
   ]
 }
 
