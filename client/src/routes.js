@@ -1,6 +1,7 @@
 import React, {lazy} from 'react';
 import {ACTIONS} from './redux/auth/action';
 import {
+  Root,
   Home,
   Explore,
   Notifications,
@@ -20,109 +21,137 @@ export function lazyLoadRoutes(path) {
   return (<LazyElement/>);
 }
 
+export const routes = (userTag, authorized) => {
+  return authorized ? [
+    {
+      path: "/home",
+      element: <Home/>,
+      children: [],
+    },
+    {
+      path: "/explore",
+      element: <Explore/>,
+      children: [],
+    },
+    {
+      path: "/notifications",
+      element: <Notifications/>,
+      children: [],
+    },
+    {
+      path: "/messages",
+      element: <Messages/>,
+      children: [
+        // {index: true, element: lazyLoadRoutes('/Messages/SelectMessage')},
+        {
+          index: true,
+          element: <SelectMessage/>,
+        },
+        {
+          path: ':id',
+          element: <Chat/>,
+        },
+        {
+          path: ':id/info',
+          element: <ChatInfo/>,
+        },
+        {
+          path: 'compose',
+          element: <DialogNewMessage/>
+        },
+      ],
+    },
+    {
+      path: "/bookmarks",
+      element: <Bookmarks/>,
+      children: [],
+    },
+    {
+      path: `/${userTag}`,
+      element: <UserProfile/>,
+      children: [],
+    },
+    {
+      path: "/lists",
+      element: <Lists/>,
+      children: [],
+    },
+  ] :
+    [
+      {
+        path: "/",
+        element: <Root/>,
+        children: [],
+      },
+      {
+        path: "/explore",
+        element: <Explore/>,
+        children: [],
+      },
+      {
+        path: `/:user_tag`,
+        element: <UserProfile/>,
+        children: [],
+      },
+    ]
+}
 
-export const routes = (userTag) => [
-  {
-    path: "/home",
-    element: <Home/>,
-    children: [],
-  },
-  {
-    path: "/explore",
-    element: <Explore/>,
-    children: [],
-  },
-  {
-    path: "/notifications",
-    element: <Notifications/>,
-    children: [],
-  },
-  {
-    path: "/messages",
-    element: <Messages/>,
-    children: [
-      // {index: true, element: lazyLoadRoutes('/Messages/SelectMessage')},
+export const menu = (userTag, authorized) => {
+  return authorized ? [
+    {
+      path: '/home',
+      iconName: "HomeOutlined",
+      iconActive: "Home",
+      text: 'Home',
+    },
+    {
+      path: '/explore',
+      iconName: "ExploreOutlined",
+      iconActive: "Explore",
+      text: 'Explorer',
+    },
+    {
+      path: "/notifications",
+      iconName: "NotificationsOutlined",
+      iconActive: "Notifications",
+      text: 'Notifications',
+    },
+    {
+      path: "/messages",
+      iconName: "MailOutlineOutlined",
+      iconActive: "Mail",
+      text: 'Messages',
+    },
+    {
+      path: "/bookmarks",
+      iconName: "BookmarkBorderOutlined",
+      iconActive: "Bookmark",
+      text: 'Bookmarks',
+    },
+    {
+      path: "/lists",
+      iconName: "ArticleOutlined",
+      iconActive: "Article",
+      text: 'Lists',
+    },
+    {
+      path: `/${userTag}`,
+      iconName: "PersonOutlined",
+      iconActive: "Person",
+      text: 'Profile',
+    }
+  ] :
+    [
       {
-        index: true,
-        element: <SelectMessage/>,
+        path: '/explore',
+        iconName: "ExploreOutlined",
+        iconActive: "Explore",
+        text: 'Explorer',
       },
-      {
-        path: ':id',
-        element: <Chat/>,
-      },
-      {
-        path: ':id/info',
-        element: <ChatInfo/>,
-      },
-      {
-        path: 'compose',
-        element: <DialogNewMessage/>
-      },
-    ],
-  },
-  {
-    path: "/bookmarks",
-    element: <Bookmarks/>,
-    children: [],
-  },
-  {
-    path: `/${userTag}`,
-    element: <UserProfile/>,
-    children: [],
-  },
-  {
-    path: "/lists",
-    element: <Lists/>,
-    children: [],
-  },
-];
+    ]
+}
 
-export const menu = (userTag) => [
-  {
-    path: '/home',
-    iconName: "HomeOutlined",
-    iconActive: "Home",
-    text: 'Home',
-  },
-  {
-    path: '/explore',
-    iconName: "ExploreOutlined",
-    iconActive: "Explore",
-    text: 'Explorer',
-  },
-  {
-    path: "/notifications",
-    iconName: "NotificationsOutlined",
-    iconActive: "Notifications",
-    text: 'Notifications',
-  },
-  {
-    path: "/messages",
-    iconName: "MailOutlineOutlined",
-    iconActive: "Mail",
-    text: 'Messages',
-  },
-  {
-    path: "/bookmarks",
-    iconName: "BookmarkBorderOutlined",
-    iconActive: "Bookmark",
-    text: 'Bookmarks',
-  },
-  {
-    path: "/lists",
-    iconName: "ArticleOutlined",
-    iconActive: "Article",
-    text: 'Lists',
-  },
-  {
-    path: `/${userTag}`,
-    iconName: "PersonOutlined",
-    iconActive: "Person",
-    text: 'Profile',
-  }
-]
-
-const data = {
+/*const data = {
   Root: {
     route: {
       path: '/',
@@ -236,4 +265,4 @@ export const createRoutes = (store) => {
   const authorized = store.getState().auth.authorized;
   store.dispatch(ACTIONS.setRoutes({routes: getRefData(authorized, 'route')}));
   store.dispatch(ACTIONS.setMenu({menu: getRefData(authorized, 'menu')}));
-}
+}*/

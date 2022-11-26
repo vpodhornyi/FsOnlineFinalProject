@@ -9,13 +9,13 @@ import NewMessageLoading from "./NewMessageLoading";
 import {getMessageSearchData} from "@redux/message/search/selector";
 import FoundUser from "./FoundUser";
 import GrabbedUser from "./GrabbedUser";
-import {Modal} from '../../../../components';
+import {ModalPage} from '../../../../components';
 
 const DialogNewMessage = () => {
   const {foundUsers, grabbedUsers} = useSelector(getMessageSearchData);
 
   return (
-    <Modal>
+    <ModalPage>
       <BoxWrapper>
         <NewMassageHeader/>
         <Box sx={{position: 'relative', width: '100%', borderBottom: '1px solid #DDDFE2',}}>
@@ -44,7 +44,7 @@ const DialogNewMessage = () => {
           }
         </Box>
       </BoxWrapper>
-    </Modal>
+    </ModalPage>
   );
 }
 

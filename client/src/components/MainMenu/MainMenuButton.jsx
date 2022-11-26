@@ -21,7 +21,7 @@ const Div = styled('div')(({theme}) => ({
   alignItems: 'center',
 
   '& .IconByName': {
-    fontSize: '1.875rem !important',
+    fontSize: '1.75rem !important',
   },
 
   '& .LinkText': {

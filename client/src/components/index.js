@@ -8,11 +8,12 @@ import SectionNavigation from "./SectionNavigation";
 import SectionDetails from "./SectionDetails";
 import SitebarColumn from "./SitebarColumn";
 import PrimaryColumn from "./PrimaryColumn";
-import Modal from "./Modal";
+import ModalPage from "./ModalPage";
 import NoMatches from "./NoMatches";
 import ColumnWrapper from "./ColumnWrapper";
 import MainMenu from "./MainMenu/MainMenu";
 import {LogoIcon, IconByName,} from "./icons";
+import {Preloader} from "./loaders";
 import {CustomIconButton, CustomFabButton,} from "./buttons";
 import StickyHeader from "./StickyHeader";
 
@@ -27,7 +28,7 @@ export {
   SectionDetails,
   SitebarColumn,
   PrimaryColumn,
-  Modal,
+  ModalPage,
   MainMenu,
   LogoIcon,
   IconByName,
@@ -36,4 +37,5 @@ export {
   NoMatches,
   ColumnWrapper,
   StickyHeader,
+  Preloader,
 }

@@ -11,7 +11,6 @@ export default styled(Box)(({theme}) => ({
   width: '100%',
   height: '100%',
   overflow: 'auto',
-  // backgroundColor: 'rgb(0,0,0)',
   backgroundColor: 'rgba(0,0,0,0.4)',
   display: 'flex',
   justifyContent: 'center',
