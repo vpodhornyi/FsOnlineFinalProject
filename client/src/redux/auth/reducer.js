@@ -7,8 +7,6 @@ const INIT_STATE = {
   // authorized: Boolean(accessToken),
   authorized: true,
   loading: false,
-  routes: [],
-  menu: [],
   user: {
     isBlocked: false,
     isAdmin: false,
@@ -39,16 +37,6 @@ const INIT_STATE = {
 export default (state = INIT_STATE, {payload, type}) => {
 
   switch (type) {
-    case String(ACTIONS.setRoutes):
-      return {
-        ...state,
-        routes: payload.routes,
-      }
-    case String(ACTIONS.setMenu):
-      return {
-        ...state,
-        menu: payload.menu,
-      }
     case String(ACTIONS.getAuthUser.request):
       return {
         ...state,

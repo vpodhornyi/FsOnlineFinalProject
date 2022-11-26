@@ -25,7 +25,7 @@ export default () => {
     reducer,
     composeWithDevTools(applyMiddleware(thunk))
   );
-  createRoutes(store);
+  // createRoutes(store);
   interceptor(store);
 
   if (accessToken) {

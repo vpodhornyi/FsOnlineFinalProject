@@ -6,6 +6,7 @@ import {
   Notifications,
   Messages,
   Chat,
+  SelectMessage,
   DialogNewMessage,
   ChatInfo,
   Bookmarks,
@@ -20,7 +21,7 @@ export function lazyLoadRoutes(path) {
 }
 
 
-export const routes = [
+export const routes = (userTag) => [
   {
     path: "/home",
     element: <Home/>,
@@ -40,7 +41,11 @@ export const routes = [
     path: "/messages",
     element: <Messages/>,
     children: [
-      {index: true, element: lazyLoadRoutes('/Messages/SelectMessage')},
+      // {index: true, element: lazyLoadRoutes('/Messages/SelectMessage')},
+      {
+        index: true,
+        element: <SelectMessage/>,
+      },
       {
         path: ':id',
         element: <Chat/>,
@@ -51,8 +56,8 @@ export const routes = [
       },
       {
         path: 'compose',
-        element: <DialogNewMessage/>,
-      }
+        element: <DialogNewMessage/>
+      },
     ],
   },
   {
@@ -61,7 +66,7 @@ export const routes = [
     children: [],
   },
   {
-    path: "/user_tag",
+    path: `/${userTag}`,
     element: <UserProfile/>,
     children: [],
   },
@@ -70,6 +75,51 @@ export const routes = [
     element: <Lists/>,
     children: [],
   },
+];
+
+export const menu = (userTag) => [
+  {
+    path: '/home',
+    iconName: "HomeOutlined",
+    iconActive: "Home",
+    text: 'Home',
+  },
+  {
+    path: '/explore',
+    iconName: "ExploreOutlined",
+    iconActive: "Explore",
+    text: 'Explorer',
+  },
+  {
+    path: "/notifications",
+    iconName: "NotificationsOutlined",
+    iconActive: "Notifications",
+    text: 'Notifications',
+  },
+  {
+    path: "/messages",
+    iconName: "MailOutlineOutlined",
+    iconActive: "Mail",
+    text: 'Messages',
+  },
+  {
+    path: "/bookmarks",
+    iconName: "BookmarkBorderOutlined",
+    iconActive: "Bookmark",
+    text: 'Bookmarks',
+  },
+  {
+    path: "/lists",
+    iconName: "ArticleOutlined",
+    iconActive: "Article",
+    text: 'Lists',
+  },
+  {
+    path: `/${userTag}`,
+    iconName: "PersonOutlined",
+    iconActive: "Person",
+    text: 'Profile',
+  }
 ]
 
 const data = {

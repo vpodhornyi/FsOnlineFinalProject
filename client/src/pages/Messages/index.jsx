@@ -21,7 +21,7 @@ const Index = () => {
           }
         }}>
           <Box sx={{display: 'flex', alignItems: 'center'}}>
-            <StyledAvatar src={'to'}/>
+            <StyledAvatar/>
             <Typography className='MessageTitle' variant='h2'>Messages</Typography>
           </Box>
           <Box onClick={() => navigate('/messages/compose')}>
