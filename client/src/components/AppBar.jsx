@@ -12,9 +12,7 @@ import {ACTIONS} from '@redux/service/action';
 
 const AppBar = ({authorized, menu}) => {
   const dispatch = useDispatch();
-  const onResize = useCallback((width) => {
-    dispatch(ACTIONS.setAppBarWidth({width}));
-  }, []);
+  const onResize = useCallback(width => dispatch(ACTIONS.setAppBarWidth({width})), []);
   const {ref} = useResizeDetector({onResize});
 
   return (

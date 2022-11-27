@@ -2,14 +2,17 @@ import React from "react";
 import {styled} from "@mui/material/styles";
 import {Outlet} from "react-router-dom";
 
-const Columns = () => (
-  <>
-    <PrimaryColumn className='PrimaryColumn'>
-      <p>PrimaryColumn</p>
-    </PrimaryColumn>
-    <Outlet/>
-  </>
-);
+const Columns = () => {
+
+  return (
+    <>
+      <PrimaryColumn className='PrimaryColumn'>
+        <p>PrimaryColumn</p>
+      </PrimaryColumn>
+      <Outlet/>
+    </>
+  );
+}
 
 const PrimaryColumn = styled('div')(({theme}) => ({
   backgroundColor: '#ff7a00',

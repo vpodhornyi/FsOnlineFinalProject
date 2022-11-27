@@ -1,12 +1,16 @@
 import React from "react";
 import {useSelector} from "react-redux";
+import {useLocation} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {styled} from "@mui/material/styles";
 import {Box, Typography} from "@mui/material";
 import PropTypes from "prop-types";
 import {Header, MainContainer, CustomFabButton} from './';
+import Auth from '../pages/Auth'
 
 const Index = () => {
   const width = useSelector(state => state.service.appBarWidth)
+  const location = useLocation();
 
   return (
     <BoxWrapper>
@@ -22,10 +26,14 @@ const Index = () => {
             </Box>
             <Box className='actions'>
               <Box className='LogIn'>
-                <CustomFabButton name='Log in'/>
+                <Link to={`/i/flow/login`} state={{background: location}} style={{textDecoration: 'none'}}>
+                  <CustomFabButton name='Log in'/>
+                </Link>
               </Box>
               <Box className='SingUp'>
-                <CustomFabButton name='Sing up'/>
+                <Link to={`/i/flow/singup`} state={{background: location}} style={{textDecoration: 'none'}}>
+                  <CustomFabButton name='Sing up'/>
+                </Link>
               </Box>
             </Box>
           </MainContainer>
@@ -105,7 +113,6 @@ const styles = ({theme}) => ({
         },
 
         '& .CustomFabButton': {
-          // backgroundColor: theme.palette.primary.main,
           width: '100%',
           height: 32,
 

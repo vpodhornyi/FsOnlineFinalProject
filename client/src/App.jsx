@@ -1,10 +1,10 @@
 import React, {createRef, useEffect} from "react";
 import {useSelector} from "react-redux";
-import {useRoutes, Routes, Route, useNavigation, useNavigate, Navigate} from "react-router-dom";
+import {useRoutes, useLocation, Routes, Route, useNavigation, useNavigate, Navigate} from "react-router-dom";
 
 import {
   PrimaryColumn, Preloader, DialogWindow, RootContainer, ColumnWrapper, LoginPanel,
-  Header, AppBar, Main, MainContainer, SectionNavigation, SectionDetails
+  Header, AppBar, Main, MainContainer, SectionNavigation, SectionDetails, ModalPage
 } from "./components";
 import {
   Root, Home, Explore, Notifications, Messages, Chat,
@@ -20,7 +20,10 @@ import {menu} from './routes';
 const App = () => {
   const {authorized, loading, user: {userTag}} = useSelector(state => state.auth);
   // const Routes = () => useRoutes(routes(userTag, authorized));
-
+  const location = useLocation();
+  const background = location.state;
+  console.log(location);
+  console.log(background);
   return (
     <RootContainer>
       <Header>
@@ -29,6 +32,9 @@ const App = () => {
       <Main>
         <MainContainer>
           <Routes>
+            <Route path='/home' element={<PrimaryColumn/>}/>
+          </Routes>
+{/*          <Routes location={background || location}>
             <Route path='/' element={<Navigate to={'home'}/>}/>
             <Route path='home' element={<PrimaryColumn/>}/>
             <Route path='explore' element={<PrimaryColumn/>}/>
@@ -37,19 +43,24 @@ const App = () => {
             <Route path='lists' element={<PrimaryColumn/>}/>
             <Route path={`${userTag}`} element={<PrimaryColumn/>}/>
 
-            <Route path='messages' element={<SectionNavigation Body={Messages}/>}>
+            <Route path='/messages' element={<SectionNavigation Body={Messages}/>}>
               <Route index element={<SectionDetails Body={SelectMessage}/>}/>
               <Route path=':id' element={<SectionDetails Body={Chat}/>}/>
               <Route path=':id/info' element={<SectionDetails Body={ChatInfo}/>}/>
-              <Route path='compose' element={<DialogNewMessage open={true}/>}/>
+              <Route path='/messages/compose' element={<DialogNewMessage open={true}/>}/>
             </Route>
 
             <Route path=':user_tag' element={<>Other user</>}/>
             <Route path=':user_tag/*' element={<>Not Found PAGE</>}/>
-          </Routes>
+          </Routes>*/}
         </MainContainer>
       </Main>
       <DialogWindow/>
+      {(
+        <Routes>
+          <Route path={`/i/flow/:id`} element={<ModalPage/>}/>
+        </Routes>
+      )}
       {!authorized && <LoginPanel/>}
     </RootContainer>
   )

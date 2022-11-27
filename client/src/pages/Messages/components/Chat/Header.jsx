@@ -14,7 +14,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const currentChat = useSelector(getCurrentChat);
   const {activeId} = useSelector(getMessageData);
-  console.log(activeId);
+
   return (
     <StyledStickyHeader>
       <Box sx={{display: 'flex', alignItems: 'center'}}>
