@@ -1,4 +1,4 @@
-import {ACTIONS} from "./action";
+import { ACTIONS } from "./action";
 
 // sample, need ref
 const INIT_STATE = {
@@ -17,17 +17,17 @@ const INIT_STATE = {
   avatarImgUrl: null,
   headerImgUrl: null,
   tweets: [],
-  chats: []
-}
+  chats: [],
+};
 
-export default (state = INIT_STATE, {payload, type}) => {
+export default (state = INIT_STATE, { payload, type }) => {
   switch (type) {
-    case String(ACTIONS.logout.success):
-      return {
-        ...INIT_STATE,
-        authorized: false,
-      }
+    // case String(ACTIONS.logout.success)://TODO action
+    //   return {
+    //     ...INIT_STATE,
+    //     authorized: false,
+    //   }
     default:
-      return state
+      return state;
   }
-}
+};

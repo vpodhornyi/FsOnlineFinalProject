@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import React, { useEffect } from "react";
+import React from "react";
 import {
   ImageList,
   Link,
@@ -26,8 +26,9 @@ import {
   UserName,
 } from "./style";
 import CustomImageList from "../CustomImageList";
-import { deleteTweet, getTweets } from "../../utils/tweetApi";
-const Tweet = ({ openReply = false, userInfo }) => {
+import { useDispatch } from "react-redux";
+import { deleteTweet } from "../../redux/tweet/action";
+const Tweet = ({ openReply = false, tweetInfo }) => {
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
     setOpen(true);
@@ -35,18 +36,9 @@ const Tweet = ({ openReply = false, userInfo }) => {
   const handleClose = () => {
     setOpen(false);
   };
-  const { id, name, avatarImgUrl, userTag, body, created_at, images } =
-    userInfo;
-  useEffect(() => {
-    (async function getCustomers() {
-      try {
-        const tweets = await getTweets();
-        console.log(tweets);
-      } catch (e) {
-        console.log("Could not fetch expenses!");
-      }
-    })();
-  }, []);
+  const dispatch = useDispatch();
+  const { id, body, images } = tweetInfo;
+  const { name, avatarImgUrl, userTag, created_at } = tweetInfo.user;
   return (
     <>
       <TweetContainer>
@@ -84,7 +76,10 @@ const Tweet = ({ openReply = false, userInfo }) => {
           {!openReply && (
             <IconBlue>
               <Tooltip title={"Delete"}>
-                <MoreIcon onClick={() => deleteTweet(id)} sx={{ padding: 1 }} />
+                <MoreIcon
+                  onClick={() => dispatch(deleteTweet(id))}
+                  sx={{ padding: 1 }}
+                />
               </Tooltip>{" "}
             </IconBlue>
           )}
@@ -141,12 +136,12 @@ const Tweet = ({ openReply = false, userInfo }) => {
           </>
         )}
       </TweetContainer>
-      <Reply userInfo={userInfo} open={open} handleClose={handleClose} />
+      <Reply tweetInfo={tweetInfo} open={open} handleClose={handleClose} />
     </>
   );
 };
 Tweet.propTypes = {
   openReply: PropTypes.bool,
-  userInfo: PropTypes.object,
+  tweetInfo: PropTypes.object,
 };
 export default Tweet;

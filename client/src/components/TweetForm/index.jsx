@@ -22,7 +22,10 @@ import {
   TwitterContainer,
 } from "./styles";
 import PropTypes from "prop-types";
-import { createTweet } from "../../utils/tweetApi";
+import { useDispatch, useSelector } from "react-redux";
+import { createTweet } from "../../redux/tweet/action";
+import { getPersonalData } from "../../redux/user/selector";
+import { getTweetsState } from "../../redux/tweet/selector";
 
 export const TweetForm = (props) => {
   const [tweetText, setTweetText] = useState("");
@@ -30,9 +33,11 @@ export const TweetForm = (props) => {
   const inputRef = useRef(null);
   const [selectedEmoji, setSelectedEmoji] = useState("");
   const [showReplyText, setShowReplyText] = useState(false);
-
+  const user = useSelector(getPersonalData);
+  const tweets = useSelector(getTweetsState);
   const { buttonText, placeholderText = `What's happening?` } = props;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const onHandleAvatarClick = () => {
     navigate("/profile");
   };
@@ -43,7 +48,6 @@ export const TweetForm = (props) => {
 
   const onEmojiClick = (emojiData, event) => {
     setSelectedEmoji(emojiData.emoji);
-    console.log(selectedEmoji);
     setTweetText(`${tweetText} ${selectedEmoji}`);
   };
 
@@ -64,8 +68,15 @@ export const TweetForm = (props) => {
   };
 
   const onSubmit = () => {
-    console.log(tweetText);
-    createTweet({ tweetType: "TWEET", body: tweetText });
+    const curIndex = tweets[tweets.length - 1].id + 1;
+    const newTweet = {
+      id: curIndex,
+      tweetType: "TWEET",
+      body: tweetText,
+      user: user,
+    };
+    setTweetText("");
+    dispatch(createTweet(newTweet));
   };
 
   return (

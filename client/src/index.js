@@ -5,14 +5,13 @@ import { Provider } from "react-redux";
 import App from "@containers/AppContainer";
 import { BrowserRouter } from "react-router-dom";
 
-import Auth from "./pages/Auth";
 import "normalize.css";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "@mui/material/styles";
 import { defaultTheme } from "@utils/defaultTheme";
 
 import "./normolize.css";
-
+import MainContainer from "./components/MainContainer";
 
 const reduxStore = store();
 const root = createRoot(document.getElementById("root"));
@@ -21,7 +20,7 @@ root.render(
   <Provider store={reduxStore}>
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        <App />
+        <MainContainer />
       </BrowserRouter>
     </ThemeProvider>
   </Provider>

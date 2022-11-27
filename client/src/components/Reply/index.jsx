@@ -8,8 +8,7 @@ import Box from "@mui/material/Box";
 import { TweetForm } from "../TweetForm";
 import PropTypes from "prop-types";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { createTweet } from "../../utils/tweetApi";
-const Reply = ({ userInfo, open = false, handleClose }) => {
+const Reply = ({ tweetInfo, open = false, handleClose }) => {
   const matches = useMediaQuery("(max-width:700px)");
   return (
     <Dialog
@@ -23,13 +22,13 @@ const Reply = ({ userInfo, open = false, handleClose }) => {
           <CloseIcon />
         </IconButton>
       </Box>
-      <Tweet userInfo={userInfo} openReply={true} />
+      <Tweet tweetInfo={tweetInfo} openReply={false} />
       <TweetForm buttonText={"Reply"} placeholderText={"Tweet your reply"} />
     </Dialog>
   );
 };
 Reply.propTypes = {
-  userInfo: PropTypes.object,
+  tweetInfo: PropTypes.object,
   open: PropTypes.bool,
   handleClose: PropTypes.func,
 };
