@@ -35,7 +35,7 @@ export const themeStyles = {
       default: '#000000',
     },
     primary: {
-      main: '#ffd400',
+      main: '#1d9bf0',
       secondary: '#00ba7c',
       contrastText: '#ffd400'
     },

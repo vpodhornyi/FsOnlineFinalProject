@@ -5,6 +5,7 @@ import {interceptor} from "@service/API";
 import {getAuthUser} from "./auth/action";
 import {createRoutes} from "../routes";
 
+import serviceReducer from "./service/reducer";
 import authReducer from "./auth/reducer";
 import dialogReducer from "./dialog/reducer";
 import messageReducer from "./message/reducer";
@@ -13,6 +14,7 @@ import messageSearchReducer from "./message/search/reducer";
 const {applyMiddleware, combineReducers, createStore} = require("redux");
 
 const reducer = combineReducers({
+  service: serviceReducer,
   auth: authReducer,
   dialog: dialogReducer,
   message: messageReducer,

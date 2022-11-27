@@ -16,6 +16,7 @@ import {LogoIcon, IconByName,} from "./icons";
 import {Preloader} from "./loaders";
 import {CustomIconButton, CustomFabButton,} from "./buttons";
 import StickyHeader from "./StickyHeader";
+import LoginPanel from "./LoginPanel";
 
 export {
   Header,
@@ -38,4 +39,5 @@ export {
   ColumnWrapper,
   StickyHeader,
   Preloader,
+  LoginPanel,
 }

@@ -11,28 +11,24 @@ const Index = () => {
 
   return (
     <>
-      <SectionNavigation>
-        <StickyHeader sx={{
-          padding: '10px 14px',
+      <StickyHeader sx={{
+        padding: '10px 14px',
 
-          '& .MessageTitle': {
-            fontSize: '1.3rem',
-            fontWeight: 600
-          }
-        }}>
-          <Box sx={{display: 'flex', alignItems: 'center'}}>
-            <StyledAvatar/>
-            <Typography className='MessageTitle' variant='h2'>Messages</Typography>
-          </Box>
-          <Box onClick={() => navigate('/messages/compose')}>
-            <CustomIconButton name='ForwardToInboxOutlined' title='New message'/>
-          </Box>
-        </StickyHeader>
-        <Navigation/>
-      </SectionNavigation>
-      <SectionDetails>
-        <Outlet/>
-      </SectionDetails>
+        '& .MessageTitle': {
+          fontSize: '1.3rem',
+          fontWeight: 600
+        }
+      }}>
+        <Box sx={{display: 'flex', alignItems: 'center'}}>
+          <StyledAvatar/>
+          <Typography className='MessageTitle' variant='h2'>Messages</Typography>
+        </Box>
+        <Box onClick={() => navigate('/messages/compose')}>
+          <CustomIconButton name='ForwardToInboxOutlined' title='New message'/>
+        </Box>
+      </StickyHeader>
+      <Navigation/>
+
     </>);
 }
 

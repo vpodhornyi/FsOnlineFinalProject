@@ -1,7 +1,7 @@
 import React from "react";
 import {useSelector} from "react-redux";
 import {styled} from "@mui/material/styles";
-import {Box} from "@mui/material";
+import {Box, Dialog} from "@mui/material";
 import NewMassageHeader from "./NewMassageHeader";
 import IconByName from "@components/icons/IconByName";
 import SearchTextField from "./SearchTextField";
@@ -10,12 +10,14 @@ import {getMessageSearchData} from "@redux/message/search/selector";
 import FoundUser from "./FoundUser";
 import GrabbedUser from "./GrabbedUser";
 import {ModalPage} from '../../../../components';
+import PropTypes from "prop-types";
 
-const DialogNewMessage = () => {
+
+const DialogNewMessage = ({open}) => {
   const {foundUsers, grabbedUsers} = useSelector(getMessageSearchData);
 
   return (
-    <ModalPage>
+    <Dialog open={open}>
       <BoxWrapper>
         <NewMassageHeader/>
         <Box sx={{position: 'relative', width: '100%', borderBottom: '1px solid #DDDFE2',}}>
@@ -44,7 +46,7 @@ const DialogNewMessage = () => {
           }
         </Box>
       </BoxWrapper>
-    </ModalPage>
+    </Dialog>
   );
 }
 
@@ -79,7 +81,10 @@ const styles = ({theme}) => ({
   }
 });
 
-
 const BoxWrapper = styled(Box)(styles);
+
+DialogNewMessage.propTypes = {
+  open: PropTypes.bool,
+}
 
 export default DialogNewMessage;

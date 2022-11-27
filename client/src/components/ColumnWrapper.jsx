@@ -1,6 +1,14 @@
+import React from "react";
 import {styled} from "@mui/material/styles";
+import {Outlet} from "react-router-dom";
 
-const Main = styled('main')(({theme}) => ({
+const ColumnWrapper = () => (
+  <StyledDiv className='ColumnWrapper'>
+    <Outlet/>
+  </StyledDiv>
+);
+
+const StyledDiv = styled('div')(({theme}) => ({
   height: '100%',
   display: 'flex',
   justifyContent: 'space-between',
@@ -15,4 +23,4 @@ const Main = styled('main')(({theme}) => ({
 }));
 
 
-export default Main;
+export default ColumnWrapper;

@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 const CustomFabButton = ({name, disabled}) => {
   return (
     <FabWrapper disabled={disabled} className='CustomFabButton' variant="extended">
-      <Typography variant='body1'>{name}</Typography>
+      <Typography className='CustomFabButtonName' variant='body1'>{name}</Typography>
     </FabWrapper>
   );
 };
