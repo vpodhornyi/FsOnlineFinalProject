@@ -9,7 +9,6 @@ import {styled} from "@mui/material/styles";
 const Index = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location);
 
   return (
     <>
@@ -25,10 +24,7 @@ const Index = () => {
           <StyledAvatar/>
           <Typography className='MessageTitle' variant='h2'>Messages</Typography>
         </Box>
-        <Box onClick={() =>  {
-
-          return navigate('/messages/compose', location)
-        }}>
+        <Box onClick={() =>  navigate('/messages/compose')}>
           <CustomIconButton name='ForwardToInboxOutlined' title='New message'/>
         </Box>
       </StickyHeader>

@@ -22,8 +22,7 @@ const App = () => {
   // const Routes = () => useRoutes(routes(userTag, authorized));
   const location = useLocation();
   const background = location.state;
-  console.log(location);
-  console.log(background);
+
   return (
     <RootContainer>
       <Header>
@@ -31,11 +30,8 @@ const App = () => {
       </Header>
       <Main>
         <MainContainer>
-          <Routes>
-            <Route path='/home' element={<PrimaryColumn/>}/>
-          </Routes>
-{/*          <Routes location={background || location}>
-            <Route path='/' element={<Navigate to={'home'}/>}/>
+          <Routes location={background || location}>
+            {/*<Route path='/' element={<Navigate to={'home'}/>}/>*/}
             <Route path='home' element={<PrimaryColumn/>}/>
             <Route path='explore' element={<PrimaryColumn/>}/>
             <Route path='notifications' element={<PrimaryColumn/>}/>
@@ -52,11 +48,11 @@ const App = () => {
 
             <Route path=':user_tag' element={<>Other user</>}/>
             <Route path=':user_tag/*' element={<>Not Found PAGE</>}/>
-          </Routes>*/}
+          </Routes>
         </MainContainer>
       </Main>
       <DialogWindow/>
-      {(
+      {background  && (
         <Routes>
           <Route path={`/i/flow/:id`} element={<ModalPage/>}/>
         </Routes>
