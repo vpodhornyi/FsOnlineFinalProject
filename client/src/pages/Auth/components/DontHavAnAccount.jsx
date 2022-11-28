@@ -1,12 +1,14 @@
-import React from "react";
+import React, {useContext} from "react";
 import {Link} from "react-router-dom";
-import {Box, Typography} from "@mui/material";
-import PropTypes from "prop-types";
+import {Typography} from "@mui/material";
 
 import {PATH} from "../../../utils/constants";
 import {styled} from "@mui/material/styles";
+import {BackgroundContext} from "../../../utils/context";
 
-const DontHavAnAccount = ({background}) => {
+const DontHavAnAccount = () => {
+  const {background} = useContext(BackgroundContext);
+
   return (
     <TypographyWrapper className='SingUpTitle' variant='body1'>
       {"Don't have an account?"}
@@ -25,7 +27,4 @@ const TypographyWrapper = styled(Typography)(({theme}) => ({
   }
 }));
 
-DontHavAnAccount.propTypes = {
-  background: PropTypes.object,
-}
 export default DontHavAnAccount;

@@ -1,8 +1,9 @@
-import {createActions} from '../utils';
 import api, {URLS} from "@service/API";
+import {createActions} from '../utils';
 import {setAuthToken, setTokenType, setHeaderAuthorization, setRefreshToken} from "@utils";
 import {openDialog, closeDialog} from "@redux/dialog/action";
 import SingInSecondStep from '@pages/Auth/SingIn/SecondStep';
+import {PATH} from "../../utils/constants";
 
 const actions = createActions({
   async: ["IS_ACCOUNT_EXIST", "AUTHORIZE", "LOGOUT", 'GET_AUTH_USER'],
@@ -15,15 +16,17 @@ export const ACTIONS = {
   ...actions.async,
 }
 
-export const isAccountExist = (login) => async dispatch => {
+export const isAccountExist = ({login, navigate, background}) => async dispatch => {
   try {
+    console.log(login);
     dispatch(ACTIONS.isAccountExist.request());
     const data = await api.post(URLS.AUTH.IS_ACCOUNT_EXIST, {login})
     dispatch(ACTIONS.isAccountExist.success(data));
-    return true;
+
+    navigate(`${PATH.SING_IN.ROOT}/${PATH.SING_IN.SECOND_STEP}`, {state: {background}});
 
   } catch (e) {
-    return false;
+    dispatch(ACTIONS.isAccountExist.fail());
   }
 }
 

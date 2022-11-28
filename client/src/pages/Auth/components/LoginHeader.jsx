@@ -1,14 +1,15 @@
-import React from "react";
+import React, {useContext} from "react";
 import {useNavigate} from "react-router-dom";
 import {styled} from "@mui/material/styles";
 import {Box} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import {IconByName, LogoIcon} from '../../../components';
-import PropTypes from "prop-types";
 import {PATH} from '../../../utils/constants';
+import {BackgroundContext} from "../../../utils/context";
 
-const LoginHeader = ({background}) => {
+const LoginHeader = () => {
   const navigate = useNavigate();
+  const {background} = useContext(BackgroundContext);
 
   return (
     <BoxWrapper>
@@ -39,10 +40,6 @@ const styles = ({theme}) => ({
     color: theme.palette.primary.main
   }
 });
-
-LoginHeader.propTypes = {
-  background: PropTypes.object,
-}
 
 const BoxWrapper = styled(Box)(styles);
 

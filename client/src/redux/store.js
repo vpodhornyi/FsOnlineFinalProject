@@ -32,7 +32,7 @@ export default () => {
 
   if (accessToken) {
     setHeaderAuthorization(accessToken, tokenType);
-    store.dispatch(getAuthUser());
+    // store.dispatch(getAuthUser());
   }
 
   return store;

@@ -26,7 +26,8 @@ const Index = () => {
             </Box>
             <Box className='actions'>
               <Box className='LogIn'>
-                <Link to={PATH.LOGIN} state={{background: location}} style={{textDecoration: 'none'}}>
+                <Link to={`${PATH.SING_IN.ROOT}/${PATH.SING_IN.FIRST_STEP}`} state={{background: location}}
+                      style={{textDecoration: 'none'}}>
                   <CustomFabButton name='Log in'/>
                 </Link>
               </Box>

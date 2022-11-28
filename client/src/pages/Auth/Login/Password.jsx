@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useDispatch} from 'react-redux';
+import {use, useDispatch, useSelector} from 'react-redux';
 import {Box, Typography, TextField} from '@mui/material';
 import {styled} from "@mui/material/styles";
 import PropTypes from "prop-types";
@@ -10,6 +10,7 @@ import {CustomFabButton} from "../../../components";
 
 const SingInSecondStep = ({background, login = 'bob'}) => {
   const dispatch = useDispatch();
+  const userName = useSelector(state => state.auth.loginName);
   const [password, setPassword] = useState('');
   const onChange = e => {
     setPassword(() => e.target.value);
@@ -20,7 +21,7 @@ const SingInSecondStep = ({background, login = 'bob'}) => {
       <Box>
         <Typography className='StepTitle' variant='h1'>{'Enter your password'}</Typography>
         <TextField
-          value={login}
+          value={userName}
           disabled={true}
           id="email"
           sx={{width: '100%'}}
@@ -73,7 +74,6 @@ const BtnWrapper = styled(Box)(({theme}) => ({
       backgroundColor: 'rgba(15, 20, 25, 0.1);'
     }
   }
-
 }));
 
 SingInSecondStep.propTypes = {

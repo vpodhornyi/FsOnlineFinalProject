@@ -1,23 +1,24 @@
 import React from "react";
+import {Route, Routes, Outlet} from "react-router-dom";
 import {useSelector, useDispatch} from "react-redux";
 import {styled} from "@mui/material/styles";
 import {Box} from "@mui/material";
 import PropTypes from "prop-types";
-import {ACTIONS} from '@redux/message/action';
-import {ModalPage} from '../../../components';
-import FirstStep from './FirstStep'
-import SecondStep from './SecondStep'
+import {ModalPage, CircularLoader} from '../../../components';
 import LoginHeader from "../components/LoginHeader";
 
 const Login = ({background}) => {
-  const dispatch = useDispatch();
+  const {loading} = useSelector(state => state.auth)
 
   return (
     <ModalPage>
       <BoxWrapper>
-        <LoginHeader background={background}/>
-        {/*<FirstStep background={background}/>*/}
-        <SecondStep background={background}/>
+        {loading ? <CircularLoader/> : (
+          <>
+            <LoginHeader background={background}/>
+            <Outlet/>
+          </>
+        )}
       </BoxWrapper>
     </ModalPage>
   )

@@ -1,17 +1,21 @@
-import React, {useState} from 'react';
-import {Link} from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
+import React, {useState, useContext} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {useDispatch} from 'react-redux';
 import {Box, Typography, TextField} from '@mui/material';
 import {styled} from "@mui/material/styles";
-import PropTypes from "prop-types";
 
 import OrLine from '../components/OrLine';
 import DontHavAnAccount from '../components/DontHavAnAccount';
 import {CustomFabButton} from '../../../components';
+import {PATH} from "../../../utils/constants";
+import {BackgroundContext} from "../../../utils/context";
+import {ACTIONS, isAccountExist} from '@redux/auth/action';
 
-const SingInFirstStep = ({background}) => {
+const Login = () => {
   const [login, setLogin] = useState('');
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const {background} = useContext(BackgroundContext);
 
   const onChange = (e) => {
     setLogin(() => e.target.value);
@@ -31,7 +35,11 @@ const SingInFirstStep = ({background}) => {
         sx={{width: '100%'}}
         label="Email or username"
         variant="outlined"/>
-      <BtnWrapper>
+      <BtnWrapper onClick={() => {
+        dispatch(isAccountExist({login, navigate, background}));
+
+        // navigate(`${PATH.SING_IN.ROOT}/${PATH.SING_IN.SECOND_STEP}`, {state: {background}});
+      }}>
         <CustomFabButton className='NextStepBtn' name='Next'/>
       </BtnWrapper>
       <BtnWrapper>
@@ -77,8 +85,4 @@ const BtnWrapper = styled(Box)(({theme}) => ({
 
 }));
 
-SingInFirstStep.propTypes = {
-  background: PropTypes.object,
-}
-
-export default SingInFirstStep;
+export default Login;

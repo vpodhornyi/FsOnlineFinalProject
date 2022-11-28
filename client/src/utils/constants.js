@@ -21,8 +21,12 @@ export const PATH = {
   BOOKMARKS: '/bookmarks',
   LISTS: '/lists',
   USER_PROFILE: '/:user_tag',
-  LOGIN: '/i/flow/login',
-  SING_UP: '/i/flow/sing-up',
+  SING_IN: {
+    ROOT: '/auth/sing-in',
+    FIRST_STEP: 'login',
+    SECOND_STEP: 'password',
+  },
+  SING_UP: '/auth/sing-up',
   NO_MATCHES: '/:user_tag/*',
-  ALL: '*'
+  ALL: '*',
 }
