@@ -6,7 +6,6 @@ import {styled} from "@mui/material/styles";
 import {Box, Typography} from "@mui/material";
 import PropTypes from "prop-types";
 import {Header, MainContainer, CustomFabButton} from './';
-import Auth from '../pages/Auth'
 
 const Index = () => {
   const width = useSelector(state => state.service.appBarWidth)
@@ -26,12 +25,12 @@ const Index = () => {
             </Box>
             <Box className='actions'>
               <Box className='LogIn'>
-                <Link to={`/i/flow/login`} state={{background: location}} style={{textDecoration: 'none'}}>
+                <Link to={`/i/flow/login`} state={{from: location}} style={{textDecoration: 'none'}}>
                   <CustomFabButton name='Log in'/>
                 </Link>
               </Box>
               <Box className='SingUp'>
-                <Link to={`/i/flow/singup`} state={{background: location}} style={{textDecoration: 'none'}}>
+                <Link to={`/i/flow/singup`} state={{from: location}} style={{textDecoration: 'none'}}>
                   <CustomFabButton name='Sing up'/>
                 </Link>
               </Box>

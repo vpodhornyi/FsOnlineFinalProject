@@ -16,12 +16,14 @@ import DetailHeader from './pages/Messages/components/ChatInfo/Header';
 import WelcomeToInbox from './pages/Messages/components/WelcomeToInbox';
 import {routes} from './routes';
 import {menu} from './routes';
+import Box from "@mui/material/Box";
 
 const App = () => {
   const {authorized, loading, user: {userTag}} = useSelector(state => state.auth);
+  const {fromLocation} = useSelector(state => state.service);
   // const Routes = () => useRoutes(routes(userTag, authorized));
   const location = useLocation();
-  const background = location.state;
+  const from = location.state?.from;
 
   return (
     <RootContainer>
@@ -30,8 +32,7 @@ const App = () => {
       </Header>
       <Main>
         <MainContainer>
-          <Routes location={background || location}>
-            {/*<Route path='/' element={<Navigate to={'home'}/>}/>*/}
+          <Routes location={from || location}>
             <Route path='home' element={<PrimaryColumn/>}/>
             <Route path='explore' element={<PrimaryColumn/>}/>
             <Route path='notifications' element={<PrimaryColumn/>}/>
@@ -43,7 +44,6 @@ const App = () => {
               <Route index element={<SectionDetails Body={SelectMessage}/>}/>
               <Route path=':id' element={<SectionDetails Body={Chat}/>}/>
               <Route path=':id/info' element={<SectionDetails Body={ChatInfo}/>}/>
-              <Route path='/messages/compose' element={<DialogNewMessage open={true}/>}/>
             </Route>
 
             <Route path=':user_tag' element={<>Other user</>}/>
@@ -51,12 +51,13 @@ const App = () => {
           </Routes>
         </MainContainer>
       </Main>
-      <DialogWindow/>
-      {background  && (
+      {from && (
         <Routes>
           <Route path={`/i/flow/:id`} element={<ModalPage/>}/>
+          <Route path={`/messages/compose`} element={<DialogNewMessage/>}/>
         </Routes>
       )}
+      <DialogWindow/>
       {!authorized && <LoginPanel/>}
     </RootContainer>
   )

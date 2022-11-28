@@ -1,5 +1,5 @@
 import React from "react";
-import {Outlet, useNavigate, useNavigation, redirect, useLocation} from 'react-router-dom';
+import {Outlet, useNavigate, useNavigation, redirect, Route, Navigate, useLocation} from 'react-router-dom';
 import {SectionNavigation, SectionDetails, StickyHeader, CustomIconButton} from '../../components';
 import Navigation from './components/Navigation';
 import Box from "@mui/material/Box";
@@ -24,7 +24,7 @@ const Index = () => {
           <StyledAvatar/>
           <Typography className='MessageTitle' variant='h2'>Messages</Typography>
         </Box>
-        <Box onClick={() =>  navigate('/messages/compose')}>
+        <Box onClick={() => navigate('/messages/compose', {state: {from: location}})}>
           <CustomIconButton name='ForwardToInboxOutlined' title='New message'/>
         </Box>
       </StickyHeader>

@@ -63,8 +63,10 @@ html, body {
 
 html {
     font-size: 14px;
-    overflow: auto scroll;
+    /*overflow: auto scroll;*/
     overscroll-behavior-y: none;
+
+    overflow: hidden;
 }
 
 #root {

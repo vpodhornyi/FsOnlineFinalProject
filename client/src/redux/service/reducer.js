@@ -12,7 +12,6 @@ export default (state = init, {type, payload}) => {
         ...state,
         appBarWidth: payload.width
       }
-
     default:
       return state;
   }

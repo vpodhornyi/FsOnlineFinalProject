@@ -1,24 +1,22 @@
 import React from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {styled} from "@mui/material/styles";
 import {Box, Typography} from "@mui/material";
 import CustomIconButton from "@components/buttons/CustomIconButton";
 import CustomFabButton from "@components/buttons/CustomFabButton";
 import {closeDialog} from "@redux/dialog/action";
 import {getMessageSearchData} from '@redux/message/search/selector';
+import {useNavigate} from "react-router-dom";
 
 const Index = () => {
-  const BoxWrapper = styled(Box)(styles);
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {isEmptyGrabbedUsers} = useSelector(getMessageSearchData);
 
-  const next = () => {
 
-  }
   return (
     <BoxWrapper>
       <Box className='Title'>
-        <Box onClick={() => dispatch(closeDialog())}>
+        <Box onClick={() => navigate(-1)}>
           <CustomIconButton name='Close'/>
         </Box>
         <Typography variant='h2'>New message</Typography>
@@ -66,5 +64,7 @@ const styles = ({theme}) => ({
   }
 
 });
+
+const BoxWrapper = styled(Box)(styles);
 
 export default Index;
