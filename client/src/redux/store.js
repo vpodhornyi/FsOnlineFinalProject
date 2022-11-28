@@ -9,6 +9,7 @@ import messageReducer from "./message/reducer";
 import logoIconReducer from "./business/logoIcon/reducer";
 import mainMenuReducer from "./business/menu/mainMenu/reducer";
 import userReducer from "./user/reducer";
+import modalReducer from "./modal/reducer";
 
 const { applyMiddleware, combineReducers, createStore } = require("redux");
 
@@ -16,6 +17,7 @@ const reducer = combineReducers({
   tweet: tweetReducer,
   auth: authReducer,
   dialog: dialogReducer,
+  modal: modalReducer,
   message: messageReducer,
   logoIcon: logoIconReducer,
   mainMenu: mainMenuReducer,

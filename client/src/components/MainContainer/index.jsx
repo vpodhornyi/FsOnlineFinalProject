@@ -5,12 +5,14 @@ import Searchbar from "@components/Searchbar";
 import Tweet from "../Tweet";
 import { TweetForm } from "../TweetForm";
 import { useDispatch, useSelector } from "react-redux";
-import { getTweetsState } from "../../redux/tweet/selector";
+import { getTweetsState, loadingTweetsState } from "../../redux/tweet/selector";
 import { getTweets } from "../../redux/tweet/action";
+import Loading from "../Loader/Loading";
 const MainContainer = (props) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const tweets = useSelector(getTweetsState);
+  const loadingTweets = useSelector(loadingTweetsState);
   useEffect(() => {
     dispatch(getTweets());
   }, []);
@@ -35,14 +37,17 @@ const MainContainer = (props) => {
       >
         <>
           <TweetForm buttonText={"tweet"} />
+          {loadingTweets && <Loading />}
           {tweets.length &&
-            tweets.map((e, i) => {
-              return (
-                <div key={e.id}>
-                  <Tweet tweetInfo={e} />
-                </div>
-              );
-            })}
+            tweets
+              .filter((tweet) => tweet.tweetType === "TWEET")
+              .map((e, i) => {
+                return (
+                  <div key={e.id}>
+                    <Tweet tweetInfo={e} />
+                  </div>
+                );
+              })}
         </>
       </Grid>
       <Grid

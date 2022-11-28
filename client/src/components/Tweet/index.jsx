@@ -26,17 +26,14 @@ import {
   UserName,
 } from "./style";
 import CustomImageList from "../CustomImageList";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteTweet } from "../../redux/tweet/action";
+import { openModal } from "../../redux/modal/action";
+import { getActiveId } from "../../redux/modal/selector";
+import DeleteTweet from "../DeleteTweet";
 const Tweet = ({ openReply = false, tweetInfo }) => {
-  const [open, setOpen] = React.useState(false);
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
   const dispatch = useDispatch();
+  const activeId = useSelector(getActiveId);
   const { id, body, images } = tweetInfo;
   const { name, avatarImgUrl, userTag, created_at } = tweetInfo.user;
   return (
@@ -77,7 +74,9 @@ const Tweet = ({ openReply = false, tweetInfo }) => {
             <IconBlue>
               <Tooltip title={"Delete"}>
                 <MoreIcon
-                  onClick={() => dispatch(deleteTweet(id))}
+                  onClick={() =>
+                    dispatch(openModal({ id: id, typeModal: "Delete" }))
+                  }
                   sx={{ padding: 1 }}
                 />
               </Tooltip>{" "}
@@ -102,7 +101,8 @@ const Tweet = ({ openReply = false, tweetInfo }) => {
               disablePadding
               sx={{ display: "flex", justifyContent: "space-around" }}
             >
-              {ICONS.length &&
+              {!openReply &&
+                ICONS.length &&
                 ICONS.map((itemData, index) => (
                   <ListItem
                     key={index}
@@ -122,9 +122,10 @@ const Tweet = ({ openReply = false, tweetInfo }) => {
                       title={itemData.tooltip}
                     >
                       <ListItemIcon
-                        onClick={() =>
-                          itemData.tooltip === "Reply" && handleClickOpen()
-                        }
+                        onClick={() => {
+                          itemData.tooltip === "Reply" &&
+                            dispatch(openModal({ id: id, typeModal: "Reply" }));
+                        }}
                       >
                         {itemData.icon}
                       </ListItemIcon>
@@ -136,7 +137,8 @@ const Tweet = ({ openReply = false, tweetInfo }) => {
           </>
         )}
       </TweetContainer>
-      <Reply tweetInfo={tweetInfo} open={open} handleClose={handleClose} />
+      {activeId === id && !openReply && <Reply tweetInfo={tweetInfo} />}
+      {activeId === id && !openReply && <DeleteTweet />}
     </>
   );
 };
