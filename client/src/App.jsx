@@ -20,8 +20,6 @@ import Box from "@mui/material/Box";
 
 const App = () => {
   const {authorized, loading, user: {userTag}} = useSelector(state => state.auth);
-  const {fromLocation} = useSelector(state => state.service);
-  // const Routes = () => useRoutes(routes(userTag, authorized));
   const location = useLocation();
   const from = location.state?.from;
 
