@@ -7,9 +7,8 @@ import {styled} from "@mui/material/styles";
 import OrLine from '../components/OrLine';
 import DontHavAnAccount from '../components/DontHavAnAccount';
 import {CustomFabButton} from '../../../components';
-import {PATH} from "../../../utils/constants";
 import {BackgroundContext} from "../../../utils/context";
-import {ACTIONS, isAccountExist} from '@redux/auth/action';
+import {isAccountExist} from '@redux/auth/action';
 
 const Login = () => {
   const [login, setLogin] = useState('');
@@ -35,11 +34,7 @@ const Login = () => {
         sx={{width: '100%'}}
         label="Email or username"
         variant="outlined"/>
-      <BtnWrapper onClick={() => {
-        dispatch(isAccountExist({login, navigate, background}));
-
-        // navigate(`${PATH.SING_IN.ROOT}/${PATH.SING_IN.SECOND_STEP}`, {state: {background}});
-      }}>
+      <BtnWrapper onClick={() => dispatch(isAccountExist({login, navigate, background}))}>
         <CustomFabButton className='NextStepBtn' name='Next'/>
       </BtnWrapper>
       <BtnWrapper>
@@ -68,7 +63,7 @@ const BtnWrapper = styled(Box)(({theme}) => ({
 
   '& .MuiFab-root': {
     width: '100%',
-    height: 34,
+    height: '2.4rem',
     backgroundColor: 'rgba(0, 0, 0, 0)',
     border: '1px solid #DDDFE2',
     margin: '10px 0',

@@ -1,12 +1,11 @@
 import React from "react";
 import {styled} from "@mui/material/styles";
 import {Box, CircularProgress} from "@mui/material";
+import PropTypes from "prop-types";
 
-const Header = () => {
-  const BoxWrapper = styled(Box)(styles);
-
+const CircularLoader = ({styles}) => {
   return (
-    <BoxWrapper>
+    <BoxWrapper sx={{...styles}}>
       <CircularProgress/>
     </BoxWrapper>
   )
@@ -18,6 +17,19 @@ const styles = ({theme}) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  position: 'absolute',
+  top: 0,
+  right: 0,
+  bottom: 0,
+  left: 0,
+  zIndex: 1112,
+  backgroundColor: '#ffffff',
 });
 
-export default Header;
+const BoxWrapper = styled(Box)(styles);
+
+CircularLoader.propTypes = {
+  styles: PropTypes.object,
+}
+
+export default CircularLoader;

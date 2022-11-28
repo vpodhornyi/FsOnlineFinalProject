@@ -1,17 +1,21 @@
-import React, {useState} from 'react';
-import {use, useDispatch, useSelector} from 'react-redux';
+import React, {useContext, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {useNavigate} from 'react-router-dom';
 import {Box, Typography, TextField} from '@mui/material';
 import {styled} from "@mui/material/styles";
-import PropTypes from "prop-types";
 
 import DontHavAnAccount from '../components/DontHavAnAccount';
 import {CustomFabButton} from "../../../components";
+import {authorize} from '@redux/auth/action';
+import {BackgroundContext} from "../../../utils/context";
 
-
-const SingInSecondStep = ({background, login = 'bob'}) => {
+const SingInSecondStep = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const {background} = useContext(BackgroundContext);
   const userName = useSelector(state => state.auth.loginName);
   const [password, setPassword] = useState('');
+
   const onChange = e => {
     setPassword(() => e.target.value);
   }
@@ -36,7 +40,7 @@ const SingInSecondStep = ({background, login = 'bob'}) => {
           variant="outlined"/>
       </Box>
       <Box sx={{mb: 3}}>
-        <BtnWrapper>
+        <BtnWrapper onClick={() => dispatch(authorize({login: userName, password, navigate, background}))}>
           <CustomFabButton className='NextStepBtn' name='Log in'/>
         </BtnWrapper>
         <DontHavAnAccount background={background}/>
@@ -75,11 +79,6 @@ const BtnWrapper = styled(Box)(({theme}) => ({
     }
   }
 }));
-
-SingInSecondStep.propTypes = {
-  login: PropTypes.string,
-  background: PropTypes.object,
-}
 
 export default SingInSecondStep;
 

@@ -1,8 +1,6 @@
 import api, {URLS} from "@service/API";
 import {createActions} from '../utils';
 import {setAuthToken, setTokenType, setHeaderAuthorization, setRefreshToken} from "@utils";
-import {openDialog, closeDialog} from "@redux/dialog/action";
-import SingInSecondStep from '@pages/Auth/SingIn/SecondStep';
 import {PATH} from "../../utils/constants";
 
 const actions = createActions({
@@ -21,8 +19,10 @@ export const isAccountExist = ({login, navigate, background}) => async dispatch 
     console.log(login);
     dispatch(ACTIONS.isAccountExist.request());
     const data = await api.post(URLS.AUTH.IS_ACCOUNT_EXIST, {login})
-    dispatch(ACTIONS.isAccountExist.success(data));
 
+    setTimeout(() => {
+      dispatch(ACTIONS.isAccountExist.success(data));
+    }, 300)
     navigate(`${PATH.SING_IN.ROOT}/${PATH.SING_IN.SECOND_STEP}`, {state: {background}});
 
   } catch (e) {
@@ -41,22 +41,17 @@ export const getAuthUser = () => async (dispatch) => {
   }
 }
 
-export const runSecondLoginStep = (login) => async dispatch => {
-  if (await dispatch(isAccountExist(login))) {
-    dispatch(openDialog(SingInSecondStep, {login}));
-  }
-}
-
-export const authorize = ({login, password}) => async dispatch => {
+export const authorize = ({login, password, navigate, background}) => async dispatch => {
   try {
     dispatch(ACTIONS.authorize.request());
     const {type, accessToken, refreshToken} = await api.post(URLS.AUTH.AUTHORIZE, {login, password});
-    dispatch(closeDialog());
     setHeaderAuthorization(accessToken, type);
     setAuthToken(accessToken);
     setRefreshToken(refreshToken);
     setTokenType(type);
     dispatch(ACTIONS.authorize.success());
+
+    navigate(`${PATH.ROOT}`, {state: {background}});
 
   } catch (err) {
     //TODO show error
@@ -65,13 +60,14 @@ export const authorize = ({login, password}) => async dispatch => {
   }
 }
 
-export const logout = () => async dispatch => {
+export const logout = ({navigate}) => async dispatch => {
   try {
     await api.get(URLS.AUTH.LOGOUT)
     setAuthToken();
     setRefreshToken();
     setHeaderAuthorization();
     dispatch(ACTIONS.logout.success());
+    navigate(`${PATH.ROOT}`);
 
   } catch (err) {
     //TODO show error

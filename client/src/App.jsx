@@ -27,7 +27,7 @@ const App = () => {
   const {authorized, loading, user: {userTag}} = useSelector(state => state.auth);
   const location = useLocation();
   const background = location.state?.background;
-  console.log(loading);
+
 
   return (
     <BackgroundContext.Provider value={{background}}>

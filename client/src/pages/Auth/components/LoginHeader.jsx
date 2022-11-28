@@ -36,7 +36,7 @@ const styles = ({theme}) => ({
   },
 
   '& > .IconByName': {
-    fontSize: 40,
+    fontSize: '3rem',
     color: theme.palette.primary.main
   }
 });

@@ -115,7 +115,7 @@ const styles = ({theme}) => ({
 
         '& .MuiFab-root': {
           width: '100%',
-          height: 32,
+          height: '2.2rem',
 
           '& .CustomFabButtonName': {
             fontWeight: 600,

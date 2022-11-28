@@ -65,7 +65,7 @@ const SidebarFooter = () => {
         <StyledPopupTextWrap>
           <Divider/>
           <StyledPopupText onClick={() => navigate(AUTH_ROUTE)}>Add an existing account</StyledPopupText>
-          <StyledPopupText onClick={() => dispatch(logout())}>Log out</StyledPopupText>
+          <StyledPopupText onClick={() => dispatch(logout({navigate}))}>Log out</StyledPopupText>
         </StyledPopupTextWrap>
       </Popup>
     </>

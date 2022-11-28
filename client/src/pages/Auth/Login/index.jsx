@@ -1,30 +1,29 @@
 import React from "react";
-import {Route, Routes, Outlet} from "react-router-dom";
-import {useSelector, useDispatch} from "react-redux";
+import {Outlet} from "react-router-dom";
+import {useSelector} from "react-redux";
 import {styled} from "@mui/material/styles";
 import {Box} from "@mui/material";
-import PropTypes from "prop-types";
 import {ModalPage, CircularLoader} from '../../../components';
 import LoginHeader from "../components/LoginHeader";
 
-const Login = ({background}) => {
+const Login = () => {
   const {loading} = useSelector(state => state.auth)
 
   return (
     <ModalPage>
       <BoxWrapper>
-        {loading ? <CircularLoader/> : (
-          <>
-            <LoginHeader background={background}/>
-            <Outlet/>
-          </>
-        )}
+        <>
+          {loading && <CircularLoader styles={{borderRadius: '1.1rem'}}/>}
+          <LoginHeader/>
+          <Outlet/>
+        </>
       </BoxWrapper>
     </ModalPage>
   )
 }
 
 const styles = ({theme}) => ({
+  position: 'relative',
   width: '100%',
   height: '100%',
   display: 'flex',
@@ -34,7 +33,7 @@ const styles = ({theme}) => ({
   backgroundColor: '#ffffff',
 
   [theme.breakpoints.up('sm')]: {
-    borderRadius: '16px',
+    borderRadius: '1.1rem',
     width: '600px',
     height: '650px',
   },
@@ -56,9 +55,5 @@ const styles = ({theme}) => ({
 });
 
 const BoxWrapper = styled(Box)(styles);
-
-Login.propTypes = {
-  background: PropTypes.object,
-}
 
 export default Login;
