@@ -5,9 +5,9 @@ import {Typography} from "@mui/material";
 import PropTypes from "prop-types";
 
 
-const CustomFabButton = ({name, disabled}) => {
+const CustomFabButton = ({className, name, disabled}) => {
   return (
-    <FabWrapper disabled={disabled} className='CustomFabButton' variant="extended">
+    <FabWrapper disabled={disabled} className={className} variant="extended">
       <Typography className='CustomFabButtonName' variant='body1'>{name}</Typography>
     </FabWrapper>
   );
@@ -30,6 +30,7 @@ const FabWrapper = styled(Fab)(styles);
 CustomFabButton.propTypes = {
   disabled: PropTypes.bool,
   name: PropTypes.string,
+  className: PropTypes.string,
 }
 
 export default CustomFabButton;

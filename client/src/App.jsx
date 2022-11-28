@@ -9,51 +9,60 @@ import {
 import {
   Root, Home, Explore, Notifications, Messages, Chat,
   SelectMessage, DialogNewMessage, ChatInfo, Bookmarks,
-  Lists, UserProfile,
+  Lists, UserProfile, Login
 } from "./pages";
 import NavigationHeader from './pages/Messages/components/Navigation/Header';
 import DetailHeader from './pages/Messages/components/ChatInfo/Header';
 import WelcomeToInbox from './pages/Messages/components/WelcomeToInbox';
 import {routes} from './routes';
 import {menu} from './routes';
-import Box from "@mui/material/Box";
+import {PATH} from "./utils/constants";
 
 const App = () => {
   const {authorized, loading, user: {userTag}} = useSelector(state => state.auth);
   const location = useLocation();
-  const from = location.state?.from;
+  const background = location.state?.background;
 
   return (
     <RootContainer>
+
+      {/*Modal page routes*/}
+      <Routes>
+        <Route path={PATH.LOGIN} element={<Login background={background}/>}/>
+        <Route path={PATH.SING_UP} element={<Login background={background}/>}/>
+        <Route path={PATH.MESSAGES.COMPOSE} element={<DialogNewMessage/>}/>
+        <Route path={PATH.ALL} element={<></>}/>
+      </Routes>
+
       <Header>
         <AppBar menu={menu(userTag, authorized)} authorized={authorized}/>
       </Header>
       <Main>
         <MainContainer>
-          <Routes location={from || location}>
-            <Route path='home' element={<PrimaryColumn/>}/>
-            <Route path='explore' element={<PrimaryColumn/>}/>
-            <Route path='notifications' element={<PrimaryColumn/>}/>
-            <Route path='bookmarks' element={<PrimaryColumn/>}/>
-            <Route path='lists' element={<PrimaryColumn/>}/>
-            <Route path={`${userTag}`} element={<PrimaryColumn/>}/>
 
-            <Route path='/messages' element={<SectionNavigation Body={Messages}/>}>
+          {/*Main container routes*/}
+          <Routes location={background || location}>
+            <Route path={PATH.HOME} element={<PrimaryColumn/>}/>
+            <Route path={PATH.EXPLORE} element={<PrimaryColumn/>}/>
+            <Route path={PATH.NOTIFICATIONS} element={<PrimaryColumn/>}/>
+            <Route path={PATH.BOOKMARKS} element={<PrimaryColumn/>}/>
+            <Route path={PATH.LISTS} element={<PrimaryColumn/>}/>
+
+            {/*{current user page}*/}
+            <Route path={PATH.ROOT + userTag} element={<PrimaryColumn/>}/>
+
+            <Route path={PATH.MESSAGES.ROOT} element={<SectionNavigation Body={Messages}/>}>
               <Route index element={<SectionDetails Body={SelectMessage}/>}/>
-              <Route path=':id' element={<SectionDetails Body={Chat}/>}/>
-              <Route path=':id/info' element={<SectionDetails Body={ChatInfo}/>}/>
+              <Route path={PATH.MESSAGES.CHAT} element={<SectionDetails Body={Chat}/>}/>
+              <Route path={PATH.MESSAGES.CHAT_INFO} element={<SectionDetails Body={ChatInfo}/>}/>
             </Route>
 
-            <Route path=':user_tag' element={<>Other user</>}/>
-            <Route path=':user_tag/*' element={<>Not Found PAGE</>}/>
+            <Route path={PATH.USER_PROFILE} element={<>Other user</>}/>
+            <Route path={PATH.NO_MATCHES} element={<>Not Found PAGE</>}/>
           </Routes>
+
         </MainContainer>
       </Main>
-      <Routes>
-        <Route path={`/i/flow/:id`} element={<ModalPage/>}/>
-        <Route path={`/messages/compose`} element={<DialogNewMessage/>}/>
-        <Route path={`*`} element={<></>}/>
-      </Routes>
       <DialogWindow/>
       {!authorized && <LoginPanel/>}
     </RootContainer>

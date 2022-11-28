@@ -7,7 +7,7 @@ const Line = () => <Box sx={{
   width: '45%'
 }}></Box>;
 
-const Index = () => {
+const OrLine = () => {
   return (
     <Box
       sx={{
@@ -26,4 +26,4 @@ const Index = () => {
   )
 };
 
-export default Index;
+export default OrLine;

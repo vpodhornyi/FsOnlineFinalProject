@@ -24,7 +24,7 @@ const Index = () => {
           <StyledAvatar/>
           <Typography className='MessageTitle' variant='h2'>Messages</Typography>
         </Box>
-        <Box onClick={() => navigate('/messages/compose', {state: {from: location}})}>
+        <Box onClick={() => navigate('/messages/compose', {state: {background: location}})}>
           <CustomIconButton name='ForwardToInboxOutlined' title='New message'/>
         </Box>
       </StickyHeader>

@@ -8,7 +8,6 @@ import CustomButton from '@components/CustomButton';
 import LogoIcon from '@components/icons/LogoIcon';
 import OrLine from './components/OrLine';
 import SignUpFirstStep from './SignUp/FirstStep';
-import LogInFirstStep from './SingIn/FirstStep';
 import {openDialog} from "@redux/dialog/action";
 
 const MAIN_COLOR = '#1D9BF0';
@@ -104,7 +103,6 @@ const Auth = () => {
                 <CustomButton
                   customStyle={CUSTOM_BUTTON_SING_IN_STYLE}
                   name={CUSTOM_BUTTON_SING_IN_NAME}
-                  onclickAction={() => openDialog(LogInFirstStep)}
                 />
               </Grid>
             </Grid>

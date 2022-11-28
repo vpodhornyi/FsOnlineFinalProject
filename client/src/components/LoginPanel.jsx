@@ -6,6 +6,7 @@ import {styled} from "@mui/material/styles";
 import {Box, Typography} from "@mui/material";
 import PropTypes from "prop-types";
 import {Header, MainContainer, CustomFabButton} from './';
+import {PATH} from "../utils/constants";
 
 const Index = () => {
   const width = useSelector(state => state.service.appBarWidth)
@@ -25,12 +26,12 @@ const Index = () => {
             </Box>
             <Box className='actions'>
               <Box className='LogIn'>
-                <Link to={`/i/flow/login`} state={{from: location}} style={{textDecoration: 'none'}}>
+                <Link to={PATH.LOGIN} state={{background: location}} style={{textDecoration: 'none'}}>
                   <CustomFabButton name='Log in'/>
                 </Link>
               </Box>
               <Box className='SingUp'>
-                <Link to={`/i/flow/singup`} state={{from: location}} style={{textDecoration: 'none'}}>
+                <Link to={PATH.SING_UP} state={{background: location}} style={{textDecoration: 'none'}}>
                   <CustomFabButton name='Sing up'/>
                 </Link>
               </Box>
@@ -111,7 +112,7 @@ const styles = ({theme}) => ({
           width: '200px',
         },
 
-        '& .CustomFabButton': {
+        '& .MuiFab-root': {
           width: '100%',
           height: 32,
 
@@ -126,7 +127,7 @@ const styles = ({theme}) => ({
         },
 
         '& .LogIn': {
-          '& .CustomFabButton': {
+          '& .MuiFab-root': {
             backgroundColor: 'rgba(0, 0, 0, 0)',
             border: '1px solid rgba(255, 255, 255, 0.35)',
 

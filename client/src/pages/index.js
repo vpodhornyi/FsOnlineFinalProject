@@ -10,9 +10,14 @@ import Bookmarks from './Bookmarks';
 import Lists from './Lists';
 import Root from './Root';
 import UserProfile from './UserProfile';
+import Login from './Auth/Login';
 
 
 export {
+
+  // auth log in, sing up
+  Login,
+
   Root,
   Home,
   Explore,
