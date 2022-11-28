@@ -5,7 +5,7 @@ import {Box, Typography, TextField} from '@mui/material';
 import {styled} from "@mui/material/styles";
 import PropTypes from "prop-types";
 
-import OrLine from './OrLine';
+import OrLine from '../components/OrLine';
 import {CustomFabButton} from '../../../components';
 import {PATH} from "../../../utils/constants";
 
@@ -65,8 +65,8 @@ const BoxWrapper = styled(Box)(({theme}) => ({
     fontWeight: theme.typography.fontWeightBold
   },
 
-  '& .Next': {
-    backgroundColor: 'rgb(15, 20, 25)',
+  '& .MuiBox-root .Next': {
+    backgroundColor: 'rgb(15, 20, 25) ',
     color: '#ffffff',
 
     '&:hover': {
@@ -76,6 +76,12 @@ const BoxWrapper = styled(Box)(({theme}) => ({
 
   '& .SingUpTitle': {
     marginTop: 38,
+  },
+
+  '& .SingUpLink': {
+    marginLeft: '10px',
+    textDecoration: 'none',
+    color: theme.palette.primary.main
   }
 
 }));

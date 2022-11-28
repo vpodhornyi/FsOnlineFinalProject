@@ -6,7 +6,8 @@ import PropTypes from "prop-types";
 import {ACTIONS} from '@redux/message/action';
 import {ModalPage} from '../../../components';
 import FirstStep from './FirstStep'
-import LoginHeader from "./LoginHeader";
+import SecondStep from './SecondStep'
+import LoginHeader from "../components/LoginHeader";
 
 const Login = ({background}) => {
   const dispatch = useDispatch();

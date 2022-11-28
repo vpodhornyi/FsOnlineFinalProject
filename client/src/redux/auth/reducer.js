@@ -5,7 +5,7 @@ const {accessToken} = getTokens();
 
 const INIT_STATE = {
   // authorized: Boolean(accessToken),
-  authorized: true,
+  authorized: false,
   loading: false,
   user: {
     isBlocked: false,
