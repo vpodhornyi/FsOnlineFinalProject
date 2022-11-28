@@ -16,7 +16,8 @@ const Login = ({background}) => {
     <ModalPage>
       <BoxWrapper>
         <LoginHeader background={background}/>
-        <FirstStep background={background}/>
+        {/*<FirstStep background={background}/>*/}
+        <SecondStep background={background}/>
       </BoxWrapper>
     </ModalPage>
   )
@@ -35,6 +36,21 @@ const styles = ({theme}) => ({
     borderRadius: '16px',
     width: '600px',
     height: '650px',
+  },
+
+  '& .StepTitle': {
+    margin: '19px 0',
+    fontSize: '2.2rem',
+    fontWeight: theme.typography.fontWeightBold
+  },
+
+  '& .MuiBox-root .NextStepBtn': {
+    backgroundColor: 'rgb(15, 20, 25) ',
+    color: '#ffffff',
+
+    '&:hover': {
+      backgroundColor: 'rgb(39, 44, 48)',
+    }
   }
 });
 

@@ -1,32 +1,14 @@
 import React, {useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import Grid from '@mui/material/Grid';
-import CloseIcon from '@mui/icons-material/Close';
-import IconButton from '@mui/material/IconButton';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import Box from '@mui/material/Box';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import TextField from '@mui/material/TextField';
-import {closeDialog} from "@redux/dialog/action";
-import {authorize} from "@redux/auth/action";
-import CustomButton from '@components/CustomButton';
+import {useDispatch} from 'react-redux';
+import {Box, Typography, TextField} from '@mui/material';
+import {styled} from "@mui/material/styles";
 import PropTypes from "prop-types";
 
-const MAIN_COLOR = '#1D9BF0';
-const CUSTOM_BUTTON_LOG_IN_STYLE = `
-    background-color: #000;
-    width: 100%;
-    padding: 10px 15px;
-    transition: all 200ms ease;
-    color: #fff;
-      &:hover {
-        background-color: #444;
-    }`;
-const CUSTOM_BUTTON_LOG_IN_NAME = 'Log in';
+import DontHavAnAccount from '../components/DontHavAnAccount';
+import {CustomFabButton} from "../../../components";
 
-const SingInSecondStep = ({props: {login}}) => {
+
+const SingInSecondStep = ({background, login = 'bob'}) => {
   const dispatch = useDispatch();
   const [password, setPassword] = useState('');
   const onChange = e => {
@@ -34,72 +16,69 @@ const SingInSecondStep = ({props: {login}}) => {
   }
 
   return (
-    <Box sx={{padding: '0 100px', width: '380px', height: '80vh',}}>
-      <Box sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-        <IconButton aria-label="close" sx={{
-          position: 'absolute',
-          top: 5,
-          left: 5,
-        }}
-                    onClick={() => dispatch(closeDialog())}>
-          <CloseIcon/>
-        </IconButton>
-        <TwitterIcon sx={{fontSize: 40, color: MAIN_COLOR}}/>
+    <BoxWrapper>
+      <Box>
+        <Typography className='StepTitle' variant='h1'>{'Enter your password'}</Typography>
+        <TextField
+          value={login}
+          disabled={true}
+          id="email"
+          sx={{width: '100%'}}
+          label="Email or username"
+          variant="outlined"/>
+        <TextField
+          onChange={e => onChange(e)}
+          value={password}
+          id="password"
+          sx={{width: '100%'}}
+          label="Password"
+          variant="outlined"/>
       </Box>
-      <DialogTitle sx={{pb: 5}}>Enter your password</DialogTitle>
-      <DialogContent sx={{
-        height: '80%',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-      }}>
-        <Box>
-          <Grid>
-            <Grid item xs={12} sx={{pb: 1}}>
-              <Grid item sx={{padding: '10px 0 20px 0'}}>
-                <TextField value={login}
-                           disabled={true}
-                           id="email"
-                           sx={{width: '100%'}}
-                           label="Email or username"
-                           variant="outlined"/>
-              </Grid>
-            </Grid>
-            <Grid item sx={{padding: '10px 0 20px 0'}}>
-              <TextField
-                onChange={e => onChange(e)}
-                value={password}
-                id="password"
-                sx={{width: '100%'}}
-                label="Password"
-                variant="outlined"/>
-            </Grid>
-          </Grid>
-        </Box>
-        <Box>
-          <Grid item sx={{padding: '10px 0 30px 0'}}>
-            <CustomButton
-              customStyle={CUSTOM_BUTTON_LOG_IN_STYLE}
-              name={CUSTOM_BUTTON_LOG_IN_NAME}
-              onclickAction={() => authorize({login, password})}
-            />
-          </Grid>
-          <DialogContentText sx={{fontSize: 15, pt: 3}}>
-            {`Don't have an account? Sign up`}
-          </DialogContentText>
-        </Box>
-      </DialogContent>
-    </Box>
+      <Box sx={{mb: 3}}>
+        <BtnWrapper>
+          <CustomFabButton className='NextStepBtn' name='Log in'/>
+        </BtnWrapper>
+        <DontHavAnAccount background={background}/>
+      </Box>
+    </BoxWrapper>
   );
 };
 
+const BoxWrapper = styled(Box)(({theme}) => ({
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+
+  '& .MuiTextField-root': {
+    margin: '10px 0',
+  }
+
+}))
+const BtnWrapper = styled(Box)(({theme}) => ({
+
+  '& .MuiFab-root': {
+    width: '100%',
+    height: 47,
+    backgroundColor: 'rgba(0, 0, 0, 0)',
+    border: '1px solid #DDDFE2',
+    margin: '10px 0',
+    transitionDuration: '0.2s',
+
+    '& .CustomFabButtonName': {
+      fontWeight: theme.typography.fontWeightBold,
+    },
+
+    '&:hover': {
+      backgroundColor: 'rgba(15, 20, 25, 0.1);'
+    }
+  }
+
+}));
+
 SingInSecondStep.propTypes = {
-  props: PropTypes.object,
   login: PropTypes.string,
+  background: PropTypes.object,
 }
 
 export default SingInSecondStep;
