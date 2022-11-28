@@ -51,12 +51,11 @@ const App = () => {
           </Routes>
         </MainContainer>
       </Main>
-      {from && (
-        <Routes>
-          <Route path={`/i/flow/:id`} element={<ModalPage/>}/>
-          <Route path={`/messages/compose`} element={<DialogNewMessage/>}/>
-        </Routes>
-      )}
+      <Routes>
+        <Route path={`/i/flow/:id`} element={<ModalPage/>}/>
+        <Route path={`/messages/compose`} element={<DialogNewMessage/>}/>
+        <Route path={`*`} element={<></>}/>
+      </Routes>
       <DialogWindow/>
       {!authorized && <LoginPanel/>}
     </RootContainer>
