@@ -38,7 +38,8 @@ export const URLS = {
     _ROOT: "/user",
   },
   TWEET: {
-    GET_TWEETS: "/tweets",
+    _ROOT: "/tweets/",
+    CREATE_TWEET: "/tweets/create",
   },
 };
 /**

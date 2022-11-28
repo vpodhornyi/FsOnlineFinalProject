@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/tweets")
+@RequestMapping("${api.version}/tweets")
 @Slf4j
 public class TweetController {
         private final TweetService tweetService;

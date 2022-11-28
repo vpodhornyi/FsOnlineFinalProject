@@ -5,7 +5,7 @@ import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import PropTypes from "prop-types";
-import Tweet from "../Tweet";
+import Tweet from "../tweetComponents/Tweet";
 import Box from "@mui/material/Box";
 function srcset(image, width, height, rows = 1, cols = 1) {
   return {

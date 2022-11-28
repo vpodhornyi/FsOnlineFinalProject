@@ -16,7 +16,7 @@ export const ACTIONS = {
 export const getTweets = () => async (dispatch) => {
   try {
     dispatch(ACTIONS.getTweets.request());
-    const data = await api.get("http://localhost:8010/tweets/");
+    const data = await api.get(URLS.TWEET._ROOT);
     dispatch(ACTIONS.getTweets.success(data));
     return true;
   } catch (err) {
@@ -29,7 +29,7 @@ export const getTweets = () => async (dispatch) => {
 export const createTweet = (obj) => async (dispatch) => {
   try {
     dispatch(ACTIONS.createTweet.request());
-    const data = await api.post("http://localhost:8010/tweets/create/", obj);
+    const data = await api.post(URLS.TWEET.CREATE_TWEET, obj);
     dispatch(ACTIONS.createTweet.success(obj));
     return true;
   } catch (err) {
@@ -42,7 +42,8 @@ export const createTweet = (obj) => async (dispatch) => {
 export const deleteTweet = (id) => async (dispatch) => {
   try {
     dispatch(ACTIONS.deleteTweet.request());
-    const data = await api.delete(`http://localhost:8010/tweets/${id}`);
+    console.log(URLS.TWEET._ROOT + id);
+    const data = await api.delete(URLS.TWEET._ROOT + id);
     dispatch(ACTIONS.deleteTweet.success(id));
     return true;
   } catch (err) {

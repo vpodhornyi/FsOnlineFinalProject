@@ -23,6 +23,6 @@ const Modal = ({ children, type }) => {
 };
 Modal.propTypes = {
   children: PropTypes.node.isRequired,
-  type: PropTypes.bool,
+  type: PropTypes.string,
 };
 export default Modal;

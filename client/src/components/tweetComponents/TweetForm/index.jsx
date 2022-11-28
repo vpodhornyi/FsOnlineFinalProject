@@ -9,7 +9,7 @@ import {
   ImageIcon,
   PollIcon,
   ScheduleIcon,
-} from "../../media/icons";
+} from "../../../media/icons";
 import {
   AvatarContainer,
   Form,
@@ -23,9 +23,10 @@ import {
 } from "./styles";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { createTweet } from "../../redux/tweet/action";
-import { getPersonalData } from "../../redux/user/selector";
-import { getTweetsState } from "../../redux/tweet/selector";
+import { createTweet } from "../../../redux/tweet/action";
+import { getPersonalData } from "../../../redux/user/selector";
+import { getTweetsState } from "../../../redux/tweet/selector";
+import { closeModal } from "../../../redux/modal/action";
 
 export const TweetForm = ({
   placeholderText = `What's happening?`,
@@ -79,6 +80,7 @@ export const TweetForm = ({
     };
     setTweetText("");
     dispatch(createTweet(newTweet));
+    dispatch(closeModal());
   };
 
   return (

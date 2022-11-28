@@ -13,7 +13,7 @@ import {
 import VerifiedIcon from "@mui/icons-material/Verified";
 import { ICONS } from "./tweetData";
 import PropTypes from "prop-types";
-import { MoreIcon } from "../../media/icons";
+import { MoreIcon } from "../../../media/icons";
 import Reply from "../Reply";
 import {
   AvatarDecorate,
@@ -25,11 +25,11 @@ import {
   UserAvatar,
   UserName,
 } from "./style";
-import CustomImageList from "../CustomImageList";
+import CustomImageList from "../../CustomImageList";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteTweet } from "../../redux/tweet/action";
-import { openModal } from "../../redux/modal/action";
-import { getActiveId } from "../../redux/modal/selector";
+import { deleteTweet } from "../../../redux/tweet/action";
+import { openModal } from "../../../redux/modal/action";
+import { getActiveId } from "../../../redux/modal/selector";
 import DeleteTweet from "../DeleteTweet";
 const Tweet = ({ openReply = false, tweetInfo }) => {
   const dispatch = useDispatch();
