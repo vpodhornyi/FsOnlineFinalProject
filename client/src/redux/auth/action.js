@@ -4,6 +4,7 @@ import {setAuthToken, setTokenType, setHeaderAuthorization, setRefreshToken} fro
 import {PATH} from "../../utils/constants";
 
 const actions = createActions({
+  actions: ['DISABLE_LOADING'],
   async: ["IS_ACCOUNT_EXIST", "AUTHORIZE", "LOGOUT", 'GET_AUTH_USER'],
 }, {
   prefix: "auth",
@@ -16,13 +17,14 @@ export const ACTIONS = {
 
 export const isAccountExist = ({login, navigate, background}) => async dispatch => {
   try {
-    console.log(login);
     dispatch(ACTIONS.isAccountExist.request());
     const data = await api.post(URLS.AUTH.IS_ACCOUNT_EXIST, {login})
+    dispatch(ACTIONS.isAccountExist.success(data));
 
     setTimeout(() => {
-      dispatch(ACTIONS.isAccountExist.success(data));
+      dispatch(ACTIONS.disableLoading());
     }, 300)
+
     navigate(`${PATH.SING_IN.ROOT}/${PATH.SING_IN.SECOND_STEP}`, {state: {background}});
 
   } catch (e) {
@@ -50,12 +52,14 @@ export const authorize = ({login, password, navigate, background}) => async disp
     setRefreshToken(refreshToken);
     setTokenType(type);
     dispatch(ACTIONS.authorize.success());
-
-    navigate(`${PATH.ROOT}`, {state: {background}});
+    navigate(`${PATH.HOME}`, {state: {background}});
 
   } catch (err) {
     //TODO show error
-    dispatch(ACTIONS.authorize.fail());
+    setTimeout(() => {
+      dispatch(ACTIONS.disableLoading());
+      dispatch(ACTIONS.authorize.fail());
+    }, 300)
     console.log("login error - ", err);
   }
 }

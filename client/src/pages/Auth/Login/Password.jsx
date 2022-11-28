@@ -15,8 +15,13 @@ const SingInSecondStep = () => {
   const {background} = useContext(BackgroundContext);
   const userName = useSelector(state => state.auth.loginName);
   const [password, setPassword] = useState('');
+  const [login, setLogin] = useState(userName);
 
-  const onChange = e => {
+  const onChangeLogin = e => {
+    setLogin(() => e.target.value);
+  }
+
+  const onChangePassword = e => {
     setPassword(() => e.target.value);
   }
 
@@ -25,14 +30,15 @@ const SingInSecondStep = () => {
       <Box>
         <Typography className='StepTitle' variant='h1'>{'Enter your password'}</Typography>
         <TextField
-          value={userName}
-          disabled={true}
+          onChange={e => onChangeLogin(e)}
+          value={login}
+          disabled={userName !== ''}
           id="email"
           sx={{width: '100%'}}
           label="Email or username"
           variant="outlined"/>
         <TextField
-          onChange={e => onChange(e)}
+          onChange={e => onChangePassword(e)}
           value={password}
           id="password"
           sx={{width: '100%'}}
@@ -40,7 +46,7 @@ const SingInSecondStep = () => {
           variant="outlined"/>
       </Box>
       <Box sx={{mb: 3}}>
-        <BtnWrapper onClick={() => dispatch(authorize({login: userName, password, navigate, background}))}>
+        <BtnWrapper onClick={() => dispatch(authorize({login, password, navigate, background}))}>
           <CustomFabButton className='NextStepBtn' name='Log in'/>
         </BtnWrapper>
         <DontHavAnAccount background={background}/>

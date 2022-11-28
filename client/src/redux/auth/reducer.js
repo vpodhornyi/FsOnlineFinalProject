@@ -65,6 +65,10 @@ export default (state = INIT_STATE, {payload, type}) => {
       return {
         ...state,
         loginName: payload.login,
+      }
+    case String(ACTIONS.disableLoading):
+      return {
+        ...state,
         loading: false,
       }
     case String(ACTIONS.authorize.success):
@@ -82,7 +86,6 @@ export default (state = INIT_STATE, {payload, type}) => {
     case String(ACTIONS.authorize.fail):
       return {
         ...state,
-        loading: false,
         authorized: false,
       }
     default:

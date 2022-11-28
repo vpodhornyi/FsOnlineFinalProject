@@ -13,7 +13,7 @@ const Login = () => {
     <ModalPage>
       <BoxWrapper>
         <>
-          {loading && <CircularLoader styles={{borderRadius: '1.1rem'}}/>}
+          {loading && <CircularLoader size={40} styles={{borderRadius: '1.1rem'}}/>}
           <LoginHeader/>
           <Outlet/>
         </>
