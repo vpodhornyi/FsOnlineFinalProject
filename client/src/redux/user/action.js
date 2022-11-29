@@ -1,15 +1,18 @@
 import {createActions} from '../utils';
-import api, {URLS} from "@service/API";
+
 
 const actions = createActions(
   {
-      async: [],
+    actions: [],
+    async: [],
   },
   {
-      prefix: "user",
+    prefix: "user",
   }
 );
 
 export const ACTIONS = {
-    ...actions.async,
+  ...actions.actions,
+  ...actions.async,
 }
+

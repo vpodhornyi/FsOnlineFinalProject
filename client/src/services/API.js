@@ -46,6 +46,7 @@ export const URLS = {
     IS_ACCOUNT_EXIST: `/auth/account`,
     AUTHORIZE: `/auth/login`,
     LOGOUT: `/auth/logout`,
+    CREATE_NEW_USER: '/auth/create-new-user'
   },
   USER: {
     _ROOT: "/users",

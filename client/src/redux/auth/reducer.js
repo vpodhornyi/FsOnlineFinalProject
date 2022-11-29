@@ -7,6 +7,11 @@ const INIT_STATE = {
   authorized: Boolean(accessToken),
   loginName: '',
   loading: false,
+  newUser: {
+    name: '',
+    email: '',
+    birthDate: '',
+  },
   user: {
     isBlocked: false,
     isAdmin: false,
@@ -37,6 +42,24 @@ const INIT_STATE = {
 export default (state = INIT_STATE, {payload, type}) => {
 
   switch (type) {
+    case String(ACTIONS.setNewUserData):
+      return {
+        ...state,
+        newUser: {
+          name: payload.name,
+          email: payload.email,
+          birthDate: payload.birthDate,
+        }
+      }
+    case String(ACTIONS.clearNewUserData):
+      return {
+        ...state,
+        newUser: {
+          name: '',
+          email: '',
+          birthDate: '',
+        }
+      }
     case String(ACTIONS.getAuthUser.request):
       return {
         ...state,

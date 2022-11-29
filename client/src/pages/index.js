@@ -14,10 +14,9 @@ import Auth from './Auth/Auth';
 import Login from './Auth/SingIn/Login';
 import Password from './Auth/SingIn/Password';
 import ForgotPassword from './Auth/SingIn/ForgotPassword';
-import SingUp from './Auth/SignUp';
-import Data from './Auth/SignUp/Data';
-import CreateAccount from './Auth/SignUp/CreateAccount';
-
+import SingUp from './Auth/SingUp/SingUp';
+import Data from './Auth/SingUp/Data';
+import CreateAccount from './Auth/SingUp/CreateAccount';
 
 export {
 

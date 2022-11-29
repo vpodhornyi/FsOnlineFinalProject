@@ -4,8 +4,8 @@ import {setAuthToken, setTokenType, setHeaderAuthorization, setRefreshToken} fro
 import {PATH} from "../../utils/constants";
 
 const actions = createActions({
-  actions: ['DISABLE_LOADING'],
-  async: ["IS_ACCOUNT_EXIST", "AUTHORIZE", "LOGOUT", 'GET_AUTH_USER'],
+  actions: ['DISABLE_LOADING', 'SET_NEW_USER_DATA', 'CLEAR_NEW_USER_DATA'],
+  async: ["IS_ACCOUNT_EXIST", "AUTHORIZE", 'CREATE_NEW_USER', "LOGOUT", 'GET_AUTH_USER'],
 }, {
   prefix: "auth",
 });
@@ -30,8 +30,20 @@ export const isAccountExist = (login) => async dispatch => {
     return true;
 
   } catch (e) {
+    console.log(e);
     dispatch(ACTIONS.isAccountExist.fail());
     return false;
+  }
+}
+
+export const createNewUser = ({name, email, birthDate}) => async dispatch => {
+  try {
+    dispatch(ACTIONS.createNewUser.request());
+    const data = await api.post(URLS.AUTH.CREATE_NEW_USER, {name, email, birthDate})
+    dispatch(ACTIONS.createNewUser.success(data));
+
+  } catch (e) {
+    dispatch(ACTIONS.createNewUser.fail());
   }
 }
 
@@ -43,10 +55,18 @@ export const runLoginSecondStep = ({login, navigate, background}) => async dispa
   disableLoading(dispatch);
 }
 
+export const runSingUpSecondStep = ({name, email, birthDate, navigate, background}) => async dispatch => {
+  if (!await dispatch(isAccountExist(email))) {
+    dispatch(ACTIONS.setNewUserData({name, email, birthDate}));
+    navigate(`${PATH.AUTH.ROOT}/${PATH.AUTH.SING_UP.CREATE_ACCOUNT}`, {state: {background}});
+    disableLoading(dispatch);
+  }
+}
+
 export const getAuthUser = () => async (dispatch) => {
   try {
     dispatch(ACTIONS.getAuthUser.request);
-    const data = await api.get(URLS.USER.ROOT);
+    const data = await api.get(URLS.AUTH.ROOT);
     dispatch(ACTIONS.getAuthUser.success(data));
 
   } catch (e) {

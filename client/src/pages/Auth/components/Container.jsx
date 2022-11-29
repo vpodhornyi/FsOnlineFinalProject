@@ -8,7 +8,7 @@ export default styled(Box)(({theme}) => ({
   padding: 'o 30px 46px 30px',
   width: '100%',
 
-  [theme.breakpoints.up('sm')]: {
+  [theme.breakpoints.up('xs')]: {
     minWidth: '380px',
     maxWidth: '380px',
   }

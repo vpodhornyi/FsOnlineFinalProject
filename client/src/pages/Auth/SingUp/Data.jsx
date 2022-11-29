@@ -2,19 +2,35 @@ import React, {useContext, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigate} from "react-router-dom";
 import {Typography, TextField, Stack, Box} from "@mui/material";
+import {styled} from "@mui/material/styles";
 
 import {Container, ButtonWrapper} from '../components';
 import {CustomFabButton} from "../../../components";
-import {PATH} from "../../../utils/constants";
 import {BackgroundContext} from "../../../utils/context";
-import {styled} from "@mui/material/styles";
+import {runSingUpSecondStep} from '@redux/auth/action';
 
 
 const SingUpFirstStep = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {background} = useContext(BackgroundContext);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [birthDate, setBirthDate] = useState('');
 
+  const onChangeLogin = (e) => {
+    setName(() => e.target.value);
+  }
+  const onChangeEmail = (e) => {
+    setEmail(() => e.target.value);
+  }
+  const onChangeDate = (e) => {
+    setBirthDate(() => e.target.value);
+  }
+
+  const submit = () => {
+    dispatch(runSingUpSecondStep({name, email, birthDate, navigate, background}));
+  }
 
   return (
     <Container sx={{justifyContent: 'space-between', height: '100%'}}>
@@ -22,10 +38,14 @@ const SingUpFirstStep = () => {
         <Typography className='StepTitle' variant='h1'>Create your account</Typography>
         <Stack spacing={5}>
           <TextField
+            value={name}
+            onChange={e => onChangeLogin(e)}
             sx={{width: '100%'}}
             label="Name"
             variant="outlined"/>
           <TextField
+            value={email}
+            onChange={e => onChangeEmail(e)}
             sx={{width: '100%'}}
             label="Email"
             variant="outlined"/>
@@ -35,7 +55,8 @@ const SingUpFirstStep = () => {
               Confirm your own age, even if this account is for a business, a pet, or something else.
             </Typography>
             <TextField
-              id="date"
+              value={birthDate}
+              onChange={e => onChangeDate(e)}
               label="Birthday"
               type="date"
               sx={{width: '100%'}}
@@ -49,8 +70,8 @@ const SingUpFirstStep = () => {
       <ButtonWrapperStyled>
         <CustomFabButton
           className='NextStepBtn'
-          disabled={false}
-          onClick={() => navigate(`${PATH.AUTH.ROOT}/${PATH.AUTH.SING_UP.CREATE_ACCOUNT}`, {state: {background}})}
+          disabled={name === '' || email === '' || birthDate === ''}
+          onClick={() => submit()}
           name='Next'/>
       </ButtonWrapperStyled>
     </Container>

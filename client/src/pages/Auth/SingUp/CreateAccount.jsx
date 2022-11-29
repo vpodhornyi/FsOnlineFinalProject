@@ -6,10 +6,35 @@ import {Container, ButtonWrapper} from '../components';
 import {Stack, Typography} from "@mui/material";
 import {CustomFabButton} from "../../../components";
 import {styled} from "@mui/material/styles";
+import {useState} from "react";
+import {PATH} from "../../../utils/constants";
+import {createNewUser} from "../../../redux/auth/action";
 
 
 const SingUpSecondStep = () => {
   const dispatch = useDispatch();
+  const {
+    name: savedName,
+    email: savedEmail,
+    birthDate: savedBirthDate
+  } = useSelector(state => state.auth.newUser);
+  const [name, setName] = useState(savedName);
+  const [email, setEmail] = useState(savedEmail);
+  const [birthDate, setBirthDate] = useState(savedBirthDate);
+
+  const onChangeLogin = (e) => {
+    setName(() => e.target.value);
+  }
+  const onChangeEmail = (e) => {
+    setEmail(() => e.target.value);
+  }
+  const onChangeDate = (e) => {
+    setBirthDate(() => e.target.value);
+  }
+
+  const submit = () => {
+    dispatch(ACTIONS.createNewUser({name, email, birthDate}));
+  }
 
   return (
     <Container sx={{justifyContent: 'space-between', height: '100%'}}>
@@ -17,15 +42,20 @@ const SingUpSecondStep = () => {
         <Typography className='StepTitle' variant='h1'>Create your account</Typography>
         <Stack spacing={5}>
           <TextField
+            value={name}
+            onChange={e => onChangeLogin(e)}
             sx={{width: '100%'}}
             label="Name"
             variant="outlined"/>
           <TextField
+            value={email}
+            onChange={e => onChangeEmail(e)}
             sx={{width: '100%'}}
             label="Email"
             variant="outlined"/>
           <TextField
-            id="date"
+            value={birthDate}
+            onChange={e => onChangeDate(e)}
             label="Birthday"
             type="date"
             sx={{width: '100%'}}
@@ -44,8 +74,7 @@ const SingUpSecondStep = () => {
           <CustomFabButton
             className='NextStepBtn'
             disabled={false}
-            onClick={() => {
-            }}
+            onClick={() => submit()}
             name='Sing up'/>
         </ButtonWrapperStyled>
       </Box>
