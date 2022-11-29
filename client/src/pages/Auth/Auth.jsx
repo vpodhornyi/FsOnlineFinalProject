@@ -3,8 +3,8 @@ import {Outlet} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {styled} from "@mui/material/styles";
 import {Box} from "@mui/material";
-import {ModalPage, CircularLoader} from '../../../components';
-import LoginHeader from "../components/LoginHeader";
+import {ModalPage, CircularLoader} from './../../components';
+import LoginHeader from "./components/LoginHeader";
 
 const Login = () => {
   const {loading} = useSelector(state => state.auth)

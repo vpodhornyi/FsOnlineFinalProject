@@ -14,7 +14,7 @@ const Preloader = ({loading}) => (
 
 const styles = ({theme}) => ({
   position: 'fixed',
-  zIndex: 10011,
+  zIndex: 11111,
   left: 0,
   top: 0,
   width: '100%',
@@ -27,7 +27,7 @@ const styles = ({theme}) => ({
 
   '& > .IconByName': {
     fontSize: '10rem',
-    color: [theme.palette.common.black]
+    color: theme.palette.primary.main
   }
 
 });

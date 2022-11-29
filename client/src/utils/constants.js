@@ -21,12 +21,23 @@ export const PATH = {
   BOOKMARKS: '/bookmarks',
   LISTS: '/lists',
   USER_PROFILE: '/:user_tag',
-  SING_IN: {
-    ROOT: '/auth/sing-in',
-    FIRST_STEP: 'login',
-    SECOND_STEP: 'password',
+  AUTH: {
+    ROOT: '/auth',
+    SING_IN: {
+      LOGIN: 'sing-in/login',
+      PASSWORD: 'sing-in/password',
+      FORGOT_PASSWORD: 'sing-in/forgot-password',
+    },
+    SING_UP: {
+      ROOT: 'sing-up',
+      SET_DATA: 'sing-up/data',
+      CREATE_ACCOUNT: 'sing-up/create',
+    },
   },
-  SING_UP: '/auth/sing-up',
   NO_MATCHES: '/:user_tag/*',
   ALL: '*',
+};
+
+export const getPath = () => {
+
 }

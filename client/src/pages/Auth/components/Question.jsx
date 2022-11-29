@@ -1,18 +1,18 @@
 import React, {useContext} from "react";
 import {Link} from "react-router-dom";
 import {Typography} from "@mui/material";
+import PropTypes from "prop-types";
 
-import {PATH} from "../../../utils/constants";
 import {styled} from "@mui/material/styles";
 import {BackgroundContext} from "../../../utils/context";
 
-const DontHavAnAccount = () => {
+const DontHavAnAccount = ({question, to, link}) => {
   const {background} = useContext(BackgroundContext);
 
   return (
-    <TypographyWrapper className='SingUpTitle' variant='body1'>
-      {"Don't have an account?"}
-      <Link className='SingUpLink' to={PATH.SING_UP} state={{background}}>Sign up</Link>
+    <TypographyWrapper variant='body1'>
+      {question}
+      <Link className='SingUpLink' to={to} state={{background}}>{link}</Link>
     </TypographyWrapper>
   );
 }
@@ -26,5 +26,11 @@ const TypographyWrapper = styled(Typography)(({theme}) => ({
     color: theme.palette.primary.main
   }
 }));
+
+DontHavAnAccount.propTypes = {
+  question: PropTypes.string,
+  to: PropTypes.string,
+  link: PropTypes.string,
+}
 
 export default DontHavAnAccount;

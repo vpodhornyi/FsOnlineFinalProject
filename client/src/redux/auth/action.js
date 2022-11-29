@@ -15,21 +15,32 @@ export const ACTIONS = {
   ...actions.async,
 }
 
-export const isAccountExist = ({login, navigate, background}) => async dispatch => {
+const disableLoading = (dispatch) => {
+  setTimeout(() => {
+    dispatch(ACTIONS.disableLoading());
+  }, 300)
+}
+
+export const isAccountExist = (login) => async dispatch => {
   try {
     dispatch(ACTIONS.isAccountExist.request());
     const data = await api.post(URLS.AUTH.IS_ACCOUNT_EXIST, {login})
     dispatch(ACTIONS.isAccountExist.success(data));
 
-    setTimeout(() => {
-      dispatch(ACTIONS.disableLoading());
-    }, 300)
-
-    navigate(`${PATH.SING_IN.ROOT}/${PATH.SING_IN.SECOND_STEP}`, {state: {background}});
+    return true;
 
   } catch (e) {
     dispatch(ACTIONS.isAccountExist.fail());
+    return false;
   }
+}
+
+export const runLoginSecondStep = ({login, navigate, background}) => async dispatch => {
+
+  if (await dispatch(isAccountExist(login))) {
+    navigate(`${PATH.AUTH.ROOT}/${PATH.AUTH.SING_IN.PASSWORD}`, {state: {background}});
+  }
+  disableLoading(dispatch);
 }
 
 export const getAuthUser = () => async (dispatch) => {

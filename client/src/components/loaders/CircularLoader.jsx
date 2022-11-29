@@ -30,7 +30,7 @@ const BoxWrapper = styled(Box)(styles);
 
 CircularLoader.propTypes = {
   styles: PropTypes.object,
-  size: PropTypes.object,
+  size: PropTypes.number,
 }
 
 export default CircularLoader;

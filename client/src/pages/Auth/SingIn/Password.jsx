@@ -2,12 +2,12 @@ import React, {useContext, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import {Box, Typography, TextField} from '@mui/material';
-import {styled} from "@mui/material/styles";
-
-import DontHavAnAccount from '../components/DontHavAnAccount';
-import {CustomFabButton} from "../../../components";
 import {authorize} from '@redux/auth/action';
+
+import {CustomFabButton} from "../../../components";
 import {BackgroundContext} from "../../../utils/context";
+import {Question, Container, ButtonWrapper} from '../components';
+import {PATH} from "../../../utils/constants";
 
 const SingInSecondStep = () => {
   const dispatch = useDispatch();
@@ -26,7 +26,7 @@ const SingInSecondStep = () => {
   }
 
   return (
-    <BoxWrapper>
+    <Container>
       <Box>
         <Typography className='StepTitle' variant='h1'>{'Enter your password'}</Typography>
         <TextField
@@ -34,57 +34,33 @@ const SingInSecondStep = () => {
           value={login}
           disabled={userName !== ''}
           id="email"
-          sx={{width: '100%'}}
+          sx={{width: '100%', mt: 2, mb: 2}}
           label="Email or username"
           variant="outlined"/>
         <TextField
           onChange={e => onChangePassword(e)}
           value={password}
           id="password"
-          sx={{width: '100%'}}
+          sx={{width: '100%', mt: 2, mb: 2}}
           label="Password"
           variant="outlined"/>
       </Box>
       <Box sx={{mb: 3}}>
-        <BtnWrapper onClick={() => dispatch(authorize({login, password, navigate, background}))}>
-          <CustomFabButton className='NextStepBtn' name='Log in'/>
-        </BtnWrapper>
-        <DontHavAnAccount background={background}/>
+        <ButtonWrapper>
+          <CustomFabButton
+            onClick={() => dispatch(authorize({login, password, navigate, background}))}
+            className='NextStepBtn'
+            name='Log in'/>
+        </ButtonWrapper>
+        <Question
+          to={`${PATH.AUTH.ROOT}/${PATH.AUTH.SING_UP.ROOT}`}
+          question={"Don't have an account?"}
+          link={'Sign up'}
+        />
       </Box>
-    </BoxWrapper>
+    </Container>
   );
 };
-
-const BoxWrapper = styled(Box)(({theme}) => ({
-  height: '100%',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-between',
-
-  '& .MuiTextField-root': {
-    margin: '10px 0',
-  }
-
-}))
-const BtnWrapper = styled(Box)(({theme}) => ({
-
-  '& .MuiFab-root': {
-    width: '100%',
-    height: 47,
-    backgroundColor: 'rgba(0, 0, 0, 0)',
-    border: '1px solid #DDDFE2',
-    margin: '10px 0',
-    transitionDuration: '0.2s',
-
-    '& .CustomFabButtonName': {
-      fontWeight: theme.typography.fontWeightBold,
-    },
-
-    '&:hover': {
-      backgroundColor: 'rgba(15, 20, 25, 0.1);'
-    }
-  }
-}));
 
 export default SingInSecondStep;
 

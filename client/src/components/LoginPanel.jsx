@@ -26,13 +26,18 @@ const Index = () => {
             </Box>
             <Box className='actions'>
               <Box className='LogIn'>
-                <Link to={`${PATH.SING_IN.ROOT}/${PATH.SING_IN.FIRST_STEP}`} state={{background: location}}
-                      style={{textDecoration: 'none'}}>
+                <Link
+                  to={`${PATH.AUTH.ROOT}/${PATH.AUTH.SING_IN.LOGIN}`}
+                  state={{background: location}}
+                  style={{textDecoration: 'none'}}>
                   <CustomFabButton name='Log in'/>
                 </Link>
               </Box>
               <Box className='SingUp'>
-                <Link to={PATH.SING_UP} state={{background: location}} style={{textDecoration: 'none'}}>
+                <Link
+                  to={`${PATH.AUTH.ROOT}/${PATH.AUTH.SING_UP.ROOT}`}
+                  state={{background: location}}
+                  style={{textDecoration: 'none'}}>
                   <CustomFabButton name='Sing up'/>
                 </Link>
               </Box>

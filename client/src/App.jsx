@@ -7,9 +7,9 @@ import {
   Header, AppBar, Main, MainContainer, SectionNavigation, SectionDetails, ModalPage
 } from "./components";
 import {
-  Root, Home, Explore, Notifications, Messages, Chat,
-  SelectMessage, DialogNewMessage, ChatInfo, Bookmarks,
-  Lists, UserProfile, Login as SingIn
+  Root, Home, Explore, Notifications, Messages, Chat, CreateAccount,
+  SelectMessage, DialogNewMessage, ChatInfo, Bookmarks, Auth, SingUp,
+  Lists, UserProfile, Login, Password, ForgotPassword, Data,
 } from "./pages";
 import NavigationHeader from './pages/Messages/components/Navigation/Header';
 import DetailHeader from './pages/Messages/components/ChatInfo/Header';
@@ -19,27 +19,26 @@ import {menu} from './routes';
 import {PATH} from "./utils/constants";
 import {BackgroundContext} from "./utils/context";
 
-import Login from './pages/Auth/Login/Login';
-import Password from './pages/Auth/Login/Password';
-// import SingInFirstStep from './pages/Auth/Login/Login';
-
 const App = () => {
-  const {authorized, loading, user: {userTag}} = useSelector(state => state.auth);
+  const {authorized, user: {userTag}} = useSelector(state => state.auth);
   const location = useLocation();
   const background = location.state?.background;
 
-
   return (
     <BackgroundContext.Provider value={{background}}>
+      <Preloader loading={false}/>
       <RootContainer>
 
         {/*Modal page routes*/}
         <Routes>
-          <Route path={PATH.SING_IN.ROOT} element={<SingIn/>}>
-            <Route path={PATH.SING_IN.FIRST_STEP} element={<Login/>}/>
-            <Route path={PATH.SING_IN.SECOND_STEP} element={<Password/>}/>
+          <Route path={PATH.AUTH.ROOT} element={<Auth/>}>
+            <Route path={PATH.AUTH.SING_IN.LOGIN} element={<Login/>}/>
+            <Route path={PATH.AUTH.SING_IN.PASSWORD} element={<Password/>}/>
+            <Route path={PATH.AUTH.SING_IN.FORGOT_PASSWORD} element={<ForgotPassword/>}/>
+            <Route path={PATH.AUTH.SING_UP.ROOT} element={<SingUp/>}/>
+            <Route path={PATH.AUTH.SING_UP.SET_DATA} element={<Data/>}/>
+            <Route path={PATH.AUTH.SING_UP.CREATE_ACCOUNT} element={<CreateAccount/>}/>
           </Route>
-          <Route path={PATH.SING_UP} element={<SingIn/>}/>
           <Route path={PATH.MESSAGES.COMPOSE} element={<DialogNewMessage/>}/>
           <Route path={PATH.ALL} element={<></>}/>
         </Routes>
@@ -53,6 +52,7 @@ const App = () => {
             {/*Main container routes*/}
             <Routes location={background || location}>
               {authorized && <Route path={PATH.ROOT} element={<Navigate to={PATH.HOME}/>}/>}
+              {!authorized && <Route path={PATH.ROOT} element={<Navigate to={PATH.EXPLORE}/>}/>}
               <Route path={PATH.HOME} element={<PrimaryColumn/>}/>
               <Route path={PATH.EXPLORE} element={<PrimaryColumn/>}/>
               <Route path={PATH.NOTIFICATIONS} element={<PrimaryColumn/>}/>
@@ -78,7 +78,6 @@ const App = () => {
         {!authorized && <LoginPanel/>}
       </RootContainer>
     </BackgroundContext.Provider>
-
   )
 }
 
