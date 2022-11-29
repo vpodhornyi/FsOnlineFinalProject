@@ -31,8 +31,8 @@ const styles = ({theme}) => ({
 
   '& .Close': {
     position: 'absolute',
-    top: 5,
-    left: 5,
+    top: 6,
+    left: -15,
   },
 
   '& > .IconByName': {

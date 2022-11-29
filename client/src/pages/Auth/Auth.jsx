@@ -12,11 +12,9 @@ const Login = () => {
   return (
     <ModalPage>
       <BoxWrapper>
-        <>
-          {loading && <CircularLoader size={40} styles={{borderRadius: '1.1rem'}}/>}
-          <LoginHeader/>
-          <Outlet/>
-        </>
+        {loading && <CircularLoader size={40} styles={{borderRadius: '1.1rem'}}/>}
+        <LoginHeader/>
+        <Outlet/>
       </BoxWrapper>
     </ModalPage>
   )
@@ -31,6 +29,7 @@ const styles = ({theme}) => ({
   justifyContent: 'flex-start',
   alignItems: 'center',
   backgroundColor: '#ffffff',
+padding: '0 20px',
 
   [theme.breakpoints.up('sm')]: {
     borderRadius: '1.1rem',

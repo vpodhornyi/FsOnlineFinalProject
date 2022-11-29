@@ -58,7 +58,11 @@ const ButtonWrapperStyled = styled(ButtonWrapper)(({theme}) => ({
 
   '& .MuiFab-root': {
     height: '3rem',
-    backgroundColor: `${theme.palette.primary.main} !important`
+    backgroundColor: `${theme.palette.primary.main} !important`,
+
+    '&:hover': {
+      backgroundColor: 'rgb(26, 140, 216) !important'
+    }
   },
 }));
 
