@@ -1,4 +1,5 @@
 import {createActions} from '../utils';
+import api, {URLS} from "../../services/API";
 
 
 const actions = createActions(
@@ -23,6 +24,7 @@ export const getAuthUser = () => async (dispatch) => {
     dispatch(ACTIONS.getAuthUser.success(data));
 
   } catch (e) {
+    console.log(e);
     dispatch(ACTIONS.getAuthUser.fail(e));
   }
 }

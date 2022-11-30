@@ -14,7 +14,7 @@ import {AUTH_ROUTE, LOGOUT_ROUTE} from "../../../utils/constants";
 import {logout} from '@redux/auth/action';
 
 const SidebarFooter = () => {
-  const authUser = useSelector(getPersonalData);
+  const {user: authUser} = useSelector(state => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -37,7 +37,7 @@ const SidebarFooter = () => {
             fontSize: "16px",
             padding: "10px",
           }} className={"sidebar__footer"}>
-            <Avatar src={authUser?.avatarImgUrl}>{authUser?.name.toUpperCase()}</Avatar>
+            <Avatar src={authUser?.avatarImgUrl}>{authUser?.name?.toUpperCase()}</Avatar>
             <div style={{
               margin: "0 10px 0 10px"
             }} className={"footer__data"}>

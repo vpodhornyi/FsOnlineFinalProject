@@ -5,7 +5,7 @@ import {PATH} from "../../utils/constants";
 
 const actions = createActions({
   actions: ['DISABLE_LOADING', 'SET_NEW_USER_DATA', 'CLEAR_NEW_USER_DATA', 'PRELOADER_START', 'PRELOADER_END'],
-  async: ["IS_ACCOUNT_EXIST", "AUTHORIZE", 'CREATE_NEW_USER', "LOGOUT", 'GET_AUTH_USER'],
+  async: ["IS_ACCOUNT_EXIST", "AUTHORIZE", 'CREATE_NEW_USER', "LOGOUT"],
 }, {
   prefix: "auth",
 });
@@ -60,17 +60,6 @@ export const runSingUpSecondStep = ({name, email, birthDate, navigate, backgroun
     dispatch(ACTIONS.setNewUserData({name, email, birthDate}));
     navigate(`${PATH.AUTH.ROOT}/${PATH.AUTH.SING_UP.CREATE_ACCOUNT}`, {state: {background}});
     disableLoading(dispatch);
-  }
-}
-
-export const getAuthUser = () => async (dispatch) => {
-  try {
-    dispatch(ACTIONS.getAuthUser.request);
-    const data = await api.get(URLS.USERS.ROOT);
-    dispatch(ACTIONS.getAuthUser.success(data));
-
-  } catch (e) {
-    dispatch(ACTIONS.getAuthUser.fail(e));
   }
 }
 

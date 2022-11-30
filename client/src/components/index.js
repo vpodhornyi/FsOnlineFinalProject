@@ -1,6 +1,6 @@
 import Header from "./Header";
 import Main from "./Main";
-import AppBar from "./AppBar";
+import NavBar from "./NavBar/NavBar";
 import DialogWindow from "./DialogWindow";
 import RootContainer from "./RootContainer";
 import MainContainer from "./MainContainer";
@@ -11,7 +11,6 @@ import PrimaryColumn from "./PrimaryColumn";
 import ModalPage from "./ModalPage";
 import NoMatches from "./NoMatches";
 import ColumnWrapper from "./ColumnWrapper";
-import MainMenu from "./MainMenu/MainMenu";
 import {LogoIcon, IconByName,} from "./icons";
 import {Preloader, CircularLoader} from "./loaders";
 import {CustomIconButton, CustomFabButton,} from "./buttons";
@@ -22,7 +21,7 @@ import Display from "./Display";
 export {
   Header,
   Main,
-  AppBar,
+  NavBar,
   DialogWindow,
   RootContainer,
   MainContainer,
@@ -31,7 +30,6 @@ export {
   SitebarColumn,
   PrimaryColumn,
   ModalPage,
-  MainMenu,
   LogoIcon,
   IconByName,
   CustomIconButton,

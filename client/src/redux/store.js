@@ -2,7 +2,7 @@ import thunk from "redux-thunk";
 import {composeWithDevTools} from "redux-devtools-extension";
 import {getTokens, setHeaderAuthorization} from "@utils";
 import {interceptor} from "@service/API";
-import {getAuthUser} from "./auth/action";
+import {getAuthUser} from "./user/action";
 import {createRoutes} from "../routes";
 
 import serviceReducer from "./service/reducer";

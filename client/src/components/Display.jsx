@@ -5,7 +5,7 @@ import {Box} from "@mui/material";
 import PropTypes from "prop-types";
 import {ACTIONS} from '@redux/message/action';
 
-import {ModalPage} from "./index";
+import ModalPage from "./ModalPage";
 
 const Display = ({item}) => {
   const dispatch = useDispatch();

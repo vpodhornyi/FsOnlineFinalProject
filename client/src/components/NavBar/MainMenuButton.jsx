@@ -19,9 +19,10 @@ const Div = styled('div')(({theme}) => ({
   padding: 15,
   display: 'flex',
   alignItems: 'center',
+  cursor: 'pointer',
 
   '& .IconByName': {
-    fontSize: '1.75rem !important',
+    fontSize: '2rem',
   },
 
   '& .LinkText': {

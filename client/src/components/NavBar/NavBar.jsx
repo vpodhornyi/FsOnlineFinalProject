@@ -6,24 +6,28 @@ import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import {useResizeDetector} from 'react-resize-detector';
 
-import {MainMenu, LogoIcon, CustomFabButton} from "../components";
-import SidebarFooter from "./Sidebar/components/SidebarFooter";
+import MainMenu from "./MainMenu";
+import MainMenuButton from "./MainMenuButton";
+import TweetButton from "./TweetButton";
+import {LogoIcon, CustomFabButton} from "../.";
+import SidebarFooter from "../Sidebar/components/SidebarFooter";
 import {ACTIONS} from '@redux/service/action';
+import {PATH} from "../../utils/constants";
 
-const AppBar = ({authorized, menu}) => {
+
+const NavBar = ({authorized, menu}) => {
   const dispatch = useDispatch();
   const onResize = useCallback(width => dispatch(ACTIONS.setAppBarWidth({width})), []);
   const {ref} = useResizeDetector({onResize});
 
   return (
     <StyledBox ref={ref}>
-      <Box>
-        <Link
-          //TODO change to router PATH
-          to={'/Home'}>
+      <Box className='NavWrapper'>
+        <Link className='Logo' to={PATH.HOME}>
           <LogoIcon/>
         </Link>
         <MainMenu authorized={authorized} menu={menu}/>
+        {authorized && <TweetButton/>}
       </Box>
       {authorized && <SidebarFooter/>}
     </StyledBox>
@@ -35,13 +39,31 @@ const styles = ({theme}) => ({
   display: "flex",
   flexDirection: "column",
   justifyContent: "space-between",
+  padding: '15px 11px 0 11px',
+
+  '&  .NavWrapper': {
+    width: '80px',
+
+    [theme.breakpoints.up('xl')]: {
+      width: '275px',
+    },
+  },
+
+  '& .Logo': {
+    paddingLeft: 15,
+    color: theme.palette.primary.main,
+    '& .MuiSvgIcon-root': {
+      fontSize: '2rem'
+    }
+  }
+
 })
 
 const StyledBox = styled(Box)(styles);
 
-AppBar.propTypes = {
+NavBar.propTypes = {
   authorized: PropTypes.bool,
   menu: PropTypes.array,
 }
 
-export default AppBar;
+export default NavBar;
