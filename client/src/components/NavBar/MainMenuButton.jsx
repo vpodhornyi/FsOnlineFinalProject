@@ -16,7 +16,7 @@ const MainMenuButton = ({isActive, iconName, text}) => (
 );
 
 const Div = styled('div')(({theme}) => ({
-  padding: 15,
+  padding: '10px 15px',
   display: 'flex',
   alignItems: 'center',
   cursor: 'pointer',

@@ -42,13 +42,18 @@ const MenuNav = styled('nav')(({theme}) => ({
 }));
 
 const MenuItem = styled('div')(({theme}) => ({
+  margin: '4px 0',
   display: 'flex',
   cursor: 'pointer',
   color: theme.palette.action.active,
 
-  '&:hover .MainMenuButton': {
+  '& .MainMenuButton': {
     borderRadius: 40,
+  },
+
+  '&:hover .MainMenuButton': {
     backgroundColor: '#E0E0E0',
+    transition: '0.1s'
   }
 }));
 
