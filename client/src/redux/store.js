@@ -4,6 +4,8 @@ import {getTokens, setHeaderAuthorization} from "@utils";
 import {interceptor} from "@service/API";
 import {getAuthUser} from "./user/action";
 
+import modalReducer from "./modal/reducer";
+import tweetReducer from "./tweet/reducer";
 import authReducer from "./auth/reducer";
 import userReducer from "./user/reducer";
 import dialogReducer from "./dialog/reducer";
@@ -13,6 +15,8 @@ import messageSearchReducer from "./message/search/reducer";
 const {applyMiddleware, combineReducers, createStore} = require("redux");
 
 const reducer = combineReducers({
+  modal: modalReducer,
+  tweet: tweetReducer,
   auth: authReducer,
   user: userReducer,
   dialog: dialogReducer,

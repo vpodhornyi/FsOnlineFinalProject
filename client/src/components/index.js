@@ -17,6 +17,7 @@ import {CustomIconButton, CustomFabButton,} from "./buttons";
 import StickyHeader from "./StickyHeader";
 import LoginPanel from "./LoginPanel";
 import Display from "./Display";
+import {TweetForm} from "./tweetComponents/TweetForm";
 
 export {
   Header,
@@ -41,4 +42,5 @@ export {
   CircularLoader,
   LoginPanel,
   Display,
+  TweetForm,
 }

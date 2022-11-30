@@ -1,6 +1,6 @@
 import React from "react";
 
-import {ColumnWrapper, PrimaryColumn, SitebarColumn, StickyHeader} from '../../components';
+import {ColumnWrapper, PrimaryColumn, SitebarColumn, StickyHeader, TweetForm} from '../../components';
 
 const Home = () => {
 
@@ -10,7 +10,8 @@ const Home = () => {
         <StickyHeader>
           HEADER Home primary column
         </StickyHeader>
-        BODY Home primary column
+        <TweetForm/>
+
       </PrimaryColumn>
 
       <SitebarColumn>
