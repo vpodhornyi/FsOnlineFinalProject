@@ -4,7 +4,7 @@ import {setAuthToken, setTokenType, setHeaderAuthorization, setRefreshToken} fro
 import {PATH} from "../../utils/constants";
 
 const actions = createActions({
-  actions: ['DISABLE_LOADING', 'SET_NEW_USER_DATA', 'CLEAR_NEW_USER_DATA'],
+  actions: ['DISABLE_LOADING', 'SET_NEW_USER_DATA', 'CLEAR_NEW_USER_DATA', 'PRELOADER_START', 'PRELOADER_END'],
   async: ["IS_ACCOUNT_EXIST", "AUTHORIZE", 'CREATE_NEW_USER', "LOGOUT", 'GET_AUTH_USER'],
 }, {
   prefix: "auth",

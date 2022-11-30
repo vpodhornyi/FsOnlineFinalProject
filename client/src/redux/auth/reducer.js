@@ -6,6 +6,7 @@ const {accessToken} = getTokens();
 const INIT_STATE = {
   authorized: Boolean(accessToken),
   loginName: '',
+  preloader: false,
   loading: false,
   newUser: {
     name: '',
@@ -42,6 +43,16 @@ const INIT_STATE = {
 export default (state = INIT_STATE, {payload, type}) => {
 
   switch (type) {
+    case String(ACTIONS.preloaderStart):
+      return {
+        ...state,
+        preloader: true,
+      }
+    case String(ACTIONS.preloaderEnd):
+      return {
+        ...state,
+        preloader: false,
+      }
     case String(ACTIONS.setNewUserData):
       return {
         ...state,

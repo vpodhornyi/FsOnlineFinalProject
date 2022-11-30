@@ -10,13 +10,16 @@ const Login = () => {
   const {loading} = useSelector(state => state.auth)
 
   return (
-    <ModalPage>
+    <ModalPage
+      closable={false}
+      element={
       <BoxWrapper>
         {loading && <CircularLoader size={40} styles={{borderRadius: '1.1rem'}}/>}
         <LoginHeader/>
         <Outlet/>
       </BoxWrapper>
-    </ModalPage>
+    }/>
+
   )
 }
 
