@@ -9,6 +9,7 @@ import lombok.Setter;
 @Data
 
 public class TweetResponse {
+  private Long id;
   private TweetType tweetType;
   private String body;
   private User user;

@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import { useTheme } from "@emotion/react";
 import Searchbar from "@components/Searchbar";
-import Tweet from "../Tweet";
-import { TweetForm } from "../TweetForm";
+import Tweet from "../tweetComponents/Tweet";
+import { TweetForm } from "../tweetComponents/TweetForm";
 import { useDispatch, useSelector } from "react-redux";
 import { getTweetsState, loadingTweetsState } from "../../redux/tweet/selector";
 import { getTweets } from "../../redux/tweet/action";
@@ -38,16 +38,15 @@ const MainContainer = (props) => {
         <>
           <TweetForm buttonText={"tweet"} />
           {loadingTweets && <Loading />}
-          {tweets.length &&
-            tweets
-              .filter((tweet) => tweet.tweetType === "TWEET")
-              .map((e, i) => {
-                return (
-                  <div key={e.id}>
-                    <Tweet tweetInfo={e} />
-                  </div>
-                );
-              })}
+          {tweets
+            .filter((tweet) => tweet.tweetType === "TWEET")
+            .map((e, i) => {
+              return (
+                <div key={e.id}>
+                  <Tweet tweetInfo={e} />
+                </div>
+              );
+            })}
         </>
       </Grid>
       <Grid

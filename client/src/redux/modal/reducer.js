@@ -7,7 +7,6 @@ const INIT = {
 };
 
 export default (state = INIT, { payload, type }) => {
-  console.log(payload);
   const { id, typeModal } = payload ? payload : { id: null, typeModal: "" };
   switch (type) {
     case String(ACTIONS.closeModal):

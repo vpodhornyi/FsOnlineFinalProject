@@ -2,13 +2,13 @@ import React from "react";
 import Tweet from "../Tweet";
 import IconButton from "@mui/material/IconButton";
 
-import { CloseIcon } from "../../media/icons";
+import { CloseIcon } from "../../../media/icons";
 import Box from "@mui/material/Box";
 import { TweetForm } from "../TweetForm";
 import PropTypes from "prop-types";
-import Modal from "../Modal";
+import Modal from "../../Modal";
 import { useDispatch } from "react-redux";
-import { closeModal } from "../../redux/modal/action";
+import { closeModal } from "../../../redux/modal/action";
 const Reply = ({ tweetInfo }) => {
   const dispatch = useDispatch();
   return (

@@ -4,38 +4,8 @@ import {
   HeartIcon,
   ReplyIcon,
   RetweetIcon,
-} from "../../media/icons";
-export const TEST_TWEET = {
-  id: "1",
-  name: "Volodimir",
-  userTag: "@Volodimir454608907",
-  avatarImgUrl: "https://via.placeholder.com/600/24f355",
-  tweetType: "TWEET",
-  ourFollowers: "Paul Massaro",
-  created_at: " . 8 hour",
-  body: "German donated Panzerhaubitze 2000s rain fire from above on Russian forces around Bakhmut.",
-  likes: [1, 2, 3, 4, 5, 6, 7, 8, 9],
-  images: [
-    {
-      img:
-        "https://via.placeholder.com/300.png/09f/fff\n" +
-        "\n" +
-        "C/O https://placeholder.com/",
-      title: "test",
-    },
-    { img: "https://via.placeholder.com/150", title: "test" },
-    { img: "https://via.placeholder.com/150", title: "test" },
-  ],
-  reply: [
-    {
-      name: "Petro",
-      userTag: "@Petro454608907",
-      avatarImgUrl: "https://via.placeholder.com/150/d32776",
-      likes: [1, 2, 3, 4, 5, 6, 7, 8, 9],
-      reply: [],
-    },
-  ],
-};
+} from "../../../media/icons";
+
 export const ICONS = [
   {
     itemClassName: {

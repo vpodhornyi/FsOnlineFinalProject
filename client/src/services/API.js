@@ -52,7 +52,8 @@ export const URLS = {
     SEARCH: '/users/search'
   },
   TWEET: {
-    GET_TWEETS: "/tweets",
+    _ROOT: "/tweets/",
+    CREATE_TWEET: "/tweets/create",
   },
 };
 
