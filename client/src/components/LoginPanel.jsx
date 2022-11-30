@@ -1,5 +1,4 @@
 import React from "react";
-import {useSelector} from "react-redux";
 import {useLocation} from "react-router-dom";
 import {Link} from "react-router-dom";
 import {styled} from "@mui/material/styles";
@@ -9,14 +8,13 @@ import {Header, MainContainer, CustomFabButton} from './';
 import {PATH} from "../utils/constants";
 
 const Index = () => {
-  const width = useSelector(state => state.service.appBarWidth)
   const location = useLocation();
 
   return (
     <BoxWrapper>
       <Box className='root'>
         <Header className='header'>
-          <Box sx={{width: `${width}px`}}/>
+          <Box className='FakeNavBar'/>
         </Header>
         <Box className='main'>
           <MainContainer className='container'>
@@ -56,6 +54,14 @@ const styles = ({theme}) => ({
   left: 0,
   backgroundColor: theme.palette.primary.main,
   color: '#ffffff',
+
+  '& .FakeNavBar': {
+    width: '102px',
+
+    [theme.breakpoints.up('xl')]: {
+      width: '299px',
+    },
+  },
 
   '& .root': {
     width: '100%',

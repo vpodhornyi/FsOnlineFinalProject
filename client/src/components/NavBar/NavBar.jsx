@@ -1,27 +1,19 @@
-import React, {useCallback, useEffect} from "react";
+import React from "react";
 import {Link} from "react-router-dom";
-import {useSelector, useDispatch} from "react-redux";
 import {styled} from "@mui/material/styles";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
-import {useResizeDetector} from 'react-resize-detector';
 
 import MainMenu from "./MainMenu";
-import MainMenuButton from "./MainMenuButton";
 import TweetButton from "./TweetButton";
-import {LogoIcon, CustomFabButton} from "../.";
+import {LogoIcon} from "../.";
 import SidebarFooter from "../Sidebar/components/SidebarFooter";
-import {ACTIONS} from '@redux/service/action';
 import {PATH} from "../../utils/constants";
 
-
 const NavBar = ({authorized, menu}) => {
-  const dispatch = useDispatch();
-  const onResize = useCallback(width => dispatch(ACTIONS.setAppBarWidth({width})), []);
-  const {ref} = useResizeDetector({onResize});
 
   return (
-    <StyledBox ref={ref}>
+    <StyledBox>
       <Box className='NavWrapper'>
         <Link className='Logo' to={PATH.HOME}>
           <LogoIcon/>

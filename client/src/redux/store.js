@@ -3,9 +3,7 @@ import {composeWithDevTools} from "redux-devtools-extension";
 import {getTokens, setHeaderAuthorization} from "@utils";
 import {interceptor} from "@service/API";
 import {getAuthUser} from "./user/action";
-import {createRoutes} from "../routes";
 
-import serviceReducer from "./service/reducer";
 import authReducer from "./auth/reducer";
 import userReducer from "./user/reducer";
 import dialogReducer from "./dialog/reducer";
@@ -15,7 +13,6 @@ import messageSearchReducer from "./message/search/reducer";
 const {applyMiddleware, combineReducers, createStore} = require("redux");
 
 const reducer = combineReducers({
-  service: serviceReducer,
   auth: authReducer,
   user: userReducer,
   dialog: dialogReducer,
@@ -29,7 +26,6 @@ export default () => {
     reducer,
     composeWithDevTools(applyMiddleware(thunk))
   );
-  // createRoutes(store);
   interceptor(store);
 
   if (accessToken) {
