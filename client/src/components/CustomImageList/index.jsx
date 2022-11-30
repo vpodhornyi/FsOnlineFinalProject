@@ -20,8 +20,7 @@ function CustomImageList({ itemData }) {
   return (
     <Box
       sx={{
-        width: 500,
-        height: 450,
+        maxHeight: 450,
         display: "flex",
         flexWrap: "wrap",
         gap: "4px",
@@ -30,11 +29,12 @@ function CustomImageList({ itemData }) {
         // Promote the list into its own layer in Chrome. This costs memory, but helps keeping high FPS.
       }}
     >
-      {itemData.map((item, i) => {
-        return (
-          <img style={{ flex: 1 }} src={item.img} key={i} alt={item.title} />
-        );
-      })}
+      {itemData &&
+        itemData.map((item, i) => {
+          return (
+            <img style={{ flex: 1 }} src={item.img} key={i} alt={item.title} />
+          );
+        })}
     </Box>
   );
 }

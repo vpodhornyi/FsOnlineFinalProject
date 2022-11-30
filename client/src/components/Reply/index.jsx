@@ -1,35 +1,29 @@
 import React from "react";
 import Tweet from "../Tweet";
 import IconButton from "@mui/material/IconButton";
-import Dialog from "@mui/material/Dialog";
 
 import { CloseIcon } from "../../media/icons";
 import Box from "@mui/material/Box";
 import { TweetForm } from "../TweetForm";
 import PropTypes from "prop-types";
-import useMediaQuery from "@mui/material/useMediaQuery";
-const Reply = ({ userInfo, open = false, handleClose }) => {
-  const matches = useMediaQuery("(max-width:700px)");
+import Modal from "../Modal";
+import { useDispatch } from "react-redux";
+import { closeModal } from "../../redux/modal/action";
+const Reply = ({ tweetInfo }) => {
+  const dispatch = useDispatch();
   return (
-    <Dialog
-      fullScreen={matches}
-      onClose={handleClose}
-      aria-labelledby="customized-dialog-title"
-      open={open}
-    >
+    <Modal type={"Reply"}>
       <Box>
-        <IconButton aria-label="close" onClick={handleClose}>
+        <IconButton aria-label="close" onClick={() => dispatch(closeModal())}>
           <CloseIcon />
         </IconButton>
       </Box>
-      <Tweet userInfo={userInfo} openReply={true} />
-      <TweetForm buttonText={"Reply"} placeholderText={"Tweet your reply"} />
-    </Dialog>
+      <Tweet tweetInfo={tweetInfo} openReply={true} />
+      <TweetForm placeholderText={"Tweet your reply"} tweetType={"REPLY"} />
+    </Modal>
   );
 };
 Reply.propTypes = {
-  userInfo: PropTypes.object,
-  open: PropTypes.bool,
-  handleClose: PropTypes.func,
+  tweetInfo: PropTypes.object,
 };
 export default Reply;

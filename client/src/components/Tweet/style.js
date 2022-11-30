@@ -7,8 +7,8 @@ export const TweetContainer = styled(Box)({
   cursor: "pointer",
 
   position: "relative",
-  paddingRight: "1rem",
-  paddingLeft: "1rem",
+  padding: "1rem",
+
   borderTop: "1px solid  rgb(239, 243, 244)",
   maxWidth: 600,
 });
