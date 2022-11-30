@@ -18,6 +18,7 @@ import StickyHeader from "./StickyHeader";
 import LoginPanel from "./LoginPanel";
 import Display from "./Display";
 import {TweetForm} from "./tweetComponents/TweetForm";
+import Tweet from "./tweetComponents/Tweet";
 
 export {
   Header,
@@ -43,4 +44,5 @@ export {
   LoginPanel,
   Display,
   TweetForm,
+  Tweet,
 }

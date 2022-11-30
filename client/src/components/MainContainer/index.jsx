@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getTweetsState, loadingTweetsState } from "../../redux/tweet/selector";
 import { getTweets } from "../../redux/tweet/action";
 import Loading from "../Loader/Loading";
+
 const MainContainer = (props) => {
   const theme = useTheme();
   const dispatch = useDispatch();
