@@ -25,7 +25,7 @@ export const searchUser = ({text}) => async dispatch => {
       dispatch(ACTIONS.searchUser.success([]));
     } else {
       dispatch(ACTIONS.searchUser.request());
-      const data = await api.get(URLS.USER.SEARCH, {params: {text}});
+      const data = await api.get(URLS.USERS.SEARCH, {params: {text}});
       dispatch(ACTIONS.searchUser.success(data));
     }
 

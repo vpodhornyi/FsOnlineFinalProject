@@ -1,14 +1,8 @@
 import React from "react";
 import {styled} from "@mui/material/styles";
-import {Outlet} from "react-router-dom";
 
-const ColumnWrapper = () => (
-  <StyledDiv className='ColumnWrapper'>
-    <Outlet/>
-  </StyledDiv>
-);
-
-const StyledDiv = styled('div')(({theme}) => ({
+export default styled('div')(({theme}) => ({
+  width: '100%',
   height: '100%',
   display: 'flex',
   justifyContent: 'space-between',
@@ -21,6 +15,3 @@ const StyledDiv = styled('div')(({theme}) => ({
     flexGrow: 1,
   }
 }));
-
-
-export default ColumnWrapper;

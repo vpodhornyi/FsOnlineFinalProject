@@ -17,6 +17,7 @@ import {Preloader, CircularLoader} from "./loaders";
 import {CustomIconButton, CustomFabButton,} from "./buttons";
 import StickyHeader from "./StickyHeader";
 import LoginPanel from "./LoginPanel";
+import Display from "./Display";
 
 export {
   Header,
@@ -41,4 +42,5 @@ export {
   Preloader,
   CircularLoader,
   LoginPanel,
+  Display,
 }

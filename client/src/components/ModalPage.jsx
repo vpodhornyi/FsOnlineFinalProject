@@ -8,7 +8,7 @@ import {BackgroundContext} from "../utils/context";
 import {PATH} from "../utils/constants";
 
 
-const ModalPage = ({element, closable = true}) => {
+const ModalPage = ({element, closable = true, styles}) => {
   const navigate = useNavigate();
   const {background} = useContext(BackgroundContext);
 
@@ -24,8 +24,9 @@ const ModalPage = ({element, closable = true}) => {
 
   return (
     <StyledBox
+      sx={{...styles}}
       onClick={onClick}>
-      <Box onClick={e => e.stopPropagation()}>
+      <Box className='ModalWrapper' onClick={e => e.stopPropagation()}>
         {
           element
         }
@@ -44,12 +45,23 @@ const StyledBox = styled(Box)(({theme}) => ({
   backgroundColor: 'rgba(0,0,0,0.4)',
   display: 'flex',
   justifyContent: 'center',
-  alignItems: 'center'
+  alignItems: 'center',
+
+  '& .ModalWrapper': {
+    width: '100%',
+    height: '100%',
+
+    [theme.breakpoints.up('sm')]: {
+      width: 'auto',
+      height: 'auto',
+    }
+  }
 }));
 
 ModalPage.propTypes = {
   element: PropTypes.object,
   closable: PropTypes.bool,
+  styles: PropTypes.object,
 }
 
 export default ModalPage;

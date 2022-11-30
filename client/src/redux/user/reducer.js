@@ -1,15 +1,8 @@
-import {ACTIONS, createNewUser} from "./action";
+import {ACTIONS} from "./action";
 
 // sample, need ref
 const INIT_STATE = {
-  loginName: '',
-  loading: false,
   preloader: false,
-  newUser: {
-    name: '',
-    email: '',
-    birthDate: '',
-  },
   user: {
     createdBy: null,
     createdAt: null,
@@ -27,12 +20,29 @@ const INIT_STATE = {
     headerImgUrl: null,
     tweets: [],
     chats: []
-  }
+  },
+  error: "",
 }
 
 export default (state = INIT_STATE, {payload, type}) => {
   switch (type) {
-
+    case String(ACTIONS.getAuthUser.request):
+      return {
+        ...state,
+        preloader: true
+      }
+    case String(ACTIONS.getAuthUser.success):
+      return {
+        ...state,
+        user: payload,
+        preloader: false
+      }
+    case String(ACTIONS.getAuthUser.fail):
+      return {
+        ...state,
+        preloader: false,
+        error: payload
+      }
     default:
       return state
   }

@@ -1,15 +1,23 @@
-import React from "react";
+import React, {useContext} from "react";
 import {styled} from "@mui/material/styles";
+import {useLocation} from "react-router-dom";
 import {NavLink} from "react-router-dom";
 import MainMenuButton from "./MainMenuButton";
 import PropTypes from "prop-types";
 
-const MainMenu = ({authorized, menu}) => {
+const MainMenu = ({menu}) => {
+  const location = useLocation();
 
   return (
     <MenuNav>
-      {menu?.map(({path, text, iconName, iconActive}) => (
-        <NavLink key={path} to={path} style={{textDecoration: 'none'}}>
+      {menu?.map(({path, text, iconName, iconActive, modalPage}) => (
+        <NavLink
+          key={path}
+          to={path}
+          style={{textDecoration: 'none'}}
+          state={modalPage ? {background: location} : {}}
+        >
+
           {({isActive}) => (
             <MenuItem>
               <MainMenuButton
@@ -20,14 +28,6 @@ const MainMenu = ({authorized, menu}) => {
           )}
         </NavLink>
       ))}
-{/*      {authorized &&
-        <MenuItem>
-          <MainMenuButton
-            isActive={false}
-            iconName='MoreHoriz'
-            text='More'/>
-        </MenuItem>
-      }*/}
     </MenuNav>
   );
 }
@@ -54,7 +54,6 @@ const MenuItem = styled('div')(({theme}) => ({
 }));
 
 MainMenu.propTypes = {
-  authorized: PropTypes.bool,
   menu: PropTypes.array,
 }
 

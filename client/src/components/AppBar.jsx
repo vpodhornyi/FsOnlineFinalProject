@@ -25,13 +25,7 @@ const AppBar = ({authorized, menu}) => {
         </Link>
         <MainMenu authorized={authorized} menu={menu}/>
       </Box>
-      {authorized &&
-        /*    <Box onClick={() => dispatch(logout())}>
-              <CustomFabButton
-                name={"Logout"}/>
-            </Box>*/
-        <SidebarFooter/>
-      }
+      {authorized && <SidebarFooter/>}
     </StyledBox>
   );
 }

@@ -9,8 +9,7 @@ import {CustomFabButton} from "../../../components";
 import {BackgroundContext} from "../../../utils/context";
 import {runSingUpSecondStep} from '@redux/auth/action';
 
-
-const SingUpFirstStep = () => {
+const UserData = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {background} = useContext(BackgroundContext);
@@ -103,5 +102,5 @@ const ButtonWrapperStyled = styled(ButtonWrapper)(({theme}) => ({
   },
 }));
 
-export default SingUpFirstStep;
+export default UserData;
 

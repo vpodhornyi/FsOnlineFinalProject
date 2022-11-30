@@ -1,21 +1,20 @@
-import Home from './Home';
-import Explore from './Explore';
-import Notifications from './Notifications';
+import Home from './Home/Home';
+import Explore from './Explore/Explore';
+import Notifications from './Notifications/Notifications';
 import Messages from './Messages';
 import SelectMessage from './Messages/SelectMessage';
 import Chat from './Messages/components/Chat';
 import DialogNewMessage from './Messages/components/DialogNewMessage';
 import ChatInfo from './Messages/components/ChatInfo';
-import Bookmarks from './Bookmarks';
-import Lists from './Lists';
-import Root from './Root';
-import UserProfile from './UserProfile';
+import Bookmarks from './Bookmarks/Bookmarks';
+import Lists from './Lists/Lists';
+import UserProfile from './UserProfile/UserProfile';
 import Auth from './Auth/Auth';
 import Login from './Auth/SingIn/Login';
 import Password from './Auth/SingIn/Password';
 import ForgotPassword from './Auth/SingIn/ForgotPassword';
 import SingUp from './Auth/SingUp/SingUp';
-import Data from './Auth/SingUp/Data';
+import UserData from './Auth/SingUp/UserData';
 import CreateAccount from './Auth/SingUp/CreateAccount';
 
 export {
@@ -26,10 +25,9 @@ export {
   Password,
   ForgotPassword,
   SingUp,
-  Data,
+  UserData,
   CreateAccount,
 
-  Root,
   Home,
   Explore,
   Notifications,

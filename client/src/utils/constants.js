@@ -35,9 +35,9 @@ export const PATH = {
     },
   },
   NO_MATCHES: '/:user_tag/*',
+  SETTINGS: {
+    DISPLAY: '/settings/display'
+  },
   ALL: '*',
 };
 
-export const getPath = () => {
-
-}

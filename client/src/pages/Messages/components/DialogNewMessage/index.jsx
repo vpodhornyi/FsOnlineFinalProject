@@ -1,58 +1,56 @@
 import React from "react";
 import {useSelector} from "react-redux";
 import {styled} from "@mui/material/styles";
-import {Box, Dialog} from "@mui/material";
-import NewMassageHeader from "./NewMassageHeader";
+import {Box} from "@mui/material";
+import {getMessageSearchData} from "@redux/message/search/selector";
+
 import IconByName from "@components/icons/IconByName";
 import SearchTextField from "./SearchTextField";
 import NewMessageLoading from "./NewMessageLoading";
-import {getMessageSearchData} from "@redux/message/search/selector";
 import FoundUser from "./FoundUser";
+import NewMassageHeader from "./NewMassageHeader";
 import GrabbedUser from "./GrabbedUser";
 import {ModalPage} from '../../../../components';
-import PropTypes from "prop-types";
 
-
-const DialogNewMessage = ({open}) => {
+const DialogNewMessage = () => {
   const {foundUsers, grabbedUsers} = useSelector(getMessageSearchData);
-
-  return (
-    <ModalPage element={
-      <BoxWrapper>
-        <NewMassageHeader/>
-        <Box sx={{position: 'relative', width: '100%', borderBottom: '1px solid #DDDFE2',}}>
-          <Box className='SearchIconWrapper'>
-            <IconByName iconName='SearchOutlined'/>
-          </Box>
-          <SearchTextField/>
-          <Box className='GrubbedUseBox'>
-            {
-              grabbedUsers.map(user => <GrabbedUser
-                key={user?.id + user?.email}
-                user={user}
-              />)
-            }
-          </Box>
-          <Box sx={{height: 2}}>
-            <NewMessageLoading/>
-          </Box>
+  const Element = () => (
+    <BoxWrapper>
+      <NewMassageHeader/>
+      <Box sx={{position: 'relative', width: '100%', borderBottom: '1px solid #DDDFE2',}}>
+        <Box className='SearchIconWrapper'>
+          <IconByName iconName='SearchOutlined'/>
         </Box>
-        <Box className='FoundUsersBox'>
+        <SearchTextField/>
+        <Box className='GrubbedUseBox'>
           {
-            foundUsers.map(user => <FoundUser
-              key={user?.id + user?.userTag}
+            grabbedUsers.map(user => <GrabbedUser
+              key={user?.id + user?.email}
               user={user}
             />)
           }
         </Box>
-      </BoxWrapper>
-    }/>
+        <Box sx={{height: 2}}>
+          <NewMessageLoading/>
+        </Box>
+      </Box>
+      <Box className='FoundUsersBox'>
+        {
+          foundUsers.map(user => <FoundUser
+            key={user?.id + user?.userTag}
+            user={user}
+          />)
+        }
+      </Box>
+    </BoxWrapper>
   );
+
+  return <ModalPage element={<Element/>}/>;
 }
 
 const styles = ({theme}) => ({
-  width: '50vh',
-  height: '50vh',
+  width: '100%',
+  height: '100%',
   backgroundColor: '#fefefe',
 
   '& .SearchIconWrapper': {
@@ -72,7 +70,8 @@ const styles = ({theme}) => ({
     overflowX: 'hidden',
   },
 
-  [theme.breakpoints.up(700)]: {
+  [theme.breakpoints.up('sm')]: {
+    borderRadius: '16px',
     width: '580px',
     height: '50vh',
     display: 'flex',
@@ -82,9 +81,5 @@ const styles = ({theme}) => ({
 });
 
 const BoxWrapper = styled(Box)(styles);
-
-DialogNewMessage.propTypes = {
-  open: PropTypes.bool,
-}
 
 export default DialogNewMessage;

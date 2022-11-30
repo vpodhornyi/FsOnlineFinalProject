@@ -6,20 +6,18 @@ import {Box} from "@mui/material";
 import {ModalPage, CircularLoader} from './../../components';
 import LoginHeader from "./components/LoginHeader";
 
-const Login = () => {
-  const {loading} = useSelector(state => state.auth)
+const Auth = () => {
+  const {loading} = useSelector(state => state.auth);
 
-  return (
-    <ModalPage
-      closable={false}
-      element={
-      <BoxWrapper>
-        {loading && <CircularLoader size={40} styles={{borderRadius: '1.1rem'}}/>}
-        <LoginHeader/>
-        <Outlet/>
-      </BoxWrapper>
-    }/>
-  )
+  const Element = () => (
+    <BoxWrapper>
+      {loading && <CircularLoader size={40} styles={{borderRadius: '1.1rem'}}/>}
+      <LoginHeader/>
+      <Outlet/>
+    </BoxWrapper>
+  );
+
+  return <ModalPage closable={false} element={<Element/>}/>;
 }
 
 const styles = ({theme}) => ({
@@ -57,4 +55,4 @@ const styles = ({theme}) => ({
 
 const BoxWrapper = styled(Box)(styles);
 
-export default Login;
+export default Auth;
