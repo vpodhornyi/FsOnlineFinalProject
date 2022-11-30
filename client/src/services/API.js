@@ -47,8 +47,8 @@ export const URLS = {
     AUTHORIZE: `/auth/login`,
     LOGOUT: `/auth/logout`,
   },
-  USER: {
-    _ROOT: "/users",
+  USERS: {
+    ROOT: "/users",
     SEARCH: '/users/search'
   }
 }

@@ -19,7 +19,6 @@ const Login = () => {
         <Outlet/>
       </BoxWrapper>
     }/>
-
   )
 }
 

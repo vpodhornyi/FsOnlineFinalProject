@@ -18,9 +18,9 @@ const ModalPage = ({element, closable = true}) => {
 
   useEffect(() => {
     document.addEventListener('keydown', (e) => {
-      e.key === 'Escape' && closable && navigate(background?.pathname || PATH.ROOT)
+      e.key === 'Escape' && closable && navigate(background?.pathname || PATH.ROOT);
     })
-  }, [])
+  }, []);
 
   return (
     <StyledBox
@@ -32,7 +32,6 @@ const ModalPage = ({element, closable = true}) => {
       </Box>
     </StyledBox>)
 }
-
 
 const StyledBox = styled(Box)(({theme}) => ({
   position: 'fixed',

@@ -66,7 +66,7 @@ export const runSingUpSecondStep = ({name, email, birthDate, navigate, backgroun
 export const getAuthUser = () => async (dispatch) => {
   try {
     dispatch(ACTIONS.getAuthUser.request);
-    const data = await api.get(URLS.AUTH.ROOT);
+    const data = await api.get(URLS.USERS.ROOT);
     dispatch(ACTIONS.getAuthUser.success(data));
 
   } catch (e) {

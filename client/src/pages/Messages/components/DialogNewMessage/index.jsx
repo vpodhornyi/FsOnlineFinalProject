@@ -17,7 +17,7 @@ const DialogNewMessage = ({open}) => {
   const {foundUsers, grabbedUsers} = useSelector(getMessageSearchData);
 
   return (
-    <ModalPage>
+    <ModalPage element={
       <BoxWrapper>
         <NewMassageHeader/>
         <Box sx={{position: 'relative', width: '100%', borderBottom: '1px solid #DDDFE2',}}>
@@ -46,7 +46,7 @@ const DialogNewMessage = ({open}) => {
           }
         </Box>
       </BoxWrapper>
-    </ModalPage>
+    }/>
   );
 }
 
