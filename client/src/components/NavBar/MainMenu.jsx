@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React from "react";
 import {styled} from "@mui/material/styles";
 import {useLocation} from "react-router-dom";
 import {NavLink} from "react-router-dom";
@@ -17,7 +17,6 @@ const MainMenu = ({menu}) => {
           style={{textDecoration: 'none'}}
           state={modalPage ? {background: location} : {}}
         >
-
           {({isActive}) => (
             <MenuItem>
               <MainMenuButton

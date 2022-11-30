@@ -3,7 +3,6 @@ import {useSelector, useDispatch} from "react-redux";
 import {styled} from "@mui/material/styles";
 import {Box} from "@mui/material";
 import PropTypes from "prop-types";
-import {ACTIONS} from '@redux/message/action';
 
 import ModalPage from "./ModalPage";
 
