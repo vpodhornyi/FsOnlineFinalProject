@@ -2,7 +2,7 @@ import {styled} from "@mui/material/styles";
 
 const Main = styled('main')(({theme}) => ({
   flexGrow: 1,
-  height: '100%',
+  // height: '100%',
 
   [theme.breakpoints.up('sm')]: {
     flexGrow: 2,

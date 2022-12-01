@@ -34,11 +34,14 @@ const NavBar = ({authorized, menu}) => {
 }
 
 const styles = ({theme}) => ({
-  height: '100%',
+  height: '100vh',
   display: "flex",
   flexDirection: "column",
   justifyContent: "space-between",
   padding: '15px 11px 0 11px',
+  overflowY: 'auto',
+  position: 'sticky',
+  top: 0,
 
   '&  .NavWrapper': {
     width: '80px',

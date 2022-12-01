@@ -5,7 +5,9 @@ import Box from "@mui/material/Box";
 const styles = ({theme}) => ({
   backgroundColor: theme.palette.primary.secondary,
   display: 'none',
-  height: '100%',
+  height: '100vh',
+  position: 'sticky',
+  top: 0,
 
   [theme.breakpoints.up('md')]: {
     display: 'block',
