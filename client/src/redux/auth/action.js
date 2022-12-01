@@ -93,7 +93,7 @@ export const logout = ({navigate}) => async dispatch => {
     setRefreshToken();
     setHeaderAuthorization();
     dispatch(ACTIONS.logout.success());
-    navigate(`${PATH.ROOT}`);
+    navigate(PATH.ROOT);
 
   } catch (err) {
     //TODO show error

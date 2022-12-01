@@ -70,9 +70,9 @@ export const TweetForm = ({
   };
 
   const onSubmit = () => {
-    const curIndex = tweets[tweets.length - 1].id + 1;
+    // const curIndex = tweets[tweets.length - 1].id + 1;
     const newTweet = {
-      id: curIndex,
+      // id: curIndex,
       tweetType,
       body: tweetText,
       user,

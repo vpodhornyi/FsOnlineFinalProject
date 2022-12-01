@@ -148,6 +148,9 @@ export const modalRoutes = authorized => {
           },
         ],
       },
-
+      {
+        path: PATH.ALL,
+        element: <></>,
+      },
     ];
 }
