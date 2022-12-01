@@ -26,10 +26,10 @@ const App = () => {
         </Header>
         <Main>
           <MainContainer>
-            <MainRoutes/>
+            <MainRoutes authorized={authorized} userTag={userTag} background={background} location={location}/>
           </MainContainer>
         </Main>
-        <ModalRoutes/>
+        <ModalRoutes authorized={authorized}/>
         {!authorized && <LoginPanel/>}
         <DialogWindow/>
       </RootContainer>
