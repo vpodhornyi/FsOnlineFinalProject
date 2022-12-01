@@ -3,9 +3,9 @@ import {Navigate} from "react-router-dom";
 import {
   Home, Explore, Notifications, Messages, Chat, SelectMessage, ChatInfo, Bookmarks, CreateAccount,
   Lists, UserProfile, DialogNewMessage, Auth, Login, Password, ForgotPassword, SingUp, UserData
-} from "./pages";
-import {PATH} from "./utils/constants";
-import {SectionDetails, SectionNavigation, Display} from "./components";
+} from "../pages";
+import {PATH} from "../utils/constants";
+import {SectionDetails, SectionNavigation, Display} from "../components";
 
 export const lazyLoading = (path) => {
   const LazyElement = lazy(() => import(path));
