@@ -22,7 +22,7 @@ export const getTweets = () => async (dispatch) => {
   } catch (err) {
     //TODO show error
     dispatch(ACTIONS.getTweets.fail());
-    console.log("isAccountExist error - ", err);
+    console.log("getTweets error - ", err);
     return false;
   }
 };
@@ -35,21 +35,20 @@ export const createTweet = (obj) => async (dispatch) => {
   } catch (err) {
     //TODO show error
     dispatch(ACTIONS.createTweet.fail());
-    console.log("isAccountExist error - ", err);
+    console.log("createTweet error - ", err);
     return false;
   }
 };
 export const deleteTweet = (id) => async (dispatch) => {
   try {
     dispatch(ACTIONS.deleteTweet.request());
-    console.log(URLS.TWEET._ROOT + id);
     const data = await api.delete(URLS.TWEET._ROOT + id);
     dispatch(ACTIONS.deleteTweet.success(id));
     return true;
   } catch (err) {
     //TODO show error
     dispatch(ACTIONS.deleteTweet.fail());
-    console.log("isAccountExist error - ", err);
+    console.log("deleteTweet error - ", err);
     return false;
   }
 };
