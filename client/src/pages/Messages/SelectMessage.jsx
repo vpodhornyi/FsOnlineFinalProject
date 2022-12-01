@@ -1,37 +1,24 @@
 import React from "react";
-import {useDispatch} from "react-redux";
 import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import {Typography} from "@mui/material";
-import CustomFabButton from "@components/buttons/CustomFabButton";
-import DialogNewMessage from "./components/DialogNewMessage";
-import {ACTIONS as DIALOG_ACTIONS} from "@redux/dialog/action";
-import {ACTIONS as MESSAGE_SEARCH_ACTIONS} from "@redux/message/search/action";
+import Action from "./components/Action";
+
+const ACTION_TITLE = 'Select a message';
+const ACTION_DESCRIPTION = 'Choose from your existing conversations, start a new one, or just keep swimming.';
+const ACTION_BTN_NAME = 'New message';
 
 const SelectMessage = () => {
-  const dispatch = useDispatch();
-  const onClick = () => {
-    dispatch(MESSAGE_SEARCH_ACTIONS.resetSearchUsers());
-    dispatch(DIALOG_ACTIONS.openDialog({Component: DialogNewMessage}));
-  }
-
   return (
     <StyledBox>
-      <Box sx={{
-        width: '320px'
-      }}>
-        <Typography sx={{fontWeight: 600}} variant='h2'>Select a message</Typography>
-        <Typography sx={{pb: 3, pt: 1}} variant='body1'>Choose from your existing conversations, start a new one, or
-          just keep swimming.</Typography>
-        <Box onClick={onClick}>
-          <CustomFabButton name='New message'/>
-        </Box>
-      </Box>
+      <Action
+      title={ACTION_TITLE}
+      description={ACTION_DESCRIPTION}
+      btnName={ACTION_BTN_NAME}
+      />
     </StyledBox>);
 }
 
 const styles = ({theme}) => ({
-  boxSizing: 'border-box',
   height: '100%',
   display: 'flex',
   alignItems: 'center',

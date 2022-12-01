@@ -5,7 +5,7 @@ import StartMessage from "./StartMessage";
 
 const styles = ({theme}) => ({
   padding: '5px 15px',
-  borderTop: '1px solid #DDDFE2',
+  borderTop: '1px solid rgb(239, 243, 244)',
   backgroundColor: 'rgba(255,255,255, 1)'
 });
 

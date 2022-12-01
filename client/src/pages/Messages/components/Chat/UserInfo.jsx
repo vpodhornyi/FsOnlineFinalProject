@@ -13,7 +13,7 @@ const styles = ({theme}) => ({
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
-  borderBottom: '1px solid #DDDFE2',
+  borderBottom: '1px solid rgb(239, 243, 244)',
   marginBottom: 15,
 
   '&:hover': {

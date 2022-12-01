@@ -3,7 +3,7 @@ import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 
 const Line = () => <Box sx={{
-  borderBottom: '1px solid #DDDFE2',
+  borderBottom: '1px solid rgb(239, 243, 244)',
   width: '45%'
 }}></Box>;
 

@@ -8,7 +8,7 @@ const INIT_STATE = {
   isChatInfo: false,
   activeId: -1,
   chats: [
-    {
+   /* {
       id: 1,
       title: 'Bob',
       users: [
@@ -41,7 +41,7 @@ const INIT_STATE = {
           headerImgUrl: '',
         }
       ]
-    }
+    }*/
   ],
   grabbedUsers: [],
   chatData: [

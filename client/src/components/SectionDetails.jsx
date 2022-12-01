@@ -22,7 +22,7 @@ const StyledSection = styled('section')(({theme}) => ({
   position: 'relative',
   height: '100%',
   display: 'none',
-  borderRight: '1px solid #DDDFE2',
+  borderRight: '1px solid rgb(239, 243, 244)',
   flexGrow: 1,
 
   [theme.breakpoints.up('md')]: {

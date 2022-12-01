@@ -17,7 +17,7 @@ const DialogNewMessage = () => {
   const Element = () => (
     <BoxWrapper>
       <NewMassageHeader/>
-      <Box sx={{position: 'relative', width: '100%', borderBottom: '1px solid #DDDFE2',}}>
+      <Box sx={{position: 'relative', width: '100%', borderBottom: '1px solid rgb(239, 243, 244)',}}>
         <Box className='SearchIconWrapper'>
           <IconByName iconName='SearchOutlined'/>
         </Box>

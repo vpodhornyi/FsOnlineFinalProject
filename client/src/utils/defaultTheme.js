@@ -65,7 +65,7 @@ export const themeStyles = {
       fontSize: '4rem',
     },
     h2: {
-      fontSize: '2rem',
+      fontSize: '2.2rem',
     },
     body1: {
       fontSize: '1rem',
