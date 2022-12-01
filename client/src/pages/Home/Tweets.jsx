@@ -7,12 +7,13 @@ import {getTweets} from "../../redux/tweet/action";
 
 const Index = () => {
   const dispatch = useDispatch();
-  const [tweets, setTweets] = useState([]);
+  const [{tweets}, setTweets] = useState({tweets: []});
 
   useEffect(() => {
     const fetch = async () => {
       const data = await dispatch(getTweets());
-      setTweets(data);
+      tweets.push(data);
+      setTweets({tweets});
     }
     fetch();
   }, []);

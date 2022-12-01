@@ -3,9 +3,10 @@ import React, {lazy, Suspense} from "react";
 import {ColumnWrapper, PrimaryColumn, SitebarColumn, StickyHeader, TweetForm} from '../../components';
 import Loading from "../../components/Loader/Loading";
 
+const Tweets = lazy(() => import('./Tweets'));
+
 const Home = () => {
-  const Tweets = lazy(() => import('./Tweets'));
-  console.log('kuku');
+
   return (
     <ColumnWrapper>
       <PrimaryColumn>
