@@ -29,10 +29,10 @@ const App = () => {
             <MainRoutes authorized={authorized} userTag={userTag} background={background} location={location}/>
           </MainContainer>
         </Main>
-        <ModalRoutes authorized={authorized}/>
         {!authorized && <LoginPanel/>}
         <DialogWindow/>
       </RootContainer>
+      <ModalRoutes authorized={authorized}/>
     </BackgroundContext.Provider>
   )
 }

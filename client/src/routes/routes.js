@@ -7,7 +7,7 @@ import {
 import {PATH} from "../utils/constants";
 import {SectionDetails, SectionNavigation, Display, TweetCompose} from "../components";
 
-export const lazyLoading = (path) => {
+const lazyLoading = (path) => {
   const LazyElement = lazy(() => import(path));
   return (<LazyElement/>);
 }
@@ -86,6 +86,10 @@ export const mainRoutes = (userTag, authorized) => {
         path: PATH.USER_PROFILE,
         element: <UserProfile/>,
         children: [],
+      },
+      {
+        path: PATH.NO_MATCHES,
+        element: <>Not Found PAGE</>,
       },
     ]
 }

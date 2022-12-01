@@ -1,22 +1,11 @@
-import React, {useEffect} from "react";
+import React, {lazy, Suspense} from "react";
 
-import {ColumnWrapper, PrimaryColumn, SitebarColumn, StickyHeader, TweetForm,
-  Tweet,
-} from '../../components';
-import {useDispatch, useSelector} from "react-redux";
-import {getTweetsState, loadingTweetsState} from "../../redux/tweet/selector";
-import {getTweets} from "../../redux/tweet/action";
+import {ColumnWrapper, PrimaryColumn, SitebarColumn, StickyHeader, TweetForm} from '../../components';
 import Loading from "../../components/Loader/Loading";
 
 const Home = () => {
-  const dispatch = useDispatch();
-  const tweets = useSelector(getTweetsState);
-  const loadingTweets = useSelector(loadingTweetsState);
-
-  useEffect(() => {
-    dispatch(getTweets());
-  }, []);
-
+  const Tweets = lazy(() => import('./Tweets'));
+  console.log('kuku');
   return (
     <ColumnWrapper>
       <PrimaryColumn>
@@ -24,16 +13,9 @@ const Home = () => {
           HEADER Home primary column
         </StickyHeader>
         <TweetForm/>
-        {loadingTweets && <Loading />}
-        {tweets
-          .filter((tweet) => tweet.tweetType === "TWEET")
-          .map((e, i) => {
-            return (
-              <div key={e.id}>
-                <Tweet tweetInfo={e} />
-              </div>
-            );
-          })}
+        <Suspense fallback={<Loading/>}>
+          <Tweets/>
+        </Suspense>
       </PrimaryColumn>
 
       <SitebarColumn>

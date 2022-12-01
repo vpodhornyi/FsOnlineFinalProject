@@ -74,7 +74,7 @@ export const authorize = ({login, password, navigate, background}) => async disp
     setTokenType(type);
     dispatch(ACTIONS.authorize.success());
     dispatch(getAuthUser());
-    navigate(`${PATH.HOME}`, {state: {background}});
+    navigate(`${PATH.HOME}`);
 
   } catch (err) {
     //TODO show error
