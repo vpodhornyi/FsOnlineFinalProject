@@ -12,8 +12,7 @@ const Index = () => {
   useEffect(() => {
     const fetch = async () => {
       const data = await dispatch(getTweets());
-      tweets.push(data);
-      setTweets({tweets});
+      setTweets({tweets: [...tweets, ...data]});
     }
     fetch();
   }, []);
