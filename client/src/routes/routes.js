@@ -5,7 +5,7 @@ import {
   Lists, UserProfile, DialogNewMessage, Auth, Login, Password, ForgotPassword, SingUp, UserData
 } from "../pages";
 import {PATH} from "../utils/constants";
-import {SectionDetails, SectionNavigation, Display} from "../components";
+import {SectionDetails, SectionNavigation, Display, TweetCompose} from "../components";
 
 export const lazyLoading = (path) => {
   const LazyElement = lazy(() => import(path));
