@@ -3,13 +3,16 @@ import { Avatar, Input } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import PublicIcon from "@mui/icons-material/Public";
 import EmojiPicker from "emoji-picker-react";
+import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types";
+
 import {
   EmojiIcon,
   GifIcon,
   ImageIcon,
   PollIcon,
   ScheduleIcon,
-} from "../../media/icons";
+} from "../../../media/icons";
 import {
   AvatarContainer,
   Form,
@@ -21,20 +24,25 @@ import {
   TweetInput,
   TwitterContainer,
 } from "./styles";
-import PropTypes from "prop-types";
 
-export const TweetForm = (props) => {
+import { createTweet } from "../../../redux/tweet/action";
+import { getPersonalData } from "../../../redux/user/selector";
+import { getTweetsState } from "../../../redux/tweet/selector";
+import { closeModal } from "../../../redux/modal/action";
+
+export const TweetForm = ({
+  placeholderText = `What's happening?`,
+  tweetType = "TWEET",
+}) => {
   const [tweetText, setTweetText] = useState("");
   const [isEmojiVisible, setEmojiVisible] = useState(false);
   const inputRef = useRef(null);
   const [selectedEmoji, setSelectedEmoji] = useState("");
   const [showReplyText, setShowReplyText] = useState(false);
-
-  const { buttonText, placeholderText = `What's happening?` } = props;
+  const user = useSelector(getPersonalData);
+  const tweets = useSelector(getTweetsState);
   const navigate = useNavigate();
-  const onHandleAvatarClick = () => {
-    navigate("/profile");
-  };
+  const dispatch = useDispatch();
 
   const onEmojiVisible = () => {
     setEmojiVisible((prevState) => !prevState);
@@ -42,7 +50,6 @@ export const TweetForm = (props) => {
 
   const onEmojiClick = (emojiData, event) => {
     setSelectedEmoji(emojiData.emoji);
-    console.log(selectedEmoji);
     setTweetText(`${tweetText} ${selectedEmoji}`);
   };
 
@@ -62,12 +69,25 @@ export const TweetForm = (props) => {
     setShowReplyText(true);
   };
 
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    const curIndex = tweets[tweets.length - 1].id + 1;
+    const newTweet = {
+      id: curIndex,
+      tweetType,
+      body: tweetText,
+      user,
+    };
+    setTweetText("");
+    dispatch(createTweet(newTweet));
+    dispatch(closeModal());
+  };
 
   return (
     <TwitterContainer>
       <AvatarContainer>
-        <Avatar src={"#"} onClick={onHandleAvatarClick} />
+        <Avatar src={user?.avatarImgUrl} onClick={() => navigate(`/${user?.userTag}`)}>
+          {user?.name?.toUpperCase()}
+        </Avatar>
       </AvatarContainer>
       <Form>
         <TweetInput>
@@ -117,7 +137,7 @@ export const TweetForm = (props) => {
               <ScheduleIcon />
             </Icon>
           </IconsList>
-          <TweetBtn onClick={onSubmit}>{buttonText}</TweetBtn>
+          <TweetBtn onClick={onSubmit}>{tweetType}</TweetBtn>
         </FormFooter>
       </Form>
     </TwitterContainer>
@@ -125,6 +145,6 @@ export const TweetForm = (props) => {
 };
 
 TweetForm.propTypes = {
-  buttonText: PropTypes.string,
+  tweetType: PropTypes.string,
   placeholderText: PropTypes.string,
 };

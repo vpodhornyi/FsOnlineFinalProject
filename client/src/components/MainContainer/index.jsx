@@ -1,11 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Grid from "@mui/material/Grid";
-import Container from "@mui/material/Container";
-import Main from "@pages/Main";
 import { useTheme } from "@emotion/react";
 import Searchbar from "@components/Searchbar";
+import Tweet from "../tweetComponents/Tweet";
+import { TweetForm } from "../tweetComponents/TweetForm";
+import { useDispatch, useSelector } from "react-redux";
+import { getTweetsState, loadingTweetsState } from "../../redux/tweet/selector";
+import { getTweets } from "../../redux/tweet/action";
+import Loading from "../Loader/Loading";
+
 const MainContainer = (props) => {
   const theme = useTheme();
+  const dispatch = useDispatch();
+  const tweets = useSelector(getTweetsState);
+  const loadingTweets = useSelector(loadingTweetsState);
+  useEffect(() => {
+    dispatch(getTweets());
+  }, []);
+
   return (
     <Grid
       container
@@ -24,7 +36,19 @@ const MainContainer = (props) => {
         height="100vh"
         justifyContent="center"
       >
-        Here goes the primary column with twits
+        <>
+          <TweetForm buttonText={"tweet"} />
+          {loadingTweets && <Loading />}
+          {tweets
+            .filter((tweet) => tweet.tweetType === "TWEET")
+            .map((e, i) => {
+              return (
+                <div key={e.id}>
+                  <Tweet tweetInfo={e} />
+                </div>
+              );
+            })}
+        </>
       </Grid>
       <Grid
         item

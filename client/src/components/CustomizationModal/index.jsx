@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
-import { TweetForm } from "./../TweetForm/index";
+import { TweetForm } from "../tweetComponents/TweetForm/index";
 import ColorCustomization from "./ColorCustomization";
 import BackgroundCustomization from "./BackgroundCustomization";
 import Slider from "@mui/material/Slider";

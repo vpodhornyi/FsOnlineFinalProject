@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class TweetRequest {
+  private Long id;
   private TweetType tweetType;
   private String body;
   private User user;

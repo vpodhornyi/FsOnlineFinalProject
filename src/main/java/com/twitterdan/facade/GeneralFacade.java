@@ -39,4 +39,6 @@ public class GeneralFacade<E, D> {
         protected void decorateDto(final D dto, final E entity) {
 
         }
+
+
 }

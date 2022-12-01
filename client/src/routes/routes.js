@@ -91,24 +91,28 @@ export const mainRoutes = (userTag, authorized) => {
 }
 
 export const modalRoutes = authorized => {
-  const all = [
-    {
-      path: PATH.MESSAGES.COMPOSE,
-      element: <DialogNewMessage/>,
-      children: [],
-    },
-    {
-      path: PATH.SETTINGS.DISPLAY,
-      element: <Display/>,
-      children: [],
-    },
-    {
-      path: PATH.ALL,
-      element: <></>,
-    },
-  ];
 
-  return authorized ? all :
+  return authorized ? [
+      {
+        path: PATH.MESSAGES.COMPOSE,
+        element: <DialogNewMessage/>,
+        children: [],
+      },
+      {
+        path: PATH.SETTINGS.DISPLAY,
+        element: <Display/>,
+        children: [],
+      },
+      {
+        path: PATH.TWEET.COMPOSE,
+        element: <TweetCompose/>,
+        children: [],
+      },
+      {
+        path: PATH.ALL,
+        element: <></>,
+      },
+    ] :
     [
       {
         path: PATH.AUTH.ROOT,
@@ -140,6 +144,6 @@ export const modalRoutes = authorized => {
           },
         ],
       },
-      ...all
+
     ];
 }

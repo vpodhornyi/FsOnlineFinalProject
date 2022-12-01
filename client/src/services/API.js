@@ -50,7 +50,11 @@ export const URLS = {
   USERS: {
     ROOT: "/users",
     SEARCH: '/users/search'
-  }
-}
+  },
+  TWEET: {
+    _ROOT: "/tweets/",
+    CREATE_TWEET: "/tweets/create",
+  },
+};
 
 export default api;

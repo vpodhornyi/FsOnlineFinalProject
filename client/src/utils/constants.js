@@ -38,6 +38,9 @@ export const PATH = {
   SETTINGS: {
     DISPLAY: '/settings/display'
   },
+  TWEET: {
+    COMPOSE: '/tweet/compose'
+  },
   ALL: '*',
 };
 

@@ -14,6 +14,7 @@ export const TwitterContainer = styled(Box)({
 export const AvatarContainer = styled(Box)({
   flexBasis: 48,
   marginRight: 12,
+  cursor: 'pointer',
 });
 
 export const Form = styled(Box)({

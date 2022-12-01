@@ -1,5 +1,6 @@
 import {createActions} from '../utils';
 import api, {URLS} from "../../services/API";
+import {ACTIONS as AUTH_ACTIONS} from '../auth/action';
 
 
 const actions = createActions(
@@ -26,5 +27,6 @@ export const getAuthUser = () => async (dispatch) => {
   } catch (e) {
     console.log(e);
     dispatch(ACTIONS.getAuthUser.fail(e));
+    dispatch(AUTH_ACTIONS.authorize.fail());
   }
 }
