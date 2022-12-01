@@ -3,6 +3,9 @@ import { Avatar, Input } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import PublicIcon from "@mui/icons-material/Public";
 import EmojiPicker from "emoji-picker-react";
+import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types";
+
 import {
   EmojiIcon,
   GifIcon,
@@ -21,8 +24,7 @@ import {
   TweetInput,
   TwitterContainer,
 } from "./styles";
-import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+
 import { createTweet } from "../../../redux/tweet/action";
 import { getPersonalData } from "../../../redux/user/selector";
 import { getTweetsState } from "../../../redux/tweet/selector";
@@ -41,9 +43,6 @@ export const TweetForm = ({
   const tweets = useSelector(getTweetsState);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const onHandleAvatarClick = () => {
-    navigate("/profile");
-  };
 
   const onEmojiVisible = () => {
     setEmojiVisible((prevState) => !prevState);
@@ -86,7 +85,9 @@ export const TweetForm = ({
   return (
     <TwitterContainer>
       <AvatarContainer>
-        <Avatar src={"#"} onClick={onHandleAvatarClick} />
+        <Avatar src={user?.avatarImgUrl} onClick={() => navigate(`/${user?.userTag}`)}>
+          {user?.name?.toUpperCase()}
+        </Avatar>
       </AvatarContainer>
       <Form>
         <TweetInput>

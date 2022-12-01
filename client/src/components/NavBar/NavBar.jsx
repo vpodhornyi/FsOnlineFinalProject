@@ -1,5 +1,5 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import {Link, useNavigate, useLocation} from "react-router-dom";
 import {styled} from "@mui/material/styles";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
@@ -11,6 +11,8 @@ import SidebarFooter from "../Sidebar/components/SidebarFooter";
 import {PATH} from "../../utils/constants";
 
 const NavBar = ({authorized, menu}) => {
+  const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <StyledBox>
@@ -19,7 +21,12 @@ const NavBar = ({authorized, menu}) => {
           <LogoIcon/>
         </Link>
         <MainMenu authorized={authorized} menu={menu}/>
-        {authorized && <TweetButton/>}
+        {
+          authorized &&
+          <Box onClick={() => navigate(PATH.TWEET.COMPOSE, {state: {background: location}})}>
+            <TweetButton/>
+          </Box>
+        }
       </Box>
       {authorized && <SidebarFooter/>}
     </StyledBox>

@@ -12,6 +12,7 @@ const Home = () => {
   const dispatch = useDispatch();
   const tweets = useSelector(getTweetsState);
   const loadingTweets = useSelector(loadingTweetsState);
+
   useEffect(() => {
     dispatch(getTweets());
   }, []);
