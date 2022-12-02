@@ -30,13 +30,17 @@ const ChatsList = ({item}) => {
     isChatSelected && navigate(`${PATH.MESSAGES.ROOT}/${activeId}`)
   }, []);
 
+  const handleChatClick = () => {
+    navigate(`${PATH.MESSAGES.ROOT}/${chat.id}`)
+  }
+
   return (
     <Suspense fallback={CircularLoader}>
       <Box>
         {chats.map(chat => {
           return <Box
             key={chat.key}
-            onClick={() => navigate(`${PATH.MESSAGES.ROOT}/${chat.id}`)}>
+            onClick={() => handleChatClick()}>
             <ChatRoute chat={chat} activeId={activeId}/>
           </Box>
         })}
