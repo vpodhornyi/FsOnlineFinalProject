@@ -45,7 +45,7 @@ const Conversation = ({messages}) => {
           {messages.map(item => {
 
             const isAuth = item.user.id === id;
-            return <Message key={item.uuid} left={!isAuth} text={item.text}/>
+            return <Message key={item.key} left={!isAuth} text={item.text}/>
           })}
         </Box>
       </Box>
