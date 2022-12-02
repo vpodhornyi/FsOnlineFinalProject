@@ -20,16 +20,17 @@ export const ACTIONS = {
 }
 
 
-export const getUsersRoutes = () => async dispatch => {
+export const getChats = (id) => async dispatch => {
   try {
-    dispatch(ACTIONS.navigationLoading())
-    // await api.get()
-    setTimeout(() => {
-      dispatch(ACTIONS.navigationLoading());
-    }, 500)
+    dispatch(ACTIONS.navigationLoading());
+    const data = api.get(URLS.CHATS.ROOT, {params: {userId: id}})
+    dispatch(ACTIONS.navigationLoading());
+
+    return data;
 
   } catch (err) {
     console.log('getUsersRoutes error - ', err);
+    return [];
   }
 }
 

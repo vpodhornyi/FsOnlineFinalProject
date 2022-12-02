@@ -20,7 +20,10 @@ const TweetCompose = () => {
       styles={{alignItems: 'start'}}
       element={
         <BoxWrapper>
-          <IconButton className='Close' aria-label="close" onClick={() => navigate(background?.pathname || PATH.ROOT)}>
+          <IconButton
+            className='Close'
+            aria-label="close"
+            onClick={() => navigate(background?.pathname || PATH.ROOT)}>
             <IconByName iconName='Close'/>
           </IconButton>
           <TweetForm/>

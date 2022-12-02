@@ -8,13 +8,12 @@ import ModalPage from "./ModalPage";
 
 const Display = ({item}) => {
   const dispatch = useDispatch();
-  const Element = () => (
+
+  return <ModalPage element={
     <BoxWrapper>
       DISPLAY SETTINGS ELEMENT
     </BoxWrapper>
-  );
-
-  return <ModalPage element={<Element/>}/>
+  }/>
 }
 
 const styles = ({theme}) => ({

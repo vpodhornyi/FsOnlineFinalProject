@@ -1,14 +1,16 @@
-import React from "react";
+import React, {useContext} from "react";
 import {useSelector} from "react-redux";
 import {styled} from "@mui/material/styles";
 import {Box, Typography} from "@mui/material";
 import CustomIconButton from "@components/buttons/CustomIconButton";
 import CustomFabButton from "@components/buttons/CustomFabButton";
-import {closeDialog} from "@redux/dialog/action";
 import {getMessageSearchData} from '@redux/message/search/selector';
 import {useNavigate} from "react-router-dom";
+import {BackgroundContext} from "../../../../utils/context";
+import {PATH} from "../../../../utils/constants";
 
 const Index = () => {
+  const {background} = useContext(BackgroundContext);
   const navigate = useNavigate();
   const {isEmptyGrabbedUsers} = useSelector(getMessageSearchData);
 
@@ -16,7 +18,7 @@ const Index = () => {
   return (
     <BoxWrapper>
       <Box className='Title'>
-        <Box onClick={() => navigate(-1)}>
+        <Box onClick={() => navigate(background?.pathname || PATH.ROOT)}>
           <CustomIconButton name='Close'/>
         </Box>
         <Typography variant='h2'>New message</Typography>

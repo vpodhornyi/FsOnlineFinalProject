@@ -1,45 +1,27 @@
-import React, {useEffect} from "react";
-import {useSelector, use} from "react-redux";
+import React from "react";
+import {useSelector} from "react-redux";
 import {styled} from "@mui/material/styles";
-import {useNavigate} from "react-router-dom";
-import SearchBox from "./SearchBox";
-import Box from "@mui/material/Box";
-import ChatRoute from "./ChatRoute";
 import {getMessageData} from "@redux/message/selector";
-import Loading from "@components/Loader/Loading";
-import Action from "../Action";
-import {PATH} from "../../../../utils/constants";
+import Box from "@mui/material/Box";
 
-
-const ACTION_TITLE = 'Welcome to your inbox!';
-const ACTION_DESCRIPTION = ' Drop a line, share Tweets and more with private conversation between you and others on Twitter';
-const ACTION_BTN_NAME = 'Write a message';
+import {ActionWelcome} from "../.";
+import SearchBox from "./SearchBox";
+import ChatsList from "./ChatsList";
 
 const Navigation = () => {
-  const navigate = useNavigate();
-  const {chats, activeId, isChatSelected} = useSelector(getMessageData);
+  const {chats} = useSelector(getMessageData);
   const isEmpty = !chats.length;
-
-  useEffect(() => {
-    isChatSelected && navigate(`${PATH.MESSAGES.ROOT}/${activeId}`)
-  }, []);
 
   return (
     <BoxWrapper>
-      {isEmpty ? <Action
-        title={ACTION_TITLE}
-        description={ACTION_DESCRIPTION}
-        btnName={ACTION_BTN_NAME}
-        /> :
+{/*      {isEmpty ? <ActionWelcome/> :
         <>
           <SearchBox/>
-          <Box>{chats.map(chat => {
-            return <Box key={chat.key} onClick={() => navigate(`${PATH.MESSAGES.ROOT}/${chat.id}`)}>
-              <ChatRoute chat={chat} activeId={activeId}/>
-            </Box>
-          })}</Box>
+          <ChatsList/>
         </>
-      }
+      }*/}
+      <SearchBox/>
+      <ChatsList/>
     </BoxWrapper>);
 }
 
