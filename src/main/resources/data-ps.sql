@@ -1,20 +1,20 @@
-INSERT INTO users (id, key, name, user_tag, password, email)
-VALUES (1, '865234ad-6a92-11e7-8846-b05adad3f0ae', 'Bob', 'bob1234', '1111', 'abc@gmail.com'),
-       (2, '3fc2fb20-e743-49a9-96da-82ae6ea3c3fb', 'Jon', 'jon1932', '2222', 'xyz@email.com'),
-       (3, '1bb36c43-c9cc-44b9-a369-1eacf91334ad', 'Lily', 'lily4535', '3333', 'cap@marvel.com'),
-       (4, '1a7bfa66-9747-4e67-9098-e85dc79224a1', 'Alex', 'alex123', '1111', 'alex@gmail.com'),
-       (5, '22bac3b8-10eb-400b-aeea-652c8625905a', 'Marta', 'jlaien324', '1111', 'wsq@gmail.com'),
-       (6, 'a003b52f-a606-465b-9511-71d84018a1e6', 'Noah', 'adfafkk999', '1111', 'csdc@gmail.com'),
-       (7, 'a365dac1-bca4-4539-86d9-abb1462aeeed', 'Oliver', 'jwednq323', '1111', 'sde@gmail.com'),
-       (8, '6e05e52b-1e6f-47c3-a4dd-07f4fe6826ad', 'Amelia', 'dfkaslf994', '1111', 'vggrgv@gmail.com'),
-       (9, '9b8c90ac-83ff-45bb-9760-a05d1aeea848', 'Sophia', 'daslrfnk333', '1111', 'cscsd@gmail.com'),
-       (10, '9ee0c30a-809e-40cb-9042-a6e5d1ef37b3', 'Charlotte', 'akdlcnj99', '1111', 'ujyj@gmail.com'),
-       (11, '417716c5-88a1-4895-8fc1-676026b85dcc', 'Olivia', 'ewdjqlnl123', '1111', 'fgff@gmail.com'),
-       (12, '54a26843-9bab-4cd5-8afb-cebc533d5f2b', 'Harper', 'kiutmde44', '1111', 'csfcfcr@gmail.com'),
-       (13, 'f969c0c6-4842-4778-b7fd-df5eb21f9caa', 'Theodore', 'fewqkimm66', '1111', 'scwxfw@gmail.com'),
-       (14, '7afa3c0a-06cb-4d77-b9a1-2267f5ebdd35', 'Emma', 'qweflouhr22', '1111', 'edwff@gmail.com'),
-       (15, '6021da07-933b-4870-97ea-c8f25e06d284', 'Liam', 'ewkdionwc00', '1111', 'exewxf@gmail.com'),
-       (16, 'e9a18795-4db1-4983-8fe4-7c6b78e68fa3', 'Mia', 'wedwoqie0', '1111', 'rfegrtg@gmail.com');
+INSERT INTO users (id, avatar_img_url, key, name, user_tag, password, email)
+VALUES (1, 'https://static.dezeen.com/uploads/2021/06/elon-musk-architect_dezeen_1704_col_0.jpg', '865234ad-6a92-11e7-8846-b05adad3f0ae', 'Bob', 'bob1234', '1111', 'abc@gmail.com'),
+       (2, 'https://static.dezeen.com/uploads/2021/06/elon-musk-architect_dezeen_1704_col_0.jpg', '3fc2fb20-e743-49a9-96da-82ae6ea3c3fb', 'Jon', 'jon1932', '2222', 'xyz@email.com'),
+       (3, 'https://static.dezeen.com/uploads/2021/06/elon-musk-architect_dezeen_1704_col_0.jpg', '1bb36c43-c9cc-44b9-a369-1eacf91334ad', 'Lily', 'lily4535', '3333', 'cap@marvel.com'),
+       (4, 'https://static.dezeen.com/uploads/2021/06/elon-musk-architect_dezeen_1704_col_0.jpg', '1a7bfa66-9747-4e67-9098-e85dc79224a1', 'Alex', 'alex123', '1111', 'alex@gmail.com'),
+       (5, 'https://static.dezeen.com/uploads/2021/06/elon-musk-architect_dezeen_1704_col_0.jpg', '22bac3b8-10eb-400b-aeea-652c8625905a', 'Marta', 'jlaien324', '1111', 'wsq@gmail.com'),
+       (6, 'https://static.dezeen.com/uploads/2021/06/elon-musk-architect_dezeen_1704_col_0.jpg', 'a003b52f-a606-465b-9511-71d84018a1e6', 'Noah', 'adfafkk999', '1111', 'csdc@gmail.com'),
+       (7, 'https://static.dezeen.com/uploads/2021/06/elon-musk-architect_dezeen_1704_col_0.jpg', 'a365dac1-bca4-4539-86d9-abb1462aeeed', 'Oliver', 'jwednq323', '1111', 'sde@gmail.com'),
+       (8, 'https://static.dezeen.com/uploads/2021/06/elon-musk-architect_dezeen_1704_col_0.jpg', '6e05e52b-1e6f-47c3-a4dd-07f4fe6826ad', 'Amelia', 'dfkaslf994', '1111', 'vggrgv@gmail.com'),
+       (9, 'https://static.dezeen.com/uploads/2021/06/elon-musk-architect_dezeen_1704_col_0.jpg', '9b8c90ac-83ff-45bb-9760-a05d1aeea848', 'Sophia', 'daslrfnk333', '1111', 'cscsd@gmail.com'),
+       (10,'https://static.dezeen.com/uploads/2021/06/elon-musk-architect_dezeen_1704_col_0.jpg',  '9ee0c30a-809e-40cb-9042-a6e5d1ef37b3', 'Charlotte', 'akdlcnj99', '1111', 'ujyj@gmail.com'),
+       (11,'https://static.dezeen.com/uploads/2021/06/elon-musk-architect_dezeen_1704_col_0.jpg',  '417716c5-88a1-4895-8fc1-676026b85dcc', 'Olivia', 'ewdjqlnl123', '1111', 'fgff@gmail.com'),
+       (12,'https://static.dezeen.com/uploads/2021/06/elon-musk-architect_dezeen_1704_col_0.jpg',  '54a26843-9bab-4cd5-8afb-cebc533d5f2b', 'Harper', 'kiutmde44', '1111', 'csfcfcr@gmail.com'),
+       (13,'https://static.dezeen.com/uploads/2021/06/elon-musk-architect_dezeen_1704_col_0.jpg',  'f969c0c6-4842-4778-b7fd-df5eb21f9caa', 'Theodore', 'fewqkimm66', '1111', 'scwxfw@gmail.com'),
+       (14,'https://static.dezeen.com/uploads/2021/06/elon-musk-architect_dezeen_1704_col_0.jpg',  '7afa3c0a-06cb-4d77-b9a1-2267f5ebdd35', 'Emma', 'qweflouhr22', '1111', 'edwff@gmail.com'),
+       (15,'https://static.dezeen.com/uploads/2021/06/elon-musk-architect_dezeen_1704_col_0.jpg',  '6021da07-933b-4870-97ea-c8f25e06d284', 'Liam', 'ewkdionwc00', '1111', 'exewxf@gmail.com'),
+       (16,'https://static.dezeen.com/uploads/2021/06/elon-musk-architect_dezeen_1704_col_0.jpg',  'e9a18795-4db1-4983-8fe4-7c6b78e68fa3', 'Mia', 'wedwoqie0', '1111', 'rfegrtg@gmail.com');
 
 
 INSERT INTO followers (follower_id, followed_id)

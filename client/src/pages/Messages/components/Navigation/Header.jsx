@@ -7,7 +7,7 @@ import CustomIconButton from "@components/buttons/CustomIconButton";
 import Avatar from "./Avatar";
 import {ACTIONS as DIALOG_ACTIONS} from "@redux/dialog/action";
 import {ACTIONS as MESSAGE_SEARCH_ACTIONS} from "@redux/message/search/action";
-import DialogNewMessage from "../DialogNewMessage";
+import DialogNewMessage from "../UserSearch";
 
 
 const Header = () => {

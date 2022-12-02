@@ -47,7 +47,7 @@ const styles = ({theme}) => ({
     color: theme.palette.common.white,
 
     '&:hover': {
-      backgroundColor: 'rgb(26, 140, 216)',
+      backgroundColor: theme.palette.primary.secondary,
     },
 
     '& .CustomFabButtonName': {

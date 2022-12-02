@@ -1,22 +1,6 @@
 import React from "react";
-import {Routes, Route, Outlet} from "react-router-dom";
 import {styled} from "@mui/material/styles";
-import PropTypes from "prop-types";
 
-
-const SectionNavigation = ({
-                             Body = () => {
-                             }
-                           }) => {
-  return (
-    <>
-      <StyledSection className='SectionNavigation'>
-        <Body/>
-      </StyledSection>
-      <Outlet/>
-    </>
-  )
-};
 
 const StyledSection = styled('section')(({theme}) => ({
   height: '100%',
@@ -33,8 +17,4 @@ const StyledSection = styled('section')(({theme}) => ({
   },
 }));
 
-SectionNavigation.propTypes = {
-  Body: PropTypes.func,
-}
-
-export default SectionNavigation;
+export default StyledSection;

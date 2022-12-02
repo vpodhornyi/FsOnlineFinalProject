@@ -2,7 +2,7 @@ import React, {lazy} from 'react';
 import {Navigate} from "react-router-dom";
 import {
   Home, Explore, Notifications, Messages, Chat, SelectMessage, ChatInfo, Bookmarks, CreateAccount,
-  Lists, UserProfile, DialogNewMessage, Auth, Login, Password, ForgotPassword, SingUp, UserData
+  Lists, UserProfile, UserSearch, Auth, Login, Password, ForgotPassword, SingUp, UserData
 } from "../pages";
 import {PATH} from "../utils/constants";
 import {SectionDetails, SectionNavigation, Display, TweetCompose} from "../components";
@@ -36,19 +36,19 @@ export const mainRoutes = (userTag, authorized) => {
       },
       {
         path: PATH.MESSAGES.ROOT,
-        element: <SectionNavigation Body={Messages}/>,
+        element: <Messages/>,
         children: [
           {
             index: true,
-            element: <SectionDetails Body={SelectMessage}/>,
+            element: <SelectMessage/>,
           },
           {
             path: PATH.MESSAGES.CHAT,
-            element: <SectionDetails Body={Chat}/>,
+            element: <Chat/>,
           },
           {
             path: PATH.MESSAGES.CHAT_INFO,
-            element: <SectionDetails Body={ChatInfo}/>,
+            element: <ChatInfo/>,
           },
         ],
       },
@@ -99,7 +99,7 @@ export const modalRoutes = authorized => {
   return authorized ? [
       {
         path: PATH.MESSAGES.COMPOSE,
-        element: <DialogNewMessage/>,
+        element: <UserSearch/>,
         children: [],
       },
       {

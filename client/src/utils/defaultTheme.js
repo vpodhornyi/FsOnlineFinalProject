@@ -36,7 +36,7 @@ export const themeStyles = {
     },
     primary: {
       main: 'rgb(29, 155, 240)',
-      secondary: '#00ba7c',
+      secondary: 'rgb(26, 140, 216)',
       contrastText: '#ffd400'
     },
     neutral: {

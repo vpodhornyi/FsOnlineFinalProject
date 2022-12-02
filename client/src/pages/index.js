@@ -4,7 +4,7 @@ import Notifications from './Notifications/Notifications';
 import Messages from './Messages/Messages';
 import SelectMessage from './Messages/SelectMessage';
 import Chat from './Messages/components/Chat';
-import DialogNewMessage from './Messages/components/DialogNewMessage';
+import UserSearch from './Messages/components/UserSearch/UserSearch';
 import ChatInfo from './Messages/components/ChatInfo';
 import Bookmarks from './Bookmarks/Bookmarks';
 import Lists from './Lists/Lists';
@@ -36,7 +36,7 @@ export {
   Messages,
   SelectMessage,
   Chat,
-  DialogNewMessage,
+  UserSearch,
   ChatInfo,
 
   Bookmarks,

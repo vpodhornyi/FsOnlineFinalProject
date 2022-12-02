@@ -24,6 +24,14 @@ const GrabbedUser = ({user}) => {
 
 const styles = ({theme}) => ({
   fontSize: '1rem',
+
+  '& .MuiSvgIcon-root': {
+    color: theme.palette.primary.main,
+
+    '&: hover': {
+      color: theme.palette.primary.secondary,
+    }
+  }
 });
 
 const ChipWrapper = styled(Chip)(styles);

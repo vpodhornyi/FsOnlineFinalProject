@@ -31,7 +31,7 @@ const styles = ({theme}) => ({
     },
 
     '&:hover': {
-      backgroundColor: 'rgb(26, 140, 216)',
+      backgroundColor: theme.palette.primary.secondary,
     },
 
     "& .MuiSvgIcon-root": {
