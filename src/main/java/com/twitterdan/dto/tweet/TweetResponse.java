@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public class TweetResponse {
   private Long id;
-  private UUID key;
+  private String key;
   private TweetType tweetType;
   private String body;
   private User user;
