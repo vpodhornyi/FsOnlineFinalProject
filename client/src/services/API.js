@@ -55,6 +55,9 @@ export const URLS = {
     _ROOT: "/tweets/",
     CREATE_TWEET: "/tweets/create",
   },
+  CHATS: {
+    ROOT: '/chats',
+  }
 };
 
 export default api;

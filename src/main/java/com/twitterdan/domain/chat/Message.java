@@ -1,5 +1,6 @@
 package com.twitterdan.domain.chat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.twitterdan.domain.BaseEntity;
 import com.twitterdan.domain.user.User;
 import lombok.Getter;
@@ -22,6 +23,7 @@ public class Message extends BaseEntity {
 
   @ManyToOne
   @JoinColumn(name = "chat_id")
+  @JsonIgnore
   private Chat chat;
 
   @ManyToOne

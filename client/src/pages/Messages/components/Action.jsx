@@ -1,5 +1,4 @@
 import React from "react";
-import {useDispatch} from "react-redux";
 import {styled} from "@mui/material/styles";
 import {useLocation, useNavigate} from "react-router-dom";
 import {Typography, Box} from "@mui/material";

@@ -12,9 +12,10 @@ import NewMassageHeader from "./NewMassageHeader";
 import GrabbedUser from "./GrabbedUser";
 import {ModalPage} from '../../../../components';
 
-const DialogNewMessage = () => {
+const Element = () => {
   const {foundUsers, grabbedUsers} = useSelector(getMessageSearchData);
-  const Element = () => (
+
+  return (
     <BoxWrapper>
       <NewMassageHeader/>
       <Box sx={{position: 'relative', width: '100%', borderBottom: '1px solid rgb(239, 243, 244)',}}>
@@ -44,9 +45,9 @@ const DialogNewMessage = () => {
       </Box>
     </BoxWrapper>
   );
-
-  return <ModalPage element={<Element/>}/>;
 }
+
+const DialogNewMessage = () => <ModalPage element={<Element/>}/>;
 
 const styles = ({theme}) => ({
   width: '100%',

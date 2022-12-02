@@ -16,7 +16,7 @@ const SearchTextField = () => {
     }, 500);
     inputRef.current.focus();
 
-    return () => clearTimeout(timer)
+    return () => clearTimeout(timer);
   }, [text])
 
   return (

@@ -59,7 +59,9 @@ values
 
 INSERT INTO chats (id, key, title)
 values (1, '21744f36-8ab5-4d58-8829-7b0a976f27a8', 'test chat 1'),
-       (2, '464d9bff-5d40-4550-b105-a84a78e4ce10', 'test chat 2');
+       (2, '464d9bff-5d40-4550-b105-a84a78e4ce10', 'test chat 2'),
+       (3, 'a0f8f2e3-8770-4fda-88a8-7d603f42e94c', 'test chat 3'),
+       (4, '22253e3a-5226-4b99-8f30-97dc67f90ef9', 'test chat 4');
 
 
 INSERT INTO users_chats (users_id, chats_id)
@@ -67,7 +69,9 @@ values (1, 1),
        (2, 1),
        (3, 1),
        (4, 2),
-       (5, 2);
+       (5, 2),
+       (1, 3),
+       (5, 3);
 
 INSERT INTO messages (id, key, text, chat_id, user_id)
 values

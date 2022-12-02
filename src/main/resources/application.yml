@@ -30,7 +30,7 @@ jwt:
     refresh: 65tu9kn6htFNbc8C9PZ2NIwyx9JB3H699FxbAswDFOyZTvMrHisSM8wf47zOkYGlVL3mPwIpq4iQjBq74PZOyg==
   access:
     leave:
-      minutes: 1
+      minutes: 100
   refresh:
     leave:
       days: 30

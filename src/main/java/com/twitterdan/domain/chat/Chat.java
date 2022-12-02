@@ -10,10 +10,7 @@ import lombok.Setter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
@@ -26,7 +23,6 @@ public class Chat extends BaseEntity {
   private String title;
   @LazyCollection(LazyCollectionOption.EXTRA)
   @ManyToMany(mappedBy = "chats")
-  @JsonIgnore
   private Set<User> users;
 
   @OneToMany(mappedBy = "chat")
