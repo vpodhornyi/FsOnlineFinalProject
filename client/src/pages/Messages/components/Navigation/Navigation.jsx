@@ -1,32 +1,25 @@
 import React from "react";
 import {useSelector} from "react-redux";
 import {styled} from "@mui/material/styles";
-import {getMessageData} from "@redux/message/selector";
 import Box from "@mui/material/Box";
 
-import {ActionWelcome} from "../.";
-import SearchBox from "./SearchBox";
 import ChatsList from "./ChatsList";
+import {CircularLoader} from "../../../../components";
 
 const Navigation = () => {
-  const {chats} = useSelector(getMessageData);
-  const isEmpty = !chats.length;
+  const {user} = useSelector(state => state.user);
+  const {loading} = useSelector(state => state.message);
 
   return (
     <BoxWrapper>
-{/*      {isEmpty ? <ActionWelcome/> :
-        <>
-          <SearchBox/>
-          <ChatsList/>
-        </>
-      }*/}
-      <SearchBox/>
-      <ChatsList/>
+      {loading && <CircularLoader/>}
+      {user?.id && <ChatsList user={user}/>}
     </BoxWrapper>);
 }
 
 const styles = ({theme}) => ({
   width: '100%',
+  position: 'relative',
 });
 
 const BoxWrapper = styled(Box)(styles);

@@ -2,15 +2,15 @@ import React, {useRef} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {styled} from "@mui/material/styles";
 import {Box} from "@mui/material";
-import {getCurrentChat} from "@redux/message/selector";
+import {getMessageData} from "@redux/message/selector";
 import CustomIconButton from "@components/buttons/CustomIconButton";
 import CustomTextField from "./CustomTextField";
 import {ACTIONS as messageActions, sendMessage} from "@redux/message/action";
 
 const StartMessage = () => {
   const inputRef = useRef();
-  const currentChat = useSelector(getCurrentChat);
-  const {text, id} = currentChat;
+  const chat = useSelector(getMessageData);
+  const {text, id} = chat;
   const dispatch = useDispatch();
 
   const send = () => {

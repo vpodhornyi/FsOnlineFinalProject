@@ -3,7 +3,7 @@ import Explore from './Explore/Explore';
 import Notifications from './Notifications/Notifications';
 import Messages from './Messages/Messages';
 import SelectMessage from './Messages/SelectMessage';
-import Chat from './Messages/components/Chat';
+import Chat from './Messages/components/Chat/Chat';
 import UserSearch from './Messages/components/UserSearch/UserSearch';
 import ChatInfo from './Messages/components/ChatInfo';
 import Bookmarks from './Bookmarks/Bookmarks';

@@ -7,11 +7,13 @@ import UserInfo from "./UserInfo";
 import Message from "./Message";
 import ScrollDownButton from "./ScrollDownButton";
 import {getMessageData} from "@redux/message/selector";
+import PropTypes from "prop-types";
+import ChatsList from "../Navigation/ChatsList";
 
-const Conversation = () => {
+const Conversation = ({messages}) => {
   const [visible, setVisible] = useState(false);
   const overlayRef = useRef();
-  const {chatData} = useSelector(getMessageData);
+  const {user: {id}} = useSelector(state => state.user);
 
   const onBottom = () => {
     const height = overlayRef.current.offsetHeight;
@@ -40,7 +42,11 @@ const Conversation = () => {
       <Box ref={overlayRef} className='Overlay' onScroll={onScrollEvent}>
         <Box className='MessagesBox'>
           <UserInfo/>
-          {chatData.map(item => <Message key={item.key} left={!item.isAuth} text={item.text}/>)}
+          {messages.map(item => {
+
+            const isAuth = item.user.id === id;
+            return <Message key={item.uuid} left={!isAuth} text={item.text}/>
+          })}
         </Box>
       </Box>
       <Box onClick={onBottom}>
@@ -71,5 +77,9 @@ const styles = ({theme}) => ({
 });
 
 const BoxWrapper = styled(Box)(styles);
+
+Conversation.propTypes = {
+  messages: PropTypes.array,
+}
 
 export default Conversation;

@@ -6,47 +6,38 @@ import {Box} from "@mui/material";
 import PropTypes from "prop-types";
 
 import {getMessageData} from '@redux/message/selector';
-import {CircularLoader} from "../../../../components";
-import {PATH} from "../../../../utils/constants";
 import ChatRoute from "./ChatRoute";
 import {getChats} from "../../../../redux/message/action";
+import {ActionWelcome} from "../.";
+import SearchBox from "./SearchBox";
+import {PATH} from "../../../../utils/constants";
 
-const ChatsList = ({item}) => {
+const ChatsList = ({user}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [{chats}, setChats] = useState({chats: []});
-  const {activeId, isChatSelected} = useSelector(getMessageData);
-  const {user} = useSelector(state => state.user);
+  const [fetching, setFetching] = useState(true);
+  const {chat: {id}} = useSelector(getMessageData);
 
   useEffect(() => {
     const fetch = async () => {
       const data = await dispatch(getChats(user?.id));
       setChats({chats: [...chats, ...data]});
+      setFetching(false);
     }
     fetch();
   }, []);
 
   useEffect(() => {
-    isChatSelected && navigate(`${PATH.MESSAGES.ROOT}/${activeId}`)
+    id && navigate(`${PATH.MESSAGES.ROOT}/${id}`);
   }, []);
 
-  const handleChatClick = () => {
-    navigate(`${PATH.MESSAGES.ROOT}/${chat.id}`)
-  }
-
-  return (
-    <Suspense fallback={CircularLoader}>
-      <Box>
-        {chats.map(chat => {
-          return <Box
-            key={chat.key}
-            onClick={() => handleChatClick()}>
-            <ChatRoute chat={chat} activeId={activeId}/>
-          </Box>
-        })}
-      </Box>
-    </Suspense>
-  );
+  return chats.length ? (
+    <Box>
+      <SearchBox/>
+      {chats.map(chat => <ChatRoute key={chat.uuid} chat={chat} activeId={id}/>)}
+    </Box>
+  ) : (fetching ? <></> : <ActionWelcome/>);
 }
 
 const styles = ({theme}) => ({
@@ -58,6 +49,7 @@ const styles = ({theme}) => ({
 const BoxWrapper = styled(Box)(styles);
 
 ChatsList.propTypes = {
-  item: PropTypes.object,
+  user: PropTypes.object,
 }
+
 export default ChatsList;

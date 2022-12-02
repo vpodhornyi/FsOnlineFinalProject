@@ -5,26 +5,22 @@ import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import {Avatar, Typography} from "@mui/material";
 import CustomIconButton from "@components/buttons/CustomIconButton";
-import {ACTIONS as MESSAGE_ACTIONS} from "@redux/message/action";
-import {getCurrentChat, getMessageData} from "@redux/message/selector";
+import {getMessageData} from "@redux/message/selector";
 import {StickyHeader} from '../../../../components';
 
 const Header = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const currentChat = useSelector(getCurrentChat);
-  const {activeId} = useSelector(getMessageData);
 
   return (
     <StyledStickyHeader>
       <Box sx={{display: 'flex', alignItems: 'center'}}>
-        <Box sx={{mr: '10px'}} className='backButton' onClick={() => dispatch(MESSAGE_ACTIONS.resetActiveId())}>
+        <Box sx={{mr: '10px'}} className='backButton' onClick={() => navigate(-1)}>
           <CustomIconButton name='ArrowBackOutlined' title='Back'/>
         </Box>
-        <Avatar sx={{mr: '10px', width: '2.5rem', height: '2.5rem'}} src={currentChat.avatarImgUrl}/>
-        <Typography variant='h2'>{currentChat.title}</Typography>
+        <Avatar sx={{mr: '10px', width: '2.5rem', height: '2.5rem'}} src={'/'}/>
+        <Typography variant='h2'>{'Title'}</Typography>
       </Box>
-      <Box onClick={() => navigate(`/messages/${activeId}/info`)}>
+      <Box>
         <CustomIconButton name='InfoOutlined' title='Details'/>
       </Box>
     </StyledStickyHeader>);

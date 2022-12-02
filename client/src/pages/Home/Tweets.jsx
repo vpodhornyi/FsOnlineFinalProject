@@ -21,7 +21,7 @@ const Index = () => {
     <BoxWrapper>
       {tweets?.filter((tweet) => tweet.tweetType === "TWEET")?.map((e, i) => {
         return (
-          <div key={e.key}>
+          <div key={e.uuid}>
             <Tweet tweetInfo={e}/>
           </div>
         );

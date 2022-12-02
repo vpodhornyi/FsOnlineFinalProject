@@ -2,48 +2,13 @@ import {ACTIONS} from "./action";
 
 const INIT_STATE = {
   message: '',
-  navigationLoading: false,
+  loading: false,
   detailLoading: false,
   sendingMessage: false,
-  isChatInfo: false,
   activeId: -1,
-  chats: [
-   /* {
-      id: 1,
-      title: 'Bob',
-      users: [
-        {
-          id: 1,
-          name: 'Bob',
-          userTag: '@bob1234',
-          email: 'bob@gmail.com',
-          birthDate: '',
-          bio: '',
-          location: '',
-          avatarImgUrl: '',
-          headerImgUrl: '',
-        }
-      ]
-    },
-    {
-      id: 3,
-      title: 'Lily',
-      users: [
-        {
-          id: 3,
-          name: 'Lily',
-          userTag: '@lily4535',
-          email: 'cap@marvel.com',
-          birthDate: '',
-          bio: '',
-          location: '',
-          avatarImgUrl: '',
-          headerImgUrl: '',
-        }
-      ]
-    }*/
-  ],
   grabbedUsers: [],
+  chat: {},
+  currentChat: {},
   chatData: [
     {
       key: 'AS32edd23',
@@ -68,10 +33,15 @@ const INIT_STATE = {
 
 export default (state = INIT_STATE, {payload, type}) => {
   switch (type) {
-    case String(ACTIONS.navigationLoading):
+    case String(ACTIONS.loadingStart):
       return {
         ...state,
-        navigationLoading: !state.navigationLoading,
+        loading: true,
+      };
+    case String(ACTIONS.loadingEnd):
+      return {
+        ...state,
+        loading: false,
       };
     case String(ACTIONS.detailLoading):
       return {
@@ -80,7 +50,7 @@ export default (state = INIT_STATE, {payload, type}) => {
       };
     case String(ACTIONS.setMessage):
       const {id, text} = payload;
-      state.chats.find(v => v.id === id).text = text;
+      state.chats.find(v => v?.id === id).text = text;
       return {
         ...state,
       };
@@ -96,15 +66,10 @@ export default (state = INIT_STATE, {payload, type}) => {
         activeId: -1,
         isChatInfo: false,
       };
-    case String(ACTIONS.openChatInfo):
+    case String(ACTIONS.setChat):
       return {
         ...state,
-        isChatInfo: true,
-      };
-    case String(ACTIONS.closeChatInfo):
-      return {
-        ...state,
-        isChatInfo: false,
+        chat: payload?.chat,
       };
     default:
       return state;

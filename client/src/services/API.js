@@ -57,6 +57,7 @@ export const URLS = {
   },
   CHATS: {
     ROOT: '/chats',
+    MESSAGES: '/chats/messages'
   }
 };
 

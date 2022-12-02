@@ -1,4 +1,4 @@
-INSERT INTO users (id, avatar_img_url, key, name, user_tag, password, email)
+INSERT INTO users (id, avatar_img_url, uuid, name, user_tag, password, email)
 VALUES (1, 'https://static.dezeen.com/uploads/2021/06/elon-musk-architect_dezeen_1704_col_0.jpg', '865234ad-6a92-11e7-8846-b05adad3f0ae', 'Bob', 'bob1234', '1111', 'abc@gmail.com'),
        (2, 'https://static.dezeen.com/uploads/2021/06/elon-musk-architect_dezeen_1704_col_0.jpg', '3fc2fb20-e743-49a9-96da-82ae6ea3c3fb', 'Jon', 'jon1932', '2222', 'xyz@email.com'),
        (3, 'https://static.dezeen.com/uploads/2021/06/elon-musk-architect_dezeen_1704_col_0.jpg', '1bb36c43-c9cc-44b9-a369-1eacf91334ad', 'Lily', 'lily4535', '3333', 'cap@marvel.com'),
@@ -25,13 +25,13 @@ values (1, 2),
        (3, 5),
        (4, 1);
 
-INSERT INTO tweets (id, key, body, tweet_type, user_id)
+INSERT INTO tweets (id, uuid, body, tweet_type, user_id)
 values (1, '4c85c829-f8c7-4505-8932-6dac1c9e01d4', 'Bob test tweet', 'TWEET', 1),
        (2, '992217dd-7c49-47a8-9a14-f4566c5d5648', 'Jon test tweet', 'TWEET', 2),
        (3, 'c9d2f623-967f-4aba-aefd-9f973c39441e', 'Lily test tweet', 'TWEET', 3),
        (4, '072983bb-fd71-4fb0-a43e-584d8f7f53ba', 'Marta tweet', 'TWEET', 4);
 
-INSERT INTO tweet_actions (id, key, action_type, tweet_id, user_id)
+INSERT INTO tweet_actions (id, uuid, action_type, tweet_id, user_id)
 values (1, 'e6b8be4a-cc42-47b9-8be4-5db08164bf30', 'LIKE', 1, 2),
        (2, 'cf6d3c40-e2a3-41d7-978e-d25f0a906d6f', 'LIKE', 1, 3),
        (3, '93d81c1b-0c98-4b23-a3f7-54a82793f929', 'BOOKMARK', 1, 4),
@@ -40,7 +40,7 @@ values (1, 'e6b8be4a-cc42-47b9-8be4-5db08164bf30', 'LIKE', 1, 2),
        (6, '234bca02-771b-4bdb-919a-32a9dd96d307', 'RETWEET', 4, 2),
        (7, '785a2e3b-a256-4b37-8ffe-ee6c4f7011f6', 'LIKE', 4, 3);
 
-INSERT INTO notifications (id, key, is_read, notification_type, tweet_id, initiator_id, receiver_id)
+INSERT INTO notifications (id, uuid, is_read, notification_type, tweet_id, initiator_id, receiver_id)
 values
     (1,'4b794df5-f4d2-40d9-bfb3-c97e3c910ea1', false, 'LIKE', 1, 2, 1),
     (2,'ac1e4f3c-e4a4-4712-8bd4-9dcd8a391770', false, 'LIKE', 1, 3, 1),
@@ -50,14 +50,14 @@ values
     (6,'d5b00f3e-e084-41d7-bf70-053e09fd3d9f', false, 'LIKE', 4, 3, 4);
 
 
-INSERT INTO attachment_images (id, key, img_url, tweet_id)
+INSERT INTO attachment_images (id, uuid, img_url, tweet_id)
 values
     (1, '75606b31-ef91-4029-9e96-43937f17ae91', 'https://shorturl.at/gqSZ9', 1),
     (2, '35ecc0e9-f533-4480-9e2c-466834f31316', 'https://shorturl.at/fHQRZ', 2),
     (3, 'd200021f-b319-46dc-bb35-8cc9cbe76ed7', 'https://shorturl.at/fGHM9', 3),
     (4, '23d6a012-468f-41e2-8d9a-c3c9311560b6', 'https://shorturl.at/dhmsM', 4);
 
-INSERT INTO chats (id, key, title)
+INSERT INTO chats (id, uuid, title)
 values (1, '21744f36-8ab5-4d58-8829-7b0a976f27a8', 'test chat 1'),
        (2, '464d9bff-5d40-4550-b105-a84a78e4ce10', 'test chat 2'),
        (3, 'a0f8f2e3-8770-4fda-88a8-7d603f42e94c', 'test chat 3'),
@@ -73,7 +73,7 @@ values (1, 1),
        (1, 3),
        (5, 3);
 
-INSERT INTO messages (id, key, text, chat_id, user_id)
+INSERT INTO messages (id, uuid, text, chat_id, user_id)
 values
     (1, '0e4b72bc-ee31-4197-9d4c-adc0d65578ac', 'test message 1', 1, 1),
     (2, 'c804e414-1da2-42b8-a3e6-8a9f891020d4', 'test message 2', 1, 2),

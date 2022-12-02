@@ -19,7 +19,8 @@ const styles = ({theme}) => ({
 
   '& > .RightMessage': {
     borderBottomRightRadius: 4,
-    backgroundColor: '#1d9bf0',
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.common.white
   }
 });
 

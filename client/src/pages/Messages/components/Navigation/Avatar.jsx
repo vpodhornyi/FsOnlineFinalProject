@@ -3,15 +3,15 @@ import {useDispatch, useSelector} from "react-redux";
 import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import {Avatar} from "@mui/material";
-import {getCurrentChat} from "@redux/message/selector";
+import {getMessageData} from "@redux/message/selector";
 
 const Header = () => {
   const dispatch = useDispatch();
-  const currentChat = useSelector(getCurrentChat);
+  const chat = useSelector(getMessageData);
 
   return (
     <BoxWrapper onClick={() => dispatch(() => console.log('header avatar'))}>
-      <Avatar sx={{mr: '10px', width: '2.5rem', height: '2.5rem'}} src={currentChat.avatarImgUrl}/>
+      <Avatar sx={{mr: '10px', width: '2.5rem', height: '2.5rem'}} src={chat.avatarImgUrl}/>
     </BoxWrapper>
   )
 }

@@ -22,13 +22,13 @@ const styles = ({theme}) => ({
 const BoxWrapper = styled(Box)(styles);
 
 const CollectBox = () => {
-  const {isChatSelected, isChatInfo} = useSelector(getMessageData);
+  const {isChatInfo} = useSelector(getMessageData);
   const select = () => {
     switch (true) {
       case isChatInfo:
         return <ChatInfo/>;
-      case isChatSelected:
-        return <Chat/>;
+      // case isChatSelected:
+      //   return <Chat/>;
       default:
         return <Navigation/>;
     }

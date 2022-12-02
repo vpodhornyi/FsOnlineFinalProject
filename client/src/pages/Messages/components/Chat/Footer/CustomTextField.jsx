@@ -1,14 +1,14 @@
 import React from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {TextField} from "@mui/material";
-import {getCurrentChat} from "@redux/message/selector";
+import {getMessageData} from "@redux/message/selector";
 import {ACTIONS as messageActions} from "@redux/message/action";
 import {styled} from "@mui/material/styles";
 import PropTypes from "prop-types";
 
 const CustomTextField = function ({enterKeyDown, inputRef}) {
-  const currentChat  = useSelector(getCurrentChat);
-  const {text, id} = currentChat;
+  const chat  = useSelector(getMessageData);
+  const {text, id} = chat;
   const dispatch = useDispatch();
 
   const handleChange = (e) => {

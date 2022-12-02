@@ -1,5 +1,5 @@
-import React from "react";
-import {useSelector} from "react-redux";
+import React, {useEffect, useState} from "react";
+import {useSelector, useDispatch} from "react-redux";
 import {useRoutes, Navigate} from "react-router-dom";
 import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -7,10 +7,24 @@ import ChatHeader from "./Header";
 import {getMessageData} from "@redux/message/selector";
 import Loading from "@components/Loader/Loading";
 import ChatBody from "./ChatBody";
+import {getMessages} from "../../../../redux/message/action";
 
 
-const Index = () => {
+const Chat = () => {
+  const dispatch = useDispatch();
+  const {chat} = useSelector(getMessageData);
   const {isDetailLoading} = useSelector(getMessageData);
+  const [{messages}, setMessages] = useState({messages: []});
+  const [fetching, setFetching] = useState(true);
+
+  useEffect(() => {
+    const fetch = async () => {
+      const data = await dispatch(getMessages(chat?.id));
+      setMessages({messages: [...messages, ...data]});
+      setFetching(false);
+    }
+    fetch();
+  }, []);
 
   return (
     <BoxWrapper>
@@ -19,7 +33,7 @@ const Index = () => {
         <Box sx={{height: '100%'}}>
           <Loading/>
         </Box>
-        : <ChatBody/>}
+        : <ChatBody messages={messages}/>}
     </BoxWrapper>);
 }
 
@@ -32,4 +46,4 @@ const styles = ({theme}) => ({
 
 const BoxWrapper = styled(Box)(styles);
 
-export default Index;
+export default Chat;

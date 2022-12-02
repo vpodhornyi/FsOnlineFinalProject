@@ -1,71 +1,85 @@
 import React from "react";
 import {useDispatch} from 'react-redux';
 import {styled} from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import {Avatar, Typography} from "@mui/material";
+import {useNavigate} from "react-router-dom";
+import {Avatar, Typography, Box} from "@mui/material";
 import PropTypes from "prop-types";
-import {getConversation} from "@redux/message/action";
+
+import {ACTIONS} from '@redux/message/action';
 import More from './More';
+import {PATH} from "../../../../utils/constants";
 
 const ChatRoute = ({chat, activeId}) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleChatClick = (chat) => {
+    dispatch(ACTIONS.setChat({chat}));
+    navigate(`${PATH.MESSAGES.ROOT}/${chat?.id}`)
+  }
 
   return (
-    <BoxWrapper
-      // onClick={() => dispatch(getConversation({id: chat.id}))}
-      sx={activeId !== -1 && activeId === chat.id ? {
-        backgroundColor: 'rgb(239, 243, 244)',
-        borderRight: '2px blue solid',
-      } : {}}>
-      <Box sx={{display: 'flex'}}>
-        <Avatar sx={{mr: '10px', width: '3rem', height: '3rem'}} src={chat.avatarImgUrl}/>
-        <Box>
-          <Box sx={{display: 'flex'}}>
-            <Typography sx={{fontWeight: 600}}>{chat.title}</Typography>
-            <Typography sx={{ml: '5px'}}>{chat.userTag}</Typography>
-            <Typography sx={{
-              '&:before': {
-                content: '"·"',
-                marginLeft: '5px',
-                marginRight: '5px',
-              }
-            }}>{'1h'}</Typography>
-          </Box>
-          <Box sx={{display: 'flex'}}>
-            <Box><Typography>You reacted with {':-)'}:</Typography></Box>
-            <Box><Typography>{' message text'}</Typography></Box>
+    <BoxWrapper onClick={() => handleChatClick(chat)}>
+      <Box className={activeId && (activeId === chat.id) ? `ChatRoutWrapperActive` : ''}>
+        <Box sx={{display: 'flex'}}>
+          <Avatar sx={{mr: '10px', width: '3rem', height: '3rem'}} src={chat.avatarImgUrl}/>
+          <Box>
+            <Box sx={{display: 'flex'}}>
+              <Typography sx={{fontWeight: 600}}>{chat.title}</Typography>
+              <Typography sx={{ml: '5px'}}>{chat.userTag}</Typography>
+              <Typography sx={{
+                '&:before': {
+                  content: '"·"',
+                  marginLeft: '5px',
+                  marginRight: '5px',
+                }
+              }}>{'1h'}</Typography>
+            </Box>
+            <Box sx={{display: 'flex'}}>
+              <Box><Typography>You reacted with {':-)'}:</Typography></Box>
+              <Box><Typography>{' message text'}</Typography></Box>
+            </Box>
           </Box>
         </Box>
-      </Box>
-      <Box className='MoreIcon'>
-        <More/>
+        <Box className='MoreIcon'>
+          <More/>
+        </Box>
       </Box>
     </BoxWrapper>);
 }
 
 const styles = ({theme}) => ({
-  position: 'relative',
-  padding: '14px',
-  display: 'flex',
-  alignItems: 'flex-start',
-  justifyContent: 'space-between',
-  cursor: 'pointer',
-
-  '&:hover': {
-    backgroundColor: 'rgb(247, 249, 249)'
+  '& .ChatRoutWrapperActive': {
+    backgroundColor: 'rgb(239, 243, 244)',
+    borderRight: `2px ${theme.palette.primary.main} solid`,
   },
 
-  '& .MoreIcon': {
-    display: 'none',
-    position: 'absolute',
-    top: '5px',
-    right: '5px',
-    zIndex: 1000,
-  },
+  '& > .MuiBox-root': {
+    position: 'relative',
+    padding: '14px',
+    display: 'flex',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    cursor: 'pointer',
 
-  '&:hover > .MoreIcon': {
-    display: 'block'
+
+    '&:hover': {
+      backgroundColor: 'rgb(247, 249, 249)'
+    },
+
+    '& .MoreIcon': {
+      display: 'none',
+      position: 'absolute',
+      top: '5px',
+      right: '5px',
+      zIndex: 1000,
+    },
+
+    '&:hover > .MoreIcon': {
+      display: 'block'
+    }
   }
+
 });
 
 const BoxWrapper = styled(Box)(styles);

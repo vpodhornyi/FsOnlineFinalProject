@@ -4,8 +4,8 @@ import api, {URLS} from "@service/API";
 const actions = createActions(
   {
     actions: [
-      'SET_ACTIVE_ID', 'CLOSE_CHAT_INFO', 'OPEN_CHAT_INFO', 'RESET_ACTIVE_ID',
-      'NAVIGATION_LOADING', 'DETAIL_LOADING', 'SEND_MESSAGE', 'SET_MESSAGE'
+      'SET_ACTIVE_ID', 'RESET_ACTIVE_ID', 'SET_CHAT',
+      'LOADING_START', 'LOADING_END', 'DETAIL_LOADING', 'SEND_MESSAGE', 'SET_MESSAGE'
     ],
     async: ['GET_CONVERSATION', 'SEARCH_USER'],
   },
@@ -22,14 +22,30 @@ export const ACTIONS = {
 
 export const getChats = (id) => async dispatch => {
   try {
-    dispatch(ACTIONS.navigationLoading());
+    dispatch(ACTIONS.loadingStart());
     const data = api.get(URLS.CHATS.ROOT, {params: {userId: id}})
-    dispatch(ACTIONS.navigationLoading());
+    dispatch(ACTIONS.loadingEnd());
 
     return data;
 
   } catch (err) {
-    console.log('getUsersRoutes error - ', err);
+    console.log('getChats error - ', err);
+    dispatch(ACTIONS.loadingEnd());
+    return [];
+  }
+}
+
+export const getMessages = (id) => async dispatch => {
+  try {
+    // dispatch(ACTIONS.loadingStart());
+    const data = api.get(URLS.CHATS.MESSAGES, {params: {chatId: id}})
+    // dispatch(ACTIONS.loadingEnd());
+
+    return data;
+
+  } catch (err) {
+    console.log('getChats error - ', err);
+    // dispatch(ACTIONS.loadingEnd());
     return [];
   }
 }

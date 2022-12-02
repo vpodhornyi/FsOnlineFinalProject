@@ -21,6 +21,6 @@ public abstract class BaseEntity extends Auditable<String> implements Serializab
   @Column(name = "id", nullable = false, updatable = false)
   private Long id;
 
-  @Column(name = "key", unique = true, nullable = false, updatable = false)
-  private UUID key = UUID.randomUUID();
+  @Column(name = "uuid", unique = true, nullable = false, updatable = false)
+  private String key = UUID.randomUUID().toString();
 }
