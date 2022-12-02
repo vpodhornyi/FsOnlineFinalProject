@@ -12,6 +12,7 @@ export const getMessageData = state => {
       message: data.message,
       showHeaderAvatar: data.showHeaderAvatar,
       chat: data.chat,
+      messages: data.messages,
     }
   }
 }

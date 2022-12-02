@@ -5,7 +5,7 @@ import {useNavigate} from "react-router-dom";
 import {Avatar, Typography, Box} from "@mui/material";
 import PropTypes from "prop-types";
 
-import {ACTIONS} from '@redux/message/action';
+import {ACTIONS, getMessages} from '@redux/message/action';
 import More from './More';
 import {PATH} from "../../../../utils/constants";
 
@@ -15,6 +15,7 @@ const ChatRoute = ({chat, activeId}) => {
 
   const handleChatClick = (chat) => {
     dispatch(ACTIONS.setChat({chat}));
+    dispatch(getMessages(chat.id));
     navigate(`${PATH.MESSAGES.ROOT}/${chat?.id}`)
   }
 

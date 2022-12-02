@@ -7,7 +7,7 @@ const actions = createActions(
       'SET_ACTIVE_ID', 'RESET_ACTIVE_ID', 'SET_CHAT',
       'LOADING_START', 'LOADING_END', 'DETAIL_LOADING', 'SEND_MESSAGE', 'SET_MESSAGE'
     ],
-    async: ['GET_CONVERSATION', 'SEARCH_USER'],
+    async: ['GET_CONVERSATION', 'SEARCH_USER', 'GET_MESSAGES'],
   },
   {
     prefix: 'message',
@@ -37,9 +37,9 @@ export const getChats = (id) => async dispatch => {
 
 export const getMessages = (id) => async dispatch => {
   try {
-    // dispatch(ACTIONS.loadingStart());
-    const data = api.get(URLS.CHATS.MESSAGES, {params: {chatId: id}})
-    // dispatch(ACTIONS.loadingEnd());
+    dispatch(ACTIONS.getMessages.request());
+    const data = await api.get(URLS.CHATS.MESSAGES, {params: {chatId: id}})
+    dispatch(ACTIONS.getMessages.success({messages: data}));
 
     return data;
 

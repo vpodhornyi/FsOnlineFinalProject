@@ -5,30 +5,12 @@ const INIT_STATE = {
   loading: false,
   detailLoading: false,
   sendingMessage: false,
+  messagesLoading: false,
   activeId: -1,
   grabbedUsers: [],
   chat: {},
   currentChat: {},
-  chatData: [
-    {
-      key: 'AS32edd23',
-      isAuth: true,
-      text: 'Hello',
-      userId: 2,
-    },
-    {
-      key: 'LOjMH12H1',
-      isAuth: false,
-      text: 'Hi',
-      userId: 1,
-    },
-    {
-      key: 'erFRF5GrR',
-      isAuth: true,
-      text: 'How are you?',
-      userId: 2,
-    }
-  ]
+  messages: []
 }
 
 export default (state = INIT_STATE, {payload, type}) => {
@@ -70,6 +52,22 @@ export default (state = INIT_STATE, {payload, type}) => {
       return {
         ...state,
         chat: payload?.chat,
+      };
+    case String(ACTIONS.getMessages.request):
+      return {
+        ...state,
+        messagesLoading: true,
+      };
+    case String(ACTIONS.getMessages.success):
+      return {
+        ...state,
+        messagesLoading: false,
+        messages: [...payload.messages]
+      };
+    case String(ACTIONS.getMessages.fail):
+      return {
+        ...state,
+        messagesLoading: false,
       };
     default:
       return state;

@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 
 import {getMessageData} from '@redux/message/selector';
 import ChatRoute from "./ChatRoute";
-import {getChats} from "../../../../redux/message/action";
+import {getChats, getMessages} from "../../../../redux/message/action";
 import {ActionWelcome} from "../.";
 import SearchBox from "./SearchBox";
 import {PATH} from "../../../../utils/constants";
@@ -29,7 +29,10 @@ const ChatsList = ({user}) => {
   }, []);
 
   useEffect(() => {
-    id && navigate(`${PATH.MESSAGES.ROOT}/${id}`);
+    if (id) {
+      navigate(`${PATH.MESSAGES.ROOT}/${id}`);
+      // dispatch(getMessages(id));
+    }
   }, []);
 
   return chats.length ? (
