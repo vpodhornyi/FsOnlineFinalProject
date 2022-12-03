@@ -12,19 +12,20 @@ import {getMessages} from "../../../../redux/message/action";
 
 const Chat = () => {
   const dispatch = useDispatch();
-  // const {chat} = useSelector(getMessageData);
+  const {chat} = useSelector(getMessageData);
   const {isDetailLoading, messages} = useSelector(getMessageData);
   // const [{messages}, setMessages] = useState({messages: []});
-  // const [fetching, setFetching] = useState(true);
+  const [fetching, setFetching] = useState(true);
 
-/*  useEffect(() => {
-    const fetch = async () => {
-      const data = await dispatch(getMessages(chat?.id));
-      setMessages({messages: [...messages, ...data]});
-      setFetching(false);
+  useEffect(() => {
+    if (chat?.id) {
+      const fetch = async () => {
+        await dispatch(getMessages(chat?.id));
+        setFetching(false);
+      }
+      fetch();
     }
-    fetch();
-  }, []);*/
+  }, []);
 
   return (
     <BoxWrapper>

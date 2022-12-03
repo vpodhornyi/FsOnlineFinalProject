@@ -1,5 +1,5 @@
 import React from "react";
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {styled} from "@mui/material/styles";
 import {useNavigate} from "react-router-dom";
 import {Avatar, Typography, Box} from "@mui/material";
@@ -9,9 +9,10 @@ import {ACTIONS, getMessages} from '@redux/message/action';
 import More from './More';
 import {PATH} from "../../../../utils/constants";
 
-const ChatRoute = ({chat, activeId}) => {
+const ChatRoute = ({chat}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const {id: selectedChatId} = useSelector(state => state.message.chat);
 
   const handleChatClick = (chat) => {
     dispatch(ACTIONS.setChat({chat}));
@@ -21,7 +22,7 @@ const ChatRoute = ({chat, activeId}) => {
 
   return (
     <BoxWrapper onClick={() => handleChatClick(chat)}>
-      <Box className={activeId && (activeId === chat.id) ? `ChatRoutWrapperActive` : ''}>
+      <Box className={selectedChatId && (selectedChatId === chat.id) ? `ChatRoutWrapperActive` : ''}>
         <Box sx={{display: 'flex'}}>
           <Avatar sx={{mr: '10px', width: '3rem', height: '3rem'}} src={chat.avatarImgUrl}/>
           <Box>
@@ -87,7 +88,6 @@ const BoxWrapper = styled(Box)(styles);
 
 ChatRoute.propTypes = {
   chat: PropTypes.object,
-  activeId: PropTypes.number,
 }
 
 export default ChatRoute;

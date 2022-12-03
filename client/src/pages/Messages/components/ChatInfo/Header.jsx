@@ -11,7 +11,6 @@ import {useNavigate} from "react-router-dom";
 
 const SectionNavigation = () => {
   const navigate = useNavigate();
-  const {activeId} = useSelector(getMessageData);
 
   return (
     <StyledStickyHeader>

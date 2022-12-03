@@ -1,17 +1,17 @@
 import {ACTIONS} from "./action";
 
 const INIT_STATE = {
-  message: '',
+  newMessages: [], // {chatId: number, text: string}
+  messagesLoading: false,
+  messages: [],
+
   loading: false,
   detailLoading: false,
   sendingMessage: false,
-  messagesLoading: false,
   activeId: -1,
   grabbedUsers: [],
   chat: {},
-  newMessages: [], // {chatId: number, text: string}
   currentChat: {},
-  messages: []
 }
 
 export default (state = INIT_STATE, {payload, type}) => {

@@ -50,11 +50,14 @@ export const getMessages = (id) => async dispatch => {
   }
 }
 
-export const sendMessage = ({chatId, text}) => async dispatch => {
+export const sendMessage = ({chatId, text}) => async (dispatch, getState) => {
   try {
+    const {user: {user}} = getState()
+    console.log(chatId);
     console.log(text);
-    // await api.get()
-
+    console.log(user.id);
+    const data = await api.post(URLS.CHATS.MESSAGES, {chatId, text, userId: user?.id})
+    console.log(data);
   } catch (err) {
     console.log('sendMessage error - ', err);
   }

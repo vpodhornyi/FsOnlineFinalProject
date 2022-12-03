@@ -38,7 +38,7 @@ const ChatsList = ({user}) => {
   return chats.length ? (
     <Box>
       <SearchBox/>
-      {chats.map(chat => <ChatRoute key={chat.key} chat={chat} activeId={id}/>)}
+      {chats.map(chat => <ChatRoute key={chat.key} chat={chat}/>)}
     </Box>
   ) : (fetching ? <></> : <ActionWelcome/>);
 }
