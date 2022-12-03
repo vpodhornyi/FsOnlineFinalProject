@@ -3,6 +3,7 @@ package com.twitterdan.service;
 import com.twitterdan.dao.UserRepository;
 import com.twitterdan.domain.dto.userDto.UserProfileUpdateRequestDto;
 import com.twitterdan.domain.user.User;
+import com.twitterdan.exception.CouldNotFindAccountException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +26,12 @@ public class UserService {
 
   @Transactional(readOnly = true)
   public User findById(Long id) {
-    return userRepository.findById(id).get();
+    Optional<User> optionalUser = userRepository.findById(id);
+
+    if (optionalUser.isPresent()) {
+      return optionalUser.get();
+    }
+    throw new CouldNotFindAccountException();
   }
 
   @Transactional(readOnly = true)

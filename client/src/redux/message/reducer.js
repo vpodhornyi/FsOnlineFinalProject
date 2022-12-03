@@ -9,6 +9,7 @@ const INIT_STATE = {
   activeId: -1,
   grabbedUsers: [],
   chat: {},
+  newMessages: [], // {chatId: number, text: string}
   currentChat: {},
   messages: []
 }
@@ -30,9 +31,12 @@ export default (state = INIT_STATE, {payload, type}) => {
         ...state,
         detailLoading: !state.detailLoading,
       };
-    case String(ACTIONS.setMessage):
-      const {id, text} = payload;
-      state.chats.find(v => v?.id === id).text = text;
+    case String(ACTIONS.setNewMessage):
+      const {chatId, text} = payload;
+      const chat = state.newMessages.find(v => v?.chatId === chatId);
+      if (chat) chat.text = text;
+      else state.newMessages.push(payload);
+
       return {
         ...state,
       };

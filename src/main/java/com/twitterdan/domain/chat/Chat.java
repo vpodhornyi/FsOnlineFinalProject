@@ -26,5 +26,13 @@ public class Chat extends BaseEntity {
   private Set<User> users;
 
   @OneToMany(mappedBy = "chat")
+  @JsonIgnore
   private Set<Message> messages;
+
+  @Override
+  public String toString() {
+    return "Chat{" +
+      "title='" + title + '\'' +
+      '}';
+  }
 }

@@ -22,7 +22,7 @@ const ChatsList = ({user}) => {
   useEffect(() => {
     const fetch = async () => {
       const data = await dispatch(getChats(user?.id));
-      setChats({chats: [...chats, ...data]});
+      setChats({chats: data});
       setFetching(false);
     }
     fetch();

@@ -46,7 +46,7 @@ public class User extends BaseEntity {
   @LazyCollection(LazyCollectionOption.EXTRA)
   @OneToMany
   @JoinColumn(name = "user_id")
-@JsonIgnore
+  @JsonIgnore
   private Set<Tweet> tweets;
 
   @LazyCollection(LazyCollectionOption.EXTRA)
@@ -68,4 +68,11 @@ public class User extends BaseEntity {
   @ManyToMany
   @JsonIgnore
   private Set<Chat> chats;
+
+  @Override
+  public String toString() {
+    return "User{" +
+      "userTag='" + userTag + '\'' +
+      '}';
+  }
 }

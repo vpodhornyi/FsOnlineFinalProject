@@ -13,6 +13,7 @@ export const getMessageData = state => {
       showHeaderAvatar: data.showHeaderAvatar,
       chat: data.chat,
       messages: data.messages,
+      newMessage: data.newMessages.find(v => v.chatId === data.chat.id) || ({chatId: data.chat.id, text: ''}),
     }
   }
 }

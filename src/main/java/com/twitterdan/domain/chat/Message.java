@@ -6,6 +6,7 @@ import com.twitterdan.domain.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -17,13 +18,13 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class Message extends BaseEntity {
 
   private String text;
 
   @ManyToOne
   @JoinColumn(name = "chat_id")
-  @JsonIgnore
   private Chat chat;
 
   @ManyToOne

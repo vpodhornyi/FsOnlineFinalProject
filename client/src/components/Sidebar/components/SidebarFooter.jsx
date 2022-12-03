@@ -95,7 +95,7 @@ const styles = ({theme}) => ({
     margin: "0 10px 0 10px",
   },
 
-  [theme.breakpoints.down(1280)]: {
+  [theme.breakpoints.down('xl')]: {
     "& .footer__data, & .footer__options": {
       display: "none"
     }

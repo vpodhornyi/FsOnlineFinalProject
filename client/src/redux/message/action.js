@@ -5,7 +5,7 @@ const actions = createActions(
   {
     actions: [
       'SET_ACTIVE_ID', 'RESET_ACTIVE_ID', 'SET_CHAT',
-      'LOADING_START', 'LOADING_END', 'DETAIL_LOADING', 'SEND_MESSAGE', 'SET_MESSAGE'
+      'LOADING_START', 'LOADING_END', 'DETAIL_LOADING', 'SEND_MESSAGE', 'SET_NEW_MESSAGE'
     ],
     async: ['GET_CONVERSATION', 'SEARCH_USER', 'GET_MESSAGES'],
   },
@@ -50,7 +50,7 @@ export const getMessages = (id) => async dispatch => {
   }
 }
 
-export const sendMessage = ({text, id}) => async dispatch => {
+export const sendMessage = ({chatId, text}) => async dispatch => {
   try {
     console.log(text);
     // await api.get()

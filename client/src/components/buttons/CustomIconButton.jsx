@@ -4,15 +4,15 @@ import {IconButton, Tooltip, Box} from "@mui/material";
 import PropTypes from "prop-types";
 import {styled} from "@mui/material/styles";
 
-const CustomIconButton = ({name, title, size = 'medium', disabled = false, iconSize}) => {
+const CustomIconButton = ({name, title, size = 'medium', disabled = false, iconSize, color}) => {
   const StyledIconButton = styled(IconButton)(styles);
   return (
     // <Tooltip title={title}>
-      <Box>
-        <StyledIconButton size={size} disabled={disabled}>
-          <IconsByName iconName={name} iconSize={iconSize}/>
-        </StyledIconButton>
-      </Box>
+    <Box>
+      <StyledIconButton color={color} size={size} disabled={disabled}>
+        <IconsByName iconName={name} iconSize={iconSize}/>
+      </StyledIconButton>
+    </Box>
     // </Tooltip>
   )
 };
@@ -23,6 +23,7 @@ CustomIconButton.propTypes = {
   size: PropTypes.string,
   disabled: PropTypes.bool,
   iconSize: PropTypes.string,
+  color: PropTypes.string,
 }
 
 const styles = ({theme}) => ({

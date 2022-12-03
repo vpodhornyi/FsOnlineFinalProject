@@ -2,17 +2,16 @@ import React from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {TextField} from "@mui/material";
 import {getMessageData} from "@redux/message/selector";
-import {ACTIONS as messageActions} from "@redux/message/action";
+import {ACTIONS} from "@redux/message/action";
 import {styled} from "@mui/material/styles";
 import PropTypes from "prop-types";
 
 const CustomTextField = function ({enterKeyDown, inputRef}) {
-  const chat  = useSelector(getMessageData);
-  const {text, id} = chat;
+  const {newMessage: {chatId, text}} = useSelector(getMessageData);
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
-    dispatch(messageActions.setMessage({id, text: e.target.value}));
+    dispatch(ACTIONS.setNewMessage({chatId, text: e.target.value}));
   }
 
   return <TextFieldWrapper

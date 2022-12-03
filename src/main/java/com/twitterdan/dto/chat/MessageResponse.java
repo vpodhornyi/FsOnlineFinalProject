@@ -4,14 +4,15 @@ import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.user.User;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class ChatMessageResponse {
+public class MessageResponse {
+  private Long id;
+  private String key;
   private String text;
-  private Chat chat;
-  private Date createdAt;
-  private User user;
+  private LocalDateTime createdAt;
+  private Long chatId;
+  private Long userId;
 }
