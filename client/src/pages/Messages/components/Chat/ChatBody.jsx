@@ -24,11 +24,12 @@ const debounce = (callback, delay) => {
 const Conversation = ({messages}) => {
   const [visible, setVisible] = useState(false);
   const overlayRef = useRef();
+  const chatBodyRef = useRef();
   const {user: {id}} = useSelector(state => state.user);
 
   const onBottom = () => {
-    const height = overlayRef.current.offsetHeight;
-    overlayRef.current.scroll(0, height + 100000);
+    const heightBody = chatBodyRef.current.offsetHeight;
+    overlayRef.current.scroll(0, heightBody);
   }
 
   useEffect(() => {
@@ -54,12 +55,12 @@ const Conversation = ({messages}) => {
   return (
     <BoxWrapper>
       <Box ref={overlayRef} className='Overlay' onScroll={onScrollEvent}>
-        <Box className='MessagesBox'>
+        <Box ref={chatBodyRef} className='MessagesBox'>
           <UserInfo/>
           {messages.map(item => {
-            const isAuth = item.user.id === id;
+            const isAuth = item?.user?.id === id;
 
-            return <Message key={item.key} left={!isAuth} text={item.text}/>
+            return <Message key={item?.key} left={!isAuth} text={item?.text}/>
           })}
         </Box>
       </Box>
@@ -83,7 +84,7 @@ const styles = ({theme}) => ({
     overflow: 'overlay',
     overflowX: 'hidden',
     paddingRight: 15,
-    scrollBehavior: 'smooth',
+    // scrollBehavior: 'smooth',
   },
 
   '& > .MuiBox-root > .MessagesBox': {
