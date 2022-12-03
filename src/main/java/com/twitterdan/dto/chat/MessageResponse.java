@@ -14,5 +14,5 @@ public class MessageResponse {
   private String text;
   private LocalDateTime createdAt;
   private Long chatId;
-  private Long userId;
+  private ChatUser user;
 }

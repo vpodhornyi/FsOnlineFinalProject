@@ -8,10 +8,8 @@ const INIT_STATE = {
   loading: false,
   detailLoading: false,
   sendingMessage: false,
-  activeId: -1,
   grabbedUsers: [],
   chat: {},
-  currentChat: {},
 }
 
 export default (state = INIT_STATE, {payload, type}) => {
@@ -66,13 +64,32 @@ export default (state = INIT_STATE, {payload, type}) => {
       return {
         ...state,
         messagesLoading: false,
-        messages: [...payload.messages]
+        messages: payload.messages
       };
     case String(ACTIONS.getMessages.fail):
       return {
         ...state,
         messagesLoading: false,
       };
+
+    case String(ACTIONS.sendMessage.request):
+      return {
+        ...state,
+        sendingMessage: true,
+      };
+    case String(ACTIONS.sendMessage.success):
+      state.messages.push(payload.newMessage)
+      return {
+        ...state,
+        sendingMessage: false,
+        messages: state.messages
+      };
+    case String(ACTIONS.sendMessage.fail):
+      return {
+        ...state,
+        sendingMessage: false,
+      };
+
     default:
       return state;
   }

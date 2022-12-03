@@ -7,7 +7,7 @@ const actions = createActions(
       'SET_ACTIVE_ID', 'RESET_ACTIVE_ID', 'SET_CHAT',
       'LOADING_START', 'LOADING_END', 'DETAIL_LOADING', 'SEND_MESSAGE', 'SET_NEW_MESSAGE'
     ],
-    async: ['GET_CONVERSATION', 'SEARCH_USER', 'GET_MESSAGES'],
+    async: ['GET_CONVERSATION', 'SEARCH_USER', 'GET_MESSAGES', 'SEND_MESSAGE'],
   },
   {
     prefix: 'message',
@@ -53,13 +53,13 @@ export const getMessages = (id) => async dispatch => {
 export const sendMessage = ({chatId, text}) => async (dispatch, getState) => {
   try {
     const {user: {user}} = getState()
-    console.log(chatId);
-    console.log(text);
-    console.log(user.id);
-    const data = await api.post(URLS.CHATS.MESSAGES, {chatId, text, userId: user?.id})
-    console.log(data);
+    dispatch(ACTIONS.sendMessage.request());
+    const data = await api.post(URLS.CHATS.MESSAGES, {chatId, text, userId: user?.id});
+    dispatch(ACTIONS.sendMessage.success({newMessage: data}));
+
   } catch (err) {
     console.log('sendMessage error - ', err);
+    dispatch(ACTIONS.sendMessage.fail());
   }
 }
 

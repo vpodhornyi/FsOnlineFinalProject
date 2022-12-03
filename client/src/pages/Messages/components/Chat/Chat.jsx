@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useSelector, useDispatch} from "react-redux";
-import {useRoutes, Navigate} from "react-router-dom";
+import {useRoutes, useNavigate} from "react-router-dom";
 import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import ChatHeader from "./Header";
@@ -8,9 +8,11 @@ import {getMessageData} from "@redux/message/selector";
 import Loading from "@components/Loader/Loading";
 import ChatBody from "./ChatBody";
 import {getMessages} from "../../../../redux/message/action";
+import {PATH} from "../../../../utils/constants";
 
 
 const Chat = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const {chat} = useSelector(getMessageData);
   const {isDetailLoading, messages} = useSelector(getMessageData);
@@ -24,6 +26,8 @@ const Chat = () => {
         setFetching(false);
       }
       fetch();
+    } else {
+      navigate(PATH.MESSAGES.ROOT);
     }
   }, []);
 

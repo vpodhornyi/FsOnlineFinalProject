@@ -13,9 +13,7 @@ public class MessageResponseMapper extends GeneralFacade<Message, MessageRespons
 
   @Override
   protected void decorateDto(MessageResponse dto, Message entity) {
-    Long userId = entity.getUser().getId();
     Long chatId = entity.getChat().getId();
-    dto.setUserId(userId);
     dto.setChatId(chatId);
   }
 }
