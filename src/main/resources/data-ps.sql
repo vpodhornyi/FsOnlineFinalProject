@@ -17,14 +17,6 @@ VALUES (1, 'https://static.dezeen.com/uploads/2021/06/elon-musk-architect_dezeen
        (16,'https://static.dezeen.com/uploads/2021/06/elon-musk-architect_dezeen_1704_col_0.jpg',  'e9a18795-4db1-4983-8fe4-7c6b78e68fa3', 'Mia', 'wedwoqie0', '1111', 'rfegrtg@gmail.com');
 
 
-INSERT INTO followers (follower_id, followed_id)
-values (1, 2),
-       (1, 4),
-       (2, 1),
-       (3, 4),
-       (3, 5),
-       (4, 1);
-
 INSERT INTO tweets (id, uuid, body, tweet_type, user_id)
 values (1, '4c85c829-f8c7-4505-8932-6dac1c9e01d4', 'Bob test tweet', 'TWEET', 1),
        (2, '992217dd-7c49-47a8-9a14-f4566c5d5648', 'Jon test tweet', 'TWEET', 2),
@@ -64,15 +56,6 @@ values (1, '21744f36-8ab5-4d58-8829-7b0a976f27a8', 'test chat 1'),
        (4, '22253e3a-5226-4b99-8f30-97dc67f90ef9', 'test chat 4');
 
 
-INSERT INTO users_chats (users_id, chats_id)
-values (1, 1),
-       (2, 1),
-       (3, 1),
-       (4, 2),
-       (5, 2),
-       (1, 3),
-       (5, 3);
-
 INSERT INTO messages (id, uuid, text, chat_id, user_id)
 values
     (1, '0e4b72bc-ee31-4197-9d4c-adc0d65578ac', 'test message 1', 1, 1),
@@ -89,3 +72,21 @@ ALTER TABLE ATTACHMENT_IMAGES
     ADD FOREIGN KEY (tweet_id) REFERENCES TWEETS (id)
         ON DELETE CASCADE
         ON UPDATE CASCADE;
+
+
+INSERT INTO followers (follower_id, followed_id)
+values (1, 2),
+       (1, 4),
+       (2, 1),
+       (3, 4),
+       (3, 5),
+       (4, 1);
+
+INSERT INTO users_chats (users_id, chats_id)
+values (1, 1),
+       (2, 1),
+       (3, 1),
+       (4, 2),
+       (5, 2),
+       (1, 3),
+       (5, 3);
