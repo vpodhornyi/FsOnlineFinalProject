@@ -33,7 +33,6 @@ const Conversation = ({messages}) => {
   }
 
   useEffect(() => {
-    console.log('dd');
     onBottom();
   }, []);
 
