@@ -83,9 +83,6 @@ spring:
   #      data-locations: classpath:data-ps.sql
   #      schema-locations: classpath:schema-h2.sql
   datasource:
-    #    url: jdbc:postgresql://localhost:5432/twitter
-    #    username: postgres
-    #    password: root
     url: jdbc:postgresql://${DEV_DB_URL}:${DEV_DB_PORT}/${DEV_DB_NAME}
     username: ${DEV_DB_USER}
     password: ${DEV_DB_PASSWORD}
