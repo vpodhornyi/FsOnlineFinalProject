@@ -1,3 +1,13 @@
+spring:
+  config:
+    import: env.properties
+  profiles:
+    active: ${ACTIVE}
+  h2:
+    console:
+      enabled: true
+      settings:
+        trace: false
 server:
   port: ${PORT}
   error:
@@ -5,14 +15,6 @@ server:
     include-binding-errors: always
     include-stacktrace: never
     include-exception: false
-spring:
-  profiles:
-    active: dev
-  h2:
-    console:
-      enabled: true
-      settings:
-        trace: false
 logging:
   level:
     root:
@@ -26,23 +28,23 @@ api:
 #jwt auth config
 jwt:
   secret:
-    access: ZddN3xkiGziZvyJMNwRYidT+pumQe7PCZr7TSK7MxPBKRuYa9hwFJfXTDJPhsraqVvDfhWiJMjXJS1VWRuE8hA==
-    refresh: 65tu9kn6htFNbc8C9PZ2NIwyx9JB3H699FxbAswDFOyZTvMrHisSM8wf47zOkYGlVL3mPwIpq4iQjBq74PZOyg==
+    access: ${JWT_SECRET_ACCESS}
+    refresh: ${JWT_SECRET_REFRESH}
   access:
     leave:
-      minutes: 1000
+      minutes: ${JWT_ECCESS_LEAVE_MINUTES}
   refresh:
     leave:
-      days: 30
+      days: ${JWT_REFRESH_LEAVE_DAYS}
   authorization:
     user:
       field: userTag
 
 #Cloudinary configuration
 cloudinary:
-  cloud_name: dz8sgyn3r
-  api_key: 643955683374753
-  api_secret: y3mO_uMCz6NRRvcSyl6KxGv-RpE
+  cloud_name: ${CLOUDINARY_NAME}
+  api_key: ${CLOUDINARY_API_KEY}
+  api_secret: ${CLOUDINARY_API_SECRET}
 
 ---
 spring:
@@ -55,9 +57,9 @@ spring:
       mode: always
       data-locations: classpath:data-ps.sql
   datasource:
-    url: jdbc:h2:mem:testdb
-    username: sa
-    password:
+    url: ${LOCAL_DB_URL}
+    username: ${LOCAL_DB_USER}
+    password: ${LOCAL_DB_PASSWORD}
     driver-class-name: org.h2.Driver
   jpa:
     defer-datasource-initialization: true
@@ -70,11 +72,6 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: false
-#jwt:
-#  expiration: time mls
-#  expirationRefresh: time mls
-#  expirationPasswordRefresh: time mls
-#  expirationPasswordReset: time mls
 ---
 spring:
   config:
@@ -83,19 +80,19 @@ spring:
   sql:
     init:
       mode: always
-#      data-locations: classpath:data-ps-aws.sql
+  #      data-locations: classpath:data-ps.sql
   #      schema-locations: classpath:schema-h2.sql
   datasource:
-#    url: jdbc:postgresql://localhost:5432/twitter
-#    username: postgres
-#    password: root
+    #    url: jdbc:postgresql://localhost:5432/twitter
+    #    username: postgres
+    #    password: root
     url: jdbc:postgresql://${DEV_DB_URL}:${DEV_DB_PORT}/${DEV_DB_NAME}
     username: ${DEV_DB_USER}
     password: ${DEV_DB_PASSWORD}
     driver_class_name: org.postgresql.Driver
   jpa:
     database: postgresql
-    defer_datasource_initialization: false # true оставить ТОЛЬКО для самого первого запуска, когда в пустую БД заливаем данные! далее сделать false
+    defer_datasource_initialization: false
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect

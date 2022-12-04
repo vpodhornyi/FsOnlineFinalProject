@@ -11,7 +11,6 @@ import { themeStyles } from "./utils/defaultTheme";
 
 import "./normolize.css";
 
-
 const reduxStore = store();
 const root = createRoot(document.getElementById("root"));
 
