@@ -40,9 +40,9 @@ jwt:
 
 #Cloudinary configuration
 cloudinary:
-  cloud_name: dz8sgyn3r
-  api_key: 643955683374753
-  api_secret: y3mO_uMCz6NRRvcSyl6KxGv-RpE
+  cloud_name: dy4p4t5ka
+  api_key: 826457552747413
+  api_secret: R5eT8otjn_7WA_Sg7E9PV0AUZvs
 
 ---
 spring:
@@ -55,7 +55,7 @@ spring:
       mode: always
       data-locations: classpath:data-ps.sql
   datasource:
-    url: jdbc:h2:mem:testdb
+    url: jdbc:h2:mem:test
     username: sa
     password:
     driver-class-name: org.h2.Driver

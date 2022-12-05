@@ -46,7 +46,7 @@ public class User extends BaseEntity {
   @LazyCollection(LazyCollectionOption.EXTRA)
   @OneToMany
   @JoinColumn(name = "user_id")
-@JsonIgnore
+  @JsonIgnore
   private Set<Tweet> tweets;
 
   @LazyCollection(LazyCollectionOption.EXTRA)

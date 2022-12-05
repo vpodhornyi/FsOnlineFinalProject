@@ -58,6 +58,10 @@ export const URLS = {
   CHATS: {
     ROOT: '/chats',
     MESSAGES: '/chats/messages'
+  },
+  CLOUD:{
+    IMAGE:'/cloud/image',
+    IMAGES:'/cloud/images',
   }
 };
 

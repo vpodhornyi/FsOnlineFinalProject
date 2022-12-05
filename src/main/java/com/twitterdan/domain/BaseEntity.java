@@ -17,8 +17,8 @@ import java.io.Serializable;
 public abstract class BaseEntity extends Auditable<String> implements Serializable {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  @Column(name = "id", nullable = false, updatable = false)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id", updatable = false)
   private Long id;
 
   @Column(name = "uuid", unique = true, nullable = false, updatable = false)

@@ -3,6 +3,7 @@ package com.twitterdan.controller;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.twitterdan.config.UploadTypes;
+import com.twitterdan.service.TweetService;
 import com.twitterdan.service.UserService;
 import org.cloudinary.json.JSONArray;
 import org.cloudinary.json.JSONObject;
@@ -27,11 +28,13 @@ import java.util.Map;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping(value = "/cloud")
+@RequestMapping(value = "${api.version}/cloud")
 public class ImageController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private TweetService tweetService;
 
     @Autowired
     @Qualifier("com.cloudinary.cloud_name")
@@ -84,7 +87,7 @@ public class ImageController {
 
                 case UPDATE_PROFILE_HEADER -> userService.updateUserHeader(Long.valueOf(id), url);
 
-                case TWEET -> System.out.println("TWEET CASE");
+                case TWEET -> tweetService.updateTweetImages(Long.valueOf(id),url);
             }
 
             return new ResponseEntity<>("{\"status\":\"OK\", \"url\":\"" + url + "\"}", HttpStatus.OK);

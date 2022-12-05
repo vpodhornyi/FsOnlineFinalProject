@@ -50,12 +50,12 @@ values
     (6,'d5b00f3e-e084-41d7-bf70-053e09fd3d9f', false, 'LIKE', 4, 3, 4);
 
 
-INSERT INTO attachment_images (id, uuid, img_url, tweet_id)
+INSERT INTO attachment_images ( uuid, img_url, tweet_id)
 values
-    (1, '75606b31-ef91-4029-9e96-43937f17ae91', 'https://shorturl.at/gqSZ9', 1),
-    (2, '35ecc0e9-f533-4480-9e2c-466834f31316', 'https://shorturl.at/fHQRZ', 2),
-    (3, 'd200021f-b319-46dc-bb35-8cc9cbe76ed7', 'https://shorturl.at/fGHM9', 3),
-    (4, '23d6a012-468f-41e2-8d9a-c3c9311560b6', 'https://shorturl.at/dhmsM', 4);
+    ('75606b31-ef91-4029-9e96-43937f17ae91', 'https://shorturl.at/gqSZ9', 1),
+    ('35ecc0e9-f533-4480-9e2c-466834f31316', 'https://shorturl.at/fHQRZ', 2),
+    ('d200021f-b319-46dc-bb35-8cc9cbe76ed7', 'https://shorturl.at/fGHM9', 3),
+    ('23d6a012-468f-41e2-8d9a-c3c9311560b6', 'https://shorturl.at/dhmsM', 4);
 
 INSERT INTO chats (id, uuid, title)
 values (1, '21744f36-8ab5-4d58-8829-7b0a976f27a8', 'test chat 1'),

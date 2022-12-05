@@ -25,7 +25,7 @@ import {
   UserAvatar,
   UserName,
 } from "./style";
-import CustomImageList from "../../CustomImageList";
+import CustomImageList from "../../imageList/CustomImageList";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteTweet } from "../../../redux/tweet/action";
 import { openModal } from "../../../redux/modal/action";
