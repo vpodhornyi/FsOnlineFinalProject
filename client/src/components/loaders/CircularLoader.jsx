@@ -3,7 +3,7 @@ import {styled} from "@mui/material/styles";
 import {Box, CircularProgress} from "@mui/material";
 import PropTypes from "prop-types";
 
-const CircularLoader = ({size, styles}) => {
+const CircularLoader = ({size = 25, styles}) => {
   return (
     <BoxWrapper sx={{...styles}}>
       <CircularProgress size={size}/>

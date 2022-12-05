@@ -4,7 +4,7 @@ import api, {URLS} from "@service/API";
 const actions = createActions(
   {
     actions: [
-      'RESET_ACTIVE_ID', 'SET_CHAT', 'LOADING_START', 'LOADING_END',
+      'RESET_ACTIVE_ID', 'SET_CHAT', 'START_CHATS_LOADING', 'END_CHATS_LOADING', 'LOADING_END',
       'DETAIL_LOADING', 'SEND_MESSAGE', 'SET_NEW_MESSAGE'
     ],
     async: ['GET_CONVERSATION', 'SEARCH_USER', 'GET_MESSAGES', 'SEND_MESSAGE'],
@@ -22,16 +22,13 @@ export const ACTIONS = {
 
 export const getChats = (id) => async dispatch => {
   try {
-    dispatch(ACTIONS.loadingStart());
-    const data = api.get(URLS.CHATS.ROOT, {params: {userId: id}})
-    dispatch(ACTIONS.loadingEnd());
-
-    return data;
+    dispatch(ACTIONS.startChatsLoading());
+    const data = await api.get(URLS.CHATS.ROOT, {params: {userId: id}});
+    dispatch(ACTIONS.endChatsLoading({chats: data}));
 
   } catch (err) {
     console.log('getChats error - ', err);
-    dispatch(ACTIONS.loadingEnd());
-    return [];
+    dispatch(ACTIONS.endChatsLoading());
   }
 }
 

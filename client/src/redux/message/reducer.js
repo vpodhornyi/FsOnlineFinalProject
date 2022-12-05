@@ -5,24 +5,26 @@ const INIT_STATE = {
   messagesLoading: false,
   messages: [],
 
-  loading: false,
+  chatLoading: false,
   detailLoading: false,
   sendingMessage: false,
   grabbedUsers: [],
   chat: {},
+  chats: [],
 }
 
 export default (state = INIT_STATE, {payload, type}) => {
   switch (type) {
-    case String(ACTIONS.loadingStart):
+    case String(ACTIONS.startChatsLoading):
       return {
         ...state,
-        loading: true,
+        chatLoading: true,
       };
-    case String(ACTIONS.loadingEnd):
+    case String(ACTIONS.endChatsLoading):
       return {
         ...state,
-        loading: false,
+        chatLoading: false,
+        chats: payload.chats
       };
     case String(ACTIONS.detailLoading):
       return {

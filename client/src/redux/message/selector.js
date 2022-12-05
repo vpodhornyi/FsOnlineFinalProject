@@ -3,11 +3,11 @@ export const getMessageData = state => {
     const data = JSON.parse(JSON.stringify(state.message));
 
     return {
-      isLoading: data.loading,
+      isChatLoading: data.chatLoading,
       isDetailLoading: data.detailLoading,
       chats: data.chats,
+      isChatsExist: data.chats.length,
       chatData: data.chatData,
-      activeId: data.activeId,
       isChatInfo: data.isChatInfo,
       message: data.message,
       showHeaderAvatar: data.showHeaderAvatar,

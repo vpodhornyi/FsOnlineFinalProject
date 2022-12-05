@@ -11,45 +11,38 @@ import {getChats, getMessages} from "../../../../redux/message/action";
 import {ActionWelcome} from "../.";
 import SearchBox from "./SearchBox";
 import {PATH} from "../../../../utils/constants";
+import {CircularLoader} from "../../../../components";
 
-const ChatsList = ({user}) => {
+const ChatsList = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [{chats}, setChats] = useState({chats: []});
-  const [fetching, setFetching] = useState(true);
-  const {chat: {id}} = useSelector(getMessageData);
+  const {user: {id: userId}} = useSelector(state => state.user);
+  const {chat: {id}, isChatLoading, chats, isChatsExist} = useSelector(getMessageData);
 
   useEffect(() => {
-    const fetch = async () => {
-      const data = await dispatch(getChats(user?.id));
-      setChats({chats: data});
-      setFetching(false);
-    }
-    fetch();
+    dispatch(getChats(userId))
   }, []);
 
-  useEffect(() => {
-    if (id) {
-      navigate(`${PATH.MESSAGES.ROOT}/${id}`);
-      // dispatch(getMessages(id));
-    }
-  }, []);
+  if (isChatLoading && !isChatsExist) return (
+    <BoxWrapper>
+      <CircularLoader/>
+    </BoxWrapper>
+  );
 
-  return chats.length ? (
+  if (isChatsExist) return (
     <Box>
       <SearchBox/>
       {chats.map(chat => <ChatRoute key={chat.key} chat={chat}/>)}
     </Box>
-  ) : (fetching ? <></> : <ActionWelcome/>);
+  )
+
+  return <ActionWelcome/>;
 }
 
-const styles = ({theme}) => ({
-  width: '100%',
-  display: 'flex',
-
-});
-
-const BoxWrapper = styled(Box)(styles);
+const BoxWrapper = styled(Box)(({theme}) => ({
+  height: '100%',
+  position: 'relative'
+}));
 
 ChatsList.propTypes = {
   user: PropTypes.object,
