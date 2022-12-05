@@ -17,23 +17,22 @@ const App = () => {
   const location = useLocation();
   const background = location.state?.background;
 
-  return (
-    <BackgroundContext.Provider value={{background}}>
-      {preloader && <Preloader/>}
-      <RootContainer>
-        <Header>
-          <NavBar menu={menu(userTag, authorized)} authorized={authorized}/>
-        </Header>
-        <Main>
-          <MainContainer>
-            <MainRoutes authorized={authorized} userTag={userTag} background={background} location={location}/>
-          </MainContainer>
-        </Main>
-        {!authorized && <LoginPanel/>}
-        <DialogWindow/>
-      </RootContainer>
-      <ModalRoutes authorized={authorized}/>
-    </BackgroundContext.Provider>
+  return (preloader ? <Preloader/> :
+      <BackgroundContext.Provider value={{background}}>
+        <RootContainer>
+          <Header>
+            <NavBar menu={menu(userTag, authorized)} authorized={authorized}/>
+          </Header>
+          <Main>
+            <MainContainer>
+              <MainRoutes authorized={authorized} userTag={userTag} background={background} location={location}/>
+            </MainContainer>
+          </Main>
+          {!authorized && <LoginPanel/>}
+          <DialogWindow/>
+          <ModalRoutes authorized={authorized}/>
+        </RootContainer>
+      </BackgroundContext.Provider>
   )
 }
 
