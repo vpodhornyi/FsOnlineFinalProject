@@ -4,8 +4,8 @@ import api, {URLS} from "@service/API";
 const actions = createActions(
   {
     actions: [
-      'SET_ACTIVE_ID', 'RESET_ACTIVE_ID', 'SET_CHAT',
-      'LOADING_START', 'LOADING_END', 'DETAIL_LOADING', 'SEND_MESSAGE', 'SET_NEW_MESSAGE'
+      'RESET_ACTIVE_ID', 'SET_CHAT', 'LOADING_START', 'LOADING_END',
+      'DETAIL_LOADING', 'SEND_MESSAGE', 'SET_NEW_MESSAGE'
     ],
     async: ['GET_CONVERSATION', 'SEARCH_USER', 'GET_MESSAGES', 'SEND_MESSAGE'],
   },

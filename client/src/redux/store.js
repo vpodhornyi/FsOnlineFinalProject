@@ -2,7 +2,7 @@ import thunk from "redux-thunk";
 import {composeWithDevTools} from "redux-devtools-extension";
 import {getTokens, setHeaderAuthorization} from "@utils";
 import {interceptor} from "@service/API";
-import {getAuthUser} from "./user/action";
+import {ACTIONS, getAuthUser} from "./user/action";
 
 import modalReducer from "./modal/reducer";
 import tweetReducer from "./tweet/reducer";

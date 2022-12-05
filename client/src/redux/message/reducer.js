@@ -38,18 +38,6 @@ export default (state = INIT_STATE, {payload, type}) => {
       return {
         ...state,
       };
-    case String(ACTIONS.setActiveId):
-      return {
-        ...state,
-        activeId: payload.id,
-        isChatInfo: false,
-      };
-    case String(ACTIONS.resetActiveId):
-      return {
-        ...state,
-        activeId: -1,
-        isChatInfo: false,
-      };
     case String(ACTIONS.setChat):
       return {
         ...state,

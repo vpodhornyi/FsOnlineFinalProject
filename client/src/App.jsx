@@ -19,7 +19,7 @@ const App = () => {
 
   return (
     <BackgroundContext.Provider value={{background}}>
-      <Preloader loading={preloader}/>
+      {preloader && <Preloader/>}
       <RootContainer>
         <Header>
           <NavBar menu={menu(userTag, authorized)} authorized={authorized}/>

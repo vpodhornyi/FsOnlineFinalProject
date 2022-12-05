@@ -28,6 +28,12 @@ public class ChatController {
     return ResponseEntity.ok(chatService.findAlLByUserId(userId));
   }
 
+  @PostMapping
+  public ResponseEntity<Chat> addChat(@RequestParam Long userId) {
+
+    return ResponseEntity.ok(new Chat());
+  }
+
   @GetMapping("/messages")
   public ResponseEntity<List<Message>> getMessages(@RequestParam Long chatId) {
 

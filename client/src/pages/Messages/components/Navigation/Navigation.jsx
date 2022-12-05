@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Suspense} from "react";
 import {useSelector} from "react-redux";
 import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -12,8 +12,11 @@ const Navigation = () => {
 
   return (
     <BoxWrapper>
-      {loading && <CircularLoader/>}
-      {user?.id && <ChatsList user={user}/>}
+      <Suspense fallback={<CircularLoader/>}>
+        <ChatsList user={user}/>
+      </Suspense>
+      {/*{loading && <CircularLoader/>}*/}
+      {/*{user?.id && <ChatsList user={user}/>}*/}
     </BoxWrapper>);
 }
 

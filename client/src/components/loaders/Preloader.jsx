@@ -2,14 +2,11 @@ import React from "react";
 import {styled} from "@mui/material/styles";
 import {Box} from "@mui/material";
 import {LogoIcon} from '../icons';
-import PropTypes from "prop-types";
 
-const Preloader = ({loading}) => (
-  <>
-    {loading && (<BoxWrapper>
-      <LogoIcon/>
-    </BoxWrapper>)}
-  </>
+const Preloader = () => (
+  <BoxWrapper>
+    <LogoIcon/>
+  </BoxWrapper>
 );
 
 const styles = ({theme}) => ({
@@ -33,9 +30,5 @@ const styles = ({theme}) => ({
 });
 
 const BoxWrapper = styled(Box)(styles);
-
-Preloader.propTypes = {
-  loading: PropTypes.bool,
-}
 
 export default Preloader;

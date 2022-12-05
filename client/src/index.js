@@ -20,7 +20,7 @@ root.render(
   <Provider store={reduxStore}>
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        <App />
+        <App/>
       </BrowserRouter>
     </ThemeProvider>
   </Provider>

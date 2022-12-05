@@ -20,7 +20,7 @@ export const ACTIONS = {
 
 export const getAuthUser = () => async (dispatch) => {
   try {
-    dispatch(ACTIONS.getAuthUser.request);
+    dispatch(ACTIONS.getAuthUser.request());
     const data = await api.get(URLS.USERS.ROOT);
     dispatch(ACTIONS.getAuthUser.success(data));
 
