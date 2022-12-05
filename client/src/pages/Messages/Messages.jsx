@@ -3,7 +3,7 @@ import {Outlet} from 'react-router-dom';
 
 import {SectionNavigation, SectionDetails} from '../../components';
 import {NavigationHeader} from './components';
-import Navigation from './components/Navigation/Navigation';
+import ChatsList from './components/Navigation/ChatsList';
 
 const Messages = () => {
 
@@ -11,7 +11,7 @@ const Messages = () => {
     <>
       <SectionNavigation>
         <NavigationHeader/>
-        <Navigation/>
+        <ChatsList/>
       </SectionNavigation>
       <SectionDetails>
         <Outlet/>
