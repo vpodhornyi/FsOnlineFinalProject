@@ -24,9 +24,9 @@ const ChatsList = () => {
   }, []);
 
   if (isChatLoading && !isChatsExist) return (
-    <BoxWrapper>
+    <Box sx={{height: '100%', position: 'relative'}}>
       <CircularLoader/>
-    </BoxWrapper>
+    </Box>
   );
 
   if (isChatsExist) return (
@@ -38,11 +38,6 @@ const ChatsList = () => {
 
   return <ActionWelcome/>;
 }
-
-const BoxWrapper = styled(Box)(({theme}) => ({
-  height: '100%',
-  position: 'relative'
-}));
 
 ChatsList.propTypes = {
   user: PropTypes.object,

@@ -9,6 +9,8 @@ const INIT_STATE = {
   detailLoading: false,
   sendingMessage: false,
   grabbedUsers: [],
+
+
   chat: {},
   chats: [],
 }
