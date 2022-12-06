@@ -4,7 +4,7 @@ import api, {URLS} from "@service/API";
 const actions = createActions(
   {
     actions: ['RESET_MESSAGES'],
-    async: ['GET_MESSAGES', 'SEND_MESSAGE'],
+    async: ['SEND_MESSAGE'],
   },
   {
     prefix: 'messages',
@@ -18,16 +18,10 @@ export const ACTIONS = {
 
 export const getMessages = (id) => async dispatch => {
   try {
-    dispatch(ACTIONS.resetMessages());
-    dispatch(ACTIONS.getMessages.request());
-    const data = await api.get(URLS.CHATS.MESSAGES, {params: {chatId: id}})
-    dispatch(ACTIONS.getMessages.success({messages: data}));
-
-    return data;
+    return await api.get(URLS.CHATS.MESSAGES, {params: {chatId: id}});
 
   } catch (err) {
     console.log('getChats error - ', err);
-    // dispatch(ACTIONS.loadingEnd());
     return [];
   }
 }
