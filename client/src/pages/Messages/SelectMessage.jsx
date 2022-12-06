@@ -1,9 +1,10 @@
-import React from "react";
-import {useSelector} from "react-redux";
+import React, {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 
 import Action from "./components/Action";
+import {ACTIONS} from '@redux/chats/action';
 import {getChatsData} from '@redux/chats/selector';
 
 const ACTION_TITLE = 'Select a message';
@@ -11,9 +12,14 @@ const ACTION_DESCRIPTION = 'Choose from your existing conversations, start a new
 const ACTION_BTN_NAME = 'New message';
 
 const SelectMessage = () => {
+  const dispatch = useDispatch();
   const {isChatSelected} = useSelector(getChatsData);
 
-  return (isChatSelected ? <></> : (
+  useEffect(() => {
+    isChatSelected && dispatch(ACTIONS.resetChatId());
+  }, []);
+
+  return (
     <StyledBox>
       <Action
         title={ACTION_TITLE}
@@ -21,7 +27,7 @@ const SelectMessage = () => {
         btnName={ACTION_BTN_NAME}
       />
     </StyledBox>
-  ));
+  );
 }
 
 const styles = ({theme}) => ({

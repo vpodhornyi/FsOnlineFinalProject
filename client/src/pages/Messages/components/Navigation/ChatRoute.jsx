@@ -1,14 +1,13 @@
 import React from "react";
 import {useDispatch} from 'react-redux';
-import {useParams} from 'react-router-dom';
+import {useParams, useNavigate} from 'react-router-dom';
 import {styled} from "@mui/material/styles";
-import {useNavigate} from "react-router-dom";
 import {Avatar, Typography, Box} from "@mui/material";
 import PropTypes from "prop-types";
 
 import {ACTIONS} from '@redux/chats/action';
 import More from './More';
-import {PATH} from "../../../../utils/constants";
+import {PATH} from "@utils/constants";
 
 const ChatRoute = ({chat}) => {
   const dispatch = useDispatch();

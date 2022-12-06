@@ -1,6 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
 import {useSelector, useDispatch} from "react-redux";
-import {useLocation, useParams} from 'react-router-dom';
 import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
@@ -11,8 +10,6 @@ import Message from "./Message";
 import ScrollDownButton from "./ScrollDownButton";
 import {CircularLoader} from "../../../../components";
 import {getMessages} from "@redux/chats/messages/action";
-import {getMessagesData, getChatsData} from "@redux/chats/selector";
-import {PATH} from "../../../../utils/constants";
 
 const debounce = (callback, delay) => {
   let timer = null;
@@ -24,43 +21,24 @@ const debounce = (callback, delay) => {
     }, delay)
   }
 }
-const getChatIdFromUrl = (location, chats) => {
-  const path = location.pathname.split('/');
-  if (`/${path[1]}` === PATH.MESSAGES.ROOT) {
-    const id = parseInt(path[2]);
-    if (id) {
-      if (chats.find(v => v.id === id)) {
-        return id;
-      } else {
-        // navigate(PATH.MESSAGES.ROOT);
-      }
-    }
-  }
-}
-const Conversation = ({selectedChat, isGroupChat}) => {
-  const {id} = useParams();
-  console.log(id);
+
+const ChatBody = ({chatId, isGroupChat}) => {
   const dispatch = useDispatch();
-  const location = useLocation();
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [{messages}, setMessages] = useState({messages: []});
   const overlayRef = useRef();
   const chatBodyRef = useRef();
-  const {chats} = useSelector(getChatsData);
-  const {isMessagesLoading, messages: foo} = useSelector(getMessagesData);
   const {user: {id: authUserId}} = useSelector(state => state.user);
-  const [chatId, setChatId] = useState(getChatIdFromUrl(location, chats));
 
   const onBottom = () => {
-    const heightBody = chatBodyRef.current.offsetHeight;
-    overlayRef.current.scroll(0, heightBody);
+    const heightBody = chatBodyRef?.current?.offsetHeight;
+    overlayRef?.current?.scroll(0, heightBody);
   }
-  // console.log(selectedChat);
-  // console.log(isGroupChat);
+
   useEffect(() => {
-    setChatId(getChatIdFromUrl(location, chats));
     const fetch = async () => {
+      setMessages({messages: []});
       setLoading(true);
       const messages = await dispatch(getMessages(chatId));
       setMessages({messages});
@@ -70,14 +48,14 @@ const Conversation = ({selectedChat, isGroupChat}) => {
       }, 300)
     }
     fetch();
-  }, []);
+  }, [chatId]);
 
   const showScrollDownButton = debounce(setVisible, 500);
 
   const onScrollEvent = () => {
-    const scroll = overlayRef.current.scrollTop;
-    const offsetHeight = overlayRef.current.offsetHeight;
-    const scrollHeight = overlayRef.current.scrollHeight;
+    const scroll = overlayRef?.current?.scrollTop;
+    const offsetHeight = overlayRef?.current?.offsetHeight;
+    const scrollHeight = overlayRef?.current?.scrollHeight;
     const maxScroll = scrollHeight - offsetHeight;
 
     if (scroll < maxScroll) {
@@ -95,7 +73,8 @@ const Conversation = ({selectedChat, isGroupChat}) => {
           {loading && (
             <Box sx={{position: 'relative', pt: 3, pb: 3}}>
               <CircularLoader/>
-            </Box>)}
+            </Box>
+          )}
           {messages.map(item => {
             const isAuth = item?.user?.id === authUserId;
 
@@ -123,7 +102,6 @@ const BoxWrapper = styled(Box)(({theme}) => ({
     overflow: 'overlay',
     overflowX: 'hidden',
     paddingRight: 15,
-    // height: '100%',
     scrollBehavior: 'smooth',
   },
 
@@ -143,9 +121,10 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   }
 }));
 
-Conversation.propTypes = {
+ChatBody.propTypes = {
+  chatId: PropTypes.number,
   selectedChat: PropTypes.object,
   isGroupChat: PropTypes.bool,
 }
 
-export default Conversation;
+export default ChatBody;
