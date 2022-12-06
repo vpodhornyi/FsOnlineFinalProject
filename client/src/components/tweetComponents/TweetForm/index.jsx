@@ -30,7 +30,6 @@ import {getPersonalData} from "../../../redux/user/selector";
 import {getTweetsState} from "../../../redux/tweet/selector";
 import {closeModal} from "../../../redux/modal/action";
 import api, {URLS} from "../../../services/API";
-import CustomImageList from "../../imageList/CustomImageList";
 import ImageListContainer from "../../imageList/ImageListContainer";
 
 export const TweetForm = ({
@@ -44,7 +43,6 @@ export const TweetForm = ({
     const [selectedEmoji, setSelectedEmoji] = useState("");
     const [showReplyText, setShowReplyText] = useState(false);
     const user = useSelector(getPersonalData);
-    const tweets = useSelector(getTweetsState);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -67,7 +65,7 @@ export const TweetForm = ({
                 "Content-Type": "multipart/form-data",
                 "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJib2IxMjM0IiwiZXhwIjoxNjcwMjg2NzE4LCJ1c2VyVGFnIjoiYm9iMTIzNCJ9.2_rtOJZ7MNtkJThkC45V1QO_wedagSkyYpmn6n7d06eLNNQcVFl8YXKPwYKiMZQBPKn0VvvRNpELl-FkL2-sGg"
             }
-        }).then(res => res.status&&setUploadPhotos((prev)=>[...prev,res.url]))
+        }).then(res => res.status && setUploadPhotos((prev) => [...prev, res.url]))
     };
 
     const handleFileUploadClick = () => {
@@ -83,14 +81,16 @@ export const TweetForm = ({
     };
 
     const onSubmit = () => {
-        // const curIndex = tweets[tweets.length - 1].id + 1;
+
+
         const newTweet = {
-            // id: curIndex,
             tweetType,
             body: tweetText,
+            images: uploadPhotos,
             user,
         };
         setTweetText("");
+        setUploadPhotos([])
         dispatch(createTweet(newTweet));
         dispatch(closeModal());
     };
@@ -113,7 +113,7 @@ export const TweetForm = ({
                         value={tweetText}
                         onChange={onInputChange}
                     />
-                    {uploadPhotos.length&&<ImageListContainer photos={uploadPhotos}/>}
+                    {uploadPhotos.length > 0 && <ImageListContainer photos={uploadPhotos}/>}
                     {showReplyText && placeholderText !== "Tweet your reply" && (
                         <ReplyText>
                             <PublicIcon fontSize={"small"} style={{paddingRight: 10}}/>{" "}
@@ -123,13 +123,13 @@ export const TweetForm = ({
                 </TweetInput>
                 <FormFooter>
                     <IconsList>
-                        <Icon disabled={uploadPhotos.length>=4}>
-                            <ImageIcon  onClick={handleFileUploadClick}/>
+                        <Icon disabled={uploadPhotos.length >= 4}>
+                            <ImageIcon onClick={handleFileUploadClick}/>
                             <input
                                 style={{display: "none"}}
                                 ref={inputRef}
                                 type="file"
-                                disabled={uploadPhotos.length>=4}
+                                disabled={uploadPhotos.length >= 4}
                                 onChange={handleUploadFile}
                             />
                         </Icon>

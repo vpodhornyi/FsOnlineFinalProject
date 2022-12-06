@@ -5,6 +5,7 @@ const INITIAL_STATE = {
   tweets: [],
 };
 export default (state = INITIAL_STATE, { payload, type }) => {
+  console.log(payload)
   switch (type) {
     case String(ACTIONS.getTweets.request):
       return {

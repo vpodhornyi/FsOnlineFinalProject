@@ -19,7 +19,8 @@ function CustomImageList({itemData}) {
             }}
         >
             {itemData&&
-                itemData.map((url, i) => {
+                itemData.map((el, i) => {
+                    const url = el?.imgUrl?el.imgUrl:el;
                     return (
                         <Box sx={{
                             backgroundImage: `url(${url})`,

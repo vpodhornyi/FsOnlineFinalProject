@@ -17,7 +17,7 @@ export const getTweets = () => async (dispatch) => {
   try {
     // dispatch(ACTIONS.getTweets.request());
     const data = await api.get(URLS.TWEET._ROOT);
-    // dispatch(ACTIONS.getTweets.success(data));
+    dispatch(ACTIONS.getTweets.success(data));
 
     return data;
 
@@ -31,6 +31,7 @@ export const createTweet = (obj) => async (dispatch) => {
   try {
     dispatch(ACTIONS.createTweet.request());
     const data = await api.post(URLS.TWEET.CREATE_TWEET, obj);
+    console.log(data)
     dispatch(ACTIONS.createTweet.success(obj));
 
   } catch (err) {

@@ -25,17 +25,17 @@ import {
   UserAvatar,
   UserName,
 } from "./style";
-import CustomImageList from "../../imageList/CustomImageList";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteTweet } from "../../../redux/tweet/action";
 import { openModal } from "../../../redux/modal/action";
 import { getActiveId } from "../../../redux/modal/selector";
 import DeleteTweet from "../DeleteTweet";
+import ImageListContainer from "../../imageList/ImageListContainer";
 const Tweet = ({ openReply = false, tweetInfo }) => {
   const dispatch = useDispatch();
   const activeId = useSelector(getActiveId);
   const { id, body, images } = tweetInfo;
   const { name, avatarImgUrl, userTag, created_at } = tweetInfo.user;
+  console.log(images)
   return (
     <>
       <TweetContainer>
@@ -83,18 +83,10 @@ const Tweet = ({ openReply = false, tweetInfo }) => {
             </IconBlue>
           )}
         </Content>
-        {!openReply && (
+        {!openReply &&images.length>0 && (
           <>
-            <ImageList
-              variant="masonry"
-              cols={3}
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              {!openReply && <CustomImageList itemData={images} />}
-            </ImageList>
+
+              <ImageListContainer photos={images} />
 
             <List
               component="ul"

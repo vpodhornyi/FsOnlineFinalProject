@@ -25,11 +25,11 @@ values (1, 2),
        (3, 5),
        (4, 1);
 
-INSERT INTO tweets (id, uuid, body, tweet_type, user_id)
-values (1, '4c85c829-f8c7-4505-8932-6dac1c9e01d4', 'Bob test tweet', 'TWEET', 1),
-       (2, '992217dd-7c49-47a8-9a14-f4566c5d5648', 'Jon test tweet', 'TWEET', 2),
-       (3, 'c9d2f623-967f-4aba-aefd-9f973c39441e', 'Lily test tweet', 'TWEET', 3),
-       (4, '072983bb-fd71-4fb0-a43e-584d8f7f53ba', 'Marta tweet', 'TWEET', 4);
+INSERT INTO tweets ( uuid, body, tweet_type, user_id)
+values ( '4c85c829-f8c7-4505-8932-6dac1c9e01d4', 'Bob test tweet', 'TWEET', 1),
+       ( '992217dd-7c49-47a8-9a14-f4566c5d5648', 'Jon test tweet', 'TWEET', 2),
+       ( 'c9d2f623-967f-4aba-aefd-9f973c39441e', 'Lily test tweet', 'TWEET', 3),
+       ( '072983bb-fd71-4fb0-a43e-584d8f7f53ba', 'Marta tweet', 'TWEET', 4);
 
 INSERT INTO tweet_actions (id, uuid, action_type, tweet_id, user_id)
 values (1, 'e6b8be4a-cc42-47b9-8be4-5db08164bf30', 'LIKE', 1, 2),

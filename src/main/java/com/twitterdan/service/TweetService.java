@@ -39,6 +39,7 @@ public class TweetService {
             tweet.setTweetType(tweetUpdate.getTweetType());
             tweet.setBody(tweetUpdate.getBody());
             tweet.setUser(tweetUpdate.getUser());
+
         tweetDao.save(tweet);
     }
         public Tweet findById(Long userId) {
@@ -59,9 +60,7 @@ public class TweetService {
         if (tweet.isPresent()) {
             Tweet validTweet = tweet.get();
             Set<AttachmentImage> images= validTweet.getImages();
-            AttachmentImage newImageTweet = new AttachmentImage();
-            System.out.println(newImageTweet.getId());
-
+            AttachmentImage newImageTweet = new AttachmentImage(tweetImgUrl,validTweet);
             imagesDao.save(newImageTweet);
             images.add(newImageTweet);
             validTweet.setImages(images);

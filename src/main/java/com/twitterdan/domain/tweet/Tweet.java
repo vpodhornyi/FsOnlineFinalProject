@@ -35,8 +35,7 @@ public class Tweet extends BaseEntity {
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private User user;
 
-  @OneToMany(mappedBy = "tweet")
-  @OnDelete(action = OnDeleteAction.CASCADE)
+  @OneToMany(mappedBy = "tweet",cascade = CascadeType.ALL)
   private Set<AttachmentImage> images=new HashSet<>();
 
   @OneToMany(mappedBy = "tweet")
@@ -47,4 +46,15 @@ public class Tweet extends BaseEntity {
   @OnDelete(action = OnDeleteAction.CASCADE)
   private Set<TweetAction> actions=new HashSet<>();
 
+  @Override
+  public String toString() {
+    return "Tweet{" +
+            "tweetType=" + tweetType +
+            ", body='" + body + '\'' +
+            ", user=" + user +
+            ", images=" + images +
+            ", notifications=" + notifications +
+            ", actions=" + actions +
+            '}';
+  }
 }
