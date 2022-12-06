@@ -12,9 +12,19 @@ import dialogReducer from "./dialog/reducer";
 import messageReducer from "./message/reducer";
 import messageSearchReducer from "./message/search/reducer";
 
+import chatsReducer from "./chats/reducer";
+import messagesReducer from "./chats/messages/reducer";
+
 const {applyMiddleware, combineReducers, createStore} = require("redux");
 
+const chats = combineReducers({
+  chats: chatsReducer,
+  messages: messagesReducer,
+  // messageSearch: messageSearchReducer,
+});
+
 const reducer = combineReducers({
+  chats,
   modal: modalReducer,
   tweet: tweetReducer,
   auth: authReducer,

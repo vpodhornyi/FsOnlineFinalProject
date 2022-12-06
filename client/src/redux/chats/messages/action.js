@@ -1,16 +1,13 @@
-import {createActions} from '../utils';
+import {createActions} from '../../utils';
 import api, {URLS} from "@service/API";
 
 const actions = createActions(
   {
-    actions: [
-      'RESET_ACTIVE_ID', 'SET_CHAT', 'START_CHATS_LOADING', 'END_CHATS_LOADING', 'LOADING_END',
-      'DETAIL_LOADING', 'SEND_MESSAGE', 'SET_NEW_MESSAGE'
-    ],
-    async: ['GET_CONVERSATION', 'SEARCH_USER', 'GET_MESSAGES', 'SEND_MESSAGE'],
+    actions: ['RESET_MESSAGES'],
+    async: ['GET_MESSAGES', 'SEND_MESSAGE'],
   },
   {
-    prefix: 'message',
+    prefix: 'messages',
   }
 );
 
@@ -19,20 +16,9 @@ export const ACTIONS = {
   ...actions.async,
 }
 
-export const getChats = (id) => async dispatch => {
-  try {
-    dispatch(ACTIONS.startChatsLoading());
-    const data = await api.get(URLS.CHATS.ROOT, {params: {userId: id}});
-    dispatch(ACTIONS.endChatsLoading({chats: data}));
-
-  } catch (err) {
-    console.log('getChats error - ', err);
-    dispatch(ACTIONS.endChatsLoading());
-  }
-}
-
 export const getMessages = (id) => async dispatch => {
   try {
+    dispatch(ACTIONS.resetMessages());
     dispatch(ACTIONS.getMessages.request());
     const data = await api.get(URLS.CHATS.MESSAGES, {params: {chatId: id}})
     dispatch(ACTIONS.getMessages.success({messages: data}));
@@ -56,19 +42,5 @@ export const sendMessage = ({chatId, text}) => async (dispatch, getState) => {
   } catch (err) {
     console.log('sendMessage error - ', err);
     dispatch(ACTIONS.sendMessage.fail());
-  }
-}
-
-export const getConversation = ({id}) => async dispatch => {
-  try {
-    dispatch(ACTIONS.setActiveId({id}));
-    dispatch(ACTIONS.detailLoading());
-    // await api.get()
-    setTimeout(() => {
-      dispatch(ACTIONS.detailLoading());
-    }, 500)
-
-  } catch (err) {
-    console.log('getConversation error - ', err);
   }
 }

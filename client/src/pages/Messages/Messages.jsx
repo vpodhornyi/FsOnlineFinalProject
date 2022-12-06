@@ -1,9 +1,9 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Outlet} from 'react-router-dom';
 
 import {SectionNavigation, SectionDetails} from '../../components';
-import {NavigationHeader} from './components';
-import ChatsList from './components/Navigation/ChatsList';
+import NavigationHeader from './components/NavigationHeader';
+import Navigation from './components/Navigation/Navigation';
 
 const Messages = () => {
 
@@ -11,7 +11,7 @@ const Messages = () => {
     <>
       <SectionNavigation>
         <NavigationHeader/>
-        <ChatsList/>
+        <Navigation/>
       </SectionNavigation>
       <SectionDetails>
         <Outlet/>

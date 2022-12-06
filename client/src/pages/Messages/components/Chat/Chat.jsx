@@ -1,44 +1,18 @@
-import React, {useEffect, useState} from "react";
-import {useSelector, useDispatch} from "react-redux";
-import {useRoutes, useNavigate} from "react-router-dom";
+import React from "react";
+import {useSelector} from "react-redux";
 import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import ChatHeader from "./Header";
-import {getMessageData} from "@redux/message/selector";
-import Loading from "@components/Loader/Loading";
+import ChatHeader from "./ChatHeader";
 import ChatBody from "./ChatBody";
-import {getMessages} from "../../../../redux/message/action";
-import {PATH} from "../../../../utils/constants";
-
+import {getChatsData} from '@redux/chats/selector';
 
 const Chat = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const {chat} = useSelector(getMessageData);
-  const {isDetailLoading, messages} = useSelector(getMessageData);
-  // const [{messages}, setMessages] = useState({messages: []});
-  const [fetching, setFetching] = useState(true);
-
-  useEffect(() => {
-    if (chat?.id) {
-      const fetch = async () => {
-        await dispatch(getMessages(chat?.id));
-        setFetching(false);
-      }
-      fetch();
-    } else {
-      navigate(PATH.MESSAGES.ROOT);
-    }
-  }, []);
+  const {selectedChat, isChatSelected, isGroupChat} = useSelector(getChatsData);
 
   return (
     <BoxWrapper>
-      <ChatHeader/>
-      {isDetailLoading ?
-        <Box sx={{height: '100%'}}>
-          <Loading/>
-        </Box>
-        : <ChatBody messages={messages}/>}
+      <ChatHeader selectedChat={selectedChat}/>
+      {isChatSelected && <ChatBody selectedChat={selectedChat} isGroupChat={isGroupChat}/>}
     </BoxWrapper>);
 }
 

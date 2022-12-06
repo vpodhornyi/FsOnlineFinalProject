@@ -1,14 +1,13 @@
 import React from "react";
 import {useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
 import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import {Avatar, Typography} from "@mui/material";
 import CustomIconButton from "@components/buttons/CustomIconButton";
-import {getMessageData} from "@redux/message/selector";
 import {StickyHeader} from '../../../../components';
+import PropTypes from "prop-types";;
 
-const Header = () => {
+const ChatHeader = ({selectedChat}) => {
   const navigate = useNavigate();
 
   return (
@@ -18,7 +17,7 @@ const Header = () => {
           <CustomIconButton name='ArrowBackOutlined' title='Back'/>
         </Box>
         <Avatar sx={{mr: '10px', width: '2.5rem', height: '2.5rem'}} src={'/'}/>
-        <Typography variant='h2'>{'Title'}</Typography>
+        <Typography variant='h2'>{selectedChat?.title}</Typography>
       </Box>
       <Box>
         <CustomIconButton name='InfoOutlined' title='Details'/>
@@ -26,7 +25,7 @@ const Header = () => {
     </StyledStickyHeader>);
 }
 
-const styles = ({theme}) => ({
+const StyledStickyHeader = styled(StickyHeader)(({theme}) => ({
   padding: '0 15px',
   '.avatarWrapper': {
     [theme.breakpoints.up('sm')]: {
@@ -44,8 +43,10 @@ const styles = ({theme}) => ({
       display: 'none',
     }
   }
-});
+}));
 
-const StyledStickyHeader = styled(StickyHeader)(styles);
+ChatHeader.propTypes = {
+  selectedChat: PropTypes.object,
+}
 
-export default Header;
+export default ChatHeader;

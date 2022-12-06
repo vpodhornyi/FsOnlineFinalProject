@@ -1,28 +1,28 @@
 import React from "react";
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
+import {useParams} from 'react-router-dom';
 import {styled} from "@mui/material/styles";
 import {useNavigate} from "react-router-dom";
 import {Avatar, Typography, Box} from "@mui/material";
 import PropTypes from "prop-types";
 
-import {ACTIONS, getMessages} from '@redux/message/action';
+import {ACTIONS} from '@redux/chats/action';
 import More from './More';
 import {PATH} from "../../../../utils/constants";
 
 const ChatRoute = ({chat}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {id: selectedChatId} = useSelector(state => state.message.chat);
+  const {id} = useParams();
 
   const handleChatClick = (chat) => {
-    dispatch(ACTIONS.setChat({chat}));
-    dispatch(getMessages(chat.id));
-    navigate(`${PATH.MESSAGES.ROOT}/${chat?.id}`)
+    dispatch(ACTIONS.setChatId({chatId: chat?.id}));
+    navigate(`${PATH.MESSAGES.ROOT}/${chat?.id}`);
   }
 
   return (
     <BoxWrapper onClick={() => handleChatClick(chat)}>
-      <Box className={selectedChatId && (selectedChatId === chat.id) ? `ChatRoutWrapperActive` : ''}>
+      <Box className={id && (id == chat.id) ? `ChatRoutWrapperActive` : ''}>
         <Box sx={{display: 'flex'}}>
           <Avatar sx={{mr: '10px', width: '3rem', height: '3rem'}} src={chat.avatarImgUrl}/>
           <Box>
@@ -51,6 +51,8 @@ const ChatRoute = ({chat}) => {
 }
 
 const styles = ({theme}) => ({
+  position: 'relative',
+
   '& .ChatRoutWrapperActive': {
     backgroundColor: 'rgb(239, 243, 244)',
     borderRight: `2px ${theme.palette.primary.main} solid`,

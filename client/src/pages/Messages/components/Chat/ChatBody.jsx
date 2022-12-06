@@ -1,14 +1,18 @@
 import React, {useEffect, useRef, useState} from "react";
-import {useSelector} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
+import {useLocation, useParams} from 'react-router-dom';
 import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
+import PropTypes from "prop-types";
+
 import StartMessage from "./footer/StartMessage";
 import UserInfo from "./UserInfo";
 import Message from "./Message";
 import ScrollDownButton from "./ScrollDownButton";
-import {getMessageData} from "@redux/message/selector";
-import PropTypes from "prop-types";
-import ChatsList from "../Navigation/ChatsList";
+import {CircularLoader} from "../../../../components";
+import {getMessages} from "@redux/chats/messages/action";
+import {getMessagesData, getChatsData} from "@redux/chats/selector";
+import {PATH} from "../../../../utils/constants";
 
 const debounce = (callback, delay) => {
   let timer = null;
@@ -20,20 +24,52 @@ const debounce = (callback, delay) => {
     }, delay)
   }
 }
-
-const Conversation = ({messages}) => {
+const getChatIdFromUrl = (location, chats) => {
+  const path = location.pathname.split('/');
+  if (`/${path[1]}` === PATH.MESSAGES.ROOT) {
+    const id = parseInt(path[2]);
+    if (id) {
+      if (chats.find(v => v.id === id)) {
+        return id;
+      } else {
+        // navigate(PATH.MESSAGES.ROOT);
+      }
+    }
+  }
+}
+const Conversation = ({selectedChat, isGroupChat}) => {
+  const {id} = useParams();
+  console.log(id);
+  const dispatch = useDispatch();
+  const location = useLocation();
   const [visible, setVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [{messages}, setMessages] = useState({messages: []});
   const overlayRef = useRef();
   const chatBodyRef = useRef();
-  const {user: {id}} = useSelector(state => state.user);
+  const {chats} = useSelector(getChatsData);
+  const {isMessagesLoading, messages: foo} = useSelector(getMessagesData);
+  const {user: {id: authUserId}} = useSelector(state => state.user);
+  const [chatId, setChatId] = useState(getChatIdFromUrl(location, chats));
 
   const onBottom = () => {
     const heightBody = chatBodyRef.current.offsetHeight;
     overlayRef.current.scroll(0, heightBody);
   }
-
+  // console.log(selectedChat);
+  // console.log(isGroupChat);
   useEffect(() => {
-    onBottom();
+    setChatId(getChatIdFromUrl(location, chats));
+    const fetch = async () => {
+      setLoading(true);
+      const messages = await dispatch(getMessages(chatId));
+      setMessages({messages});
+      setLoading(false);
+      setTimeout(() => {
+        onBottom();
+      }, 300)
+    }
+    fetch();
   }, []);
 
   const showScrollDownButton = debounce(setVisible, 500);
@@ -55,9 +91,13 @@ const Conversation = ({messages}) => {
     <BoxWrapper>
       <Box ref={overlayRef} className='Overlay' onScroll={onScrollEvent}>
         <Box ref={chatBodyRef} className='MessagesBox'>
-          <UserInfo/>
+          {!isGroupChat && <UserInfo/>}
+          {loading && (
+            <Box sx={{position: 'relative', pt: 3, pb: 3}}>
+              <CircularLoader/>
+            </Box>)}
           {messages.map(item => {
-            const isAuth = item?.user?.id === id;
+            const isAuth = item?.user?.id === authUserId;
 
             return <Message key={item?.key} left={!isAuth} text={item?.text}/>
           })}
@@ -70,7 +110,7 @@ const Conversation = ({messages}) => {
     </BoxWrapper>);
 }
 
-const styles = ({theme}) => ({
+const BoxWrapper = styled(Box)(({theme}) => ({
   boxSizing: 'border-box',
   position: 'relative',
   width: '100%',
@@ -83,7 +123,8 @@ const styles = ({theme}) => ({
     overflow: 'overlay',
     overflowX: 'hidden',
     paddingRight: 15,
-    // scrollBehavior: 'smooth',
+    // height: '100%',
+    scrollBehavior: 'smooth',
   },
 
   '& > .MuiBox-root > .MessagesBox': {
@@ -100,12 +141,11 @@ const styles = ({theme}) => ({
   '& .ScrollDownButton': {
     animation: 'fadein 0.5s',
   }
-});
-
-const BoxWrapper = styled(Box)(styles);
+}));
 
 Conversation.propTypes = {
-  messages: PropTypes.array,
+  selectedChat: PropTypes.object,
+  isGroupChat: PropTypes.bool,
 }
 
 export default Conversation;
