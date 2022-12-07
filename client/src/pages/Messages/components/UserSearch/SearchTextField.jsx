@@ -1,36 +1,21 @@
-import React, {useEffect, useRef} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import React from "react";
 import {styled} from "@mui/material/styles";
 import {TextField} from "@mui/material";
-import {ACTIONS, searchUser} from "@redux/message/search/action";
-import {getMessageSearchData} from "@redux/message/search/selector";
+import PropTypes from "prop-types";
 
-const SearchTextField = () => {
-  const inputRef = useRef();
-  const dispatch = useDispatch();
-  const {text} = useSelector(getMessageSearchData);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      dispatch(searchUser({text}));
-    }, 500);
-    inputRef.current.focus();
-
-    return () => clearTimeout(timer);
-  }, [text])
-
+const SearchTextField = ({text, onChange, inputRef}) => {
   return (
     <TextFieldWrapper
       inputRef={inputRef}
       value={text}
-      onChange={e => dispatch(ACTIONS.setSearchText({text: e.target.value}))}
+      onChange={onChange}
       placeholder="Search people"
       variant="standard"
       fullWidth/>
   )
 }
 
-const styles = ({theme}) => ({
+const TextFieldWrapper = styled(TextField)(({theme}) => ({
   '& .MuiInputBase-root': {
     paddingLeft: 50,
     paddingBottom: 5,
@@ -43,9 +28,12 @@ const styles = ({theme}) => ({
       content: 'none'
     },
   },
+}));
 
-});
-
-const TextFieldWrapper = styled(TextField)(styles);
+SearchTextField.propTypes = {
+  text: PropTypes.string,
+  onChange: PropTypes.func,
+  inputRef: PropTypes.object,
+}
 
 export default SearchTextField;

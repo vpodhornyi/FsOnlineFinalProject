@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
+import {useDebouncedCallback} from 'use-debounce';
 import PropTypes from "prop-types";
 
 import StartMessage from "./footer/StartMessage";
@@ -9,24 +10,13 @@ import UserInfo from "./UserInfo";
 import Message from "./Message";
 import ScrollDownButton from "./ScrollDownButton";
 import {CircularLoader} from "../../../../components";
-import {getMessages} from "@redux/chats/messages/action";
-
-const debounce = (callback, delay) => {
-  let timer = null;
-
-  return (...args) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      callback(...args)
-    }, delay)
-  }
-}
+import {getMessages} from "@redux/chat/messages/action";
 
 const ChatBody = ({chatId, isGroupChat}) => {
   const overlayRef = useRef();
   const chatBodyRef = useRef();
   const dispatch = useDispatch();
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
   const [loading, setLoading] = useState(false);
   const [{messages}, setMessages] = useState({messages: []});
   const {user: {id: authUserId}} = useSelector(state => state.user);
@@ -50,7 +40,7 @@ const ChatBody = ({chatId, isGroupChat}) => {
     fetch();
   }, [chatId]);
 
-  const showScrollDownButton = debounce(setVisible, 500);
+  const showScrollDownButton = useDebouncedCallback(v => setVisible(v), 300);
 
   const onScrollEvent = () => {
     const scroll = overlayRef?.current?.scrollTop;
@@ -80,12 +70,15 @@ const ChatBody = ({chatId, isGroupChat}) => {
 
             return <Message key={item?.key} left={!isAuth} text={item?.text}/>
           })}
+
         </Box>
       </Box>
-      <Box onClick={onBottom}>
-        {visible && <ScrollDownButton visible={visible}/>}
+      <Box sx={{position: 'relative'}}>
+        <Box onClick={onBottom}>
+          {visible && <ScrollDownButton visible={visible}/>}
+        </Box>
+        <StartMessage onBottom={onBottom}/>
       </Box>
-      <StartMessage onBottom={onBottom}/>
     </BoxWrapper>);
 }
 
@@ -102,7 +95,7 @@ const BoxWrapper = styled(Box)(({theme}) => ({
     overflow: 'overlay',
     overflowX: 'hidden',
     paddingRight: 15,
-    scrollBehavior: 'smooth',
+    // scrollBehavior: 'smooth',
   },
 
   '& > .MuiBox-root > .MessagesBox': {

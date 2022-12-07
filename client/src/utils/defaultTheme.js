@@ -39,6 +39,10 @@ export const themeStyles = {
       secondary: 'rgb(26, 140, 216)',
       contrastText: '#ffd400'
     },
+    follow: {
+      main: 'rgb(15, 20, 25)',
+      secondary: 'rgb(39, 40, 48)',
+    },
     neutral: {
       main: '#ffd400',
     },

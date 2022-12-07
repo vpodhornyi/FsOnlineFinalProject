@@ -1,19 +1,15 @@
 import React, {useContext} from "react";
-import {useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
 import {styled} from "@mui/material/styles";
 import {Box, Typography} from "@mui/material";
-import CustomIconButton from "@components/buttons/CustomIconButton";
-import CustomFabButton from "@components/buttons/CustomFabButton";
-import {getMessageSearchData} from '@redux/message/search/selector';
-import {useNavigate} from "react-router-dom";
+import {CustomIconButton, FollowButton} from "@components";
 import {BackgroundContext} from "../../../../utils/context";
-import {PATH} from "../../../../utils/constants";
+import {PATH} from "@utils/constants";
+import PropTypes from "prop-types";
 
-const Index = () => {
+const NewMessageHeader = ({isNext, next}) => {
   const {background} = useContext(BackgroundContext);
   const navigate = useNavigate();
-  const {isEmptyGrabbedUsers} = useSelector(getMessageSearchData);
-
 
   return (
     <BoxWrapper>
@@ -23,15 +19,13 @@ const Index = () => {
         </Box>
         <Typography variant='h2'>New message</Typography>
       </Box>
-      <Box
-        onClick={() => next()}
-        className={isEmptyGrabbedUsers && 'NextButtonWrapper'}>
-        <CustomFabButton name='Next' disabled={isEmptyGrabbedUsers}/>
+      <Box onClick={next}>
+        <FollowButton name='Next' disabled={isNext}/>
       </Box>
     </BoxWrapper>);
 }
 
-const styles = ({theme}) => ({
+const BoxWrapper = styled(Box)(({theme}) => ({
   marginBottom: 20,
   width: '100%',
   display: 'flex',
@@ -64,9 +58,11 @@ const styles = ({theme}) => ({
       backgroundColor: '#000000',
     },
   }
+}));
 
-});
+NewMessageHeader.propTypes = {
+  isNext: PropTypes.bool,
+  next: PropTypes.func,
+}
 
-const BoxWrapper = styled(Box)(styles);
-
-export default Index;
+export default NewMessageHeader;

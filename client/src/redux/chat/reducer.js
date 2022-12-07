@@ -8,6 +8,18 @@ const init = {
 
 export default (state = init, {payload, type}) => {
   switch (type) {
+    case String(ACTIONS.setNewChat):
+      state.chats = [payload.entity, ...state.chats]
+      return {...state};
+
+    case String(ACTIONS.setNewText):
+      const {chatId, text} = payload;
+      const chat = state.chats.find(v => v.id === chatId);
+      chat.newText = text;
+
+      return {
+        ...state,
+      };
     case String(ACTIONS.setChatId):
       return {
         ...state,

@@ -3,7 +3,8 @@ import api, {URLS} from "@service/API";
 
 const actions = createActions(
   {
-    actions: ['SET_CHAT_ID', 'RESET_CHAT_ID'],
+    actions: ['SET_CHAT_ID', 'RESET_CHAT_ID', 'SET_NEW_TEXT',
+      'SET_NEW_CHAT', 'SET_NEW_GROUP'],
     async: ['GET_CHATS'],
   },
   {
@@ -28,5 +29,24 @@ export const getChats = (id) => async dispatch => {
     console.log('getChats error - ', err);
     dispatch(ACTIONS.getChats.fail());
     return [];
+  }
+}
+
+export const searchUser = ({text}) => async dispatch => {
+  try {
+    return await api.get(URLS.USERS.SEARCH, {params: {text}});
+
+  } catch (err) {
+    console.log('searchUser error - ', err);
+    return [];
+  }
+}
+
+export const addNewChat = ({text}) => async dispatch => {
+  try {
+    return await api.get(URLS.USERS.SEARCH, {params: {text}});
+
+  } catch (err) {
+    console.log('addNewChat error - ', err);
   }
 }

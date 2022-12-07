@@ -5,18 +5,18 @@ import {Box} from "@mui/material";
 import PropTypes from "prop-types";
 
 import {getMessageData} from "@redux/message/selector";
-import {ACTIONS, sendMessage} from "@redux/message/action";
+import {getChatsData} from "@redux/chat/selector";
+import {ACTIONS, sendMessage} from "@redux/chat/messages/action";
 import {CustomIconButton} from "../../../../../components";
 import CustomTextField from "./CustomTextField";
 
 const StartMessage = ({onBottom}) => {
   const inputRef = useRef();
-  const {newMessage: {chatId, text}} = useSelector(getMessageData);
+  const {chatId, newText} = useSelector(getChatsData);
   const dispatch = useDispatch();
 
   const send = () => {
-    dispatch(sendMessage({chatId, text}));
-    dispatch(ACTIONS.setNewMessage({chatId, text: ''}));
+    dispatch(sendMessage({chatId, text: newText}));
     inputRef.current.focus();
     setTimeout(() => {
       onBottom();
@@ -41,9 +41,9 @@ const StartMessage = ({onBottom}) => {
         <Box>
           <CustomIconButton color='primary' name='EmojiEmotionsOutlined' iconSize='small'/>
         </Box>
-        <CustomTextField enterKeyDown={enterKeyDown} inputRef={inputRef}/>
+        <CustomTextField chatId={chatId} newText={newText} enterKeyDown={enterKeyDown} inputRef={inputRef}/>
         <Box onClick={send}>
-          <CustomIconButton color='primary' name='SendOutlined' iconSize='small' disabled={text?.trim() === ''}/>
+          <CustomIconButton color='primary' name='SendOutlined' iconSize='small' disabled={newText?.trim() === ''}/>
         </Box>
       </ButtonsBoxWrapper>
     </BoxWrapper>

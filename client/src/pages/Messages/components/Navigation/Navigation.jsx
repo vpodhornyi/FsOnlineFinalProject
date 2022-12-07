@@ -3,9 +3,9 @@ import {useSelector, useDispatch} from "react-redux";
 import {Box} from "@mui/material";
 import PropTypes from "prop-types";
 
-import {getChatsData} from '@redux/chats/selector';
+import {getChatsData} from '@redux/chat/selector';
 import ChatRoute from "./ChatRoute";
-import {getChats} from "@redux/chats/action";
+import {getChats} from "@redux/chat/action";
 import ActionWelcome from "./ActionWelcome";
 import SearchBox from "./SearchBox";
 import {CircularLoader} from "../../../../components";

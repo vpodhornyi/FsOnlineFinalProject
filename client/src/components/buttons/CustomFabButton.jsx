@@ -4,7 +4,6 @@ import Fab from '@mui/material/Fab';
 import {Typography} from "@mui/material";
 import PropTypes from "prop-types";
 
-
 const CustomFabButton = ({onClick, className, name, disabled}) => {
   return (
     <FabWrapper
@@ -24,6 +23,7 @@ const styles = ({theme}) => ({
   '&:active': {
     boxShadow: 'none',
   },
+
   '& .MuiTouchRipple-root': {
     display: 'none'
   },

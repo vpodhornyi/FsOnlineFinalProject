@@ -1,15 +1,12 @@
 import React from "react";
-import {useSelector, useDispatch} from "react-redux";
+import {useDispatch} from "react-redux";
 import {styled} from "@mui/material/styles";
 import {Avatar, Box, Typography} from "@mui/material";
 import PropTypes from "prop-types";
-import {ACTIONS as MESSAGE_SEARCH_ACTIONS} from '@redux/message/search/action';
 
-const FoundUser = ({user}) => {
-  const dispatch = useDispatch();
-
+const FoundUser = ({user, grabUser}) => {
   return (
-    <BoxWrapper onClick={() => dispatch(MESSAGE_SEARCH_ACTIONS.grabUser({user}))}>
+    <BoxWrapper onClick={() => grabUser(user)}>
       <Avatar sx={{mr: '10px', width: '2.5rem', height: '2.5rem'}} src={user?.avatarImgUrl}/>
       <Box>
         <Typography sx={{fontWeight: 600}}>{user.name}</Typography>
@@ -40,6 +37,7 @@ const BoxWrapper = styled(Box)(styles);
 
 FoundUser.propTypes = {
   user: PropTypes.object,
+  grabUser: PropTypes.func,
 }
 
 export default FoundUser;

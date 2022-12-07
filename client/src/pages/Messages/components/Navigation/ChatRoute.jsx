@@ -5,7 +5,7 @@ import {styled} from "@mui/material/styles";
 import {Avatar, Typography, Box} from "@mui/material";
 import PropTypes from "prop-types";
 
-import {ACTIONS} from '@redux/chats/action';
+import {ACTIONS} from '@redux/chat/action';
 import More from './More';
 import {PATH} from "@utils/constants";
 

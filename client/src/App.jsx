@@ -10,7 +10,7 @@ import {menu} from './utils/menu';
 import {BackgroundContext} from "./utils/context";
 import MainRoutes from './routes/MainRoutes';
 import ModalRoutes from './routes/ModalRoutes';
-import {getChatsData} from '@redux/chats/selector';
+import {getChatsData} from '@redux/chat/selector';
 
 const App = () => {
   const {authorized} = useSelector(state => state.auth);

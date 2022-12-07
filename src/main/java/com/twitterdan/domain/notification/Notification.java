@@ -1,6 +1,5 @@
 package com.twitterdan.domain.notification;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.twitterdan.domain.BaseEntity;
 import com.twitterdan.domain.tweet.Tweet;
 import com.twitterdan.domain.user.User;

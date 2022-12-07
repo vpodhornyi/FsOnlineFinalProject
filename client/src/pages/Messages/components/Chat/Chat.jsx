@@ -5,8 +5,8 @@ import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import ChatHeader from "./ChatHeader";
 import ChatBody from "./ChatBody";
-import {getChatsData} from '@redux/chats/selector';
-import {ACTIONS} from '@redux/chats/action';
+import {getChatsData} from '@redux/chat/selector';
+import {ACTIONS} from '@redux/chat/action';
 import {PATH} from "../../../../utils/constants";
 
 const Chat = () => {

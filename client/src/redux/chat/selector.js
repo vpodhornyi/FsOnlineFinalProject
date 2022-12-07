@@ -1,6 +1,6 @@
 export const getChatsData = state => {
   if (state) {
-    const data = JSON.parse(JSON.stringify(state.chats.chats));
+    const data = JSON.parse(JSON.stringify(state.chat.chats));
     const selectedChat = data.chats.find(v => v.id === data.chatId) || {};
 
     return {
@@ -11,17 +11,7 @@ export const getChatsData = state => {
       chats: data.chats,
       chatId: data.chatId,
       selectedChat,
-    }
-  }
-}
-
-export const getMessagesData = state => {
-  if (state) {
-    const data = JSON.parse(JSON.stringify(state.chats.messages));
-
-    return {
-      isMessagesLoading: data.loading,
-      messages: data.messages,
+      newText: selectedChat?.newText,
     }
   }
 }
