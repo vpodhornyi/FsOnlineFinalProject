@@ -23,9 +23,9 @@ const debounce = (callback, delay) => {
 }
 
 const ChatBody = ({chatId, isGroupChat}) => {
-  const dispatch = useDispatch();
   const overlayRef = useRef();
   const chatBodyRef = useRef();
+  const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [{messages}, setMessages] = useState({messages: []});
