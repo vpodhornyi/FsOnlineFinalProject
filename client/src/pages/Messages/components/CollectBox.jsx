@@ -2,7 +2,6 @@ import React from "react";
 import Box from "@mui/material/Box";
 import {styled} from "@mui/material/styles";
 import ChatInfo from "./ChatInfo";
-import Chat from "./Chat";
 import Navigation from './Navigation';
 import {getMessageData} from '@redux/message/selector';
 import {useSelector} from "react-redux";

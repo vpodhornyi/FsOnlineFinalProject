@@ -27,7 +27,7 @@ const Chat = () => {
     } catch (e) {
       navigate(PATH.MESSAGES.ROOT);
     }
-  }, []);
+  }, [id]);
 
   return (
     <BoxWrapper>

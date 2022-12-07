@@ -25,7 +25,7 @@ const CustomTextField = function ({enterKeyDown, inputRef}) {
     variant="filled"/>
 }
 
-const styles = theme => ({
+const TextFieldWrapper = styled(TextField)(({theme}) => ({
   width: '95%',
   maxHeight: '150px',
   paddingTop: '5px',
@@ -57,9 +57,7 @@ const styles = theme => ({
   '& .MuiInputBase-root:after': {
     content: 'none'
   },
-});
-
-const TextFieldWrapper = styled(TextField)(styles);
+}));
 
 CustomTextField.propTypes = {
   enterKeyDown: PropTypes.func,
