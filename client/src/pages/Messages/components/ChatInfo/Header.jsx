@@ -1,15 +1,12 @@
 import React from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
 import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import {Typography} from "@mui/material";
 import CustomIconButton from "@components/buttons/CustomIconButton";
-import {ACTIONS as MESSAGE_ACTIONS} from "@redux/message/action";
-import { getMessageData} from "@redux/message/selector";
 import {StickyHeader} from '../../../../components';
-import {useNavigate} from "react-router-dom";
 
-const SectionNavigation = () => {
+const ChatInfoHeader = () => {
   const navigate = useNavigate();
 
   return (
@@ -36,5 +33,4 @@ const styles = ({theme}) => ({
 });
 
 const StyledStickyHeader = styled(StickyHeader)(styles);
-
-export default SectionNavigation;
+export default ChatInfoHeader;

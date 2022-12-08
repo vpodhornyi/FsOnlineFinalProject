@@ -3,7 +3,7 @@ import {useSelector} from "react-redux";
 import {Link} from "react-router-dom";
 import {styled} from "@mui/material/styles";
 import {Avatar, Box, Typography} from "@mui/material";
-import {getMessageData} from "@redux/message/selector";
+import {getChatsData} from "@redux/chat/selector";
 
 const styles = ({theme}) => ({
   paddingTop: 70,
@@ -25,14 +25,14 @@ const styles = ({theme}) => ({
 const BoxWrapper = styled(Box)(styles);
 
 const Index = () => {
-  const chat = useSelector(getMessageData);
+  const {selectedChat} = useSelector(getChatsData);
 
   return (
     <Link to='/user_name' style={{textDecoration: 'none'}}>
       <BoxWrapper>
-        <Avatar sx={{width: '5rem', height: '5rem'}} src={chat.avatarImgUrl}/>
-        <Typography sx={{fontWeight: 600}}>{chat.name}</Typography>
-        <Typography sx={{pb: 2}}>{chat.userTag}</Typography>
+        <Avatar sx={{width: '5rem', height: '5rem'}} src={selectedChat.avatarImgUrl}/>
+        <Typography sx={{fontWeight: 600}}>{selectedChat.name}</Typography>
+        <Typography sx={{pb: 2}}>{selectedChat.userTag}</Typography>
         <Typography>Joined November 2022 · 1 Follower</Typography>
         <Typography>User Tag</Typography>
       </BoxWrapper>

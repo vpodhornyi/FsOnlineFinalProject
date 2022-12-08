@@ -1,6 +1,6 @@
 export const getChatsData = state => {
   if (state) {
-    const data = JSON.parse(JSON.stringify(state.chat.chats));
+    const data = JSON.parse(JSON.stringify(state.chat));
     const selectedChat = data.chats.find(v => v.id === data.chatId) || {};
 
     return {
