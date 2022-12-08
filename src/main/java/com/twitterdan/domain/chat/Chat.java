@@ -7,6 +7,7 @@ import com.twitterdan.domain.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -17,6 +18,7 @@ import java.util.Set;
 @Table(name = "chats")
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 public class Chat extends BaseEntity {
 
@@ -31,11 +33,4 @@ public class Chat extends BaseEntity {
   @OneToMany(mappedBy = "chat")
   @JsonIgnore
   private Set<Message> messages;
-
-  @Override
-  public String toString() {
-    return "Chat{" +
-      "title='" + title + '\'' +
-      '}';
-  }
 }

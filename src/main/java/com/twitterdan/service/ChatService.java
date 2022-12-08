@@ -4,12 +4,14 @@ import com.twitterdan.dao.ChatRepository;
 import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.exception.CouldNotFindChatException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class ChatService {
   private final ChatRepository chatRepository;
 

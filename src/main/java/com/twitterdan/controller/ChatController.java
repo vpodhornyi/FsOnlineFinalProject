@@ -6,7 +6,9 @@ import com.twitterdan.dto.chat.ChatRequest;
 import com.twitterdan.dto.chat.ChatResponse;
 import com.twitterdan.dto.chat.MessageRequest;
 import com.twitterdan.dto.chat.MessageResponse;
+import com.twitterdan.facade.chat.ChatRequestMapper;
 import com.twitterdan.facade.chat.ChatResponseMapper;
+import com.twitterdan.facade.chat.MessageRequestMapper;
 import com.twitterdan.facade.chat.MessageResponseMapper;
 import com.twitterdan.service.ChatService;
 import com.twitterdan.service.MessageService;
@@ -25,7 +27,9 @@ public class ChatController {
   private final ChatService chatService;
   private final MessageService messageService;
   private final MessageResponseMapper messageResponseMapper;
+  private final MessageRequestMapper messageRequestMapper;
   private final ChatResponseMapper chatResponseMapper;
+  private final ChatRequestMapper chatRequestMapper;
 
   @GetMapping
   public ResponseEntity<List<ChatResponse>> getChats(@RequestParam Long userId) {
@@ -36,8 +40,9 @@ public class ChatController {
   }
 
   @PostMapping
-  public ResponseEntity<ChatResponse> addChat(@RequestBody ChatRequest newChat) {
-    System.out.println(newChat);
+  public ResponseEntity<ChatResponse> addChat(@RequestBody ChatRequest chatRequest) {
+    Chat chat = chatRequestMapper.convertToEntity(chatRequest);
+    System.out.println(chat);
     return ResponseEntity.ok(null);
   }
 

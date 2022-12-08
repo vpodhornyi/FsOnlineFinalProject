@@ -63,6 +63,7 @@ const Element = () => {
       let id = Date.now();
       const entity = {
         id,
+        userId: user.id,
         key: getRandomKey(),
         type: grabbedUsers.length === 1 ? NEW_PRIVATE : NEW_GROUP,
         users: [...grabbedUsers],
