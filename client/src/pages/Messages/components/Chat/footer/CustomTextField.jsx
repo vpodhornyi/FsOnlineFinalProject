@@ -1,24 +1,26 @@
 import React, {useState, useEffect} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {TextField} from "@mui/material";
+import {useDebouncedCallback} from 'use-debounce';
+import PropTypes from "prop-types";
+
 import {ACTIONS} from "@redux/chat/action";
 import {styled} from "@mui/material/styles";
-import PropTypes from "prop-types";
-import {useDebouncedCallback} from 'use-debounce';
 
 const CustomTextField = function ({chatId, newText, enterKeyDown, inputRef}) {
   const [text, setText] = useState('');
   const dispatch = useDispatch();
-  const debounced = useDebouncedCallback(text => dispatch(ACTIONS.setNewText({chatId, text})), 300);
+  const debounced = useDebouncedCallback((text, e) => {
+    dispatch(ACTIONS.setNewText({chatId, text}))
+  }, 300);
   const handleChange = (e) => {
     setText(() => e.target.value);
-    debounced(e.target.value);
+    debounced(e.target.value, e);
   }
 
   useEffect(() => {
     setText(() => newText || '');
-  }, [chatId])
-
+  }, [chatId, newText])
 
   return <TextFieldWrapper
     inputRef={inputRef}

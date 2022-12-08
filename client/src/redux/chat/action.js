@@ -5,7 +5,7 @@ const actions = createActions(
   {
     actions: ['SET_CHAT_ID', 'RESET_CHAT_ID', 'SET_NEW_TEXT',
       'SET_NEW_CHAT', 'SET_NEW_GROUP'],
-    async: ['GET_CHATS'],
+    async: ['GET_CHATS', 'SEND_MESSAGE'],
   },
   {
     prefix: 'chats',
@@ -44,9 +44,32 @@ export const searchUser = ({text}) => async dispatch => {
 
 export const addNewChat = ({text}) => async dispatch => {
   try {
-    return await api.get(URLS.USERS.SEARCH, {params: {text}});
+    const body = {};
+    return await api.post(URLS.CHATS.ROOT, body);
 
   } catch (err) {
     console.log('addNewChat error - ', err);
+  }
+}
+
+export const getMessages = (id) => async dispatch => {
+  try {
+    return await api.get(URLS.CHATS.MESSAGES, {params: {chatId: id}});
+
+  } catch (err) {
+    console.log('getChats error - ', err);
+    return [];
+  }
+}
+
+export const sendMessage = ({chatId, text}) => async (dispatch, getState) => {
+  try {
+    const {user: {user}} = getState();
+    const body = {chatId, text, userId: user?.id};
+    return await api.post(URLS.CHATS.MESSAGES, body);
+
+  } catch (err) {
+    console.log('sendMessage error - ', err);
+    return {};
   }
 }

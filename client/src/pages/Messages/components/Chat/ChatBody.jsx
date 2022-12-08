@@ -10,16 +10,31 @@ import UserInfo from "./UserInfo";
 import Message from "./Message";
 import ScrollDownButton from "./ScrollDownButton";
 import {CircularLoader} from "../../../../components";
-import {getMessages} from "@redux/chat/messages/action";
+import {ACTIONS, getMessages, sendMessage} from "@redux/chat/action";
+import {getChatsData} from "@redux/chat/selector";
 
 const ChatBody = ({chatId, isGroupChat}) => {
   const overlayRef = useRef();
   const chatBodyRef = useRef();
+  const inputRef = useRef();
   const dispatch = useDispatch();
-  const [visible, setVisible] = useState(true);
+  const {newText} = useSelector(getChatsData);
+  const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [sending, setSending] = useState(false);
   const [{messages}, setMessages] = useState({messages: []});
   const {user: {id: authUserId}} = useSelector(state => state.user);
+  const showScrollDownButton = useDebouncedCallback(v => setVisible(v), 300);
+  const fetch = useDebouncedCallback(async (id) => {
+    setMessages({messages: []});
+    setLoading(true);
+    const messages = await dispatch(getMessages(id));
+    setMessages({messages});
+    setLoading(false);
+    setTimeout(() => {
+      onBottom();
+    }, 300)
+  }, 500);
 
   const onBottom = () => {
     const heightBody = chatBodyRef?.current?.offsetHeight;
@@ -27,20 +42,9 @@ const ChatBody = ({chatId, isGroupChat}) => {
   }
 
   useEffect(() => {
-    const fetch = async () => {
-      setMessages({messages: []});
-      setLoading(true);
-      const messages = await dispatch(getMessages(chatId));
-      setMessages({messages});
-      setLoading(false);
-      setTimeout(() => {
-        onBottom();
-      }, 300)
-    }
-    fetch();
+    fetch(chatId);
   }, [chatId]);
 
-  const showScrollDownButton = useDebouncedCallback(v => setVisible(v), 300);
 
   const onScrollEvent = () => {
     const scroll = overlayRef?.current?.scrollTop;
@@ -52,6 +56,29 @@ const ChatBody = ({chatId, isGroupChat}) => {
       showScrollDownButton(true);
     } else if (scroll === maxScroll) {
       showScrollDownButton(false);
+    }
+  }
+
+  const send = async () => {
+    if (newText.trim() !== '') {
+      setSending(true);
+      dispatch(ACTIONS.setNewText({chatId, text: ''}));
+      const data = await dispatch(sendMessage({chatId, text: newText}));
+      if (data?.id) {
+        messages.push(data);
+        setMessages({messages});
+      }
+      inputRef.current.focus();
+      setTimeout(() => {
+        onBottom();
+        setSending(false);
+      }, 500)
+    }
+  }
+
+  const enterKeyDown = (e) => {
+    if (e.keyCode === 13) {
+      send();
     }
   }
 
@@ -67,17 +94,22 @@ const ChatBody = ({chatId, isGroupChat}) => {
           )}
           {messages.map(item => {
             const isAuth = item?.user?.id === authUserId;
-
             return <Message key={item?.key} left={!isAuth} text={item?.text}/>
           })}
-
         </Box>
       </Box>
       <Box sx={{position: 'relative'}}>
         <Box onClick={onBottom}>
           {visible && <ScrollDownButton visible={visible}/>}
         </Box>
-        <StartMessage onBottom={onBottom}/>
+        <StartMessage
+          sending={sending}
+          chatId={chatId}
+          newText={newText}
+          inputRef={inputRef}
+          sendMessage={send}
+          enterKeyDown={enterKeyDown}
+          onBottom={onBottom}/>
       </Box>
     </BoxWrapper>);
 }

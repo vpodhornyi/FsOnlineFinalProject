@@ -1,36 +1,18 @@
-import React, {useRef} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import React from "react";
 import {styled} from "@mui/material/styles";
-import {Box} from "@mui/material";
+import {Box, LinearProgress} from "@mui/material";
 import PropTypes from "prop-types";
 
-import {getMessageData} from "@redux/message/selector";
-import {getChatsData} from "@redux/chat/selector";
-import {ACTIONS, sendMessage} from "@redux/chat/messages/action";
 import {CustomIconButton} from "../../../../../components";
 import CustomTextField from "./CustomTextField";
 
-const StartMessage = ({onBottom}) => {
-  const inputRef = useRef();
-  const {chatId, newText} = useSelector(getChatsData);
-  const dispatch = useDispatch();
-
-  const send = () => {
-    dispatch(sendMessage({chatId, text: newText}));
-    inputRef.current.focus();
-    setTimeout(() => {
-      onBottom();
-    }, 500)
-  }
-
-  const enterKeyDown = (e) => {
-    if (e.keyCode === 13) {
-      send();
-    }
-  }
+const StartMessage = ({sending, chatId, newText, inputRef, sendMessage, enterKeyDown}) => {
 
   return (
     <BoxWrapper>
+      <ProgressWrapper>
+        {sending && <LinearProgress color='primary' sx={{height: 2}}/>}
+      </ProgressWrapper>
       <ButtonsBoxWrapper>
         <Box>
           <CustomIconButton color='primary' name='PermMediaOutlined' iconSize='small'/>
@@ -42,7 +24,7 @@ const StartMessage = ({onBottom}) => {
           <CustomIconButton color='primary' name='EmojiEmotionsOutlined' iconSize='small'/>
         </Box>
         <CustomTextField chatId={chatId} newText={newText} enterKeyDown={enterKeyDown} inputRef={inputRef}/>
-        <Box onClick={send}>
+        <Box onClick={sendMessage}>
           <CustomIconButton color='primary' name='SendOutlined' iconSize='small' disabled={newText?.trim() === ''}/>
         </Box>
       </ButtonsBoxWrapper>
@@ -50,7 +32,16 @@ const StartMessage = ({onBottom}) => {
   );
 }
 
+const ProgressWrapper = styled(Box)(({theme}) => ({
+  position: 'absolute',
+  height: 2,
+  top: 0,
+  left: 0,
+  right: 0,
+}));
+
 const ButtonsBoxWrapper = styled(Box)(({theme}) => ({
+  position: 'relative',
   padding: '5px',
   display: 'flex',
   alignItems: 'center',
@@ -65,7 +56,12 @@ const BoxWrapper = styled(Box)(({theme}) => ({
 }));
 
 StartMessage.propTypes = {
-  onBottom: PropTypes.func,
+  sending: PropTypes.bool,
+  chatId: PropTypes.number,
+  newText: PropTypes.string,
+  inputRef: PropTypes.object,
+  sendMessage: PropTypes.func,
+  enterKeyDown: PropTypes.func,
 }
 
 export default StartMessage;

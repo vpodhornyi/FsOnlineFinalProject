@@ -13,14 +13,11 @@ import messageReducer from "./message/reducer";
 import messageSearchReducer from "./message/search/reducer";
 
 import chatReducer from "./chat/reducer";
-import messagesReducer from "./chat/messages/reducer";
 
 const {applyMiddleware, combineReducers, createStore} = require("redux");
 
 const chat = combineReducers({
   chats: chatReducer,
-  messages: messagesReducer,
-  // messageSearch: messageSearchReducer,
 });
 
 const reducer = combineReducers({
