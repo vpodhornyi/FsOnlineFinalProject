@@ -3,7 +3,7 @@ import api, {URLS} from "@service/API";
 
 const actions = createActions(
   {
-    actions: ['SET_CHAT_ID', 'RESET_CHAT_ID', 'SET_NEW_TEXT',
+    actions: ['SET_CHAT_ID', 'RESET_CHAT_ID', 'SET_MESSAGE',
       'SET_NEW_CHAT', 'SET_NEW_GROUP'],
     async: ['GET_CHATS', 'SEND_MESSAGE'],
   },
@@ -42,10 +42,10 @@ export const searchUser = ({text}) => async dispatch => {
   }
 }
 
-export const addNewChat = ({text}) => async dispatch => {
+export const addNewChat = (chat) => async dispatch => {
   try {
     const body = {};
-    return await api.post(URLS.CHATS.ROOT, body);
+    return await api.post(URLS.CHATS.ROOT, chat);
 
   } catch (err) {
     console.log('addNewChat error - ', err);

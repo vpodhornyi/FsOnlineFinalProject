@@ -11,7 +11,7 @@ export const getChatsData = state => {
       chats: data.chats,
       chatId: data.chatId,
       selectedChat,
-      newText: selectedChat?.newText,
+      message: selectedChat?.message,
     }
   }
 }

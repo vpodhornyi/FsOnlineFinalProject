@@ -49,11 +49,10 @@ values
     ('d200021f-b319-46dc-bb35-8cc9cbe76ed7', 'https://shorturl.at/fGHM9', 3),
     ('23d6a012-468f-41e2-8d9a-c3c9311560b6', 'https://shorturl.at/dhmsM', 4);
 
-INSERT INTO chats (uuid, title)
-values ('21744f36-8ab5-4d58-8829-7b0a976f27a8', 'test chat 1'),
-       ('464d9bff-5d40-4550-b105-a84a78e4ce10', 'test chat 2'),
-       ('a0f8f2e3-8770-4fda-88a8-7d603f42e94c', 'test chat 3'),
-       ('22253e3a-5226-4b99-8f30-97dc67f90ef9', 'test chat 4');
+INSERT INTO chats (uuid, title, type)
+values ('21744f36-8ab5-4d58-8829-7b0a976f27a8', 'test chat 1', 'GROUP'),
+       ('464d9bff-5d40-4550-b105-a84a78e4ce10', 'test chat 2', 'PRIVATE'),
+       ('a0f8f2e3-8770-4fda-88a8-7d603f42e94c', 'test chat 3', 'PRIVATE');
 
 
 INSERT INTO messages (uuid, text, chat_id, user_id)

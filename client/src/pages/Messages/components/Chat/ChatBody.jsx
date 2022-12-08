@@ -10,15 +10,17 @@ import UserInfo from "./UserInfo";
 import Message from "./Message";
 import ScrollDownButton from "./ScrollDownButton";
 import {CircularLoader} from "../../../../components";
-import {ACTIONS, getMessages, sendMessage} from "@redux/chat/action";
+import {ACTIONS, getMessages, sendMessage, addNewChat} from "@redux/chat/action";
 import {getChatsData} from "@redux/chat/selector";
+import {CHAT_TYPE} from '@utils/constants';
 
 const ChatBody = ({chatId, isGroupChat}) => {
+  const {NEW_GROUP, NEW_PRIVATE} = CHAT_TYPE;
   const overlayRef = useRef();
   const chatBodyRef = useRef();
   const inputRef = useRef();
   const dispatch = useDispatch();
-  const {newText} = useSelector(getChatsData);
+  const {message, selectedChat} = useSelector(getChatsData);
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [sending, setSending] = useState(false);
@@ -60,13 +62,20 @@ const ChatBody = ({chatId, isGroupChat}) => {
   }
 
   const send = async () => {
-    if (newText.trim() !== '') {
+    if (message.trim() !== '') {
       setSending(true);
-      dispatch(ACTIONS.setNewText({chatId, text: ''}));
-      const data = await dispatch(sendMessage({chatId, text: newText}));
-      if (data?.id) {
-        messages.push(data);
-        setMessages({messages});
+      dispatch(ACTIONS.setMessage({chatId, text: ''}));
+      const type = selectedChat.type;
+
+      if (type === NEW_GROUP || type === NEW_PRIVATE) {
+        const data = await dispatch(addNewChat(selectedChat));
+
+      } else {
+        const data = await dispatch(sendMessage({chatId, text: message}));
+        if (data?.id) {
+          messages.push(data);
+          setMessages({messages});
+        }
       }
       inputRef.current.focus();
       setTimeout(() => {
@@ -105,7 +114,7 @@ const ChatBody = ({chatId, isGroupChat}) => {
         <StartMessage
           sending={sending}
           chatId={chatId}
-          newText={newText}
+          message={message}
           inputRef={inputRef}
           sendMessage={send}
           enterKeyDown={enterKeyDown}

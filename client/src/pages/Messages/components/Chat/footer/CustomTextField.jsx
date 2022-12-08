@@ -7,11 +7,11 @@ import PropTypes from "prop-types";
 import {ACTIONS} from "@redux/chat/action";
 import {styled} from "@mui/material/styles";
 
-const CustomTextField = function ({chatId, newText, enterKeyDown, inputRef}) {
+const CustomTextField = function ({chatId, message, enterKeyDown, inputRef}) {
   const [text, setText] = useState('');
   const dispatch = useDispatch();
   const debounced = useDebouncedCallback((text, e) => {
-    dispatch(ACTIONS.setNewText({chatId, text}))
+    dispatch(ACTIONS.setMessage({chatId, text}))
   }, 300);
   const handleChange = (e) => {
     setText(() => e.target.value);
@@ -19,8 +19,8 @@ const CustomTextField = function ({chatId, newText, enterKeyDown, inputRef}) {
   }
 
   useEffect(() => {
-    setText(() => newText || '');
-  }, [chatId, newText])
+    setText(() => message || '');
+  }, [chatId, message])
 
   return <TextFieldWrapper
     inputRef={inputRef}
@@ -69,7 +69,7 @@ const TextFieldWrapper = styled(TextField)(({theme}) => ({
 
 CustomTextField.propTypes = {
   chatId: PropTypes.number,
-  newText: PropTypes.string,
+  message: PropTypes.string,
   enterKeyDown: PropTypes.func,
   inputRef: PropTypes.object,
 }

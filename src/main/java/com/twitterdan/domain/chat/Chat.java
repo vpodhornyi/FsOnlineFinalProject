@@ -21,6 +21,9 @@ import java.util.Set;
 public class Chat extends BaseEntity {
 
   private String title;
+
+  @Enumerated(EnumType.STRING)
+  private ChatType type;
   @LazyCollection(LazyCollectionOption.EXTRA)
   @ManyToMany(mappedBy = "chats")
   private Set<User> users;

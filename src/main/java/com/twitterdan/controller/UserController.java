@@ -1,6 +1,5 @@
 package com.twitterdan.controller;
 
-import com.twitterdan.domain.dto.userDto.UserProfileUpdateRequestDto;
 import com.twitterdan.domain.user.User;
 import com.twitterdan.dto.user.UserResponse;
 import com.twitterdan.facade.user.UserResponseMapper;
@@ -61,14 +60,14 @@ public class UserController {
     return userResponseMapper.convertToDto(user);
   }
 
-  @PutMapping("/{id}")
-  public boolean updateUserProfile(
-    @Valid
-    @PathVariable(name = "id") Long id,
-    @RequestBody UserProfileUpdateRequestDto dto
-  ) {
-    return userService.updateUserProfile(id, dto);
-  }
+//  @PutMapping("/{id}")
+//  public boolean updateUserProfile(
+//    @Valid
+//    @PathVariable(name = "id") Long id,
+//    @RequestBody UserProfileUpdateRequestDto dto
+//  ) {
+//    return userService.updateUserProfile(id, dto);
+//  }
 
   @ExceptionHandler({Exception.class, MethodArgumentNotValidException.class})
   public ResponseEntity<Object> handleException(Exception ex) {

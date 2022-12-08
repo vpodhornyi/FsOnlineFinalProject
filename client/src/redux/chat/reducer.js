@@ -12,10 +12,10 @@ export default (state = init, {payload, type}) => {
       state.chats = [payload.entity, ...state.chats]
       return {...state};
 
-    case String(ACTIONS.setNewText):
+    case String(ACTIONS.setMessage):
       const {chatId, text} = payload;
       const chat = state.chats.find(v => v.id === chatId);
-      chat.newText = text;
+      chat.message = text;
 
       return {
         ...state,

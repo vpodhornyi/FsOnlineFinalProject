@@ -1,7 +1,6 @@
 package com.twitterdan.service;
 
 import com.twitterdan.dao.UserRepository;
-import com.twitterdan.domain.dto.userDto.UserProfileUpdateRequestDto;
 import com.twitterdan.domain.user.User;
 import com.twitterdan.exception.CouldNotFindAccountException;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +38,7 @@ public class UserService {
     return userRepository.findByUserTag(userTag);
   }
 
-  public boolean updateUserProfile(Long id, UserProfileUpdateRequestDto dto) {
+/*  public boolean updateUserProfile(Long id, UserProfileUpdateRequestDto dto) {
     Optional<User> user = userRepository.findById(id);
 
     String dtoName = dto.getName();
@@ -73,7 +72,7 @@ public class UserService {
     }
 
     return false;
-  }
+  }*/
 
   public void updateUserHeader(Long id, String headerImgUrl) {
     Optional<User> user = userRepository.findById(id);

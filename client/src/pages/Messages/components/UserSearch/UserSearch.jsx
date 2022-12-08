@@ -15,8 +15,10 @@ import {ACTIONS, searchUser} from "@redux/chat/action";
 import {getChatsData} from "@redux/chat/selector";
 import {PATH} from "@utils/constants";
 import {getRandomKey} from '@utils';
+import {CHAT_TYPE} from '@utils/constants';
 
 const Element = () => {
+  const {NEW_GROUP, NEW_PRIVATE, PRIVATE} = CHAT_TYPE;
   const inputRef = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -62,13 +64,13 @@ const Element = () => {
       const entity = {
         id,
         key: getRandomKey(),
-        new: true,
+        type: grabbedUsers.length === 1 ? NEW_PRIVATE : NEW_GROUP,
         users: [...grabbedUsers],
       }
-      if (grabbedUsers.length === 1) {
+      if (entity.type === NEW_PRIVATE) {
         const existedChat = chats.find(v => {
           const usersLn = v.users.length
-          if (usersLn === 1 || usersLn === 2) {
+          if (v.type === PRIVATE || v.type === NEW_PRIVATE) {
             const grabbedUserId = grabbedUsers[0]?.id;
 
             if (grabbedUserId === user.id) {

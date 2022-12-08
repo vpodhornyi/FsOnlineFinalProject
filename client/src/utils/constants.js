@@ -44,3 +44,10 @@ export const PATH = {
   ALL: '*',
 };
 
+export const CHAT_TYPE = {
+  PRIVATE: 'PRIVATE',
+  NEW_PRIVATE: 'NEW_PRIVATE',
+  GROUP: 'GROUP',
+  NEW_GROUP: 'NEW_GROUP',
+}
+
