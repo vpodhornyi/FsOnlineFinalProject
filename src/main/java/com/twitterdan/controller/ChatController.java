@@ -27,7 +27,6 @@ public class ChatController {
   private final ChatService chatService;
   private final MessageService messageService;
   private final MessageResponseMapper messageResponseMapper;
-  private final MessageRequestMapper messageRequestMapper;
   private final ChatResponseMapper chatResponseMapper;
   private final ChatRequestMapper chatRequestMapper;
 
@@ -41,9 +40,11 @@ public class ChatController {
 
   @PostMapping
   public ResponseEntity<ChatResponse> addChat(@RequestBody ChatRequest chatRequest) {
-    Chat chat = chatRequestMapper.convertToEntity(chatRequest);
-    System.out.println(chat);
-    return ResponseEntity.ok(null);
+//    Chat chat = chatRequestMapper.convertToEntity(chatRequest);
+//    System.out.println(chat);
+    Chat chat = chatService.save(chatRequest);
+
+    return ResponseEntity.ok(chatResponseMapper.convertToDto(chat));
   }
 
   @GetMapping("/messages")

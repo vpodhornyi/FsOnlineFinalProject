@@ -12,6 +12,8 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -26,11 +28,14 @@ public class Chat extends BaseEntity {
 
   @Enumerated(EnumType.STRING)
   private ChatType type;
+
   @LazyCollection(LazyCollectionOption.EXTRA)
-  @ManyToMany(mappedBy = "chats")
-  private Set<User> users;
+  @ManyToMany(mappedBy = "chats", cascade = CascadeType.PERSIST)
+  @ToString.Exclude
+  private List<User> users = new ArrayList<>();
 
   @OneToMany(mappedBy = "chat")
   @JsonIgnore
-  private Set<Message> messages;
+  @ToString.Exclude
+  private List<Message> messages;
 }

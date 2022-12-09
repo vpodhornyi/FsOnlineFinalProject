@@ -2,7 +2,9 @@ package com.twitterdan.service;
 
 import com.twitterdan.dao.ChatRepository;
 import com.twitterdan.domain.chat.Chat;
+import com.twitterdan.dto.chat.ChatRequest;
 import com.twitterdan.exception.CouldNotFindChatException;
+import com.twitterdan.facade.chat.ChatRequestMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,8 +17,11 @@ import java.util.Optional;
 public class ChatService {
   private final ChatRepository chatRepository;
 
-  public ChatService(ChatRepository chatRepository) {
+  private final ChatRequestMapper chatRequestMapper;
+
+  public ChatService(ChatRepository chatRepository, ChatRequestMapper chatRequestMapper) {
     this.chatRepository = chatRepository;
+    this.chatRequestMapper = chatRequestMapper;
   }
 
   public List<Chat> getAll() {
@@ -36,5 +41,10 @@ public class ChatService {
     Optional<List<Chat>> optionalChats = chatRepository.findByUsersId(id);
 
     return optionalChats.orElseGet(ArrayList::new);
+  }
+
+  public Chat save(ChatRequest chatRequest) {
+    Chat chat = chatRequestMapper.convertToEntity(chatRequest);
+    return chatRepository.save(chat);
   }
 }
