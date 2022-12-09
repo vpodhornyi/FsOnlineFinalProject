@@ -10,15 +10,9 @@ import lombok.Setter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.OneToMany;
-import javax.persistence.ManyToMany;
-import javax.persistence.JoinTable;
-import javax.persistence.JoinColumn;
-import javax.persistence.Column;
+import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 
 @Entity
@@ -47,7 +41,7 @@ public class User extends BaseEntity {
   @OneToMany
   @JoinColumn(name = "user_id")
   @JsonIgnore
-  private Set<Tweet> tweets;
+  private List<Tweet> tweets;
 
   @LazyCollection(LazyCollectionOption.EXTRA)
   @ManyToMany
@@ -55,7 +49,7 @@ public class User extends BaseEntity {
     joinColumns = @JoinColumn(name = "followed_id"),
     inverseJoinColumns = @JoinColumn(name = "follower_id"))
   @JsonIgnore
-  private Set<User> followers;
+  private List<User> followers;
 
   @LazyCollection(LazyCollectionOption.EXTRA)
   @ManyToMany
@@ -63,11 +57,11 @@ public class User extends BaseEntity {
     joinColumns = @JoinColumn(name = "follower_id"),
     inverseJoinColumns = @JoinColumn(name = "followed_id"))
   @JsonIgnore
-  private Set<User> followings;
+  private List<User> followings;
   @LazyCollection(LazyCollectionOption.EXTRA)
-  @ManyToMany
+  @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)
   @JsonIgnore
-  private Set<Chat> chats;
+  private List<Chat> chats = new java.util.ArrayList<>();
 
   @Override
   public String toString() {

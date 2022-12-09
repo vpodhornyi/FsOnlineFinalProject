@@ -17,6 +17,7 @@ server:
     include-exception: false
 logging:
   level:
+#    error: true
     root:
     com:
     org:
@@ -80,7 +81,7 @@ spring:
   sql:
     init:
       mode: always
-#      data-locations: classpath:data-ps.sql
+  #      data-locations: classpath:data-ps.sql
   #      schema-locations: classpath:schema-h2.sql
   datasource:
     url: ${DEV_DB_URL}
@@ -107,7 +108,7 @@ spring:
   sql:
     init:
       mode: always
-      data-locations: classpath:data-ps.sql
+      data-locations: classpath:data-h2-test.sql
   datasource:
     url: ${TEST_DB_URL}
     username: ${TEST_DB_USER}
