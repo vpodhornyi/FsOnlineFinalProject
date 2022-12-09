@@ -1,7 +1,6 @@
 import Box from "@mui/material/Box";
 import React from "react";
 import {
-  ImageList,
   Link,
   List,
   ListItem,
@@ -30,12 +29,13 @@ import { openModal } from "../../../redux/modal/action";
 import { getActiveId } from "../../../redux/modal/selector";
 import DeleteTweet from "../DeleteTweet";
 import ImageListContainer from "../../imageList/ImageListContainer";
+import {handlerBookmark} from "../../../redux/tweet/action";
 const Tweet = ({ openReply = false, tweetInfo }) => {
   const dispatch = useDispatch();
   const activeId = useSelector(getActiveId);
   const { id, body, images } = tweetInfo;
   const { name, avatarImgUrl, userTag, created_at } = tweetInfo.user;
-  console.log(images)
+
   return (
     <>
       <TweetContainer>
@@ -74,20 +74,18 @@ const Tweet = ({ openReply = false, tweetInfo }) => {
             <IconBlue>
               <Tooltip title={"Delete"}>
                 <MoreIcon
-                  onClick={() =>
-                    dispatch(openModal({ id: id, typeModal: "Delete" }))
-                  }
+                  onClick={() => {
+                    dispatch(openModal({id: id, typeModal: "Delete"}))
+                  }}
                   sx={{ padding: 1 }}
                 />
               </Tooltip>{" "}
             </IconBlue>
           )}
         </Content>
-        {!openReply &&images.length>0 && (
+        {!openReply  && (
           <>
-
-              <ImageListContainer photos={images} />
-
+            {images.length > 0 && <ImageListContainer photos={images}/>}
             <List
               component="ul"
               disablePadding
@@ -115,8 +113,10 @@ const Tweet = ({ openReply = false, tweetInfo }) => {
                     >
                       <ListItemIcon
                         onClick={() => {
-                          itemData.tooltip === "Reply" &&
-                            dispatch(openModal({ id: id, typeModal: "Reply" }));
+                          switch(itemData.tooltip){
+                            case "Bookmark": return dispatch(handlerBookmark(id));
+                            case "Reply": return dispatch(openModal({ id: id, typeModal: "Reply" }));
+                          }
                         }}
                       >
                         {itemData.icon}
@@ -137,5 +137,6 @@ const Tweet = ({ openReply = false, tweetInfo }) => {
 Tweet.propTypes = {
   openReply: PropTypes.bool,
   tweetInfo: PropTypes.object,
+  setBookmarks: PropTypes.any,
 };
 export default Tweet;

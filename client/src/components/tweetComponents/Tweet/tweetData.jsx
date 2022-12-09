@@ -61,6 +61,6 @@ export const ICONS = [
       },
     },
     icon: <DownloadIcon sx={{ padding: 1 }}></DownloadIcon>,
-    tooltip: "Share",
+    tooltip: "Bookmark",
   },
 ];

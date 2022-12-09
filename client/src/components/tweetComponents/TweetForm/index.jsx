@@ -1,5 +1,5 @@
 import React, {useRef, useState} from "react";
-import {Avatar, Input} from "@mui/material";
+import {Avatar, Box, Input} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import PublicIcon from "@mui/icons-material/Public";
 import EmojiPicker from "emoji-picker-react";
@@ -27,10 +27,9 @@ import {
 
 import {createTweet} from "../../../redux/tweet/action";
 import {getPersonalData} from "../../../redux/user/selector";
-import {getTweetsState} from "../../../redux/tweet/selector";
 import {closeModal} from "../../../redux/modal/action";
-import api, {URLS} from "../../../services/API";
 import ImageListContainer from "../../imageList/ImageListContainer";
+import {uploadImage} from "../../../utils/uploadImage";
 
 export const TweetForm = ({
                               placeholderText = `What's happening?`,
@@ -46,26 +45,19 @@ export const TweetForm = ({
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const onEmojiVisible = () => {
-        setEmojiVisible((prevState) => !prevState);
+    const onEmojiVisible = (bool) => {
+        setEmojiVisible((prevState) =>typeof bool==="boolean"?bool:!prevState);
     };
 
     const onEmojiClick = (emojiData, event) => {
         setSelectedEmoji(emojiData.emoji);
         setTweetText(`${tweetText} ${selectedEmoji}`);
     };
-
     const handleUploadFile = (event) => {
-        const formData = new FormData();
-        formData.append("upload", event.target.files[0]);
-        formData.append("entityId", `${1}`);
-        formData.append("uploadType", "TWEET");
-        api.post(URLS.CLOUD.IMAGE, formData, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-                "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJib2IxMjM0IiwiZXhwIjoxNjcwMjg2NzE4LCJ1c2VyVGFnIjoiYm9iMTIzNCJ9.2_rtOJZ7MNtkJThkC45V1QO_wedagSkyYpmn6n7d06eLNNQcVFl8YXKPwYKiMZQBPKn0VvvRNpELl-FkL2-sGg"
-            }
-        }).then(res => res.status && setUploadPhotos((prev) => [...prev, res.url]))
+        uploadImage(event.target.files[0],user.id,"TWEET").then(res =>{
+                res.status && setUploadPhotos((prev) => [...prev, res.url])
+        }
+            )
     };
 
     const handleFileUploadClick = () => {
@@ -81,8 +73,6 @@ export const TweetForm = ({
     };
 
     const onSubmit = () => {
-
-
         const newTweet = {
             tweetType,
             body: tweetText,
@@ -91,6 +81,7 @@ export const TweetForm = ({
         };
         setTweetText("");
         setUploadPhotos([])
+        onEmojiVisible(false)
         dispatch(createTweet(newTweet));
         dispatch(closeModal());
     };
@@ -140,18 +131,30 @@ export const TweetForm = ({
                             <PollIcon/>
                         </Icon>
                         <Icon>
-                            <EmojiIcon onClick={onEmojiVisible}/>
-                            {isEmojiVisible && (
-                                <EmojiPicker
-                                    onEmojiClick={onEmojiClick}
-                                    autoFocusSearch={false}
-                                />
-                            )}
+                            <EmojiIcon onClick={()=>onEmojiVisible()}/>
+
                         </Icon>
                         <Icon>
                             <ScheduleIcon/>
                         </Icon>
                     </IconsList>
+                    {isEmojiVisible && (
+                        <Box sx={{
+                            position: "absolute",
+                            zIndex: 1,
+                            top: "50px"
+                        }}><EmojiPicker
+                            sx={{
+                                height: "450px",
+                                width: "350px",
+                                overflow: "visible",
+                                top: "163px",
+                                zIndex: 1
+                            }}
+                            onEmojiClick={onEmojiClick}
+                            autoFocusSearch={false}
+                        /></Box>
+                    )}
                     <TweetBtn onClick={onSubmit}>{tweetType}</TweetBtn>
                 </FormFooter>
             </Form>

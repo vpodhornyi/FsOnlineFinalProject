@@ -30,8 +30,9 @@ public class TweetService {
             return (List<Tweet>) tweetDao.findAll();
         }
 
-        public void save(Tweet tweet) {
+        public Long save(Tweet tweet) {
             tweetDao.save(tweet);
+            return tweetDao.getMaxId();
         }
         public void update(TweetRequest tweetUpdate) {
             System.out.println(tweetUpdate.getId());

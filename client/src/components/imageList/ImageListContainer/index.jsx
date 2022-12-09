@@ -8,10 +8,10 @@ function ImageListContainer({photos}) {
 
     const filterEvenOrObb = (arr, type) => {
         return arr.filter((item, i) => {
-            const num = type === "even" ? 2 : 3;
-            return i % num === 0
-        })
-    }
+         return   type === "even"?i % 2 === 0:i % 2 !== 0;
+
+
+    })}
     return (
         <Box sx={{
             padding: "10px",

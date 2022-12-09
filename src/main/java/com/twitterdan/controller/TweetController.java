@@ -67,10 +67,10 @@ public class TweetController {
         }
 
         @PostMapping("/create")
-        public void create(@RequestBody TweetRequest dto) {
+        public Long create(@RequestBody TweetRequest dto) {
             Tweet tweet = tweetRequestMapper.convertToEntity(dto);
             log.info(tweet + " - Object for create Tweet  ");
-            tweetService.save(tweet);
+            return    tweetService.save(tweet);
         }
 
 

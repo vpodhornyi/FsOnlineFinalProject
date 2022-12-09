@@ -14,7 +14,11 @@ const DeleteTweet = () => {
     <Modal type={"Delete"}>
       <Box sx={{ padding: "20px" }}>
         <Box sx={{ textAlign: "center" }}>Delete tweet?</Box>
-        <Button onClick={() => dispatch(deleteTweet(activeId))}>yes</Button>
+        <Button onClick={() => {
+            dispatch(deleteTweet(activeId));
+            dispatch(closeModal());
+        }}>yes</Button>
+
         <Button onClick={() => dispatch(closeModal())}>no</Button>
       </Box>
     </Modal>

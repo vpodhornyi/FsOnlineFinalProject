@@ -2,6 +2,7 @@ import { styled } from "@mui/material/styles";
 import { Box, Button, List, ListItem } from "@mui/material";
 
 export const TwitterContainer = styled(Box)({
+
   fontFamily: "Arial",
   paddingTop: 5,
   paddingBottom: 10,
@@ -28,6 +29,7 @@ export const TweetInput = styled(Box)({
 });
 
 export const FormFooter = styled(Box)({
+  position:"relative",
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",

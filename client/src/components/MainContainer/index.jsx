@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import Grid from "@mui/material/Grid";
 import { useTheme } from "@emotion/react";
 import Searchbar from "@components/Searchbar";
@@ -44,7 +44,7 @@ const MainContainer = (props) => {
             .map((e, i) => {
               return (
                 <div key={e.id}>
-                  <Tweet tweetInfo={e} />
+                  <Tweet tweetInfo={e}  />
                 </div>
               );
             })}
@@ -71,5 +71,4 @@ const MainContainer = (props) => {
     </Grid>
   );
 };
-
 export default MainContainer;
