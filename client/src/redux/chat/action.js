@@ -73,3 +73,13 @@ export const sendMessage = ({chatId, text}) => async (dispatch, getState) => {
     return {};
   }
 }
+
+export const getPrivateChatByUsersId = () => dispatch => {
+  try {
+    const body = {};
+    const data = api.post(URLS.CHATS.PRIVATE, body)
+
+  } catch (e) {
+    console.log('getPrivetChatByUsersId error - ', err);
+  }
+}
