@@ -43,8 +43,8 @@ public class ChatService {
     return optionalChats.orElseGet(ArrayList::new);
   }
 
-  public Chat save(ChatRequest chatRequest) {
-    Chat chat = chatRequestMapper.convertToEntity(chatRequest);
+  public Chat save(Chat chat) {
+//    Chat chat = chatRequestMapper.convertToEntity(chatRequest);
     return chatRepository.save(chat);
   }
 }

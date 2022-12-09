@@ -83,7 +83,7 @@ spring:
 #      data-locations: classpath:data-ps.sql
   #      schema-locations: classpath:schema-h2.sql
   datasource:
-    url: jdbc:postgresql://${DEV_DB_URL}:${DEV_DB_PORT}/${DEV_DB_NAME}
+    url: ${DEV_DB_URL}
     username: ${DEV_DB_USER}
     password: ${DEV_DB_PASSWORD}
     driver_class_name: ${DEV_DRIVER_CLASS_NAME}
@@ -98,3 +98,24 @@ spring:
     show_sql: false
     hibernate:
       ddl_auto: update
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+    import: optional:secrets.properties[.properties]
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:data-ps.sql
+  datasource:
+    url: ${TEST_DB_URL}
+    username: ${TEST_DB_USER}
+    password: ${TEST_DB_PASSWORD}
+    driver-class-name: ${TEST_DRIVER_CLASS_NAME}
+  jpa:
+    defer-datasource-initialization: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    show-sql: false

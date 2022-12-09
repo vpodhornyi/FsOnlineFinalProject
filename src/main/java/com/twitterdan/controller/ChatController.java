@@ -40,11 +40,11 @@ public class ChatController {
 
   @PostMapping
   public ResponseEntity<ChatResponse> addChat(@RequestBody ChatRequest chatRequest) {
-//    Chat chat = chatRequestMapper.convertToEntity(chatRequest);
+    Chat chat = chatRequestMapper.convertToEntity(chatRequest);
 //    System.out.println(chat);
-    Chat chat = chatService.save(chatRequest);
+    Chat chat1 = chatService.save(chat);
 
-    return ResponseEntity.ok(chatResponseMapper.convertToDto(chat));
+    return ResponseEntity.ok(chatResponseMapper.convertToDto(chat1));
   }
 
   @GetMapping("/messages")
