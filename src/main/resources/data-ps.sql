@@ -89,3 +89,5 @@ values (1, 1),
        (5, 2),
        (1, 3),
        (5, 3);
+
+-- alter table users  alter column id add generated always as identity;
