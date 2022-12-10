@@ -1,5 +1,6 @@
-package com.twitterdan.dto.chat;
+package com.twitterdan.dto.chat.response;
 
+import com.twitterdan.dto.chat.ChatUser;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -7,6 +8,6 @@ import lombok.EqualsAndHashCode;
 @Data
 public class PrivateChatResponse extends ChatResponseAbstract {
   private String title;
-  private ChatUser userAuth;
-  private ChatUser userGuest;
+  private ChatUser authUser;
+  private ChatUser guestUser;
 }

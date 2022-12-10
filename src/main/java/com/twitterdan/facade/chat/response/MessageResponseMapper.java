@@ -1,7 +1,7 @@
-package com.twitterdan.facade.chat;
+package com.twitterdan.facade.chat.response;
 
 import com.twitterdan.domain.chat.Message;
-import com.twitterdan.dto.chat.MessageResponse;
+import com.twitterdan.dto.chat.response.MessageResponse;
 import com.twitterdan.facade.GeneralFacade;
 import org.springframework.stereotype.Service;
 

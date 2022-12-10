@@ -1,5 +1,6 @@
-package com.twitterdan.dto.chat;
+package com.twitterdan.dto.chat.response;
 
+import com.twitterdan.dto.chat.ChatUser;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

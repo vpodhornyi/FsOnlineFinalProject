@@ -1,9 +1,10 @@
-package com.twitterdan.facade.chat;
+package com.twitterdan.facade.chat.response;
 
 import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.user.User;
-import com.twitterdan.dto.chat.PrivateChatResponse;
+import com.twitterdan.dto.chat.response.PrivateChatResponse;
 import com.twitterdan.facade.GeneralFacade;
+import com.twitterdan.facade.chat.ChatUserMapper;
 import com.twitterdan.service.UserService;
 import com.twitterdan.service.auth.JwtAuthService;
 import org.springframework.stereotype.Service;
@@ -30,12 +31,12 @@ public class PrivateChatResponseMapper extends GeneralFacade<Chat, PrivateChatRe
     List<User> users = entity.getUsers();
 
     if (authUser.equals(users.get(0))) {
-      dto.setUserAuth(chatUserMapper.convertToDto(users.get(0)));
-      dto.setUserGuest(chatUserMapper.convertToDto(users.get(1)));
+      dto.setAuthUser(chatUserMapper.convertToDto(users.get(0)));
+      dto.setGuestUser(chatUserMapper.convertToDto(users.get(1)));
       dto.setTitle(users.get(1).getName());
     } else {
-      dto.setUserAuth(chatUserMapper.convertToDto(users.get(1)));
-      dto.setUserGuest(chatUserMapper.convertToDto(users.get(0)));
+      dto.setAuthUser(chatUserMapper.convertToDto(users.get(1)));
+      dto.setGuestUser(chatUserMapper.convertToDto(users.get(0)));
       dto.setTitle(users.get(0).getName());
     }
   }

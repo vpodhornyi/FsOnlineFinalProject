@@ -2,13 +2,12 @@ package com.twitterdan.service;
 
 import com.twitterdan.dao.UserRepository;
 import com.twitterdan.domain.user.User;
-import com.twitterdan.exception.AccountExistException;
+import com.twitterdan.exception.AccountAlreadyExistException;
 import com.twitterdan.exception.CouldNotFindAccountException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -93,7 +92,7 @@ public class UserService {
   public User createNewUser(User user) {
     try {
       userRepository.findByEmail(user.getEmail());
-      throw new AccountExistException(user.getEmail());
+      throw new AccountAlreadyExistException(user.getEmail());
 
     } catch (Exception e) {
       return userRepository.save(user);

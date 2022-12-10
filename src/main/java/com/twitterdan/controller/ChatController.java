@@ -4,10 +4,13 @@ import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.chat.ChatType;
 import com.twitterdan.domain.chat.Message;
 import com.twitterdan.dto.chat.ChatRequest;
-import com.twitterdan.dto.chat.ChatResponseAbstract;
+import com.twitterdan.dto.chat.response.ChatResponseAbstract;
 import com.twitterdan.dto.chat.MessageRequest;
-import com.twitterdan.dto.chat.MessageResponse;
+import com.twitterdan.dto.chat.response.MessageResponse;
 import com.twitterdan.facade.chat.*;
+import com.twitterdan.facade.chat.response.GroupChatResponseMapper;
+import com.twitterdan.facade.chat.response.MessageResponseMapper;
+import com.twitterdan.facade.chat.response.PrivateChatResponseMapper;
 import com.twitterdan.service.ChatService;
 import com.twitterdan.service.MessageService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +27,6 @@ public class ChatController {
   private final ChatService chatService;
   private final MessageService messageService;
   private final MessageResponseMapper messageResponseMapper;
-  private final ChatResponseMapper chatResponseMapper;
   private final ChatRequestMapper chatRequestMapper;
   private final PrivateChatResponseMapper privateChatResponseMapper;
   private final GroupChatResponseMapper groupChatResponseMapper;
@@ -47,7 +49,14 @@ public class ChatController {
     Chat chat = chatRequestMapper.convertToEntity(chatRequest);
     Chat chat1 = chatService.save(chat);
 
-    return ResponseEntity.ok(chatResponseMapper.convertToDto(chat1));
+    return ResponseEntity.ok(privateChatResponseMapper.convertToDto(chat1));
+  }
+
+  @GetMapping("/private")
+  public ResponseEntity<ChatResponseAbstract> findPrivateChat(@RequestParam Long authUserId, @RequestParam Long guestUserId) {
+    Chat chat = chatService.findPrivateChatByUsersIds(authUserId, guestUserId);
+
+    return ResponseEntity.ok(privateChatResponseMapper.convertToDto(chat));
   }
 
   @GetMapping("/messages")

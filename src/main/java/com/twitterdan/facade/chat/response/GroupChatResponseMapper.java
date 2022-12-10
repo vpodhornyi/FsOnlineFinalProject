@@ -1,9 +1,10 @@
-package com.twitterdan.facade.chat;
+package com.twitterdan.facade.chat.response;
 
 import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.dto.chat.ChatUser;
-import com.twitterdan.dto.chat.GroupChatResponse;
+import com.twitterdan.dto.chat.response.GroupChatResponse;
 import com.twitterdan.facade.GeneralFacade;
+import com.twitterdan.facade.chat.ChatUserMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
