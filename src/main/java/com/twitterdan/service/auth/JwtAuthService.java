@@ -31,16 +31,10 @@ public class JwtAuthService implements AuthService {
 
   @Override
   public AccountCheckResponse account(@NonNull AccountCheckRequest req) {
-    User user = userService.getByUserTag(req.getLogin());
-
-    if (user == null) {
-      throw new CouldNotFindAccountException();
-    }
-
-    user = userService.getByEmail(req.getLogin());
-
-    if (user == null) {
-      throw new CouldNotFindAccountException();
+    try {
+      userService.findByUserTag(req.getLogin());
+    } catch (Exception e) {
+      userService.findByUserEmail(req.getLogin());
     }
 
     return new AccountCheckResponse(req.getLogin());
@@ -48,16 +42,12 @@ public class JwtAuthService implements AuthService {
 
   @Override
   public JwtResponse login(@NonNull JwtRequest req) {
-    User user = userService.getByUserTag(req.getLogin());
+    User user;
 
-    if (user == null) {
-      throw new CouldNotFindAccountException();
-    }
-
-    user = userService.getByEmail(req.getLogin());
-
-    if (user == null) {
-      throw new CouldNotFindAccountException();
+    try {
+      user = userService.findByUserTag(req.getLogin());
+    } catch (Exception e) {
+      user = userService.findByUserEmail(req.getLogin());
     }
 
     if (user.getPassword().equals(req.getPassword())) {
@@ -89,7 +79,7 @@ public class JwtAuthService implements AuthService {
         String saveRefreshToken = refreshJwtStoreOptional.get().getRefreshToken();
 
         if (saveRefreshToken != null && saveRefreshToken.equals(refreshToken)) {
-          final User user = userService.getByUserTag(login);
+          final User user = userService.findByUserTag(login);
           final String accessToken = jwtProvider.generateAccessToken(user);
 
           return new JwtResponse(accessToken, null);
@@ -110,7 +100,7 @@ public class JwtAuthService implements AuthService {
         String saveRefreshToken = refreshJwtStoreOptional.get().getRefreshToken();
 
         if (saveRefreshToken != null && saveRefreshToken.equals(refreshToken)) {
-          User user = userService.getByUserTag(login);
+          User user = userService.findByUserTag(login);
           return getJwtResponse(user);
         }
       }

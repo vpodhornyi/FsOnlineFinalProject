@@ -2,6 +2,7 @@ package com.twitterdan.service;
 
 import com.twitterdan.dao.UserRepository;
 import com.twitterdan.domain.user.User;
+import com.twitterdan.exception.AccountExistException;
 import com.twitterdan.exception.CouldNotFindAccountException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,11 +32,6 @@ public class UserService {
       return optionalUser.get();
     }
     throw new CouldNotFindAccountException();
-  }
-
-  @Transactional(readOnly = true)
-  public User findByUserTag(String userTag) {
-    return userRepository.findByUserTag(userTag);
   }
 
 /*  public boolean updateUserProfile(Long id, UserProfileUpdateRequestDto dto) {
@@ -94,10 +90,12 @@ public class UserService {
 
   }
 
-  public User createNewUser(User user) throws Exception {
-    if (userRepository.findByEmail(user.getEmail()) != null) {
-      throw new Exception("User already exists!");
-    } else {
+  public User createNewUser(User user) {
+    try {
+      userRepository.findByEmail(user.getEmail());
+      throw new AccountExistException(user.getEmail());
+
+    } catch (Exception e) {
       return userRepository.save(user);
     }
   }
@@ -115,12 +113,24 @@ public class UserService {
     return true;
   }
 
-  public User getByUserTag(String userTag) {
-    return userRepository.findByUserTag(userTag);
+  @Transactional(readOnly = true)
+  public User findByUserTag(String userTag) {
+    Optional<User> optionalUser = userRepository.findByUserTag(userTag);
+
+    if (optionalUser.isPresent()) {
+      return optionalUser.get();
+    }
+    throw new CouldNotFindAccountException();
   }
 
-  public User getByEmail(String email) {
-    return userRepository.findByUserTag(email);
+  @Transactional(readOnly = true)
+  public User findByUserEmail(String email) {
+    Optional<User> optionalUser = userRepository.findByEmail(email);
+
+    if (optionalUser.isPresent()) {
+      return optionalUser.get();
+    }
+    throw new CouldNotFindAccountException();
   }
 
   public List<User> findByMatchesInNameOrUserTag(String text) {

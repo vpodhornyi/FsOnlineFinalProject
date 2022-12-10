@@ -1,15 +1,13 @@
 package com.twitterdan.controller;
 
 import com.twitterdan.domain.chat.Chat;
+import com.twitterdan.domain.chat.ChatType;
 import com.twitterdan.domain.chat.Message;
 import com.twitterdan.dto.chat.ChatRequest;
-import com.twitterdan.dto.chat.ChatResponse;
+import com.twitterdan.dto.chat.ChatResponseAbstract;
 import com.twitterdan.dto.chat.MessageRequest;
 import com.twitterdan.dto.chat.MessageResponse;
-import com.twitterdan.facade.chat.ChatRequestMapper;
-import com.twitterdan.facade.chat.ChatResponseMapper;
-import com.twitterdan.facade.chat.MessageRequestMapper;
-import com.twitterdan.facade.chat.MessageResponseMapper;
+import com.twitterdan.facade.chat.*;
 import com.twitterdan.service.ChatService;
 import com.twitterdan.service.MessageService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,17 +26,24 @@ public class ChatController {
   private final MessageResponseMapper messageResponseMapper;
   private final ChatResponseMapper chatResponseMapper;
   private final ChatRequestMapper chatRequestMapper;
+  private final PrivateChatResponseMapper privateChatResponseMapper;
+  private final GroupChatResponseMapper groupChatResponseMapper;
 
   @GetMapping
-  public ResponseEntity<List<ChatResponse>> getChats(@RequestParam Long userId) {
-    List<ChatResponse> chats = chatService.findAlLByUserId(userId).stream()
-      .map(chatResponseMapper::convertToDto)
+  public ResponseEntity<List<ChatResponseAbstract>> getChats(@RequestParam Long userId) {
+    List<ChatResponseAbstract> chats = chatService.findAlLByUserId(userId).stream()
+      .map(ch -> {
+        if (ch.getType().equals(ChatType.PRIVATE)) {
+          return privateChatResponseMapper.convertToDto(ch);
+        }
+        return groupChatResponseMapper.convertToDto(ch);
+      })
       .toList();
     return ResponseEntity.ok(chats);
   }
 
   @PostMapping
-  public ResponseEntity<ChatResponse> addChat(@RequestBody ChatRequest chatRequest) {
+  public ResponseEntity<ChatResponseAbstract> addChat(@RequestBody ChatRequest chatRequest) {
     Chat chat = chatRequestMapper.convertToEntity(chatRequest);
     Chat chat1 = chatService.save(chat);
 

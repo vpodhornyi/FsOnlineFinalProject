@@ -11,9 +11,9 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-  User findByEmail(String email);
+  Optional<User> findByEmail(String email);
 
-  User findByUserTag(String userTag);
+  Optional<User> findByUserTag(String userTag);
 
   @Query("select u from User u where u.name like %:text% or u.userTag like %:text%")
   Optional<List<User>> findByMatchingNameOrUserTag(@Param("text") String text);
