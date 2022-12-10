@@ -25,7 +25,7 @@ const StartMessage = ({sending, chatId, message, inputRef, sendMessage, enterKey
         </Box>
         <CustomTextField chatId={chatId} message={message} enterKeyDown={enterKeyDown} inputRef={inputRef}/>
         <Box onClick={sendMessage}>
-          <CustomIconButton color='primary' name='SendOutlined' iconSize='small' disabled={message?.trim() === ''}/>
+          <CustomIconButton color='primary' name='SendOutlined' iconSize='small' disabled={!message || message?.trim() === ''}/>
         </Box>
       </ButtonsBoxWrapper>
     </BoxWrapper>

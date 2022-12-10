@@ -8,6 +8,8 @@ import lombok.EqualsAndHashCode;
 @Data
 public class PrivateChatResponse extends ChatResponseAbstract {
   private String title;
+  private String avatarImgUrl;
+  private String userTag;
   private ChatUser authUser;
   private ChatUser guestUser;
 }

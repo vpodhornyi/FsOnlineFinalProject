@@ -34,10 +34,14 @@ public class PrivateChatResponseMapper extends GeneralFacade<Chat, PrivateChatRe
       dto.setAuthUser(chatUserMapper.convertToDto(users.get(0)));
       dto.setGuestUser(chatUserMapper.convertToDto(users.get(1)));
       dto.setTitle(users.get(1).getName());
+      dto.setUserTag(users.get(1).getUserTag());
+      dto.setAvatarImgUrl(users.get(1).getAvatarImgUrl());
     } else {
       dto.setAuthUser(chatUserMapper.convertToDto(users.get(1)));
       dto.setGuestUser(chatUserMapper.convertToDto(users.get(0)));
       dto.setTitle(users.get(0).getName());
+      dto.setUserTag(users.get(0).getUserTag());
+      dto.setAvatarImgUrl(users.get(0).getAvatarImgUrl());
     }
   }
 }

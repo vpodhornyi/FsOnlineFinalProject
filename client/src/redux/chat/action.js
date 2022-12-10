@@ -4,7 +4,7 @@ import api, {URLS} from "@service/API";
 const actions = createActions(
   {
     actions: ['SET_CHAT_ID', 'RESET_CHAT_ID', 'SET_MESSAGE',
-      'SET_NEW_CHAT', 'SET_NEW_GROUP'],
+      'SET_NEW_CHAT', 'SET_NEW_GROUP', 'ADD_CHAT'],
     async: ['GET_CHATS', 'SEND_MESSAGE'],
   },
   {
@@ -74,12 +74,11 @@ export const sendMessage = ({chatId, text}) => async (dispatch, getState) => {
   }
 }
 
-export const getPrivateChatByUsersId = () => dispatch => {
+export const getPrivateChatByUsersId = ({authUserId, guestUserId}) => async dispatch => {
   try {
-    const body = {};
-    const data = api.post(URLS.CHATS.PRIVATE, body)
+    return await api.get(URLS.CHATS.PRIVATE, {params: {authUserId, guestUserId}});
 
-  } catch (e) {
+  } catch (err) {
     console.log('getPrivetChatByUsersId error - ', err);
   }
 }

@@ -8,8 +8,10 @@ import PropTypes from "prop-types";
 import {ACTIONS} from '@redux/chat/action';
 import More from './More';
 import {PATH} from "@utils/constants";
+import {CHAT_TYPE} from "@utils/constants";
 
 const ChatRoute = ({chat}) => {
+  const {PRIVATE, GROUP} = CHAT_TYPE;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {id} = useParams();
@@ -27,7 +29,8 @@ const ChatRoute = ({chat}) => {
           <Box>
             <Box sx={{display: 'flex'}}>
               <Typography sx={{fontWeight: 600}}>{chat.title}</Typography>
-              <Typography sx={{ml: '5px'}}>{chat.userTag}</Typography>
+
+              {chat.type === PRIVATE && <Typography sx={{ml: '5px'}}>@{chat.userTag}</Typography>}
               <Typography sx={{
                 '&:before': {
                   content: '"·"',

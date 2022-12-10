@@ -11,14 +11,14 @@ import FoundUser from "./FoundUser";
 import NewMassageHeader from "./NewMassageHeader";
 import GrabbedUser from "./GrabbedUser";
 import {ModalPage} from '../../../../components';
-import {ACTIONS, searchUser} from "@redux/chat/action";
+import {ACTIONS, searchUser, getPrivateChatByUsersId} from "@redux/chat/action";
 import {getChatsData} from "@redux/chat/selector";
 import {PATH} from "@utils/constants";
 import {getRandomKey} from '@utils';
 import {CHAT_TYPE} from '@utils/constants';
 
 const Element = () => {
-  const {NEW_GROUP, NEW_PRIVATE, PRIVATE} = CHAT_TYPE;
+  const {GROUP, PRIVATE} = CHAT_TYPE;
   const inputRef = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -58,45 +58,36 @@ const Element = () => {
     inputRef.current.focus();
   }
 
-  const next = () => {
+  const next = async () => {
     if (!!grabbedUsers.length) {
-      let id = Date.now();
       const entity = {
-        id,
-        userId: user.id,
         key: getRandomKey(),
-        type: grabbedUsers.length === 1 ? NEW_PRIVATE : NEW_GROUP,
-        users: [...grabbedUsers],
+        type: grabbedUsers.length === 1 ? PRIVATE : GROUP,
       }
-      if (entity.type === NEW_PRIVATE) {
-        const existedChat = chats.find(v => {
-          const usersLn = v.users.length
-          if (v.type === PRIVATE || v.type === NEW_PRIVATE) {
-            const grabbedUserId = grabbedUsers[0]?.id;
+      if (entity.type === PRIVATE) {
+        const guestUser = grabbedUsers[0];
+        entity.guestUserId = guestUser.id;
+        setLoading(true);
+        const chat = await dispatch(getPrivateChatByUsersId({authUserId: user.id, guestUserId: guestUser.id}));
 
-            if (grabbedUserId === user.id) {
-              const ln = v.users.filter(u => u.id === grabbedUserId).length;
-              if ((ln === 1 && usersLn === 1) || ln === 2) {
-                return v;
-              }
-            } else {
-              return v.users.find(u => u.id === grabbedUsers[0]?.id)
-            }
-          }
-        });
-        if (existedChat) {
-          id = existedChat.id;
+        if (chat?.id) {
+          dispatch(ACTIONS.addChat({chat}));
+          navigate(`${PATH.MESSAGES.ROOT}/${chat.id}`);
         } else {
-          entity.title = grabbedUsers[0]?.name;
+          const id = Date.now();
+          entity.id = id;
+          entity.title = guestUser.name;
+          entity.userTag = guestUser.userTag;
+          entity.avatarImgUrl = guestUser.avatarImgUrl;
           dispatch(ACTIONS.setNewChat({entity}));
+          navigate(`${PATH.MESSAGES.ROOT}/${id}`);
         }
+        setLoading(false);
 
       } else {
         entity.title = 'New group';
         dispatch(ACTIONS.setNewChat({entity}));
       }
-
-      navigate(`${PATH.MESSAGES.ROOT}/${id}`);
     }
   }
 

@@ -14,8 +14,8 @@ import {ACTIONS, getMessages, sendMessage, addNewChat} from "@redux/chat/action"
 import {getChatsData} from "@redux/chat/selector";
 import {CHAT_TYPE} from '@utils/constants';
 
-const ChatBody = ({chatId, isGroupChat}) => {
-  const {NEW_GROUP, NEW_PRIVATE} = CHAT_TYPE;
+const ChatBody = ({chatId}) => {
+  const {GROUP, PRIVATE} = CHAT_TYPE;
   const overlayRef = useRef();
   const chatBodyRef = useRef();
   const inputRef = useRef();
@@ -67,7 +67,7 @@ const ChatBody = ({chatId, isGroupChat}) => {
       dispatch(ACTIONS.setMessage({chatId, text: ''}));
       const type = selectedChat.type;
 
-      if (type === NEW_GROUP || type === NEW_PRIVATE) {
+      if (type === GROUP || type === PRIVATE) {
         const data = await dispatch(addNewChat(selectedChat));
 
       } else {
@@ -95,7 +95,7 @@ const ChatBody = ({chatId, isGroupChat}) => {
     <BoxWrapper>
       <Box ref={overlayRef} className='Overlay' onScroll={onScrollEvent}>
         <Box ref={chatBodyRef} className='MessagesBox'>
-          {!isGroupChat && <UserInfo/>}
+          {selectedChat.type === PRIVATE && <UserInfo/>}
           {loading && (
             <Box sx={{position: 'relative', pt: 3, pb: 3}}>
               <CircularLoader/>
@@ -157,8 +157,6 @@ const BoxWrapper = styled(Box)(({theme}) => ({
 
 ChatBody.propTypes = {
   chatId: PropTypes.number,
-  selectedChat: PropTypes.object,
-  isGroupChat: PropTypes.bool,
 }
 
 export default ChatBody;

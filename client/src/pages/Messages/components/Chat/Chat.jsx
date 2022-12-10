@@ -10,7 +10,7 @@ import {ACTIONS} from '@redux/chat/action';
 import {PATH} from "../../../../utils/constants";
 
 const Chat = () => {
-  const {isGroupChat, selectedChat, chats} = useSelector(getChatsData);
+  const {selectedChat, chats} = useSelector(getChatsData);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {id} = useParams();
@@ -32,7 +32,7 @@ const Chat = () => {
   return (
     <BoxWrapper>
       <ChatHeader selectedChat={selectedChat}/>
-      <ChatBody chatId={parseInt(id)} isGroupChat={isGroupChat}/>
+      <ChatBody chatId={parseInt(id)}/>
     </BoxWrapper>
   );
 }
