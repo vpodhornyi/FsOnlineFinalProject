@@ -54,7 +54,7 @@ public class ChatController {
   @PostMapping("/private")
   public ResponseEntity<ChatResponseAbstract> addPrivateChat(@RequestBody PrivateChatRequest privateChatRequest) {
     Chat chat = privateChatRequestMapper.convertToEntity(privateChatRequest);
-    Chat savedChat = chatService.save(chat);
+    Chat savedChat = chatService.savePrivateChat(chat);
 
     return ResponseEntity.ok(privateChatResponseMapper.convertToDto(savedChat));
   }

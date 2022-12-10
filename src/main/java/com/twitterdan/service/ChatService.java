@@ -4,6 +4,7 @@ import com.twitterdan.dao.ChatRepository;
 import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.chat.ChatType;
 import com.twitterdan.domain.user.User;
+import com.twitterdan.exception.ChatAlreadyExistException;
 import com.twitterdan.exception.CouldNotFindAccountException;
 import com.twitterdan.exception.CouldNotFindChatException;
 import org.springframework.stereotype.Service;
@@ -45,10 +46,22 @@ public class ChatService {
       return optionalChat.get();
     }
 
-    throw new CouldNotFindAccountException(false);
+    throw new CouldNotFindChatException(false);
   }
 
-  public Chat save(Chat chat) {
+  public boolean isPrivateChatExist(List<User> users) {
+    Long idOne = users.get(0).getId();
+    Long idTwo = users.get(1).getId();
+    Optional<Chat> optionalChat = chatRepository.findPrivateChatByUsersIds(ChatType.PRIVATE, idOne, idTwo);
+
+    return optionalChat.isPresent();
+  }
+
+  public Chat savePrivateChat(Chat chat) {
+    if (isPrivateChatExist(chat.getUsers())) {
+      throw new ChatAlreadyExistException();
+    }
+
     return chatRepository.save(chat);
   }
 }
