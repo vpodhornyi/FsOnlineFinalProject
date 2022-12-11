@@ -34,6 +34,13 @@ export const FormFooter = styled(Box)({
   justifyContent: "space-between",
   alignItems: "center",
 });
+export const TextCount = styled(Box)({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  fontWeight:"bold",
+  color:"green"
+});
 
 export const IconsList = styled(List)({
   marginTop: 15,

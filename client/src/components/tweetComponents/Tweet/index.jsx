@@ -30,7 +30,7 @@ import { getActiveId } from "../../../redux/modal/selector";
 import DeleteTweet from "../DeleteTweet";
 import ImageListContainer from "../../imageList/ImageListContainer";
 import {handlerBookmark} from "../../../redux/tweet/action";
-const Tweet = ({ openReply = false, tweetInfo }) => {
+const Tweet = ({ tweetInfo }) => {
   const dispatch = useDispatch();
   const activeId = useSelector(getActiveId);
   const { id, body, images } = tweetInfo;
@@ -41,10 +41,10 @@ const Tweet = ({ openReply = false, tweetInfo }) => {
       <TweetContainer>
         <Content>
           <Box sx={{ display: "flex" }}>
-            {" "}
+
             <AvatarWrapper>
               <UserAvatar alt={name} src={avatarImgUrl}></UserAvatar>
-              {openReply && <AvatarDecorate variant={"span"}></AvatarDecorate>}
+               <AvatarDecorate variant={"span"}></AvatarDecorate>
             </AvatarWrapper>
             <Box>
               <Box sx={{ marginLeft: 0.688 }}>
@@ -66,11 +66,10 @@ const Tweet = ({ openReply = false, tweetInfo }) => {
                     {created_at}
                   </Link>
                 </PostInfo>
-                <Typography variant="p">{body}</Typography>
+                <Typography sx={{wordWrap: "break-word", maxWidth: "480px",display:"block"}} variant="p">{body}</Typography>
               </Box>
             </Box>
           </Box>{" "}
-          {!openReply && (
             <IconBlue>
               <Tooltip title={"Delete"}>
                 <MoreIcon
@@ -81,17 +80,15 @@ const Tweet = ({ openReply = false, tweetInfo }) => {
                 />
               </Tooltip>{" "}
             </IconBlue>
-          )}
+
         </Content>
-        {!openReply  && (
-          <>
             {images.length > 0 && <ImageListContainer photos={images}/>}
             <List
               component="ul"
               disablePadding
               sx={{ display: "flex", justifyContent: "space-around" }}
             >
-              {!openReply &&
+              {
                 ICONS.length &&
                 ICONS.map((itemData, index) => (
                   <ListItem
@@ -126,11 +123,9 @@ const Tweet = ({ openReply = false, tweetInfo }) => {
                   </ListItem>
                 ))}
             </List>
-          </>
-        )}
       </TweetContainer>
-      {activeId === id && !openReply && <Reply tweetInfo={tweetInfo} />}
-      {activeId === id && !openReply && <DeleteTweet />}
+      {activeId === id && <Reply tweetInfo={tweetInfo} />}
+      {activeId === id && <DeleteTweet />}
     </>
   );
 };

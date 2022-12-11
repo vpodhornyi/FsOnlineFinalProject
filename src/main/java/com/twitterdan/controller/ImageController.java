@@ -3,11 +3,7 @@ package com.twitterdan.controller;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.twitterdan.config.UploadTypes;
-import com.twitterdan.dao.AttachmentRepository;
-import com.twitterdan.domain.attachment.AttachmentImage;
-import com.twitterdan.dto.attachment.AttachmentResponse;
-import com.twitterdan.facade.attachment.AttachmentResponseMapper;
-import com.twitterdan.service.TweetService;
+
 import com.twitterdan.service.UserService;
 import org.cloudinary.json.JSONArray;
 import org.cloudinary.json.JSONObject;
@@ -29,7 +25,6 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @CrossOrigin("*")
 @RestController
@@ -38,12 +33,8 @@ public class ImageController {
 
     @Autowired
     private UserService userService;
-    @Autowired
-    private TweetService tweetService;
-    @Autowired
-    private AttachmentRepository attachmentRepository;
-    @Autowired
-    private AttachmentResponseMapper attachmentResponseMapper;
+
+
     @Autowired
     @Qualifier("com.cloudinary.cloud_name")
     String cloudName;
@@ -95,7 +86,6 @@ public class ImageController {
 
                 case UPDATE_PROFILE_HEADER -> userService.updateUserHeader(Long.valueOf(id), url);
 
-                case TWEET -> tweetService.updateTweetImages(Long.valueOf(id),url);
             }
 
             return new ResponseEntity<>("{\"status\":\"OK\", \"url\":\"" + url + "\"}", HttpStatus.OK);
@@ -103,8 +93,5 @@ public class ImageController {
             return new ResponseEntity<>("", HttpStatus.BAD_REQUEST);
         }
     }
-    @GetMapping(value = "/all")
-    public List<AttachmentResponse> get() {
-      return   attachmentRepository.findAll().stream().map(attachmentResponseMapper::convertToDto).collect(Collectors.toList());
-    }
+
 }

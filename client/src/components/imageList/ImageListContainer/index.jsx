@@ -14,9 +14,9 @@ function ImageListContainer({photos}) {
     })}
     return (
         <Box sx={{
-            padding: "10px",
+            padding: "5px",
             display: "flex",
-            gap: "10px",
+            gap: "5px",
             minHeight: "260px"
         }}>
             {photos && <><CustomImageList itemData={filterEvenOrObb(photos, "even")}/>

@@ -9,6 +9,7 @@ import PropTypes from "prop-types";
 import Modal from "../../Modal";
 import { useDispatch } from "react-redux";
 import { closeModal } from "../../../redux/modal/action";
+import TweetReply from "../TweetReply";
 const Reply = ({ tweetInfo }) => {
   const dispatch = useDispatch();
   return (
@@ -18,7 +19,7 @@ const Reply = ({ tweetInfo }) => {
           <CloseIcon />
         </IconButton>
       </Box>
-      <Tweet tweetInfo={tweetInfo} openReply={true} />
+      <TweetReply tweetInfo={tweetInfo} openReply={true} />
       <TweetForm placeholderText={"Tweet your reply"} tweetType={"REPLY"} />
     </Modal>
   );

@@ -1,5 +1,5 @@
 import React, {useRef, useState} from "react";
-import {Avatar, Box, Input} from "@mui/material";
+import {Avatar, Box, Input, TextareaAutosize} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import PublicIcon from "@mui/icons-material/Public";
 import EmojiPicker from "emoji-picker-react";
@@ -14,12 +14,12 @@ import {
     ScheduleIcon,
 } from "../../../media/icons";
 import {
-    AvatarContainer,
+    AvatarContainer, Circle,
     Form,
     FormFooter,
     Icon,
     IconsList,
-    ReplyText,
+    ReplyText, TextCount,
     TweetBtn,
     TweetInput,
     TwitterContainer,
@@ -44,20 +44,24 @@ export const TweetForm = ({
     const user = useSelector(getPersonalData);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const TWEET_LIMIT = tweetText.length<=250?tweetText.length:-(tweetText.length-250);
 
     const onEmojiVisible = (bool) => {
-        setEmojiVisible((prevState) =>typeof bool==="boolean"?bool:!prevState);
+        setEmojiVisible((prevState) => typeof bool === "boolean" ? bool : !prevState);
     };
 
     const onEmojiClick = (emojiData, event) => {
         setSelectedEmoji(emojiData.emoji);
-        setTweetText(`${tweetText} ${selectedEmoji}`);
+
+            setTweetText(`${tweetText} ${selectedEmoji}`);
+
+
     };
     const handleUploadFile = (event) => {
-        uploadImage(event.target.files[0],user.id,"TWEET").then(res =>{
+        uploadImage(event.target.files[0], user.id, "TWEET").then(res => {
                 res.status && setUploadPhotos((prev) => [...prev, res.url])
-        }
-            )
+            }
+        )
     };
 
     const handleFileUploadClick = () => {
@@ -65,7 +69,8 @@ export const TweetForm = ({
     };
 
     const onInputChange = (event) => {
-        setTweetText(event.target.value);
+            setTweetText(event.target.value);
+
     };
 
     const onInputFocus = () => {
@@ -95,21 +100,24 @@ export const TweetForm = ({
             </AvatarContainer>
             <Form>
                 <TweetInput>
-                    <Input
+                    <TextareaAutosize
+                        maxRows={3}
+                        style={{resize: "none", width: "100%", outline: "white", fontSize: "16px", border: "none"}}
                         onFocus={onInputFocus}
                         type={"text"}
-                        disableUnderline={true}
-                        fullWidth={true}
                         placeholder={placeholderText}
                         value={tweetText}
                         onChange={onInputChange}
                     />
                     {uploadPhotos.length > 0 && <ImageListContainer photos={uploadPhotos}/>}
                     {showReplyText && placeholderText !== "Tweet your reply" && (
-                        <ReplyText>
-                            <PublicIcon fontSize={"small"} style={{paddingRight: 10}}/>{" "}
-                            Everyone can reply
-                        </ReplyText>
+                        <Box sx={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                            <ReplyText>
+                                <PublicIcon fontSize={"small"} style={{paddingRight: 10}}/>{" "}
+                                Everyone can reply
+                            </ReplyText>
+                            <TextCount sx={{color:TWEET_LIMIT<0&&"red"}}>{TWEET_LIMIT}</TextCount>
+                        </Box>
                     )}
                 </TweetInput>
                 <FormFooter>
@@ -131,7 +139,7 @@ export const TweetForm = ({
                             <PollIcon/>
                         </Icon>
                         <Icon>
-                            <EmojiIcon onClick={()=>onEmojiVisible()}/>
+                            <EmojiIcon onClick={() => onEmojiVisible()}/>
 
                         </Icon>
                         <Icon>
@@ -155,7 +163,7 @@ export const TweetForm = ({
                             autoFocusSearch={false}
                         /></Box>
                     )}
-                    <TweetBtn onClick={onSubmit}>{tweetType}</TweetBtn>
+                    <TweetBtn disabled={TWEET_LIMIT<0} onClick={onSubmit}>{tweetType}</TweetBtn>
                 </FormFooter>
             </Form>
         </TwitterContainer>

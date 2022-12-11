@@ -33,7 +33,8 @@ export const createTweet = (obj) => async (dispatch) => {
     try {
         dispatch(ACTIONS.createTweet.request());
         const data = await api.post(URLS.TWEET.CREATE_TWEET, obj);
-        dispatch(ACTIONS.createTweet.success({...obj, id: data}));
+
+        dispatch(ACTIONS.createTweet.success(data));
 
     } catch (err) {
         //TODO show error

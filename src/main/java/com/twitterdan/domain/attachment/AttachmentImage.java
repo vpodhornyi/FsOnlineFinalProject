@@ -1,5 +1,6 @@
 package com.twitterdan.domain.attachment;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.twitterdan.domain.BaseEntity;
 import com.twitterdan.domain.tweet.Tweet;
@@ -25,6 +26,7 @@ public class AttachmentImage extends BaseEntity {
 
   @ManyToOne
   @JoinColumn(name = "tweet_id")
+  @JsonIgnore
   private Tweet tweet;
 }
 

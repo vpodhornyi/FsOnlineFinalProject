@@ -11,10 +11,9 @@ function CustomImageList({itemData}) {
         <Box
             sx={{
                 display: "flex",
-                gap: "10px",
+                gap: "5px",
                 flex:1,
                 flexDirection:"column",
-                borderRadius: "25px",
                 flexWrap: "wrap"
             }}
         >
@@ -22,11 +21,11 @@ function CustomImageList({itemData}) {
                 itemData.map((el, i) => {
                     const url = el?.imgUrl?el.imgUrl:el;
                     return (
-                        <Box sx={{
-                            backgroundImage: `url(${url})`,
-                            borderRadius: "25px",
+                        <img style={{
                             flex: 1,
-                            backgroundSize: "cover"
+                            backgroundSize: "cover",
+                            maxWidth:"100%",
+                            borderRadius: "25px",
                         }} src={url} key={i} alt={url}/>
                     );
                 })}
