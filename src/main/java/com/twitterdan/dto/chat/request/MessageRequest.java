@@ -1,4 +1,4 @@
-package com.twitterdan.dto.chat;
+package com.twitterdan.dto.chat.request;
 
 import lombok.Data;
 

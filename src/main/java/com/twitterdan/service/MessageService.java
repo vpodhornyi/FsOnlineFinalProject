@@ -1,8 +1,10 @@
 package com.twitterdan.service;
 
 import com.twitterdan.dao.MessageRepository;
+import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.chat.Message;
-import com.twitterdan.dto.chat.MessageRequest;
+import com.twitterdan.domain.user.User;
+import com.twitterdan.dto.chat.request.MessageRequest;
 import com.twitterdan.facade.chat.MessageRequestMapper;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +31,12 @@ public class MessageService {
     return optionalMessages.orElseGet(ArrayList::new);
   }
 
-  public Message save(MessageRequest messageRequestRequest) {
-    Message message = messageRequestMapper.convertToEntity(messageRequestRequest);
+  public Message save(Message message) {
     return messageRepository.save(message);
+  }
+
+  public void saveFirstNewChatMessage(Chat chat, User user, String text) {
+    Message message = new Message(text, chat, user);
+    save(message);
   }
 }

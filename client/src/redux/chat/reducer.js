@@ -11,6 +11,11 @@ export default (state = init, {payload, type}) => {
     case String(ACTIONS.setNewChat):
       state.chats = [payload.entity, ...state.chats]
       return {...state};
+    case String(ACTIONS.addNewChat):
+      const {oldKey, chatData} = payload;
+      const index = state.chats.findIndex(v => v.key === oldKey);
+      state.chats[index] = chatData;
+      return {...state};
     case String(ACTIONS.setMessage):
       const {chatId, text} = payload;
       const chat = state.chats.find(v => v.id === chatId);
@@ -18,7 +23,7 @@ export default (state = init, {payload, type}) => {
       return {
         ...state,
       };
-    case String(ACTIONS.addChat):
+    case String(ACTIONS.addExistChat):
       const isExistChat = state.chats.find(v => v.id === payload?.chat?.id);
       if (!isExistChat) state.chats = [payload.chat, ...state.chats];
       return {

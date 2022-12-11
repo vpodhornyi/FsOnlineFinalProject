@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import {Avatar, Typography} from "@mui/material";
 import CustomIconButton from "@components/buttons/CustomIconButton";
 import {StickyHeader} from '../../../../components';
-import PropTypes from "prop-types";;
+import PropTypes from "prop-types";
 
 const ChatHeader = ({selectedChat}) => {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ const ChatHeader = ({selectedChat}) => {
         <Box sx={{mr: '10px'}} className='backButton' onClick={() => navigate(-1)}>
           <CustomIconButton name='ArrowBackOutlined' title='Back'/>
         </Box>
-        <Avatar sx={{mr: '10px', width: '2.5rem', height: '2.5rem'}} src={'/'}/>
+        <Avatar sx={{mr: '10px', width: '2.5rem', height: '2.5rem'}} src={selectedChat?.avatarImgUrl}/>
         <Typography variant='h2'>{selectedChat?.title}</Typography>
       </Box>
       <Box>

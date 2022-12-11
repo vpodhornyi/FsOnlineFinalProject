@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public abstract class ChatRequestAbstract {
-  private String key;
+  private String message;
   private String type;
 }

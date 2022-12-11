@@ -12,18 +12,16 @@ import NewMassageHeader from "./NewMassageHeader";
 import GrabbedUser from "./GrabbedUser";
 import {ModalPage} from '../../../../components';
 import {ACTIONS, searchUser, getPrivateChatByUsersId} from "@redux/chat/action";
-import {getChatsData} from "@redux/chat/selector";
 import {PATH} from "@utils/constants";
 import {getRandomKey} from '@utils';
 import {CHAT_TYPE} from '@utils/constants';
 
 const Element = () => {
-  const {GROUP, PRIVATE} = CHAT_TYPE;
+  const {NEW_GROUP, NEW_PRIVATE} = CHAT_TYPE;
   const inputRef = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {user} = useSelector(state => state.user);
-  const {chats} = useSelector(getChatsData);
   const [loading, setLoading] = useState(false);
   const [text, setText] = useState('');
   const [foundedUsers, setFoundedUsers] = useState([]);
@@ -62,17 +60,19 @@ const Element = () => {
     if (!!grabbedUsers.length) {
       const entity = {
         key: getRandomKey(),
-        type: grabbedUsers.length === 1 ? PRIVATE : GROUP,
+        type: grabbedUsers.length === 1 ? NEW_PRIVATE : NEW_GROUP,
       }
-      if (entity.type === PRIVATE) {
+      if (entity.type === NEW_PRIVATE) {
         const guestUser = grabbedUsers[0];
         entity.guestUserId = guestUser.id;
+        entity.authUserId = user.id;
         setLoading(true);
         const chat = await dispatch(getPrivateChatByUsersId({authUserId: user.id, guestUserId: guestUser.id}));
 
         if (chat?.id) {
-          dispatch(ACTIONS.addChat({chat}));
+          dispatch(ACTIONS.addExistChat({chat}));
           navigate(`${PATH.MESSAGES.ROOT}/${chat.id}`);
+
         } else {
           const id = Date.now();
           entity.id = id;

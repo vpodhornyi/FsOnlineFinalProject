@@ -1,10 +1,11 @@
 import {createActions} from '../utils';
 import api, {URLS} from "@service/API";
+import {CHAT_TYPE} from "../../utils/constants";
 
 const actions = createActions(
   {
     actions: ['SET_CHAT_ID', 'RESET_CHAT_ID', 'SET_MESSAGE',
-      'SET_NEW_CHAT', 'SET_NEW_GROUP', 'ADD_CHAT'],
+      'SET_NEW_CHAT', 'ADD_NEW_CHAT', 'SET_NEW_GROUP', 'ADD_EXIST_CHAT'],
     async: ['GET_CHATS', 'SEND_MESSAGE'],
   },
   {
@@ -42,10 +43,17 @@ export const searchUser = ({text}) => async dispatch => {
   }
 }
 
-export const addNewChat = (chat) => async dispatch => {
+export const addNewPrivateChat = (chat) => async dispatch => {
   try {
-    const body = {};
-    return await api.post(URLS.CHATS.ROOT, chat);
+    const body = {
+      type: CHAT_TYPE.PRIVATE,
+      authUserId: chat.authUserId,
+      guestUserId: chat.guestUserId,
+      message: chat.message
+    }
+    const data = await api.post(URLS.CHATS.PRIVATE, body);
+    dispatch(ACTIONS.addNewChat({chatData: data, oldKey: chat.key}));
+    return data.id;
 
   } catch (err) {
     console.log('addNewChat error - ', err);

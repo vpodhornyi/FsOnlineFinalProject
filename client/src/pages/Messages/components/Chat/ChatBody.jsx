@@ -1,8 +1,9 @@
 import React, {useEffect, useRef, useState} from "react";
 import {useSelector, useDispatch} from "react-redux";
+import {useNavigate} from "react-router-dom";
+import {useDebouncedCallback} from 'use-debounce';
 import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import {useDebouncedCallback} from 'use-debounce';
 import PropTypes from "prop-types";
 
 import StartMessage from "./footer/StartMessage";
@@ -10,16 +11,18 @@ import UserInfo from "./UserInfo";
 import Message from "./Message";
 import ScrollDownButton from "./ScrollDownButton";
 import {CircularLoader} from "../../../../components";
-import {ACTIONS, getMessages, sendMessage, addNewChat} from "@redux/chat/action";
+import {ACTIONS, getMessages, sendMessage, addNewPrivateChat} from "@redux/chat/action";
 import {getChatsData} from "@redux/chat/selector";
 import {CHAT_TYPE} from '@utils/constants';
+import {PATH} from "@utils/constants";
 
 const ChatBody = ({chatId}) => {
-  const {GROUP, PRIVATE} = CHAT_TYPE;
+  const {NEW_PRIVATE, PRIVATE} = CHAT_TYPE;
   const overlayRef = useRef();
   const chatBodyRef = useRef();
   const inputRef = useRef();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {message, selectedChat} = useSelector(getChatsData);
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -28,7 +31,6 @@ const ChatBody = ({chatId}) => {
   const {user: {id: authUserId}} = useSelector(state => state.user);
   const showScrollDownButton = useDebouncedCallback(v => setVisible(v), 300);
   const fetch = useDebouncedCallback(async (id) => {
-    setMessages({messages: []});
     setLoading(true);
     const messages = await dispatch(getMessages(id));
     setMessages({messages});
@@ -44,6 +46,7 @@ const ChatBody = ({chatId}) => {
   }
 
   useEffect(() => {
+    setMessages({messages: []});
     fetch(chatId);
   }, [chatId]);
 
@@ -67,16 +70,19 @@ const ChatBody = ({chatId}) => {
       dispatch(ACTIONS.setMessage({chatId, text: ''}));
       const type = selectedChat.type;
 
-      if (type === GROUP || type === PRIVATE) {
-        const data = await dispatch(addNewChat(selectedChat));
-
-      } else {
-        const data = await dispatch(sendMessage({chatId, text: message}));
-        if (data?.id) {
-          messages.push(data);
-          setMessages({messages});
-        }
+      if (type === NEW_PRIVATE) {
+        const newChatId = await dispatch(addNewPrivateChat(selectedChat));
+        setSending(false);
+        return navigate(`${PATH.MESSAGES.ROOT}/${newChatId}`);
       }
+
+      const data = await dispatch(sendMessage({chatId, text: message}));
+
+      if (data?.id) {
+        messages.push(data);
+        setMessages({messages});
+      }
+
       inputRef.current.focus();
       setTimeout(() => {
         onBottom();
