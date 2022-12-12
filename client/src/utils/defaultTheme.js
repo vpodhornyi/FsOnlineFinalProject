@@ -52,6 +52,9 @@ export const themeStyles = {
     greenAccent: {
       main: '#00ba7c',
     },
+    greyAccent: {
+      main: 'rgb(83, 100, 113)',
+    },
     text: {
       primary: '#000000'
     },

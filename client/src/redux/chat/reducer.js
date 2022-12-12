@@ -1,4 +1,5 @@
 import {ACTIONS} from "./action";
+import moment from "moment";
 
 const init = {
   loading: false,
@@ -6,6 +7,7 @@ const init = {
   pageSize: 50,
   chatId: -1,
   chats: [],
+  showChats: []
 }
 
 export default (state = init, {payload, type}) => {
@@ -55,12 +57,25 @@ export default (state = init, {payload, type}) => {
       return {
         ...state,
         loading: false,
-        chats: payload.chats
+        chats: payload.chats,
+        showChats: payload.chats,
       };
     case String(ACTIONS.getChats.fail):
       return {
         ...state,
         loading: false,
+      };
+    case String(ACTIONS.setLastChatAction):
+      const {actionData} = payload;
+      const existChat = state.chats.find(ch => ch.id === actionData.chatId);
+      if (existChat) {
+        existChat.lastMessage = actionData;
+        state.chats.sort((a, b) => {
+          return !!a.lastMessage && !!b.lastMessage ? new Date(b.lastMessage.createdAt) - new Date(a.lastMessage.createdAt) : 0
+        })
+      }
+      return {
+        ...state,
       };
     case String(ACTIONS.resetData):
       state = init;

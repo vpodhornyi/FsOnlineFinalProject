@@ -25,7 +25,7 @@ const More = () => {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
       >
-        <CustomIconButton name='MoreHorizOutlined' title='More' size='small' iconSize='small'/>
+        <CustomIconButton color='greyAccent' name='MoreHorizOutlined' title='More' size='small' iconSize='small'/>
       </Box>
       <Menu
         id="demo-positioned-menu"
