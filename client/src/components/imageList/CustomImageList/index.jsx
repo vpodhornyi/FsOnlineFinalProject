@@ -1,12 +1,11 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
-
-
-
+import {openModal} from "../../../redux/modal/action";
+import {useDispatch} from "react-redux";
 
 function CustomImageList({itemData}) {
-
+const dispatch= useDispatch();
     return (
         <Box
             sx={{
@@ -26,7 +25,8 @@ function CustomImageList({itemData}) {
                             backgroundSize: "cover",
                             maxWidth:"100%",
                             borderRadius: "25px",
-                        }} src={url} key={i} alt={url}/>
+                        }} onClick={()=>{
+                            dispatch(openModal({ id: null, typeModal: "FULL_IMG",activeUrl:url}))}} src={url} key={i} alt={url}/>
                     );
                 })}
         </Box>

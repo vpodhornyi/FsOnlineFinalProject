@@ -26,13 +26,15 @@ import {
 } from "./style";
 import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../../../redux/modal/action";
-import { getActiveId } from "../../../redux/modal/selector";
+import {getActiveId, getActiveUrl} from "../../../redux/modal/selector";
 import DeleteTweet from "../DeleteTweet";
 import ImageListContainer from "../../imageList/ImageListContainer";
 import {handlerBookmark} from "../../../redux/tweet/action";
+import Modal from "../../Modal";
 const Tweet = ({ tweetInfo }) => {
   const dispatch = useDispatch();
   const activeId = useSelector(getActiveId);
+  const activeUrl = useSelector(getActiveUrl);
   const { id, body, images } = tweetInfo;
   const { name, avatarImgUrl, userTag, created_at } = tweetInfo.user;
 
@@ -126,6 +128,7 @@ const Tweet = ({ tweetInfo }) => {
       </TweetContainer>
       {activeId === id && <Reply tweetInfo={tweetInfo} />}
       {activeId === id && <DeleteTweet />}
+      {activeUrl&&<Modal type={"FULL_IMG"}><img src={activeUrl} alt="FULL_IMG"/></Modal>}
     </>
   );
 };
