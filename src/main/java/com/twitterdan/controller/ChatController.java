@@ -16,6 +16,7 @@ import com.twitterdan.facade.chat.response.PrivateChatResponseMapper;
 import com.twitterdan.service.ChatService;
 import com.twitterdan.service.MessageService;
 import com.twitterdan.service.UserService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -69,9 +70,12 @@ public class ChatController {
   }
 
   @GetMapping("/messages")
-  public ResponseEntity<List<Message>> getMessages(@RequestParam Long chatId) {
-
-    return ResponseEntity.ok(messageService.findByChatId(chatId));
+  public ResponseEntity<List<MessageResponse>> getMessages(@RequestParam Long chatId) {
+    List<Message> messages = messageService.findByChatId(chatId);
+    List<MessageResponse> messageResponses = messages.stream()
+      .map(messageResponseMapper::convertToDto)
+      .toList();
+    return ResponseEntity.ok(messageResponses);
   }
 
   @PostMapping("/messages")
@@ -79,5 +83,10 @@ public class ChatController {
     Message message = messageRequestMapper.convertToEntity(messageRequest);
     Message savedMessage = messageService.save(message);
     return ResponseEntity.ok(messageResponseMapper.convertToDto(savedMessage));
+  }
+
+  @GetMapping("/test")
+  public List<Chat> test(@RequestParam Long userId){
+    return chatService.test(userId);
   }
 }

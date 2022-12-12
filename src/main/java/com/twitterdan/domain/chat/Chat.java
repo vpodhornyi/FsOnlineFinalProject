@@ -33,7 +33,10 @@ public class Chat extends BaseEntity {
   private List<User> users;
 
   @OneToMany(mappedBy = "chat")
-  @JsonIgnore
   @ToString.Exclude
+  @JsonIgnore
   private List<Message> messages;
+
+  @Transient
+  private Message lastMessage;
 }

@@ -22,11 +22,11 @@ public class Message extends BaseEntity {
   private String text;
 
   @ManyToOne
+  @JsonIgnore
   @JoinColumn(name = "chat_id")
   private Chat chat;
 
   @ManyToOne
   @JoinColumn(name = "user_id")
   private User user;
-
 }

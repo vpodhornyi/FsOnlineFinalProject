@@ -1,7 +1,5 @@
 package com.twitterdan.dto.chat.response;
 
-import com.twitterdan.domain.chat.Chat;
-import com.twitterdan.domain.user.User;
 import com.twitterdan.dto.chat.ChatUser;
 import lombok.Getter;
 import lombok.Setter;

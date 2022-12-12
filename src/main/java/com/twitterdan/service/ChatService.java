@@ -1,11 +1,12 @@
 package com.twitterdan.service;
 
 import com.twitterdan.dao.ChatRepository;
+import com.twitterdan.dao.MessageRepository;
 import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.chat.ChatType;
+import com.twitterdan.domain.chat.Message;
 import com.twitterdan.domain.user.User;
 import com.twitterdan.exception.ChatAlreadyExistException;
-import com.twitterdan.exception.CouldNotFindAccountException;
 import com.twitterdan.exception.CouldNotFindChatException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,9 +17,11 @@ import java.util.*;
 @Transactional
 public class ChatService {
   private final ChatRepository chatRepository;
+  private final MessageRepository messageRepository;
 
-  public ChatService(ChatRepository chatRepository) {
+  public ChatService(ChatRepository chatRepository, MessageRepository messageRepository) {
     this.chatRepository = chatRepository;
+    this.messageRepository = messageRepository;
   }
 
   public List<Chat> getAll() {
@@ -36,7 +39,14 @@ public class ChatService {
 
   public List<Chat> findAlLByUserId(Long id) {
     Optional<List<Chat>> optionalChats = chatRepository.findByUsersId(id);
-    return optionalChats.orElseGet(ArrayList::new);
+    return optionalChats.map(chats -> chats.stream()
+      .peek(chat -> {
+        Optional<Message> optionalMessage = messageRepository.findFirstByChatIdOrderByCreatedAtDesc(chat.getId());
+        if (optionalMessage.isPresent()) {
+          Message message = optionalMessage.get();
+          chat.setLastMessage(message);
+        }
+      }).toList()).orElseGet(() -> optionalChats.orElseGet(ArrayList::new));
   }
 
   public Chat findPrivateChatByUsersIds(Long authUserId, Long guestUserId) {
@@ -63,5 +73,9 @@ public class ChatService {
     }
 
     return chatRepository.save(chat);
+  }
+
+  public List<Chat> test (Long id) {
+    return findAlLByUserId(id);
   }
 }
