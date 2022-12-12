@@ -3,7 +3,7 @@ import {ACTIONS} from "./action";
 const init = {
   loading: false,
   pageNumber: 0,
-  pageSize: 5,
+  pageSize: 50,
   chatId: -1,
   chats: [],
 }

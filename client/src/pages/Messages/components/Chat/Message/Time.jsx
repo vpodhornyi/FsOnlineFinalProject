@@ -3,10 +3,11 @@ import {styled} from "@mui/material/styles";
 import {Box, Typography} from "@mui/material";
 import PropTypes from "prop-types";
 
+import {moment} from "@utils";
 const Time = ({time}) => {
   return (
     <BoxWrapper>
-      <Typography variant='body2'>{time}</Typography>
+      <Typography variant='body2'>{moment(time).fromNow(true)}</Typography>
     </BoxWrapper>);
 }
 

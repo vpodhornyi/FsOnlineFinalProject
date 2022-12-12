@@ -9,6 +9,7 @@ import {ACTIONS} from '@redux/chat/action';
 import More from './More';
 import {PATH} from "@utils/constants";
 import {CHAT_TYPE} from "@utils/constants";
+import {moment} from "@utils";
 
 const ChatRoute = ({chat}) => {
   const {authUser} = useSelector(state => state.user);
@@ -38,10 +39,10 @@ const ChatRoute = ({chat}) => {
                   marginLeft: '5px',
                   marginRight: '5px',
                 }
-              }}>{chat?.lastMessage?.createdAt}</Typography>
+              }}>{moment(chat?.lastMessage?.createdAt).fromNow(true)}</Typography>
             </Box>
             <Box sx={{display: 'flex'}}>
-              {authUser?.id !== chat?.lastMessage?.user.id &&
+              {authUser?.id !== chat?.lastMessage?.user.id && chat?.lastMessage?.user.name &&
                 <Typography variant='body2' sx={{mr: 1}}>{chat?.lastMessage?.user.name}:</Typography>}
               {/*<Box><Typography>You reacted with {':-)'}:</Typography></Box>*/}
               <Typography variant='body2'>{chat?.lastMessage?.text}</Typography>
