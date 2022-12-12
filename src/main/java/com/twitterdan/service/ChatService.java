@@ -8,6 +8,9 @@ import com.twitterdan.domain.chat.Message;
 import com.twitterdan.domain.user.User;
 import com.twitterdan.exception.ChatAlreadyExistException;
 import com.twitterdan.exception.CouldNotFindChatException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,8 +40,9 @@ public class ChatService {
     throw new CouldNotFindChatException();
   }
 
-  public List<Chat> findAlLByUserId(Long id) {
-    Optional<List<Chat>> optionalChats = chatRepository.findByUsersId(id);
+  public List<Chat> findAlLByUserId(Long userId, int pageNumber, int pageSize) {
+    Pageable pageable = PageRequest.of(pageNumber, pageSize);
+    Optional<Page<Chat>> optionalChats = chatRepository.findByUsersId(userId, pageable);
     return optionalChats.map(chats -> chats.stream()
       .peek(chat -> {
         Optional<Message> optionalMessage = messageRepository.findFirstByChatIdOrderByCreatedAtDesc(chat.getId());
@@ -46,7 +50,7 @@ public class ChatService {
           Message message = optionalMessage.get();
           chat.setLastMessage(message);
         }
-      }).toList()).orElseGet(() -> optionalChats.orElseGet(ArrayList::new));
+      }).toList()).orElseGet(() -> (List<Chat>) optionalChats.orElseGet(Page::empty));
   }
 
   public Chat findPrivateChatByUsersIds(Long authUserId, Long guestUserId) {
@@ -75,7 +79,7 @@ public class ChatService {
     return chatRepository.save(chat);
   }
 
-  public List<Chat> test (Long id) {
-    return findAlLByUserId(id);
-  }
+//  public List<Chat> test (Long id) {
+//    return findAlLByUserId(id);
+//  }
 }

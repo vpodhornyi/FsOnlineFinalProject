@@ -4,8 +4,8 @@ import {CHAT_TYPE} from "../../utils/constants";
 
 const actions = createActions(
   {
-    actions: ['SET_CHAT_ID', 'RESET_CHAT_ID', 'SET_MESSAGE',
-      'SET_NEW_CHAT', 'ADD_NEW_CHAT', 'SET_NEW_GROUP', 'ADD_EXIST_CHAT'],
+    actions: ['SET_CHAT_ID', 'RESET_CHAT_ID', 'SET_MESSAGE', 'SET_PAGE_NUMBER',
+      'SET_NEW_CHAT', 'ADD_NEW_CHAT', 'SET_NEW_GROUP', 'ADD_EXIST_CHAT', 'RESET_DATA'],
     async: ['GET_CHATS', 'SEND_MESSAGE'],
   },
   {
@@ -18,10 +18,10 @@ export const ACTIONS = {
   ...actions.async,
 }
 
-export const getChats = (id) => async dispatch => {
+export const getChats = (params) => async dispatch => {
   try {
     dispatch(ACTIONS.getChats.request());
-    const data = await api.get(URLS.CHATS.ROOT, {params: {userId: id}});
+    const data = await api.get(URLS.CHATS.ROOT, {params});
     dispatch(ACTIONS.getChats.success({chats: data}));
 
     return data;
@@ -72,8 +72,8 @@ export const getMessages = (id) => async dispatch => {
 
 export const sendMessage = ({chatId, text}) => async (dispatch, getState) => {
   try {
-    const {user: {user}} = getState();
-    const body = {chatId, text, userId: user?.id};
+    const {user: {authUser}} = getState();
+    const body = {chatId, text, userId: authUser?.id};
     return await api.post(URLS.CHATS.MESSAGES, body);
 
   } catch (err) {

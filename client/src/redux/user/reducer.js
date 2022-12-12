@@ -3,7 +3,7 @@ import {ACTIONS} from "./action";
 // sample, need ref
 const INIT_STATE = {
   preloader: false,
-  user: {},
+  authUser: {},
   error: "",
 }
 
@@ -17,7 +17,7 @@ export default (state = INIT_STATE, {payload, type}) => {
     case String(ACTIONS.getAuthUser.success):
       return {
         ...state,
-        user: payload,
+        authUser: payload,
         preloader: false
       }
     case String(ACTIONS.getAuthUser.fail):

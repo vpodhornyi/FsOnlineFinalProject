@@ -2,12 +2,13 @@ package com.twitterdan.dao;
 
 import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.chat.ChatType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -24,7 +25,7 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
       " group by c.id" +
       " order by MAX(m.created_at) desc NULLS LAST "
     , nativeQuery = true)
-  Optional<List<Chat>> findByUsersId(@Param("userId") Long userId);
+  Optional<Page<Chat>> findByUsersId(@Param("userId") Long userId, Pageable pageable);
 
   @Query("Select c from Chat c join c.users u where c.type = ?1 and u.id = ?2 or u.id = ?3 group by c having count(c) = 2")
   Optional<Chat> findPrivateChatByUsersIds(ChatType type, Long authUserId, Long guestUserId);
@@ -83,4 +84,29 @@ from chats c
 group by c.id, mmm, m.chat_id
 
 order by mmm desc NULLS LAST
+
+select c.id,
+       c.uuid,
+       c.title,
+       c.type,
+
+       c.created_at,
+       c.created_by,
+       c.updated_at,
+       c.updated_by
+
+from chats c
+
+         left join messages m on c.id = m.chat_id
+         join chats_users cu on c.id = cu.chats_id
+         join users u on u.id = cu.users_id
+
+where u.id = 2
+
+group by c.id
+
+
+order by MAX(m.created_at) desc NULLS LAST;
+
+
  */

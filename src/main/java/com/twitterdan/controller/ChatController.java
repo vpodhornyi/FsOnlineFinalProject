@@ -38,8 +38,13 @@ public class ChatController {
   private final PrivateChatRequestMapper privateChatRequestMapper;
 
   @GetMapping
-  public ResponseEntity<List<ChatResponseAbstract>> getChats(@RequestParam Long userId) {
-    List<ChatResponseAbstract> chats = chatService.findAlLByUserId(userId).stream()
+  public ResponseEntity<List<ChatResponseAbstract>> getChats(
+    @RequestParam Long userId,
+    @RequestParam int pageNumber,
+    @RequestParam int pageSize
+    ) {
+    List<ChatResponseAbstract> chats = chatService.findAlLByUserId(userId, pageNumber, pageSize)
+      .stream()
       .map(ch -> {
         if (ch.getType().equals(ChatType.PRIVATE)) {
           return privateChatResponseMapper.convertToDto(ch);
@@ -85,8 +90,8 @@ public class ChatController {
     return ResponseEntity.ok(messageResponseMapper.convertToDto(savedMessage));
   }
 
-  @GetMapping("/test")
-  public List<Chat> test(@RequestParam Long userId){
-    return chatService.test(userId);
-  }
+//  @GetMapping("/test")
+//  public List<Chat> test(@RequestParam Long userId){
+//    return chatService.test(userId);
+//  }
 }

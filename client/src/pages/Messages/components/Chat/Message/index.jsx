@@ -6,16 +6,16 @@ import Reaction from "./Reaction";
 import Time from "./Time";
 import PropTypes from "prop-types";
 
-const Index = ({left = false, text}) => {
+const Index = ({left = false, message}) => {
 
   return (
     <BoxWrapper>
       <Box className={left ? 'LeftMessage' : 'RightMessage'}>
         <Box>
-          <MessageBox left={left} text={text}/>
+          <MessageBox left={left} text={message?.text}/>
         </Box>
-        <Reaction/>
-        <Time/>
+        {/*<Reaction/>*/}
+        <Time time={message.createdAt}/>
       </Box>
     </BoxWrapper>);
 }
@@ -52,7 +52,7 @@ const BoxWrapper = styled(Box)(({theme}) => ({
 
 Index.propTypes = {
   left: PropTypes.bool,
-  text: PropTypes.string,
+  message: PropTypes.object,
 }
 
 export default Index;

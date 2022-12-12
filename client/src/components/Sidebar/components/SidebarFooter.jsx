@@ -14,7 +14,7 @@ import {AUTH_ROUTE, LOGOUT_ROUTE} from "../../../utils/constants";
 import {logout} from '@redux/auth/action';
 
 const SidebarFooter = () => {
-  const {user: authUser} = useSelector(state => state.user);
+  const {authUser} = useSelector(state => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

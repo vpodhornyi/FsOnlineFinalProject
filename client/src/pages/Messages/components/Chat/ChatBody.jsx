@@ -28,7 +28,7 @@ const ChatBody = ({chatId}) => {
   const [loading, setLoading] = useState(false);
   const [sending, setSending] = useState(false);
   const [{messages}, setMessages] = useState({messages: []});
-  const {user: {id: authUserId}} = useSelector(state => state.user);
+  const {authUser: {id: authUserId}} = useSelector(state => state.user);
   const showScrollDownButton = useDebouncedCallback(v => setVisible(v), 300);
   const fetch = useDebouncedCallback(async (id) => {
     setLoading(true);
@@ -109,7 +109,7 @@ const ChatBody = ({chatId}) => {
           )}
           {messages.map(item => {
             const isAuth = item?.user?.id === authUserId;
-            return <Message key={item?.key} left={!isAuth} text={item?.text}/>
+            return <Message key={item?.key} left={!isAuth} message={item}/>
           })}
         </Box>
       </Box>

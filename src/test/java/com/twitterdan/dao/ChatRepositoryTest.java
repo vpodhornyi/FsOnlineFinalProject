@@ -24,7 +24,7 @@ public class ChatRepositoryTest {
   private UserRepository userRepository;
   @Autowired
   private ChatRepository chatRepository;
-
+/*
   @Test
   public void test_findByUsersId_success() {
     Optional<List<Chat>> byUsersId = chatRepository.findByUsersId(1L);
@@ -55,7 +55,7 @@ public class ChatRepositoryTest {
     Optional<List<Chat>> byUsersId = chatRepository.findByUsersId(6L);
     List<Chat> chats = byUsersId.get();
     assertEquals(1, chats.size());
-  }
+  }*/
 
   @Test
   public void test_findChatByTypeAndUsers_success() {

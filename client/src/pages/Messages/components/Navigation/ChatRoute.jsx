@@ -1,5 +1,5 @@
 import React from "react";
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useParams, useNavigate} from 'react-router-dom';
 import {styled} from "@mui/material/styles";
 import {Avatar, Typography, Box} from "@mui/material";
@@ -11,7 +11,8 @@ import {PATH} from "@utils/constants";
 import {CHAT_TYPE} from "@utils/constants";
 
 const ChatRoute = ({chat}) => {
-  const {PRIVATE, GROUP} = CHAT_TYPE;
+  const {authUser} = useSelector(state => state.user);
+  const {PRIVATE} = CHAT_TYPE;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {id} = useParams();
@@ -30,18 +31,20 @@ const ChatRoute = ({chat}) => {
             <Box sx={{display: 'flex'}}>
               <Typography sx={{fontWeight: 600}}>{chat.title}</Typography>
 
-              {chat.type === PRIVATE && <Typography sx={{ml: '5px'}}>@{chat.userTag}</Typography>}
-              <Typography sx={{
+              {chat.type === PRIVATE && <Typography variant='body2' sx={{ml: '5px'}}>@{chat.userTag}</Typography>}
+              <Typography variant='body2' sx={{
                 '&:before': {
                   content: '"·"',
                   marginLeft: '5px',
                   marginRight: '5px',
                 }
-              }}>{'1h'}</Typography>
+              }}>{chat?.lastMessage?.createdAt}</Typography>
             </Box>
             <Box sx={{display: 'flex'}}>
-              <Box><Typography>You reacted with {':-)'}:</Typography></Box>
-              <Box><Typography>{' message text'}</Typography></Box>
+              {authUser?.id !== chat?.lastMessage?.user.id &&
+                <Typography variant='body2' sx={{mr: 1}}>{chat?.lastMessage?.user.name}:</Typography>}
+              {/*<Box><Typography>You reacted with {':-)'}:</Typography></Box>*/}
+              <Typography variant='body2'>{chat?.lastMessage?.text}</Typography>
             </Box>
           </Box>
         </Box>

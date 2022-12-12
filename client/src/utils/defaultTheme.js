@@ -75,7 +75,8 @@ export const themeStyles = {
       fontSize: '1rem',
     },
     body2: {
-      fontSize: '0.875rem',
+      fontSize: '0.95rem',
+      color: 'rgb(83, 100, 113)'
     },
   },
 }

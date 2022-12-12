@@ -28,13 +28,13 @@ const Index = () => {
   const {selectedChat} = useSelector(getChatsData);
 
   return (
-    <Link to='/user_name' style={{textDecoration: 'none', color: '#000000'}}>
+    <Link to={`/${selectedChat.userTag}`} style={{textDecoration: 'none', color: '#000000'}}>
       <BoxWrapper>
         <Avatar sx={{width: '5rem', height: '5rem'}} src={selectedChat.avatarImgUrl}/>
         <Typography sx={{fontWeight: 600}}>{selectedChat.title}</Typography>
-        <Typography sx={{pb: 2}}>@{selectedChat.userTag}</Typography>
-        <Typography>Joined November 2022 · 1 Follower</Typography>
-        <Typography>User Tag</Typography>
+        <Typography variant='body2' sx={{pb: 2}}>@{selectedChat.userTag}</Typography>
+        <Typography variant='body2'>Joined November 2022 · 1 Follower</Typography>
+        <Typography variant='body2'>User Tag</Typography>
       </BoxWrapper>
     </Link>
   );

@@ -21,7 +21,7 @@ const Element = () => {
   const inputRef = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {user} = useSelector(state => state.user);
+  const {authUser} = useSelector(state => state.user);
   const [loading, setLoading] = useState(false);
   const [text, setText] = useState('');
   const [foundedUsers, setFoundedUsers] = useState([]);
@@ -65,9 +65,9 @@ const Element = () => {
       if (entity.type === NEW_PRIVATE) {
         const guestUser = grabbedUsers[0];
         entity.guestUserId = guestUser.id;
-        entity.authUserId = user.id;
+        entity.authUserId = authUser.id;
         setLoading(true);
-        const chat = await dispatch(getPrivateChatByUsersId({authUserId: user.id, guestUserId: guestUser.id}));
+        const chat = await dispatch(getPrivateChatByUsersId({authUserId: authUser.id, guestUserId: guestUser.id}));
 
         if (chat?.id) {
           dispatch(ACTIONS.addExistChat({chat}));

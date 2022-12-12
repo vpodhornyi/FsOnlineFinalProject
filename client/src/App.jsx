@@ -14,7 +14,7 @@ import {getChatsData} from '@redux/chat/selector';
 
 const App = () => {
   const {authorized} = useSelector(state => state.auth);
-  const {user: {userTag}, preloader} = useSelector(state => state.user);
+  const {authUser: {userTag}, preloader} = useSelector(state => state.user);
   const {isChatSelected, chatId} = useSelector(getChatsData);
   const location = useLocation();
   const background = location.state?.background;

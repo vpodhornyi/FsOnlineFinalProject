@@ -10,6 +10,5 @@ public abstract class ChatResponseAbstract {
   private String key;
   private String title;
   private String type;
-  private List<MessageResponse> messages;
   private MessageResponse lastMessage;
 }

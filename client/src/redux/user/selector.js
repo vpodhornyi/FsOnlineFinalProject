@@ -1,1 +1,1 @@
-export const getPersonalData = (state) => state.user.user;
+export const getPersonalData = (state) => state.user.authUser;

@@ -34,8 +34,7 @@ public class Chat extends BaseEntity {
 
   @OneToMany(mappedBy = "chat")
   @ToString.Exclude
-  @JsonIgnore
-  private List<Message> messages;
+  private transient List<Message> messages;
 
   @Transient
   private Message lastMessage;

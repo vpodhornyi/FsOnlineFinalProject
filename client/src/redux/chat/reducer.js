@@ -2,12 +2,19 @@ import {ACTIONS} from "./action";
 
 const init = {
   loading: false,
+  pageNumber: 0,
+  pageSize: 5,
   chatId: -1,
   chats: [],
 }
 
 export default (state = init, {payload, type}) => {
   switch (type) {
+    case String(ACTIONS.setPageNumber):
+      return {
+        ...state,
+        pageNumber: payload.pageNumber,
+      };
     case String(ACTIONS.setNewChat):
       state.chats = [payload.entity, ...state.chats]
       return {...state};
@@ -54,6 +61,11 @@ export default (state = init, {payload, type}) => {
       return {
         ...state,
         loading: false,
+      };
+    case String(ACTIONS.resetData):
+      state = init;
+      return {
+        ...state,
       };
     default:
       return state;
