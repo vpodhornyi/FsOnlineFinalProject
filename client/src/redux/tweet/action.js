@@ -42,11 +42,11 @@ export const createTweet = (obj) => async (dispatch) => {
         console.log("createTweet error - ", err);
     }
 };
-export const deleteTweet = (id) => async (dispatch) => {
+export const deleteTweet = (userId,tweetID) => async (dispatch) => {
     try {
         dispatch(ACTIONS.deleteTweet.request());
-        const data = await api.delete(URLS.TWEET._ROOT + id);
-        dispatch(ACTIONS.deleteTweet.success(id));
+        const data = await api.delete(`${URLS.TWEET._ROOT+userId}/${tweetID}`);
+        dispatch(ACTIONS.deleteTweet.success(tweetID));
 
     } catch (err) {
         //TODO show error

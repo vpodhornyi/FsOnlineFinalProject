@@ -6,16 +6,18 @@ import { closeModal } from "../../../redux/modal/action";
 import { deleteTweet } from "../../../redux/tweet/action";
 import { getActiveId } from "../../../redux/modal/selector";
 import Button from "@mui/material/Button";
+import {getPersonalData} from "../../../redux/user/selector";
 
 const DeleteTweet = () => {
   const dispatch = useDispatch();
   const activeId = useSelector(getActiveId);
+  const personData = useSelector(getPersonalData);
   return (
     <Modal type={"Delete"}>
       <Box sx={{ padding: "20px" }}>
         <Box sx={{ textAlign: "center" }}>Delete tweet?</Box>
         <Button onClick={() => {
-            dispatch(deleteTweet(activeId));
+            dispatch(deleteTweet(personData.id,activeId));
             dispatch(closeModal());
         }}>yes</Button>
 
