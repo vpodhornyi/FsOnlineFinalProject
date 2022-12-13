@@ -4,19 +4,21 @@ import {useNavigate} from "react-router-dom";
 import {styled} from "@mui/material/styles";
 import {useDebouncedCallback} from "use-debounce";
 import {Box, LinearProgress} from "@mui/material";
+import PropTypes from "prop-types";
 
 import IconByName from "@components/icons/IconByName";
 import SearchTextField from "./SearchTextField";
 import FoundUser from "./FoundUser";
 import NewMassageHeader from "./NewMassageHeader";
 import GrabbedUser from "./GrabbedUser";
+import GroupButton from "./GroupButton";
 import {ModalPage} from '../../../../components';
 import {ACTIONS, searchUser, getPrivateChatByUsersId} from "@redux/chat/action";
 import {PATH} from "@utils/constants";
 import {getRandomKey} from '@utils';
 import {CHAT_TYPE} from '@utils/constants';
 
-const Element = () => {
+const Element = ({isGroup}) => {
   const {NEW_GROUP, NEW_PRIVATE} = CHAT_TYPE;
   const inputRef = useRef();
   const dispatch = useDispatch();
@@ -32,6 +34,8 @@ const Element = () => {
       const users = await dispatch(searchUser({text}));
       setFoundedUsers(users);
       setLoading(false);
+    } else {
+      setFoundedUsers([]);
     }
   }, 500);
 
@@ -56,12 +60,14 @@ const Element = () => {
     inputRef.current.focus();
   }
 
-  const next = async () => {
+  const next = async (isGroup) => {
     if (!!grabbedUsers.length) {
       const entity = {
         key: getRandomKey(),
-        type: grabbedUsers.length === 1 ? NEW_PRIVATE : NEW_GROUP,
+        type: isGroup ? NEW_GROUP : grabbedUsers.length === 1 ? NEW_PRIVATE : NEW_GROUP,
       }
+      const id = Date.now();
+
       if (entity.type === NEW_PRIVATE) {
         const guestUser = grabbedUsers[0];
         entity.guestUserId = guestUser.id;
@@ -72,9 +78,7 @@ const Element = () => {
         if (chat?.id) {
           dispatch(ACTIONS.addExistChat({chat}));
           navigate(`${PATH.MESSAGES.ROOT}/${chat.id}`);
-
         } else {
-          const id = Date.now();
           entity.id = id;
           entity.title = guestUser.name;
           entity.userTag = guestUser.userTag;
@@ -85,18 +89,22 @@ const Element = () => {
         setLoading(false);
 
       } else {
+        entity.id = id;
         entity.title = 'New group';
+        entity.users = grabbedUsers;
+        entity.authUserId = authUser.id;
         dispatch(ACTIONS.setNewChat({entity}));
+        navigate(`${PATH.MESSAGES.ROOT}/${id}`);
       }
     }
   }
 
   return (
     <BoxWrapper>
-      <NewMassageHeader isNext={!grabbedUsers.length} next={next}/>
-      <Box sx={{position: 'relative', width: '100%', borderBottom: '1px solid rgb(239, 243, 244)',}}>
+      <NewMassageHeader isGroup={isGroup} isNext={!grabbedUsers.length} next={next}/>
+      <Box sx={{position: 'relative', width: '100%', borderBottom: '1px solid rgb(207, 217, 222)',}}>
         <Box className='SearchIconWrapper'>
-          <IconByName iconName='SearchOutlined'/>
+          <IconByName color='primary' iconName='SearchOutlined'/>
         </Box>
         <SearchTextField text={text} onChange={inputOnChange} inputRef={inputRef}/>
         <Box className='GrubbedUsersBox'>
@@ -112,6 +120,7 @@ const Element = () => {
           {loading && <LinearProgress color='primary' sx={{height: 2}}/>}
         </Box>
       </Box>
+      {!isGroup && <GroupButton/>}
       <Box className='FoundUsersBox'>
         {
           foundedUsers.map(user => <FoundUser
@@ -125,7 +134,7 @@ const Element = () => {
   );
 }
 
-const DialogNewMessage = () => <ModalPage element={<Element/>}/>;
+const UserSearch = ({isGroup}) => <ModalPage element={<Element isGroup={isGroup}/>}/>;
 
 const BoxWrapper = styled(Box)(({theme}) => ({
   width: '100%',
@@ -161,4 +170,12 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   }
 }));
 
-export default DialogNewMessage;
+Element.propTypes = {
+  isGroup: PropTypes.bool,
+}
+
+UserSearch.propTypes = {
+  isGroup: PropTypes.bool,
+}
+
+export default UserSearch;

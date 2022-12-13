@@ -59,6 +59,7 @@ export const URLS = {
     ROOT: '/chats',
     MESSAGES: '/chats/messages',
     PRIVATE: '/chats/private',
+    GROUP: '/chats/group',
   }
 };
 

@@ -79,6 +79,10 @@ public class ChatService {
     return chatRepository.save(chat);
   }
 
+  public Chat saveGroupChat(Chat chat) {
+    return chatRepository.save(chat);
+  }
+
 //  public List<Chat> test (Long id) {
 //    return findAlLByUserId(id);
 //  }

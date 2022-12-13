@@ -60,6 +60,26 @@ export const addNewPrivateChat = (chat) => async dispatch => {
   }
 }
 
+export const addNewGroupChat = (chat) => async dispatch => {
+  try {
+    const usersIds = chat.users.map(u => u.id);
+    usersIds.push(chat.authUserId);
+    const body = {
+      title: chat.title,
+      message: chat.message,
+      authUserId: chat.authUserId,
+      type: CHAT_TYPE.GROUP,
+      usersIds,
+    }
+    const data = await api.post(URLS.CHATS.GROUP, body);
+    dispatch(ACTIONS.addNewChat({chatData: data, oldKey: chat.key}));
+    return data.id;
+
+  } catch (err) {
+    console.log('addNewChat error - ', err);
+  }
+}
+
 export const getMessages = (id) => async dispatch => {
   try {
     return await api.get(URLS.CHATS.MESSAGES, {params: {chatId: id}});
@@ -75,7 +95,6 @@ export const sendMessage = ({chatId, text}) => async (dispatch, getState) => {
     const {user: {authUser}} = getState();
     const body = {chatId, text, userId: authUser?.id};
     const data = await api.post(URLS.CHATS.MESSAGES, body);
-    console.log(data);
     dispatch(ACTIONS.setLastChatAction({actionData: data}))
     return data;
 

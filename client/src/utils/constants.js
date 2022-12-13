@@ -16,7 +16,8 @@ export const PATH = {
     ROOT: '/messages',
     CHAT: ':id',
     CHAT_INFO: ':id/info',
-    COMPOSE: '/messages/compose'
+    COMPOSE: '/messages/compose',
+    COMPOSE_GROUP: '/messages/compose/group',
   },
   BOOKMARKS: '/bookmarks',
   LISTS: '/lists',

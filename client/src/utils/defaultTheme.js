@@ -50,7 +50,7 @@ export const themeStyles = {
       main: '#ff7a00',
     },
     greenAccent: {
-      main: '#00ba7c',
+      main: 'rgb(0, 186, 124)',
     },
     greyAccent: {
       main: 'rgb(83, 100, 113)',

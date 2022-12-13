@@ -7,7 +7,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class PrivateChatResponse extends ChatResponseAbstract {
-  private String title;
   private String avatarImgUrl;
   private String userTag;
   private ChatUser authUser;

@@ -4,11 +4,14 @@ import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.chat.ChatType;
 import com.twitterdan.domain.chat.Message;
 import com.twitterdan.domain.user.User;
+import com.twitterdan.dto.chat.request.GroupChatRequest;
 import com.twitterdan.dto.chat.request.PrivateChatRequest;
 import com.twitterdan.dto.chat.response.ChatResponseAbstract;
+import com.twitterdan.dto.chat.request.ChatRequestAbstract;
 import com.twitterdan.dto.chat.request.MessageRequest;
 import com.twitterdan.dto.chat.response.MessageResponse;
 import com.twitterdan.facade.chat.MessageRequestMapper;
+import com.twitterdan.facade.chat.request.GroupChatRequestMapper;
 import com.twitterdan.facade.chat.request.PrivateChatRequestMapper;
 import com.twitterdan.facade.chat.response.GroupChatResponseMapper;
 import com.twitterdan.facade.chat.response.MessageResponseMapper;
@@ -16,7 +19,6 @@ import com.twitterdan.facade.chat.response.PrivateChatResponseMapper;
 import com.twitterdan.service.ChatService;
 import com.twitterdan.service.MessageService;
 import com.twitterdan.service.UserService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +38,7 @@ public class ChatController {
   private final PrivateChatResponseMapper privateChatResponseMapper;
   private final GroupChatResponseMapper groupChatResponseMapper;
   private final PrivateChatRequestMapper privateChatRequestMapper;
+  private final GroupChatRequestMapper groupChatRequestMapper;
 
   @GetMapping
   public ResponseEntity<List<ChatResponseAbstract>> getChats(
@@ -55,6 +58,12 @@ public class ChatController {
     return ResponseEntity.ok(chats);
   }
 
+  private void saveFirstChatMessage(Long id, Chat chat, String text) {
+    User user = userService.findById(id);
+    Message message = messageService.saveFirstNewChatMessage(chat, user, text);
+    chat.setLastMessage(message);
+  }
+
   @GetMapping("/private")
   public ResponseEntity<ChatResponseAbstract> findPrivateChat(@RequestParam Long authUserId, @RequestParam Long guestUserId) {
     Chat chat = chatService.findPrivateChatByUsersIds(authUserId, guestUserId);
@@ -68,10 +77,20 @@ public class ChatController {
     Chat savedChat = chatService.savePrivateChat(chat);
     Long authUserId = privateChatRequest.getAuthUserId();
     String text = privateChatRequest.getMessage();
-    User user = userService.findById(authUserId);
-    messageService.saveFirstNewChatMessage(savedChat, user, text);
+    saveFirstChatMessage(authUserId, savedChat, text);
 
     return ResponseEntity.ok(privateChatResponseMapper.convertToDto(savedChat));
+  }
+
+  @PostMapping("/group")
+  public ResponseEntity<ChatResponseAbstract> addGroupChat(@RequestBody GroupChatRequest groupChatRequest) {
+    Chat chat = groupChatRequestMapper.convertToEntity(groupChatRequest);
+    Chat savedChat = chatService.saveGroupChat(chat);
+    Long authUserId = groupChatRequest.getAuthUserId();
+    String text = groupChatRequest.getMessage();
+    saveFirstChatMessage(authUserId, savedChat, text);
+
+    return ResponseEntity.ok(groupChatResponseMapper.convertToDto(savedChat));
   }
 
   @GetMapping("/messages")

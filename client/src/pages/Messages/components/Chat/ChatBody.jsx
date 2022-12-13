@@ -11,13 +11,13 @@ import UserInfo from "./UserInfo";
 import Message from "./Message";
 import ScrollDownButton from "./ScrollDownButton";
 import {CircularLoader} from "../../../../components";
-import {ACTIONS, getMessages, sendMessage, addNewPrivateChat} from "@redux/chat/action";
+import {ACTIONS, getMessages, sendMessage, addNewPrivateChat, addNewGroupChat} from "@redux/chat/action";
 import {getChatsData} from "@redux/chat/selector";
 import {CHAT_TYPE} from '@utils/constants';
 import {PATH} from "@utils/constants";
 
 const ChatBody = ({chatId}) => {
-  const {NEW_PRIVATE, PRIVATE} = CHAT_TYPE;
+  const {NEW_PRIVATE, NEW_GROUP, PRIVATE} = CHAT_TYPE;
   const overlayRef = useRef();
   const chatBodyRef = useRef();
   const inputRef = useRef();
@@ -72,6 +72,12 @@ const ChatBody = ({chatId}) => {
 
       if (type === NEW_PRIVATE) {
         const newChatId = await dispatch(addNewPrivateChat(selectedChat));
+        setSending(false);
+        return navigate(`${PATH.MESSAGES.ROOT}/${newChatId}`);
+      }
+
+      if (type === NEW_GROUP) {
+        const newChatId = await dispatch(addNewGroupChat(selectedChat));
         setSending(false);
         return navigate(`${PATH.MESSAGES.ROOT}/${newChatId}`);
       }

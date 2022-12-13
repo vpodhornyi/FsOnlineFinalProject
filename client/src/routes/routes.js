@@ -99,7 +99,12 @@ export const modalRoutes = authorized => {
   return authorized ? [
       {
         path: PATH.MESSAGES.COMPOSE,
-        element: <UserSearch/>,
+        element: <UserSearch isGroup={false}/>,
+        children: [],
+      },
+      {
+        path: PATH.MESSAGES.COMPOSE_GROUP,
+        element: <UserSearch isGroup={true}/>,
         children: [],
       },
       {

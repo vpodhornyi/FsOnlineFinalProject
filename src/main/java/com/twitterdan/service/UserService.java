@@ -133,7 +133,7 @@ public class UserService {
   }
 
   public List<User> findByMatchesInNameOrUserTag(String text) {
-    Optional<List<User>> optionalUsers = userRepository.findByMatchingNameOrUserTag(text);
+    Optional<List<User>> optionalUsers = userRepository.findTop10ByMatchingNameOrUserTag(text);
 
     return optionalUsers.orElse(Collections.emptyList());
   }

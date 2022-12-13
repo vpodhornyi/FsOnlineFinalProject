@@ -31,8 +31,8 @@ public class MessageService {
     return messageRepository.save(message);
   }
 
-  public void saveFirstNewChatMessage(Chat chat, User user, String text) {
+  public Message saveFirstNewChatMessage(Chat chat, User user, String text) {
     Message message = new Message(text, chat, user);
-    save(message);
+    return save(message);
   }
 }

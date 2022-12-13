@@ -7,19 +7,29 @@ import {BackgroundContext} from "../../../../utils/context";
 import {PATH} from "@utils/constants";
 import PropTypes from "prop-types";
 
-const NewMessageHeader = ({isNext, next}) => {
+const NewMessageHeader = ({isGroup, isNext, next}) => {
   const {background} = useContext(BackgroundContext);
   const navigate = useNavigate();
 
   return (
     <BoxWrapper>
       <Box className='Title'>
-        <Box onClick={() => navigate(background?.pathname || PATH.ROOT)}>
-          <CustomIconButton name='Close'/>
-        </Box>
-        <Typography variant='h2'>New message</Typography>
+        {isGroup ?
+          <>
+            <Box onClick={() => navigate(PATH.MESSAGES.COMPOSE, {state: {background}})}>
+              <CustomIconButton name='ArrowBack'/>
+            </Box>
+            <Typography variant='h2'>Create a group</Typography>
+          </> :
+          <>
+            <Box onClick={() => navigate(background?.pathname || PATH.ROOT)}>
+              <CustomIconButton name='Close'/>
+            </Box>
+            <Typography variant='h2'>New message</Typography>
+        </>}
+
       </Box>
-      <Box onClick={next}>
+      <Box onClick={() => next(isGroup)}>
         <FollowButton name='Next' disabled={isNext}/>
       </Box>
     </BoxWrapper>);
@@ -61,6 +71,7 @@ const BoxWrapper = styled(Box)(({theme}) => ({
 }));
 
 NewMessageHeader.propTypes = {
+  isGroup: PropTypes.bool,
   isNext: PropTypes.bool,
   next: PropTypes.func,
 }

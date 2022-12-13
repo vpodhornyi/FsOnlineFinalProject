@@ -16,5 +16,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
   Optional<User> findByUserTag(String userTag);
 
   @Query("select u from User u where u.name like %:text% or u.userTag like %:text%")
-  Optional<List<User>> findByMatchingNameOrUserTag(@Param("text") String text);
+  Optional<List<User>> findTop10ByMatchingNameOrUserTag(@Param("text") String text);
 }
