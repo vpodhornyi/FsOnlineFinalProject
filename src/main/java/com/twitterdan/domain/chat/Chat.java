@@ -1,6 +1,5 @@
 package com.twitterdan.domain.chat;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.twitterdan.domain.BaseEntity;
 import com.twitterdan.domain.user.User;
 import lombok.Getter;

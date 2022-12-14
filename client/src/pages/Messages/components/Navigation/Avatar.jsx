@@ -16,14 +16,12 @@ const Header = () => {
   )
 }
 
-const styles = ({theme}) => ({
+const BoxWrapper = styled(Box)(({theme}) => ({
   marginRight: 10,
 
   [theme.breakpoints.up('xs')]: {
     display: 'none'
   },
-});
-
-const BoxWrapper = styled(Box)(styles);
+}));
 
 export default Header;

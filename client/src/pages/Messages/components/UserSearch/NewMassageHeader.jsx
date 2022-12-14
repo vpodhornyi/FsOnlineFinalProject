@@ -29,7 +29,7 @@ const NewMessageHeader = ({isGroup, isNext, next}) => {
         </>}
 
       </Box>
-      <Box onClick={() => next(isGroup)}>
+      <Box sx={{mr: 1}} onClick={() => next(isGroup)}>
         <FollowButton name='Next' disabled={isNext}/>
       </Box>
     </BoxWrapper>);

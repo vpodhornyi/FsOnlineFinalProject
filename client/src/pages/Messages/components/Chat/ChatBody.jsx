@@ -21,6 +21,8 @@ const ChatBody = ({chatId}) => {
   const overlayRef = useRef();
   const chatBodyRef = useRef();
   const inputRef = useRef();
+  const offsetHeight = overlayRef?.current?.offsetHeight;
+  const scrollHeight = overlayRef?.current?.scrollHeight;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {message, selectedChat} = useSelector(getChatsData);
@@ -46,10 +48,10 @@ const ChatBody = ({chatId}) => {
   }
 
   useEffect(() => {
+    if (offsetHeight === scrollHeight) showScrollDownButton(false);
     setMessages({messages: []});
     fetch(chatId);
   }, [chatId]);
-
 
   const onScrollEvent = () => {
     const scroll = overlayRef?.current?.scrollTop;

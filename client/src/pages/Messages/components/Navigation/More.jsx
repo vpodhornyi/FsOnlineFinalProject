@@ -1,13 +1,12 @@
-import React from 'react';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Box from "@mui/material/Box";
+import React, {useState} from 'react';
+import {styled} from "@mui/material/styles";
+import {ListItemIcon, ListItemText, Typography, Box, MenuItem, Menu} from "@mui/material";
+
 import CustomIconButton from "@components/buttons/CustomIconButton";
-import {ListItemIcon, ListItemText, Typography} from "@mui/material";
 import IconByName from "@components/icons/IconByName";
 
 const More = () => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -27,57 +26,76 @@ const More = () => {
       >
         <CustomIconButton name='MoreHorizOutlined' title='More' size='middle' iconSize='middle'/>
       </Box>
-      <Menu
-        id="demo-positioned-menu"
-        aria-labelledby="demo-positioned-button"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
-      >
-        <MenuItem>
-          <ListItemIcon>
-            <IconByName iconName='PushPinOutlined'/>
-          </ListItemIcon>
-          <ListItemText>
-            <Typography variant='body1'>Pin conversation</Typography>
-          </ListItemText>
-        </MenuItem>
-        <MenuItem>
-          <ListItemIcon>
-            <IconByName iconName='NotificationsOffOutlined'/>
-          </ListItemIcon>
-          <ListItemText>
-            <Typography variant='body1'>Snooze conversation</Typography>
-          </ListItemText>
-        </MenuItem>
-        <MenuItem>
-          <ListItemIcon>
-            <IconByName iconName='TourOutlined'/>
-          </ListItemIcon>
-          <ListItemText>
-            <Typography variant='body1'>Report conversation</Typography>
-          </ListItemText>
-        </MenuItem>
-        <MenuItem>
-          <ListItemIcon>
-            <IconByName iconStyle={{color: 'red'}} iconName='DeleteOutlined'/>
-          </ListItemIcon>
-          <ListItemText>
-            <Typography color='red' variant='body1'>Delete conversation</Typography>
-          </ListItemText>
-        </MenuItem>
-      </Menu>
+      <Box>
+        <MenuWrapper
+          className='1234qwerty'
+          id="demo-positioned-menu"
+          aria-labelledby="demo-positioned-button"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          sx={{
+            borderRadius: '40px',
+          }}
+        >
+          <MenuItem>
+            <ListItemIcon>
+              <IconByName iconName='PushPinOutlined'/>
+            </ListItemIcon>
+            <ListItemText>
+              <Typography variant='body1'>Pin conversation</Typography>
+            </ListItemText>
+          </MenuItem>
+          <MenuItem>
+            <ListItemIcon>
+              <IconByName iconName='NotificationsOffOutlined'/>
+            </ListItemIcon>
+            <ListItemText>
+              <Typography variant='body1'>Snooze conversation</Typography>
+            </ListItemText>
+          </MenuItem>
+          <MenuItem>
+            <ListItemIcon>
+              <IconByName iconStyle={{color: 'red'}} iconName='DeleteOutlined'/>
+            </ListItemIcon>
+            <ListItemText>
+              <Typography color='red' variant='body1'>Delete conversation</Typography>
+            </ListItemText>
+          </MenuItem>
+        </MenuWrapper>
+      </Box>
+
     </Box>
   );
 }
 
+
+const MenuWrapper = styled(Menu)(({theme}) => ({
+  '& .MuiPaper-root': {
+    boxShadow: 'rgb(101 119 134 / 20%) 0px 0px 15px, rgb(101 119 134 / 15%) 0px 0px 3px 1px !important',
+    borderRadius: '12px !important',
+
+    '& .MuiList-root': {
+      padding: 0,
+
+      '& .MuiButtonBase-root': {
+        padding: '11px 15px',
+        borderBottom: '1px solid rgb(239, 243, 244)',
+
+        '& .MuiTouchRipple-root': {
+          display: 'none'
+        },
+      }
+    }
+  },
+}));
 
 export default More;
