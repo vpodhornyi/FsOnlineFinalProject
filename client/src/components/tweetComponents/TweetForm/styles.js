@@ -30,6 +30,7 @@ export const TweetInput = styled(Box)({
 
 export const FormFooter = styled(Box)({
   position:"relative",
+  marginTop:"10px",
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
@@ -43,7 +44,6 @@ export const TextCount = styled(Box)({
 });
 
 export const IconsList = styled(List)({
-  marginTop: 15,
   display: "inline-flex",
 });
 
@@ -68,6 +68,7 @@ export const TweetBtn = styled(Button)({
   color: "#fff",
   backgroundColor: "rgb(29, 155, 240)",
   padding: "0 20",
+  marginLeft:"20px",
   justifySelf: "center",
   borderRadius: 30,
   height: 35,

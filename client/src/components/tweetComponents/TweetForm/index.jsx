@@ -5,7 +5,7 @@ import PublicIcon from "@mui/icons-material/Public";
 import EmojiPicker from "emoji-picker-react";
 import {useDispatch, useSelector} from "react-redux";
 import PropTypes from "prop-types";
-
+import { CircularProgress } from '@mui/material';
 import {
     EmojiIcon,
     GifIcon,
@@ -44,7 +44,12 @@ export const TweetForm = ({
     const user = useSelector(getPersonalData);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const TWEET_LIMIT = tweetText.length<=250?tweetText.length:-(tweetText.length-250);
+    const TWEET_TEXT_INTEREST  = tweetText.length/(250/100);
+    const LETTER_COUNTER_COMP =
+        TWEET_TEXT_INTEREST <= 100 ?
+            <CircularProgress size={"30px"} variant="determinate" value={TWEET_TEXT_INTEREST}/>
+            : <TextCount sx={{color: "red"}}>{-(tweetText.length - 250)}</TextCount>
+
 
     const onEmojiVisible = (bool) => {
         setEmojiVisible((prevState) => typeof bool === "boolean" ? bool : !prevState);
@@ -116,7 +121,7 @@ export const TweetForm = ({
                                 <PublicIcon fontSize={"small"} style={{paddingRight: 10}}/>{" "}
                                 Everyone can reply
                             </ReplyText>
-                            <TextCount sx={{color:TWEET_LIMIT<0&&"red"}}>{TWEET_LIMIT}</TextCount>
+
                         </Box>
                     )}
                 </TweetInput>
@@ -163,7 +168,8 @@ export const TweetForm = ({
                             autoFocusSearch={false}
                         /></Box>
                     )}
-                    <TweetBtn disabled={TWEET_LIMIT<0} onClick={onSubmit}>{tweetType}</TweetBtn>
+                    <Box sx={{display:"flex",alignItems:"center",justifyContent:"center"}}>{LETTER_COUNTER_COMP}
+                        <TweetBtn disabled={TWEET_TEXT_INTEREST > 100} onClick={onSubmit}>{tweetType}</TweetBtn></Box>
                 </FormFooter>
             </Form>
         </TwitterContainer>
