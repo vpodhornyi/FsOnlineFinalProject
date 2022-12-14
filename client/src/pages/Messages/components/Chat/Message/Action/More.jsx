@@ -1,9 +1,7 @@
 import * as React from 'react';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Box from "@mui/material/Box";
+import {styled} from "@mui/material/styles";
 import CustomIconButton from "@components/buttons/CustomIconButton";
-import {ListItemIcon, ListItemText, Typography} from "@mui/material";
+import {ListItemIcon, Menu, MenuItem, Box, ListItemText, Typography} from "@mui/material";
 import IconByName from "@components/icons/IconByName";
 
 const More = () => {
@@ -27,7 +25,7 @@ const More = () => {
       >
         <CustomIconButton color='greyAccent' name='MoreHorizOutlined' title='More' size='small' iconSize='small'/>
       </Box>
-      <Menu
+      <MenuWrapper
         id="demo-positioned-menu"
         aria-labelledby="demo-positioned-button"
         anchorEl={anchorEl}
@@ -58,10 +56,29 @@ const More = () => {
             <Typography variant='body1'>Copy text</Typography>
           </ListItemText>
         </MenuItem>
-      </Menu>
+      </MenuWrapper>
     </Box>
   );
 }
 
+const MenuWrapper = styled(Menu)(({theme}) => ({
+  '& .MuiPaper-root': {
+    boxShadow: 'rgb(101 119 134 / 20%) 0px 0px 15px, rgb(101 119 134 / 15%) 0px 0px 3px 1px !important',
+    borderRadius: '12px !important',
+
+    '& .MuiList-root': {
+      padding: 0,
+
+      '& .MuiButtonBase-root': {
+        padding: '11px 15px',
+        borderBottom: '1px solid rgb(239, 243, 244)',
+
+        '& .MuiTouchRipple-root': {
+          display: 'none'
+        },
+      }
+    }
+  },
+}));
 
 export default More;
