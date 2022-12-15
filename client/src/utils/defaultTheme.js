@@ -37,6 +37,7 @@ export const themeStyles = {
     primary: {
       main: 'rgb(29, 155, 240)',
       secondary: 'rgb(26, 140, 216)',
+      third: 'rgba(29, 155, 240, 0.1)',
       contrastText: '#ffd400'
     },
     follow: {
@@ -51,6 +52,12 @@ export const themeStyles = {
     },
     greenAccent: {
       main: 'rgb(0, 186, 124)',
+      secondary: 'rgba(0, 186, 124, 0.1)',
+    },
+    redAccent: {
+      main: 'rgb(244, 33, 46)',
+      secondary: 'rgb(220, 30, 41)',
+      third: 'rgba(244, 33, 46, 0.1)',
     },
     greyAccent: {
       main: 'rgb(83, 100, 113)',

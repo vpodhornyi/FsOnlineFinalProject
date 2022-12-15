@@ -2,10 +2,11 @@ import React, {useContext} from "react";
 import {useNavigate} from "react-router-dom";
 import {styled} from "@mui/material/styles";
 import {Box, Typography} from "@mui/material";
+import PropTypes from "prop-types";
+
 import {CustomIconButton, FollowButton} from "@components";
 import {BackgroundContext} from "../../../../utils/context";
 import {PATH} from "@utils/constants";
-import PropTypes from "prop-types";
 
 const NewMessageHeader = ({isGroup, isNext, next}) => {
   const {background} = useContext(BackgroundContext);
@@ -36,7 +37,6 @@ const NewMessageHeader = ({isGroup, isNext, next}) => {
 }
 
 const BoxWrapper = styled(Box)(({theme}) => ({
-  marginBottom: 20,
   width: '100%',
   display: 'flex',
   alignItems: 'center',

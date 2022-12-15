@@ -5,7 +5,8 @@ import Messages from './Messages/Messages';
 import SelectMessage from './Messages/SelectMessage';
 import Chat from './Messages/components/Chat/Chat';
 import UserSearch from './Messages/components/UserSearch/UserSearch';
-import ChatInfo from './Messages/components/ChatInfo';
+import ChatInfo from './Messages/components/ChatInfo/ChatInfo';
+import Participants from './Messages/components/Participants/Participants';
 import Bookmarks from './Bookmarks/Bookmarks';
 import Lists from './Lists/Lists';
 import UserProfile from './UserProfile/UserProfile';
@@ -38,6 +39,7 @@ export {
   Chat,
   UserSearch,
   ChatInfo,
+  Participants,
 
   Bookmarks,
   Lists,

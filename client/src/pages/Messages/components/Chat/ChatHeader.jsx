@@ -1,11 +1,12 @@
 import React from "react";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, Link} from "react-router-dom";
 import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import {Avatar, Typography} from "@mui/material";
 import CustomIconButton from "@components/buttons/CustomIconButton";
 import {StickyHeader} from '../../../../components';
 import PropTypes from "prop-types";
+import {PATH} from "@utils/constants";
 
 const ChatHeader = ({selectedChat}) => {
   const navigate = useNavigate();
@@ -13,20 +14,27 @@ const ChatHeader = ({selectedChat}) => {
   return (
     <StyledStickyHeader>
       <Box sx={{display: 'flex', alignItems: 'center'}}>
-        <Box sx={{mr: '10px'}} className='backButton' onClick={() => navigate(-1)}>
+        <Box
+          className='backButton'
+          sx={{mr: '10px'}}
+          onClick={() => navigate(PATH.MESSAGES.chat(selectedChat?.id))}>
           <CustomIconButton name='ArrowBackOutlined' title='Back'/>
         </Box>
-        <Avatar sx={{mr: '10px', width: '2.5rem', height: '2.5rem'}} src={selectedChat?.avatarImgUrl}/>
+        <Link
+          to={`${PATH.userProfile(selectedChat?.guestUser?.userTag)}`}
+        >
+          <Avatar sx={{mr: '10px', width: '2.5rem', height: '2.5rem'}} src={selectedChat?.avatarImgUrl}/>
+        </Link>
         <Typography variant='h2'>{selectedChat?.title}</Typography>
       </Box>
-      <Box>
+      <Box onClick={() => navigate(PATH.MESSAGES.chatInfo(selectedChat?.id))}>
         <CustomIconButton name='InfoOutlined' title='Details'/>
       </Box>
     </StyledStickyHeader>);
 }
 
 const StyledStickyHeader = styled(StickyHeader)(({theme}) => ({
-  padding: '0 15px',
+  padding: '6px 15px',
   '.avatarWrapper': {
     [theme.breakpoints.up('sm')]: {
       display: 'none',

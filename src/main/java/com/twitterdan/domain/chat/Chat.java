@@ -16,7 +16,6 @@ import java.util.List;
 @Table(name = "chats")
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 public class Chat extends BaseEntity {
   private String title;
@@ -28,7 +27,6 @@ public class Chat extends BaseEntity {
   @JoinTable(name = "chats_users",
     joinColumns = @JoinColumn(name = "chats_id", referencedColumnName = "id"),
     inverseJoinColumns = @JoinColumn(name = "users_id", referencedColumnName = "id"))
-  @ToString.Exclude
   private List<User> users;
 
   @OneToMany(mappedBy = "chat")
@@ -37,4 +35,14 @@ public class Chat extends BaseEntity {
 
   @Transient
   private Message lastMessage;
+
+  @Override
+  public String toString() {
+    return "Chat{" +
+      "title='" + title + '\'' +
+      ", type=" + type +
+      ", users=" + users +
+      ", lastMessage=" + lastMessage +
+      '}';
+  }
 }

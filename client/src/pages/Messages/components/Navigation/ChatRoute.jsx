@@ -13,7 +13,6 @@ import {moment} from "@utils";
 
 const ChatRoute = ({chat}) => {
   const {authUser} = useSelector(state => state.user);
-  const {PRIVATE} = CHAT_TYPE;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {id} = useParams();
@@ -27,12 +26,12 @@ const ChatRoute = ({chat}) => {
     <BoxWrapper onClick={() => handleChatClick(chat)}>
       <Box className={id && (id == chat.id) ? `ChatRoutWrapperActive` : ''}>
         <Box sx={{display: 'flex'}}>
-          <Avatar sx={{mr: '10px', width: '3rem', height: '3rem'}} src={chat.avatarImgUrl}/>
+          <Avatar sx={{mr: '10px', width: '3.3rem', height: '3.3rem'}} src={chat.avatarImgUrl}/>
           <Box>
             <Box sx={{display: 'flex'}}>
               <Typography sx={{fontWeight: 600}}>{chat.title}</Typography>
 
-              {chat.type === PRIVATE && <Typography variant='body2' sx={{ml: '5px'}}>@{chat.userTag}</Typography>}
+              {chat.isPrivate && <Typography variant='body2' sx={{ml: '5px'}}>@{chat.userTag}</Typography>}
               <Typography variant='body2' sx={{
                 '&:before': {
                   content: '"·"',
@@ -89,7 +88,6 @@ const styles = ({theme}) => ({
       display: 'block'
     }
   }
-
 });
 
 const BoxWrapper = styled(Box)(styles);

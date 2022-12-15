@@ -57,11 +57,11 @@ public class ChatRepositoryTest {
     assertEquals(1, chats.size());
   }*/
 
-  @Test
+/*  @Test
   public void test_findChatByTypeAndUsers_success() {
     Optional<Chat> optionalChat = chatRepository
       .findPrivateChatByUsersIds(ChatType.PRIVATE, 1L, 5L);
 
     assertTrue(optionalChat.isPresent());
-  }
+  }*/
 }

@@ -2,7 +2,7 @@ import React, {lazy} from 'react';
 import {Navigate} from "react-router-dom";
 import {
   Home, Explore, Notifications, Messages, Chat, ChatInfo, Bookmarks, CreateAccount, SelectMessage,
-  Lists, UserProfile, UserSearch, Auth, Login, Password, ForgotPassword, SingUp, UserData
+  Lists, UserProfile, UserSearch, Auth, Login, Password, ForgotPassword, SingUp, UserData, Participants
 } from "../pages";
 import {PATH} from "../utils/constants";
 import {Display, TweetCompose} from "../components";
@@ -49,6 +49,10 @@ export const mainRoutes = (userTag, authorized) => {
           {
             path: PATH.MESSAGES.CHAT_INFO,
             element: <ChatInfo/>,
+          },
+          {
+            path: PATH.MESSAGES.PARTICIPANTS,
+            element: <Participants/>,
           },
         ],
       },

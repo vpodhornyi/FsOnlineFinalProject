@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -28,7 +29,7 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
   Optional<Page<Chat>> findByUsersId(@Param("userId") Long userId, Pageable pageable);
 
   @Query("Select c from Chat c join c.users u where c.type = ?1 and u.id = ?2 or u.id = ?3 group by c having count(c) = 2")
-  Optional<Chat> findPrivateChatByUsersIds(ChatType type, Long authUserId, Long guestUserId);
+  Optional<List<Chat>> findPrivateChatByUsersIds(ChatType type, Long authUserId, Long guestUserId);
 }
 
 /*

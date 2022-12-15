@@ -2,6 +2,7 @@ package com.twitterdan.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.UUID;
 import javax.persistence.MappedSuperclass;

@@ -54,10 +54,11 @@ public class ChatService {
   }
 
   public Chat findPrivateChatByUsersIds(Long authUserId, Long guestUserId) {
-    Optional<Chat> optionalChat = chatRepository.findPrivateChatByUsersIds(ChatType.PRIVATE, authUserId, guestUserId);
+    Optional<List<Chat>> optionalChat = chatRepository.findPrivateChatByUsersIds(ChatType.PRIVATE, authUserId, guestUserId);
 
     if (optionalChat.isPresent()) {
-      return optionalChat.get();
+      System.out.println(optionalChat.get());
+      return null;
     }
 
     throw new CouldNotFindChatException(false);
@@ -66,7 +67,7 @@ public class ChatService {
   public boolean isPrivateChatExist(List<User> users) {
     Long idOne = users.get(0).getId();
     Long idTwo = users.get(1).getId();
-    Optional<Chat> optionalChat = chatRepository.findPrivateChatByUsersIds(ChatType.PRIVATE, idOne, idTwo);
+    Optional<List<Chat>> optionalChat = chatRepository.findPrivateChatByUsersIds(ChatType.PRIVATE, idOne, idTwo);
 
     return optionalChat.isPresent();
   }

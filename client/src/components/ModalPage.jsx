@@ -36,11 +36,11 @@ const ModalPage = ({element, closable = true, styles}) => {
 
 const StyledBox = styled(Box)(({theme}) => ({
   position: 'fixed',
-  zIndex: 10010,
-  left: 0,
+  zIndex: 10299,
+  right: 0,
+  bottom: 0,
   top: 0,
-  width: '100%',
-  height: '100%',
+  left: 0,
   overflow: 'auto',
   backgroundColor: 'rgba(0,0,0,0.4)',
   display: 'flex',

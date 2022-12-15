@@ -31,7 +31,6 @@ const App = () => {
             </MainContainer>
           </Main>
           {!authorized && <LoginPanel/>}
-          <DialogWindow/>
           <ModalRoutes authorized={authorized}/>
         </RootContainer>
       </BackgroundContext.Provider>

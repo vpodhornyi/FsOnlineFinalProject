@@ -149,7 +149,6 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   },
 
   '& .GrubbedUsersBox': {
-    padding: '5px 0',
     display: 'flex',
     flexWrap: 'wrap',
   },

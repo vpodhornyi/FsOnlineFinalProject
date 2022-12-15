@@ -14,14 +14,21 @@ export const PATH = {
   NOTIFICATIONS: '/notifications',
   MESSAGES: {
     ROOT: '/messages',
-    CHAT: ':id',
-    CHAT_INFO: ':id/info',
+    CHAT: '/messages/:id',
+    chat: id => `/messages/${id}`,
+    CHAT_INFO: `/messages/:id/info`,
+    chatInfo: id => `/messages/${id}/info`,
+    GROUP_INFO: `/messages/:id/group-info`,
+    groupInfo: id => `/messages/${id}/group-info`,
+    PARTICIPANTS: `/messages/:id/participants`,
+    participants: id => `/messages/${id}/participants`,
     COMPOSE: '/messages/compose',
     COMPOSE_GROUP: '/messages/compose/group',
   },
   BOOKMARKS: '/bookmarks',
   LISTS: '/lists',
   USER_PROFILE: '/:user_tag',
+  userProfile: userTag =>  `/${userTag}`,
   AUTH: {
     ROOT: '/auth',
     SING_IN: {

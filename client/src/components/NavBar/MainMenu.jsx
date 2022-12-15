@@ -14,7 +14,6 @@ const MainMenu = ({menu}) => {
         <NavLink
           key={path}
           to={path}
-          style={{textDecoration: 'none'}}
           state={modalPage ? {background: location} : {}}
         >
           {({isActive}) => (
