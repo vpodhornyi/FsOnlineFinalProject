@@ -1,0 +1,10 @@
+{
+  "SOCKET_URL": "ws://localhost:8010/ws",
+
+  "messageReceived" : "/queue/messageReceived",
+  "messageSent"     : "/queue/messageSent",
+  "tweetSent"       : "/topic/tweetSent",
+  "tweetCommented"  : "/topic/tweetCommented",
+  "tweetRetweeted"  : "/queue/tweetRetweeted",
+  "tweetLiked"      : "/queue/tweetLiked"
+}

@@ -17,3 +17,5 @@ export const getMessageData = state => {
     }
   }
 }
+
+export const getStompCient = (state)=> state.message.stompClient;

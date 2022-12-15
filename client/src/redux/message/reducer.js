@@ -1,6 +1,7 @@
 import {ACTIONS} from "./action";
 
 const INIT_STATE = {
+  stompClient: {},
   newMessages: [], // {chatId: number, text: string}
   messagesLoading: false,
   messages: [],
@@ -14,11 +15,19 @@ const INIT_STATE = {
 
 export default (state = INIT_STATE, {payload, type}) => {
   switch (type) {
+
+    case String(ACTIONS.setStompClient):
+      return {
+        ...state,
+        stompClient: payload,
+      };
+
     case String(ACTIONS.loadingStart):
       return {
         ...state,
         loading: true,
       };
+
     case String(ACTIONS.loadingEnd):
       return {
         ...state,

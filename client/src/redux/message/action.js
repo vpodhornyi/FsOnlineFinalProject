@@ -5,7 +5,7 @@ const actions = createActions(
   {
     actions: [
       'RESET_ACTIVE_ID', 'SET_CHAT', 'LOADING_START', 'LOADING_END',
-      'DETAIL_LOADING', 'SEND_MESSAGE', 'SET_NEW_MESSAGE'
+      'DETAIL_LOADING', 'SEND_MESSAGE', 'SET_NEW_MESSAGE', 'SET_STOMP_CLIENT'
     ],
     async: ['GET_CONVERSATION', 'SEARCH_USER', 'GET_MESSAGES', 'SEND_MESSAGE'],
   },

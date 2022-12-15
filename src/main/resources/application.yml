@@ -1,6 +1,6 @@
 spring:
   config:
-    import: env.properties
+    import: optional:env.properties
   profiles:
     active: ${ACTIVE}
   h2:
@@ -9,7 +9,7 @@ spring:
       settings:
         trace: false
 server:
-  port: ${PORT}
+  port: 8010
   error:
     include-message: always
     include-binding-errors: always
