@@ -4,7 +4,7 @@ const INIT = {
   open: false,
   activeId: null,
   activeUrl: "",
-  typeModal: "",
+  typeModal: "Delete",
 };
 
 export default (state = INIT, { payload, type }) => {

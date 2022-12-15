@@ -31,13 +31,16 @@ import DeleteTweet from "../DeleteTweet";
 import ImageListContainer from "../../imageList/ImageListContainer";
 import {handlerBookmark} from "../../../redux/tweet/action";
 import Modal from "../../Modal";
+import {useLocation, useNavigate} from "react-router-dom";
+import {PATH} from "../../../utils/constants";
 const Tweet = ({ tweetInfo }) => {
   const dispatch = useDispatch();
   const activeId = useSelector(getActiveId);
   const activeUrl = useSelector(getActiveUrl);
   const { id, body, images } = tweetInfo;
   const { name, avatarImgUrl, userTag, created_at } = tweetInfo.user;
-
+  const navigate = useNavigate();
+  const location = useLocation();
   return (
     <>
       <TweetContainer>
@@ -75,9 +78,7 @@ const Tweet = ({ tweetInfo }) => {
             <IconBlue>
               <Tooltip title={"Delete"}>
                 <MoreIcon
-                  onClick={() => {
-                    dispatch(openModal({id: id, typeModal: "Delete"}))
-                  }}
+                  onClick={() => navigate(PATH.TWEET.ROOT+`/${id}`, {state: {background: location}})}
                   sx={{ padding: 1 }}
                 />
               </Tooltip>{" "}
