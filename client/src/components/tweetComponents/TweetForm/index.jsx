@@ -14,7 +14,7 @@ import {
     ScheduleIcon,
 } from "../../../media/icons";
 import {
-    AvatarContainer, Circle,
+    AvatarContainer,
     Form,
     FormFooter,
     Icon,
@@ -27,7 +27,6 @@ import {
 
 import {createTweet} from "../../../redux/tweet/action";
 import {getPersonalData} from "../../../redux/user/selector";
-import {closeModal} from "../../../redux/modal/action";
 import ImageListContainer from "../../imageList/ImageListContainer";
 import {uploadImage} from "../../../utils/uploadImage";
 

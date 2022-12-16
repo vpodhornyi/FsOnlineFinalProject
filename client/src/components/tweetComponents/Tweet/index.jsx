@@ -24,20 +24,13 @@ import {
   UserAvatar,
   UserName,
 } from "./style";
-import { useDispatch, useSelector } from "react-redux";
-import { openModal } from "../../../redux/modal/action";
-import {getActiveId, getActiveUrl} from "../../../redux/modal/selector";
-import DeleteTweet from "../DeleteTweet";
+import { useDispatch } from "react-redux";
 import ImageListContainer from "../../imageList/ImageListContainer";
 import {handlerBookmark} from "../../../redux/tweet/action";
-import Modal from "../ModalImg";
 import {useLocation, useNavigate} from "react-router-dom";
 import {PATH} from "../../../utils/constants";
-import {ModalPage} from "../../index";
 const Tweet = ({ tweetInfo }) => {
   const dispatch = useDispatch();
-  const activeId = useSelector(getActiveId);
-  const activeUrl = useSelector(getActiveUrl);
   const { id, body, images } = tweetInfo;
   const { name, avatarImgUrl, userTag, created_at } = tweetInfo.user;
   const navigate = useNavigate();
@@ -132,7 +125,6 @@ const Tweet = ({ tweetInfo }) => {
   );
 };
 Tweet.propTypes = {
-  openReply: PropTypes.bool,
   tweetInfo: PropTypes.object,
   setBookmarks: PropTypes.any,
 };
