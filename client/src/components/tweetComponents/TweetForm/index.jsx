@@ -49,7 +49,6 @@ export const TweetForm = ({
             <CircularProgress size={"30px"} variant="determinate" value={TWEET_TEXT_INTEREST}/>
             : <TextCount sx={{color: "red"}}>{-(tweetText.length - 250)}</TextCount>
 
-
     const onEmojiVisible = (bool) => {
         setEmojiVisible((prevState) => typeof bool === "boolean" ? bool : !prevState);
     };

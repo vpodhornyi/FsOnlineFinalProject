@@ -19,7 +19,6 @@ export const ICONS = [
       },
     },
     icon: <ReplyIcon sx={{ padding: 1 }} />,
-    text: 462,
     tooltip: "Reply",
   },
   {
@@ -34,7 +33,6 @@ export const ICONS = [
       },
     },
     icon: <RetweetIcon sx={{ padding: 1 }}></RetweetIcon>,
-    text: 671,
     tooltip: "Retweet",
   },
   {
@@ -49,7 +47,6 @@ export const ICONS = [
       },
     },
     icon: <HeartIcon sx={{ padding: 1 }}></HeartIcon>,
-    text: "11.6K",
     tooltip: "Like",
   },
   {

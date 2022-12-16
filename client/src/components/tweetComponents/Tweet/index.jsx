@@ -31,7 +31,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {PATH} from "../../../utils/constants";
 const Tweet = ({ tweetInfo }) => {
   const dispatch = useDispatch();
-  const { id, body, images } = tweetInfo;
+  const { id, body, images,actions } = tweetInfo;
   const { name, avatarImgUrl, userTag, created_at } = tweetInfo.user;
   const navigate = useNavigate();
   const location = useLocation();
@@ -86,39 +86,43 @@ const Tweet = ({ tweetInfo }) => {
               sx={{ display: "flex", justifyContent: "space-around" }}
             >
               {
-                ICONS.length &&
-                ICONS.map((itemData, index) => (
-                  <ListItem
-                    key={index}
-                    sx={{
-                      ["@media (max-width:700px)"]: {
-                        p: 0,
-                      },
-                      ...itemData.itemClassName,
-                    }}
-                  >
-                    <Tooltip
-                      sx={{
-                        ["@media (max-width:700px)"]: {
-                          p: 0,
-                        },
-                      }}
-                      title={itemData.tooltip}
-                    >
-                      <ListItemIcon
-                        onClick={() => {
-                          switch(itemData.tooltip){
-                            case "Bookmark": return dispatch(handlerBookmark(id));
-                            case "Reply": return navigate(PATH.TWEET.ROOT+`/reply/${id}`, {state: {background: location}});
-                          }
-                        }}
+                ICONS?.map((itemData, index) => {
+                  const lengthAction=   actions.filter(action => itemData.tooltip.toUpperCase() === action.actionType.toUpperCase()).length
+                  const mediaStyle = { ["@media (max-width:700px)"]: {
+                      p: 0,
+                    },}
+                  const chooseIconHandler = () => {
+                    switch (itemData.tooltip) {
+                      case "Bookmark":
+                        return dispatch(handlerBookmark(id));
+                      case "Reply":
+                        return navigate(PATH.TWEET.ROOT + `/reply/${id}`, {state: {background: location}});
+                    }
+                  }
+
+                   return  <ListItem
+                          key={index}
+                          sx={{
+                            ...mediaStyle,
+                            ...itemData.itemClassName,
+                          }}
                       >
-                        {itemData.icon}
-                      </ListItemIcon>
-                    </Tooltip>{" "}
-                    {itemData.text && <ListItemText primary={itemData.text} />}
-                  </ListItem>
-                ))}
+                        <Tooltip
+                            sx={mediaStyle}
+                            title={itemData.tooltip}
+                        >
+                          <ListItemIcon
+                              onClick={chooseIconHandler}
+                          >
+                            {itemData.icon}
+                          </ListItemIcon>
+                        </Tooltip>{" "}
+                         <ListItemText
+                            primary={lengthAction}/>
+                      </ListItem>
+
+
+                })}
             </List>
       </TweetContainer>
     </>
