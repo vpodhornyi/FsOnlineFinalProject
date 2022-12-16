@@ -26,15 +26,15 @@ const styles = ({theme}) => ({
 
 const BoxWrapper = styled(Box)(styles);
 
-const MessageBox = ({left, text, openModal}) => {
+const MessageBox = ({left, text, toggleModal}) => {
 
   return (
     <BoxWrapper>
       {left ? (<>
         <Message left={left} text={text}/>
-        <Action openModal={openModal}/>
+        <Action toggleModal={toggleModal}/>
       </>) : (<>
-        <Action openModal={openModal}/>
+        <Action toggleModal={toggleModal}/>
         <Message text={text}/>
       </>)}
     </BoxWrapper>);
@@ -43,7 +43,7 @@ const MessageBox = ({left, text, openModal}) => {
 MessageBox.propTypes = {
   left: PropTypes.bool,
   text: PropTypes.string,
-  openModal: PropTypes.func,
+  toggleModal: PropTypes.func,
 }
 
 export default MessageBox;

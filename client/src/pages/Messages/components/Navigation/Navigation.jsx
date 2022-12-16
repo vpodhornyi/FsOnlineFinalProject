@@ -38,11 +38,11 @@ const Navigation = () => {
   if (isChatsExist) return (
     <Box>
       <SearchBox/>
-      {chats.map(chat => <ChatRoute key={chat.key} chat={chat} openModal={toggle}/>)}
+      {chats.map(chat => <ChatRoute key={chat.key} chat={chat} toggleModal={toggle}/>)}
       <ModalWindow
         isShowing={isShowing}
-        modalClose={toggle}
-        element={<LeaveChatConfirm modalClose={toggle}/>}
+        toggleModal={toggle}
+        element={<LeaveChatConfirm toggleModal={toggle}/>}
       />
     </Box>
   )

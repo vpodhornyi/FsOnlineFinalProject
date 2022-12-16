@@ -31,6 +31,7 @@ const Header = () => {
 }
 
 const styles = ({theme}) => ({
+  zIndex: 1100,
   boxSizing: 'border-box',
   width: '100%',
   padding: '10px 14px',

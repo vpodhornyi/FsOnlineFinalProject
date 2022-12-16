@@ -20,8 +20,8 @@ const LeaveChat = () => {
               name={`Leave conversation`}/>
       <ModalWindow
         isShowing={isShowing}
-        modalClose={toggle}
-        element={<LeaveChatConfirm modalClose={toggle}/>}/>
+        toggleModal={toggle}
+        element={<LeaveChatConfirm toggleModal={toggle}/>}/>
     </Box>);
 }
 

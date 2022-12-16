@@ -120,7 +120,7 @@ const ChatBody = ({chatId}) => {
           )}
           {messages.map(item => {
             const isAuth = item?.user?.id === authUserId;
-            return <Message key={item?.key} left={!isAuth} message={item} openModal={toggle}/>
+            return <Message key={item?.key} left={!isAuth} message={item} toggleModal={toggle}/>
           })}
         </Box>
       </Box>
@@ -139,8 +139,8 @@ const ChatBody = ({chatId}) => {
       </Box>
       <ModalWindow
         isShowing={isShowing}
-        modalClose={toggle}
-        element={<DeleteMessageConfirm modalClose={toggle}/>}/>
+        toggleModal={toggle}
+        element={<DeleteMessageConfirm toggleModal={toggle}/>}/>
     </BoxWrapper>);
 }
 

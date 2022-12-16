@@ -3,8 +3,11 @@ import PropTypes from "prop-types";
 
 import {Confirm} from '@components';
 
-const DeleteMessageConfirm = ({modalClose}) => {
-  const confirm = () => console.log('delete');
+const DeleteMessageConfirm = ({toggleModal}) => {
+  const confirm = () => {
+    console.log('delete');
+    toggleModal();
+  }
 
   return <Confirm
     title='Delete message?'
@@ -12,12 +15,12 @@ const DeleteMessageConfirm = ({modalClose}) => {
          Other people in the conversation will still be able to see it.'
     confirmName='Delete'
     confirmAction={confirm}
-    modalClose={modalClose}
+    toggleModal={toggleModal}
     confirmClassName='RedConfirmButton'
   />
 }
 
 DeleteMessageConfirm.propTypes = {
-  modalClose: PropTypes.func,
+  toggleModal: PropTypes.func,
 }
 export default DeleteMessageConfirm;

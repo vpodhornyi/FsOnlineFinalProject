@@ -5,14 +5,14 @@ import CustomIconButton from "@components/buttons/CustomIconButton";
 import More from "./More";
 import PropTypes from "prop-types";
 
-const Action = ({openModal}) => {
+const Action = ({toggleModal}) => {
 
   return (
     <BoxWrapper className='Actions'>
       <Box>
         <CustomIconButton color='greyAccent' name='FavoriteBorderOutlined' title='React' size='small' iconSize='small'/>
       </Box>
-      <More openModal={openModal}/>
+      <More toggleModal={toggleModal}/>
     </BoxWrapper>);
 }
 
@@ -22,7 +22,7 @@ const BoxWrapper = styled(Box)(({theme}) => ({
 }));
 
 Action.propTypes = {
-  openModal: PropTypes.func,
+  toggleModal: PropTypes.func,
 }
 
 export default Action;

@@ -6,7 +6,7 @@ import CustomIconButton from "@components/buttons/CustomIconButton";
 import IconByName from "@components/icons/IconByName";
 import PropTypes from "prop-types";
 
-const More = ({openModal}) => {
+const More = ({toggleModal}) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -17,7 +17,7 @@ const More = ({openModal}) => {
   };
 
   const openLeaveChatConfirm = () => {
-    openModal();
+    toggleModal();
     handleClose();
   }
 
@@ -101,7 +101,7 @@ const MenuWrapper = styled(Menu)(({theme}) => ({
 }));
 
 More.propTypes = {
-  openModal: PropTypes.func,
+  toggleModal: PropTypes.func,
 }
 
 export default More;

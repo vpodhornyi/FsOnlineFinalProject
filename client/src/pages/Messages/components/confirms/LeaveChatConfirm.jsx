@@ -4,9 +4,12 @@ import PropTypes from "prop-types";
 import {Confirm} from '@components';
 
 
-const LeaveChatConfirm = ({modalClose}) => {
+const LeaveChatConfirm = ({toggleModal}) => {
 
-  const confirm = () => console.log('delete');
+  const confirm = () => {
+    console.log('Leave');
+    toggleModal()
+  }
 
   return <Confirm
     title='Leave conversation?'
@@ -14,13 +17,13 @@ const LeaveChatConfirm = ({modalClose}) => {
     Other people in the conversation will still be able to see it.'
     confirmName='Leave'
     confirmAction={confirm}
-    modalClose={modalClose}
+    toggleModal={toggleModal}
     confirmClassName='RedConfirmButton'
   />
 }
 
 LeaveChatConfirm.propTypes = {
-  modalClose: PropTypes.func,
+  toggleModal: PropTypes.func,
 }
 
 export default LeaveChatConfirm;

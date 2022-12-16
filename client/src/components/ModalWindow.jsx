@@ -2,7 +2,7 @@ import React from "react";
 import {Box, Modal} from "@mui/material";
 import PropTypes from "prop-types";
 
-const ModalWindow = ({style, isShowing, modalClose, element}) => {
+const ModalWindow = ({style, isShowing, toggleModal, element}) => {
   return (
     <Modal
       sx={{
@@ -11,8 +11,8 @@ const ModalWindow = ({style, isShowing, modalClose, element}) => {
         alignItems: 'center',
         ...style
       }}
-      onClick={() => modalClose()}
-      onClose={() => modalClose()}
+      onClick={() => toggleModal()}
+      onClose={() => toggleModal()}
       open={isShowing}>
       <Box sx={{
         '&:focus-visible': {
@@ -29,7 +29,7 @@ const ModalWindow = ({style, isShowing, modalClose, element}) => {
 ModalWindow.propTypes = {
   style: PropTypes.object,
   isShowing: PropTypes.bool,
-  modalClose: PropTypes.func,
+  toggleModal: PropTypes.func,
   element: PropTypes.element,
 }
 export default ModalWindow;

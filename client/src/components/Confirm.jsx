@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 import {CustomFabButton} from '@components';
 
-const Confirm = ({title, description, confirmName, confirmAction, modalClose, confirmClassName}) => {
+const Confirm = ({title, description, confirmName, confirmAction, toggleModal, confirmClassName}) => {
   return <BoxWrapper >
     {title &&
       <Typography
@@ -16,7 +16,7 @@ const Confirm = ({title, description, confirmName, confirmAction, modalClose, co
     }
     <Typography sx={{mb: '23px'}} variant='body2'>{description}</Typography>
     <CustomFabButton onClick={confirmAction} className={confirmClassName} name={confirmName}/>
-    <CustomFabButton onClick={() => modalClose()} className='CancelButton' name='Cancel'/>
+    <CustomFabButton onClick={() => toggleModal()} className='CancelButton' name='Cancel'/>
   </BoxWrapper>
 }
 
@@ -75,7 +75,7 @@ Confirm.propTypes = {
   description: PropTypes.string,
   confirmName: PropTypes.string,
   confirmAction: PropTypes.func,
-  modalClose: PropTypes.func,
+  toggleModal: PropTypes.func,
   confirmClassName: PropTypes.string,
 }
 export default Confirm;

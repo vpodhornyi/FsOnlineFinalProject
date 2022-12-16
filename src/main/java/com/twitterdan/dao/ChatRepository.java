@@ -29,7 +29,7 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
   Optional<Page<Chat>> findByUsersId(@Param("userId") Long userId, Pageable pageable);
 
   @Query("Select c from Chat c join c.users u where c.type = ?1 and u.id = ?2 or u.id = ?3 group by c having count(c) = 2")
-  Optional<List<Chat>> findPrivateChatByUsersIds(ChatType type, Long authUserId, Long guestUserId);
+  Optional<Chat> findPrivateChatByUsersIds(ChatType type, Long authUserId, Long guestUserId);
 }
 
 /*

@@ -15,8 +15,8 @@ const BlockUser = ({userTag}) => {
       <Action name={`Block @${userTag}`}/>
       <ModalWindow
         isShowing={isShowing}
-        handleClose={toggle}
-        element={<BlockConfirm userTag={userTag} modalClose={toggle}/>}/>
+        toggleModal={toggle}
+        element={<BlockConfirm userTag={userTag} toggleModal={toggle}/>}/>
     </Box>);
 }
 

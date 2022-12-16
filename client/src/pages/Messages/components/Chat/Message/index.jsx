@@ -6,13 +6,13 @@ import Reaction from "./Reaction";
 import Time from "./Time";
 import PropTypes from "prop-types";
 
-const Index = ({left = false, message, openModal}) => {
+const Index = ({left = false, message, toggleModal}) => {
 
   return (
     <BoxWrapper>
       <Box className={left ? 'LeftMessage' : 'RightMessage'}>
         <Box>
-          <MessageBox left={left} text={message?.text} openModal={openModal}/>
+          <MessageBox left={left} text={message?.text} toggleModal={toggleModal}/>
         </Box>
         {/*<Reaction/>*/}
         <Time time={message.createdAt}/>
@@ -53,7 +53,7 @@ const BoxWrapper = styled(Box)(({theme}) => ({
 Index.propTypes = {
   left: PropTypes.bool,
   message: PropTypes.object,
-  openModal: PropTypes.func,
+  toggleModal: PropTypes.func,
 }
 
 export default Index;

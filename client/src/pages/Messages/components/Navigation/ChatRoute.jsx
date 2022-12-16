@@ -11,7 +11,7 @@ import {PATH} from "@utils/constants";
 import {CHAT_TYPE} from "@utils/constants";
 import {moment} from "@utils";
 
-const ChatRoute = ({chat, openModal}) => {
+const ChatRoute = ({chat, toggleModal}) => {
   const {authUser} = useSelector(state => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -49,7 +49,7 @@ const ChatRoute = ({chat, openModal}) => {
           </Box>
         </Box>
         <Box className='MoreIcon'>
-          <More openModal={openModal}/>
+          <More toggleModal={toggleModal}/>
         </Box>
       </Box>
     </BoxWrapper>);
@@ -94,7 +94,7 @@ const BoxWrapper = styled(Box)(styles);
 
 ChatRoute.propTypes = {
   chat: PropTypes.object,
-  openModal: PropTypes.func,
+  toggleModal: PropTypes.func,
 }
 
 export default ChatRoute;
