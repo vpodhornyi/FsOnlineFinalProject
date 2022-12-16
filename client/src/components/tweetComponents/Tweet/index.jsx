@@ -115,7 +115,7 @@ const Tweet = ({ tweetInfo }) => {
                         onClick={() => {
                           switch(itemData.tooltip){
                             case "Bookmark": return dispatch(handlerBookmark(id));
-                            case "Reply": return dispatch(openModal({ id: id, typeModal: "Reply" }));
+                            case "Reply": return navigate(PATH.TWEET.ROOT+`/reply/${id}`, {state: {background: location}});
                           }
                         }}
                       >
@@ -127,8 +127,7 @@ const Tweet = ({ tweetInfo }) => {
                 ))}
             </List>
       </TweetContainer>
-      {activeId === id && <Reply tweetInfo={tweetInfo} />}
-      {activeId === id && <DeleteTweet />}
+      {/*{activeId === id && <Reply tweetInfo={tweetInfo} />}*/}
       {activeUrl&&<Modal type={"FULL_IMG"}><img src={activeUrl} alt="FULL_IMG"/></Modal>}
     </>
   );

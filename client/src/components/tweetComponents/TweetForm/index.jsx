@@ -92,8 +92,8 @@ export const TweetForm = ({
         setTweetText("");
         setUploadPhotos([])
         onEmojiVisible(false)
+            {tweetType==="REPLY"&& navigate(-1) }
         dispatch(createTweet(newTweet));
-        dispatch(closeModal());
     };
 
     return (

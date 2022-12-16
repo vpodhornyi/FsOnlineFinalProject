@@ -6,6 +6,7 @@ import {
 } from "../pages";
 import {PATH} from "../utils/constants";
 import {SectionDetails, SectionNavigation, Display, DeleteTweet} from "../components";
+import Reply from "../components/tweetComponents/Reply";
 
 const lazyLoading = (path) => {
   const LazyElement = lazy(() => import(path));
@@ -107,11 +108,18 @@ export const modalRoutes = authorized => {
         element: <Display/>,
         children: [],
       },
-      {
+
+        {
         path: PATH.TWEET.DELETE,
         element: <DeleteTweet/>,
         children: [],
       },
+        {
+          path: PATH.TWEET.REPLY,
+          element: <Reply/>,
+          children: [],
+        },
+
       {
         path: PATH.ALL,
         element: <></>,

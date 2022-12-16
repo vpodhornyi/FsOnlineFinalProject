@@ -41,7 +41,7 @@ export const PATH = {
   TWEET: {
     ROOT:"/tweet",
     DELETE: '/tweet/:id',
-
+    REPLY:'/tweet/reply/:id',
   },
   ALL: '*',
 };

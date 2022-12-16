@@ -3,7 +3,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {styled} from "@mui/material/styles";
 import {Box} from "@mui/material";
 import PropTypes from "prop-types";
-import {IconByName, TweetForm} from "../../index";
+import {IconByName} from "../../index";
 
 import {ModalPage} from '../../index';
 import IconButton from "@mui/material/IconButton";
@@ -11,9 +11,7 @@ import {PATH} from "../../../utils/constants";
 import {BackgroundContext} from "../../../utils/context";
 import Button from "@mui/material/Button";
 import {deleteTweet} from "../../../redux/tweet/action";
-import {closeModal} from "../../../redux/modal/action";
 import {useDispatch, useSelector} from "react-redux";
-import {getActiveId} from "../../../redux/modal/selector";
 import {getPersonalData} from "../../../redux/user/selector";
 
 
