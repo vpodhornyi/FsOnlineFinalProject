@@ -14,7 +14,7 @@ const ChatInfoHeader = ({chat}) => {
 
   return (
     <StyledStickyHeader>
-      <Box onClick={() => navigate(PATH.MESSAGES.chatInfo(chat?.id))}>
+      <Box onClick={() => navigate(-1)}>
         <CustomIconButton name='ArrowBackOutlined' title='Back'/>
       </Box>
       <Typography variant='h2'>People</Typography>

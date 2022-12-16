@@ -112,6 +112,11 @@ export const modalRoutes = authorized => {
         children: [],
       },
       {
+        path: PATH.MESSAGES.ADD_PEOPLE,
+        element: <UserSearch isAdd={true}/>,
+        children: [],
+      },
+      {
         path: PATH.SETTINGS.DISPLAY,
         element: <Display/>,
         children: [],

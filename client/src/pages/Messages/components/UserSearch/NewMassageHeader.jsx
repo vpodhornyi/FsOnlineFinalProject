@@ -8,7 +8,7 @@ import {CustomIconButton, FollowButton} from "@components";
 import {BackgroundContext} from "../../../../utils/context";
 import {PATH} from "@utils/constants";
 
-const NewMessageHeader = ({isGroup, isNext, next}) => {
+const NewMessageHeader = ({isAdd, isGroup, isNext, next, addPeople}) => {
   const {background} = useContext(BackgroundContext);
   const navigate = useNavigate();
 
@@ -26,13 +26,22 @@ const NewMessageHeader = ({isGroup, isNext, next}) => {
             <Box onClick={() => navigate(background?.pathname || PATH.ROOT)}>
               <CustomIconButton name='Close'/>
             </Box>
-            <Typography variant='h2'>New message</Typography>
-        </>}
-
+            {isAdd ?
+              <Typography variant='h2'>Add people</Typography>
+              :
+              <Typography variant='h2'>New message</Typography>
+            }
+          </>}
       </Box>
-      <Box sx={{mr: 1}} onClick={() => next(isGroup)}>
-        <FollowButton name='Next' disabled={isNext}/>
-      </Box>
+      {isAdd ?
+        <Box sx={{mr: 1}} onClick={() => addPeople()}>
+          <FollowButton name='Add' disabled={isNext}/>
+        </Box>
+        :
+        <Box sx={{mr: 1}} onClick={() => next(isGroup)}>
+          <FollowButton name='Next' disabled={isNext}/>
+        </Box>
+      }
     </BoxWrapper>);
 }
 
@@ -73,7 +82,9 @@ const BoxWrapper = styled(Box)(({theme}) => ({
 NewMessageHeader.propTypes = {
   isGroup: PropTypes.bool,
   isNext: PropTypes.bool,
+  isAdd: PropTypes.bool,
   next: PropTypes.func,
+  addPeople: PropTypes.func,
 }
 
 export default NewMessageHeader;

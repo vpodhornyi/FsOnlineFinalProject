@@ -1,13 +1,15 @@
 import React from "react";
-import {useSelector, useDispatch} from "react-redux";
+import {useNavigate, useLocation} from "react-router-dom";
 import {styled} from "@mui/material/styles";
 import {Box, Typography} from "@mui/material";
 import PropTypes from "prop-types";
 import Person from "./Person";
 import Action from "./Action";
+import {PATH} from "@utils/constants";
 
 const GroupPeople = ({chat}) => {
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <BoxWrapper>
@@ -21,7 +23,9 @@ const GroupPeople = ({chat}) => {
       {chat.users.map(user => {
         return <Person key={user.key} user={user}/>
       })}
-      <Action name='Add people'/>
+      <Box onClick={() => navigate(PATH.MESSAGES.addPeople(chat?.id), {state: {background: location}})}>
+        <Action name='Add people'/>
+      </Box>
     </BoxWrapper>);
 }
 

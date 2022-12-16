@@ -22,6 +22,8 @@ export const PATH = {
     groupInfo: id => `/messages/${id}/group-info`,
     PARTICIPANTS: `/messages/:id/participants`,
     participants: id => `/messages/${id}/participants`,
+    ADD_PEOPLE: `/messages/:id/add`,
+    addPeople: id => `/messages/${id}/add`,
     COMPOSE: '/messages/compose',
     COMPOSE_GROUP: '/messages/compose/group',
   },

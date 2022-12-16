@@ -4,8 +4,9 @@ import {ListItemIcon, ListItemText, Typography, Box, MenuItem, Menu} from "@mui/
 
 import CustomIconButton from "@components/buttons/CustomIconButton";
 import IconByName from "@components/icons/IconByName";
+import PropTypes from "prop-types";
 
-const More = () => {
+const More = ({openModal}) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -14,6 +15,12 @@ const More = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const openLeaveChatConfirm = () => {
+    openModal();
+    handleClose();
+  }
+
 
   return (
     <Box onClick={e => e.stopPropagation()}>
@@ -28,7 +35,6 @@ const More = () => {
       </Box>
       <Box>
         <MenuWrapper
-          className='1234qwerty'
           id="demo-positioned-menu"
           aria-labelledby="demo-positioned-button"
           anchorEl={anchorEl}
@@ -41,9 +47,6 @@ const More = () => {
           transformOrigin={{
             vertical: 'top',
             horizontal: 'right',
-          }}
-          sx={{
-            borderRadius: '40px',
           }}
         >
           <MenuItem>
@@ -62,7 +65,7 @@ const More = () => {
               <Typography variant='body1'>Snooze conversation</Typography>
             </ListItemText>
           </MenuItem>
-          <MenuItem>
+          <MenuItem onClick={openLeaveChatConfirm}>
             <ListItemIcon>
               <IconByName iconStyle={{color: 'red'}} iconName='DeleteOutlined'/>
             </ListItemIcon>
@@ -72,7 +75,6 @@ const More = () => {
           </MenuItem>
         </MenuWrapper>
       </Box>
-
     </Box>
   );
 }
@@ -97,5 +99,9 @@ const MenuWrapper = styled(Menu)(({theme}) => ({
     }
   },
 }));
+
+More.propTypes = {
+  openModal: PropTypes.func,
+}
 
 export default More;

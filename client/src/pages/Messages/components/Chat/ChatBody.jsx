@@ -10,13 +10,16 @@ import StartMessage from "./footer/StartMessage";
 import UserInfo from "./UserInfo";
 import Message from "./Message";
 import ScrollDownButton from "./ScrollDownButton";
-import {CircularLoader} from "../../../../components";
+import {CircularLoader, ModalWindow} from "../../../../components";
 import {ACTIONS, getMessages, sendMessage, addNewPrivateChat, addNewGroupChat} from "@redux/chat/action";
 import {getChatsData} from "@redux/chat/selector";
 import {CHAT_TYPE} from '@utils/constants';
 import {PATH} from "@utils/constants";
+import DeleteMessageConfirm from "../confirms/DeleteMessageConfirm";
+import {useModal} from '../../../../hooks/useModal';
 
 const ChatBody = ({chatId}) => {
+  const {isShowing, toggle} = useModal();
   const {NEW_PRIVATE, NEW_GROUP, PRIVATE} = CHAT_TYPE;
   const overlayRef = useRef();
   const chatBodyRef = useRef();
@@ -117,7 +120,7 @@ const ChatBody = ({chatId}) => {
           )}
           {messages.map(item => {
             const isAuth = item?.user?.id === authUserId;
-            return <Message key={item?.key} left={!isAuth} message={item}/>
+            return <Message key={item?.key} left={!isAuth} message={item} openModal={toggle}/>
           })}
         </Box>
       </Box>
@@ -134,6 +137,10 @@ const ChatBody = ({chatId}) => {
           enterKeyDown={enterKeyDown}
           onBottom={onBottom}/>
       </Box>
+      <ModalWindow
+        isShowing={isShowing}
+        modalClose={toggle}
+        element={<DeleteMessageConfirm modalClose={toggle}/>}/>
     </BoxWrapper>);
 }
 
@@ -150,7 +157,7 @@ const BoxWrapper = styled(Box)(({theme}) => ({
     overflow: 'overlay',
     overflowX: 'hidden',
     paddingRight: 15,
-    // scrollBehavior: 'smooth',
+    scrollBehavior: 'smooth',
   },
 
   '& > .MuiBox-root > .MessagesBox': {

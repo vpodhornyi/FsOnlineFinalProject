@@ -18,7 +18,7 @@ import {PATH} from "@utils/constants";
 import {getRandomKey} from '@utils';
 import {CHAT_TYPE} from '@utils/constants';
 
-const Element = ({isGroup}) => {
+const Element = ({isGroup, isAdd}) => {
   const {NEW_GROUP, NEW_PRIVATE} = CHAT_TYPE;
   const inputRef = useRef();
   const dispatch = useDispatch();
@@ -99,9 +99,18 @@ const Element = ({isGroup}) => {
     }
   }
 
+  const addPeople = () => {
+
+  }
+
   return (
     <BoxWrapper>
-      <NewMassageHeader isGroup={isGroup} isNext={!grabbedUsers.length} next={next}/>
+      <NewMassageHeader
+        isAdd={isAdd}
+        isGroup={isGroup}
+        isNext={!grabbedUsers.length}
+        next={next}
+        addPeople={addPeople}/>
       <Box sx={{position: 'relative', width: '100%', borderBottom: '1px solid rgb(207, 217, 222)',}}>
         <Box className='SearchIconWrapper'>
           <IconByName color='primary' iconName='SearchOutlined'/>
@@ -120,7 +129,7 @@ const Element = ({isGroup}) => {
           {loading && <LinearProgress color='primary' sx={{height: 2}}/>}
         </Box>
       </Box>
-      {!isGroup && <GroupButton/>}
+      {!isGroup && !isAdd && <GroupButton/>}
       <Box className='FoundUsersBox'>
         {
           foundedUsers.map(user => <FoundUser
@@ -134,7 +143,7 @@ const Element = ({isGroup}) => {
   );
 }
 
-const UserSearch = ({isGroup}) => <ModalPage element={<Element isGroup={isGroup}/>}/>;
+const UserSearch = ({isGroup, isAdd}) => <ModalPage element={<Element isAdd={isAdd} isGroup={isGroup}/>}/>;
 
 const BoxWrapper = styled(Box)(({theme}) => ({
   width: '100%',
@@ -171,10 +180,12 @@ const BoxWrapper = styled(Box)(({theme}) => ({
 
 Element.propTypes = {
   isGroup: PropTypes.bool,
+  isAdd: PropTypes.bool,
 }
 
 UserSearch.propTypes = {
   isGroup: PropTypes.bool,
+  isAdd: PropTypes.bool,
 }
 
 export default UserSearch;

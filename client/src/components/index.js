@@ -17,7 +17,7 @@ import {CustomIconButton, CustomFabButton, FollowButton} from "./buttons";
 import StickyHeader from "./StickyHeader";
 import LoginPanel from "./LoginPanel";
 import Display from "./Display";
-import CustomModal from "./CustomModal";
+import ModalWindow from "./ModalWindow";
 import Confirm from "./Confirm";
 import {TweetForm} from "./tweetComponents/TweetForm";
 import Tweet from "./tweetComponents/Tweet";
@@ -47,7 +47,7 @@ export {
   CircularLoader,
   LoginPanel,
   Display,
-  CustomModal,
+  ModalWindow,
   Confirm,
   TweetForm,
   Tweet,

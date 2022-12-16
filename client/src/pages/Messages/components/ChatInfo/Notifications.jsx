@@ -1,14 +1,12 @@
-import React, {useState} from "react";
-import {useDispatch} from "react-redux";
+import React from "react";
 import {styled} from "@mui/material/styles";
 import {Box, Typography} from "@mui/material";
 import PropTypes from "prop-types";
 
 import {getRandomKey} from "@utils";
 import SwitchAction from './SwitchAction';
-import Action from './Action';
-import LeaveConversation from "../LeaveConversation";
-import {ACTIONS} from '@redux/dialog/action';
+import BlockUser from './BlockUser';
+import LeaveChat from './LeaveChat';
 
 const privateSwitchActions = [
   {
@@ -30,9 +28,6 @@ const groupSwitchActions = [
 
 
 const Notifications = ({chat}) => {
-  const dispatch = useDispatch();
-  const [open, setOpen] = useState(false)
-  const handleClose = () => setOpen(false);
 
   return (
     <BoxWrapper>
@@ -53,19 +48,8 @@ const Notifications = ({chat}) => {
           />
         })}
       </Box>
-      {chat.isPrivate && <Action name={`Block @${chat?.guestUser?.userTag}`}/>}
-      <Box onClick={() => setOpen(true)}>
-        <Action
-          style={{
-            color: 'rgb(244, 33, 46)',
-            '&:hover': {
-              backgroundColor: 'rgba(244, 33, 46, 0.1)',
-            }
-          }}
-          name={`Leave conversation`}
-        />
-      </Box>
-      <LeaveConversation open={open} handleClose={handleClose}/>
+      {chat.isPrivate && <BlockUser userTag={chat?.guestUser?.userTag}/>}
+      <LeaveChat/>
     </BoxWrapper>);
 }
 

@@ -31,7 +31,7 @@ const Chat = () => {
 
   return (
     <BoxWrapper>
-      <ChatHeader selectedChat={selectedChat}/>
+      <ChatHeader chat={selectedChat}/>
       <ChatBody chatId={parseInt(id)}/>
     </BoxWrapper>
   );

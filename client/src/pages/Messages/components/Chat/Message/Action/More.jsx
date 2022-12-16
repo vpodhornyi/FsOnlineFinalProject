@@ -3,8 +3,9 @@ import {styled} from "@mui/material/styles";
 import CustomIconButton from "@components/buttons/CustomIconButton";
 import {ListItemIcon, Menu, MenuItem, Box, ListItemText, Typography} from "@mui/material";
 import IconByName from "@components/icons/IconByName";
+import PropTypes from "prop-types";
 
-const More = () => {
+const More = ({openModal}) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -13,6 +14,11 @@ const More = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const openDeleteConfirm = () => {
+    openModal();
+    handleClose();
+  }
 
   return (
     <Box>
@@ -23,7 +29,12 @@ const More = () => {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
       >
-        <CustomIconButton color='greyAccent' name='MoreHorizOutlined' title='More' size='small' iconSize='small'/>
+        <CustomIconButton
+          color='greyAccent'
+          name='MoreHorizOutlined'
+          title='More'
+          size='small'
+          iconSize='small'/>
       </Box>
       <MenuWrapper
         id="demo-positioned-menu"
@@ -40,7 +51,7 @@ const More = () => {
           horizontal: 'left',
         }}
       >
-        <MenuItem>
+        <MenuItem onClick={openDeleteConfirm}>
           <ListItemIcon>
             <IconByName iconStyle={{color: 'red'}} iconName='DeleteOutlined'/>
           </ListItemIcon>
@@ -80,5 +91,9 @@ const MenuWrapper = styled(Menu)(({theme}) => ({
     }
   },
 }));
+
+More.propTypes = {
+  openModal: PropTypes.func,
+}
 
 export default More;

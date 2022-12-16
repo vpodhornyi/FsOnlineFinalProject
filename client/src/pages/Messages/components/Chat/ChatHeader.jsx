@@ -8,7 +8,7 @@ import {StickyHeader} from '../../../../components';
 import PropTypes from "prop-types";
 import {PATH} from "@utils/constants";
 
-const ChatHeader = ({selectedChat}) => {
+const ChatHeader = ({chat}) => {
   const navigate = useNavigate();
 
   return (
@@ -17,17 +17,23 @@ const ChatHeader = ({selectedChat}) => {
         <Box
           className='backButton'
           sx={{mr: '10px'}}
-          onClick={() => navigate(PATH.MESSAGES.chat(selectedChat?.id))}>
+          onClick={() => navigate(PATH.MESSAGES.chat(chat?.id))}>
           <CustomIconButton name='ArrowBackOutlined' title='Back'/>
         </Box>
-        <Link
-          to={`${PATH.userProfile(selectedChat?.guestUser?.userTag)}`}
-        >
-          <Avatar sx={{mr: '10px', width: '2.5rem', height: '2.5rem'}} src={selectedChat?.avatarImgUrl}/>
-        </Link>
-        <Typography variant='h2'>{selectedChat?.title}</Typography>
+        {
+          chat?.isGroup ?
+            <Link to={`${PATH.MESSAGES.participants(chat?.id)}`}>
+              <Avatar sx={{mr: '10px', width: '2.5rem', height: '2.5rem'}} src={chat?.avatarImgUrl}/>
+            </Link>
+            :
+            <Link to={`${PATH.userProfile(chat?.guestUser?.userTag)}`}>
+              <Avatar sx={{mr: '10px', width: '2.5rem', height: '2.5rem'}} src={chat?.avatarImgUrl}/>
+            </Link>
+        }
+
+        <Typography variant='h2'>{chat?.title}</Typography>
       </Box>
-      <Box onClick={() => navigate(PATH.MESSAGES.chatInfo(selectedChat?.id))}>
+      <Box onClick={() => navigate(PATH.MESSAGES.chatInfo(chat?.id))}>
         <CustomIconButton name='InfoOutlined' title='Details'/>
       </Box>
     </StyledStickyHeader>);
@@ -54,7 +60,7 @@ const StyledStickyHeader = styled(StickyHeader)(({theme}) => ({
 }));
 
 ChatHeader.propTypes = {
-  selectedChat: PropTypes.object,
+  chat: PropTypes.object,
 }
 
 export default ChatHeader;

@@ -40,10 +40,6 @@ export const themeStyles = {
       third: 'rgba(29, 155, 240, 0.1)',
       contrastText: '#ffd400'
     },
-    follow: {
-      main: 'rgb(15, 20, 25)',
-      secondary: 'rgb(39, 40, 48)',
-    },
     neutral: {
       main: '#ffd400',
     },
@@ -58,6 +54,10 @@ export const themeStyles = {
       main: 'rgb(244, 33, 46)',
       secondary: 'rgb(220, 30, 41)',
       third: 'rgba(244, 33, 46, 0.1)',
+    },
+    blackAccent: {
+      main: 'rgb(15, 20, 25)',
+      secondary: 'rgb(39, 40, 48)',
     },
     greyAccent: {
       main: 'rgb(83, 100, 113)',
