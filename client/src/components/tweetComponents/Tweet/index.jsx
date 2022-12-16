@@ -30,9 +30,10 @@ import {getActiveId, getActiveUrl} from "../../../redux/modal/selector";
 import DeleteTweet from "../DeleteTweet";
 import ImageListContainer from "../../imageList/ImageListContainer";
 import {handlerBookmark} from "../../../redux/tweet/action";
-import Modal from "../../Modal";
+import Modal from "../ModalImg";
 import {useLocation, useNavigate} from "react-router-dom";
 import {PATH} from "../../../utils/constants";
+import {ModalPage} from "../../index";
 const Tweet = ({ tweetInfo }) => {
   const dispatch = useDispatch();
   const activeId = useSelector(getActiveId);
@@ -127,8 +128,6 @@ const Tweet = ({ tweetInfo }) => {
                 ))}
             </List>
       </TweetContainer>
-      {/*{activeId === id && <Reply tweetInfo={tweetInfo} />}*/}
-      {activeUrl&&<Modal type={"FULL_IMG"}><img src={activeUrl} alt="FULL_IMG"/></Modal>}
     </>
   );
 };

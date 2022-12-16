@@ -7,6 +7,7 @@ import {
 import {PATH} from "../utils/constants";
 import {SectionDetails, SectionNavigation, Display, DeleteTweet} from "../components";
 import Reply from "../components/tweetComponents/Reply";
+import ModalImg from "../components/tweetComponents/ModalImg";
 
 const lazyLoading = (path) => {
   const LazyElement = lazy(() => import(path));
@@ -117,6 +118,11 @@ export const modalRoutes = authorized => {
         {
           path: PATH.TWEET.REPLY,
           element: <Reply/>,
+          children: [],
+        },
+        {
+          path: PATH.TWEET.IMG,
+          element: <ModalImg/>,
           children: [],
         },
 

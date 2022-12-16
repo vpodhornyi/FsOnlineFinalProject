@@ -3,9 +3,12 @@ import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import {openModal} from "../../../redux/modal/action";
 import {useDispatch} from "react-redux";
+import {useLocation, useNavigate, useNavigation} from "react-router-dom";
+import {PATH} from "../../../utils/constants";
 
 function CustomImageList({itemData}) {
-const dispatch= useDispatch();
+    const location = useLocation();
+    const navigate = useNavigate();
     return (
         <Box
             sx={{
@@ -25,8 +28,8 @@ const dispatch= useDispatch();
                             backgroundSize: "cover",
                             maxWidth:"100%",
                             borderRadius: "25px",
-                        }} onClick={()=>{
-                            dispatch(openModal({ id: null, typeModal: "FULL_IMG",activeUrl:url}))}} src={url} key={i} alt={url}/>
+                        }} onClick={()=> navigate(PATH.TWEET.IMG, {state: {background: location,url}})
+                           } src={url} key={i} alt={url}/>
                     );
                 })}
         </Box>
