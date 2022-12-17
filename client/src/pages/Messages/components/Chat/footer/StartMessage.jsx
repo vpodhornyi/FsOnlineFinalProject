@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import {CustomIconButton} from "../../../../../components";
 import CustomTextField from "./CustomTextField";
 
-const StartMessage = ({sending, chatId, message, inputRef, sendMessage, enterKeyDown}) => {
+const StartMessage = ({handleChangeInputText, sending, disabledSendButton, text, inputRef, sendMessage, enterKeyDown}) => {
 
   return (
     <BoxWrapper>
@@ -23,9 +23,13 @@ const StartMessage = ({sending, chatId, message, inputRef, sendMessage, enterKey
         <Box>
           <CustomIconButton color='primary' name='EmojiEmotionsOutlined' iconSize='small'/>
         </Box>
-        <CustomTextField chatId={chatId} message={message} enterKeyDown={enterKeyDown} inputRef={inputRef}/>
+        <CustomTextField
+          handleChangeInputText={handleChangeInputText}
+          text={text}
+          enterKeyDown={enterKeyDown}
+          inputRef={inputRef}/>
         <Box onClick={sendMessage}>
-          <CustomIconButton color='primary' name='SendOutlined' iconSize='small' disabled={!message || message?.trim() === ''}/>
+          <CustomIconButton color='primary' name='SendOutlined' iconSize='small' disabled={disabledSendButton}/>
         </Box>
       </ButtonsBoxWrapper>
     </BoxWrapper>
@@ -56,8 +60,9 @@ const BoxWrapper = styled(Box)(({theme}) => ({
 }));
 
 StartMessage.propTypes = {
+  handleChangeInputText: PropTypes.func,
   sending: PropTypes.bool,
-  chatId: PropTypes.number,
+  disabledSendButton: PropTypes.bool,
   message: PropTypes.string,
   inputRef: PropTypes.object,
   sendMessage: PropTypes.func,

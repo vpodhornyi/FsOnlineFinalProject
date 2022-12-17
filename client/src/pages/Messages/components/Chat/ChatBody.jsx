@@ -33,6 +33,7 @@ const ChatBody = ({chatId}) => {
   const [loading, setLoading] = useState(false);
   const [sending, setSending] = useState(false);
   const [{messages}, setMessages] = useState({messages: []});
+  const [text, setText] = useState('');
   const {authUser: {id: authUserId}} = useSelector(state => state.user);
   const showScrollDownButton = useDebouncedCallback(v => setVisible(v), 300);
   const fetch = useDebouncedCallback(async (id) => {
@@ -45,12 +46,17 @@ const ChatBody = ({chatId}) => {
     }, 300)
   }, 500);
 
-  const onBottom = () => {
-    const heightBody = chatBodyRef?.current?.offsetHeight;
-    overlayRef?.current?.scroll(0, heightBody);
+  const debounced = useDebouncedCallback((text, e) => {
+    dispatch(ACTIONS.setMessage({chatId, text}))
+  }, 500);
+
+  const handleChangeInputText = (e) => {
+    setText(() => e.target.value);
+    debounced(e.target.value, e);
   }
 
   useEffect(() => {
+    setText(() => message || '');
     if (offsetHeight === scrollHeight) showScrollDownButton(false);
     setMessages({messages: []});
     fetch(chatId);
@@ -70,7 +76,10 @@ const ChatBody = ({chatId}) => {
   }
 
   const send = async () => {
-    if (message.trim() !== '') {
+    const textMessage = text;
+    setText(() => '');
+
+    if (textMessage.trim() !== '') {
       setSending(true);
       dispatch(ACTIONS.setMessage({chatId, text: ''}));
       const type = selectedChat.type;
@@ -78,16 +87,18 @@ const ChatBody = ({chatId}) => {
       if (type === NEW_PRIVATE) {
         const newChatId = await dispatch(addNewPrivateChat(selectedChat));
         setSending(false);
-        return navigate(`${PATH.MESSAGES.ROOT}/${newChatId}`);
+        navigate(PATH.MESSAGES.chat(newChatId));
+        return;
       }
 
       if (type === NEW_GROUP) {
         const newChatId = await dispatch(addNewGroupChat(selectedChat));
         setSending(false);
-        return navigate(`${PATH.MESSAGES.ROOT}/${newChatId}`);
+        navigate(PATH.MESSAGES.chat(newChatId));
+        return;
       }
 
-      const data = await dispatch(sendMessage({chatId, text: message}));
+      const data = await dispatch(sendMessage({chatId, text: textMessage}));
 
       if (data?.id) {
         messages.push(data);
@@ -106,6 +117,11 @@ const ChatBody = ({chatId}) => {
     if (e.keyCode === 13) {
       send();
     }
+  }
+
+  const onBottom = () => {
+    const heightBody = chatBodyRef?.current?.offsetHeight;
+    overlayRef?.current?.scroll(0, heightBody);
   }
 
   return (
@@ -129,10 +145,11 @@ const ChatBody = ({chatId}) => {
           {visible && <ScrollDownButton visible={visible}/>}
         </Box>
         <StartMessage
+          handleChangeInputText={handleChangeInputText}
           sending={sending}
-          chatId={chatId}
-          message={message}
+          disabledSendButton={!text || text?.trim() === ''}
           inputRef={inputRef}
+          text={text}
           sendMessage={send}
           enterKeyDown={enterKeyDown}
           onBottom={onBottom}/>
