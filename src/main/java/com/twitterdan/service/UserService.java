@@ -13,17 +13,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class UserService {
   private final UserRepository userRepository;
 
-  @Transactional(readOnly = true)
   public List<User> findAll() {
     return userRepository.findAll();
   }
 
-  @Transactional(readOnly = true)
   public User findById(Long id) {
     Optional<User> optionalUser = userRepository.findById(id);
 
@@ -76,7 +73,6 @@ public class UserService {
       user.get().setHeaderImgUrl(headerImgUrl);
       userRepository.save(user.get());
     }
-
   }
 
   public void updateUserAvatar(Long id, String avatarImgUrl) {
@@ -112,7 +108,6 @@ public class UserService {
     return true;
   }
 
-  @Transactional(readOnly = true)
   public User findByUserTag(String userTag) {
     Optional<User> optionalUser = userRepository.findByUserTag(userTag);
 
@@ -122,7 +117,6 @@ public class UserService {
     throw new CouldNotFindAccountException();
   }
 
-  @Transactional(readOnly = true)
   public User findByUserEmail(String email) {
     Optional<User> optionalUser = userRepository.findByEmail(email);
 

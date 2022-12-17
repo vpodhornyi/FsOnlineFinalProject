@@ -14,7 +14,7 @@ const FollowButton = ({name = 'Follow', disabled = false}) => {
 
 const BoxWrapper = styled(Box)(({theme}) => ({
   '& .MuiFab-root': {
-    height: '2.3rem',
+    height: '2.2rem',
     backgroundColor: theme.palette.blackAccent.main,
     color: '#ffffff',
     margin: '10px 0',

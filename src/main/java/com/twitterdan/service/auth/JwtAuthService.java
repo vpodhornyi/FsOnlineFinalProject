@@ -22,9 +22,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class JwtAuthService implements AuthService {
-
   public final UserService userService;
   private final RefreshJwtStoreDao refreshJwtStoreDao;
   private final JwtProvider jwtProvider;
