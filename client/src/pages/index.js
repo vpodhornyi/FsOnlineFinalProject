@@ -7,6 +7,7 @@ import Chat from './Messages/components/Chat/Chat';
 import UserSearch from './Messages/components/UserSearch/UserSearch';
 import ChatInfo from './Messages/components/ChatInfo/ChatInfo';
 import Participants from './Messages/components/Participants/Participants';
+import GroupEditPage from './Messages/components/GroupEditPage';
 import Bookmarks from './Bookmarks/Bookmarks';
 import Lists from './Lists/Lists';
 import UserProfile from './UserProfile/UserProfile';
@@ -40,6 +41,7 @@ export {
   UserSearch,
   ChatInfo,
   Participants,
+  GroupEditPage,
 
   Bookmarks,
   Lists,

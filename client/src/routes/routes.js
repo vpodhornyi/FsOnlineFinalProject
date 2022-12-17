@@ -2,7 +2,8 @@ import React, {lazy} from 'react';
 import {Navigate} from "react-router-dom";
 import {
   Home, Explore, Notifications, Messages, Chat, ChatInfo, Bookmarks, CreateAccount, SelectMessage,
-  Lists, UserProfile, UserSearch, Auth, Login, Password, ForgotPassword, SingUp, UserData, Participants
+  Lists, UserProfile, UserSearch, Auth, Login, Password, ForgotPassword, SingUp, UserData, Participants,
+  GroupEditPage
 } from "../pages";
 import {PATH} from "../utils/constants";
 import {Display, TweetCompose} from "../components";
@@ -115,6 +116,10 @@ export const modalRoutes = authorized => {
         path: PATH.MESSAGES.ADD_PEOPLE,
         element: <UserSearch isAdd={true}/>,
         children: [],
+      },
+      {
+        path: PATH.MESSAGES.GROUP_INFO,
+        element: <GroupEditPage/>,
       },
       {
         path: PATH.SETTINGS.DISPLAY,
