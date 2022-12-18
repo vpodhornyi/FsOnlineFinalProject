@@ -83,7 +83,6 @@ const ProgressWrapper = styled(Box)(({theme}) => ({
   left: 0,
   right: 0,
 }));
-
 const ButtonsBoxWrapper = styled(Box)(({theme}) => ({
   position: 'relative',
   padding: '5px',
@@ -92,13 +91,11 @@ const ButtonsBoxWrapper = styled(Box)(({theme}) => ({
   backgroundColor: 'rgb(239, 243, 244)',
   borderRadius: '16px',
 }));
-
 const BoxWrapper = styled(Box)(({theme}) => ({
   padding: '5px 15px',
   borderTop: '1px solid rgb(239, 243, 244)',
   backgroundColor: 'rgba(255,255,255, 1)'
 }));
-
 const TextFieldWrapper = styled(TextField)(({theme}) => ({
   width: '95%',
   maxHeight: '150px',

@@ -29,6 +29,7 @@ const ChatBody = ({chatId}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {selectedChat} = useSelector(getChatsData);
+  const [scrolling, setScrolling] = useState(false);
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [sending, setSending] = useState(false);
@@ -65,7 +66,6 @@ const ChatBody = ({chatId}) => {
   }
 
   const send = async (textMessage) => {
-
     if (textMessage.trim() !== '') {
       setSending(true);
       dispatch(ACTIONS.setMessage({chatId, text: ''}));
@@ -149,6 +149,12 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   justifyContent: 'space-between',
 
   '& > .Overlay': {
+    overflow: 'overlay',
+    overflowX: 'hidden',
+    // scrollBehavior: 'smooth',
+  },
+
+  '& > .OverlayScrolling': {
     overflow: 'overlay',
     overflowX: 'hidden',
     paddingRight: 15,
