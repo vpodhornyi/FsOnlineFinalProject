@@ -27,7 +27,6 @@ const ChatBody = ({chatId}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {selectedChat} = useSelector(getChatsData);
-  const [isScrolling, setIsScrolling] = useState(false);
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [sending, setSending] = useState(false);
@@ -40,9 +39,6 @@ const ChatBody = ({chatId}) => {
     const scrollHeight = overlayRef?.current?.scrollHeight;
     if (offsetHeight === scrollHeight) {
       showScrollDownButton(false);
-      setIsScrolling(false);
-    } else {
-      setIsScrolling(true);
     }
   }
 
@@ -107,7 +103,6 @@ const ChatBody = ({chatId}) => {
         onBottom();
         setSending(false);
       }, 500);
-      getScrolling();
     }
   }
 
@@ -121,10 +116,8 @@ const ChatBody = ({chatId}) => {
       <Box
         ref={overlayRef}
         sx={{
-          overflow: 'overlay',
           overflowX: 'hidden',
         }}
-        className={isScrolling && 'OverlayScrolling'}
         onScroll={onScrollEvent}>
         <Box
           ref={chatBodyRef}
@@ -167,11 +160,6 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
-
-  '& > .OverlayScrolling': {
-    paddingRight: 15,
-    // scrollBehavior: 'smooth',
-  },
 
   '& > .MuiBox-root > .MessagesBox': {
     overflow: 'overlay',

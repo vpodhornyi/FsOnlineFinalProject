@@ -16,7 +16,7 @@ const styles = ({theme}) => ({
   cursor: 'pointer',
   position: 'absolute',
   right: 50,
-  top: -65,
+  top: -55,
   backgroundColor: '#ffffff',
   padding: '5px 15px',
   borderRadius: 24,

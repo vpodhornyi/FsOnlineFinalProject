@@ -92,7 +92,7 @@ const ButtonsBoxWrapper = styled(Box)(({theme}) => ({
   borderRadius: '16px',
 }));
 const BoxWrapper = styled(Box)(({theme}) => ({
-  padding: '5px 15px',
+  padding: '7px 15px',
   borderTop: '1px solid rgb(239, 243, 244)',
   backgroundColor: 'rgba(255,255,255, 1)'
 }));
