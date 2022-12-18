@@ -28,12 +28,11 @@ const ChatBody = ({chatId}) => {
   const scrollHeight = overlayRef?.current?.scrollHeight;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {message, selectedChat} = useSelector(getChatsData);
+  const {selectedChat} = useSelector(getChatsData);
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [sending, setSending] = useState(false);
   const [{messages}, setMessages] = useState({messages: []});
-  const [text, setText] = useState('');
   const {authUser: {id: authUserId}} = useSelector(state => state.user);
   const showScrollDownButton = useDebouncedCallback(v => setVisible(v), 300);
   const fetch = useDebouncedCallback(async (id) => {
@@ -46,17 +45,7 @@ const ChatBody = ({chatId}) => {
     }, 300)
   }, 500);
 
-  const debounced = useDebouncedCallback((text, e) => {
-    dispatch(ACTIONS.setMessage({chatId, text}))
-  }, 500);
-
-  const handleChangeInputText = (e) => {
-    setText(() => e.target.value);
-    debounced(e.target.value, e);
-  }
-
   useEffect(() => {
-    setText(() => message || '');
     if (offsetHeight === scrollHeight) showScrollDownButton(false);
     setMessages({messages: []});
     fetch(chatId);
@@ -75,9 +64,7 @@ const ChatBody = ({chatId}) => {
     }
   }
 
-  const send = async () => {
-    const textMessage = text;
-    setText(() => '');
+  const send = async (textMessage) => {
 
     if (textMessage.trim() !== '') {
       setSending(true);
@@ -113,12 +100,6 @@ const ChatBody = ({chatId}) => {
     }
   }
 
-  const enterKeyDown = (e) => {
-    if (e.keyCode === 13) {
-      send();
-    }
-  }
-
   const onBottom = () => {
     const heightBody = chatBodyRef?.current?.offsetHeight;
     overlayRef?.current?.scroll(0, heightBody);
@@ -145,14 +126,11 @@ const ChatBody = ({chatId}) => {
           {visible && <ScrollDownButton visible={visible}/>}
         </Box>
         <StartMessage
-          handleChangeInputText={handleChangeInputText}
           sending={sending}
-          disabledSendButton={!text || text?.trim() === ''}
           inputRef={inputRef}
-          text={text}
+          chatId={chatId}
           sendMessage={send}
-          enterKeyDown={enterKeyDown}
-          onBottom={onBottom}/>
+        />
       </Box>
       <ModalWindow
         isShowing={isShowing}
@@ -174,7 +152,7 @@ const BoxWrapper = styled(Box)(({theme}) => ({
     overflow: 'overlay',
     overflowX: 'hidden',
     paddingRight: 15,
-    scrollBehavior: 'smooth',
+    // scrollBehavior: 'smooth',
   },
 
   '& > .MuiBox-root > .MessagesBox': {

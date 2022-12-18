@@ -1,11 +1,44 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import {styled} from "@mui/material/styles";
 import {Box, LinearProgress, TextField} from "@mui/material";
 import PropTypes from "prop-types";
 
 import {CustomIconButton} from "../../../../components";
+import {useDebouncedCallback} from "use-debounce";
+import {ACTIONS} from "@redux/chat/action";
+import {getChatsData} from "@redux/chat/selector";
 
-const StartMessage = ({handleChangeInputText, sending, disabledSendButton, text, inputRef, sendMessage, enterKeyDown}) => {
+const StartMessage = ({sending, chatId, inputRef, sendMessage}) => {
+  const dispatch = useDispatch();
+  const {message} = useSelector(getChatsData);
+  const [text, setText] = useState('');
+
+  const debounced = useDebouncedCallback((text) => {
+    dispatch(ACTIONS.setMessage({chatId, text}))
+  }, 500);
+  const handleChangeInputText = (e) => {
+    const text = e.target.value;
+    if (text[text.length - 1] !== '\n') {
+      setText(() => e.target.value);
+      debounced(e.target.value);
+    }
+  }
+
+  useEffect(() => {
+    setText(() => message || '');
+  }, [chatId])
+
+  const onClickSend = () => {
+    setText(() => '');
+    sendMessage(text);
+  }
+
+  const onKeyDown = async (e) => {
+    if (e.keyCode === 13) {
+      await onClickSend();
+    }
+  }
 
   return (
     <BoxWrapper>
@@ -25,14 +58,18 @@ const StartMessage = ({handleChangeInputText, sending, disabledSendButton, text,
         <TextFieldWrapper
           inputRef={inputRef}
           onChange={handleChangeInputText}
-          onKeyDown={enterKeyDown}
+          onKeyDown={onKeyDown}
           value={text}
           placeholder='Start a new message'
           multiline
           id="messageText"
           variant="filled"/>
-        <Box onClick={sendMessage}>
-          <CustomIconButton color='primary' name='SendOutlined' iconSize='small' disabled={disabledSendButton}/>
+        <Box onClick={onClickSend}>
+          <CustomIconButton
+            color='primary'
+            name='SendOutlined'
+            iconSize='small'
+            disabled={!text || text?.trim() === ''}/>
         </Box>
       </ButtonsBoxWrapper>
     </BoxWrapper>
@@ -97,13 +134,10 @@ const TextFieldWrapper = styled(TextField)(({theme}) => ({
 }));
 
 StartMessage.propTypes = {
-  handleChangeInputText: PropTypes.func,
   sending: PropTypes.bool,
-  disabledSendButton: PropTypes.bool,
-  text: PropTypes.string,
+  chatId: PropTypes.number,
   inputRef: PropTypes.object,
   sendMessage: PropTypes.func,
-  enterKeyDown: PropTypes.func,
 }
 
 export default StartMessage;
