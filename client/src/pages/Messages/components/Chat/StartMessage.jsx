@@ -1,10 +1,9 @@
 import React from "react";
 import {styled} from "@mui/material/styles";
-import {Box, LinearProgress} from "@mui/material";
+import {Box, LinearProgress, TextField} from "@mui/material";
 import PropTypes from "prop-types";
 
-import {CustomIconButton} from "../../../../../components";
-import CustomTextField from "./CustomTextField";
+import {CustomIconButton} from "../../../../components";
 
 const StartMessage = ({handleChangeInputText, sending, disabledSendButton, text, inputRef, sendMessage, enterKeyDown}) => {
 
@@ -23,11 +22,15 @@ const StartMessage = ({handleChangeInputText, sending, disabledSendButton, text,
         <Box>
           <CustomIconButton color='primary' name='EmojiEmotionsOutlined' iconSize='small'/>
         </Box>
-        <CustomTextField
-          handleChangeInputText={handleChangeInputText}
-          text={text}
-          enterKeyDown={enterKeyDown}
-          inputRef={inputRef}/>
+        <TextFieldWrapper
+          inputRef={inputRef}
+          onChange={handleChangeInputText}
+          onKeyDown={enterKeyDown}
+          value={text}
+          placeholder='Start a new message'
+          multiline
+          id="messageText"
+          variant="filled"/>
         <Box onClick={sendMessage}>
           <CustomIconButton color='primary' name='SendOutlined' iconSize='small' disabled={disabledSendButton}/>
         </Box>
@@ -59,11 +62,45 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   backgroundColor: 'rgba(255,255,255, 1)'
 }));
 
+const TextFieldWrapper = styled(TextField)(({theme}) => ({
+  width: '95%',
+  maxHeight: '150px',
+  paddingTop: '5px',
+  paddingBottom: '5px',
+
+  '& .MuiInputBase-input': {
+    overflow: 'overlay !important',
+    overflowX: 'hidden',
+    maxHeight: '150px',
+    backgroundColor: 'rgb(239, 243, 244)',
+  },
+
+  '& .MuiFilledInput-root': {
+    backgroundColor: 'rgb(239, 243, 244)',
+  },
+
+  '& .MuiInputBase-root': {
+    padding: 0, marginLeft: '10px', marginRight: '10px', backgroundColor: 'rgb(239, 243, 244)',
+
+    '&:hover': {
+      backgroundColor: 'rgb(239, 243, 244)',
+    },
+  },
+
+  '& .MuiInputBase-root:before': {
+    content: 'none'
+  },
+
+  '& .MuiInputBase-root:after': {
+    content: 'none'
+  },
+}));
+
 StartMessage.propTypes = {
   handleChangeInputText: PropTypes.func,
   sending: PropTypes.bool,
   disabledSendButton: PropTypes.bool,
-  message: PropTypes.string,
+  text: PropTypes.string,
   inputRef: PropTypes.object,
   sendMessage: PropTypes.func,
   enterKeyDown: PropTypes.func,

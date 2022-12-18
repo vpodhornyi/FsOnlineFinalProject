@@ -6,7 +6,7 @@ import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
 
-import StartMessage from "./footer/StartMessage";
+import StartMessage from "./StartMessage";
 import UserInfo from "./UserInfo";
 import Message from "./Message";
 import ScrollDownButton from "./ScrollDownButton";
