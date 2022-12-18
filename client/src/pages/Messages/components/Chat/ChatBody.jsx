@@ -24,30 +24,40 @@ const ChatBody = ({chatId}) => {
   const overlayRef = useRef();
   const chatBodyRef = useRef();
   const inputRef = useRef();
-  const offsetHeight = overlayRef?.current?.offsetHeight;
-  const scrollHeight = overlayRef?.current?.scrollHeight;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {selectedChat} = useSelector(getChatsData);
-  const [scrolling, setScrolling] = useState(false);
+  const [isScrolling, setIsScrolling] = useState(false);
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [sending, setSending] = useState(false);
   const [{messages}, setMessages] = useState({messages: []});
   const {authUser: {id: authUserId}} = useSelector(state => state.user);
   const showScrollDownButton = useDebouncedCallback(v => setVisible(v), 300);
+
+  const getScrolling = () => {
+    const offsetHeight = overlayRef?.current?.offsetHeight;
+    const scrollHeight = overlayRef?.current?.scrollHeight;
+    if (offsetHeight === scrollHeight) {
+      showScrollDownButton(false);
+      setIsScrolling(false);
+    } else {
+      setIsScrolling(true);
+    }
+  }
+
   const fetch = useDebouncedCallback(async (id) => {
     setLoading(true);
     const messages = await dispatch(getMessages(id));
     setMessages({messages});
     setLoading(false);
     setTimeout(() => {
+      getScrolling();
       onBottom();
-    }, 300)
+    }, 200);
   }, 500);
 
   useEffect(() => {
-    if (offsetHeight === scrollHeight) showScrollDownButton(false);
     setMessages({messages: []});
     fetch(chatId);
   }, [chatId]);
@@ -96,7 +106,8 @@ const ChatBody = ({chatId}) => {
       setTimeout(() => {
         onBottom();
         setSending(false);
-      }, 500)
+      }, 500);
+      getScrolling();
     }
   }
 
@@ -107,8 +118,17 @@ const ChatBody = ({chatId}) => {
 
   return (
     <BoxWrapper>
-      <Box ref={overlayRef} className='Overlay' onScroll={onScrollEvent}>
-        <Box ref={chatBodyRef} className='MessagesBox'>
+      <Box
+        ref={overlayRef}
+        sx={{
+          overflow: 'overlay',
+          overflowX: 'hidden',
+        }}
+        className={isScrolling && 'OverlayScrolling'}
+        onScroll={onScrollEvent}>
+        <Box
+          ref={chatBodyRef}
+          className='MessagesBox'>
           {selectedChat.type === PRIVATE && <UserInfo/>}
           {loading && (
             <Box sx={{position: 'relative', pt: 3, pb: 3}}>
@@ -148,15 +168,7 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   flexDirection: 'column',
   justifyContent: 'space-between',
 
-  '& > .Overlay': {
-    overflow: 'overlay',
-    overflowX: 'hidden',
-    // scrollBehavior: 'smooth',
-  },
-
   '& > .OverlayScrolling': {
-    overflow: 'overlay',
-    overflowX: 'hidden',
     paddingRight: 15,
     // scrollBehavior: 'smooth',
   },
@@ -173,7 +185,7 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   },
 
   '& .ScrollDownButton': {
-    animation: 'fadein 0.5s',
+    animation: 'fadein 0.4s',
   }
 }));
 

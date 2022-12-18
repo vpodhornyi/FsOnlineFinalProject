@@ -21,8 +21,7 @@ const styles = ({theme}) => ({
   padding: '5px 15px',
   borderRadius: 24,
   boxShadow: 'rgb(101 119 134 / 20%) 0px 0px 8px, rgb(101 119 134 / 25%) 0px 1px 3px 1px',
-  transition: '0.4s',
-  // opacity: 0.3,
+  transition: '0.3s',
 
   '&:hover': {
     backgroundColor: 'rgb(230, 230, 230)',
