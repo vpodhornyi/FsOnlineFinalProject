@@ -7,8 +7,6 @@ const styles = ({theme}) => ({
   height: '100vh',
   position: 'sticky',
   top: 0,
-  borderLeft: '1px solid rgb(239, 243, 244)',
-  borderRight: '1px solid rgb(239, 243, 244)',
 
   [theme.breakpoints.up('md')]: {
     display: 'block',
