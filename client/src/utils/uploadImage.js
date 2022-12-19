@@ -1,4 +1,5 @@
 import axios from "axios";
+import {DEV_API_URL} from "../services/userApi";
 
 /**
  * @param file - image file
@@ -12,5 +13,5 @@ export const uploadImage = async (file, id, uploadType) => {
     formData.append('upload', file);
     formData.append("entityId", String(id));
     formData.append("uploadType", uploadType);
-    await axios.post(`${process.env.REACT_APP_DEV_API_URL}cloud/image`, formData);
+    await axios.post(`${DEV_API_URL}cloud/image`, formData);
 }

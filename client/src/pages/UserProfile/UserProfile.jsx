@@ -9,17 +9,15 @@ import TabPanel from "./components/TabPanel";
 import {
     StyledDarkButton,
     StyledLightButton,
-    StyledTypography
 } from "../../components/StyledComponents/styledComponents";
 import UserProfileData from "./components/UserProfileData";
 import {openDialog} from "../../redux/dialog/action";
 import EditForm from "./components/EditForm";
 import {useDispatch, useSelector} from "react-redux";
-import axios from "axios";
 import {getPersonalData} from "../../redux/auth/selector";
 import {getUserByUserTag} from "../../services/userApi";
 
-function a11yProps(index) {
+export function a11yProps(index) {
     return {
         id: `simple-tab-${index}`,
         'aria-controls': `simple-tabpanel-${index}`,

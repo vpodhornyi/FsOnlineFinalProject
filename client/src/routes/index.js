@@ -1,4 +1,3 @@
-import {lazy} from "react";
 import {
   AUTH_ROUTE,
   BOOKMARKS_ROUTE,
@@ -6,7 +5,7 @@ import {
   HOME_ROUTE,
   LISTS_ROUTE, LOGOUT_ROUTE,
   MESSAGES_ROUTE,
-  NOTIFICATIONS_ROUTE
+  NOTIFICATIONS_ROUTE, SUBSCRIBING_ROUTE
 } from "../utils/constants";
 import UserProfile from "../pages/UserProfile/UserProfile";
 import Main from "../pages/Main";
@@ -16,6 +15,8 @@ import Explore from "../pages/Explore/Explore";
 import Notifications from "../pages/Notifications/Notifications";
 import Messages from "../pages/Messages";
 import Bookmarks from "../pages/Bookmarks/Bookmarks";
+import Subscribing from "../pages/Subscribing/Subscribing";
+
 const routes = [
   {
     isPublic: true,
@@ -72,6 +73,12 @@ const routes = [
     path: LOGOUT_ROUTE,
     element: Auth,
   },
+  {
+    isPublic: false,
+    exact: true,
+    path: SUBSCRIBING_ROUTE,
+    element: Subscribing,
+  }
 ];
 
 export default routes;
