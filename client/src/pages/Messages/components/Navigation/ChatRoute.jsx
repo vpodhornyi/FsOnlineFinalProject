@@ -8,7 +8,6 @@ import PropTypes from "prop-types";
 import {ACTIONS} from '@redux/chat/action';
 import More from './More';
 import {PATH} from "@utils/constants";
-import {CHAT_TYPE} from "@utils/constants";
 import {moment} from "@utils";
 
 const ChatRoute = ({chat, toggleModal}) => {
@@ -20,6 +19,11 @@ const ChatRoute = ({chat, toggleModal}) => {
   const handleChatClick = (chat) => {
     dispatch(ACTIONS.setChatId({chatId: chat?.id}));
     navigate(`${PATH.MESSAGES.ROOT}/${chat?.id}`);
+  }
+
+  const getText = (text) => {
+    const ln = text?.length;
+    return   ln && ln > 30 ? text.slice(0, 30) + '...' : text;
   }
 
   return (
@@ -44,7 +48,7 @@ const ChatRoute = ({chat, toggleModal}) => {
               {authUser?.id !== chat?.lastMessage?.user.id && chat?.lastMessage?.user.name &&
                 <Typography variant='body2' sx={{mr: 1}}>{chat?.lastMessage?.user.name}:</Typography>}
               {/*<Box><Typography>You reacted with {':-)'}:</Typography></Box>*/}
-              <Typography variant='body2'>{chat?.lastMessage?.text}</Typography>
+              <Typography variant='body2'>{getText(chat?.lastMessage?.text)}</Typography>
             </Box>
           </Box>
         </Box>
