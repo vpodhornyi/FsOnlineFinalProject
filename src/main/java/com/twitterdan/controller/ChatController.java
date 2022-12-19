@@ -20,6 +20,8 @@ import com.twitterdan.service.ChatService;
 import com.twitterdan.service.MessageService;
 import com.twitterdan.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,6 +41,8 @@ public class ChatController {
   private final GroupChatResponseMapper groupChatResponseMapper;
   private final PrivateChatRequestMapper privateChatRequestMapper;
   private final GroupChatRequestMapper groupChatRequestMapper;
+
+  private final RabbitTemplate rabbitTemplate;
 
   @GetMapping
   public ResponseEntity<List<ChatResponseAbstract>> getChats(
@@ -105,6 +109,7 @@ public class ChatController {
   @PostMapping("/messages")
   public ResponseEntity<MessageResponse> saveMessage(@RequestBody MessageRequest messageRequest) {
     Message message = messageRequestMapper.convertToEntity(messageRequest);
+    rabbitTemplate.convertAndSend("messages", message);
     Message savedMessage = messageService.save(message);
     return ResponseEntity.ok(messageResponseMapper.convertToDto(savedMessage));
   }
