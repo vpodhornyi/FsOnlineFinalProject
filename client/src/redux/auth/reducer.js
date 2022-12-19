@@ -1,4 +1,3 @@
-import {getTokens} from "@utils";
 import {
     ACTIONS,
     GET_USER_REQUEST,
@@ -6,7 +5,6 @@ import {
     GET_USER_ERROR,
 } from "./action";
 import {getTokens} from "@utils";
-import {ACTIONS} from "./action";
 
 const {accessToken} = getTokens();
 
