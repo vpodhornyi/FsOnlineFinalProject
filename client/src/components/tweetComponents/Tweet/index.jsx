@@ -87,7 +87,7 @@ const Tweet = ({ tweetInfo }) => {
             >
               {
                 ICONS?.map((itemData, index) => {
-                  const lengthAction=   actions.filter(action => itemData.tooltip.toUpperCase() === action.actionType.toUpperCase()).length
+                  const lengthAction=   actions?.filter(action => itemData.tooltip.toUpperCase() === action.actionType.toUpperCase()).length
                   const mediaStyle = { ["@media (max-width:700px)"]: {
                       p: 0,
                     },}
