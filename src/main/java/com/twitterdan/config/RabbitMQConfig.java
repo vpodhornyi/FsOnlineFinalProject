@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.amqp.core.Queue;
 
 
-@Configuration
+//@Configuration
 public class RabbitMQConfig {
 
   @Bean

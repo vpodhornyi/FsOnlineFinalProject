@@ -3,7 +3,7 @@ import {useSelector} from "react-redux";
 import {useLocation} from "react-router-dom";
 
 import {
-  Preloader, DialogWindow, RootContainer, LoginPanel,
+  Preloader, RootContainer, LoginPanel,
   Header, NavBar, Main, MainContainer
 } from "./components";
 import {menu} from './utils/menu';
