@@ -10,6 +10,5 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AttachmentResponse {
-  private Long id;
   private String imgUrl;
 }

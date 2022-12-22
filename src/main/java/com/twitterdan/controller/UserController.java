@@ -1,6 +1,6 @@
 package com.twitterdan.controller;
 
-import com.twitterdan.domain.dto.userDto.UserProfileUpdateRequestDto;
+import com.twitterdan.domain.dto.userdto.UserProfileUpdateRequestDto;
 import com.twitterdan.domain.user.User;
 import com.twitterdan.dto.user.UserResponse;
 import com.twitterdan.facade.user.UserResponseMapper;
@@ -35,9 +35,7 @@ public class UserController {
 
   @GetMapping("/all")
   public List<UserResponse> findAll() {
-    return userService.findAll().stream()
-      .map(userResponseMapper::convertToDto)
-      .collect(Collectors.toList());
+    return userService.findAll().stream().map(userResponseMapper::convertToDto).collect(Collectors.toList());
   }
 
   @GetMapping("/{id}")
@@ -54,19 +52,13 @@ public class UserController {
   }
 
   @GetMapping("/")
-  public UserResponse findByUserTag(
-    @RequestParam(name = "userTag") String userTag
-  ) {
+  public UserResponse findByUserTag(@RequestParam(name = "userTag") String userTag) {
     User user = userService.findByUserTag(userTag);
     return userResponseMapper.convertToDto(user);
   }
 
   @PutMapping("/{id}")
-  public boolean updateUserProfile(
-    @Valid
-    @PathVariable(name = "id") Long id,
-    @RequestBody UserProfileUpdateRequestDto dto
-  ) {
+  public boolean updateUserProfile(@Valid @PathVariable(name = "id") Long id, @RequestBody UserProfileUpdateRequestDto dto) {
     return userService.updateUserProfile(id, dto);
   }
 

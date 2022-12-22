@@ -2,7 +2,6 @@ package com.twitterdan.service;
 
 import com.twitterdan.dao.TweetRepository;
 import com.twitterdan.domain.tweet.Tweet;
-import com.twitterdan.dto.tweet.TweetRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,37 +13,37 @@ import java.util.List;
 @Transactional
 @Slf4j
 public class TweetService {
-        @Autowired
-        private TweetRepository tweetDao;
+  @Autowired
+  private TweetRepository tweetDao;
 
 
-        public List<Tweet> getAll() {
-            return (List<Tweet>) tweetDao.findAll();
-        }
+  public List<Tweet> getAll() {
+    return tweetDao.findAll();
+  }
 
-        public Tweet save(Tweet tweet) {
-         return  tweetDao.save(tweet);
-        }
-        public void update(TweetRequest tweetUpdate) {
-            System.out.println(tweetUpdate.getId());
-            Tweet tweet = tweetDao.findById(tweetUpdate.getId()).get();
-            tweet.setTweetType(tweetUpdate.getTweetType());
-            tweet.setBody(tweetUpdate.getBody());
-            tweet.setUser(tweetUpdate.getUser());
+  public Tweet save(Tweet tweet) {
+    return tweetDao.save(tweet);
+  }
 
-        tweetDao.save(tweet);
-    }
-        public Tweet findById(Long userId) {
+  public void update(Tweet tweetUpdate) {
+    Tweet tweet = tweetDao.findById(tweetUpdate.getId()).get();
+    tweet.setTweetType(tweetUpdate.getTweetType());
+    tweet.setBody(tweetUpdate.getBody());
+    tweet.setUser(tweetUpdate.getUser());
+    tweetDao.save(tweet);
+  }
 
-            return tweetDao.findById(userId).orElse(new Tweet());
+  public Tweet findById(Long userId) {
 
-        }
+    return tweetDao.findById(userId).orElse(new Tweet());
 
-        public void deleteById(Long id) {
-            tweetDao.deleteById(id);
+  }
 
-
-        }
+  public void deleteById(Long id) {
+    tweetDao.deleteById(id);
 
 
-    }
+  }
+
+
+}

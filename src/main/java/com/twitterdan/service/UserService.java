@@ -1,7 +1,7 @@
 package com.twitterdan.service;
 
 import com.twitterdan.dao.UserRepository;
-import com.twitterdan.domain.dto.userDto.UserProfileUpdateRequestDto;
+import com.twitterdan.domain.dto.userdto.UserProfileUpdateRequestDto;
 import com.twitterdan.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
