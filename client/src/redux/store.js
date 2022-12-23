@@ -2,9 +2,8 @@ import thunk from "redux-thunk";
 import {composeWithDevTools} from "redux-devtools-extension";
 import {getTokens, setHeaderAuthorization} from "@utils";
 import {interceptor} from "@service/API";
-import {ACTIONS, getAuthUser} from "./user/action";
+import {getAuthUser} from "./user/action";
 
-import modalReducer from "./modal/reducer";
 import tweetReducer from "./tweet/reducer";
 import authReducer from "./auth/reducer";
 import userReducer from "./user/reducer";
@@ -16,7 +15,6 @@ const {applyMiddleware, combineReducers, createStore} = require("redux");
 
 const reducer = combineReducers({
   chat: chatReducer,
-  modal: modalReducer,
   tweet: tweetReducer,
   auth: authReducer,
   user: userReducer,

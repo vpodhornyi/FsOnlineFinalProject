@@ -11,9 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @CrossOrigin("*")
@@ -35,42 +37,40 @@ public class TweetController {
         @GetMapping
         public List<TweetResponse> getAll() {
             List<Tweet> tweets = tweetService.getAll();
-            if (tweets.size() == 0) {
-                log.info("empty list");
-            }
             return tweets.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
         }
 
         @GetMapping("/{id}")
-        public TweetResponse getById(@PathVariable("id") String userId) {
+        public TweetResponse getById(@PathVariable("id") String userId) throws Exception {
             Tweet tweet = tweetService.findById(Long.parseLong(userId));
             if (tweet.equals(new Tweet())) {
-                log.info("Tweet isEmpty");
+                throw new NullPointerException("There is no tweet with this id ");
+
             }
             return tweetResponseMapper.convertToDto(tweet);
         }
 
-        @DeleteMapping("/{id}")
-        public void delete(@PathVariable("id") String userId) {
-            Long id = Long.parseLong(userId);
-            if (tweetService.findById(id).equals(new Tweet())) {
-                log.warn("The list has no element with this id");
-            }
-            tweetService.deleteById(id);
+        @DeleteMapping("/{userId}/{tweetId}")
+        public void delete( @PathVariable(value = "userId")Long userId ,
+                            @PathVariable(value = "tweetId") Long tweetId) throws Exception {
+            Tweet tweet  = tweetService.findById(tweetId);
+            if (tweet.equals(new Tweet())) {
+                throw new Exception("The list has no element with this id");
+            } else if (tweet.getUser().getId()!=userId){
+                throw new Exception("This is not this user's tweet ");
+            }else{
+            tweetService.deleteById(tweetId);}
         }
 
         @PutMapping("/update")
         public void update(@Valid @RequestBody TweetRequest dto) {
-
-            log.info(dto + " - Object for update Tweet  ");
            tweetService.update(dto);
         }
 
         @PostMapping("/create")
-        public void create(@RequestBody TweetRequest dto) {
+        public TweetResponse create(@RequestBody TweetRequest dto) {
             Tweet tweet = tweetRequestMapper.convertToEntity(dto);
-            log.info(tweet + " - Object for create Tweet  ");
-            tweetService.save(tweet);
+          return   tweetResponseMapper.convertToDto(tweetService.save(tweet));
         }
 
 

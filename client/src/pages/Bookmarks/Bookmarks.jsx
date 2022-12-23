@@ -1,14 +1,18 @@
 import React from 'react';
 import {ColumnWrapper, PrimaryColumn, SitebarColumn, StickyHeader} from "../../components";
+import {useSelector} from "react-redux";
+import {getTweetsState} from "../../redux/tweet/selector";
+import Tweets from "../Home/Tweets";
 
 const Bookmarks = () => {
+
   return (
     <ColumnWrapper>
       <PrimaryColumn>
         <StickyHeader>
           HEADER Bookmarks primary column
         </StickyHeader>
-        BODY Bookmarks primary column
+       <Tweets bookmarksValue={true}/>
       </PrimaryColumn>
 
       <SitebarColumn>
