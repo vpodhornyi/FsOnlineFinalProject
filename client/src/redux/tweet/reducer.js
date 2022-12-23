@@ -10,7 +10,6 @@ const INITIAL_STATE = {
 
 };
 export default (state = INITIAL_STATE, {payload, type}) => {
-    console.log(typeof payload)
     switch (type) {
         case String(ACTIONS.getTweets.request):
             return {

@@ -6,7 +6,7 @@ import {
   GroupEditPage
 } from "../pages";
 import {PATH} from "../utils/constants";
-import {Display, TweetCompose} from "../components";
+import {Display, TweetCompose, DeleteTweet} from "../components";
 import Reply from "../components/tweetComponents/Reply";
 import ModalImg from "../components/tweetComponents/ModalImg";
 
