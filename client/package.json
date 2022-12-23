@@ -51,7 +51,7 @@
     "watch-styles-sass": "npm-watch",
     "start-js": "set NODE_OPTIONS=--max_old_space_size=8192 && react-app-rewired start",
     "start": "npm run -p watch-styles-sass start-js",
-    "build": "npm run stylelint-build && react-app-rewired build",
+    "build": "CI=false && npm run stylelint-build && react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject"
   },
