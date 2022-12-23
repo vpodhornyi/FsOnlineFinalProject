@@ -1,43 +1,42 @@
 import axios from "axios";
-import {Client, Message} from "@stomp/stompjs"
+import {Client} from "@stomp/stompjs";
 import {ACTIONS} from '@redux/auth/action';
 import {getTokens, setTokenType, setAuthToken, setHeaderAuthorization, deleteTokens} from "@utils";
 
 const BASE_URL = process.env.REACT_APP_API_VERSION;
-
+const BROKER_URL = process.env.REACT_APP_API_BROKER_URL;
 const api = axios.create({
   baseURL: BASE_URL,
 });
 
-const client = new Client({
-  brokerURL: 'ws://localhost:61613/ws',
+// console.log(client.subscribe);
+
+/*const client = new Client({
+  brokerURL: BROKER_URL,
   connectHeaders: {
-    login: 'guest',
-    passcode: 'guest',
+    login: 'user',
+    passcode: 'password',
   },
   debug: function (str) {
-    console.log(str);
+    // console.log(str);
   },
   reconnectDelay: 5000,
-  heartbeatIncoming: 4000,
-  heartbeatOutgoing: 4000,
+  onConnect: () => {
+    console.log('kuku');
+  }
+
 });
-client.onConnect = function (frame) {
-  // Do something, all subscribes must be done is this callback
-  // This is needed because this will be executed after a (re)connect
-};
-
-client.onStompError = function (frame) {
-  // Will be invoked in case of error encountered at Broker
-  // Bad login/passcode typically will cause an error
-  // Complaint brokers will set `message` header with a brief message. Body may contain details.
-  // Compliant brokers will terminate the connection after any error
-  console.log('Broker reported error: ' + frame.headers['message']);
-  console.log('Additional details: ' + frame.body);
-};
-
-client.activate();
 api.client = client;
+
+client.activate();*/
+/*client.onConnect = () => {
+  const headers = { ack: 'client' };
+  client.subscribe('/topic/messages', (data) => {
+    console.log('ws - ');
+    console.log(data);
+    console.log(data.body);
+  }, headers);
+}*/
 
 export const interceptor = store => {
   api.interceptors.request.use(conf => {
@@ -88,6 +87,7 @@ export const URLS = {
   },
   CHATS: {
     ROOT: '/chats',
+    ALL: '/chats/all',
     MESSAGES: '/chats/messages',
     PRIVATE: '/chats/private',
     GROUP: '/chats/group',

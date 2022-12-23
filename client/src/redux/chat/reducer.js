@@ -7,7 +7,6 @@ const init = {
   pageSize: 50,
   chatId: -1,
   chats: [],
-  showChats: []
 }
 
 export default (state = init, {payload, type}) => {

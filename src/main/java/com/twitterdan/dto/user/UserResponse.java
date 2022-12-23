@@ -3,6 +3,7 @@ package com.twitterdan.dto.user;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -16,4 +17,5 @@ public class UserResponse {
   private String bio;
   private String avatarImgUrl;
   private String headerImgUrl;
+  private List<Long> chatsIds;
 }

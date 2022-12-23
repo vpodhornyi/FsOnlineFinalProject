@@ -6,10 +6,10 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 //@EnableRabbit
-//@Component
+@Component
 public class RabbitMqListener {
 
-  @RabbitListener
+//  @RabbitListener
   public void processMessages(Message message) {
     System.out.println(message);
   }

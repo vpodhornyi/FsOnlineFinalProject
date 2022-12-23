@@ -2,6 +2,7 @@ package com.twitterdan.service;
 
 import com.twitterdan.dao.ChatRepository;
 import com.twitterdan.dao.MessageRepository;
+import com.twitterdan.domain.BaseEntity;
 import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.chat.ChatType;
 import com.twitterdan.domain.chat.Message;
@@ -17,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 
 @Service
-@Transactional
 public class ChatService {
   private final ChatRepository chatRepository;
   private final MessageRepository messageRepository;
@@ -51,6 +51,14 @@ public class ChatService {
           chat.setLastMessage(message);
         }
       }).toList()).orElseGet(() -> (List<Chat>) optionalChats.orElseGet(Page::empty));
+  }
+
+  public List<Long> findAlLSubscribedChatIdsByUserId(Long userId) {
+    Optional<List<Chat>> optionalChats = chatRepository.findAllByUsersId(userId);
+
+    return optionalChats.map(chats -> chats.stream()
+      .map(BaseEntity::getId)
+      .toList()).orElseGet(ArrayList::new);
   }
 
   public Chat findPrivateChatByUsersIds(Long authUserId, Long guestUserId) {

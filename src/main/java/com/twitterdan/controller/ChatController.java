@@ -1,5 +1,6 @@
 package com.twitterdan.controller;
 
+import com.twitterdan.dao.MessageRepository;
 import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.chat.ChatType;
 import com.twitterdan.domain.chat.Message;
@@ -25,8 +26,11 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.stomp.StompBrokerRelayMessageHandler;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -43,7 +47,8 @@ public class ChatController {
   private final GroupChatResponseMapper groupChatResponseMapper;
   private final PrivateChatRequestMapper privateChatRequestMapper;
   private final GroupChatRequestMapper groupChatRequestMapper;
-  private final RabbitTemplate rabbitTemplate;
+  private final SimpMessagingTemplate simpMessagingTemplate;
+  private final MessageRepository messageRepository;
 
   @GetMapping
   public ResponseEntity<List<ChatResponseAbstract>> getChats(
@@ -110,17 +115,21 @@ public class ChatController {
   @PostMapping("/messages")
   public ResponseEntity<MessageResponse> saveMessage(@RequestBody MessageRequest messageRequest) {
     Message message = messageRequestMapper.convertToEntity(messageRequest);
-    rabbitTemplate.convertAndSend("messages", message);
+//    rabbitTemplate.convertAndSend("messages", message);
     Message savedMessage = messageService.save(message);
     return ResponseEntity.ok(messageResponseMapper.convertToDto(savedMessage));
   }
 
-  @MessageMapping("/messages")
-  @SendTo("/topic/messages")
-  public ResponseEntity<MessageResponse> saveGroupMessage(@RequestBody MessageRequest messageRequest) {
+  @MessageMapping("/chat")
+//  @SendTo("/queue/chat.id")
+  public ResponseEntity<MessageResponse> saveGroupMessage(@RequestBody MessageRequest messageRequest, Principal principal) {
+    System.out.println(messageRequest);
+    System.out.println(principal);
     Message message = messageRequestMapper.convertToEntity(messageRequest);
 //    rabbitTemplate.convertAndSend("messages", message);
     Message savedMessage = messageService.save(message);
+    simpMessagingTemplate.convertAndSend("/topic/chat." + messageRequest.getChatId(),
+      ResponseEntity.ok(messageResponseMapper.convertToDto(savedMessage)));
     return ResponseEntity.ok(messageResponseMapper.convertToDto(savedMessage));
   }
 

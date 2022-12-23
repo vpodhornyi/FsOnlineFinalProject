@@ -24,6 +24,20 @@ export const getChats = (params) => async dispatch => {
     const data = await api.get(URLS.CHATS.ROOT, {params});
     dispatch(ACTIONS.getChats.success({chats: data}));
 
+    /*  api.client.onConnect = () => {
+        console.log('kuku');
+        data.forEach(ch => {
+          console.log(ch);
+          api.client.subscribe(`/topic/chat.${ch.id}`, (data) => {
+            console.log('ws - ');
+            console.log(data);
+            console.log();
+            const {body} = JSON.parse(data.body);
+            dispatch(ACTIONS.setLastChatAction({actionData: body}))
+          });
+        })
+      }*/
+
     return data;
 
   } catch (err) {
@@ -31,6 +45,10 @@ export const getChats = (params) => async dispatch => {
     dispatch(ACTIONS.getChats.fail());
     return [];
   }
+}
+
+export const subscribeToChats = () => async (dispatch) => {
+  const data = await api.get(URLS.CHATS.ALL);
 }
 
 export const searchUser = ({text}) => async dispatch => {
@@ -94,9 +112,17 @@ export const sendMessage = ({chatId, text}) => async (dispatch, getState) => {
   try {
     const {user: {authUser}} = getState();
     const body = {chatId, text, userId: authUser?.id};
-    const data = await api.post(URLS.CHATS.MESSAGES, body);
-    dispatch(ACTIONS.setLastChatAction({actionData: data}))
-    return data;
+
+    // const data = await api.post(URLS.CHATS.MESSAGES, body);
+    // dispatch(ACTIONS.setLastChatAction({actionData: data}))
+    // return data;
+
+    api.client.publish({
+      destination: `/app/chat`,
+      body: JSON.stringify(body),
+      // headers: { priority: '9' },
+    });
+    return {};
 
   } catch (err) {
     console.log('sendMessage error - ', err);
@@ -109,6 +135,21 @@ export const getPrivateChatByUsersId = ({authUserId, guestUserId}) => async disp
     return await api.get(URLS.CHATS.PRIVATE, {params: {authUserId, guestUserId}});
 
   } catch (err) {
-    console.log('getPrivetChatByUsersId error - ', err);
+    console.log('getPrivateChatByUsersId error - ', err);
   }
+}
+
+export const chatSubscribes = () => (dispatch, getState) => {
+  const {user: {authUser}} = getState();
+  authUser?.chatsIds?.forEach(id => {
+    console.log(id);
+    api.client.subscribe(`/topic/chat.${id}`, (data) => {
+      console.log('ws - ');
+      console.log(data);
+      console.log();
+      const {body} = JSON.parse(data.body);
+      dispatch(ACTIONS.setLastChatAction({actionData: body}))
+    });
+  })
+
 }

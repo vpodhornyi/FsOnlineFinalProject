@@ -16,7 +16,7 @@ import java.util.Optional;
 public interface ChatRepository extends JpaRepository<Chat, Long> {
 
   @Query(value =
-      " select c.id, c.uuid, c.title, c.type," +
+    " select c.id, c.uuid, c.title, c.type," +
       " c.created_at, c.created_by, c.updated_at, c.updated_by" +
       " from chats c" +
       " left join messages m on c.id = m.chat_id" +
@@ -27,6 +27,8 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
       " order by MAX(m.created_at) desc NULLS LAST "
     , nativeQuery = true)
   Optional<Page<Chat>> findByUsersId(@Param("userId") Long userId, Pageable pageable);
+
+  Optional<List<Chat>> findAllByUsersId(Long userId);
 
   @Query("Select c from Chat c join c.users u where c.type = ?1 and u.id = ?2 or u.id = ?3 group by c having count(c) = 2")
   Optional<Chat> findPrivateChatByUsersIds(ChatType type, Long authUserId, Long guestUserId);
