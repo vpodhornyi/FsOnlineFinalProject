@@ -29,6 +29,7 @@ public class MessageRequestMapper extends GeneralFacade<Message, MessageRequest>
 
     Long chatId = dto.getChatId();
     Chat chat = chatService.findById(chatId);
+//    System.out.println(chat);
     entity.setChat(chat);
   }
 }

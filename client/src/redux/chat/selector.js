@@ -13,6 +13,7 @@ export const getChatsData = state => {
       message: selectedChat?.message,
       pageNumber: data.pageNumber,
       pageSize: data.pageSize,
+      messages: data.messages,
     }
   }
 }

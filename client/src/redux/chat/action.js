@@ -5,7 +5,8 @@ import {CHAT_TYPE} from "../../utils/constants";
 const actions = createActions(
   {
     actions: ['SET_CHAT_ID', 'RESET_CHAT_ID', 'SET_MESSAGE', 'SET_PAGE_NUMBER', 'SET_LAST_CHAT_ACTION',
-      'SET_NEW_CHAT', 'ADD_NEW_CHAT', 'SET_NEW_GROUP', 'ADD_EXIST_CHAT', 'RESET_DATA'],
+      'SET_NEW_CHAT', 'ADD_NEW_CHAT', 'SET_NEW_GROUP', 'ADD_EXIST_CHAT', 'RESET_DATA',
+      'SET_MESSAGES', 'ADD_PREVIOUS_MESSAGES', 'ADD_NEW_MESSAGE', 'RESET_MESSAGES'],
     async: ['GET_CHATS', 'SEND_MESSAGE'],
   },
   {
@@ -100,11 +101,12 @@ export const addNewGroupChat = (chat) => async dispatch => {
 
 export const getMessages = (id) => async dispatch => {
   try {
-    return await api.get(URLS.CHATS.MESSAGES, {params: {chatId: id}});
+    const data = await api.get(URLS.CHATS.MESSAGES, {params: {chatId: id}});
+
+    dispatch(ACTIONS.setMessages({messages: data}));
 
   } catch (err) {
     console.log('getChats error - ', err);
-    return [];
   }
 }
 
@@ -142,14 +144,11 @@ export const getPrivateChatByUsersId = ({authUserId, guestUserId}) => async disp
 export const chatSubscribes = () => (dispatch, getState) => {
   const {user: {authUser}} = getState();
   authUser?.chatsIds?.forEach(id => {
-    console.log(id);
     api.client.subscribe(`/topic/chat.${id}`, (data) => {
-      console.log('ws - ');
-      console.log(data);
-      console.log();
       const {body} = JSON.parse(data.body);
-      dispatch(ACTIONS.setLastChatAction({actionData: body}))
+      dispatch(ACTIONS.setLastChatAction({actionData: body}));
+      console.log(body);
+      dispatch(ACTIONS.addNewMessage({message: body}));
     });
   })
-
 }

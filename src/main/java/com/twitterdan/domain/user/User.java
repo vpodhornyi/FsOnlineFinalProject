@@ -60,8 +60,7 @@ public class User extends BaseEntity {
   private List<User> followings;
   @LazyCollection(LazyCollectionOption.EXTRA)
   @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)
-  @JsonIgnore
-  private List<Chat> chats = new java.util.ArrayList<>();
+  private List<Chat> chats;
 
   @Override
   public String toString() {

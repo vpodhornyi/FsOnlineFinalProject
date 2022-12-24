@@ -26,11 +26,11 @@ const ChatBody = ({chatId}) => {
   const inputRef = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {selectedChat} = useSelector(getChatsData);
+  const {selectedChat, messages} = useSelector(getChatsData);
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [sending, setSending] = useState(false);
-  const [{messages}, setMessages] = useState({messages: []});
+  // const [{messages}, setMessages] = useState({messages: []});
   const {authUser: {id: authUserId}} = useSelector(state => state.user);
   const showScrollDownButton = useDebouncedCallback(v => setVisible(v), 300);
 
@@ -45,7 +45,7 @@ const ChatBody = ({chatId}) => {
   const fetch = useDebouncedCallback(async (id) => {
     setLoading(true);
     const messages = await dispatch(getMessages(id));
-    setMessages({messages});
+    // setMessages({messages});
     setLoading(false);
     setTimeout(() => {
       getScrolling();
@@ -54,7 +54,8 @@ const ChatBody = ({chatId}) => {
   }, 500);
 
   useEffect(() => {
-    setMessages({messages: []});
+    // setMessages({messages: []});
+    dispatch(ACTIONS.resetMessages());
     fetch(chatId);
   }, [chatId]);
 
@@ -94,8 +95,9 @@ const ChatBody = ({chatId}) => {
       const data = await dispatch(sendMessage({chatId, text: textMessage}));
 
       if (data?.id) {
-        messages.push(data);
-        setMessages({messages});
+        dispatch(ACTIONS.addNewMessage({message: data}));
+        // messages.push(data);
+        // setMessages({messages});
       }
 
       inputRef.current.focus();

@@ -23,7 +23,7 @@ public class Chat extends BaseEntity {
   private ChatType type;
 
   @LazyCollection(LazyCollectionOption.EXTRA)
-  @ManyToMany(cascade = {CascadeType.ALL})
+  @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
   @JoinTable(name = "chats_users",
     joinColumns = @JoinColumn(name = "chats_id", referencedColumnName = "id"),
     inverseJoinColumns = @JoinColumn(name = "users_id", referencedColumnName = "id"))

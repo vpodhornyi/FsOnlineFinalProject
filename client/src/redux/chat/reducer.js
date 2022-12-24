@@ -7,6 +7,7 @@ const init = {
   pageSize: 50,
   chatId: -1,
   chats: [],
+  messages: []
 }
 
 export default (state = init, {payload, type}) => {
@@ -36,6 +37,26 @@ export default (state = init, {payload, type}) => {
       if (!isExistChat) state.chats = [payload.chat, ...state.chats];
       return {
         ...state,
+      };
+    case String(ACTIONS.setMessages):
+      return {
+        ...state,
+        messages: payload.messages,
+      };
+    case String(ACTIONS.addPreviousMessages):
+      return {
+        ...state,
+        messages: [...payload.messages, ...state.messages],
+      };
+    case String(ACTIONS.addNewMessage):
+      return {
+        ...state,
+        messages: [...state.messages, payload.message,],
+      };
+    case String(ACTIONS.resetMessages):
+      return {
+        ...state,
+        messages: [],
       };
     case String(ACTIONS.setChatId):
       return {

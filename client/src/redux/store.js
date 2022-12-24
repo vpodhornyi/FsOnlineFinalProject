@@ -47,12 +47,6 @@ const stompClient = (onConnect) => {
   return client;
 }
 
-const onStompConnect = dispatch => {
-  console.log('kuku');
-  dispatch(chatSubscribes());
-}
-
-
 export default () => {
   const {accessToken, tokenType} = getTokens();
   const store = createStore(
@@ -63,11 +57,14 @@ export default () => {
 
   if (accessToken) {
     setHeaderAuthorization(accessToken, tokenType);
-    store.dispatch(getAuthUser());
+    store.dispatch(getAuthUser())
+      .then(() => {
+        api.client = stompClient(() => {
+          store.dispatch(chatSubscribes());
+        });
+      })
     // store.dispatch(getChats());
   }
-
-  api.client = stompClient(() => onStompConnect(store.dispatch));
 
   return store;
 }
