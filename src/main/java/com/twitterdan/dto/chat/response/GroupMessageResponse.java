@@ -13,5 +13,5 @@ public class GroupMessageResponse extends MessageResponseAbstract {
 
   private final boolean IsGroupChat = true;
 
-  private List<MessageSeenDto> seen;
+  private List<MessageSeenDto> messagesSeen;
 }

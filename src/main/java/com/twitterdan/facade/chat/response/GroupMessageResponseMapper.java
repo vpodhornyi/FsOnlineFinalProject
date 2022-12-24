@@ -34,6 +34,7 @@ public class GroupMessageResponseMapper extends GeneralFacade<Message, GroupMess
         obj.setUserId(e.getUser().getId());
         return obj;
       }).toList();
-    dto.setSeen(messagesDto);
+    dto.setIsAuthUserMessage(Objects.equals(entity.getUser().getId(), authUserId));
+    dto.setMessagesSeen(messagesDto);
   }
 }

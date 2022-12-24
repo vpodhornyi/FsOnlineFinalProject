@@ -41,8 +41,7 @@ const ChatRoute = ({chat, toggleModal}) => {
                   content: '"·"',
                   marginLeft: '5px',
                   marginRight: '5px',
-                }
-              }}>{moment(chat?.lastMessage?.createdAt).fromNow(true)}</Typography>
+                }}}>{moment(chat?.lastMessage?.createdAt).fromNow(true)}</Typography>
             </Box>
             <Box sx={{display: 'flex'}}>
               {authUser?.id !== chat?.lastMessage?.user.id && chat?.lastMessage?.user.name &&

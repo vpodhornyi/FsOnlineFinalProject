@@ -99,9 +99,10 @@ export const addNewGroupChat = (chat) => async dispatch => {
   }
 }
 
-export const getMessages = (id) => async dispatch => {
+export const getMessages = (id) => async (dispatch, getState) => {
   try {
-    const data = await api.get(URLS.CHATS.MESSAGES, {params: {chatId: id}});
+    const {user: {authUser}} = getState();
+    const data = await api.get(URLS.CHATS.MESSAGES, {params: {chatId: id, authUserId: authUser.id}});
 
     dispatch(ACTIONS.setMessages({messages: data}));
 

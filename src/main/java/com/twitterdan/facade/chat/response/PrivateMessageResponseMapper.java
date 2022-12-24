@@ -29,16 +29,16 @@ public class PrivateMessageResponseMapper extends GeneralFacade<Message, Private
     dto.setChatId(chatId);
     List<MessageSeen> seen = entity.getSeen();
     Optional<MessageSeen> optionalMessageSeen = seen.stream().filter(e -> !Objects.equals(e.getUser().getId(), authUser.getId())).findFirst();
-    MessageSeenDto messagesDto = new MessageSeenDto();
+    MessageSeenDto messagesSeenDto = new MessageSeenDto();
 
     if (optionalMessageSeen.isPresent()) {
       MessageSeen messageSeen = optionalMessageSeen.get();
-      messagesDto.setId(messageSeen.getId());
-      messagesDto.setSeen(messageSeen.getSeen());
-      messagesDto.setMessageId(messageSeen.getMessage().getId());
-      messagesDto.setUserId(messageSeen.getUser().getId());
+      messagesSeenDto.setId(messageSeen.getId());
+      messagesSeenDto.setSeen(messageSeen.getSeen());
+      messagesSeenDto.setMessageId(messageSeen.getMessage().getId());
+      messagesSeenDto.setUserId(messageSeen.getUser().getId());
     }
-
-    dto.setSeen(messagesDto);
+    dto.setIsAuthUserMessage(Objects.equals(entity.getUser().getId(), authUserId));
+    dto.setMessageSeen(messagesSeenDto);
   }
 }

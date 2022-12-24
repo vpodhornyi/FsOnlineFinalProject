@@ -100,16 +100,16 @@ public class ChatController {
   }
 
   @GetMapping("/messages")
-  public ResponseEntity<List<MessageResponseAbstract>> getMessages(@RequestParam Long chatId) {
+  public ResponseEntity<List<MessageResponseAbstract>> getMessages(@RequestParam Long chatId, @RequestParam Long authUserId) {
     List<Message> messages = messageService.findByChatId(chatId);
     List<MessageResponseAbstract> messageResponses = messages.stream()
       .map(m -> {
         ChatType type = m.getChat().getType();
 
         if (type.equals(ChatType.PRIVATE)) {
-          return privateMessageResponseMapper.convertToDto(m);
+          return privateMessageResponseMapper.convertToDto(m, authUserId);
         }
-        return groupMessageResponseMapper.convertToDto(m);
+        return groupMessageResponseMapper.convertToDto(m, authUserId);
 
       })
       .toList();

@@ -11,5 +11,5 @@ public class PrivateMessageResponse extends MessageResponseAbstract {
 
   private final boolean IsPrivateChat = true;
 
-  private MessageSeenDto seen;
+  private MessageSeenDto messageSeen;
 }
