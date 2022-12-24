@@ -13,5 +13,4 @@ public abstract class MessageResponseAbstract {
   private LocalDateTime createdAt;
   private Long chatId;
   private ChatUser user;
-  private boolean IsAuthUserMessage = false;
 }

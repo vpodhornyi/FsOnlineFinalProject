@@ -5,13 +5,12 @@ import PropTypes from "prop-types";
 
 import {moment} from "@utils";
 
-const Time = ({message}) => {
+const Time = ({left, message}) => {
   return (
     <BoxWrapper>
       <Typography variant='body2'>{moment(message.createdAt).fromNow(true)}</Typography>
       {
-        message?.isAuthUserMessage && message?.isPrivateChat &&
-        message?.seen?.seen && <Typography sx={{
+        !left && message?.isPrivateChat  && <Typography sx={{
           '&:before': {
             content: '"·"',
             marginLeft: '5px',
@@ -20,7 +19,7 @@ const Time = ({message}) => {
         }} variant='body2'>Seen</Typography>
       }
       {
-        message?.isAuthUserMessage && message?.isGroupChat && <Typography sx={{
+        !left && message?.isGroupChat && <Typography sx={{
           '&:before': {
             content: '"·"',
             marginLeft: '5px',
@@ -28,7 +27,6 @@ const Time = ({message}) => {
           }
         }} variant='body2'>Seen by 1 person</Typography>
       }
-
     </BoxWrapper>);
 }
 
@@ -42,6 +40,7 @@ const BoxWrapper = styled(Box)(({theme}) => ({
 }));
 
 Time.propTypes = {
+  left: PropTypes.bool,
   message: PropTypes.object,
 }
 

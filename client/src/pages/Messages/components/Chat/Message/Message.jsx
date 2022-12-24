@@ -15,7 +15,7 @@ const Message = ({left = false, message, toggleModal}) => {
           <MessageBox left={left} text={message?.text} toggleModal={toggleModal}/>
         </Box>
         {/*<Reaction/>*/}
-        <Time message={message}/>
+        <Time left={left} message={message}/>
       </Box>
     </BoxWrapper>);
 }

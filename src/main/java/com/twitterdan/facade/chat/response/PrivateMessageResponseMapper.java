@@ -38,7 +38,6 @@ public class PrivateMessageResponseMapper extends GeneralFacade<Message, Private
       messagesSeenDto.setMessageId(messageSeen.getMessage().getId());
       messagesSeenDto.setUserId(messageSeen.getUser().getId());
     }
-    dto.setIsAuthUserMessage(Objects.equals(entity.getUser().getId(), authUserId));
     dto.setMessageSeen(messagesSeenDto);
   }
 }
