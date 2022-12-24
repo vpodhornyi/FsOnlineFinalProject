@@ -1,31 +1,59 @@
 import React from "react";
 import {styled} from "@mui/material/styles";
-import {Box, Typography} from "@mui/material";
+import {Box} from "@mui/material";
+import MessageBox from "./MessageBox";
+import Reaction from "./Reaction";
+import Time from "./Time";
 import PropTypes from "prop-types";
 
-const styles = ({theme}) => ({
-  flexShrink: 1,
-  padding: '11px 15px',
-  borderRadius: 24,
+const Message = ({left = false, message, toggleModal}) => {
 
-  '& .MuiTypography-root': {
-    wordWrap: 'break-word',
-    minWidth: 0,
-  }
-});
-
-const BoxWrapper = styled(Box)(styles);
-
-const Message = ({left, text}) => {
   return (
-    <BoxWrapper className={left ? 'LeftMessage' : 'RightMessage'}>
-      <Typography>{text}</Typography>
+    <BoxWrapper>
+      <Box className={left ? 'LeftMessage' : 'RightMessage'}>
+        <Box>
+          <MessageBox left={left} text={message?.text} toggleModal={toggleModal}/>
+        </Box>
+        {/*<Reaction/>*/}
+        <Time time={message.createdAt}/>
+      </Box>
     </BoxWrapper>);
 }
 
+const BoxWrapper = styled(Box)(({theme}) => ({
+  '& > .MuiBox-root': {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    flexDirection: 'column',
+    paddingBottom: 20,
+    alignItems: 'end',
+  },
+
+  '& > .MuiBox-root > .MuiBox-root': {
+    display: 'flex',
+
+    '&:hover .Actions': {
+      opacity: 1
+    }
+  },
+
+  '& > .RightMessage > .MuiBox-root': {
+    justifyContent: 'flex-end',
+  },
+
+  '& > .LeftMessage > .MuiBox-root': {
+    justifyContent: 'flex-start',
+    width: '100%'
+  },
+  '& > .LeftMessage > .MuiBox-root > .MuiBox-root': {
+    justifyContent: 'flex-start',
+  },
+}));
+
 Message.propTypes = {
   left: PropTypes.bool,
-  text: PropTypes.string,
+  message: PropTypes.object,
+  toggleModal: PropTypes.func,
 }
 
 export default Message;

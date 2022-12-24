@@ -6,7 +6,6 @@ import com.twitterdan.dto.chat.response.PrivateChatResponse;
 import com.twitterdan.facade.GeneralFacade;
 import com.twitterdan.facade.chat.ChatUserMapper;
 import com.twitterdan.service.UserService;
-import com.twitterdan.service.auth.JwtAuthService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,20 +13,17 @@ import java.util.List;
 @Service
 public class PrivateChatResponseMapper extends GeneralFacade<Chat, PrivateChatResponse> {
   private final ChatUserMapper chatUserMapper;
-  private final JwtAuthService jwtAuthService;
   private final UserService userService;
 
-  public PrivateChatResponseMapper(JwtAuthService jwtAuthService, ChatUserMapper chatUserMapper, UserService userService) {
+  public PrivateChatResponseMapper(ChatUserMapper chatUserMapper, UserService userService) {
     super(Chat.class, PrivateChatResponse.class);
     this.chatUserMapper = chatUserMapper;
-    this.jwtAuthService = jwtAuthService;
     this.userService = userService;
   }
 
   @Override
-  protected void decorateDto(PrivateChatResponse dto, Chat entity) {
-    String userTag = (String) jwtAuthService.getAuthInfo().getPrincipal();
-    User authUser = userService.findByUserTag(userTag);
+  protected void decorateDto(PrivateChatResponse dto, Chat entity, Long authUserId) {
+    User authUser = userService.findById(authUserId);
     List<User> users = entity.getUsers();
 
     if (authUser.equals(users.get(0))) {

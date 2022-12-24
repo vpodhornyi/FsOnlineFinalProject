@@ -32,11 +32,23 @@ public class GeneralFacade<E, D> {
     return dto;
   }
 
+  public D convertToDto(final E entity, Long authUserId) {
+    final D dto = modelMapper.map(entity, dtoClass);
+
+    decorateDto(dto, entity, authUserId);
+
+    return dto;
+  }
+
   protected void decorateEntity(final E entity, final D dto) {
 
   }
 
   protected void decorateDto(final D dto, final E entity) {
+
+  }
+
+  protected void decorateDto(final D dto, final E entity, Long authUserId) {
 
   }
 }

@@ -1,8 +1,8 @@
 import React from "react";
 import {styled} from "@mui/material/styles";
 import {Box} from "@mui/material";
-import Action from "./Action";
-import Message from "./Message";
+import Action from "./Action/Action";
+import MessageTextBox from "./MessageTextBox";
 import PropTypes from "prop-types";
 
 const styles = ({theme}) => ({
@@ -31,11 +31,11 @@ const MessageBox = ({left, text, toggleModal}) => {
   return (
     <BoxWrapper>
       {left ? (<>
-        <Message left={left} text={text}/>
+        <MessageTextBox left={left} text={text}/>
         <Action toggleModal={toggleModal}/>
       </>) : (<>
         <Action toggleModal={toggleModal}/>
-        <Message text={text}/>
+        <MessageTextBox text={text}/>
       </>)}
     </BoxWrapper>);
 }

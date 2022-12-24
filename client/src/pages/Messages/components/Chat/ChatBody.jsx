@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 
 import StartMessage from "./StartMessage";
 import UserInfo from "./UserInfo";
-import Message from "./Message";
+import Message from "./Message/Message";
 import ScrollDownButton from "./ScrollDownButton";
 import {CircularLoader, ModalWindow} from "../../../../components";
 import {ACTIONS, getMessages, sendMessage, addNewPrivateChat, addNewGroupChat} from "@redux/chat/action";

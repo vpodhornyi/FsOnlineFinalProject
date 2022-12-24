@@ -8,29 +8,22 @@ import com.twitterdan.domain.user.User;
 import com.twitterdan.dto.chat.request.GroupChatRequest;
 import com.twitterdan.dto.chat.request.PrivateChatRequest;
 import com.twitterdan.dto.chat.response.ChatResponseAbstract;
-import com.twitterdan.dto.chat.request.ChatRequestAbstract;
 import com.twitterdan.dto.chat.request.MessageRequest;
 import com.twitterdan.dto.chat.response.MessageResponse;
+import com.twitterdan.dto.chat.response.MessageResponseAbstract;
 import com.twitterdan.facade.chat.MessageRequestMapper;
 import com.twitterdan.facade.chat.request.GroupChatRequestMapper;
 import com.twitterdan.facade.chat.request.PrivateChatRequestMapper;
-import com.twitterdan.facade.chat.response.GroupChatResponseMapper;
-import com.twitterdan.facade.chat.response.MessageResponseMapper;
-import com.twitterdan.facade.chat.response.PrivateChatResponseMapper;
+import com.twitterdan.facade.chat.response.*;
 import com.twitterdan.service.ChatService;
 import com.twitterdan.service.MessageService;
 import com.twitterdan.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.amqp.core.AmqpTemplate;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.simp.stomp.StompBrokerRelayMessageHandler;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -50,17 +43,20 @@ public class ChatController {
   private final SimpMessagingTemplate simpMessagingTemplate;
   private final MessageRepository messageRepository;
 
+  private final PrivateMessageResponseMapper privateMessageResponseMapper;
+  private final GroupMessageResponseMapper groupMessageResponseMapper;
+
   @GetMapping
   public ResponseEntity<List<ChatResponseAbstract>> getChats(
     @RequestParam Long userId,
     @RequestParam int pageNumber,
     @RequestParam int pageSize
-    ) {
+  ) {
     List<ChatResponseAbstract> chats = chatService.findAlLByUserId(userId, pageNumber, pageSize)
       .stream()
       .map(ch -> {
         if (ch.getType().equals(ChatType.PRIVATE)) {
-          return privateChatResponseMapper.convertToDto(ch);
+          return privateChatResponseMapper.convertToDto(ch, userId);
         }
         return groupChatResponseMapper.convertToDto(ch);
       })
@@ -104,11 +100,20 @@ public class ChatController {
   }
 
   @GetMapping("/messages")
-  public ResponseEntity<List<MessageResponse>> getMessages(@RequestParam Long chatId) {
+  public ResponseEntity<List<MessageResponseAbstract>> getMessages(@RequestParam Long chatId) {
     List<Message> messages = messageService.findByChatId(chatId);
-    List<MessageResponse> messageResponses = messages.stream()
-      .map(messageResponseMapper::convertToDto)
+    List<MessageResponseAbstract> messageResponses = messages.stream()
+      .map(m -> {
+        ChatType type = m.getChat().getType();
+
+        if (type.equals(ChatType.PRIVATE)) {
+          return privateMessageResponseMapper.convertToDto(m);
+        }
+        return groupMessageResponseMapper.convertToDto(m);
+
+      })
       .toList();
+
     return ResponseEntity.ok(messageResponses);
   }
 
@@ -121,16 +126,21 @@ public class ChatController {
   }
 
   @MessageMapping("/chat")
-//  @SendTo("/queue/chat.id")
-  public ResponseEntity<MessageResponse> saveGroupMessage(@RequestBody MessageRequest messageRequest, Principal principal) {
+  public void saveGroupMessage(@RequestBody MessageRequest messageRequest) {
     System.out.println(messageRequest);
-    System.out.println(principal);
+    Long authUserId = messageRequest.getUserId();
     Message message = messageRequestMapper.convertToEntity(messageRequest);
-//    rabbitTemplate.convertAndSend("messages", message);
     Message savedMessage = messageService.save(message);
-    simpMessagingTemplate.convertAndSend("/topic/chat." + messageRequest.getChatId(),
-      ResponseEntity.ok(messageResponseMapper.convertToDto(savedMessage)));
-    return ResponseEntity.ok(messageResponseMapper.convertToDto(savedMessage));
+    ChatType type = savedMessage.getChat().getType();
+    MessageResponseAbstract responseAbstract;
+
+    if (type.equals(ChatType.PRIVATE)) {
+      responseAbstract = privateMessageResponseMapper.convertToDto(savedMessage, authUserId);
+    } else {
+      responseAbstract = groupMessageResponseMapper.convertToDto(savedMessage, authUserId);
+    }
+
+    simpMessagingTemplate.convertAndSend("/topic/chat." + messageRequest.getChatId(), ResponseEntity.ok(responseAbstract));
   }
 
 //  @GetMapping("/test")
