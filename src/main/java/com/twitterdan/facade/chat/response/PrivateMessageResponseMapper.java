@@ -6,7 +6,6 @@ import com.twitterdan.domain.user.User;
 import com.twitterdan.dto.chat.MessageSeenDto;
 import com.twitterdan.dto.chat.response.PrivateMessageResponse;
 import com.twitterdan.facade.GeneralFacade;
-import com.twitterdan.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,20 +14,17 @@ import java.util.Optional;
 
 @Service
 public class PrivateMessageResponseMapper extends GeneralFacade<Message, PrivateMessageResponse> {
-  private final UserService userService;
 
-  public PrivateMessageResponseMapper(UserService userService) {
+  public PrivateMessageResponseMapper() {
     super(Message.class, PrivateMessageResponse.class);
-    this.userService = userService;
   }
 
   @Override
-  protected void decorateDto(PrivateMessageResponse dto, Message entity, Long authUserId) {
-    User authUser = userService.findById(authUserId);
+  protected void decorateDto(PrivateMessageResponse dto, Message entity, User user) {
     Long chatId = entity.getChat().getId();
     dto.setChatId(chatId);
     List<MessageSeen> seen = entity.getSeen();
-    Optional<MessageSeen> optionalMessageSeen = seen.stream().filter(e -> !Objects.equals(e.getUser().getId(), authUser.getId())).findFirst();
+    Optional<MessageSeen> optionalMessageSeen = seen.stream().filter(e -> !Objects.equals(e.getUser().getId(), user.getId())).findFirst();
     MessageSeenDto messagesSeenDto = new MessageSeenDto();
 
     if (optionalMessageSeen.isPresent()) {
@@ -38,9 +34,10 @@ public class PrivateMessageResponseMapper extends GeneralFacade<Message, Private
       messagesSeenDto.setMessageId(messageSeen.getMessage().getId());
       messagesSeenDto.setUserId(messageSeen.getUser().getId());
     }
-    System.out.println(entity.getUser());
-    System.out.println(authUser);
 
-    dto.setMessageSeen(messagesSeenDto);
+    if (entity.getUser().equals(user)) {
+      dto.setIsMessageOwner(true);
+      dto.setMessageSeen(messagesSeenDto);
+    }
   }
 }

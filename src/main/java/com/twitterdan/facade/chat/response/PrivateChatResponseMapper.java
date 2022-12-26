@@ -5,7 +5,6 @@ import com.twitterdan.domain.user.User;
 import com.twitterdan.dto.chat.response.PrivateChatResponse;
 import com.twitterdan.facade.GeneralFacade;
 import com.twitterdan.facade.chat.ChatUserMapper;
-import com.twitterdan.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,23 +12,19 @@ import java.util.List;
 @Service
 public class PrivateChatResponseMapper extends GeneralFacade<Chat, PrivateChatResponse> {
   private final ChatUserMapper chatUserMapper;
-  private final UserService userService;
   private final PrivateMessageResponseMapper privateMessageResponseMapper;
 
-  public PrivateChatResponseMapper(ChatUserMapper chatUserMapper, UserService userService,
-                                   PrivateMessageResponseMapper privateMessageResponseMapper) {
+  public PrivateChatResponseMapper(ChatUserMapper chatUserMapper, PrivateMessageResponseMapper privateMessageResponseMapper) {
     super(Chat.class, PrivateChatResponse.class);
     this.chatUserMapper = chatUserMapper;
-    this.userService = userService;
     this.privateMessageResponseMapper = privateMessageResponseMapper;
   }
 
   @Override
-  protected void decorateDto(PrivateChatResponse dto, Chat entity, Long authUserId) {
-    User authUser = userService.findById(authUserId);
+  protected void decorateDto(PrivateChatResponse dto, Chat entity, User user) {
     List<User> users = entity.getUsers();
 
-    if (authUser.equals(users.get(0))) {
+    if (user.equals(users.get(0))) {
       dto.setAuthUser(chatUserMapper.convertToDto(users.get(0)));
       dto.setGuestUser(chatUserMapper.convertToDto(users.get(1)));
       dto.setTitle(users.get(1).getName());

@@ -13,6 +13,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 
 @Entity
@@ -67,5 +68,17 @@ public class User extends BaseEntity {
     return "User{" +
       "userTag='" + userTag + '\'' +
       '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof User user)) return false;
+    return Objects.equals(userTag, user.userTag) && Objects.equals(email, user.email);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(userTag, email);
   }
 }

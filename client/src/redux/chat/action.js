@@ -107,14 +107,10 @@ export const sendMessage = (data) => async (dispatch, getState) => {
     const body = {
       ...data,
       userId: authUser?.id,
-      user: {
-        id: authUser?.id,
-      },
       key: getRandomKey(),
-      sending: true
     };
     api.client.publish({
-      destination: `/app/chat`,
+      destination: `/app/message`,
       body: JSON.stringify(body),
     });
     dispatch(ACTIONS.addNewMessage({message: body}));
@@ -135,11 +131,16 @@ export const getPrivateChatByUsersId = ({authUserId, guestUserId}) => async disp
 
 export const chatSubscribes = () => (dispatch, getState) => {
   const {user: {authUser}} = getState();
-  authUser?.chatsIds?.forEach(id => {
-    api.client.subscribe(`/topic/chat.${id}`, (data) => {
-      const {body} = JSON.parse(data.body);
-      dispatch(ACTIONS.setLastChatAction({actionData: body}));
-      dispatch(ACTIONS.updateOrAddNewMessage({message: body}));
-    });
-  })
+  api.client.subscribe(`/queue/chat.user.${authUser.id}`, (data) => {
+    const {body} = JSON.parse(data.body);
+
+    switch (body.type) {
+      case 'MESSAGE':
+        dispatch(ACTIONS.setLastChatAction({actionData: body}));
+        dispatch(ACTIONS.updateOrAddNewMessage({message: body}));
+        break;
+      default:
+        console.log('no type');
+    }
+  });
 }

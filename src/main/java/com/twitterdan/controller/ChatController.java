@@ -46,11 +46,12 @@ public class ChatController {
     @RequestParam int pageNumber,
     @RequestParam int pageSize
   ) {
+    User user = userService.findById(userId);
     List<ChatResponseAbstract> chats = chatService.findAlLByUserId(userId, pageNumber, pageSize)
       .stream()
       .map(ch -> {
         if (ch.getType().equals(ChatType.PRIVATE)) {
-          return privateChatResponseMapper.convertToDto(ch, userId);
+          return privateChatResponseMapper.convertToDto(ch, user);
         }
         return groupChatResponseMapper.convertToDto(ch);
       })
@@ -95,15 +96,16 @@ public class ChatController {
 
   @GetMapping("/messages")
   public ResponseEntity<List<MessageResponseAbstract>> getMessages(@RequestParam Long chatId, @RequestParam Long authUserId) {
+    User user = userService.findById(authUserId);
     List<Message> messages = messageService.findByChatId(chatId);
     List<MessageResponseAbstract> messageResponses = messages.stream()
       .map(m -> {
         ChatType type = m.getChat().getType();
 
         if (type.equals(ChatType.PRIVATE)) {
-          return privateMessageResponseMapper.convertToDto(m, authUserId);
+          return privateMessageResponseMapper.convertToDto(m, user);
         }
-        return groupMessageResponseMapper.convertToDto(m, authUserId);
+        return groupMessageResponseMapper.convertToDto(m, user);
 
       })
       .toList();
@@ -119,22 +121,26 @@ public class ChatController {
     return ResponseEntity.ok(messageResponseMapper.convertToDto(savedMessage));
   }*/
 
-  @MessageMapping("/chat")
-  public void saveGroupMessage(@RequestBody MessageRequest messageRequest) {
-    Long authUserId = messageRequest.getUserId();
+  @MessageMapping("/message")
+  public void saveNewMessage(@RequestBody MessageRequest messageRequest) {
     String oldKey = messageRequest.getKey();
     Message message = messageRequestMapper.convertToEntity(messageRequest);
     Message savedMessage = messageService.save(message);
     ChatType type = savedMessage.getChat().getType();
-    MessageResponseAbstract responseAbstract;
+    List<User> users = chatService.findById(messageRequest.getChatId()).getUsers();
 
-    if (type.equals(ChatType.PRIVATE)) {
-      responseAbstract = privateMessageResponseMapper.convertToDto(savedMessage, authUserId);
-    } else {
-      responseAbstract = groupMessageResponseMapper.convertToDto(savedMessage, authUserId);
-    }
-    responseAbstract.setOldKey(oldKey);
-    simpMessagingTemplate.convertAndSend("/topic/chat." + messageRequest.getChatId(), ResponseEntity.ok(responseAbstract));
+    users.forEach(user -> {
+      MessageResponseAbstract responseAbstract;
+
+      if (type.equals(ChatType.PRIVATE)) {
+        responseAbstract = privateMessageResponseMapper.convertToDto(savedMessage, user);
+      } else {
+        responseAbstract = groupMessageResponseMapper.convertToDto(savedMessage, user);
+      }
+      responseAbstract.setOldKey(oldKey);
+      simpMessagingTemplate.convertAndSend("/queue/chat.user." + user.getId(),
+        ResponseEntity.ok(responseAbstract));
+    });
   }
 
 //  @GetMapping("/test")

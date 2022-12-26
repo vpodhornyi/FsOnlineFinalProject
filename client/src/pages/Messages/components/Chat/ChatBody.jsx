@@ -132,10 +132,14 @@ const ChatBody = ({chatId}) => {
               <CircularLoader/>
             </Box>
           )}
-            {messages.map(item => {
-              const isAuth = item?.user?.id === authUserId;
-              return <Message key={item?.key} left={!isAuth} message={item} toggleModal={toggle}/>
-            })}
+          {messages.map(item => {
+            const isAuth = item?.user?.id === authUserId;
+            return <Message
+              key={item?.key}
+              left={!isAuth}
+              message={item}
+              toggleModal={toggle}/>
+          })}
         </Box>
       </Box>
       <Box sx={{position: 'relative'}}>

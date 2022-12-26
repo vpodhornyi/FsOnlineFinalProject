@@ -5,7 +5,6 @@ import com.twitterdan.domain.user.User;
 import com.twitterdan.dto.chat.MessageSeenDto;
 import com.twitterdan.dto.chat.response.GroupMessageResponse;
 import com.twitterdan.facade.GeneralFacade;
-import com.twitterdan.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,20 +12,17 @@ import java.util.Objects;
 
 @Service
 public class GroupMessageResponseMapper extends GeneralFacade<Message, GroupMessageResponse> {
-  private final UserService userService;
 
-  public GroupMessageResponseMapper(UserService userService) {
+  public GroupMessageResponseMapper() {
     super(Message.class, GroupMessageResponse.class);
-    this.userService = userService;
   }
 
   @Override
-  protected void decorateDto(GroupMessageResponse dto, Message entity, Long authUserId) {
-    User authUser = userService.findById(authUserId);
+  protected void decorateDto(GroupMessageResponse dto, Message entity, User user) {
     Long chatId = entity.getChat().getId();
     dto.setChatId(chatId);
     List<MessageSeenDto> messagesDto = entity.getSeen().stream()
-      .filter(e -> !Objects.equals(e.getUser().getId(), authUser.getId()))
+      .filter(e -> !Objects.equals(e.getUser().getId(), user.getId()))
       .map(e -> {
         MessageSeenDto obj = new MessageSeenDto();
         obj.setId(e.getId());
@@ -36,6 +32,9 @@ public class GroupMessageResponseMapper extends GeneralFacade<Message, GroupMess
         return obj;
       }).toList();
 
-    dto.setMessagesSeen(messagesDto);
+    if (entity.getUser().equals(user)) {
+      dto.setIsMessageOwner(true);
+      dto.setMessagesSeen(messagesDto);
+    }
   }
 }

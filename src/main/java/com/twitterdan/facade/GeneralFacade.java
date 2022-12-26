@@ -1,6 +1,7 @@
 package com.twitterdan.facade;
 
 
+import com.twitterdan.domain.user.User;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 
@@ -32,10 +33,10 @@ public class GeneralFacade<E, D> {
     return dto;
   }
 
-  public D convertToDto(final E entity, Long authUserId) {
+  public D convertToDto(final E entity, User user) {
     final D dto = modelMapper.map(entity, dtoClass);
 
-    decorateDto(dto, entity, authUserId);
+    decorateDto(dto, entity, user);
 
     return dto;
   }
@@ -48,7 +49,7 @@ public class GeneralFacade<E, D> {
 
   }
 
-  protected void decorateDto(final D dto, final E entity, Long authUserId) {
+  protected void decorateDto(final D dto, final E entity, User user) {
 
   }
 }

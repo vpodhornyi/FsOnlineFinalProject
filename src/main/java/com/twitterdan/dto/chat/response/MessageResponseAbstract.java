@@ -8,10 +8,12 @@ import java.time.LocalDateTime;
 @Data
 public abstract class MessageResponseAbstract {
   private Long id;
+  private String type = "MESSAGE";
   private String oldKey;
   private String key;
   private String text;
   private LocalDateTime createdAt;
   private Long chatId;
   private ChatUser user;
+  private boolean IsMessageOwner = false;
 }
