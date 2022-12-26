@@ -5,7 +5,21 @@ import Action from "./Action/Action";
 import MessageTextBox from "./MessageTextBox";
 import PropTypes from "prop-types";
 
-const styles = ({theme}) => ({
+const MessageBox = ({left, text, toggleModal}) => {
+
+  return (
+    <BoxWrapper>
+      {left ? (<>
+        <MessageTextBox left={left} text={text}/>
+        <Action toggleModal={toggleModal}/>
+      </>) : (<>
+        <Action toggleModal={toggleModal}/>
+        <MessageTextBox text={text}/>
+      </>)}
+    </BoxWrapper>);
+}
+
+const BoxWrapper = styled(Box)(({theme}) => ({
   cursor: 'pointer',
   width: '87.5%',
   display: 'flex',
@@ -22,23 +36,7 @@ const styles = ({theme}) => ({
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.common.white
   }
-});
-
-const BoxWrapper = styled(Box)(styles);
-
-const MessageBox = ({left, text, toggleModal}) => {
-
-  return (
-    <BoxWrapper>
-      {left ? (<>
-        <MessageTextBox left={left} text={text}/>
-        <Action toggleModal={toggleModal}/>
-      </>) : (<>
-        <Action toggleModal={toggleModal}/>
-        <MessageTextBox text={text}/>
-      </>)}
-    </BoxWrapper>);
-}
+}));
 
 MessageBox.propTypes = {
   left: PropTypes.bool,

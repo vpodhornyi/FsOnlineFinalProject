@@ -101,22 +101,28 @@ export const getMessages = (id) => async (dispatch, getState) => {
   }
 }
 
-export const sendMessage = (data) => async (dispatch, getState) => {
+export const sendMessage = (data) => async (dispatch) => {
   try {
-    const {user: {authUser}} = getState();
-    const body = {
-      ...data,
-      userId: authUser?.id,
-      key: getRandomKey(),
-    };
     api.client.publish({
       destination: `/app/message`,
-      body: JSON.stringify(body),
+      body: JSON.stringify({...data}),
     });
-    dispatch(ACTIONS.addNewMessage({message: body}));
+    dispatch(ACTIONS.addNewMessage({message: data}));
 
   } catch (err) {
     console.log('sendMessage error - ', err);
+  }
+}
+
+export const setSeenMessage = (data) => async dispatch => {
+  try {
+    console.log(data);
+    api.client.publish({
+      destination: `/app/message/seen`,
+      body: JSON.stringify({...data}),
+    });
+  } catch (err) {
+    console.log('seenMessage error - ', err);
   }
 }
 

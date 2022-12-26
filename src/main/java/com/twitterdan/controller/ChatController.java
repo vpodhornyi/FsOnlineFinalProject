@@ -4,6 +4,7 @@ import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.chat.ChatType;
 import com.twitterdan.domain.chat.Message;
 import com.twitterdan.domain.user.User;
+import com.twitterdan.dto.chat.MessageSeenDto;
 import com.twitterdan.dto.chat.request.GroupChatRequest;
 import com.twitterdan.dto.chat.request.PrivateChatRequest;
 import com.twitterdan.dto.chat.response.ChatResponseAbstract;
@@ -140,6 +141,30 @@ public class ChatController {
       responseAbstract.setOldKey(oldKey);
       simpMessagingTemplate.convertAndSend("/queue/chat.user." + user.getId(),
         ResponseEntity.ok(responseAbstract));
+    });
+  }
+
+  @MessageMapping("/message/seen")
+  public void setSeenMessage(@RequestBody MessageSeenDto messageSeenDto) {
+    System.out.println(messageSeenDto.getMessageId());
+//    String oldKey = messageRequest.getKey();
+//    Message message = messageRequestMapper.convertToEntity(messageRequest);
+//    Message savedMessage = messageService.save(message);
+//    ChatType type = savedMessage.getChat().getType();
+    List<User> users = chatService.findById(messageSeenDto.getChatId()).getUsers();
+
+    users.forEach(user -> {
+/*      MessageResponseAbstract responseAbstract;
+
+      if (type.equals(ChatType.PRIVATE)) {
+        responseAbstract = privateMessageResponseMapper.convertToDto(savedMessage, user);
+      } else {
+        responseAbstract = groupMessageResponseMapper.convertToDto(savedMessage, user);
+      }
+      responseAbstract.setOldKey(oldKey);
+
+      simpMessagingTemplate.convertAndSend("/queue/chat.user." + user.getId(),
+        ResponseEntity.ok(responseAbstract));*/
     });
   }
 

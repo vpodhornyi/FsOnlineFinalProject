@@ -8,4 +8,5 @@ public class MessageSeenDto {
   private boolean seen;
   private Long messageId;
   private Long userId;
+  private Long chatId;
 }

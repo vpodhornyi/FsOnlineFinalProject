@@ -1,32 +1,40 @@
 import React, {useEffect} from "react";
+import {useDispatch} from "react-redux";
 import {styled} from "@mui/material/styles";
 import {Box} from "@mui/material";
 import PropTypes from "prop-types";
-import { useInView } from 'react-intersection-observer';
+import {useInView} from 'react-intersection-observer';
+import {useDebouncedCallback} from 'use-debounce';
 
 import MessageBox from "./MessageBox";
 import Reaction from "./Reaction";
 import Time from "./Time";
+import {setSeenMessage} from '@redux/chat/action';
 
-const Message = ({left = false, message, toggleModal}) => {
-  const { ref, inView } = useInView({
+const Message = ({message, toggleModal}) => {
+  const {ref, inView} = useInView({
     threshold: 1.0,
     triggerOnce: true,
   });
+  const dispatch = useDispatch();
+  const {isPrivateChat, messageSeen, isMessageOwner} = message;
+  const sendSeen = useDebouncedCallback(data => dispatch(setSeenMessage(data)), 300);
 
   useEffect(() => {
-    message?.messageSeen?.seen === false && console.log('send - ', message.id);
+    if (message && inView && isPrivateChat && messageSeen && !isMessageOwner && !messageSeen.seen) {
+      sendSeen(messageSeen);
+    }
   }, [inView])
 
   return (
     <BoxWrapper>
-      <Box className={left ? 'LeftMessage' : 'RightMessage'}>
+      <Box className={isMessageOwner ? 'RightMessage' : 'LeftMessage'}>
         {/*{inView && (message?.messageSeen?.seen === false) &&  'Seen'}*/}
         <Box ref={ref}>
-          <MessageBox left={left} text={message?.text} toggleModal={toggleModal}/>
+          <MessageBox left={!isMessageOwner} text={message?.text} toggleModal={toggleModal}/>
         </Box>
         {/*<Reaction/>*/}
-        <Time left={left} message={message}/>
+        <Time left={!isMessageOwner} message={message}/>
       </Box>
     </BoxWrapper>);
 }
@@ -36,7 +44,7 @@ const BoxWrapper = styled(Box)(({theme}) => ({
     display: 'flex',
     justifyContent: 'flex-end',
     flexDirection: 'column',
-    paddingBottom: 20,
+    paddingBottom: 5,
     alignItems: 'end',
   },
 
@@ -62,7 +70,6 @@ const BoxWrapper = styled(Box)(({theme}) => ({
 }));
 
 Message.propTypes = {
-  left: PropTypes.bool,
   message: PropTypes.object,
   toggleModal: PropTypes.func,
 }

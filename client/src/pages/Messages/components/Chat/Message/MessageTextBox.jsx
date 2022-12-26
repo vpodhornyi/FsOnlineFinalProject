@@ -3,7 +3,14 @@ import {styled} from "@mui/material/styles";
 import {Box, Typography} from "@mui/material";
 import PropTypes from "prop-types";
 
-const styles = ({theme}) => ({
+const MessageTextBox = ({left, text}) => {
+  return (
+    <BoxWrapper className={left ? 'LeftMessage' : 'RightMessage'}>
+      <Typography>{text}</Typography>
+    </BoxWrapper>);
+}
+
+const BoxWrapper = styled(Box)(({theme}) => ({
   flexShrink: 1,
   padding: '11px 15px',
   borderRadius: 24,
@@ -12,16 +19,7 @@ const styles = ({theme}) => ({
     wordWrap: 'break-word',
     minWidth: 0,
   }
-});
-
-const BoxWrapper = styled(Box)(styles);
-
-const MessageTextBox = ({left, text}) => {
-  return (
-    <BoxWrapper className={left ? 'LeftMessage' : 'RightMessage'}>
-      <Typography>{text}</Typography>
-    </BoxWrapper>);
-}
+}));
 
 MessageTextBox.propTypes = {
   left: PropTypes.bool,

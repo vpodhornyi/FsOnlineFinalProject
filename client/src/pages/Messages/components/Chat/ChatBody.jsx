@@ -17,6 +17,7 @@ import {getChatsData} from "@redux/chat/selector";
 import {CHAT_TYPE} from '@utils/constants';
 import {PATH} from "@utils/constants";
 import DeleteMessageConfirm from "../confirms/DeleteMessageConfirm";
+import {getRandomKey} from "../../../../utils";
 
 
 const useModal = () => {
@@ -100,9 +101,13 @@ const ChatBody = ({chatId}) => {
       }
       await dispatch(sendMessage({
         chatId,
+        userId: authUserId,
+        key: getRandomKey(),
         text: textMessage,
         isPrivateChat: selectedChat.isPrivate,
         isGroupChat: selectedChat.isGroup,
+        isMessageOwner: true,
+        sending: true,
       }));
 
       inputRef.current.focus();
@@ -133,10 +138,8 @@ const ChatBody = ({chatId}) => {
             </Box>
           )}
           {messages.map(item => {
-            const isAuth = item?.user?.id === authUserId;
             return <Message
               key={item?.key}
-              left={!isAuth}
               message={item}
               toggleModal={toggle}/>
           })}

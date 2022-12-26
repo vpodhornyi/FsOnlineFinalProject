@@ -6,17 +6,20 @@ import com.twitterdan.domain.user.User;
 import com.twitterdan.dto.chat.MessageSeenDto;
 import com.twitterdan.dto.chat.response.PrivateMessageResponse;
 import com.twitterdan.facade.GeneralFacade;
+import com.twitterdan.facade.chat.MessageSeenDtoMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class PrivateMessageResponseMapper extends GeneralFacade<Message, PrivateMessageResponse> {
 
-  public PrivateMessageResponseMapper() {
+  private final MessageSeenDtoMapper messageSeenMapper;
+
+  public PrivateMessageResponseMapper(MessageSeenDtoMapper messageSeenMapper) {
     super(Message.class, PrivateMessageResponse.class);
+    this.messageSeenMapper = messageSeenMapper;
   }
 
   @Override
@@ -24,19 +27,22 @@ public class PrivateMessageResponseMapper extends GeneralFacade<Message, Private
     Long chatId = entity.getChat().getId();
     dto.setChatId(chatId);
     List<MessageSeen> seen = entity.getSeen();
-    Optional<MessageSeen> optionalMessageSeen = seen.stream().filter(e -> !Objects.equals(e.getUser().getId(), user.getId())).findFirst();
-    MessageSeenDto messagesSeenDto = new MessageSeenDto();
-
-    if (optionalMessageSeen.isPresent()) {
-      MessageSeen messageSeen = optionalMessageSeen.get();
-      messagesSeenDto.setId(messageSeen.getId());
-      messagesSeenDto.setSeen(messageSeen.getSeen());
-      messagesSeenDto.setMessageId(messageSeen.getMessage().getId());
-      messagesSeenDto.setUserId(messageSeen.getUser().getId());
-    }
+    Optional<MessageSeen> optionalMessageSeen;
 
     if (entity.getUser().equals(user)) {
+      optionalMessageSeen = seen.stream()
+        .filter(e -> !e.getUser().equals(user))
+        .findFirst();
       dto.setIsMessageOwner(true);
+
+    } else {
+      optionalMessageSeen = seen.stream()
+        .filter(e -> e.getUser().equals(user))
+        .findFirst();
+    }
+
+    if (optionalMessageSeen.isPresent()) {
+      MessageSeenDto messagesSeenDto = messageSeenMapper.convertToDto(optionalMessageSeen.get());
       dto.setMessageSeen(messagesSeenDto);
     }
   }
