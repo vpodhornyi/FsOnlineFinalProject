@@ -6,6 +6,7 @@ import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
 
+
 import StartMessage from "./StartMessage";
 import UserInfo from "./UserInfo";
 import Message from "./Message/Message";
@@ -16,8 +17,20 @@ import {getChatsData} from "@redux/chat/selector";
 import {CHAT_TYPE} from '@utils/constants';
 import {PATH} from "@utils/constants";
 import DeleteMessageConfirm from "../confirms/DeleteMessageConfirm";
-import {useModal} from '../../../../hooks/useModal';
 
+
+const useModal = () => {
+  const [isShowing, setIsShowing] = useState(false);
+
+  function toggle() {
+    setIsShowing(!isShowing);
+  }
+
+  return {
+    isShowing,
+    toggle,
+  }
+};
 const ChatBody = ({chatId}) => {
   const {isShowing, toggle} = useModal();
   const {NEW_PRIVATE, NEW_GROUP, PRIVATE} = CHAT_TYPE;
@@ -29,10 +42,9 @@ const ChatBody = ({chatId}) => {
   const {selectedChat, messages} = useSelector(getChatsData);
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [sending, setSending] = useState(false);
-  // const [{messages}, setMessages] = useState({messages: []});
   const {authUser: {id: authUserId}} = useSelector(state => state.user);
   const showScrollDownButton = useDebouncedCallback(v => setVisible(v), 300);
+
 
   const getScrolling = () => {
     const offsetHeight = overlayRef?.current?.offsetHeight;
@@ -44,8 +56,7 @@ const ChatBody = ({chatId}) => {
 
   const fetch = useDebouncedCallback(async (id) => {
     setLoading(true);
-    const messages = await dispatch(getMessages(id));
-    // setMessages({messages});
+    await dispatch(getMessages(id));
     setLoading(false);
     setTimeout(() => {
       getScrolling();
@@ -54,7 +65,6 @@ const ChatBody = ({chatId}) => {
   }, 500);
 
   useEffect(() => {
-    // setMessages({messages: []});
     dispatch(ACTIONS.resetMessages());
     fetch(chatId);
   }, [chatId]);
@@ -74,37 +84,29 @@ const ChatBody = ({chatId}) => {
 
   const send = async (textMessage) => {
     if (textMessage.trim() !== '') {
-      setSending(true);
       dispatch(ACTIONS.setMessage({chatId, text: ''}));
       const type = selectedChat.type;
 
       if (type === NEW_PRIVATE) {
         const newChatId = await dispatch(addNewPrivateChat(selectedChat));
-        setSending(false);
         navigate(PATH.MESSAGES.chat(newChatId));
         return;
       }
 
       if (type === NEW_GROUP) {
         const newChatId = await dispatch(addNewGroupChat(selectedChat));
-        setSending(false);
         navigate(PATH.MESSAGES.chat(newChatId));
         return;
       }
-
-      const data = await dispatch(sendMessage({chatId, text: textMessage}));
-
-      if (data?.id) {
-        dispatch(ACTIONS.addNewMessage({message: data}));
-        // messages.push(data);
-        // setMessages({messages});
-      }
+      await dispatch(sendMessage({
+        chatId,
+        text: textMessage,
+        isPrivateChat: selectedChat.isPrivate,
+        isGroupChat: selectedChat.isGroup,
+      }));
 
       inputRef.current.focus();
-      setTimeout(() => {
-        onBottom();
-        setSending(false);
-      }, 500);
+      onBottom();
     }
   }
 
@@ -130,10 +132,10 @@ const ChatBody = ({chatId}) => {
               <CircularLoader/>
             </Box>
           )}
-          {messages.map(item => {
-            const isAuth = item?.user?.id === authUserId;
-            return <Message key={item?.key} left={!isAuth} message={item} toggleModal={toggle}/>
-          })}
+            {messages.map(item => {
+              const isAuth = item?.user?.id === authUserId;
+              return <Message key={item?.key} left={!isAuth} message={item} toggleModal={toggle}/>
+            })}
         </Box>
       </Box>
       <Box sx={{position: 'relative'}}>
@@ -141,7 +143,6 @@ const ChatBody = ({chatId}) => {
           {visible && <ScrollDownButton visible={visible}/>}
         </Box>
         <StartMessage
-          sending={sending}
           inputRef={inputRef}
           chatId={chatId}
           sendMessage={send}

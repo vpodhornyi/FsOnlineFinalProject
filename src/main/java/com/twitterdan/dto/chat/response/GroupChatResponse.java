@@ -11,4 +11,5 @@ import java.util.List;
 public class GroupChatResponse extends ChatResponseAbstract {
   private List<ChatUser> users;
   private boolean IsGroup = true;
+  private GroupMessageResponse lastMessage;
 }

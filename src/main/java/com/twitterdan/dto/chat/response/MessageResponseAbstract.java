@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 @Data
 public abstract class MessageResponseAbstract {
   private Long id;
+  private String oldKey;
   private String key;
   private String text;
   private LocalDateTime createdAt;

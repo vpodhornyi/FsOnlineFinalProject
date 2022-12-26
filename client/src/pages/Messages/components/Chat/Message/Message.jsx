@@ -1,17 +1,28 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {styled} from "@mui/material/styles";
 import {Box} from "@mui/material";
+import PropTypes from "prop-types";
+import { useInView } from 'react-intersection-observer';
+
 import MessageBox from "./MessageBox";
 import Reaction from "./Reaction";
 import Time from "./Time";
-import PropTypes from "prop-types";
 
 const Message = ({left = false, message, toggleModal}) => {
+  const { ref, inView } = useInView({
+    threshold: 1.0,
+    triggerOnce: true,
+  });
+
+  useEffect(() => {
+    message?.messageSeen?.seen === false && console.log('send - ', message.id);
+  }, [inView])
 
   return (
     <BoxWrapper>
       <Box className={left ? 'LeftMessage' : 'RightMessage'}>
-        <Box>
+        {/*{inView && (message?.messageSeen?.seen === false) &&  'Seen'}*/}
+        <Box ref={ref}>
           <MessageBox left={left} text={message?.text} toggleModal={toggleModal}/>
         </Box>
         {/*<Reaction/>*/}

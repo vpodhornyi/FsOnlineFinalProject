@@ -7,4 +7,5 @@ public class MessageRequest {
   private String text;
   private Long chatId;
   private Long userId;
+  private String key;
 }

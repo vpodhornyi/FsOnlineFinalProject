@@ -14,6 +14,7 @@ import java.util.Objects;
 @Service
 public class GroupMessageResponseMapper extends GeneralFacade<Message, GroupMessageResponse> {
   private final UserService userService;
+
   public GroupMessageResponseMapper(UserService userService) {
     super(Message.class, GroupMessageResponse.class);
     this.userService = userService;
@@ -34,6 +35,7 @@ public class GroupMessageResponseMapper extends GeneralFacade<Message, GroupMess
         obj.setUserId(e.getUser().getId());
         return obj;
       }).toList();
+
     dto.setMessagesSeen(messagesDto);
   }
 }

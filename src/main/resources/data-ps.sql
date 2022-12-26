@@ -105,7 +105,9 @@ values
     ('df49bc84-d5e5-4b09-b819-fe3e7c77460e', 'test message 31', 9, 11, '2022-12-11T16:11:44.256087'),
     ('d70688f0-9bbb-4c38-b833-70a6b9c5cdcd', 'test message 32', 9, 1, '2022-12-11T16:11:44.256087'),
 
-    ( 'f91ad2d0-be79-44d0-8d3f-1fa22da7f978', 'test message 33', 9, 11, '2022-12-11T16:11:45.256087');
+    ( 'f91ad2d0-be79-44d0-8d3f-1fa22da7f978', 'test message 33', 9, 11, '2022-12-11T16:11:45.256087'),
+
+    ( 'f91ad2d0-be79-44d0-8d3f-1fa22da7f978', 'test message 34', 10, 13, '2022-12-11T16:11:45.256087');
 
 INSERT INTO chats_users (users_id, chats_id)
 values (1, 1),

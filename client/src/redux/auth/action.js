@@ -3,6 +3,7 @@ import {createActions} from '../utils';
 import {setAuthToken, setTokenType, setHeaderAuthorization, setRefreshToken} from "@utils";
 import {PATH} from "../../utils/constants";
 import {getAuthUser} from '../user/action';
+import {ACTIONS as CHAT_ACTIONS} from '../chat/action';
 
 const actions = createActions({
   actions: ['DISABLE_LOADING', 'SET_NEW_USER_DATA', 'CLEAR_NEW_USER_DATA', 'PRELOADER_START', 'PRELOADER_END'],
@@ -100,5 +101,8 @@ export const logout = ({navigate}) => async dispatch => {
     //TODO ref success to fail
     dispatch(ACTIONS.logout.success());
     console.log('logout error - ', err);
+
+  } finally {
+    dispatch(CHAT_ACTIONS.resetData());
   }
 }

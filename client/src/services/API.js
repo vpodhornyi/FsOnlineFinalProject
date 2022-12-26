@@ -4,39 +4,9 @@ import {ACTIONS} from '@redux/auth/action';
 import {getTokens, setTokenType, setAuthToken, setHeaderAuthorization, deleteTokens} from "@utils";
 
 const BASE_URL = process.env.REACT_APP_API_VERSION;
-const BROKER_URL = process.env.REACT_APP_API_BROKER_URL;
 const api = axios.create({
   baseURL: BASE_URL,
 });
-
-// console.log(client.subscribe);
-
-/*const client = new Client({
-  brokerURL: BROKER_URL,
-  connectHeaders: {
-    login: 'user',
-    passcode: 'password',
-  },
-  debug: function (str) {
-    // console.log(str);
-  },
-  reconnectDelay: 5000,
-  onConnect: () => {
-    console.log('kuku');
-  }
-
-});
-api.client = client;
-
-client.activate();*/
-/*client.onConnect = () => {
-  const headers = { ack: 'client' };
-  client.subscribe('/topic/messages', (data) => {
-    console.log('ws - ');
-    console.log(data);
-    console.log(data.body);
-  }, headers);
-}*/
 
 export const interceptor = store => {
   api.interceptors.request.use(conf => {

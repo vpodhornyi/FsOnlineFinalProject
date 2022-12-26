@@ -26,6 +26,8 @@ public class MessageRequestMapper extends GeneralFacade<Message, MessageRequest>
     Long userId = dto.getUserId();
     User user = userService.findById(userId);
     entity.setUser(user);
+    entity.setCreatedBy(user.getEmail());
+    entity.setUpdatedBy(user.getEmail());
 
     Long chatId = dto.getChatId();
     Chat chat = chatService.findById(chatId);

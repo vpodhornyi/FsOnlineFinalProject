@@ -1,6 +1,5 @@
 package com.twitterdan.controller;
 
-import com.twitterdan.dao.MessageRepository;
 import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.chat.ChatType;
 import com.twitterdan.domain.chat.Message;
@@ -9,7 +8,6 @@ import com.twitterdan.dto.chat.request.GroupChatRequest;
 import com.twitterdan.dto.chat.request.PrivateChatRequest;
 import com.twitterdan.dto.chat.response.ChatResponseAbstract;
 import com.twitterdan.dto.chat.request.MessageRequest;
-import com.twitterdan.dto.chat.response.MessageResponse;
 import com.twitterdan.dto.chat.response.MessageResponseAbstract;
 import com.twitterdan.facade.chat.MessageRequestMapper;
 import com.twitterdan.facade.chat.request.GroupChatRequestMapper;
@@ -30,19 +28,15 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("${api.version}/chats")
 public class ChatController {
-
   private final ChatService chatService;
   private final UserService userService;
   private final MessageService messageService;
-  private final MessageResponseMapper messageResponseMapper;
   private final MessageRequestMapper messageRequestMapper;
   private final PrivateChatResponseMapper privateChatResponseMapper;
   private final GroupChatResponseMapper groupChatResponseMapper;
   private final PrivateChatRequestMapper privateChatRequestMapper;
   private final GroupChatRequestMapper groupChatRequestMapper;
   private final SimpMessagingTemplate simpMessagingTemplate;
-  private final MessageRepository messageRepository;
-
   private final PrivateMessageResponseMapper privateMessageResponseMapper;
   private final GroupMessageResponseMapper groupMessageResponseMapper;
 
@@ -117,18 +111,18 @@ public class ChatController {
     return ResponseEntity.ok(messageResponses);
   }
 
-  @PostMapping("/messages")
+/*  @PostMapping("/messages")
   public ResponseEntity<MessageResponse> saveMessage(@RequestBody MessageRequest messageRequest) {
     Message message = messageRequestMapper.convertToEntity(messageRequest);
 //    rabbitTemplate.convertAndSend("messages", message);
     Message savedMessage = messageService.save(message);
     return ResponseEntity.ok(messageResponseMapper.convertToDto(savedMessage));
-  }
+  }*/
 
   @MessageMapping("/chat")
   public void saveGroupMessage(@RequestBody MessageRequest messageRequest) {
-    System.out.println(messageRequest);
     Long authUserId = messageRequest.getUserId();
+    String oldKey = messageRequest.getKey();
     Message message = messageRequestMapper.convertToEntity(messageRequest);
     Message savedMessage = messageService.save(message);
     ChatType type = savedMessage.getChat().getType();
@@ -139,7 +133,7 @@ public class ChatController {
     } else {
       responseAbstract = groupMessageResponseMapper.convertToDto(savedMessage, authUserId);
     }
-
+    responseAbstract.setOldKey(oldKey);
     simpMessagingTemplate.convertAndSend("/topic/chat." + messageRequest.getChatId(), ResponseEntity.ok(responseAbstract));
   }
 

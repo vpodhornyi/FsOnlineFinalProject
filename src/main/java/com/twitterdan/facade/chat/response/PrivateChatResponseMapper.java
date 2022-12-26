@@ -14,11 +14,14 @@ import java.util.List;
 public class PrivateChatResponseMapper extends GeneralFacade<Chat, PrivateChatResponse> {
   private final ChatUserMapper chatUserMapper;
   private final UserService userService;
+  private final PrivateMessageResponseMapper privateMessageResponseMapper;
 
-  public PrivateChatResponseMapper(ChatUserMapper chatUserMapper, UserService userService) {
+  public PrivateChatResponseMapper(ChatUserMapper chatUserMapper, UserService userService,
+                                   PrivateMessageResponseMapper privateMessageResponseMapper) {
     super(Chat.class, PrivateChatResponse.class);
     this.chatUserMapper = chatUserMapper;
     this.userService = userService;
+    this.privateMessageResponseMapper = privateMessageResponseMapper;
   }
 
   @Override
@@ -38,6 +41,9 @@ public class PrivateChatResponseMapper extends GeneralFacade<Chat, PrivateChatRe
       dto.setTitle(users.get(0).getName());
       dto.setUserTag(users.get(0).getUserTag());
       dto.setAvatarImgUrl(users.get(0).getAvatarImgUrl());
+    }
+    if (entity.getLastMessage() != null) {
+      dto.setLastMessage(privateMessageResponseMapper.convertToDto(entity.getLastMessage()));
     }
   }
 }

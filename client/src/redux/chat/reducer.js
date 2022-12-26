@@ -7,7 +7,8 @@ const init = {
   pageSize: 50,
   chatId: -1,
   chats: [],
-  messages: []
+  messages: [],
+  onBottom: false,
 }
 
 export default (state = init, {payload, type}) => {
@@ -51,8 +52,19 @@ export default (state = init, {payload, type}) => {
     case String(ACTIONS.addNewMessage):
       return {
         ...state,
-        messages: [...state.messages, payload.message,],
+        messages: [...state.messages, payload.message],
       };
+    case String(ACTIONS.updateOrAddNewMessage): {
+      const index = state.messages.findIndex(m => m.key === payload.message.oldKey);
+      if (index === -1) {
+        state.messages = [...state.messages, payload.message];
+      } else {
+        state.messages.splice(index, 1, payload.message);
+      }
+      return {
+        ...state,
+      };
+    }
     case String(ACTIONS.resetMessages):
       return {
         ...state,

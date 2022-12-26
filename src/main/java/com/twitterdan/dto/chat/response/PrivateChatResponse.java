@@ -12,4 +12,5 @@ public class PrivateChatResponse extends ChatResponseAbstract {
   private ChatUser authUser;
   private ChatUser guestUser;
   private boolean IsPrivate = true;
+  private PrivateMessageResponse lastMessage;
 }

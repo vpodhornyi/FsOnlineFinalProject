@@ -1,12 +1,16 @@
 import {createActions} from '../utils';
 import api, {URLS} from "@service/API";
 import {CHAT_TYPE} from "../../utils/constants";
+import {getRandomKey} from "../../utils";
 
 const actions = createActions(
   {
-    actions: ['SET_CHAT_ID', 'RESET_CHAT_ID', 'SET_MESSAGE', 'SET_PAGE_NUMBER', 'SET_LAST_CHAT_ACTION',
+    actions: [
+      'SET_CHAT_ID', 'RESET_CHAT_ID', 'SET_MESSAGE', 'SET_PAGE_NUMBER', 'SET_LAST_CHAT_ACTION',
       'SET_NEW_CHAT', 'ADD_NEW_CHAT', 'SET_NEW_GROUP', 'ADD_EXIST_CHAT', 'RESET_DATA',
-      'SET_MESSAGES', 'ADD_PREVIOUS_MESSAGES', 'ADD_NEW_MESSAGE', 'RESET_MESSAGES'],
+      'SET_MESSAGES', 'ADD_PREVIOUS_MESSAGES', 'ADD_NEW_MESSAGE', 'UPDATE_OR_ADD_NEW_MESSAGE',
+      'RESET_MESSAGES'
+    ],
     async: ['GET_CHATS', 'SEND_MESSAGE'],
   },
   {
@@ -24,20 +28,6 @@ export const getChats = (params) => async dispatch => {
     dispatch(ACTIONS.getChats.request());
     const data = await api.get(URLS.CHATS.ROOT, {params});
     dispatch(ACTIONS.getChats.success({chats: data}));
-
-    /*  api.client.onConnect = () => {
-        console.log('kuku');
-        data.forEach(ch => {
-          console.log(ch);
-          api.client.subscribe(`/topic/chat.${ch.id}`, (data) => {
-            console.log('ws - ');
-            console.log(data);
-            console.log();
-            const {body} = JSON.parse(data.body);
-            dispatch(ACTIONS.setLastChatAction({actionData: body}))
-          });
-        })
-      }*/
 
     return data;
 
@@ -111,25 +101,26 @@ export const getMessages = (id) => async (dispatch, getState) => {
   }
 }
 
-export const sendMessage = ({chatId, text}) => async (dispatch, getState) => {
+export const sendMessage = (data) => async (dispatch, getState) => {
   try {
     const {user: {authUser}} = getState();
-    const body = {chatId, text, userId: authUser?.id};
-
-    // const data = await api.post(URLS.CHATS.MESSAGES, body);
-    // dispatch(ACTIONS.setLastChatAction({actionData: data}))
-    // return data;
-
+    const body = {
+      ...data,
+      userId: authUser?.id,
+      user: {
+        id: authUser?.id,
+      },
+      key: getRandomKey(),
+      sending: true
+    };
     api.client.publish({
       destination: `/app/chat`,
       body: JSON.stringify(body),
-      // headers: { priority: '9' },
     });
-    return {};
+    dispatch(ACTIONS.addNewMessage({message: body}));
 
   } catch (err) {
     console.log('sendMessage error - ', err);
-    return {};
   }
 }
 
@@ -148,8 +139,7 @@ export const chatSubscribes = () => (dispatch, getState) => {
     api.client.subscribe(`/topic/chat.${id}`, (data) => {
       const {body} = JSON.parse(data.body);
       dispatch(ACTIONS.setLastChatAction({actionData: body}));
-      console.log(body);
-      dispatch(ACTIONS.addNewMessage({message: body}));
+      dispatch(ACTIONS.updateOrAddNewMessage({message: body}));
     });
   })
 }
