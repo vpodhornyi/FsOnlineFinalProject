@@ -1,11 +1,11 @@
-package com.twitterdan.facade.chat.response;
+package com.twitterdan.facade.chat.response.chat;
 
 import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.dto.chat.ChatUser;
-import com.twitterdan.dto.chat.response.GroupChatResponse;
-import com.twitterdan.dto.chat.response.MessageResponseAbstract;
+import com.twitterdan.dto.chat.response.chat.GroupChatResponse;
 import com.twitterdan.facade.GeneralFacade;
 import com.twitterdan.facade.chat.ChatUserMapper;
+import com.twitterdan.facade.chat.response.message.LastChatMessageMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,12 +13,12 @@ import java.util.List;
 @Service
 public class GroupChatResponseMapper extends GeneralFacade<Chat, GroupChatResponse> {
   private final ChatUserMapper chatUserMapper;
-  private final GroupMessageResponseMapper groupMessageResponseMapper;
+  private final LastChatMessageMapper lastChatMessageMapper;
 
-  public GroupChatResponseMapper(ChatUserMapper chatUserMapper, GroupMessageResponseMapper groupMessageResponseMapper) {
+  public GroupChatResponseMapper(ChatUserMapper chatUserMapper, LastChatMessageMapper lastChatMessageMapper) {
     super(Chat.class, GroupChatResponse.class);
     this.chatUserMapper = chatUserMapper;
-    this.groupMessageResponseMapper = groupMessageResponseMapper;
+    this.lastChatMessageMapper = lastChatMessageMapper;
   }
 
   @Override
@@ -30,8 +30,9 @@ public class GroupChatResponseMapper extends GeneralFacade<Chat, GroupChatRespon
       .toList();
 
     dto.setUsers(users);
+
     if (entity.getLastMessage() != null) {
-      dto.setLastMessage(groupMessageResponseMapper.convertToDto(entity.getLastMessage()));
+      dto.setLastMessage(lastChatMessageMapper.convertToDto(entity.getLastMessage()));
     }
   }
 }

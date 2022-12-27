@@ -18,13 +18,25 @@ const Message = ({message, toggleModal, onBottom}) => {
   });
   const dispatch = useDispatch();
   const {authUser: {id: authUserId}} = useSelector(state => state.user)
-  const {isPrivateChat, messageSeen, isMessageOwner} = message;
+  const {isMessageSeen, isMessageOwner, isPrivateChat, isGroupChat, messagesSeen} = message;
   const sendSeen = useDebouncedCallback(data => dispatch(setSeenMessage(data)), 300);
 
   useEffect(() => {
     onBottom();
-    if (message && inView && !isMessageOwner && !messageSeen) {
+    if (message && inView && !isMessageSeen && !isMessageOwner) {
+
       sendSeen({messageId: message.id, userId: authUserId, chatId: message.chatId});
+
+      /*if (isPrivateChat) {
+        sendSeen({messageId: message.id, userId: authUserId, chatId: message.chatId});
+      }
+
+      if (isGroupChat) {
+        const index = messagesSeen.find(m => m.user.id === authUserId);
+        if (index === -1) {
+          sendSeen({messageId: message.id, userId: authUserId, chatId: message.chatId});
+        }
+      }*/
     }
   }, [inView])
 
@@ -36,7 +48,7 @@ const Message = ({message, toggleModal, onBottom}) => {
           <MessageBox left={!isMessageOwner} text={message?.text} toggleModal={toggleModal}/>
         </Box>
         {/*<Reaction/>*/}
-        <Time left={!isMessageOwner} message={message}/>
+        <Time message={message}/>
       </Box>
     </BoxWrapper>);
 }

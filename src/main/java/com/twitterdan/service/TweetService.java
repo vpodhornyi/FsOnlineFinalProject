@@ -26,7 +26,6 @@ public class TweetService {
          return  tweetDao.save(tweet);
         }
         public void update(TweetRequest tweetUpdate) {
-            System.out.println(tweetUpdate.getId());
             Tweet tweet = tweetDao.findById(tweetUpdate.getId()).get();
             tweet.setTweetType(tweetUpdate.getTweetType());
             tweet.setBody(tweetUpdate.getBody());

@@ -1,8 +1,10 @@
 package com.twitterdan.dto.chat;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class ChatUser {
   private Long id;
   private String key;

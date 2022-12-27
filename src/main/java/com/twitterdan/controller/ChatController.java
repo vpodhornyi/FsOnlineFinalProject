@@ -8,15 +8,16 @@ import com.twitterdan.domain.user.User;
 import com.twitterdan.dto.chat.request.GroupChatRequest;
 import com.twitterdan.dto.chat.request.MessageSeenRequest;
 import com.twitterdan.dto.chat.request.PrivateChatRequest;
-import com.twitterdan.dto.chat.response.ChatResponseAbstract;
+import com.twitterdan.dto.chat.response.chat.ChatResponseAbstract;
 import com.twitterdan.dto.chat.request.MessageRequest;
-import com.twitterdan.dto.chat.response.MessageResponseAbstract;
+import com.twitterdan.dto.chat.response.message.MessageResponseAbstract;
 import com.twitterdan.facade.chat.request.MessageRequestMapper;
-import com.twitterdan.facade.chat.response.MessageSeenResponseMapper;
+import com.twitterdan.facade.chat.response.chat.GroupChatResponseMapper;
+import com.twitterdan.facade.chat.response.chat.PrivateChatResponseMapper;
+import com.twitterdan.facade.chat.response.message.*;
 import com.twitterdan.facade.chat.request.GroupChatRequestMapper;
 import com.twitterdan.facade.chat.request.MessageSeenRequestMapper;
 import com.twitterdan.facade.chat.request.PrivateChatRequestMapper;
-import com.twitterdan.facade.chat.response.*;
 import com.twitterdan.service.ChatService;
 import com.twitterdan.service.MessageService;
 import com.twitterdan.service.UserService;
@@ -41,8 +42,10 @@ public class ChatController {
   private final PrivateChatRequestMapper privateChatRequestMapper;
   private final GroupChatRequestMapper groupChatRequestMapper;
   private final SimpMessagingTemplate simpMessagingTemplate;
-  private final PrivateMessageResponseMapper privateMessageResponseMapper;
-  private final GroupMessageResponseMapper groupMessageResponseMapper;
+  private final PrivateMessageOwnerResponseMapper privateMessageOwnerResponseMapper;
+  private final PrivateForeignerMessageResponseMapper privateForeignerMessageResponseMapper;
+  private final GroupMessageOwnerResponseMapper groupMessageOwnerResponseMapper;
+  private final GroupForeignerMessageResponseMapper groupForeignerMessageResponseMapper;
   private final MessageSeenResponseMapper messageSeenResponseMapper;
   private final MessageSeenRequestMapper messageSeenRequestMapper;
 
@@ -105,16 +108,24 @@ public class ChatController {
     User user = userService.findById(authUserId);
     List<Message> messages = messageService.findByChatId(chatId);
     List<MessageResponseAbstract> messageResponses = messages.stream()
-      .map(m -> {
-        ChatType type = m.getChat().getType();
+      .map(message -> {
+        ChatType type = message.getChat().getType();
 
         if (type.equals(ChatType.PRIVATE)) {
-          return privateMessageResponseMapper.convertToDto(m, user);
+          if (user.equals(message.getUser())) {
+            return privateMessageOwnerResponseMapper.convertToDto(message, user);
+          } else {
+            return privateForeignerMessageResponseMapper.convertToDto(message, user);
+          }
         }
-        return groupMessageResponseMapper.convertToDto(m, user);
 
-      })
-      .toList();
+        if (user.equals(message.getUser())) {
+          return groupMessageOwnerResponseMapper.convertToDto(message, user);
+        } else {
+          return groupForeignerMessageResponseMapper.convertToDto(message, user);
+        }
+
+      }).toList();
 
     return ResponseEntity.ok(messageResponses);
   }
@@ -139,9 +150,17 @@ public class ChatController {
       MessageResponseAbstract responseAbstract;
 
       if (type.equals(ChatType.PRIVATE)) {
-        responseAbstract = privateMessageResponseMapper.convertToDto(savedMessage, user);
+        if (user.equals(savedMessage.getUser())) {
+          responseAbstract = privateMessageOwnerResponseMapper.convertToDto(savedMessage, user);
+        } else {
+          responseAbstract = privateForeignerMessageResponseMapper.convertToDto(savedMessage, user);
+        }
       } else {
-        responseAbstract = groupMessageResponseMapper.convertToDto(savedMessage, user);
+        if (user.equals(savedMessage.getUser())) {
+          responseAbstract = groupMessageOwnerResponseMapper.convertToDto(savedMessage, user);
+        } else {
+          responseAbstract = groupForeignerMessageResponseMapper.convertToDto(savedMessage, user);
+        }
       }
       responseAbstract.setOldKey(oldKey);
       simpMessagingTemplate.convertAndSend("/queue/chat.user." + user.getId(),
@@ -154,7 +173,6 @@ public class ChatController {
     MessageSeen messageSeen = messageSeenRequestMapper.convertToEntity(messageSeenRequest);
 
     MessageSeen savedMessageSeen = messageService.saveMessageSeen(messageSeen);
-    System.out.println(savedMessageSeen);
     simpMessagingTemplate.convertAndSend("/queue/chat.user." + savedMessageSeen.getMessage().getUser().getId(),
       ResponseEntity.ok(messageSeenResponseMapper.convertToDto(savedMessageSeen)));
   }

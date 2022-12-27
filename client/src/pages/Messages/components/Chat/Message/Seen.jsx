@@ -1,37 +1,46 @@
 import React from "react";
+import {styled} from "@mui/material/styles";
 import {useSelector, useDispatch} from "react-redux";
-import {Typography} from "@mui/material";
+import {Box, Typography} from "@mui/material";
 import PropTypes from "prop-types";
 
-const Seen = ({left, message}) => {
+const Seen = ({message}) => {
   const dispatch = useDispatch();
+  const {sending, messageSeen, messagesSeen, isMessageOwner, isPrivateChat, isGroupChat} = message;
 
-  const text = message?.sending ? 'Sending...' : message?.messageSeen?.seen ? 'Seen' : 'Sent';
+  const text = sending ? 'Sending...' : messageSeen?.seen ? 'Seen' : 'Sent';
+
+  const groupText = ln => {
+    switch (ln) {
+      case 0:
+        return 'Nobody seen';
+      case 1:
+        return 'Seen by 1 person';
+      default:
+        `Seen by ${ln} people`;
+    }
+  }
 
   return (
     <>
       {
-        !left && message?.isPrivateChat && <Text text={text}/>
+        isMessageOwner && isPrivateChat && <TypographyWrapper variant='body2'>{text}</TypographyWrapper>
       }
       {
-        !left && message?.isGroupChat && <Text text='Seen by 1 person'/>
+        isMessageOwner && isGroupChat &&
+        <TypographyWrapper variant='body2'>{groupText(messagesSeen.length)}</TypographyWrapper>
       }
     </>);
 }
 
-
-const Text = ({text}) => {
-  return <Typography sx={{
-    '&:before': {
-      content: '"·"',
-      marginLeft: '5px',
-      marginRight: '5px',
-    }
-  }} variant='body2'>{text}</Typography>
-}
-
+const TypographyWrapper = styled(Typography)(({theme}) => ({
+  '&:before': {
+    content: '"·"',
+    marginLeft: '5px',
+    marginRight: '5px',
+  }
+}));
 Seen.propTypes = {
-  left: PropTypes.bool,
   message: PropTypes.object,
 }
 

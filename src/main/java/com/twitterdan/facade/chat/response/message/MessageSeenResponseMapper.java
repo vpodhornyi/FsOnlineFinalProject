@@ -1,4 +1,4 @@
-package com.twitterdan.facade.chat.response;
+package com.twitterdan.facade.chat.response.message;
 
 import com.twitterdan.domain.chat.MessageSeen;
 import com.twitterdan.dto.chat.response.MessageSeenResponse;

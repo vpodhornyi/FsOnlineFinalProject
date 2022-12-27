@@ -1,15 +1,14 @@
 package com.twitterdan.dto.chat.response;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import com.twitterdan.dto.chat.response.message.MessageResponseAbstract;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
-
-@EqualsAndHashCode(callSuper = true)
-@Data
+@Getter
+@Setter
 public class GroupMessageResponse extends MessageResponseAbstract {
   private final boolean IsGroupChat = true;
   private List<MessageSeenResponse> messagesSeen;
-//  private MessageSeenResponse messageSeen;
 }

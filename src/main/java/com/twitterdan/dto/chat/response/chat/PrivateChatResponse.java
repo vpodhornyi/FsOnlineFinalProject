@@ -1,16 +1,15 @@
-package com.twitterdan.dto.chat.response;
+package com.twitterdan.dto.chat.response.chat;
 
 import com.twitterdan.dto.chat.ChatUser;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
+@Getter
+@Setter
 public class PrivateChatResponse extends ChatResponseAbstract {
   private String avatarImgUrl;
   private String userTag;
   private ChatUser authUser;
   private ChatUser guestUser;
   private boolean IsPrivate = true;
-  private PrivateMessageResponse lastMessage;
 }

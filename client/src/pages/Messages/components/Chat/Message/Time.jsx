@@ -6,11 +6,11 @@ import PropTypes from "prop-types";
 import {moment} from "@utils";
 import Seen from "./Seen";
 
-const Time = ({left, message}) => {
+const Time = ({message}) => {
   return (
     <BoxWrapper>
       <Typography variant='body2'>{moment(message.createdAt).fromNow(true)}</Typography>
-      <Seen left={left} message={message}/>
+      <Seen message={message}/>
     </BoxWrapper>);
 }
 
@@ -24,7 +24,6 @@ const BoxWrapper = styled(Box)(({theme}) => ({
 }));
 
 Time.propTypes = {
-  left: PropTypes.bool,
   message: PropTypes.object,
 }
 

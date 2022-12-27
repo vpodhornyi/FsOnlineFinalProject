@@ -1,11 +1,13 @@
-package com.twitterdan.dto.chat.response;
+package com.twitterdan.dto.chat.response.message;
 
 import com.twitterdan.dto.chat.ChatUser;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 public abstract class MessageResponseAbstract {
   private Long id;
   private String type = "MESSAGE";
@@ -15,5 +17,4 @@ public abstract class MessageResponseAbstract {
   private LocalDateTime createdAt;
   private Long chatId;
   private ChatUser user;
-  private boolean IsMessageOwner = false;
 }

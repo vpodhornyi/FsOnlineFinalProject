@@ -1,10 +1,11 @@
-package com.twitterdan.facade.chat.response;
+package com.twitterdan.facade.chat.response.chat;
 
 import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.user.User;
-import com.twitterdan.dto.chat.response.PrivateChatResponse;
+import com.twitterdan.dto.chat.response.chat.PrivateChatResponse;
 import com.twitterdan.facade.GeneralFacade;
 import com.twitterdan.facade.chat.ChatUserMapper;
+import com.twitterdan.facade.chat.response.message.LastChatMessageMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,12 +13,12 @@ import java.util.List;
 @Service
 public class PrivateChatResponseMapper extends GeneralFacade<Chat, PrivateChatResponse> {
   private final ChatUserMapper chatUserMapper;
-  private final PrivateMessageResponseMapper privateMessageResponseMapper;
+  private final LastChatMessageMapper lastChatMessageMapper;
 
-  public PrivateChatResponseMapper(ChatUserMapper chatUserMapper, PrivateMessageResponseMapper privateMessageResponseMapper) {
+  public PrivateChatResponseMapper(ChatUserMapper chatUserMapper, LastChatMessageMapper lastChatMessageMapper) {
     super(Chat.class, PrivateChatResponse.class);
     this.chatUserMapper = chatUserMapper;
-    this.privateMessageResponseMapper = privateMessageResponseMapper;
+    this.lastChatMessageMapper = lastChatMessageMapper;
   }
 
   @Override
@@ -37,8 +38,9 @@ public class PrivateChatResponseMapper extends GeneralFacade<Chat, PrivateChatRe
       dto.setUserTag(users.get(0).getUserTag());
       dto.setAvatarImgUrl(users.get(0).getAvatarImgUrl());
     }
+
     if (entity.getLastMessage() != null) {
-      dto.setLastMessage(privateMessageResponseMapper.convertToDto(entity.getLastMessage()));
+      dto.setLastMessage(lastChatMessageMapper.convertToDto(entity.getLastMessage()));
     }
   }
 }
