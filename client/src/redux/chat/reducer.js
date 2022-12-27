@@ -55,6 +55,7 @@ export default (state = init, {payload, type}) => {
         messages: [...state.messages, payload.message],
       };
     case String(ACTIONS.updateOrAddNewMessage): {
+
       const index = state.messages.findIndex(m => m.key === payload.message.oldKey);
       if (index === -1) {
         state.messages = [...state.messages, payload.message];

@@ -11,7 +11,7 @@ import Reaction from "./Reaction";
 import Time from "./Time";
 import {setSeenMessage} from '@redux/chat/action';
 
-const Message = ({message, toggleModal}) => {
+const Message = ({message, toggleModal, onBottom}) => {
   const {ref, inView} = useInView({
     threshold: 1.0,
     triggerOnce: true,
@@ -21,6 +21,7 @@ const Message = ({message, toggleModal}) => {
   const sendSeen = useDebouncedCallback(data => dispatch(setSeenMessage(data)), 300);
 
   useEffect(() => {
+    onBottom();
     if (message && inView && isPrivateChat && messageSeen && !isMessageOwner && !messageSeen.seen) {
       sendSeen(messageSeen);
     }
@@ -72,6 +73,7 @@ const BoxWrapper = styled(Box)(({theme}) => ({
 Message.propTypes = {
   message: PropTypes.object,
   toggleModal: PropTypes.func,
+  onBottom: PropTypes.func,
 }
 
 export default Message;

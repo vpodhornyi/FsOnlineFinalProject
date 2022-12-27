@@ -141,7 +141,9 @@ const ChatBody = ({chatId}) => {
             return <Message
               key={item?.key}
               message={item}
-              toggleModal={toggle}/>
+              toggleModal={toggle}
+              onBottom={onBottom}
+            />
           })}
         </Box>
       </Box>

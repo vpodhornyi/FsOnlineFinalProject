@@ -136,14 +136,17 @@ export const getPrivateChatByUsersId = ({authUserId, guestUserId}) => async disp
 }
 
 export const chatSubscribes = () => (dispatch, getState) => {
-  const {user: {authUser}} = getState();
+  const {user: {authUser}, chat: {chatId}} = getState();
   api.client.subscribe(`/queue/chat.user.${authUser.id}`, (data) => {
     const {body} = JSON.parse(data.body);
-
+    console.log(body);
+    console.log(chatId);
     switch (body.type) {
       case 'MESSAGE':
         dispatch(ACTIONS.setLastChatAction({actionData: body}));
-        dispatch(ACTIONS.updateOrAddNewMessage({message: body}));
+        if (body.chatId === chatId) {
+          dispatch(ACTIONS.updateOrAddNewMessage({message: body}));
+        }
         break;
       default:
         console.log('no type');
