@@ -55,12 +55,38 @@ export default (state = init, {payload, type}) => {
         messages: [...state.messages, payload.message],
       };
     case String(ACTIONS.updateOrAddNewMessage): {
+      if (payload.message.chatId === state.chatId) {
+        const index = state.messages.findIndex(m => m.key === payload.message.oldKey);
+        if (index === -1) {
+          state.messages = [...state.messages, payload.message];
+        } else {
+          state.messages.splice(index, 1, payload.message);
+        }
+      }
+      return {
+        ...state,
+      };
+    }
+    case String(ACTIONS.updateMessageSeen): {
+      if (state.messages.length) {
+        const find = state.messages.find(m => m.id === payload?.seen?.messageId);
+        if (find && payload.seen) {
+          if (find.isPrivateChat) {
+            find.messageSeen = payload.seen;
+          }
 
-      const index = state.messages.findIndex(m => m.key === payload.message.oldKey);
-      if (index === -1) {
-        state.messages = [...state.messages, payload.message];
-      } else {
-        state.messages.splice(index, 1, payload.message);
+          if (find.isGroupChat) {
+            const i = find.messagesSeen?.findIndex(s => s.id === payload.seen.id);
+
+            if (!i) {
+              find.messagesSeen = [payload.seen];
+            } else if (i === -1) {
+              find.messagesSeen.push(payload.seen)
+            } else {
+              find.messagesSeen.splice(i, 1, payload.seen);
+            }
+          }
+        }
       }
       return {
         ...state,

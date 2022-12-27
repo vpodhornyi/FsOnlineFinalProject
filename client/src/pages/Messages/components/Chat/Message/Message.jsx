@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {useDispatch} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
 import {styled} from "@mui/material/styles";
 import {Box} from "@mui/material";
 import PropTypes from "prop-types";
@@ -17,13 +17,14 @@ const Message = ({message, toggleModal, onBottom}) => {
     triggerOnce: true,
   });
   const dispatch = useDispatch();
+  const {authUser: {id: authUserId}} = useSelector(state => state.user)
   const {isPrivateChat, messageSeen, isMessageOwner} = message;
   const sendSeen = useDebouncedCallback(data => dispatch(setSeenMessage(data)), 300);
 
   useEffect(() => {
     onBottom();
-    if (message && inView && isPrivateChat && messageSeen && !isMessageOwner && !messageSeen.seen) {
-      sendSeen(messageSeen);
+    if (message && inView && !isMessageOwner && !messageSeen) {
+      sendSeen({messageId: message.id, userId: authUserId, chatId: message.chatId});
     }
   }, [inView])
 

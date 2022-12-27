@@ -7,6 +7,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Table(name = "messages")
@@ -29,4 +30,8 @@ public class Message extends BaseEntity {
   @ManyToOne
   @JoinColumn(name = "user_id")
   private User user;
+
+  public Optional<List<MessageSeen>> getSeen() {
+    return Optional.ofNullable(seen);
+  }
 }

@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 const Seen = ({left, message}) => {
   const dispatch = useDispatch();
 
-  const text = message?.sending ? 'Sending ...' : message?.seen ? 'Seen' : 'Sent';
+  const text = message?.sending ? 'Sending...' : message?.messageSeen?.seen ? 'Seen' : 'Sent';
 
   return (
     <>

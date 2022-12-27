@@ -5,6 +5,7 @@ import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.chat.Message;
 import com.twitterdan.domain.chat.MessageSeen;
 import com.twitterdan.domain.user.User;
+import com.twitterdan.exception.CouldNotFindMessageException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,24 +31,19 @@ public class MessageService {
     return optionalMessages.orElseGet(ArrayList::new);
   }
 
+  public Message findById(Long id) {
+    Optional<Message> optionalMessage = messageRepository.findById(id);
+
+    if (optionalMessage.isPresent()) {
+      return optionalMessage.get();
+    }
+
+    throw new CouldNotFindMessageException(false);
+  }
+
   @Transactional
   public Message save(Message message) {
-    Message savedMessage = messageRepository.save(message);
-    User initUser = savedMessage.getUser();
-    List<MessageSeen> list = new ArrayList<>();
-    savedMessage.getChat().getUsers()
-      .forEach(user -> {
-        MessageSeen messageSeen = new MessageSeen();
-        messageSeen.setSeen(Objects.equals(initUser.getId(), user.getId()));
-        messageSeen.setMessage(savedMessage);
-        messageSeen.setUser(user);
-        messageSeen.setCreatedBy(savedMessage.getUser().getEmail());
-        messageSeen.setUpdatedBy(savedMessage.getUser().getEmail());
-        MessageSeen savedMessageSeen = messageRepository.save(messageSeen);
-        list.add(savedMessageSeen);
-      });
-    savedMessage.setSeen(list);
-    return savedMessage;
+    return messageRepository.save(message);
   }
 
   public Message saveFirstNewChatMessage(Chat chat, User user, String text) {
@@ -58,5 +54,9 @@ public class MessageService {
     messageSeen.setMessage(message);
 
     return savedMessage;
+  }
+
+  public MessageSeen saveMessageSeen(MessageSeen messageSeen) {
+    return messageRepository.save(messageSeen);
   }
 }

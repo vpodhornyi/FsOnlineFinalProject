@@ -9,7 +9,7 @@ const actions = createActions(
       'SET_CHAT_ID', 'RESET_CHAT_ID', 'SET_MESSAGE', 'SET_PAGE_NUMBER', 'SET_LAST_CHAT_ACTION',
       'SET_NEW_CHAT', 'ADD_NEW_CHAT', 'SET_NEW_GROUP', 'ADD_EXIST_CHAT', 'RESET_DATA',
       'SET_MESSAGES', 'ADD_PREVIOUS_MESSAGES', 'ADD_NEW_MESSAGE', 'UPDATE_OR_ADD_NEW_MESSAGE',
-      'RESET_MESSAGES'
+      'RESET_MESSAGES', 'UPDATE_MESSAGE_SEEN'
     ],
     async: ['GET_CHATS', 'SEND_MESSAGE'],
   },
@@ -116,7 +116,6 @@ export const sendMessage = (data) => async (dispatch) => {
 
 export const setSeenMessage = (data) => async dispatch => {
   try {
-    console.log(data);
     api.client.publish({
       destination: `/app/message/seen`,
       body: JSON.stringify({...data}),
@@ -136,20 +135,24 @@ export const getPrivateChatByUsersId = ({authUserId, guestUserId}) => async disp
 }
 
 export const chatSubscribes = () => (dispatch, getState) => {
-  const {user: {authUser}, chat: {chatId}} = getState();
-  api.client.subscribe(`/queue/chat.user.${authUser.id}`, (data) => {
-    const {body} = JSON.parse(data.body);
-    console.log(body);
-    console.log(chatId);
-    switch (body.type) {
-      case 'MESSAGE':
-        dispatch(ACTIONS.setLastChatAction({actionData: body}));
-        if (body.chatId === chatId) {
+  try {
+    const {user: {authUser}} = getState();
+    api.client.subscribe(`/queue/chat.user.${authUser.id}`, (data) => {
+      const {body} = JSON.parse(data.body);
+
+      switch (body.type) {
+        case 'MESSAGE':
+          dispatch(ACTIONS.setLastChatAction({actionData: body}));
           dispatch(ACTIONS.updateOrAddNewMessage({message: body}));
-        }
-        break;
-      default:
-        console.log('no type');
-    }
-  });
+          break;
+        case 'MESSAGE_SEEN':
+          dispatch(ACTIONS.updateMessageSeen({seen: body}));
+          break;
+        default:
+          console.log('no type');
+      }
+    });
+  } catch (err) {
+    console.log('chatSubscribes error - ', err);
+  }
 }

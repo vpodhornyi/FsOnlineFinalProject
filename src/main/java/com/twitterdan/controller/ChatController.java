@@ -3,15 +3,18 @@ package com.twitterdan.controller;
 import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.chat.ChatType;
 import com.twitterdan.domain.chat.Message;
+import com.twitterdan.domain.chat.MessageSeen;
 import com.twitterdan.domain.user.User;
-import com.twitterdan.dto.chat.MessageSeenDto;
 import com.twitterdan.dto.chat.request.GroupChatRequest;
+import com.twitterdan.dto.chat.request.MessageSeenRequest;
 import com.twitterdan.dto.chat.request.PrivateChatRequest;
 import com.twitterdan.dto.chat.response.ChatResponseAbstract;
 import com.twitterdan.dto.chat.request.MessageRequest;
 import com.twitterdan.dto.chat.response.MessageResponseAbstract;
-import com.twitterdan.facade.chat.MessageRequestMapper;
+import com.twitterdan.facade.chat.request.MessageRequestMapper;
+import com.twitterdan.facade.chat.response.MessageSeenResponseMapper;
 import com.twitterdan.facade.chat.request.GroupChatRequestMapper;
+import com.twitterdan.facade.chat.request.MessageSeenRequestMapper;
 import com.twitterdan.facade.chat.request.PrivateChatRequestMapper;
 import com.twitterdan.facade.chat.response.*;
 import com.twitterdan.service.ChatService;
@@ -40,6 +43,8 @@ public class ChatController {
   private final SimpMessagingTemplate simpMessagingTemplate;
   private final PrivateMessageResponseMapper privateMessageResponseMapper;
   private final GroupMessageResponseMapper groupMessageResponseMapper;
+  private final MessageSeenResponseMapper messageSeenResponseMapper;
+  private final MessageSeenRequestMapper messageSeenRequestMapper;
 
   @GetMapping
   public ResponseEntity<List<ChatResponseAbstract>> getChats(
@@ -145,27 +150,13 @@ public class ChatController {
   }
 
   @MessageMapping("/message/seen")
-  public void setSeenMessage(@RequestBody MessageSeenDto messageSeenDto) {
-    System.out.println(messageSeenDto.getMessageId());
-//    String oldKey = messageRequest.getKey();
-//    Message message = messageRequestMapper.convertToEntity(messageRequest);
-//    Message savedMessage = messageService.save(message);
-//    ChatType type = savedMessage.getChat().getType();
-    List<User> users = chatService.findById(messageSeenDto.getChatId()).getUsers();
+  public void setSeenMessage(@RequestBody MessageSeenRequest messageSeenRequest) {
+    MessageSeen messageSeen = messageSeenRequestMapper.convertToEntity(messageSeenRequest);
 
-    users.forEach(user -> {
-/*      MessageResponseAbstract responseAbstract;
-
-      if (type.equals(ChatType.PRIVATE)) {
-        responseAbstract = privateMessageResponseMapper.convertToDto(savedMessage, user);
-      } else {
-        responseAbstract = groupMessageResponseMapper.convertToDto(savedMessage, user);
-      }
-      responseAbstract.setOldKey(oldKey);
-
-      simpMessagingTemplate.convertAndSend("/queue/chat.user." + user.getId(),
-        ResponseEntity.ok(responseAbstract));*/
-    });
+    MessageSeen savedMessageSeen = messageService.saveMessageSeen(messageSeen);
+    System.out.println(savedMessageSeen);
+    simpMessagingTemplate.convertAndSend("/queue/chat.user." + savedMessageSeen.getMessage().getUser().getId(),
+      ResponseEntity.ok(messageSeenResponseMapper.convertToDto(savedMessageSeen)));
   }
 
 //  @GetMapping("/test")
