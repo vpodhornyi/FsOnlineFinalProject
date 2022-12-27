@@ -1,7 +1,6 @@
 import Box from "@mui/material/Box";
 import React from "react";
 import {
-  ImageList,
   Link,
   List,
   ListItem,
@@ -25,26 +24,26 @@ import {
   UserAvatar,
   UserName,
 } from "./style";
-import CustomImageList from "../../CustomImageList";
-import { useDispatch, useSelector } from "react-redux";
-import { deleteTweet } from "../../../redux/tweet/action";
-import { openModal } from "../../../redux/modal/action";
-import { getActiveId } from "../../../redux/modal/selector";
-import DeleteTweet from "../DeleteTweet";
-const Tweet = ({ openReply = false, tweetInfo }) => {
+import { useDispatch } from "react-redux";
+import ImageListContainer from "../../imageList/ImageListContainer";
+import {handlerBookmark} from "../../../redux/tweet/action";
+import {useLocation, useNavigate} from "react-router-dom";
+import {PATH} from "../../../utils/constants";
+const Tweet = ({ tweetInfo }) => {
   const dispatch = useDispatch();
-  const activeId = useSelector(getActiveId);
-  const { id, body, images } = tweetInfo;
+  const { id, body, images,actions } = tweetInfo;
   const { name, avatarImgUrl, userTag, created_at } = tweetInfo.user;
+  const navigate = useNavigate();
+  const location = useLocation();
   return (
     <>
       <TweetContainer>
         <Content>
           <Box sx={{ display: "flex" }}>
-            {" "}
+
             <AvatarWrapper>
               <UserAvatar alt={name} src={avatarImgUrl}></UserAvatar>
-              {openReply && <AvatarDecorate variant={"span"}></AvatarDecorate>}
+               <AvatarDecorate variant={"span"}></AvatarDecorate>
             </AvatarWrapper>
             <Box>
               <Box sx={{ marginLeft: 0.688 }}>
@@ -66,84 +65,71 @@ const Tweet = ({ openReply = false, tweetInfo }) => {
                     {created_at}
                   </Link>
                 </PostInfo>
-                <Typography variant="p">{body}</Typography>
+                <Typography sx={{wordWrap: "break-word", maxWidth: "480px",display:"block"}} variant="p">{body}</Typography>
               </Box>
             </Box>
           </Box>{" "}
-          {!openReply && (
             <IconBlue>
               <Tooltip title={"Delete"}>
                 <MoreIcon
-                  onClick={() =>
-                    dispatch(openModal({ id: id, typeModal: "Delete" }))
-                  }
+                  onClick={() => navigate(PATH.TWEET.ROOT+`/${id}`, {state: {background: location}})}
                   sx={{ padding: 1 }}
                 />
               </Tooltip>{" "}
             </IconBlue>
-          )}
-        </Content>
-        {!openReply && (
-          <>
-            <ImageList
-              variant="masonry"
-              cols={3}
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              {!openReply && <CustomImageList itemData={images} />}
-            </ImageList>
 
+        </Content>
+            {images.length > 0 && <ImageListContainer photos={images}/>}
             <List
               component="ul"
               disablePadding
               sx={{ display: "flex", justifyContent: "space-around" }}
             >
-              {!openReply &&
-                ICONS.length &&
-                ICONS.map((itemData, index) => (
-                  <ListItem
-                    key={index}
-                    sx={{
-                      ["@media (max-width:700px)"]: {
-                        p: 0,
-                      },
-                      ...itemData.itemClassName,
-                    }}
-                  >
-                    <Tooltip
-                      sx={{
-                        ["@media (max-width:700px)"]: {
-                          p: 0,
-                        },
-                      }}
-                      title={itemData.tooltip}
-                    >
-                      <ListItemIcon
-                        onClick={() => {
-                          itemData.tooltip === "Reply" &&
-                            dispatch(openModal({ id: id, typeModal: "Reply" }));
-                        }}
+              {
+                ICONS?.map((itemData, index) => {
+                  const lengthAction=   actions?.filter(action => itemData.tooltip.toUpperCase() === action.actionType.toUpperCase()).length
+                  const mediaStyle = { ["@media (max-width:700px)"]: {
+                      p: 0,
+                    },}
+                  const chooseIconHandler = () => {
+                    switch (itemData.tooltip) {
+                      case "Bookmark":
+                        return dispatch(handlerBookmark(id));
+                      case "Reply":
+                        return navigate(PATH.TWEET.ROOT + `/reply/${id}`, {state: {background: location}});
+                    }
+                  }
+
+                   return  <ListItem
+                          key={index}
+                          sx={{
+                            ...mediaStyle,
+                            ...itemData.itemClassName,
+                          }}
                       >
-                        {itemData.icon}
-                      </ListItemIcon>
-                    </Tooltip>{" "}
-                    {itemData.text && <ListItemText primary={itemData.text} />}
-                  </ListItem>
-                ))}
+                        <Tooltip
+                            sx={mediaStyle}
+                            title={itemData.tooltip}
+                        >
+                          <ListItemIcon
+                              onClick={chooseIconHandler}
+                          >
+                            {itemData.icon}
+                          </ListItemIcon>
+                        </Tooltip>{" "}
+                         <ListItemText
+                            primary={lengthAction}/>
+                      </ListItem>
+
+
+                })}
             </List>
-          </>
-        )}
       </TweetContainer>
-      {activeId === id && !openReply && <Reply tweetInfo={tweetInfo} />}
-      {activeId === id && !openReply && <DeleteTweet />}
     </>
   );
 };
 Tweet.propTypes = {
-  openReply: PropTypes.bool,
   tweetInfo: PropTypes.object,
+  setBookmarks: PropTypes.any,
 };
 export default Tweet;

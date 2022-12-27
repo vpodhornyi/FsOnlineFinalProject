@@ -10,11 +10,17 @@ import lombok.Setter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 import java.util.Objects;
-
 
 @Entity
 @Table(name = "users")
@@ -42,7 +48,7 @@ public class User extends BaseEntity {
   @OneToMany
   @JoinColumn(name = "user_id")
   @JsonIgnore
-  private List<Tweet> tweets;
+  private Set<Tweet> tweets;
 
   @LazyCollection(LazyCollectionOption.EXTRA)
   @ManyToMany
@@ -50,7 +56,7 @@ public class User extends BaseEntity {
     joinColumns = @JoinColumn(name = "followed_id"),
     inverseJoinColumns = @JoinColumn(name = "follower_id"))
   @JsonIgnore
-  private List<User> followers;
+  private Set<User> followers;
 
   @LazyCollection(LazyCollectionOption.EXTRA)
   @ManyToMany
@@ -58,10 +64,11 @@ public class User extends BaseEntity {
     joinColumns = @JoinColumn(name = "follower_id"),
     inverseJoinColumns = @JoinColumn(name = "followed_id"))
   @JsonIgnore
-  private List<User> followings;
+  private Set<User> followings;
   @LazyCollection(LazyCollectionOption.EXTRA)
   @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)
-  private List<Chat> chats;
+  @JsonIgnore
+  private Set<Chat> chats;
 
   @Override
   public String toString() {

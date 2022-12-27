@@ -7,7 +7,7 @@ import {getTokens, setHeaderAuthorization} from "@utils";
 import {interceptor} from "@service/API";
 import {getAuthUser} from "./user/action";
 import {chatSubscribes} from "./chat/action";
-import modalReducer from "./modal/reducer";
+
 import tweetReducer from "./tweet/reducer";
 import authReducer from "./auth/reducer";
 import userReducer from "./user/reducer";
@@ -19,7 +19,6 @@ const {applyMiddleware, combineReducers, createStore} = require("redux");
 
 const reducer = combineReducers({
   chat: chatReducer,
-  modal: modalReducer,
   tweet: tweetReducer,
   auth: authReducer,
   user: userReducer,

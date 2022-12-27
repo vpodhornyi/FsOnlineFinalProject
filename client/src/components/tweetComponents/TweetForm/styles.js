@@ -2,6 +2,7 @@ import { styled } from "@mui/material/styles";
 import { Box, Button, List, ListItem } from "@mui/material";
 
 export const TwitterContainer = styled(Box)({
+
   fontFamily: "Arial",
   paddingTop: 5,
   paddingBottom: 10,
@@ -28,13 +29,21 @@ export const TweetInput = styled(Box)({
 });
 
 export const FormFooter = styled(Box)({
+  position:"relative",
+  marginTop:"10px",
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
 });
+export const TextCount = styled(Box)({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  fontWeight:"bold",
+  color:"green"
+});
 
 export const IconsList = styled(List)({
-  marginTop: 15,
   display: "inline-flex",
 });
 
@@ -59,6 +68,7 @@ export const TweetBtn = styled(Button)({
   color: "#fff",
   backgroundColor: "rgb(29, 155, 240)",
   padding: "0 20",
+  marginLeft:"20px",
   justifySelf: "center",
   borderRadius: 30,
   height: 35,

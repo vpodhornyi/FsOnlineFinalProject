@@ -49,7 +49,10 @@ export const PATH = {
     DISPLAY: '/settings/display'
   },
   TWEET: {
-    COMPOSE: '/tweet/compose'
+    ROOT:"/tweet",
+    DELETE: '/tweet/:id',
+    REPLY:'/tweet/reply/:id',
+    IMG:'/tweet/img',
   },
   ALL: '*',
 };

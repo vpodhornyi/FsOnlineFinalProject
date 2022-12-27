@@ -14,8 +14,6 @@ import java.util.List;
 @Transactional
 @Slf4j
 public class TweetService {
-
-
         @Autowired
         private TweetRepository tweetDao;
 
@@ -24,8 +22,8 @@ public class TweetService {
             return (List<Tweet>) tweetDao.findAll();
         }
 
-        public void save(Tweet tweet) {
-            tweetDao.save(tweet);
+        public Tweet save(Tweet tweet) {
+         return  tweetDao.save(tweet);
         }
         public void update(TweetRequest tweetUpdate) {
             System.out.println(tweetUpdate.getId());
@@ -33,6 +31,7 @@ public class TweetService {
             tweet.setTweetType(tweetUpdate.getTweetType());
             tweet.setBody(tweetUpdate.getBody());
             tweet.setUser(tweetUpdate.getUser());
+
         tweetDao.save(tweet);
     }
         public Tweet findById(Long userId) {
@@ -46,5 +45,6 @@ public class TweetService {
 
 
         }
+
 
     }

@@ -61,6 +61,10 @@ export const URLS = {
     MESSAGES: '/chats/messages',
     PRIVATE: '/chats/private',
     GROUP: '/chats/group',
+  },
+  CLOUD:{
+    IMAGE:'/cloud/image',
+    IMAGES:'/cloud/images',
   }
 };
 

@@ -6,7 +6,9 @@ import {
   GroupEditPage
 } from "../pages";
 import {PATH} from "../utils/constants";
-import {Display, TweetCompose} from "../components";
+import {Display, TweetCompose, DeleteTweet} from "../components";
+import Reply from "../components/tweetComponents/Reply";
+import ModalImg from "../components/tweetComponents/ModalImg";
 
 const lazyLoading = (path) => {
   const LazyElement = lazy(() => import(path));
@@ -126,11 +128,23 @@ export const modalRoutes = authorized => {
         element: <Display/>,
         children: [],
       },
-      {
-        path: PATH.TWEET.COMPOSE,
-        element: <TweetCompose/>,
+
+        {
+        path: PATH.TWEET.DELETE,
+        element: <DeleteTweet/>,
         children: [],
       },
+        {
+          path: PATH.TWEET.REPLY,
+          element: <Reply/>,
+          children: [],
+        },
+        {
+          path: PATH.TWEET.IMG,
+          element: <ModalImg/>,
+          children: [],
+        },
+
       {
         path: PATH.ALL,
         element: <></>,

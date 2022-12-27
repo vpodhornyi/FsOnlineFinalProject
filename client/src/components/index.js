@@ -21,7 +21,7 @@ import ModalWindow from "./ModalWindow";
 import Confirm from "./Confirm";
 import {TweetForm} from "./tweetComponents/TweetForm";
 import Tweet from "./tweetComponents/Tweet";
-import TweetCompose from "./tweetComponents/TweetCompose";
+import DeleteTweet from "./tweetComponents/DeleteTweet";
 
 export {
   Header,
@@ -51,5 +51,5 @@ export {
   Confirm,
   TweetForm,
   Tweet,
-  TweetCompose,
+  DeleteTweet,
 }
