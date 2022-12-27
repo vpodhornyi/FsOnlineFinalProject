@@ -68,7 +68,7 @@ public class User extends BaseEntity {
   @LazyCollection(LazyCollectionOption.EXTRA)
   @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)
   @JsonIgnore
-  private Set<Chat> chats;
+  private transient Set<Chat> chats;
 
   @Override
   public String toString() {
