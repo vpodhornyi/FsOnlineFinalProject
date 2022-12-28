@@ -10,5 +10,5 @@ import java.util.List;
 @Setter
 public class GroupChatResponse extends ChatResponseAbstract {
   private List<ChatUser> users;
-  private boolean IsGroup = true;
+  private final boolean IsGroup = true;
 }

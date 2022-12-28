@@ -146,7 +146,7 @@ export const chatSubscribes = () => (dispatch, getState) => {
           dispatch(ACTIONS.updateOrAddNewMessage({message: body}));
           break;
         case 'MESSAGE_SEEN':
-          dispatch(ACTIONS.updateMessageSeen({seen: body}));
+          dispatch(ACTIONS.updateMessageSeen(body));
           break;
         default:
           console.log('no type');
