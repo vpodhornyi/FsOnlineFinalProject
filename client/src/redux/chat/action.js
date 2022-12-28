@@ -1,7 +1,7 @@
 import {createActions} from '../utils';
 import api, {URLS} from "@service/API";
 import {CHAT_TYPE} from "../../utils/constants";
-import {ACTIONS as MESSAGE_ACTION} from './message/action'
+import {ACTIONS as MESSAGE_ACTIONS} from './message/action'
 
 const actions = createActions(
   {
@@ -59,6 +59,7 @@ export const addNewPrivateChat = (chat) => async dispatch => {
       message: chat.message
     }
     const data = await api.post(URLS.CHATS.PRIVATE, body);
+    console.log(data);
     dispatch(ACTIONS.addNewChat({chatData: data, oldKey: chat.key}));
     return data.id;
 
@@ -101,14 +102,16 @@ export const chatSubscribes = () => (dispatch, getState) => {
     const {user: {authUser}} = getState();
     api.client.subscribe(`/queue/chat.user.${authUser.id}`, (data) => {
       const {body} = JSON.parse(data.body);
-
       switch (body.type) {
         case 'MESSAGE':
           dispatch(ACTIONS.setLastChatAction({actionData: body}));
-          dispatch(MESSAGE_ACTION.updateOrAddNewMessage(body));
+          dispatch(MESSAGE_ACTIONS.updateOrAddNewMessage(body));
           break;
         case 'MESSAGE_SEEN':
-          dispatch(MESSAGE_ACTION.updateMessageOwnerSeen(body));
+          dispatch(MESSAGE_ACTIONS.updateMessageOwnerSeen(body));
+          break;
+        case 'PRIVATE':
+          dispatch(ACTIONS.addNewChat({chatData: body, oldKey: false}));
           break;
         default:
           console.log('no type');

@@ -8,8 +8,8 @@ import lombok.Setter;
 @Setter
 public class MessageSeenResponse {
   private Long id;
-  private String type = "MESSAGE_SEEN";
-  private boolean seen;
+  private final String type = "MESSAGE_SEEN";
+  private final boolean seen = true;
   private Long messageId;
   private ChatUser user;
   private Long chatId;

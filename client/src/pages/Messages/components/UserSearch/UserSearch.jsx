@@ -77,14 +77,14 @@ const Element = ({isGroup, isAdd}) => {
 
         if (chat?.id) {
           dispatch(ACTIONS.addExistChat({chat}));
-          navigate(`${PATH.MESSAGES.ROOT}/${chat.id}`);
+          navigate(PATH.MESSAGES.chat(chat.id));
         } else {
           entity.id = id;
           entity.title = guestUser.name;
           entity.userTag = guestUser.userTag;
           entity.avatarImgUrl = guestUser.avatarImgUrl;
           dispatch(ACTIONS.setNewChat({entity}));
-          navigate(`${PATH.MESSAGES.ROOT}/${id}`);
+          navigate(PATH.MESSAGES.chat(id));
         }
         setLoading(false);
 
@@ -94,7 +94,7 @@ const Element = ({isGroup, isAdd}) => {
         entity.users = grabbedUsers;
         entity.authUserId = authUser.id;
         dispatch(ACTIONS.setNewChat({entity}));
-        navigate(`${PATH.MESSAGES.ROOT}/${id}`);
+        navigate(PATH.MESSAGES.chat(id));
       }
     }
   }

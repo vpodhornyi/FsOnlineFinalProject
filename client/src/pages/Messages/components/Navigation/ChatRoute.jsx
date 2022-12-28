@@ -23,7 +23,7 @@ const ChatRoute = ({chat, toggleModal}) => {
 
   const getText = (text) => {
     const ln = text?.length;
-    return   ln && ln > 30 ? text.slice(0, 30) + '...' : text;
+    return ln && ln > 30 ? text.slice(0, 30) + '...' : text;
   }
 
   return (
@@ -36,12 +36,15 @@ const ChatRoute = ({chat, toggleModal}) => {
               <Typography sx={{fontWeight: 600}}>{chat.title}</Typography>
 
               {chat.isPrivate && <Typography variant='body2' sx={{ml: '5px'}}>@{chat.userTag}</Typography>}
-              <Typography variant='body2' sx={{
-                '&:before': {
-                  content: '"·"',
-                  marginLeft: '5px',
-                  marginRight: '5px',
-                }}}>{moment(chat?.lastMessage?.createdAt).fromNow(true)}</Typography>
+              {chat?.lastMessage &&
+                <Typography variant='body2' sx={{
+                  '&:before': {
+                    content: '"·"',
+                    marginLeft: '5px',
+                    marginRight: '5px',
+                  }
+                }}>{moment(chat?.lastMessage?.createdAt).fromNow(true)}</Typography>
+              }
             </Box>
             <Box sx={{display: 'flex'}}>
               {authUser?.id !== chat?.lastMessage?.user.id && chat?.lastMessage?.user.name &&

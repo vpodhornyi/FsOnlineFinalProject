@@ -36,7 +36,9 @@ const ForeignerMessage = ({message, toggleModal, onBottom}) => {
         <Action toggleModal={toggleModal}/>
       </MessageBox>
       {/*<Reaction/>*/}
-      <Typography variant='body3'>{moment(message.createdAt).fromNow(true)}</Typography>
+      <TimeBox>
+        <Typography variant='body3'>{moment(message.createdAt).fromNow(true)}</Typography>
+      </TimeBox>
     </BoxWrapper>
   );
 }
@@ -78,6 +80,11 @@ const MessageTextBox = styled(Box)(({theme}) => ({
     wordWrap: 'break-word',
     minWidth: 0,
   }
+}));
+
+const TimeBox = styled(Box)(({theme}) => ({
+  display: 'flex',
+  alignItems: 'center'
 }));
 
 ForeignerMessage.propTypes = {

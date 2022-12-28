@@ -24,7 +24,6 @@ public class MessageSeenRequestMapper extends GeneralFacade<MessageSeen, Message
   protected void decorateEntity(MessageSeen entity, MessageSeenRequest dto) {
     User user = userService.findById(dto.getUserId());
     Message message = messageService.findById(dto.getMessageId());
-    entity.setSeen(true);
     entity.setUser(user);
     entity.setMessage(message);
     entity.setCreatedBy(user.getEmail());

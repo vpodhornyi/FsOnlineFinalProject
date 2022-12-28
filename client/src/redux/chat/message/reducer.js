@@ -4,7 +4,6 @@ const init = {
   messages: []
 };
 
-
 export default (state = init, {payload, type}) => {
 
   switch (type) {
@@ -24,11 +23,14 @@ export default (state = init, {payload, type}) => {
         messages: [...state.messages, payload],
       };
     case String(ACTIONS.updateOrAddNewMessage): {
-      const index = state.messages.findIndex(m => m.key === payload.oldKey && m.chatId === payload.chatId);
-      if (index === -1) {
-        state.messages = [...state.messages, payload];
-      } else {
-        state.messages.splice(index, 1, payload);
+      const chatId = state.messages[0]?.chatId;
+      if (chatId && (chatId === payload.chatId)) {
+        const index = state.messages.findIndex(m => m.key === payload.oldKey);
+        if (index === -1) {
+          state.messages = [...state.messages, payload];
+        } else {
+          state.messages.splice(index, 1, payload);
+        }
       }
       return {
         ...state,

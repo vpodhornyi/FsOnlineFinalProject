@@ -24,23 +24,26 @@ public class PrivateChatResponseMapper extends GeneralFacade<Chat, PrivateChatRe
   @Override
   protected void decorateDto(PrivateChatResponse dto, Chat entity, User user) {
     List<User> users = entity.getUsers();
+    User guestUser;
 
     if (user.equals(users.get(0))) {
+      guestUser = users.get(1);
       dto.setAuthUser(chatUserMapper.convertToDto(users.get(0)));
-      dto.setGuestUser(chatUserMapper.convertToDto(users.get(1)));
-      dto.setTitle(users.get(1).getName());
-      dto.setUserTag(users.get(1).getUserTag());
-      dto.setAvatarImgUrl(users.get(1).getAvatarImgUrl());
+      dto.setGuestUser(chatUserMapper.convertToDto(guestUser));
+      dto.setTitle(guestUser.getName());
+      dto.setUserTag(guestUser.getUserTag());
+      dto.setAvatarImgUrl(guestUser.getAvatarImgUrl());
     } else {
+      guestUser = users.get(0);
       dto.setAuthUser(chatUserMapper.convertToDto(users.get(1)));
-      dto.setGuestUser(chatUserMapper.convertToDto(users.get(0)));
-      dto.setTitle(users.get(0).getName());
-      dto.setUserTag(users.get(0).getUserTag());
-      dto.setAvatarImgUrl(users.get(0).getAvatarImgUrl());
+      dto.setGuestUser(chatUserMapper.convertToDto(guestUser));
+      dto.setTitle(guestUser.getName());
+      dto.setUserTag(guestUser.getUserTag());
+      dto.setAvatarImgUrl(guestUser.getAvatarImgUrl());
     }
 
     if (entity.getLastMessage() != null) {
-      dto.setLastMessage(lastChatMessageMapper.convertToDto(entity.getLastMessage()));
+      dto.setLastMessage(lastChatMessageMapper.convertToDto(entity.getLastMessage(), guestUser));
     }
   }
 }

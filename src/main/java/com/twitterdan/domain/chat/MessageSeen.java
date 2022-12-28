@@ -14,9 +14,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 @ToString
 public class MessageSeen extends BaseEntity {
-  @Column(columnDefinition = "boolean default false")
-  private Boolean seen;
-
   @ManyToOne
   @JoinColumn(name = "message_id")
   private Message message;

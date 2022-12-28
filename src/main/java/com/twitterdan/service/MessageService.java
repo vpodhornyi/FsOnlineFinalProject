@@ -42,18 +42,15 @@ public class MessageService {
   }
 
   @Transactional
-  public Message save(Message message) {
-    return messageRepository.save(message);
+  public Message save(Message message, User user) {
+    Message save = messageRepository.save(message);
+    this.saveMessageSeen(new MessageSeen(save, user));
+    return save;
   }
 
   public Message saveFirstNewChatMessage(Chat chat, User user, String text) {
-    MessageSeen messageSeen = new MessageSeen();
     Message message = new Message(text, new ArrayList<>(), chat, user);
-    Message savedMessage = save(message);
-    messageSeen.setSeen(true);
-    messageSeen.setMessage(message);
-
-    return savedMessage;
+    return save(message, user);
   }
 
   public MessageSeen saveMessageSeen(MessageSeen messageSeen) {

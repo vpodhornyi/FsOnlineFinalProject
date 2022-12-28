@@ -19,7 +19,7 @@ public class Message extends BaseEntity {
 
   private String text;
 
-  @OneToMany(mappedBy = "message")
+  @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "message")
   private List<MessageSeen> seen;
 
   @ManyToOne

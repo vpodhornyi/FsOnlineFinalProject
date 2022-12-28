@@ -1,6 +1,6 @@
 import React from "react";
 import {styled} from "@mui/material/styles";
-import {Typography} from "@mui/material";
+import {Typography, Box} from "@mui/material";
 import PropTypes from "prop-types";
 
 const Seen = ({message}) => {
@@ -21,11 +21,17 @@ const Seen = ({message}) => {
   return (
     <>
       {
-        isPrivateChat && <TypographyWrapper variant='body2'>{text}</TypographyWrapper>
+        isPrivateChat && <BoxWrapper>
+          <Dot/>
+          <TypographyWrapper variant='body2'>{text}</TypographyWrapper>
+        </BoxWrapper>
+
       }
       {
-        isGroupChat &&
-        <TypographyWrapper variant='body3'>{groupText(messagesSeen.length)}</TypographyWrapper>
+        isGroupChat && <BoxWrapper>
+          <Dot/>
+          <TypographyWrapper variant='body3'>{groupText(messagesSeen.length)}</TypographyWrapper>
+        </BoxWrapper>
       }
     </>);
 }
@@ -33,11 +39,21 @@ const Seen = ({message}) => {
 const TypographyWrapper = styled(Typography)(({theme}) => ({
   cursor: 'pointer',
 
+  '&:hover': {
+    textDecoration: 'underline',
+  },
+}));
+const Dot = styled('span')(({theme}) => ({
   '&:before': {
     content: '"·"',
     marginLeft: '5px',
     marginRight: '5px',
   }
+}));
+const BoxWrapper = styled(Box)(({theme}) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
 }));
 
 Seen.propTypes = {

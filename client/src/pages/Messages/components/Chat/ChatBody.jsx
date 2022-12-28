@@ -111,12 +111,12 @@ const ChatBody = ({chatId}) => {
         sending: true,
       };
 
-      if (selectedChat.isPrivate) {
+      if (selectedChat.isPrivate || type === NEW_PRIVATE) {
         newMessage.isPrivateChat = true
         newMessage.isMessageSeen = false
       }
 
-      if (selectedChat.isGroup) {
+      if (selectedChat.isGroup || type === NEW_GROUP) {
         newMessage.isGroup = true
         newMessage.messagesSeen = [];
       }

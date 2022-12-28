@@ -21,10 +21,15 @@ export default (state = init, {payload, type}) => {
     case String(ACTIONS.setNewChat):
       state.chats = [payload.entity, ...state.chats]
       return {...state};
-    case String(ACTIONS.addNewChat):
+    case String(ACTIONS.addNewChat): {
       const {oldKey, chatData} = payload;
-      const index = state.chats.findIndex(v => v.key === oldKey);
-      state.chats[index] = chatData;
+      if (oldKey) {
+        const index = state.chats.findIndex(v => v.key === oldKey);
+        state.chats[index] = chatData;
+      } else {
+        state.chats.unshift(chatData);
+      }
+    }
       return {...state};
     case String(ACTIONS.setMessage):
       const {chatId, text} = payload;
