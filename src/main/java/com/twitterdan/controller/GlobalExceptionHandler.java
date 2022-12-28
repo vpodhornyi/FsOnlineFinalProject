@@ -15,7 +15,7 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(AbstractException.class)
   public ResponseEntity<Object> handleItemNotFoundException(AbstractException exception) {
-    final ResponseError responseError = new ResponseError(exception.getRawStatusCode(), exception.getShowMessage());
+    final ResponseError responseError = new ResponseError(exception.getRawStatusCode(), exception.getShowMessage(), exception.getShow());
 
     return ResponseEntity
       .status(exception.getRawStatusCode())
@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
     int statusCode = HttpStatus.BAD_REQUEST.value();
     String message = Objects.requireNonNull(exception.getFieldError()).getDefaultMessage();
     String stackTrace = exception.getMessage();
-    final ResponseError responseError = new ResponseError(statusCode, message, stackTrace);
+    final ResponseError responseError = new ResponseError(statusCode, message, true, stackTrace);
 
     return ResponseEntity.status(statusCode).body(responseError);
   }
@@ -36,7 +36,7 @@ public class GlobalExceptionHandler {
   public ResponseEntity<Object> internalServerErrorException(Exception exception) {
     final String serverErrorMessage = "Oops, something went wrong, please try again!";
     int statusCode = HttpStatus.INTERNAL_SERVER_ERROR.value();
-    final ResponseError responseError = new ResponseError(statusCode, serverErrorMessage, exception.getMessage());
+    final ResponseError responseError = new ResponseError(statusCode, serverErrorMessage, true, exception.getMessage());
 
     return ResponseEntity.status(statusCode).body(responseError);
   }

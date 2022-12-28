@@ -1,32 +1,23 @@
-import React, { Suspense, useMemo } from "react";
+import React, {useEffect, useState} from "react";
 import Grid from "@mui/material/Grid";
-import { useSelector } from "react-redux";
-import Container from "@mui/material/Container";
-import Main from "@pages/Main";
-import routes from "../../routes";
 import { useTheme } from "@emotion/react";
 import Searchbar from "@components/Searchbar";
-import { Routes, Route, useLocation } from "react-router-dom";
-import { PageLoader, Preloader } from "@components/Loader";
-import DialogWindow from "@components/DialogWindow";
-import PrivateRoute from "@components/PrivateRoute";
-import { AUTH_ROUTE, LOGOUT_ROUTE } from "../../utils/constants";
-const MainContainer = (props) => {
-  const { pathname } = useLocation();
+import Tweet from "../tweetComponents/Tweet";
+import { TweetForm } from "../tweetComponents/TweetForm";
+import { useDispatch, useSelector } from "react-redux";
+import { getTweetsState, loadingTweetsState } from "../../redux/tweet/selector";
+import { getTweets } from "../../redux/tweet/action";
+import Loading from "../Loader/Loading";
 
+const MainContainer = (props) => {
   const theme = useTheme();
-  const loading = useSelector((state) => state.auth.loading);
-  const routeComponents = useMemo(
-    () =>
-      routes.map((route) => (
-        <Route
-          key={route.path}
-          path={route.path}
-          element={<PrivateRoute route={route} />}
-        />
-      )),
-    []
-  );
+  const dispatch = useDispatch();
+  const tweets = useSelector(getTweetsState);
+  const loadingTweets = useSelector(loadingTweetsState);
+  useEffect(() => {
+    dispatch(getTweets());
+  }, []);
+
   return (
     <Grid
       container
@@ -45,23 +36,19 @@ const MainContainer = (props) => {
         height="100vh"
         justifyContent="center"
       >
-        {pathname !== AUTH_ROUTE && pathname !== LOGOUT_ROUTE ? (
-          <Container sx={{ display: "flex" }}>
-            <Preloader loaded={!loading} />
-            <DialogWindow />
-            <Suspense fallback={<PageLoader loaded={!loading} />}>
-              <Routes>{routeComponents}</Routes>
-            </Suspense>
-          </Container>
-        ) : (
-          <>
-            <Preloader loaded={!loading} />
-            <DialogWindow />
-            <Suspense fallback={<PageLoader loaded={!loading} />}>
-              <Routes>{routeComponents}</Routes>
-            </Suspense>
-          </>
-        )}
+        <>
+          <TweetForm buttonText={"tweet"} />
+          {loadingTweets && <Loading />}
+          {tweets
+            .filter((tweet) => tweet.tweetType === "TWEET")
+            .map((e, i) => {
+              return (
+                <div key={e.id}>
+                  <Tweet tweetInfo={e}  />
+                </div>
+              );
+            })}
+        </>
       </Grid>
       <Grid
         item
@@ -84,5 +71,4 @@ const MainContainer = (props) => {
     </Grid>
   );
 };
-
 export default MainContainer;

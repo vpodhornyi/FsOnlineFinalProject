@@ -16,6 +16,11 @@ export const StyledDarkButton = styled(props => (<Button {...props}/>))(() => ({
     },
     "&:hover": {
         backgroundColor: "rgb(39, 44, 48)",
+    },
+    "&:disabled": {
+        cursor: "pointer",
+        backgroundColor: "rgba(39, 44, 48, 0.4)",
+        color: "white"
     }
 }));
 

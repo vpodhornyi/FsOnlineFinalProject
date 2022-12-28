@@ -1,28 +1,44 @@
 import * as React from 'react';
 import Dialog from '@mui/material/Dialog';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import {useDispatch, useSelector} from 'react-redux';
 import {getDialogState, getDialogComponent} from "@redux/dialog/selector";
-import {closeDialog} from "@redux/dialog/action";
+import {ACTIONS} from "@redux/dialog/action";
+import {styled} from "@mui/material/styles";
 
-export default function FormDialog() {
-  const {open} = useSelector(getDialogState);
+const FormDialog = () => {
+  const {open, props} = useSelector(getDialogState);
   const Component = useSelector(getDialogComponent);
   const dispatch = useDispatch();
-  const matches = useMediaQuery('(max-width:700px)');
-  const dialogStyle = matches ? {
-    style: {padding: '2px 15px', position: 'relative', height: '100%'}
-  } : {
-    style: {borderRadius: 15, padding: 2, position: 'relative', height: '70%'}
-  }
 
   return (
-    <Dialog
-      fullScreen={matches}
-      PaperProps={dialogStyle}
+    <DialogWrapper
       open={open}
-      onClose={() => dispatch(closeDialog())}>
-      <Component/>
-    </Dialog>
+      onClose={() => dispatch(ACTIONS.closeDialog())}>
+      <Component props={props}/>
+    </DialogWrapper>
   );
 }
+
+const styles = ({theme}) => ({
+  '& .MuiPaper-root': {
+    margin: 0,
+    padding: '2px 15px',
+    position: 'relative',
+    height: '100%',
+    width: '100%',
+    maxHeight: 'inherit',
+    maxWidth: 'inherit',
+
+    [theme.breakpoints.up(700)]: {
+      borderRadius: 15,
+      padding: 2,
+      position: 'relative',
+      height: 'auto',
+      width: 'auto',
+    },
+  },
+});
+
+const DialogWrapper = styled(Dialog)(styles);
+
+export default FormDialog;

@@ -2,13 +2,11 @@ import React from 'react';
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
 import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
-import {useSelector} from "react-redux";
-import {getMainMenuState} from "../../../redux/business/menu/mainMenu/selector";
+import {sidebarMenu} from "../data/sidebarMenu";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 const TweetButton = () => {
-    const {themeColor} = useSelector(getMainMenuState);
-
+    const {themeColor} = sidebarMenu;
     const matches = useMediaQuery("(max-width: 450px)")
 
     return (

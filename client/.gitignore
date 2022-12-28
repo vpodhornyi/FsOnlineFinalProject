@@ -2,3 +2,4 @@
 .eslintcache
 .stylelintcache
 package-lock.json
+.env

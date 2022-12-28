@@ -1,9 +1,8 @@
 package com.twitterdan.facade;
 
+
 import org.modelmapper.ModelMapper;
-
 import org.modelmapper.convention.MatchingStrategies;
-
 
 public class GeneralFacade<E, D> {
   private final Class<E> entityClass;
@@ -11,9 +10,9 @@ public class GeneralFacade<E, D> {
 
   private final ModelMapper modelMapper = new ModelMapper();
 
-  public GeneralFacade(final Class<E> eclass, final Class<D> dclass) {
-    entityClass = eclass;
-    dtoClass = dclass;
+  public GeneralFacade(final Class<E> eClass, final Class<D> dClass) {
+    entityClass = eClass;
+    dtoClass = dClass;
     modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
   }
 
@@ -41,4 +40,3 @@ public class GeneralFacade<E, D> {
 
   }
 }
-
