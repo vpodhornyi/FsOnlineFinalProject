@@ -1,15 +1,13 @@
 import {createActions} from '../utils';
 import api, {URLS} from "@service/API";
 import {CHAT_TYPE} from "../../utils/constants";
-import {getRandomKey} from "../../utils";
+import {ACTIONS as MESSAGE_ACTION} from './message/action'
 
 const actions = createActions(
   {
     actions: [
       'SET_CHAT_ID', 'RESET_CHAT_ID', 'SET_MESSAGE', 'SET_PAGE_NUMBER', 'SET_LAST_CHAT_ACTION',
-      'SET_NEW_CHAT', 'ADD_NEW_CHAT', 'SET_NEW_GROUP', 'ADD_EXIST_CHAT', 'RESET_DATA',
-      'SET_MESSAGES', 'ADD_PREVIOUS_MESSAGES', 'ADD_NEW_MESSAGE', 'UPDATE_OR_ADD_NEW_MESSAGE',
-      'RESET_MESSAGES', 'UPDATE_MESSAGE_SEEN'
+      'SET_NEW_CHAT', 'ADD_NEW_CHAT', 'SET_NEW_GROUP', 'ADD_EXIST_CHAT', 'RESET_DATA'
     ],
     async: ['GET_CHATS', 'SEND_MESSAGE'],
   },
@@ -89,42 +87,6 @@ export const addNewGroupChat = (chat) => async dispatch => {
   }
 }
 
-export const getMessages = (id) => async (dispatch, getState) => {
-  try {
-    const {user: {authUser}} = getState();
-    const data = await api.get(URLS.CHATS.MESSAGES, {params: {chatId: id, authUserId: authUser.id}});
-
-    dispatch(ACTIONS.setMessages({messages: data}));
-
-  } catch (err) {
-    console.log('getChats error - ', err);
-  }
-}
-
-export const sendMessage = (data) => async (dispatch) => {
-  try {
-    api.client.publish({
-      destination: `/app/message`,
-      body: JSON.stringify({...data}),
-    });
-    dispatch(ACTIONS.addNewMessage({message: data}));
-
-  } catch (err) {
-    console.log('sendMessage error - ', err);
-  }
-}
-
-export const setSeenMessage = (data) => async dispatch => {
-  try {
-    api.client.publish({
-      destination: `/app/message/seen`,
-      body: JSON.stringify({...data}),
-    });
-  } catch (err) {
-    console.log('seenMessage error - ', err);
-  }
-}
-
 export const getPrivateChatByUsersId = ({authUserId, guestUserId}) => async dispatch => {
   try {
     return await api.get(URLS.CHATS.PRIVATE, {params: {authUserId, guestUserId}});
@@ -143,10 +105,10 @@ export const chatSubscribes = () => (dispatch, getState) => {
       switch (body.type) {
         case 'MESSAGE':
           dispatch(ACTIONS.setLastChatAction({actionData: body}));
-          dispatch(ACTIONS.updateOrAddNewMessage({message: body}));
+          dispatch(MESSAGE_ACTION.updateOrAddNewMessage(body));
           break;
         case 'MESSAGE_SEEN':
-          dispatch(ACTIONS.updateMessageSeen(body));
+          dispatch(MESSAGE_ACTION.updateMessageOwnerSeen(body));
           break;
         default:
           console.log('no type');

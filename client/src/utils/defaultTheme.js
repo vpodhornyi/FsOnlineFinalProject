@@ -88,5 +88,10 @@ export const themeStyles = {
       fontSize: '0.95rem',
       color: 'rgb(83, 100, 113)'
     },
+    body3: {
+      fontSize: '0.8rem',
+      color: 'rgb(83, 100, 113)',
+      fontFamily: "TwitterChirp, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif",
+    },
   },
 }

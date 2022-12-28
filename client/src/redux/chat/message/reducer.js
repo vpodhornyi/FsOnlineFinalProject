@@ -1,7 +1,6 @@
 import {ACTIONS} from "./action";
 
 const init = {
-  selectedChatId: -1,
   messages: []
 };
 
@@ -11,35 +10,36 @@ export default (state = init, {payload, type}) => {
   switch (type) {
     case String(ACTIONS.setMessages):
       return {
-        ...payload.messages,
+        ...state,
+        messages: payload.messages,
       };
     case String(ACTIONS.addPreviousMessages):
       return {
-        ...[...payload.messages, ...state.messages],
+        ...state,
+        messages: [...payload.messages, ...state.messages],
       };
     case String(ACTIONS.addNewMessage):
       return {
-        ...[...state.messages, payload.message],
+        ...state,
+        messages: [...state.messages, payload],
       };
     case String(ACTIONS.updateOrAddNewMessage): {
-      if (payload.message.chatId === state.selectedChatId) {
-        const index = state.messages.findIndex(m => m.key === payload.message.oldKey);
-        if (index === -1) {
-          state = [...state, payload.message];
-        } else {
-          state.splice(index, 1, payload.message);
-        }
+      const index = state.messages.findIndex(m => m.key === payload.oldKey && m.chatId === payload.chatId);
+      if (index === -1) {
+        state.messages = [...state.messages, payload];
+      } else {
+        state.messages.splice(index, 1, payload);
       }
       return {
         ...state,
       };
     }
-    case String(ACTIONS.updateMessageSeen): {
-      if (state.length) {
-        const find = state.find(m => m.id === payload?.messageId);
+    case String(ACTIONS.updateMessageOwnerSeen): {
+      if (state.messages.length) {
+        const find = state.messages.find(m => m.id === payload?.messageId);
         if (find) {
           if (find.isPrivateChat) {
-            find.IsMessageSeen = payload.seen;
+            find.isMessageSeen = payload.seen;
           }
 
           if (find.isGroupChat) {
@@ -59,10 +59,26 @@ export default (state = init, {payload, type}) => {
         ...state,
       };
     }
+    case String(ACTIONS.updateForeignerMessageSeen): {
+      if (state.messages.length) {
+        const find = state.messages.find(m => m.id === payload.id);
+        if (find) {
+          find.isMessageSeen = true;
+        }
+      }
+    }
+      return {
+        ...state,
+      };
     case String(ACTIONS.resetMessages):
       return {
         ...state,
         messages: [],
+      };
+    case String(ACTIONS.resetData):
+      state = init;
+      return {
+        ...state,
       };
     default:
       return state;

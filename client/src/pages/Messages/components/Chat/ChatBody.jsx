@@ -9,15 +9,17 @@ import PropTypes from "prop-types";
 
 import StartMessage from "./StartMessage";
 import UserInfo from "./UserInfo";
-import Message from "./Message/Message";
 import ScrollDownButton from "./ScrollDownButton";
 import {CircularLoader, ModalWindow} from "../../../../components";
-import {ACTIONS, getMessages, sendMessage, addNewPrivateChat, addNewGroupChat} from "@redux/chat/action";
-import {getChatsData} from "@redux/chat/selector";
+import {ACTIONS as CHAT_ACTIONS, addNewPrivateChat, addNewGroupChat} from "@redux/chat/action";
+import {ACTIONS as MESSAGE_ACTIONS, getMessages, sendMessage} from "@redux/chat/message/action";
+import {getChatsData, getMessagesData} from "@redux/chat/selector";
 import {CHAT_TYPE} from '@utils/constants';
 import {PATH} from "@utils/constants";
 import DeleteMessageConfirm from "../confirms/DeleteMessageConfirm";
-import {getRandomKey} from "../../../../utils";
+import {getRandomKey} from "@utils";
+import MessageOwner from "./Message/MessageOwner";
+import ForeignerMessage from "./Message/ForeignerMessage";
 
 
 const useModal = () => {
@@ -40,7 +42,8 @@ const ChatBody = ({chatId}) => {
   const inputRef = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {selectedChat, messages} = useSelector(getChatsData);
+  const {selectedChat} = useSelector(getChatsData);
+  const {messages} = useSelector(getMessagesData);
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const {authUser: {id: authUserId}} = useSelector(state => state.user);
@@ -66,7 +69,7 @@ const ChatBody = ({chatId}) => {
   }, 500);
 
   useEffect(() => {
-    dispatch(ACTIONS.resetMessages());
+    dispatch(MESSAGE_ACTIONS.resetMessages());
     fetch(chatId);
   }, [chatId]);
 
@@ -85,7 +88,7 @@ const ChatBody = ({chatId}) => {
 
   const send = async (textMessage) => {
     if (textMessage.trim() !== '') {
-      dispatch(ACTIONS.setMessage({chatId, text: ''}));
+      dispatch(CHAT_ACTIONS.setMessage({chatId, text: ''}));
       const type = selectedChat.type;
 
       if (type === NEW_PRIVATE) {
@@ -99,16 +102,26 @@ const ChatBody = ({chatId}) => {
         navigate(PATH.MESSAGES.chat(newChatId));
         return;
       }
-      await dispatch(sendMessage({
+      const newMessage = {
         chatId,
         userId: authUserId,
         key: getRandomKey(),
         text: textMessage,
-        isPrivateChat: selectedChat.isPrivate,
-        isGroupChat: selectedChat.isGroup,
         isMessageOwner: true,
         sending: true,
-      }));
+      };
+
+      if (selectedChat.isPrivate) {
+        newMessage.isPrivateChat = true
+        newMessage.isMessageSeen = false
+      }
+
+      if (selectedChat.isGroup) {
+        newMessage.isGroup = true
+        newMessage.messagesSeen = [];
+      }
+
+      await dispatch(sendMessage(newMessage));
 
       inputRef.current.focus();
       onBottom();
@@ -137,14 +150,24 @@ const ChatBody = ({chatId}) => {
               <CircularLoader/>
             </Box>
           )}
-          {messages.map(item => {
-            return <Message
-              key={item?.key}
-              message={item}
-              toggleModal={toggle}
-              onBottom={onBottom}
-            />
-          })}
+          {messages.map(message => {
+              if (message.isMessageOwner) {
+                return <MessageOwner
+                  key={message?.key}
+                  message={message}
+                  toggleModal={toggle}
+                />
+              }
+              if (message.isForeignerMessage) {
+                return <ForeignerMessage
+                  key={message?.key}
+                  message={message}
+                  toggleModal={toggle}
+                  onBottom={onBottom}
+                />
+              }
+            }
+          )}
         </Box>
       </Box>
       <Box sx={{position: 'relative'}}>

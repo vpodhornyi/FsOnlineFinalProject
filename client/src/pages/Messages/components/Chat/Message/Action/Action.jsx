@@ -10,7 +10,12 @@ const Action = ({toggleModal}) => {
   return (
     <BoxWrapper className='Actions'>
       <Box>
-        <CustomIconButton color='greyAccent' name='FavoriteBorderOutlined' title='React' size='small' iconSize='small'/>
+        <CustomIconButton
+          color='greyAccent'
+          name='FavoriteBorderOutlined'
+          title='React'
+          size='small'
+          iconSize='small'/>
       </Box>
       <More toggleModal={toggleModal}/>
     </BoxWrapper>);

@@ -7,7 +7,7 @@ const init = {
   pageSize: 50,
   chatId: -1,
   chats: [],
-  messages: [],
+  // messages: [],
   onBottom: false,
 }
 
@@ -39,64 +39,6 @@ export default (state = init, {payload, type}) => {
       return {
         ...state,
       };
-    case String(ACTIONS.setMessages):
-      return {
-        ...state,
-        messages: payload.messages,
-      };
-    case String(ACTIONS.addPreviousMessages):
-      return {
-        ...state,
-        messages: [...payload.messages, ...state.messages],
-      };
-    case String(ACTIONS.addNewMessage):
-      return {
-        ...state,
-        messages: [...state.messages, payload.message],
-      };
-    case String(ACTIONS.updateOrAddNewMessage): {
-      if (payload.message.chatId === state.chatId) {
-        const index = state.messages.findIndex(m => m.key === payload.message.oldKey);
-        if (index === -1) {
-          state.messages = [...state.messages, payload.message];
-        } else {
-          state.messages.splice(index, 1, payload.message);
-        }
-      }
-      return {
-        ...state,
-      };
-    }
-    case String(ACTIONS.updateMessageSeen): {
-      if (state.messages.length) {
-        const find = state.messages.find(m => m.id === payload?.seen?.messageId);
-        if (find && payload.seen) {
-          if (find.isPrivateChat) {
-            find.messageSeen = payload.seen;
-          }
-
-          if (find.isGroupChat) {
-            const i = find.messagesSeen?.findIndex(s => s.id === payload.seen.id);
-
-            if (!i) {
-              find.messagesSeen = [payload.seen];
-            } else if (i === -1) {
-              find.messagesSeen.push(payload.seen)
-            } else {
-              find.messagesSeen.splice(i, 1, payload.seen);
-            }
-          }
-        }
-      }
-      return {
-        ...state,
-      };
-    }
-    case String(ACTIONS.resetMessages):
-      return {
-        ...state,
-        messages: [],
-      };
     case String(ACTIONS.setChatId):
       return {
         ...state,
@@ -117,7 +59,6 @@ export default (state = init, {payload, type}) => {
         ...state,
         loading: false,
         chats: payload.chats,
-        showChats: payload.chats,
       };
     case String(ACTIONS.getChats.fail):
       return {

@@ -4,6 +4,7 @@ import {setAuthToken, setTokenType, setHeaderAuthorization, setRefreshToken} fro
 import {PATH} from "../../utils/constants";
 import {getAuthUser} from '../user/action';
 import {ACTIONS as CHAT_ACTIONS} from '../chat/action';
+import {ACTIONS as MESSAGE_ACTIONS} from '../chat/message/action';
 
 const actions = createActions({
   actions: ['DISABLE_LOADING', 'SET_NEW_USER_DATA', 'CLEAR_NEW_USER_DATA', 'PRELOADER_START', 'PRELOADER_END'],
@@ -104,5 +105,6 @@ export const logout = ({navigate}) => async dispatch => {
 
   } finally {
     dispatch(CHAT_ACTIONS.resetData());
+    dispatch(MESSAGE_ACTIONS.resetData());
   }
 }

@@ -3,8 +3,10 @@ import api, {URLS} from "@service/API";
 
 const actions = createActions(
   {
-    actions: ['SET_MESSAGES', 'ADD_PREVIOUS_MESSAGES', 'ADD_NEW_MESSAGE', 'UPDATE_OR_ADD_NEW_MESSAGE',
-      'RESET_MESSAGES', 'UPDATE_MESSAGE_SEEN'],
+    actions: [
+      'SET_MESSAGES', 'ADD_PREVIOUS_MESSAGES', 'ADD_NEW_MESSAGE', 'UPDATE_OR_ADD_NEW_MESSAGE',
+      'RESET_MESSAGES', 'UPDATE_MESSAGE_OWNER_SEEN', 'UPDATE_FOREIGNER_MESSAGE_SEEN', 'RESET_DATA'
+    ],
   },
   {
     prefix: 'message',
@@ -33,7 +35,7 @@ export const sendMessage = (data) => async (dispatch) => {
       destination: `/app/message`,
       body: JSON.stringify({...data}),
     });
-    dispatch(ACTIONS.addNewMessage({message: data}));
+    dispatch(ACTIONS.addNewMessage(data));
 
   } catch (err) {
     console.log('sendMessage error - ', err);

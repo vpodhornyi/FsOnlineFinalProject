@@ -14,17 +14,18 @@ import userReducer from "./user/reducer";
 import dialogReducer from "./dialog/reducer";
 
 import chatReducer from "./chat/reducer";
+import messagesReducer from "./chat/message/reducer";
 
 const {applyMiddleware, combineReducers, createStore} = require("redux");
 
 const reducer = combineReducers({
   chat: chatReducer,
+  message: messagesReducer,
   tweet: tweetReducer,
   auth: authReducer,
   user: userReducer,
   dialog: dialogReducer,
 })
-
 
 const stompClient = (onConnect) => {
   const client = new Client({
@@ -62,7 +63,6 @@ export default () => {
           store.dispatch(chatSubscribes());
         });
       })
-    // store.dispatch(getChats());
   }
 
   return store;
