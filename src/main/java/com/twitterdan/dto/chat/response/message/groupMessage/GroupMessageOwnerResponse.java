@@ -1,6 +1,6 @@
 package com.twitterdan.dto.chat.response.message.groupMessage;
 
-import com.twitterdan.dto.chat.response.MessageSeenResponse;
+import com.twitterdan.dto.chat.response.seen.MessageOwnerSeenResponse;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,5 +10,5 @@ import java.util.List;
 @Setter
 public class GroupMessageOwnerResponse extends GroupMessageResponseAbstract {
   private final boolean IsMessageOwner = true;
-  private List<MessageSeenResponse> messagesSeen;
+  private List<MessageOwnerSeenResponse> messagesSeen;
 }

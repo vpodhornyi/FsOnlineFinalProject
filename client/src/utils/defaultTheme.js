@@ -38,7 +38,7 @@ export const themeStyles = {
       main: 'rgb(29, 155, 240)',
       secondary: 'rgb(26, 140, 216)',
       third: 'rgba(29, 155, 240, 0.1)',
-      contrastText: '#ffd400'
+      contrastText: '#ffffff'
     },
     neutral: {
       main: '#ffd400',

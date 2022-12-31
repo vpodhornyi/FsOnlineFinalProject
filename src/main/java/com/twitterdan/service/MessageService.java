@@ -1,25 +1,28 @@
 package com.twitterdan.service;
 
 import com.twitterdan.dao.MessageRepository;
+import com.twitterdan.dao.MessageSeenRepository;
 import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.chat.Message;
 import com.twitterdan.domain.chat.MessageSeen;
 import com.twitterdan.domain.user.User;
 import com.twitterdan.exception.CouldNotFindMessageException;
+import com.twitterdan.exception.MessageAlreadySeen;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class MessageService {
   private final MessageRepository messageRepository;
+  private final MessageSeenRepository messageSeenRepository;
 
-  public MessageService(MessageRepository messageRepository) {
+  public MessageService(MessageRepository messageRepository, MessageSeenRepository messageSeenRepository) {
     this.messageRepository = messageRepository;
+    this.messageSeenRepository = messageSeenRepository;
   }
 
   public List<Message> getAll() {
@@ -41,19 +44,29 @@ public class MessageService {
     throw new CouldNotFindMessageException(false);
   }
 
-  @Transactional
-  public Message save(Message message, User user) {
-    Message save = messageRepository.save(message);
-    this.saveMessageSeen(new MessageSeen(save, user));
-    return save;
+  public Integer getCountUnreadChatMessagesByUserId(Long chatId, Long userId) {
+    Optional<Integer> countUnreadMessages = messageRepository.getCountUnreadMessages(chatId, userId);
+    return countUnreadMessages.orElse(0);
   }
 
-  public Message saveFirstNewChatMessage(Chat chat, User user, String text) {
-    Message message = new Message(text, new ArrayList<>(), chat, user);
-    return save(message, user);
+  public Integer getCountAllUnreadChatMessagesByUserId(Long userId) {
+    Optional<Integer> countUnreadMessages = messageRepository.getCountAllUnreadMessages(userId);
+    return countUnreadMessages.orElse(0);
+  }
+
+  @Transactional
+  public Message save(Message message) {
+    return messageRepository.save(message);
   }
 
   public MessageSeen saveMessageSeen(MessageSeen messageSeen) {
-    return messageRepository.save(messageSeen);
+    Optional<MessageSeen> optionalMessageSeen = messageSeenRepository
+      .findByUserIdAndMessageId(messageSeen.getUser().getId(), messageSeen.getMessage().getId());
+
+    if (optionalMessageSeen.isEmpty()) {
+      return messageSeenRepository.save(messageSeen);
+    }
+
+    throw new MessageAlreadySeen(false);
   }
 }

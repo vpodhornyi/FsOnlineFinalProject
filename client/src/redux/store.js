@@ -5,8 +5,7 @@ import {Client} from "@stomp/stompjs";
 import api from "@service/API";
 import {getTokens, setHeaderAuthorization} from "@utils";
 import {interceptor} from "@service/API";
-import {getAuthUser} from "./user/action";
-import {chatSubscribes} from "./chat/action";
+import {authUserSocketSubscribe, getAuthUser} from "./user/action";
 
 import tweetReducer from "./tweet/reducer";
 import authReducer from "./auth/reducer";
@@ -60,7 +59,7 @@ export default () => {
     store.dispatch(getAuthUser())
       .then(() => {
         api.client = stompClient(() => {
-          store.dispatch(chatSubscribes());
+          store.dispatch(authUserSocketSubscribe());
         });
       })
   }

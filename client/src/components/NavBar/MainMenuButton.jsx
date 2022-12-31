@@ -1,12 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {Typography} from "@mui/material";
+import {Typography, Badge} from "@mui/material";
 import IconByName from "../icons/IconByName";
 import {styled} from "@mui/material/styles";
 
-const MainMenuButton = ({isActive, iconName, text}) => (
+const MainMenuButton = ({isActive, isBadge = false, badgeContent, iconName, text}) => (
   <Div className='MainMenuButton'>
-    <IconByName iconName={iconName}/>
+    {isBadge ? <Badge
+      badgeContent={badgeContent}
+      color="primary"
+      max={99}
+    >
+      <IconByName iconName={iconName}/>
+    </Badge> : <IconByName iconName={iconName}/>}
     <Typography
       className={`LinkText ${isActive && 'LinkText_active'}`}
       variant='body1'>
@@ -41,6 +47,8 @@ const Div = styled('div')(({theme}) => ({
 
 MainMenuButton.propTypes = {
   isActive: PropTypes.bool,
+  isBadge: PropTypes.bool,
+  badgeContent: PropTypes.any,
   iconName: PropTypes.string,
   text: PropTypes.string,
 }

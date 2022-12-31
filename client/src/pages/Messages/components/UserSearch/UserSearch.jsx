@@ -65,6 +65,7 @@ const Element = ({isGroup, isAdd}) => {
       const entity = {
         key: getRandomKey(),
         type: isGroup ? NEW_GROUP : grabbedUsers.length === 1 ? NEW_PRIVATE : NEW_GROUP,
+        isNew: true,
       }
       const id = Date.now();
 
@@ -83,8 +84,10 @@ const Element = ({isGroup, isAdd}) => {
           entity.title = guestUser.name;
           entity.userTag = guestUser.userTag;
           entity.avatarImgUrl = guestUser.avatarImgUrl;
-          dispatch(ACTIONS.setNewChat({entity}));
+          dispatch(ACTIONS.addNewChat(entity));
+          dispatch(ACTIONS.setChatId({chatId: id}));
           navigate(PATH.MESSAGES.chat(id));
+
         }
         setLoading(false);
 

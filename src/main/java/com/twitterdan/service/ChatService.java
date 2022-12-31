@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.*;
 
 @Service
@@ -40,29 +41,21 @@ public class ChatService {
     throw new CouldNotFindChatException();
   }
 
+  @Transactional
   public List<Chat> findAlLByUserId(Long userId, int pageNumber, int pageSize) {
     Pageable pageable = PageRequest.of(pageNumber, pageSize);
     Optional<Page<Chat>> optionalChats = chatRepository.findByUsersId(userId, pageable);
     return optionalChats.map(chats -> chats.stream()
       .peek(chat -> {
         Optional<Message> optionalMessage = messageRepository.findFirstByChatIdOrderByCreatedAtDesc(chat.getId());
-        if (optionalMessage.isPresent()) {
-          Message message = optionalMessage.get();
-          chat.setLastMessage(message);
-        }
+
+        optionalMessage.ifPresent(chat::setLastMessage);
+
       }).toList()).orElseGet(() -> (List<Chat>) optionalChats.orElseGet(Page::empty));
   }
 
-  public List<Long> findAlLSubscribedChatIdsByUserId(Long userId) {
-    Optional<List<Chat>> optionalChats = chatRepository.findAllByUsersId(userId);
-
-    return optionalChats.map(chats -> chats.stream()
-      .map(BaseEntity::getId)
-      .toList()).orElseGet(ArrayList::new);
-  }
-
   public Chat findPrivateChatByUsersIds(Long authUserId, Long guestUserId) {
-    Optional<Chat> optionalChat = chatRepository.findPrivateChatByUsersIds(ChatType.PRIVATE, authUserId, guestUserId);
+    Optional<Chat> optionalChat = chatRepository.findPrivateChatByUsersIds(ChatType.PRIVATE.toString(), authUserId, guestUserId);
 
     if (optionalChat.isPresent()) {
       return optionalChat.get();
@@ -74,7 +67,7 @@ public class ChatService {
   public boolean isPrivateChatExist(List<User> users) {
     Long idOne = users.get(0).getId();
     Long idTwo = users.get(1).getId();
-    Optional<Chat> optionalChat = chatRepository.findPrivateChatByUsersIds(ChatType.PRIVATE, idOne, idTwo);
+    Optional<Chat> optionalChat = chatRepository.findPrivateChatByUsersIds(ChatType.PRIVATE.toString(), idOne, idTwo);
 
     return optionalChat.isPresent();
   }

@@ -10,7 +10,7 @@ import {LogoIcon} from "../.";
 import SidebarFooter from "../Sidebar/components/SidebarFooter";
 import {PATH} from "../../utils/constants";
 
-const NavBar = ({authorized, menu}) => {
+const NavBar = ({badgeContent, authorized, menu}) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -20,7 +20,7 @@ const NavBar = ({authorized, menu}) => {
         <Link className='Logo' to={PATH.HOME}>
           <LogoIcon/>
         </Link>
-        <MainMenu authorized={authorized} menu={menu}/>
+        <MainMenu badgeContent={badgeContent} authorized={authorized} menu={menu}/>
         {
           authorized &&
           <Box onClick={() => navigate(PATH.TWEET.COMPOSE, {state: {background: location}})}>
@@ -64,6 +64,7 @@ const styles = ({theme}) => ({
 const StyledBox = styled(Box)(styles);
 
 NavBar.propTypes = {
+  badgeContent: PropTypes.any,
   authorized: PropTypes.bool,
   menu: PropTypes.array,
 }

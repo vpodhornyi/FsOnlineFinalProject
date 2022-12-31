@@ -3,7 +3,6 @@ package com.twitterdan.controller;
 import com.twitterdan.domain.user.User;
 import com.twitterdan.dto.user.UserResponse;
 import com.twitterdan.facade.user.UserResponseMapper;
-import com.twitterdan.service.ChatService;
 import com.twitterdan.service.UserService;
 import com.twitterdan.service.auth.JwtAuthService;
 import lombok.AllArgsConstructor;
@@ -25,17 +24,12 @@ public class UserController {
   private final JwtAuthService jwtAuthService;
   private final UserService userService;
   private final UserResponseMapper userResponseMapper;
-  private final ChatService chatService;
 
   @GetMapping
   public UserResponse findAuthUser() {
     String userTag = (String) jwtAuthService.getAuthInfo().getPrincipal();
     User user = userService.findByUserTag(userTag);
-    List<Long> chatsIds = chatService.findAlLSubscribedChatIdsByUserId(user.getId());
-    UserResponse userResponse = userResponseMapper.convertToDto(user);
-    userResponse.setChatsIds(chatsIds);
-
-    return userResponse;
+    return userResponseMapper.convertToDto(user);
   }
 
   @GetMapping("/all")

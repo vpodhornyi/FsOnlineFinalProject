@@ -8,4 +8,5 @@ import lombok.Setter;
 public class GroupForeignerMessageResponse extends GroupMessageResponseAbstract {
   private final boolean IsForeignerMessage = true;
   private boolean IsMessageSeen = false;
+  private Integer countUnreadAllChatMessages = 0;
 }

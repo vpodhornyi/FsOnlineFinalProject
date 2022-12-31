@@ -11,9 +11,16 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString
 public class MessageSeen extends BaseEntity {
+
+  public MessageSeen(Message message, User user) {
+    this.setCreatedBy(user.getEmail());
+    this.setUpdatedBy(user.getEmail());
+    this.message = message;
+    this.user = user;
+  }
+
   @ManyToOne
   @JoinColumn(name = "message_id")
   private Message message;

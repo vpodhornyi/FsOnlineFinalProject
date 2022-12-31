@@ -2,7 +2,7 @@ import React from "react";
 import {useDispatch, useSelector} from 'react-redux';
 import {useParams, useNavigate} from 'react-router-dom';
 import {styled} from "@mui/material/styles";
-import {Avatar, Typography, Box} from "@mui/material";
+import {Avatar, Typography, Box, Badge} from "@mui/material";
 import PropTypes from "prop-types";
 
 import {ACTIONS} from '@redux/chat/action';
@@ -18,7 +18,7 @@ const ChatRoute = ({chat, toggleModal}) => {
 
   const handleChatClick = (chat) => {
     dispatch(ACTIONS.setChatId({chatId: chat?.id}));
-    navigate(`${PATH.MESSAGES.ROOT}/${chat?.id}`);
+    navigate(PATH.MESSAGES.chat(chat?.id));
   }
 
   const getText = (text) => {
@@ -28,7 +28,8 @@ const ChatRoute = ({chat, toggleModal}) => {
 
   return (
     <BoxWrapper onClick={() => handleChatClick(chat)}>
-      <Box className={id && (id == chat.id) ? `ChatRoutWrapperActive` : ''}>
+      <Box
+        className={id && (id == chat.id) ? `ChatRoutWrapperActive` : chat?.lastMessage?.countUnreadMessages ? 'NotReadMessagesExist' : ''}>
         <Box sx={{display: 'flex'}}>
           <Avatar sx={{mr: '10px', width: '3.3rem', height: '3.3rem'}} src={chat.avatarImgUrl}/>
           <Box>
@@ -54,19 +55,31 @@ const ChatRoute = ({chat, toggleModal}) => {
             </Box>
           </Box>
         </Box>
-        <Box className='MoreIcon'>
-          <More toggleModal={toggleModal}/>
-        </Box>
+        <Badge
+          badgeContent={chat?.lastMessage?.countUnreadMessages}
+          color="primary"
+          max={99}
+          // variant="dot"
+        >
+          <Box className='MoreIcon'>
+            <More toggleModal={toggleModal}/>
+          </Box>
+        </Badge>
       </Box>
     </BoxWrapper>);
 }
 
-const styles = ({theme}) => ({
+const BoxWrapper = styled(Box)(({theme}) => ({
   position: 'relative',
+  marginBottom: 2,
 
   '& .ChatRoutWrapperActive': {
     backgroundColor: 'rgb(239, 243, 244)',
     borderRight: `2px ${theme.palette.primary.main} solid`,
+  },
+
+  '& > .NotReadMessagesExist': {
+    backgroundColor: 'rgb(247, 249, 249)'
   },
 
   '& > .MuiBox-root': {
@@ -76,7 +89,6 @@ const styles = ({theme}) => ({
     alignItems: 'flex-start',
     justifyContent: 'space-between',
     cursor: 'pointer',
-
 
     '&:hover': {
       backgroundColor: 'rgb(247, 249, 249)'
@@ -90,13 +102,11 @@ const styles = ({theme}) => ({
       zIndex: 1000,
     },
 
-    '&:hover > .MoreIcon': {
+    '&:hover  .MoreIcon': {
       opacity: 1,
     }
   }
-});
-
-const BoxWrapper = styled(Box)(styles);
+}));
 
 ChatRoute.propTypes = {
   chat: PropTypes.object,

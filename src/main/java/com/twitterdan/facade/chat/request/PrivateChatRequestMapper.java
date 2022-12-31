@@ -29,7 +29,9 @@ public class PrivateChatRequestMapper extends GeneralFacade<Chat, PrivateChatReq
     List<User> users = new ArrayList<>();
     users.add(authUser);
     users.add(guestUser);
-
+    String email = authUser.getEmail();
     entity.setUsers(users);
+    entity.setCreatedBy(email);
+    entity.setUpdatedBy(email);
   }
 }

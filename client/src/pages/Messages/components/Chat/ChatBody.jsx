@@ -36,7 +36,7 @@ const useModal = () => {
 };
 const ChatBody = ({chatId}) => {
   const {isShowing, toggle} = useModal();
-  const {NEW_PRIVATE, NEW_GROUP, PRIVATE} = CHAT_TYPE;
+  const {NEW_PRIVATE, NEW_GROUP} = CHAT_TYPE;
   const overlayRef = useRef();
   const chatBodyRef = useRef();
   const inputRef = useRef();
@@ -48,7 +48,6 @@ const ChatBody = ({chatId}) => {
   const [loading, setLoading] = useState(false);
   const {authUser: {id: authUserId}} = useSelector(state => state.user);
   const showScrollDownButton = useDebouncedCallback(v => setVisible(v), 300);
-
 
   const getScrolling = () => {
     const offsetHeight = overlayRef?.current?.offsetHeight;
@@ -144,7 +143,7 @@ const ChatBody = ({chatId}) => {
         <Box
           ref={chatBodyRef}
           className='MessagesBox'>
-          {selectedChat.type === PRIVATE && <UserInfo/>}
+          {selectedChat.isPrivate && <UserInfo/>}
           {loading && (
             <Box sx={{position: 'relative', pt: 3, pb: 3}}>
               <CircularLoader/>

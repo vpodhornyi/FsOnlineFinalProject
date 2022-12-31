@@ -2,6 +2,7 @@ package com.twitterdan.facade.chat.response.chat;
 
 import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.user.User;
+import com.twitterdan.dto.DtoResponseType;
 import com.twitterdan.dto.chat.response.chat.PrivateChatResponse;
 import com.twitterdan.facade.GeneralFacade;
 import com.twitterdan.facade.chat.ChatUserMapper;
@@ -29,21 +30,17 @@ public class PrivateChatResponseMapper extends GeneralFacade<Chat, PrivateChatRe
     if (user.equals(users.get(0))) {
       guestUser = users.get(1);
       dto.setAuthUser(chatUserMapper.convertToDto(users.get(0)));
-      dto.setGuestUser(chatUserMapper.convertToDto(guestUser));
-      dto.setTitle(guestUser.getName());
-      dto.setUserTag(guestUser.getUserTag());
-      dto.setAvatarImgUrl(guestUser.getAvatarImgUrl());
     } else {
       guestUser = users.get(0);
       dto.setAuthUser(chatUserMapper.convertToDto(users.get(1)));
-      dto.setGuestUser(chatUserMapper.convertToDto(guestUser));
-      dto.setTitle(guestUser.getName());
-      dto.setUserTag(guestUser.getUserTag());
-      dto.setAvatarImgUrl(guestUser.getAvatarImgUrl());
     }
+    dto.setGuestUser(chatUserMapper.convertToDto(guestUser));
+    dto.setTitle(guestUser.getName());
+    dto.setUserTag(guestUser.getUserTag());
+    dto.setAvatarImgUrl(guestUser.getAvatarImgUrl());
 
     if (entity.getLastMessage() != null) {
-      dto.setLastMessage(lastChatMessageMapper.convertToDto(entity.getLastMessage(), guestUser));
+      dto.setLastMessage(lastChatMessageMapper.convertToDto(entity.getLastMessage(), user));
     }
   }
 }

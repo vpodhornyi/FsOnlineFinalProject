@@ -2,6 +2,7 @@ package com.twitterdan.facade.chat.response.chat;
 
 import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.user.User;
+import com.twitterdan.dto.DtoResponseType;
 import com.twitterdan.dto.chat.ChatUser;
 import com.twitterdan.dto.chat.response.chat.GroupChatResponse;
 import com.twitterdan.facade.GeneralFacade;
@@ -24,8 +25,6 @@ public class GroupChatResponseMapper extends GeneralFacade<Chat, GroupChatRespon
 
   @Override
   protected void decorateDto(GroupChatResponse dto, Chat entity, User user) {
-    super.decorateDto(dto, entity);
-
     List<ChatUser> users = entity.getUsers().stream()
       .map(chatUserMapper::convertToDto)
       .toList();

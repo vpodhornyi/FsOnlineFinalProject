@@ -5,12 +5,12 @@ import {NavLink} from "react-router-dom";
 import MainMenuButton from "./MainMenuButton";
 import PropTypes from "prop-types";
 
-const MainMenu = ({menu}) => {
+const MainMenu = ({user, menu}) => {
   const location = useLocation();
 
   return (
     <MenuNav>
-      {menu?.map(({path, text, iconName, iconActive, modalPage}) => (
+      {menu?.map(({path, text, iconName, iconActive, isBadge, badgeContent, modalPage}) => (
         <NavLink
           key={path}
           to={path}
@@ -19,7 +19,10 @@ const MainMenu = ({menu}) => {
           {({isActive}) => (
             <MenuItem>
               <MainMenuButton
+                user={user}
                 isActive={isActive}
+                isBadge={isBadge}
+                badgeContent={badgeContent}
                 iconName={isActive ? iconActive : iconName}
                 text={text}/>
             </MenuItem>
@@ -57,6 +60,7 @@ const MenuItem = styled('div')(({theme}) => ({
 }));
 
 MainMenu.propTypes = {
+  user: PropTypes.object,
   menu: PropTypes.array,
 }
 

@@ -8,4 +8,5 @@ import lombok.Setter;
 public class LastChatMessage extends MessageResponseAbstract {
   private boolean IsMessageSeen = false;
   private boolean IsMessageOwner = false;
+  private Integer countUnreadAllChatMessages = 0;
 }

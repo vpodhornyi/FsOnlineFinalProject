@@ -16,5 +16,5 @@ public class UserResponse {
   private String bio;
   private String avatarImgUrl;
   private String headerImgUrl;
-  private List<Long> chatsIds;
+  private Integer countUnreadMessages = 0;
 }

@@ -1,5 +1,7 @@
 import {createActions} from '../../utils';
 import api, {URLS} from "@service/API";
+import {ACTIONS as CHAT_ACTIONS} from '../action';
+import {ACTIONS as USER_ACTIONS} from '../../user/action';
 
 const actions = createActions(
   {
@@ -31,10 +33,7 @@ export const getMessages = (id) => async (dispatch, getState) => {
 
 export const sendMessage = (data) => async (dispatch) => {
   try {
-    api.client.publish({
-      destination: `/app/message`,
-      body: JSON.stringify({...data}),
-    });
+    api.post(URLS.CHATS.MESSAGES, data);
     dispatch(ACTIONS.addNewMessage(data));
 
   } catch (err) {
@@ -42,12 +41,13 @@ export const sendMessage = (data) => async (dispatch) => {
   }
 }
 
-export const setSeenMessage = (data) => async dispatch => {
+export const setSeenMessage = ({body}) => async dispatch => {
   try {
-    api.client.publish({
-      destination: `/app/message/seen`,
-      body: JSON.stringify({...data}),
-    });
+    const data = await api.post(URLS.CHATS.MESSAGES_SEEN, body);
+    dispatch(ACTIONS.updateForeignerMessageSeen(data));
+    dispatch(CHAT_ACTIONS.updateCountUnreadMessages(data));
+    dispatch(USER_ACTIONS.updateCountUnreadMessages(data));
+
   } catch (err) {
     console.log('seenMessage error - ', err);
   }

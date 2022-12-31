@@ -6,4 +6,5 @@ import lombok.Data;
 public abstract class ChatRequestAbstract {
   private String message;
   private String type;
+  private String oldKey;
 }

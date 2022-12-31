@@ -1,6 +1,5 @@
 import React, {useEffect} from "react";
 import {useSelector, useDispatch} from "react-redux";
-import {useDebouncedCallback} from 'use-debounce';
 import {useInView} from 'react-intersection-observer';
 import {styled} from "@mui/material/styles";
 import {Box, Typography} from "@mui/material";
@@ -8,7 +7,7 @@ import PropTypes from "prop-types";
 
 import Action from "./Action/Action";
 import {moment} from "@utils";
-import {ACTIONS, setSeenMessage} from '@redux/chat/message/action';
+import {setSeenMessage} from '@redux/chat/message/action';
 
 const ForeignerMessage = ({message, toggleModal, onBottom}) => {
   const dispatch = useDispatch();
@@ -18,11 +17,13 @@ const ForeignerMessage = ({message, toggleModal, onBottom}) => {
   });
   const {authUser: {id: authUserId}} = useSelector(state => state.user);
   const {isMessageSeen} = message;
-  const sendSeen = useDebouncedCallback(data => dispatch(setSeenMessage(data)), 300);
+
+  const sendSeen = body => {
+    dispatch(setSeenMessage({body}));
+  }
 
   useEffect(() => {
     if (message && inView && !isMessageSeen) {
-      dispatch(ACTIONS.updateForeignerMessageSeen(message))
       sendSeen({messageId: message.id, userId: authUserId, chatId: message.chatId});
     }
   }, [inView])

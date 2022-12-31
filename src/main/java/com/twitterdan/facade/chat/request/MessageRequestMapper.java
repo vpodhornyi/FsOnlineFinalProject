@@ -2,6 +2,7 @@ package com.twitterdan.facade.chat.request;
 
 import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.chat.Message;
+import com.twitterdan.domain.chat.MessageSeen;
 import com.twitterdan.domain.user.User;
 import com.twitterdan.dto.chat.request.MessageRequest;
 import com.twitterdan.facade.GeneralFacade;
@@ -28,6 +29,7 @@ public class MessageRequestMapper extends GeneralFacade<Message, MessageRequest>
     entity.setUser(user);
     entity.setCreatedBy(user.getEmail());
     entity.setUpdatedBy(user.getEmail());
+    entity.addSeen(new MessageSeen(entity, user));
 
     Long chatId = dto.getChatId();
     Chat chat = chatService.findById(chatId);

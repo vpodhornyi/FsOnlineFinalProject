@@ -1,6 +1,6 @@
 import {PATH} from "./constants";
 
-export const menu = (userTag, authorized, isChatSelected, chatId) => {
+export const menu = (userTag, authorized, isChatSelected, countUnreadMessages, chatId) => {
 
   return authorized ? [
       {
@@ -22,9 +22,11 @@ export const menu = (userTag, authorized, isChatSelected, chatId) => {
         text: 'Notifications',
       },
       {
-        path: isChatSelected ? `${PATH.MESSAGES.ROOT}/${chatId}` : PATH.MESSAGES.ROOT,
+        path: isChatSelected ? PATH.MESSAGES.chat(chatId) : PATH.MESSAGES.ROOT,
         iconName: "MailOutlineOutlined",
         iconActive: "Mail",
+        isBadge: true,
+        badgeContent: countUnreadMessages,
         text: 'Messages',
       },
       {

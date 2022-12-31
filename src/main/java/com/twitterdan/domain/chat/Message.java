@@ -6,6 +6,7 @@ import com.twitterdan.domain.user.User;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,10 +18,23 @@ import java.util.Optional;
 @AllArgsConstructor
 public class Message extends BaseEntity {
 
-  private String text;
+  public Message(String text, Chat chat, User user) {
+    String email = user.getEmail();
+    this.setCreatedBy(email);
+    this.setUpdatedBy(email);
+    this.addSeen(new MessageSeen(this, user));
+    this.text = text;
+    this.chat = chat;
+    this.user = user;
+  }
 
+  private String text;
   @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "message")
-  private List<MessageSeen> seen;
+  private List<MessageSeen> seen = new ArrayList<>();
+
+  public void addSeen(MessageSeen messageSeen) {
+    seen.add(messageSeen);
+  }
 
   @ManyToOne
   @JsonIgnore

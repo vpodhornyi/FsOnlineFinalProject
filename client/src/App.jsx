@@ -14,20 +14,28 @@ import {getChatsData} from '@redux/chat/selector';
 
 const App = () => {
   const {authorized} = useSelector(state => state.auth);
-  const {authUser: {userTag}, preloader} = useSelector(state => state.user);
+  const {authUser, preloader} = useSelector(state => state.user);
   const {isChatSelected, chatId} = useSelector(getChatsData);
   const location = useLocation();
   const background = location.state?.background;
+  const mainMenu = menu(authUser.userTag, authorized, isChatSelected, authUser.countUnreadMessages, chatId)
 
   return (preloader ? <Preloader/> :
       <BackgroundContext.Provider value={{background}}>
         <RootContainer>
           <Header>
-            <NavBar menu={menu(userTag, authorized, isChatSelected, chatId)} authorized={authorized}/>
+            <NavBar
+              user={authUser}
+              menu={mainMenu}
+              authorized={authorized}/>
           </Header>
           <Main>
             <MainContainer>
-              <MainRoutes authorized={authorized} userTag={userTag} background={background} location={location}/>
+              <MainRoutes
+                authorized={authorized}
+                userTag={authUser.userTag}
+                background={background}
+                location={location}/>
             </MainContainer>
           </Main>
           {!authorized && <LoginPanel/>}

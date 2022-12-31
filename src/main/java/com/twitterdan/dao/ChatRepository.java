@@ -28,13 +28,25 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
     , nativeQuery = true)
   Optional<Page<Chat>> findByUsersId(@Param("userId") Long userId, Pageable pageable);
 
-  Optional<List<Chat>> findAllByUsersId(Long userId);
-
-  @Query("Select c from Chat c join c.users u where c.type = ?1 and u.id = ?2 or u.id = ?3 group by c having count(c) = 2")
-  Optional<Chat> findPrivateChatByUsersIds(ChatType type, Long authUserId, Long guestUserId);
+  @Query(value =
+    " select * from (select * from chats c " +
+      " join chats_users cu on c.id = cu.chats_id" +
+      " where c.type = :type and cu.users_id = :authUserId) a " +
+      " where id in (select c.id from chats c " +
+      " join chats_users cu on c.id = cu.chats_id " +
+      " where c.type = :type and cu.users_id = :guestUserId)"
+    , nativeQuery = true)
+  Optional<Chat> findPrivateChatByUsersIds(String type, Long authUserId, Long guestUserId);
 }
 
 /*
+select * from (select * from chats c
+       join chats_users cu on c.id = cu.chats_id
+       where c.type = 'PRIVATE' and cu.users_id = 1) a
+       where id in (select c.id from chats c
+       join chats_users cu on c.id = cu.chats_id
+       where c.type =  'PRIVATE'  and cu.users_id = 4);
+
 select c.id, u.id, m.text, m.created_at
 from chats c
          left join messages m on c.id = m.chat_id

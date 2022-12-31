@@ -18,16 +18,18 @@ export default (state = init, {payload, type}) => {
         ...state,
         pageNumber: payload.pageNumber,
       };
-    case String(ACTIONS.setNewChat):
-      state.chats = [payload.entity, ...state.chats]
+    case String(ACTIONS.addNewChat):
+      const find = state.chats.find(ch => ch.userTag === payload.userTag);
+      if (!find) {
+        state.chats = [payload, ...state.chats];
+      }
       return {...state};
-    case String(ACTIONS.addNewChat): {
-      const {oldKey, chatData} = payload;
-      if (oldKey) {
-        const index = state.chats.findIndex(v => v.key === oldKey);
-        state.chats[index] = chatData;
+    case String(ACTIONS.updateNewChat): {
+      if (payload.oldKey) {
+        const index = state.chats.findIndex(v => v.key === payload.oldKey);
+        state.chats[index] = payload;
       } else {
-        state.chats.unshift(chatData);
+        state.chats.unshift(payload);
       }
     }
       return {...state};
@@ -71,14 +73,23 @@ export default (state = init, {payload, type}) => {
         loading: false,
       };
     case String(ACTIONS.setLastChatAction):
-      const {actionData} = payload;
-      const existChat = state.chats.find(ch => ch.id === actionData.chatId);
+      const existChat = state.chats.find(ch => ch.id === payload.chatId);
       if (existChat) {
-        existChat.lastMessage = actionData;
+        existChat.lastMessage = payload;
         state.chats.sort((a, b) => {
           return !!a.lastMessage && !!b.lastMessage ? new Date(b.lastMessage.createdAt) - new Date(a.lastMessage.createdAt) : 0
         })
       }
+      return {
+        ...state,
+      };
+    case String(ACTIONS.updateCountUnreadMessages): {
+      const {chatId, countUnreadSelectedChatMessages} = payload;
+      const existChat = state.chats.find(ch => ch.id === chatId);
+      if (existChat) {
+        existChat.lastMessage.countUnreadMessages = countUnreadSelectedChatMessages;
+      }
+    }
       return {
         ...state,
       };

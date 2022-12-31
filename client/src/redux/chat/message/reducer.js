@@ -63,7 +63,7 @@ export default (state = init, {payload, type}) => {
     }
     case String(ACTIONS.updateForeignerMessageSeen): {
       if (state.messages.length) {
-        const find = state.messages.find(m => m.id === payload.id);
+        const find = state.messages.find(m => m.id === payload.messageId);
         if (find) {
           find.isMessageSeen = true;
         }
