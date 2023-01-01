@@ -97,6 +97,7 @@ const Element = ({isGroup, isAdd}) => {
         entity.users = grabbedUsers;
         entity.authUserId = authUser.id;
         dispatch(ACTIONS.addNewGroupChat(entity));
+        dispatch(ACTIONS.setChatId({chatId: id}));
         navigate(PATH.MESSAGES.chat(id));
       }
     }

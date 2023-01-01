@@ -2,12 +2,14 @@ import React, {useEffect} from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {useInView} from 'react-intersection-observer';
 import {styled} from "@mui/material/styles";
-import {Box, Typography} from "@mui/material";
+import {Link} from "react-router-dom";
+import {Avatar, Box, Typography} from "@mui/material";
 import PropTypes from "prop-types";
 
 import Action from "./Action/Action";
 import {moment} from "@utils";
 import {setSeenMessage} from '@redux/chat/message/action';
+import {PATH} from "@utils/constants";
 
 const ForeignerMessage = ({message, toggleModal}) => {
   const dispatch = useDispatch();
@@ -31,6 +33,11 @@ const ForeignerMessage = ({message, toggleModal}) => {
   return (
     <BoxWrapper>
       <MessageBox ref={ref}>
+        {message.isGroupChat &&
+          <Link to={`${PATH.userProfile(message.user.id)}`}>
+            <Avatar sx={{mr: '10px', width: '2.7rem', height: '2.7rem'}} src={message.user.avatarImgUrl}/>
+          </Link>
+        }
         <MessageTextBox>
           <Typography>{message.text}</Typography>
         </MessageTextBox>

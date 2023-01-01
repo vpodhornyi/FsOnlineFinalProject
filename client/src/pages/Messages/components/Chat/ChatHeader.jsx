@@ -2,7 +2,7 @@ import React from "react";
 import {useNavigate, Link} from "react-router-dom";
 import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import {Avatar, Typography} from "@mui/material";
+import {Avatar, Typography, AvatarGroup} from "@mui/material";
 import CustomIconButton from "@components/buttons/CustomIconButton";
 import {StickyHeader} from '../../../../components';
 import PropTypes from "prop-types";
@@ -21,17 +21,24 @@ const ChatHeader = ({chat}) => {
           <CustomIconButton name='ArrowBackOutlined' title='Back'/>
         </Box>
         {
-          chat?.isGroup ?
-            <Link to={`${PATH.MESSAGES.participants(chat?.id)}`}>
-              <Avatar sx={{mr: '10px', width: '2.5rem', height: '2.5rem'}} src={chat?.avatarImgUrl}/>
-            </Link>
-            :
-            <Link to={`${PATH.userProfile(chat?.guestUser?.userTag)}`}>
-              <Avatar sx={{mr: '10px', width: '2.5rem', height: '2.5rem'}} src={chat?.avatarImgUrl}/>
-            </Link>
+          chat.isGroup &&
+          <Link to={`${PATH.MESSAGES.participants(chat?.id)}`}>
+            <AvatarGroup max={5}>
+              {
+                chat.users.map(user => {
+                  return <Avatar key={user.key} src={user.avatarImgUrl}/>
+                })
+              }
+            </AvatarGroup>
+          </Link>
         }
-
-        <Typography variant='h2'>{chat?.title}</Typography>
+        {
+          chat.isPrivate &&
+          <Link to={`${PATH.userProfile(chat?.guestUser?.userTag)}`}>
+            <Avatar sx={{mr: '10px', width: '2.5rem', height: '2.5rem'}} src={chat?.avatarImgUrl}/>
+          </Link>
+        }
+        <Typography sx={{ml: 2}} variant='h2'>{chat?.title}</Typography>
       </Box>
       <Box onClick={() => navigate(PATH.MESSAGES.chatInfo(chat?.id))}>
         <CustomIconButton name='InfoOutlined' title='Details'/>
@@ -40,6 +47,12 @@ const ChatHeader = ({chat}) => {
 }
 
 const StyledStickyHeader = styled(StickyHeader)(({theme}) => ({
+  '& .MuiAvatar-root': {
+    border: '2px solid #ffffff',
+    width: '2.5rem',
+    height: '2.5rem'
+  },
+
   padding: '6px 15px',
   '.avatarWrapper': {
     [theme.breakpoints.up('sm')]: {
