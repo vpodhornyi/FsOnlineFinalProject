@@ -28,7 +28,7 @@ export default (state = INIT_STATE, {payload, type}) => {
       }
     case String(ACTIONS.updateCountUnreadMessages):
       const {countUnreadAllChatMessages} = payload;
-      if (countUnreadAllChatMessages) {
+      if (countUnreadAllChatMessages || countUnreadAllChatMessages === 0) {
         state.authUser.countUnreadMessages = countUnreadAllChatMessages;
       }
       return {

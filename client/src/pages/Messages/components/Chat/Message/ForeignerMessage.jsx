@@ -9,7 +9,7 @@ import Action from "./Action/Action";
 import {moment} from "@utils";
 import {setSeenMessage} from '@redux/chat/message/action';
 
-const ForeignerMessage = ({message, toggleModal, onBottom}) => {
+const ForeignerMessage = ({message, toggleModal}) => {
   const dispatch = useDispatch();
   const {ref, inView} = useInView({
     threshold: 1.0,
@@ -91,6 +91,5 @@ const TimeBox = styled(Box)(({theme}) => ({
 ForeignerMessage.propTypes = {
   message: PropTypes.object,
   toggleModal: PropTypes.func,
-  onBottom: PropTypes.func,
 }
 export default ForeignerMessage;
