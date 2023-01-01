@@ -22,7 +22,6 @@ public class Message extends BaseEntity {
     String email = user.getEmail();
     this.setCreatedBy(email);
     this.setUpdatedBy(email);
-    this.addSeen(new MessageSeen(this, user));
     this.text = text;
     this.chat = chat;
     this.user = user;

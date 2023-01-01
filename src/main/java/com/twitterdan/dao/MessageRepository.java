@@ -18,7 +18,7 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
     " SELECT M1 - M2" +
       " from (select count(m.id) M1" +
       " from messages m" +
-      " where chat_id = :chatId) a," +
+      " where chat_id = :chatId and user_id != :userId) a," +
       " (select count(m.id) M2 from messages m" +
       " join messages_seen ms on m.id = ms.message_id" +
       " where chat_id = :chatId and ms.user_id = :userId) b"
@@ -31,7 +31,7 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
       " join chats c on c.id = m.chat_id" +
       " join chats_users cu on c.id = cu.chats_id" +
       " join users u on u.id = cu.users_id" +
-      " where u.id = :userId) a," +
+      " where u.id = :userId and m.user_id != :userId) a," +
       " (select count(m.id) M2 from messages m" +
       " join messages_seen ms on m.id = ms.message_id" +
       " join chats c on c.id = m.chat_id" +
