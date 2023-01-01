@@ -6,7 +6,7 @@ const actions = createActions(
   {
     actions: [
       'SET_CHAT_ID', 'RESET_CHAT_ID', 'SET_MESSAGE', 'SET_PAGE_NUMBER', 'SET_LAST_CHAT_ACTION',
-      'SET_NEW_CHAT', 'ADD_NEW_CHAT', 'UPDATE_NEW_CHAT', 'SET_NEW_GROUP', 'ADD_EXIST_CHAT', 'RESET_DATA',
+      'SET_NEW_CHAT', 'ADD_NEW_PRIVATE_CHAT', 'ADD_NEW_GROUP_CHAT', 'UPDATE_NEW_CHAT', 'SET_NEW_GROUP', 'ADD_EXIST_CHAT', 'RESET_DATA',
       'UPDATE_COUNT_UNREAD_MESSAGES'
     ],
     async: ['GET_CHATS', 'SEND_MESSAGE'],
@@ -60,7 +60,8 @@ export const addNewPrivateChat = (chat) => async dispatch => {
       oldKey: chat.key,
     }
     const data =  await api.post(URLS.CHATS.PRIVATE, body);
-    dispatch(ACTIONS.addNewChat(data));
+    dispatch(ACTIONS.updateNewChat(data));
+    console.log(data);
     return data.id;
 
   } catch (err) {
@@ -81,7 +82,7 @@ export const addNewGroupChat = (chat) => async dispatch => {
       usersIds,
     }
     const data = await api.post(URLS.CHATS.GROUP, body);
-    dispatch(ACTIONS.addNewChat(data));
+    dispatch(ACTIONS.updateNewChat(data));
     return data.id;
 
   } catch (err) {

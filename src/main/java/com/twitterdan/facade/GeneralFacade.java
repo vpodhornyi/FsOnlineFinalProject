@@ -25,6 +25,14 @@ public class GeneralFacade<E, D> {
     return entity;
   }
 
+  public E convertToEntity(final D dto, User user) {
+    final E entity = modelMapper.map(dto, entityClass);
+
+    decorateEntity(entity, dto, user);
+
+    return entity;
+  }
+
   public D convertToDto(final E entity) {
     final D dto = modelMapper.map(entity, dtoClass);
 
@@ -45,11 +53,15 @@ public class GeneralFacade<E, D> {
 
   }
 
+  protected void decorateEntity(final E entity, final D dto, final User user) {
+
+  }
+
   protected void decorateDto(final D dto, final E entity) {
 
   }
 
-  protected void decorateDto(final D dto, final E entity, User user) {
+  protected void decorateDto(final D dto, final E entity, final User user) {
 
   }
 }

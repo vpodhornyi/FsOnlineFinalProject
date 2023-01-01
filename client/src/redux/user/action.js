@@ -38,6 +38,7 @@ export const authUserSocketSubscribe = () => (dispatch, getState) => {
     const {user: {authUser}} = getState();
     api.client.subscribe(`/queue/user.${authUser.id}`, (data) => {
       const {body} = JSON.parse(data.body);
+
       switch (body.type) {
         case 'MESSAGE':
           dispatch(MESSAGE_ACTIONS.updateOrAddNewMessage(body));
@@ -47,8 +48,12 @@ export const authUserSocketSubscribe = () => (dispatch, getState) => {
         case 'MESSAGE_OWNER_SEEN':
           dispatch(MESSAGE_ACTIONS.updateMessageOwnerSeen(body));
           break;
-        case 'CHAT':
-          dispatch(CHAT_ACTIONS.addNewChat(body));
+        case 'PRIVATE_CHAT':
+          dispatch(CHAT_ACTIONS.addNewPrivateChat(body));
+          dispatch(ACTIONS.updateCountUnreadMessages(body.lastMessage));
+          break;
+        case 'GROUP_CHAT':
+          dispatch(CHAT_ACTIONS.addNewGroupChat(body));
           dispatch(ACTIONS.updateCountUnreadMessages(body.lastMessage));
           break;
         default:

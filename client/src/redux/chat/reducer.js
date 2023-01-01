@@ -18,11 +18,16 @@ export default (state = init, {payload, type}) => {
         ...state,
         pageNumber: payload.pageNumber,
       };
-    case String(ACTIONS.addNewChat):
+    case String(ACTIONS.addNewPrivateChat): {
       const find = state.chats.find(ch => ch.userTag === payload.userTag);
       if (!find) {
         state.chats = [payload, ...state.chats];
       }
+    }
+      return {...state};
+    case String(ACTIONS.addNewGroupChat): {
+      state.chats = [payload, ...state.chats];
+    }
       return {...state};
     case String(ACTIONS.updateNewChat): {
       if (payload.oldKey) {

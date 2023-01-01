@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 
 
 import StartMessage from "./StartMessage";
+import {useModal} from "../../../../hooks/useModal";
 import UserInfo from "./UserInfo";
 import ScrollDownButton from "./ScrollDownButton";
 import {CircularLoader, ModalWindow} from "../../../../components";
@@ -22,18 +23,6 @@ import MessageOwner from "./Message/MessageOwner";
 import ForeignerMessage from "./Message/ForeignerMessage";
 
 
-const useModal = () => {
-  const [isShowing, setIsShowing] = useState(false);
-
-  function toggle() {
-    setIsShowing(!isShowing);
-  }
-
-  return {
-    isShowing,
-    toggle,
-  }
-};
 const ChatBody = ({chatId}) => {
   const {isShowing, toggle} = useModal();
   const {NEW_PRIVATE, NEW_GROUP} = CHAT_TYPE;
@@ -171,7 +160,7 @@ const ChatBody = ({chatId}) => {
       </Box>
       <Box sx={{position: 'relative'}}>
         <Box onClick={onBottom}>
-          {visible && <ScrollDownButton visible={visible}/>}
+          <ScrollDownButton visible={visible}/>
         </Box>
         <StartMessage
           inputRef={inputRef}

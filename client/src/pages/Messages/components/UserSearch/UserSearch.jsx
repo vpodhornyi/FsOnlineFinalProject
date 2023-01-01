@@ -84,7 +84,7 @@ const Element = ({isGroup, isAdd}) => {
           entity.title = guestUser.name;
           entity.userTag = guestUser.userTag;
           entity.avatarImgUrl = guestUser.avatarImgUrl;
-          dispatch(ACTIONS.addNewChat(entity));
+          dispatch(ACTIONS.addNewPrivateChat(entity));
           dispatch(ACTIONS.setChatId({chatId: id}));
           navigate(PATH.MESSAGES.chat(id));
 
@@ -96,7 +96,7 @@ const Element = ({isGroup, isAdd}) => {
         entity.title = 'New group';
         entity.users = grabbedUsers;
         entity.authUserId = authUser.id;
-        dispatch(ACTIONS.setNewChat({entity}));
+        dispatch(ACTIONS.addNewGroupChat(entity));
         navigate(PATH.MESSAGES.chat(id));
       }
     }

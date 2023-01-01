@@ -3,13 +3,19 @@ import {styled} from "@mui/material/styles";
 import {Box} from "@mui/material";
 import IconByName from "@components/icons/IconByName";
 import PropTypes from "prop-types";
+import {useSelector} from "react-redux";
+import {getChatsData} from "@redux/chat/selector";
 
 const ScrollDownButton = ({visible}) => {
+  const {countUnreadMessages} = useSelector(getChatsData);
 
-  return (
+  return visible || countUnreadMessages ? (
     <BoxWrapper className='ScrollDownButton'>
+      <Box sx={{position: 'relative'}}>
+
+      </Box>
       <IconByName color='primary' iconName='ArrowDownwardOutlined'/>
-    </BoxWrapper>);
+    </BoxWrapper>) : null;
 }
 
 const styles = ({theme}) => ({

@@ -103,12 +103,12 @@ public class ChatController {
 
   @PostMapping("/group")
   public ResponseEntity<GroupChatResponse> addGroupChat(@RequestBody GroupChatRequest groupChatRequest) {
-    Chat chat = groupChatRequestMapper.convertToEntity(groupChatRequest);
-    Chat savedChat = chatService.saveGroupChat(chat);
     Long authUserId = groupChatRequest.getAuthUserId();
+    User authUser = userService.findById(authUserId);
     String oldKey = groupChatRequest.getOldKey();
     String text = groupChatRequest.getMessage();
-    User authUser = userService.findById(authUserId);
+    Chat chat = groupChatRequestMapper.convertToEntity(groupChatRequest, authUser);
+    Chat savedChat = chatService.saveGroupChat(chat);
     Message message = messageService.save(new Message(text, savedChat, authUser));
     savedChat.setLastMessage(message);
 

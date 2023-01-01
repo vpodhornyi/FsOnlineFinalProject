@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 public class GroupChatResponse extends ChatResponseAbstract {
+  private final DtoResponseType type = DtoResponseType.GROUP_CHAT;
   private List<ChatUser> users;
   private final boolean IsGroup = true;
 }
