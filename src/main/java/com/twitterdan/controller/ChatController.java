@@ -1,20 +1,20 @@
 package com.twitterdan.controller;
 
-import com.twitterdan.domain.chat.Chat;
-import com.twitterdan.domain.chat.ChatType;
-import com.twitterdan.domain.chat.Message;
-import com.twitterdan.domain.chat.MessageSeen;
+import com.twitterdan.domain.chat.*;
 import com.twitterdan.domain.user.User;
 import com.twitterdan.dto.chat.request.GroupChatRequest;
 import com.twitterdan.dto.chat.request.MessageSeenRequest;
 import com.twitterdan.dto.chat.request.PrivateChatRequest;
 import com.twitterdan.dto.chat.response.chat.ChatResponseAbstract;
 import com.twitterdan.dto.chat.request.MessageRequest;
+import com.twitterdan.dto.chat.request.DeleteMessageRequest;
 import com.twitterdan.dto.chat.response.chat.GroupChatResponse;
 import com.twitterdan.dto.chat.response.chat.PrivateChatResponse;
+import com.twitterdan.dto.chat.response.message.DeletedMessage;
 import com.twitterdan.dto.chat.response.message.MessageResponseAbstract;
 import com.twitterdan.dto.chat.response.seen.ForeignerMessageSeenResponse;
 import com.twitterdan.facade.chat.request.MessageRequestMapper;
+import com.twitterdan.facade.chat.response.DeletedMessageMapper;
 import com.twitterdan.facade.chat.response.chat.GroupChatResponseMapper;
 import com.twitterdan.facade.chat.response.chat.PrivateChatResponseMapper;
 import com.twitterdan.facade.chat.response.message.*;
@@ -54,6 +54,7 @@ public class ChatController {
   private final MessageOwnerSeenResponseMapper messageOwnerSeenResponseMapper;
   private final ForeignerMessageSeenResponseMapper foreignerMessageSeenResponseMapper;
   private final MessageSeenRequestMapper messageSeenRequestMapper;
+  private final DeletedMessageMapper deletedMessageMapper;
 
   @GetMapping
   public ResponseEntity<List<ChatResponseAbstract>> getChats(
@@ -129,7 +130,7 @@ public class ChatController {
   @GetMapping("/messages")
   public ResponseEntity<List<MessageResponseAbstract>> getMessages(@RequestParam Long chatId, @RequestParam Long authUserId) {
     User user = userService.findById(authUserId);
-    List<Message> messages = messageService.findByChatId(chatId);
+    List<Message> messages = messageService.findByChatId(chatId, authUserId);
     List<MessageResponseAbstract> messageResponses = messages.stream()
       .map(message -> {
         ChatType type = message.getChat().getType();
@@ -154,33 +155,67 @@ public class ChatController {
   }
 
   @PostMapping("/messages")
-  public void saveNewMessage(@RequestBody MessageRequest messageRequest) {
+  public ResponseEntity<MessageResponseAbstract> saveNewMessage(@RequestBody MessageRequest messageRequest) {
     String oldKey = messageRequest.getKey();
+    User authUser = userService.findById(messageRequest.getUserId());
     Message message = messageRequestMapper.convertToEntity(messageRequest);
     Message savedMessage = messageService.save(message);
     ChatType type = savedMessage.getChat().getType();
     List<User> users = chatService.findById(messageRequest.getChatId()).getUsers();
 
-    users.forEach(user -> {
-      MessageResponseAbstract responseAbstract;
+    users.stream()
+      .filter(u -> !u.equals(authUser))
+      .forEach(user -> {
+        MessageResponseAbstract responseAbstract;
 
-      if (type.equals(ChatType.PRIVATE)) {
-        if (user.equals(savedMessage.getUser())) {
-          responseAbstract = privateMessageOwnerResponseMapper.convertToDto(savedMessage, user);
+        if (type.equals(ChatType.PRIVATE)) {
+          if (user.equals(savedMessage.getUser())) {
+            responseAbstract = privateMessageOwnerResponseMapper.convertToDto(savedMessage, user);
+          } else {
+            responseAbstract = privateForeignerMessageResponseMapper.convertToDto(savedMessage, user);
+          }
         } else {
-          responseAbstract = privateForeignerMessageResponseMapper.convertToDto(savedMessage, user);
+          if (user.equals(savedMessage.getUser())) {
+            responseAbstract = groupMessageOwnerResponseMapper.convertToDto(savedMessage, user);
+          } else {
+            responseAbstract = groupForeignerMessageResponseMapper.convertToDto(savedMessage, user);
+          }
         }
-      } else {
-        if (user.equals(savedMessage.getUser())) {
-          responseAbstract = groupMessageOwnerResponseMapper.convertToDto(savedMessage, user);
-        } else {
-          responseAbstract = groupForeignerMessageResponseMapper.convertToDto(savedMessage, user);
-        }
-      }
-      responseAbstract.setOldKey(oldKey);
-      simpMessagingTemplate.convertAndSend(queue + user.getId(),
-        ResponseEntity.ok(responseAbstract));
-    });
+        responseAbstract.setOldKey(oldKey);
+        simpMessagingTemplate.convertAndSend(queue + user.getId(),
+          ResponseEntity.ok(responseAbstract));
+      });
+
+    MessageResponseAbstract responseAbstract;
+
+    if (type.equals(ChatType.PRIVATE)) {
+      responseAbstract = privateMessageOwnerResponseMapper.convertToDto(savedMessage, authUser);
+    } else {
+      responseAbstract = groupMessageOwnerResponseMapper.convertToDto(savedMessage, authUser);
+    }
+    responseAbstract.setOldKey(oldKey);
+
+    return ResponseEntity.ok(responseAbstract);
+  }
+
+  @DeleteMapping("/messages")
+  public ResponseEntity<DeletedMessage> deleteMessage(@RequestBody DeleteMessageRequest deleteMessageRequest) {
+    System.out.println(deleteMessageRequest);
+    Message message = messageService.findById(deleteMessageRequest.getMessageId());
+    User user = userService.findById(deleteMessageRequest.getUserId());
+
+    if (deleteMessageRequest.isDeleteForYou()) {
+      Message updatedMessage = messageService.deleteMessageForAuthUser(message, user);
+      return ResponseEntity.ok(deletedMessageMapper.convertToDto(updatedMessage));
+    }
+
+    List<User> users = message.getChat().getUsers();
+    DeletedMessage deletedMessage;
+
+    if (deleteMessageRequest.isDeleteForAll()) {
+
+    }
+    return ResponseEntity.ok(null);
   }
 
   @PostMapping("/messages/seen")

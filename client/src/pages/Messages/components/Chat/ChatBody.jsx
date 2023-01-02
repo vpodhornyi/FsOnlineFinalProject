@@ -105,7 +105,7 @@ const ChatBody = ({chatId}) => {
       }
 
       if (selectedChat.isGroup || type === NEW_GROUP) {
-        newMessage.isGroup = true
+        newMessage.isGroupChat = true
         newMessage.messagesSeen = [];
       }
 

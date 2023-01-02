@@ -4,6 +4,7 @@ import com.twitterdan.dao.MessageRepository;
 import com.twitterdan.dao.MessageSeenRepository;
 import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.chat.Message;
+import com.twitterdan.domain.chat.MessageDeleted;
 import com.twitterdan.domain.chat.MessageSeen;
 import com.twitterdan.domain.user.User;
 import com.twitterdan.exception.CouldNotFindMessageException;
@@ -29,8 +30,8 @@ public class MessageService {
     return messageRepository.findAll();
   }
 
-  public List<Message> findByChatId(Long id) {
-    Optional<List<Message>> optionalMessages = messageRepository.findByChatId(id);
+  public List<Message> findByChatId(Long chatId, Long userId) {
+    Optional<List<Message>> optionalMessages = messageRepository.findByChatId(chatId, userId);
     return optionalMessages.orElseGet(ArrayList::new);
   }
 
@@ -68,5 +69,14 @@ public class MessageService {
     }
 
     throw new MessageAlreadySeen(false);
+  }
+
+  public Message deleteMessageForAuthUser(Message message, User user) {
+    message.addDeleted(new MessageDeleted(message, user));
+    return messageRepository.save(message);
+  }
+
+  public Message deleteMessageForAll(Message message) {
+    return null;
   }
 }

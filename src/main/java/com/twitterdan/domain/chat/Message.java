@@ -31,8 +31,14 @@ public class Message extends BaseEntity {
   @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "message")
   private List<MessageSeen> seen = new ArrayList<>();
 
+  @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "message")
+  private List<MessageDeleted> deleted = new ArrayList<>();
+
   public void addSeen(MessageSeen messageSeen) {
     seen.add(messageSeen);
+  }
+  public void addDeleted(MessageDeleted messageDeleted) {
+    deleted.add(messageDeleted);
   }
 
   @ManyToOne

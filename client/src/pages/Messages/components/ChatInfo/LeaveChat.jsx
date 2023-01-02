@@ -7,10 +7,10 @@ import LeaveChatConfirm from "../confirms/LeaveChatConfirm";
 import {ModalWindow} from "../../../../components";
 
 const LeaveChat = () => {
-  const {isShowing, toggle} = useModal();
+  const {modal, toggleModal} = useModal();
 
   return (
-    <Box onClick={() => toggle()}>
+    <Box onClick={() => toggleModal(<LeaveChatConfirm toggleModal={toggleModal}/>, true)}>
       <Action style={{
         color: 'rgb(244, 33, 46)',
         '&:hover': {
@@ -19,9 +19,10 @@ const LeaveChat = () => {
       }}
               name={`Leave conversation`}/>
       <ModalWindow
-        isShowing={isShowing}
-        toggleModal={toggle}
-        element={<LeaveChatConfirm toggleModal={toggle}/>}/>
+        isShowing={modal.isShowing}
+        toggleModal={toggleModal}
+        element={modal.element}
+      />
     </Box>);
 }
 

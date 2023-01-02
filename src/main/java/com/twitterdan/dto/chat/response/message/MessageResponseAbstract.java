@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 public abstract class MessageResponseAbstract {
   private Long id;
-  private DtoResponseType type = DtoResponseType.MESSAGE;
+  private DtoResponseType type = DtoResponseType.MESSAGE_ADD;
   private String oldKey;
   private String key;
   private String text;

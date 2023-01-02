@@ -10,7 +10,7 @@ const Seen = ({message}) => {
   const groupText = ln => {
     switch (ln) {
       case 0:
-        return 'Nobody seen';
+        return 'Sent';
       case 1:
         return 'Seen by 1 person';
       default:
@@ -30,7 +30,7 @@ const Seen = ({message}) => {
       {
         isGroupChat && <BoxWrapper>
           <Dot/>
-          <TypographyWrapper variant='body3'>{groupText(messagesSeen.length)}</TypographyWrapper>
+          <TypographyWrapper variant='body3'>{sending ? text : groupText(messagesSeen.length)}</TypographyWrapper>
         </BoxWrapper>
       }
     </>);

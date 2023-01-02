@@ -7,7 +7,8 @@ const actions = createActions(
   {
     actions: [
       'SET_MESSAGES', 'ADD_PREVIOUS_MESSAGES', 'ADD_NEW_MESSAGE', 'UPDATE_OR_ADD_NEW_MESSAGE',
-      'RESET_MESSAGES', 'UPDATE_MESSAGE_OWNER_SEEN', 'UPDATE_FOREIGNER_MESSAGE_SEEN', 'RESET_DATA'
+      'RESET_MESSAGES', 'UPDATE_MESSAGE_OWNER_SEEN', 'UPDATE_FOREIGNER_MESSAGE_SEEN', 'RESET_DATA',
+      'DELETE_MESSAGE'
     ],
   },
   {
@@ -31,13 +32,28 @@ export const getMessages = (id) => async (dispatch, getState) => {
   }
 }
 
-export const sendMessage = (data) => async (dispatch) => {
+export const sendMessage = (body) => async (dispatch) => {
   try {
-    api.post(URLS.CHATS.MESSAGES, data);
-    dispatch(ACTIONS.addNewMessage(data));
+    dispatch(ACTIONS.addNewMessage(body));
+    const data = await api.post(URLS.CHATS.MESSAGES, body);
+    dispatch(ACTIONS.updateOrAddNewMessage(data));
 
   } catch (err) {
     console.log('sendMessage error - ', err);
+  }
+}
+
+export const deleteMessage = (body) => async (dispatch, getState) => {
+  try {
+    const {user: {authUser}} = getState();
+    body.userId = authUser.id;
+    console.log(body);
+    const data = await api.delete(URLS.CHATS.MESSAGES, {data: body});
+    console.log(data);
+    dispatch(ACTIONS.deleteMessage(data));
+
+  } catch (err) {
+    console.log('deleteMessage error - ', err);
   }
 }
 

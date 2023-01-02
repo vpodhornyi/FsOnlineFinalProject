@@ -1,12 +1,20 @@
 import React from "react";
+import {useDispatch} from "react-redux";
 import PropTypes from "prop-types";
 
 import {Confirm} from '@components';
+import {deleteMessage} from "@redux/chat/message/action";
 
-const DeleteForYouMessageConfirm = ({toggleModal}) => {
+const DeleteForYouMessageConfirm = ({toggleModal, message}) => {
+  const dispatch = useDispatch();
+
   const confirm = () => {
-    console.log('delete');
-    toggleModal(null);
+    const body = {
+      messageId: message.id,
+      deleteForYou: true,
+    }
+    dispatch(deleteMessage(body))
+    toggleModal();
   }
 
   return <Confirm
@@ -22,5 +30,6 @@ const DeleteForYouMessageConfirm = ({toggleModal}) => {
 
 DeleteForYouMessageConfirm.propTypes = {
   toggleModal: PropTypes.func,
+  message: PropTypes.object,
 }
 export default DeleteForYouMessageConfirm;

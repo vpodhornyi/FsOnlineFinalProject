@@ -72,6 +72,15 @@ export default (state = init, {payload, type}) => {
       return {
         ...state,
       };
+    case String(ACTIONS.deleteMessage): {
+      const index = state.messages.findIndex(m => m.id === payload.messageId);
+      if (index !== -1) {
+        state.messages.splice(index, 1);
+      }
+    }
+      return {
+        ...state,
+      };
     case String(ACTIONS.resetMessages):
       return {
         ...state,

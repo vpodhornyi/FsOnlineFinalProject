@@ -11,7 +11,13 @@ import java.util.Optional;
 
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Long> {
-  Optional<List<Message>> findByChatId(Long id);
+//  @Query("select m from Message m left join m.deleted md where m.chat.id = :id and md.id is null")
+@Query(value =
+  " SELECT * from messages m" +
+    " left join messages_deleted md on m.id = md.message_id" +
+    " where m.chat_id = :chatId and (md.user_id != :userId or md.user_id is null)"
+  , nativeQuery = true)
+  Optional<List<Message>> findByChatId(Long chatId, Long userId);
   Optional<Message> findFirstByChatIdOrderByCreatedAtDesc(Long id);
 
   @Query(value =

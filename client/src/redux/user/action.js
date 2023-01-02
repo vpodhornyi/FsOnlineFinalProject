@@ -40,7 +40,7 @@ export const authUserSocketSubscribe = () => (dispatch, getState) => {
       const {body} = JSON.parse(data.body);
 
       switch (body.type) {
-        case 'MESSAGE':
+        case 'MESSAGE_ADD':
           dispatch(MESSAGE_ACTIONS.updateOrAddNewMessage(body));
           dispatch(CHAT_ACTIONS.setLastChatAction(body));
           dispatch(ACTIONS.updateCountUnreadMessages(body));

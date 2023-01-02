@@ -1,11 +1,19 @@
 import React from "react";
+import {useDispatch} from "react-redux";
 import PropTypes from "prop-types";
 
 import {Confirm} from '@components';
+import {deleteMessage} from "@redux/chat/message/action";
 
-const DeleteForAllMessageConfirm = ({toggleModal, params}) => {
+const DeleteForAllMessageConfirm = ({toggleModal, message}) => {
+  const dispatch = useDispatch();
+
   const confirm = () => {
-    console.log('delete for all');
+    const body = {
+      messageId: message.id,
+      deleteForAll: true,
+    }
+    dispatch(deleteMessage(body))
     toggleModal();
   }
 
@@ -21,6 +29,6 @@ const DeleteForAllMessageConfirm = ({toggleModal, params}) => {
 
 DeleteForAllMessageConfirm.propTypes = {
   toggleModal: PropTypes.func,
-  params: PropTypes.object,
+  message: PropTypes.object,
 }
 export default DeleteForAllMessageConfirm;

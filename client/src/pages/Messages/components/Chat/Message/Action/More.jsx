@@ -19,12 +19,12 @@ const More = ({toggleModal, message}) => {
   };
 
   const deleteForYou = () => {
-    toggleModal(<DeleteForYouMessageConfirm toggleModal={toggleModal}/>, true);
+    toggleModal(<DeleteForYouMessageConfirm toggleModal={toggleModal} message={message}/>, true);
     handleClose();
   }
 
   const deleteForAll = () => {
-    toggleModal(<DeleteForAllMessageConfirm toggleModal={toggleModal}/>, true);
+    toggleModal(<DeleteForAllMessageConfirm toggleModal={toggleModal} message={message}/>, true);
     handleClose();
   }
 
