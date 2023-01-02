@@ -12,7 +12,7 @@ const MessageOwner = ({message, toggleModal}) => {
   return (
     <BoxWrapper>
       <MessageBox>
-        <Action toggleModal={toggleModal}/>
+        <Action toggleModal={toggleModal} message={message}/>
         <MessageTextBox>
           <Typography>{message.text}</Typography>
         </MessageTextBox>

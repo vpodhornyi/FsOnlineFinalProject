@@ -2,10 +2,13 @@ import * as React from 'react';
 import {styled} from "@mui/material/styles";
 import CustomIconButton from "@components/buttons/CustomIconButton";
 import {ListItemIcon, Menu, MenuItem, Box, ListItemText, Typography} from "@mui/material";
-import IconByName from "@components/icons/IconByName";
 import PropTypes from "prop-types";
 
-const More = ({toggleModal}) => {
+import IconByName from "@components/icons/IconByName";
+import DeleteForYouMessageConfirm from "../../../confirms/DeleteForYouMessageConfirm";
+import DeleteForAllMessageConfirm from "../../../confirms/DeleteForAllMessageConfirm";
+
+const More = ({toggleModal, message}) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -15,8 +18,13 @@ const More = ({toggleModal}) => {
     setAnchorEl(null);
   };
 
-  const openDeleteConfirm = () => {
-    toggleModal();
+  const deleteForYou = () => {
+    toggleModal(<DeleteForYouMessageConfirm toggleModal={toggleModal}/>, true);
+    handleClose();
+  }
+
+  const deleteForAll = () => {
+    toggleModal(<DeleteForAllMessageConfirm toggleModal={toggleModal}/>, true);
     handleClose();
   }
 
@@ -51,7 +59,7 @@ const More = ({toggleModal}) => {
           horizontal: 'left',
         }}
       >
-        <MenuItem onClick={openDeleteConfirm}>
+        <MenuItem onClick={deleteForYou}>
           <ListItemIcon>
             <IconByName iconStyle={{color: 'red'}} iconName='DeleteOutlined'/>
           </ListItemIcon>
@@ -59,6 +67,17 @@ const More = ({toggleModal}) => {
             <Typography color='red' variant='body1'>Delete for you</Typography>
           </ListItemText>
         </MenuItem>
+        {
+          message?.isMessageOwner &&
+          <MenuItem onClick={deleteForAll}>
+            <ListItemIcon>
+              <IconByName iconStyle={{color: 'red'}} iconName='DeleteOutlined'/>
+            </ListItemIcon>
+            <ListItemText>
+              <Typography color='red' variant='body1'>Delete for all</Typography>
+            </ListItemText>
+          </MenuItem>
+        }
         <MenuItem>
           <ListItemIcon>
             <IconByName iconName='ContentCopy'/>
@@ -94,6 +113,7 @@ const MenuWrapper = styled(Menu)(({theme}) => ({
 
 More.propTypes = {
   toggleModal: PropTypes.func,
+  message: PropTypes.object,
 }
 
 export default More;

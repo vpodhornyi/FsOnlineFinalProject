@@ -25,9 +25,7 @@ const ChatHeader = ({chat}) => {
           <Link to={`${PATH.MESSAGES.participants(chat?.id)}`}>
             <AvatarGroup max={5}>
               {
-                chat.users.map(user => {
-                  return <Avatar key={user.key} src={user.avatarImgUrl}/>
-                })
+                chat.users.map(user => <Avatar key={user.key} src={user.avatarImgUrl}/>)
               }
             </AvatarGroup>
           </Link>
@@ -47,7 +45,7 @@ const ChatHeader = ({chat}) => {
 }
 
 const StyledStickyHeader = styled(StickyHeader)(({theme}) => ({
-  '& .MuiAvatar-root': {
+  '& .MuiAvatarGroup-root .MuiAvatar-root': {
     border: '2px solid #ffffff',
     width: '2.5rem',
     height: '2.5rem'

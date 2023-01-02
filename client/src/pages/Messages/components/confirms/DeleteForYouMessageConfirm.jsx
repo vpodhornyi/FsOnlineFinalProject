@@ -3,14 +3,14 @@ import PropTypes from "prop-types";
 
 import {Confirm} from '@components';
 
-const DeleteMessageConfirm = ({toggleModal}) => {
+const DeleteForYouMessageConfirm = ({toggleModal}) => {
   const confirm = () => {
     console.log('delete');
-    toggleModal();
+    toggleModal(null);
   }
 
   return <Confirm
-    title='Delete message?'
+    title='Delete message for you?'
     description='This message will be deleted for you.
          Other people in the conversation will still be able to see it.'
     confirmName='Delete'
@@ -20,7 +20,7 @@ const DeleteMessageConfirm = ({toggleModal}) => {
   />
 }
 
-DeleteMessageConfirm.propTypes = {
+DeleteForYouMessageConfirm.propTypes = {
   toggleModal: PropTypes.func,
 }
-export default DeleteMessageConfirm;
+export default DeleteForYouMessageConfirm;

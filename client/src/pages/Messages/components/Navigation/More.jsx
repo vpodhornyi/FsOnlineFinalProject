@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import {styled} from "@mui/material/styles";
 import {ListItemIcon, ListItemText, Typography, Box, MenuItem, Menu} from "@mui/material";
+import PropTypes from "prop-types";
 
 import CustomIconButton from "@components/buttons/CustomIconButton";
 import IconByName from "@components/icons/IconByName";
-import PropTypes from "prop-types";
+import LeaveChatConfirm from "../confirms/LeaveChatConfirm";
 
 const More = ({toggleModal}) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -17,7 +18,7 @@ const More = ({toggleModal}) => {
   };
 
   const openLeaveChatConfirm = () => {
-    toggleModal();
+    toggleModal(<LeaveChatConfirm toggleModal={toggleModal}/>, true);
     handleClose();
   }
 

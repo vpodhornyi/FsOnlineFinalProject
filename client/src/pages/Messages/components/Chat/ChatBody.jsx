@@ -17,14 +17,13 @@ import {ACTIONS as MESSAGE_ACTIONS, getMessages, sendMessage} from "@redux/chat/
 import {getChatsData, getMessagesData} from "@redux/chat/selector";
 import {CHAT_TYPE} from '@utils/constants';
 import {PATH} from "@utils/constants";
-import DeleteMessageConfirm from "../confirms/DeleteMessageConfirm";
 import {getRandomKey} from "@utils";
 import MessageOwner from "./Message/MessageOwner";
 import ForeignerMessage from "./Message/ForeignerMessage";
 
 
 const ChatBody = ({chatId}) => {
-  const {isShowing, toggle} = useModal();
+  const {modal, toggleModal} = useModal();
   const {NEW_PRIVATE, NEW_GROUP} = CHAT_TYPE;
   const overlayRef = useRef();
   const chatBodyRef = useRef();
@@ -144,14 +143,14 @@ const ChatBody = ({chatId}) => {
                 return <MessageOwner
                   key={message?.key}
                   message={message}
-                  toggleModal={toggle}
+                  toggleModal={toggleModal}
                 />
               }
               if (message.isForeignerMessage) {
                 return <ForeignerMessage
                   key={message?.key}
                   message={message}
-                  toggleModal={toggle}
+                  toggleModal={toggleModal}
                   onBottom={onBottom}
                 />
               }
@@ -170,9 +169,9 @@ const ChatBody = ({chatId}) => {
         />
       </Box>
       <ModalWindow
-        isShowing={isShowing}
-        toggleModal={toggle}
-        element={<DeleteMessageConfirm toggleModal={toggle}/>}/>
+        isShowing={modal.isShowing}
+        toggleModal={toggleModal}
+        element={modal.element}/>
     </BoxWrapper>);
 }
 

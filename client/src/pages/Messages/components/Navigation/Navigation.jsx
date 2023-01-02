@@ -11,10 +11,9 @@ import SearchBox from "./SearchBox";
 import {CircularLoader} from "../../../../components";
 import {ModalWindow} from "../../../../components";
 import {useModal} from '../../../../hooks/useModal';
-import LeaveChatConfirm from "../confirms/LeaveChatConfirm";
 
 const Navigation = () => {
-  const {isShowing, toggle} = useModal();
+  const {modal, toggleModal} = useModal();
   const dispatch = useDispatch();
   const {authUser: {id: userId}} = useSelector(state => state.user);
   const {isChatLoading, isChatsExist, chats, pageNumber, pageSize} = useSelector(getChatsData);
@@ -38,11 +37,11 @@ const Navigation = () => {
   if (isChatsExist) return (
     <Box>
       <SearchBox/>
-      {chats.map(chat => <ChatRoute key={chat.key} chat={chat} toggleModal={toggle}/>)}
+      {chats.map(chat => <ChatRoute key={chat.key} chat={chat} toggleModal={toggleModal}/>)}
       <ModalWindow
-        isShowing={isShowing}
-        toggleModal={toggle}
-        element={<LeaveChatConfirm toggleModal={toggle}/>}
+        isShowing={modal.isShowing}
+        toggleModal={toggleModal}
+        element={modal.element}
       />
     </Box>
   )

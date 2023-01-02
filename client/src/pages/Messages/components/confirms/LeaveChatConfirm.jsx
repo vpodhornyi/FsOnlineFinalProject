@@ -3,12 +3,11 @@ import PropTypes from "prop-types";
 
 import {Confirm} from '@components';
 
-
 const LeaveChatConfirm = ({toggleModal}) => {
 
   const confirm = () => {
     console.log('Leave');
-    toggleModal()
+    toggleModal(null);
   }
 
   return <Confirm

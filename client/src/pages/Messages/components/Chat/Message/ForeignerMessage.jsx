@@ -41,7 +41,7 @@ const ForeignerMessage = ({message, toggleModal}) => {
         <MessageTextBox>
           <Typography>{message.text}</Typography>
         </MessageTextBox>
-        <Action toggleModal={toggleModal}/>
+        <Action toggleModal={toggleModal} message={message}/>
       </MessageBox>
       {/*<Reaction/>*/}
       <TimeBox>
