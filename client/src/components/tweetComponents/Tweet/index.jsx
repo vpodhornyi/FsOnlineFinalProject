@@ -24,15 +24,18 @@ import {
   UserAvatar,
   UserName,
 } from "./style";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ImageListContainer from "../../imageList/ImageListContainer";
-import {handlerBookmark} from "../../../redux/tweet/action";
-import {useLocation, useNavigate} from "react-router-dom";
-import {PATH} from "../../../utils/constants";
+import { handlerBookmark } from "../../../redux/tweet/action";
+import { useLocation, useNavigate } from "react-router-dom";
+import { PATH } from "../../../utils/constants";
+import { getPersonalData } from "../../../redux/user/selector";
+
 const Tweet = ({ tweetInfo }) => {
   const dispatch = useDispatch();
-  const { id, body, images,actions } = tweetInfo;
+  const { id, body, images, actions } = tweetInfo;
   const { name, avatarImgUrl, userTag, created_at } = tweetInfo.user;
+  const user = useSelector(getPersonalData);
   const navigate = useNavigate();
   const location = useLocation();
   return (
@@ -40,10 +43,9 @@ const Tweet = ({ tweetInfo }) => {
       <TweetContainer>
         <Content>
           <Box sx={{ display: "flex" }}>
-
             <AvatarWrapper>
               <UserAvatar alt={name} src={avatarImgUrl}></UserAvatar>
-               <AvatarDecorate variant={"span"}></AvatarDecorate>
+              <AvatarDecorate variant={"span"}></AvatarDecorate>
             </AvatarWrapper>
             <Box>
               <Box sx={{ marginLeft: 0.688 }}>
@@ -65,65 +67,102 @@ const Tweet = ({ tweetInfo }) => {
                     {created_at}
                   </Link>
                 </PostInfo>
-                <Typography sx={{wordWrap: "break-word", maxWidth: "480px",display:"block"}} variant="p">{body}</Typography>
+                <Typography
+                  sx={{
+                    wordWrap: "break-word",
+                    maxWidth: "480px",
+                    display: "block",
+                  }}
+                  variant="p"
+                >
+                  {body}
+                </Typography>
               </Box>
             </Box>
           </Box>{" "}
-            <IconBlue>
-              <Tooltip title={"Delete"}>
-                <MoreIcon
-                  onClick={() => navigate(PATH.TWEET.ROOT+`/${id}`, {state: {background: location}})}
-                  sx={{ padding: 1 }}
-                />
-              </Tooltip>{" "}
-            </IconBlue>
-
+          <IconBlue>
+            <Tooltip title={"Delete"}>
+              <MoreIcon
+                onClick={() =>
+                  navigate(PATH.TWEET.ROOT + `/${id}`, {
+                    state: { background: location },
+                  })
+                }
+                sx={{ padding: 1 }}
+              />
+            </Tooltip>{" "}
+          </IconBlue>
         </Content>
-            {images.length > 0 && <ImageListContainer photos={images}/>}
-            <List
-              component="ul"
-              disablePadding
-              sx={{ display: "flex", justifyContent: "space-around" }}
-            >
-              {
-                ICONS?.map((itemData, index) => {
-                  const lengthAction=   actions?.filter(action => itemData.tooltip.toUpperCase() === action.actionType.toUpperCase()).length
-                  const mediaStyle = { ["@media (max-width:700px)"]: {
-                      p: 0,
-                    },}
-                  const chooseIconHandler = () => {
-                    switch (itemData.tooltip) {
-                      case "Bookmark":
-                        return dispatch(handlerBookmark(id));
-                      case "Reply":
-                        return navigate(PATH.TWEET.ROOT + `/reply/${id}`, {state: {background: location}});
-                    }
-                  }
+        {images.length > 0 && <ImageListContainer photos={images} />}
+        <List
+          component="ul"
+          disablePadding
+          sx={{ display: "flex", justifyContent: "space-around" }}
+        >
+          {ICONS?.map((itemData, index) => {
+            const filterActions = actions?.filter(
+              (action) =>
+                itemData.tooltip.toUpperCase() ===
+                action.actionType.toUpperCase()
+            );
+            const findAction = filterActions?.find(
+              (action) => user.id === action.user.id
+            );
+            const findActiveStyle = (type) => {
+              switch (type) {
+                case "LIKE":
+                  return "pink";
+                case "BOOKMARK":
+                  return "blue";
+                case "RETWEET":
+                  return "green";
+                default:
+                  return "inherit";
+              }
+            };
 
-                   return  <ListItem
-                          key={index}
-                          sx={{
-                            ...mediaStyle,
-                            ...itemData.itemClassName,
-                          }}
-                      >
-                        <Tooltip
-                            sx={mediaStyle}
-                            title={itemData.tooltip}
-                        >
-                          <ListItemIcon
-                              onClick={chooseIconHandler}
-                          >
-                            {itemData.icon}
-                          </ListItemIcon>
-                        </Tooltip>{" "}
-                         <ListItemText
-                            primary={lengthAction}/>
-                      </ListItem>
+            const activeStyleStr = findActiveStyle(findAction?.actionType);
+            const mediaStyle = {
+              ["@media (max-width:700px)"]: {
+                p: 0,
+              },
+            };
+            const chooseIconHandler = () => {
+              switch (itemData.tooltip) {
+                case "Bookmark":
+                  return dispatch(handlerBookmark(id));
+                case "Reply":
+                  return navigate(PATH.TWEET.ROOT + `/reply/${id}`, {
+                    state: { background: location },
+                  });
+              }
+            };
 
-
-                })}
-            </List>
+            return (
+              <ListItem
+                key={index}
+                sx={{
+                  ...mediaStyle,
+                  ...itemData.itemClassName,
+                  color: activeStyleStr,
+                  "& span": {
+                    color: activeStyleStr,
+                  },
+                  "& svg": {
+                    color: activeStyleStr,
+                  },
+                }}
+              >
+                <Tooltip sx={mediaStyle} title={itemData.tooltip}>
+                  <ListItemIcon onClick={chooseIconHandler}>
+                    {itemData.icon}
+                  </ListItemIcon>
+                </Tooltip>{" "}
+                <ListItemText primary={filterActions.length} />
+              </ListItem>
+            );
+          })}
+        </List>
       </TweetContainer>
     </>
   );
