@@ -8,6 +8,7 @@ import com.twitterdan.domain.chat.MessageDeleted;
 import com.twitterdan.domain.chat.MessageSeen;
 import com.twitterdan.domain.user.User;
 import com.twitterdan.exception.CouldNotFindMessageException;
+import com.twitterdan.exception.DeleteMessageException;
 import com.twitterdan.exception.MessageAlreadySeen;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,7 +77,19 @@ public class MessageService {
     return messageRepository.save(message);
   }
 
-  public Message deleteMessageForAll(Message message) {
-    return null;
+  public void deleteMessageForAll(Long messageId, User user) {
+    Optional<Message> optionalMessage = messageRepository.findById(messageId);
+
+    if (optionalMessage.isEmpty()) {
+      throw new CouldNotFindMessageException();
+    }
+
+    Message message = optionalMessage.get();
+    User messageOwner = message.getUser();
+
+    if (!user.equals(messageOwner)) {
+      throw new DeleteMessageException();
+    }
+    messageRepository.deleteById(messageId);
   }
 }

@@ -47,9 +47,7 @@ export const deleteMessage = (body) => async (dispatch, getState) => {
   try {
     const {user: {authUser}} = getState();
     body.userId = authUser.id;
-    console.log(body);
     const data = await api.delete(URLS.CHATS.MESSAGES, {data: body});
-    console.log(data);
     dispatch(ACTIONS.deleteMessage(data));
 
   } catch (err) {

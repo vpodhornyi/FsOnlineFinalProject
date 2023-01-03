@@ -2,12 +2,8 @@ package com.twitterdan.controller;
 
 import com.twitterdan.domain.chat.*;
 import com.twitterdan.domain.user.User;
-import com.twitterdan.dto.chat.request.GroupChatRequest;
-import com.twitterdan.dto.chat.request.MessageSeenRequest;
-import com.twitterdan.dto.chat.request.PrivateChatRequest;
+import com.twitterdan.dto.chat.request.*;
 import com.twitterdan.dto.chat.response.chat.ChatResponseAbstract;
-import com.twitterdan.dto.chat.request.MessageRequest;
-import com.twitterdan.dto.chat.request.DeleteMessageRequest;
 import com.twitterdan.dto.chat.response.chat.GroupChatResponse;
 import com.twitterdan.dto.chat.response.chat.PrivateChatResponse;
 import com.twitterdan.dto.chat.response.message.DeletedMessage;
@@ -73,6 +69,23 @@ public class ChatController {
       })
       .toList();
     return ResponseEntity.ok(chats);
+  }
+
+  @DeleteMapping
+  public ResponseEntity<Long> leaveChat(@RequestBody LeaveChatRequest leaveChatRequest) {
+    Long chatId = leaveChatRequest.getChatId();
+    Long userId = leaveChatRequest.getUserId();
+    User user = userService.findById(userId);
+
+    if (leaveChatRequest.isGroup()) {
+      chatService.deleteUserFromGroupChat(chatId, user);
+    }
+
+    if (leaveChatRequest.isPrivate()) {
+
+    }
+
+    return ResponseEntity.ok(null);
   }
 
   @GetMapping("/private")
@@ -201,7 +214,8 @@ public class ChatController {
   @DeleteMapping("/messages")
   public ResponseEntity<DeletedMessage> deleteMessage(@RequestBody DeleteMessageRequest deleteMessageRequest) {
     System.out.println(deleteMessageRequest);
-    Message message = messageService.findById(deleteMessageRequest.getMessageId());
+    Long messageId = deleteMessageRequest.getMessageId();
+    Message message = messageService.findById(messageId);
     User user = userService.findById(deleteMessageRequest.getUserId());
 
     if (deleteMessageRequest.isDeleteForYou()) {
@@ -210,12 +224,19 @@ public class ChatController {
     }
 
     List<User> users = message.getChat().getUsers();
-    DeletedMessage deletedMessage;
+    DeletedMessage deletedMessage = deletedMessageMapper.convertToDto(message);
 
     if (deleteMessageRequest.isDeleteForAll()) {
-
+      messageService.deleteMessageForAll(messageId, user);
+      users.stream()
+        .filter(u -> !u.equals(user))
+        .forEach(u -> {
+          simpMessagingTemplate.convertAndSend(queue + u.getId(),
+            ResponseEntity.ok(deletedMessage));
+        });
     }
-    return ResponseEntity.ok(null);
+
+    return ResponseEntity.ok(deletedMessage);
   }
 
   @PostMapping("/messages/seen")

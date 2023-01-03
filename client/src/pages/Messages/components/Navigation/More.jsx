@@ -7,7 +7,7 @@ import CustomIconButton from "@components/buttons/CustomIconButton";
 import IconByName from "@components/icons/IconByName";
 import LeaveChatConfirm from "../confirms/LeaveChatConfirm";
 
-const More = ({toggleModal}) => {
+const More = ({toggleModal, chat}) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -103,6 +103,7 @@ const MenuWrapper = styled(Menu)(({theme}) => ({
 
 More.propTypes = {
   toggleModal: PropTypes.func,
+  chat: PropTypes.object,
 }
 
 export default More;

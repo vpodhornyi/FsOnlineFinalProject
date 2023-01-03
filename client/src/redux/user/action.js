@@ -45,6 +45,9 @@ export const authUserSocketSubscribe = () => (dispatch, getState) => {
           dispatch(CHAT_ACTIONS.setLastChatAction(body));
           dispatch(ACTIONS.updateCountUnreadMessages(body));
           break;
+        case 'MESSAGE_DELETE':
+          dispatch(MESSAGE_ACTIONS.deleteMessage(body));
+          break;
         case 'MESSAGE_OWNER_SEEN':
           dispatch(MESSAGE_ACTIONS.updateMessageOwnerSeen(body));
           break;

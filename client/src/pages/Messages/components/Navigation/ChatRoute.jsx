@@ -62,7 +62,7 @@ const ChatRoute = ({chat, toggleModal}) => {
           // variant="dot"
         >
           <Box className='MoreIcon'>
-            <More toggleModal={toggleModal}/>
+            <More toggleModal={toggleModal} chat={chat}/>
           </Box>
         </Badge>
       </Box>

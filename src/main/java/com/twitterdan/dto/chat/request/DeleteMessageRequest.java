@@ -8,6 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class DeleteMessageRequest {
+  private Long chatId;
   private Long messageId;
   private Long userId;
   private boolean deleteForYou;

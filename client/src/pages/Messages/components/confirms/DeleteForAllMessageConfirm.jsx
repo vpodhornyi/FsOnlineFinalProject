@@ -10,6 +10,7 @@ const DeleteForAllMessageConfirm = ({toggleModal, message}) => {
 
   const confirm = () => {
     const body = {
+      chatId: message.chatId,
       messageId: message.id,
       deleteForAll: true,
     }

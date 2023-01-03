@@ -84,6 +84,20 @@ public class ChatService {
     return chatRepository.save(chat);
   }
 
+  public void deleteUserFromGroupChat(Long chatId, User user) {
+    Chat chat = this.findById(chatId);
+
+    List<User> users = chat.getUsers().stream()
+      .filter(u -> !u.equals(user))
+      .toList();
+    chat.setUsers(users);
+    chatRepository.save(chat);
+  }
+
+  public void deleteUserFromPrivateChat(Long chatId, User user) {
+
+  }
+
 //  public List<Chat> test (Long id) {
 //    return findAlLByUserId(id);
 //  }

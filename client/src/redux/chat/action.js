@@ -59,13 +59,21 @@ export const addNewPrivateChat = (chat) => async dispatch => {
       message: chat.message,
       oldKey: chat.key,
     }
-    const data =  await api.post(URLS.CHATS.PRIVATE, body);
+    const data = await api.post(URLS.CHATS.PRIVATE, body);
     dispatch(ACTIONS.updateNewChat(data));
     console.log(data);
     return data.id;
 
   } catch (err) {
     console.log('addNewChat error - ', err);
+  }
+}
+
+export const leavePrivateChat = body => dispatch => {
+  try {
+
+  } catch (err) {
+    console.log('leavePrivateChat error - ', err);
   }
 }
 
@@ -87,6 +95,26 @@ export const addNewGroupChat = (chat) => async dispatch => {
 
   } catch (err) {
     console.log('addNewChat error - ', err);
+  }
+}
+
+export const leaveGroupChat = body => dispatch => {
+  try {
+
+  } catch (err) {
+    console.log('leavePrivateChat error - ', err);
+  }
+}
+
+export const leaveChat = body => async (dispatch, getState) => {
+  try {
+    const {user: {authUser}} = getState();
+    body.userId = authUser.id;
+    const data = await api.delete(URLS.CHATS.ROOT, {data: body});
+    console.log(data);
+
+  } catch (err) {
+    console.log('leavePrivateChat error - ', err);
   }
 }
 

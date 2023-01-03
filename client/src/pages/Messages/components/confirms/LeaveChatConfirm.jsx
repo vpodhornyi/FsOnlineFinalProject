@@ -1,13 +1,20 @@
 import React from "react";
+import {useDispatch} from "react-redux";
 import PropTypes from "prop-types";
 
 import {Confirm} from '@components';
+import {leaveChat} from "@redux/chat/action";
 
-const LeaveChatConfirm = ({toggleModal}) => {
-
+const LeaveChatConfirm = ({toggleModal, chat}) => {
+  const dispatch = useDispatch();
   const confirm = () => {
-    console.log('Leave');
-    toggleModal(null);
+    const body = {
+      chatId: chat.id,
+      isPrivate: chat.isPrivate,
+      isGroup: chat.isGroup,
+    }
+    dispatch(leaveChat(body));
+    toggleModal();
   }
 
   return <Confirm
@@ -23,6 +30,7 @@ const LeaveChatConfirm = ({toggleModal}) => {
 
 LeaveChatConfirm.propTypes = {
   toggleModal: PropTypes.func,
+  chat: PropTypes.object,
 }
 
 export default LeaveChatConfirm;
