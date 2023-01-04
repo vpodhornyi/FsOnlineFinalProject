@@ -59,6 +59,11 @@ export const authUserSocketSubscribe = () => (dispatch, getState) => {
           dispatch(CHAT_ACTIONS.addNewGroupChat(body));
           dispatch(ACTIONS.updateCountUnreadMessages(body.lastMessage));
           break;
+        case 'LEAVE_CHAT':
+          console.log(body);
+          dispatch(MESSAGE_ACTIONS.leaveChatNotification(body));
+          dispatch(CHAT_ACTIONS.deleteUserFromChat(body));
+          break;
         default:
           console.log('no type');
       }

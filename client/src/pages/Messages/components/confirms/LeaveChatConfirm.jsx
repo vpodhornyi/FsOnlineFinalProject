@@ -10,8 +10,8 @@ const LeaveChatConfirm = ({toggleModal, chat}) => {
   const confirm = () => {
     const body = {
       chatId: chat.id,
-      isPrivate: chat.isPrivate,
-      isGroup: chat.isGroup,
+      privateChat: chat.isPrivate,
+      groupChat: chat.isGroup,
     }
     dispatch(leaveChat(body));
     toggleModal();

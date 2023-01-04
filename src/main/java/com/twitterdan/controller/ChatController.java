@@ -5,6 +5,7 @@ import com.twitterdan.domain.user.User;
 import com.twitterdan.dto.chat.request.*;
 import com.twitterdan.dto.chat.response.chat.ChatResponseAbstract;
 import com.twitterdan.dto.chat.response.chat.GroupChatResponse;
+import com.twitterdan.dto.chat.response.chat.LeaveChatResponse;
 import com.twitterdan.dto.chat.response.chat.PrivateChatResponse;
 import com.twitterdan.dto.chat.response.message.DeletedMessage;
 import com.twitterdan.dto.chat.response.message.MessageResponseAbstract;
@@ -12,6 +13,7 @@ import com.twitterdan.dto.chat.response.seen.ForeignerMessageSeenResponse;
 import com.twitterdan.facade.chat.request.MessageRequestMapper;
 import com.twitterdan.facade.chat.response.DeletedMessageMapper;
 import com.twitterdan.facade.chat.response.chat.GroupChatResponseMapper;
+import com.twitterdan.facade.chat.response.chat.LeaveChatResponseMapper;
 import com.twitterdan.facade.chat.response.chat.PrivateChatResponseMapper;
 import com.twitterdan.facade.chat.response.message.*;
 import com.twitterdan.facade.chat.request.GroupChatRequestMapper;
@@ -51,6 +53,7 @@ public class ChatController {
   private final ForeignerMessageSeenResponseMapper foreignerMessageSeenResponseMapper;
   private final MessageSeenRequestMapper messageSeenRequestMapper;
   private final DeletedMessageMapper deletedMessageMapper;
+  private final LeaveChatResponseMapper leaveChatResponseMapper;
 
   @GetMapping
   public ResponseEntity<List<ChatResponseAbstract>> getChats(
@@ -72,17 +75,27 @@ public class ChatController {
   }
 
   @DeleteMapping
-  public ResponseEntity<Long> leaveChat(@RequestBody LeaveChatRequest leaveChatRequest) {
+  public ResponseEntity<LeaveChatResponse> leaveChat(@RequestBody LeaveChatRequest leaveChatRequest) {
     Long chatId = leaveChatRequest.getChatId();
     Long userId = leaveChatRequest.getUserId();
     User user = userService.findById(userId);
+    System.out.println(leaveChatRequest);
 
-    if (leaveChatRequest.isGroup()) {
-      chatService.deleteUserFromGroupChat(chatId, user);
+    if (leaveChatRequest.isGroupChat()) {
+      Chat chat = chatService.deleteUserFromChat(chatId, user);
+      chat.getUsers()
+        .forEach(u -> {
+          simpMessagingTemplate.convertAndSend(queue + u.getId(),
+            ResponseEntity.ok(leaveChatResponseMapper.convertToDto(chat, user)));
+        });
+
+      return ResponseEntity.ok(leaveChatResponseMapper.convertToDto(chat, user));
     }
 
-    if (leaveChatRequest.isPrivate()) {
+    if (leaveChatRequest.isPrivateChat()) {
+      Chat chat = chatService.deleteUserFromChat(chatId, user);
 
+      return ResponseEntity.ok(leaveChatResponseMapper.convertToDto(chat, user));
     }
 
     return ResponseEntity.ok(null);
@@ -103,8 +116,7 @@ public class ChatController {
     String text = privateChatRequest.getMessage();
     User authUser = userService.findById(authUserId);
     User guestUser = userService.findById(guestUserId);
-    Message message = messageService.save(new Message(text, savedChat, authUser));
-    savedChat.setLastMessage(message);
+    messageService.save(new Message(text, savedChat, authUser));
 
     PrivateChatResponse privateChatResponseAuth = privateChatResponseMapper.convertToDto(savedChat, authUser);
     PrivateChatResponse privateChatResponseGuest = privateChatResponseMapper.convertToDto(savedChat, guestUser);
@@ -123,8 +135,7 @@ public class ChatController {
     String text = groupChatRequest.getMessage();
     Chat chat = groupChatRequestMapper.convertToEntity(groupChatRequest, authUser);
     Chat savedChat = chatService.saveGroupChat(chat);
-    Message message = messageService.save(new Message(text, savedChat, authUser));
-    savedChat.setLastMessage(message);
+    messageService.save(new Message(text, savedChat, authUser));
 
     savedChat.getUsers().stream()
       .filter(u -> !u.equals(authUser))

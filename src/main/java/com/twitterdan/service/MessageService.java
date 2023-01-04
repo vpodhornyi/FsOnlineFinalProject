@@ -46,6 +46,16 @@ public class MessageService {
     throw new CouldNotFindMessageException(false);
   }
 
+  public Message findLastChatMessage(Long chatId) {
+    Optional<Message> optionalMessage = messageRepository.findFirstByChatIdOrderByCreatedAtDesc(chatId);
+
+    if (optionalMessage.isPresent()) {
+      return optionalMessage.get();
+    }
+
+    throw new CouldNotFindMessageException(false);
+  }
+
   public Integer getCountUnreadChatMessagesByUserId(Long chatId, Long userId) {
     Optional<Integer> countUnreadMessages = messageRepository.getCountUnreadMessages(chatId, userId);
     return countUnreadMessages.orElse(0);

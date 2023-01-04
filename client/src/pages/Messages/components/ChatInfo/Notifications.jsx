@@ -49,7 +49,7 @@ const Notifications = ({chat}) => {
         })}
       </Box>
       {chat.isPrivate && <BlockUser userTag={chat?.guestUser?.userTag}/>}
-      <LeaveChat/>
+      <LeaveChat chat={chat}/>
     </BoxWrapper>);
 }
 

@@ -72,6 +72,15 @@ export default (state = init, {payload, type}) => {
       return {
         ...state,
       };
+    case String(ACTIONS.leaveChatNotification): {
+      const chatId = state.messages[0]?.chatId;
+      if (chatId === payload.chatId) {
+        state.messages.push(payload);
+      }
+    }
+      return {
+        ...state,
+      };
     case String(ACTIONS.deleteMessage): {
       const index = state.messages.findIndex(m => m.id === payload.messageId);
       if (index !== -1) {

@@ -18,7 +18,7 @@ const More = ({toggleModal, chat}) => {
   };
 
   const openLeaveChatConfirm = () => {
-    toggleModal(<LeaveChatConfirm toggleModal={toggleModal}/>, true);
+    toggleModal(<LeaveChatConfirm toggleModal={toggleModal} chat={chat}/>, true);
     handleClose();
   }
 

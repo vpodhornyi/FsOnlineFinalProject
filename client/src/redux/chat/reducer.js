@@ -38,6 +38,13 @@ export default (state = init, {payload, type}) => {
       }
     }
       return {...state};
+    case String(ACTIONS.deleteChat): {
+      const index = state.chats.findIndex(c => c.id === payload.chatId);
+      if (index !== -1) {
+        state.chats.splice(index, 1);
+      }
+    }
+      return {...state};
     case String(ACTIONS.setMessage):
       const {chatId, text} = payload;
       const chat = state.chats.find(v => v.id === chatId);
@@ -93,6 +100,19 @@ export default (state = init, {payload, type}) => {
       const existChat = state.chats.find(ch => ch.id === chatId);
       if (existChat) {
         existChat.lastMessage.countUnreadMessages = countUnreadSelectedChatMessages;
+      }
+    }
+      return {
+        ...state,
+      };
+    case String(ACTIONS.deleteUserFromChat): {
+      const {chatId, user} = payload;
+      const existChat = state.chats.find(ch => ch.id === chatId);
+      if (existChat) {
+        const index = existChat.users.findIndex(u => u.id === user.id);
+        if (index !== -1) {
+          existChat.users.splice(index, 1);
+        }
       }
     }
       return {

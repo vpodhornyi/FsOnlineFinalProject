@@ -6,8 +6,8 @@ const actions = createActions(
   {
     actions: [
       'SET_CHAT_ID', 'RESET_CHAT_ID', 'SET_MESSAGE', 'SET_PAGE_NUMBER', 'SET_LAST_CHAT_ACTION',
-      'SET_NEW_CHAT', 'ADD_NEW_PRIVATE_CHAT', 'ADD_NEW_GROUP_CHAT', 'UPDATE_NEW_CHAT', 'SET_NEW_GROUP', 'ADD_EXIST_CHAT', 'RESET_DATA',
-      'UPDATE_COUNT_UNREAD_MESSAGES'
+      'SET_NEW_CHAT', 'ADD_NEW_PRIVATE_CHAT', 'ADD_NEW_GROUP_CHAT', 'UPDATE_NEW_CHAT', 'DELETE_CHAT',
+      'SET_NEW_GROUP', 'ADD_EXIST_CHAT', 'RESET_DATA', 'UPDATE_COUNT_UNREAD_MESSAGES', 'DELETE_USER_FROM_CHAT'
     ],
     async: ['GET_CHATS', 'SEND_MESSAGE'],
   },
@@ -61,7 +61,6 @@ export const addNewPrivateChat = (chat) => async dispatch => {
     }
     const data = await api.post(URLS.CHATS.PRIVATE, body);
     dispatch(ACTIONS.updateNewChat(data));
-    console.log(data);
     return data.id;
 
   } catch (err) {
@@ -111,7 +110,7 @@ export const leaveChat = body => async (dispatch, getState) => {
     const {user: {authUser}} = getState();
     body.userId = authUser.id;
     const data = await api.delete(URLS.CHATS.ROOT, {data: body});
-    console.log(data);
+    dispatch(ACTIONS.deleteChat(data));
 
   } catch (err) {
     console.log('leavePrivateChat error - ', err);

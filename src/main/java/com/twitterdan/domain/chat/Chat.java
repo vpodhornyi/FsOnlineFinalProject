@@ -21,7 +21,6 @@ public class Chat extends BaseEntity {
   private String title;
   @Enumerated(EnumType.STRING)
   private ChatType type;
-
   @LazyCollection(LazyCollectionOption.EXTRA)
   @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
   @JoinTable(name = "chats_users",
@@ -32,17 +31,12 @@ public class Chat extends BaseEntity {
   @OneToMany(mappedBy = "chat")
   @ToString.Exclude
   private transient List<Message> messages;
-
-  @Transient
-  private Message lastMessage;
-
   @Override
   public String toString() {
     return "Chat{" +
       "title='" + title + '\'' +
       ", type=" + type +
       ", users=" + users +
-      ", lastMessage=" + lastMessage +
       '}';
   }
 }

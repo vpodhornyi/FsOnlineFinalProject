@@ -12,20 +12,20 @@ import com.twitterdan.exception.CouldNotFindChatException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ChatService {
   private final ChatRepository chatRepository;
-  private final MessageRepository messageRepository;
 
-  public ChatService(ChatRepository chatRepository, MessageRepository messageRepository) {
+  public ChatService(ChatRepository chatRepository) {
     this.chatRepository = chatRepository;
-    this.messageRepository = messageRepository;
   }
 
   public List<Chat> getAll() {
@@ -41,17 +41,11 @@ public class ChatService {
     throw new CouldNotFindChatException();
   }
 
-  @Transactional
   public List<Chat> findAlLByUserId(Long userId, int pageNumber, int pageSize) {
     Pageable pageable = PageRequest.of(pageNumber, pageSize);
     Optional<Page<Chat>> optionalChats = chatRepository.findByUsersId(userId, pageable);
-    return optionalChats.map(chats -> chats.stream()
-      .peek(chat -> {
-        Optional<Message> optionalMessage = messageRepository.findFirstByChatIdOrderByCreatedAtDesc(chat.getId());
 
-        optionalMessage.ifPresent(chat::setLastMessage);
-
-      }).toList()).orElseGet(() -> (List<Chat>) optionalChats.orElseGet(Page::empty));
+    return optionalChats.map(Slice::getContent).orElseGet(ArrayList::new);
   }
 
   public Chat findPrivateChatByUsersIds(Long authUserId, Long guestUserId) {
@@ -84,14 +78,16 @@ public class ChatService {
     return chatRepository.save(chat);
   }
 
-  public void deleteUserFromGroupChat(Long chatId, User user) {
+  public Chat deleteUserFromChat(Long chatId, User user) {
     Chat chat = this.findById(chatId);
 
-    List<User> users = chat.getUsers().stream()
+    List<User> users = chat.getUsers()
+      .stream()
       .filter(u -> !u.equals(user))
-      .toList();
+      .collect(Collectors.toCollection(ArrayList::new));
     chat.setUsers(users);
-    chatRepository.save(chat);
+
+    return chatRepository.save(chat);
   }
 
   public void deleteUserFromPrivateChat(Long chatId, User user) {

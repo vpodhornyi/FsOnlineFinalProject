@@ -20,6 +20,7 @@ import {PATH} from "@utils/constants";
 import {getRandomKey} from "@utils";
 import MessageOwner from "./Message/MessageOwner";
 import ForeignerMessage from "./Message/ForeignerMessage";
+import LeaveChatMessage from "./Message/LeaveChatMessage";
 
 
 const ChatBody = ({chatId}) => {
@@ -152,6 +153,12 @@ const ChatBody = ({chatId}) => {
                   message={message}
                   toggleModal={toggleModal}
                   onBottom={onBottom}
+                />
+              }
+              if (message.isLeaveChat) {
+                return <LeaveChatMessage
+                  key={message?.key}
+                  item={message}
                 />
               }
             }
