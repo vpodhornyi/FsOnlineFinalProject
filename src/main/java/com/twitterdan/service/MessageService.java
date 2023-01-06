@@ -83,7 +83,7 @@ public class MessageService {
   }
 
   public Message deleteMessageForAuthUser(Message message, User user) {
-    message.addDeleted(new MessageDeleted(message, user));
+    message.addDeleted(user);
     return messageRepository.save(message);
   }
 

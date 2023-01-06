@@ -82,7 +82,7 @@ public class ChatController {
     System.out.println(leaveChatRequest);
 
     if (leaveChatRequest.isGroupChat()) {
-      Chat chat = chatService.deleteUserFromChat(chatId, user);
+      Chat chat = chatService.deleteUserFromGroupChat(chatId, user);
       chat.getUsers()
         .forEach(u -> {
           simpMessagingTemplate.convertAndSend(queue + u.getId(),
@@ -93,7 +93,7 @@ public class ChatController {
     }
 
     if (leaveChatRequest.isPrivateChat()) {
-      Chat chat = chatService.deleteUserFromChat(chatId, user);
+      Chat chat = chatService.deleteUserFromPrivateChat(chatId, user);
 
       return ResponseEntity.ok(leaveChatResponseMapper.convertToDto(chat, user));
     }
@@ -103,7 +103,8 @@ public class ChatController {
 
   @GetMapping("/private")
   public ResponseEntity<ChatResponseAbstract> findPrivateChat(@RequestParam Long authUserId, @RequestParam Long guestUserId) {
-    return ResponseEntity.ok(privateChatResponseMapper.convertToDto(chatService.findPrivateChatByUsersIds(authUserId, guestUserId)));
+    User user = userService.findById(authUserId);
+    return ResponseEntity.ok(privateChatResponseMapper.convertToDto(chatService.findPrivateChatByUsersIds(authUserId, guestUserId), user));
   }
 
   @PostMapping("/private")
@@ -134,7 +135,7 @@ public class ChatController {
     String oldKey = groupChatRequest.getOldKey();
     String text = groupChatRequest.getMessage();
     Chat chat = groupChatRequestMapper.convertToEntity(groupChatRequest, authUser);
-    Chat savedChat = chatService.saveGroupChat(chat);
+    Chat savedChat = chatService.saveChat(chat);
     messageService.save(new Message(text, savedChat, authUser));
 
     savedChat.getUsers().stream()
@@ -214,6 +215,8 @@ public class ChatController {
 
     if (type.equals(ChatType.PRIVATE)) {
       responseAbstract = privateMessageOwnerResponseMapper.convertToDto(savedMessage, authUser);
+
+
     } else {
       responseAbstract = groupMessageOwnerResponseMapper.convertToDto(savedMessage, authUser);
     }

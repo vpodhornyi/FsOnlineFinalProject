@@ -33,16 +33,22 @@ export const getAuthUser = () => async (dispatch) => {
   }
 }
 
-export const authUserSocketSubscribe = () => (dispatch, getState) => {
+export const authUserSocketSubscribe = () => async (dispatch, getState) => {
   try {
     const {user: {authUser}} = getState();
-    api.client.subscribe(`/queue/user.${authUser.id}`, (data) => {
+    api.client.subscribe(`/queue/user.${authUser.id}`, async (data) => {
       const {body} = JSON.parse(data.body);
 
       switch (body.type) {
         case 'MESSAGE_ADD':
+          const {chat} = body;
+          console.log(chat);
+          if (chat && chat.isPrivate) {
+            dispatch(CHAT_ACTIONS.addNewPrivateChat(chat));
+          } else {
+            dispatch(CHAT_ACTIONS.setLastChatAction(body));
+          }
           dispatch(MESSAGE_ACTIONS.updateOrAddNewMessage(body));
-          dispatch(CHAT_ACTIONS.setLastChatAction(body));
           dispatch(ACTIONS.updateCountUnreadMessages(body));
           break;
         case 'MESSAGE_DELETE':

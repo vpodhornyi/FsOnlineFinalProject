@@ -11,7 +11,6 @@ import java.util.Optional;
 
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Long> {
-//  @Query("select m from Message m left join m.deleted md where m.chat.id = :id and md.id is null")
 @Query(value =
   " SELECT * from messages m" +
     " left join messages_deleted md on m.id = md.message_id" +

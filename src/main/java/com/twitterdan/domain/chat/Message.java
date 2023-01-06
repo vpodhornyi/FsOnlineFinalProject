@@ -37,8 +37,9 @@ public class Message extends BaseEntity {
   public void addSeen(MessageSeen messageSeen) {
     seen.add(messageSeen);
   }
-  public void addDeleted(MessageDeleted messageDeleted) {
-    deleted.add(messageDeleted);
+  public void addDeleted(User user) {
+
+    deleted.add(new MessageDeleted(this, user));
   }
 
   @ManyToOne

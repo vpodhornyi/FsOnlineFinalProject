@@ -10,6 +10,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -31,6 +32,18 @@ public class Chat extends BaseEntity {
   @OneToMany(mappedBy = "chat")
   @ToString.Exclude
   private transient List<Message> messages;
+
+  @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "chat")
+  private List<ChatDeleted> deleted = new ArrayList<>();
+
+  public void setDeleted(List<ChatDeleted> deleted) {
+    this.deleted = deleted;
+  }
+
+  public void addDeleted(User user) {
+    deleted.add(new ChatDeleted(this, user));
+  }
+
   @Override
   public String toString() {
     return "Chat{" +

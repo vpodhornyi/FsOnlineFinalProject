@@ -1,8 +1,8 @@
 package com.twitterdan.service;
 
+import com.twitterdan.dao.ChatDeletedRepository;
 import com.twitterdan.dao.ChatRepository;
 import com.twitterdan.dao.MessageRepository;
-import com.twitterdan.domain.BaseEntity;
 import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.chat.ChatType;
 import com.twitterdan.domain.chat.Message;
@@ -16,16 +16,19 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class ChatService {
   private final ChatRepository chatRepository;
+  private final MessageRepository messageRepository;
+  private final ChatDeletedRepository chatDeletedRepository;
 
-  public ChatService(ChatRepository chatRepository) {
+  public ChatService(ChatRepository chatRepository, MessageRepository messageRepository, ChatDeletedRepository chatDeletedRepository) {
     this.chatRepository = chatRepository;
+    this.messageRepository = messageRepository;
+    this.chatDeletedRepository = chatDeletedRepository;
   }
 
   public List<Chat> getAll() {
@@ -74,11 +77,11 @@ public class ChatService {
     return chatRepository.save(chat);
   }
 
-  public Chat saveGroupChat(Chat chat) {
+  public Chat saveChat(Chat chat) {
     return chatRepository.save(chat);
   }
 
-  public Chat deleteUserFromChat(Long chatId, User user) {
+  public Chat deleteUserFromGroupChat(Long chatId, User user) {
     Chat chat = this.findById(chatId);
 
     List<User> users = chat.getUsers()
@@ -90,8 +93,25 @@ public class ChatService {
     return chatRepository.save(chat);
   }
 
-  public void deleteUserFromPrivateChat(Long chatId, User user) {
+  public Chat deleteUserFromPrivateChat(Long chatId, User user) {
+    Optional<List<Message>> optionalMessages = messageRepository.findByChatId(chatId, user.getId());
 
+    if (optionalMessages.isPresent()) {
+      List<Message> messages = optionalMessages.get();
+      messages.forEach(m -> {
+        m.addDeleted(user);
+        messageRepository.save(m);
+      });
+    }
+
+    Chat chat = this.findById(chatId);
+    chat.addDeleted(user);
+    return chatRepository.save(chat);
+  }
+
+  @Transactional
+  public void resetDeletedChat(Long userId, Long chatId) {
+    chatDeletedRepository.deleteByUserIdAndChatId(userId, chatId);
   }
 
 //  public List<Chat> test (Long id) {
