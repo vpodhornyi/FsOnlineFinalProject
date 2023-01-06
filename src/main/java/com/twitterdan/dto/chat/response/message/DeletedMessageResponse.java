@@ -6,8 +6,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class DeletedMessage {
+public class DeletedMessageResponse {
   private Long chatId;
   private Long messageId;
   private DtoResponseType type = DtoResponseType.MESSAGE_DELETE;
+  private LastChatMessageResponse lastMessage;
 }

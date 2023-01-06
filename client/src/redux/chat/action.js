@@ -1,6 +1,7 @@
 import {createActions} from '../utils';
 import api, {URLS} from "@service/API";
 import {CHAT_TYPE} from "../../utils/constants";
+import {ACTIONS as USER_ACTIONS} from '../user/action';
 
 const actions = createActions(
   {
@@ -69,14 +70,6 @@ export const addNewPrivateChat = (chat) => async dispatch => {
   }
 }
 
-export const leavePrivateChat = body => dispatch => {
-  try {
-
-  } catch (err) {
-    console.log('leavePrivateChat error - ', err);
-  }
-}
-
 export const addNewGroupChat = (chat) => async dispatch => {
   try {
     const usersIds = chat.users.map(u => u.id);
@@ -98,20 +91,13 @@ export const addNewGroupChat = (chat) => async dispatch => {
   }
 }
 
-export const leaveGroupChat = body => dispatch => {
-  try {
-
-  } catch (err) {
-    console.log('leavePrivateChat error - ', err);
-  }
-}
-
 export const leaveChat = body => async (dispatch, getState) => {
   try {
     const {user: {authUser}} = getState();
     body.userId = authUser.id;
     const data = await api.delete(URLS.CHATS.ROOT, {data: body});
     dispatch(ACTIONS.deleteChat(data));
+    dispatch(USER_ACTIONS.updateCountUnreadMessages(data));
 
   } catch (err) {
     console.log('leavePrivateChat error - ', err);

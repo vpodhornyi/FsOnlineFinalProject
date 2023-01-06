@@ -7,7 +7,7 @@ import ChatHeader from "./ChatHeader";
 import ChatBody from "./ChatBody";
 import {getChatsData} from '@redux/chat/selector';
 import {ACTIONS} from '@redux/chat/action';
-import {PATH} from "../../../../utils/constants";
+import {PATH} from "@utils/constants";
 
 const Chat = () => {
   const {selectedChat, chats} = useSelector(getChatsData);

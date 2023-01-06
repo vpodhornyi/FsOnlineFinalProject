@@ -36,11 +36,15 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
       " join chats c on c.id = m.chat_id" +
       " join chats_users cu on c.id = cu.chats_id" +
       " join users u on u.id = cu.users_id" +
-      " where u.id = :userId and m.user_id != :userId) a," +
+      " left join messages_deleted md on m.id = md.message_id" +
+      " where u.id = :userId and m.user_id != :userId and (md.user_id != :userId or md.user_id is null)) a," +
       " (select count(m.id) M2 from messages m" +
-      " join messages_seen ms on m.id = ms.message_id" +
       " join chats c on c.id = m.chat_id" +
-      " where ms.user_id = :userId) b"
+      " join chats_users cu on c.id = cu.chats_id" +
+      " join users u on u.id = cu.users_id" +
+      " join messages_seen ms on m.id = ms.message_id" +
+      " left join messages_deleted md on m.id = md.message_id" +
+      " where u.id = :userId and (md.user_id != :userId or md.user_id is null)) b"
     , nativeQuery = true)
   Optional<Integer> getCountAllUnreadMessages(@Param("userId") Long userId);
 }

@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class LastChatMessage extends MessageResponseAbstract {
+public class LastChatMessageResponse extends MessageResponseAbstract {
   private boolean IsMessageSeen = false;
   private boolean IsMessageOwner = false;
   private Integer countUnreadAllChatMessages = 0;

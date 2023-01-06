@@ -42,7 +42,6 @@ export const authUserSocketSubscribe = () => async (dispatch, getState) => {
       switch (body.type) {
         case 'MESSAGE_ADD':
           const {chat} = body;
-          console.log(chat);
           if (chat && chat.isPrivate) {
             dispatch(CHAT_ACTIONS.addNewPrivateChat(chat));
           } else {
@@ -52,7 +51,10 @@ export const authUserSocketSubscribe = () => async (dispatch, getState) => {
           dispatch(ACTIONS.updateCountUnreadMessages(body));
           break;
         case 'MESSAGE_DELETE':
+          const {lastMessage} = body;
           dispatch(MESSAGE_ACTIONS.deleteMessage(body));
+          dispatch(ACTIONS.updateCountUnreadMessages(lastMessage));
+          dispatch(CHAT_ACTIONS.setLastChatAction(lastMessage));
           break;
         case 'MESSAGE_OWNER_SEEN':
           dispatch(MESSAGE_ACTIONS.updateMessageOwnerSeen(body));
@@ -66,7 +68,6 @@ export const authUserSocketSubscribe = () => async (dispatch, getState) => {
           dispatch(ACTIONS.updateCountUnreadMessages(body.lastMessage));
           break;
         case 'LEAVE_CHAT':
-          console.log(body);
           dispatch(MESSAGE_ACTIONS.leaveChatNotification(body));
           dispatch(CHAT_ACTIONS.deleteUserFromChat(body));
           break;

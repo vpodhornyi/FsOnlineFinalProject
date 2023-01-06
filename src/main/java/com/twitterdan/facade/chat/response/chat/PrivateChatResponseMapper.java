@@ -42,6 +42,7 @@ public class PrivateChatResponseMapper extends GeneralFacade<Chat, PrivateChatRe
     dto.setTitle(guestUser.getName());
     dto.setUserTag(guestUser.getUserTag());
     dto.setAvatarImgUrl(guestUser.getAvatarImgUrl());
-    dto.setLastMessage(lastChatMessageMapper.convertToDto(messageService.findLastChatMessage(entity.getId()), user));
+    dto.setLastMessage(lastChatMessageMapper.convertToDto(messageService.
+      findLastChatMessage(entity.getId()), user));
   }
 }

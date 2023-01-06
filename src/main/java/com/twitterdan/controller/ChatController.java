@@ -7,11 +7,11 @@ import com.twitterdan.dto.chat.response.chat.ChatResponseAbstract;
 import com.twitterdan.dto.chat.response.chat.GroupChatResponse;
 import com.twitterdan.dto.chat.response.chat.LeaveChatResponse;
 import com.twitterdan.dto.chat.response.chat.PrivateChatResponse;
-import com.twitterdan.dto.chat.response.message.DeletedMessage;
+import com.twitterdan.dto.chat.response.message.DeletedMessageResponse;
 import com.twitterdan.dto.chat.response.message.MessageResponseAbstract;
 import com.twitterdan.dto.chat.response.seen.ForeignerMessageSeenResponse;
 import com.twitterdan.facade.chat.request.MessageRequestMapper;
-import com.twitterdan.facade.chat.response.DeletedMessageMapper;
+import com.twitterdan.facade.chat.response.message.DeletedMessageResponseMapper;
 import com.twitterdan.facade.chat.response.chat.GroupChatResponseMapper;
 import com.twitterdan.facade.chat.response.chat.LeaveChatResponseMapper;
 import com.twitterdan.facade.chat.response.chat.PrivateChatResponseMapper;
@@ -52,7 +52,7 @@ public class ChatController {
   private final MessageOwnerSeenResponseMapper messageOwnerSeenResponseMapper;
   private final ForeignerMessageSeenResponseMapper foreignerMessageSeenResponseMapper;
   private final MessageSeenRequestMapper messageSeenRequestMapper;
-  private final DeletedMessageMapper deletedMessageMapper;
+  private final DeletedMessageResponseMapper deletedMessageMapper;
   private final LeaveChatResponseMapper leaveChatResponseMapper;
 
   @GetMapping
@@ -79,26 +79,23 @@ public class ChatController {
     Long chatId = leaveChatRequest.getChatId();
     Long userId = leaveChatRequest.getUserId();
     User user = userService.findById(userId);
-    System.out.println(leaveChatRequest);
+    LeaveChatResponse leaveChatResponse = null;
 
     if (leaveChatRequest.isGroupChat()) {
       Chat chat = chatService.deleteUserFromGroupChat(chatId, user);
+      LeaveChatResponse finalLeaveChatResponse = leaveChatResponseMapper.convertToDto(chat, user);
       chat.getUsers()
-        .forEach(u -> {
-          simpMessagingTemplate.convertAndSend(queue + u.getId(),
-            ResponseEntity.ok(leaveChatResponseMapper.convertToDto(chat, user)));
-        });
-
-      return ResponseEntity.ok(leaveChatResponseMapper.convertToDto(chat, user));
+        .forEach(u -> simpMessagingTemplate.convertAndSend(queue + u.getId(),
+          ResponseEntity.ok(finalLeaveChatResponse)));
+      return ResponseEntity.ok(finalLeaveChatResponse);
     }
 
     if (leaveChatRequest.isPrivateChat()) {
       Chat chat = chatService.deleteUserFromPrivateChat(chatId, user);
-
-      return ResponseEntity.ok(leaveChatResponseMapper.convertToDto(chat, user));
+      leaveChatResponse = leaveChatResponseMapper.convertToDto(chat, user);
     }
 
-    return ResponseEntity.ok(null);
+    return ResponseEntity.ok(leaveChatResponse);
   }
 
   @GetMapping("/private")
@@ -226,7 +223,7 @@ public class ChatController {
   }
 
   @DeleteMapping("/messages")
-  public ResponseEntity<DeletedMessage> deleteMessage(@RequestBody DeleteMessageRequest deleteMessageRequest) {
+  public ResponseEntity<DeletedMessageResponse> deleteMessage(@RequestBody DeleteMessageRequest deleteMessageRequest) {
     System.out.println(deleteMessageRequest);
     Long messageId = deleteMessageRequest.getMessageId();
     Message message = messageService.findById(messageId);
@@ -238,7 +235,6 @@ public class ChatController {
     }
 
     List<User> users = message.getChat().getUsers();
-    DeletedMessage deletedMessage = deletedMessageMapper.convertToDto(message);
 
     if (deleteMessageRequest.isDeleteForAll()) {
       messageService.deleteMessageForAll(messageId, user);
@@ -246,11 +242,11 @@ public class ChatController {
         .filter(u -> !u.equals(user))
         .forEach(u -> {
           simpMessagingTemplate.convertAndSend(queue + u.getId(),
-            ResponseEntity.ok(deletedMessage));
+            ResponseEntity.ok(deletedMessageMapper.convertToDto(message, u)));
         });
     }
 
-    return ResponseEntity.ok(deletedMessage);
+    return ResponseEntity.ok(deletedMessageMapper.convertToDto(message, user));
   }
 
   @PostMapping("/messages/seen")

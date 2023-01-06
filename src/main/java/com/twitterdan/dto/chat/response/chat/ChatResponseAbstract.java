@@ -1,7 +1,6 @@
 package com.twitterdan.dto.chat.response.chat;
 
-import com.twitterdan.dto.DtoResponseType;
-import com.twitterdan.dto.chat.response.message.LastChatMessage;
+import com.twitterdan.dto.chat.response.message.LastChatMessageResponse;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,5 +11,5 @@ public abstract class ChatResponseAbstract {
   private String key;
   private String oldKey;
   private String title;
-  private LastChatMessage lastMessage;
+  private LastChatMessageResponse lastMessage;
 }
