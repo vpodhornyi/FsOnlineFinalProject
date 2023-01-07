@@ -2,13 +2,14 @@ package com.twitterdan.controller;
 
 import com.twitterdan.domain.chat.*;
 import com.twitterdan.domain.user.User;
+import com.twitterdan.dto.chat.ChatUser;
 import com.twitterdan.dto.chat.request.*;
 import com.twitterdan.dto.chat.response.chat.*;
 import com.twitterdan.dto.chat.response.message.DeletedMessageResponse;
 import com.twitterdan.dto.chat.response.message.MessageResponseAbstract;
 import com.twitterdan.dto.chat.response.seen.ForeignerMessageSeenResponse;
+import com.twitterdan.facade.chat.ChatUserMapper;
 import com.twitterdan.facade.chat.request.MessageRequestMapper;
-import com.twitterdan.facade.chat.response.chat.AddNewUserResponseMapper;
 import com.twitterdan.facade.chat.response.message.DeletedMessageResponseMapper;
 import com.twitterdan.facade.chat.response.chat.GroupChatResponseMapper;
 import com.twitterdan.facade.chat.response.chat.LeaveChatResponseMapper;
@@ -30,7 +31,6 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -55,6 +55,7 @@ public class ChatController {
   private final MessageSeenRequestMapper messageSeenRequestMapper;
   private final DeletedMessageResponseMapper deletedMessageMapper;
   private final LeaveChatResponseMapper leaveChatResponseMapper;
+  private final ChatUserMapper chatUserMapper;
 
   @GetMapping
   public ResponseEntity<List<ChatResponseAbstract>> getChats(@RequestParam int pageNumber, @RequestParam int pageSize, Principal principal) {
@@ -137,7 +138,7 @@ public class ChatController {
   }
 
   @PostMapping("/add-users")
-  public ResponseEntity<AddNewUserResponse> addUserToGroup(@RequestBody AddUsersToGroupRequest addUsersToGroupRequest, Principal principal) {
+  public ResponseEntity<AddUsersToGroupResponse> addUserToGroup(@RequestBody AddUsersToGroupRequest addUsersToGroupRequest, Principal principal) {
     User authUser = userService.findByUserTag(principal.getName());
     Long chatId = addUsersToGroupRequest.getChatId();
     Chat oldChat = chatService.findById(chatId);
@@ -147,18 +148,19 @@ public class ChatController {
       .filter(id -> ids.stream().filter(i -> Objects.equals(i, id)).findFirst().isEmpty())
       .map(userService::findById)
       .toList();
+    List<ChatUser> chatUsers = usersForAdd.stream().map(chatUserMapper::convertToDto).toList();
 
     Chat savedChat = chatService.addUsersToChat(chatId, usersForAdd);
-    savedChat.getUsers().stream().filter(u -> !u.equals(authUser)).forEach(user -> {
-      simpMessagingTemplate.convertAndSend(queue + user.getId(), ResponseEntity.ok(null));
-    });
+    oldChat.getUsers().stream().filter(u -> !u.equals(authUser)).forEach(user -> simpMessagingTemplate
+      .convertAndSend(queue + user.getId(), ResponseEntity.ok(new AddUsersToGroupResponse(chatId,
+        chatUserMapper.convertToDto(authUser), chatUsers))));
 
     usersForAdd.forEach(user -> {
       GroupChatResponse groupChatResponse = groupChatResponseMapper.convertToDto(savedChat, user);
       simpMessagingTemplate.convertAndSend(queue + user.getId(), ResponseEntity.ok(groupChatResponse));
     });
 
-    return ResponseEntity.ok(null);
+    return ResponseEntity.ok(new AddUsersToGroupResponse(chatId, chatUserMapper.convertToDto(authUser), chatUsers));
   }
 
   @GetMapping("/messages")

@@ -7,5 +7,6 @@ public enum DtoResponseType {
   FOREIGNER_MESSAGE_SEEN,
   PRIVATE_CHAT,
   GROUP_CHAT,
+  UPDATE_GROUP_CHAT,
   LEAVE_CHAT,
 }

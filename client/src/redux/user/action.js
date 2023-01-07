@@ -39,7 +39,7 @@ export const authUserSocketSubscribe = () => async (dispatch, getState) => {
     api.client.subscribe(`/queue/user.${authUser.id}`, async (data) => {
       const {body} = JSON.parse(data.body);
       console.log(body);
-      switch (body.type) {
+      switch (body?.type) {
         case 'MESSAGE_ADD':
           const {chat} = body;
           if (chat && chat.isPrivate) {
@@ -66,6 +66,10 @@ export const authUserSocketSubscribe = () => async (dispatch, getState) => {
         case 'GROUP_CHAT':
           dispatch(CHAT_ACTIONS.addNewGroupChat(body));
           dispatch(ACTIONS.updateCountUnreadMessages(body.lastMessage));
+          break;
+        case 'UPDATE_GROUP_CHAT':
+          // dispatch(CHAT_ACTIONS.addNewGroupChat(body));
+          // dispatch(ACTIONS.updateCountUnreadMessages(body.lastMessage));
           break;
         case 'LEAVE_CHAT':
           dispatch(MESSAGE_ACTIONS.leaveChatNotification(body));
