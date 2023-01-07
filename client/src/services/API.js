@@ -62,6 +62,7 @@ export const URLS = {
     MESSAGES_SEEN: '/chats/messages/seen',
     PRIVATE: '/chats/private',
     GROUP: '/chats/group',
+    ADD_PEOPLE: '/chats/add-users',
   },
   CLOUD:{
     IMAGE:'/cloud/image',

@@ -13,16 +13,22 @@ const GroupPeople = ({chat}) => {
 
   return (
     <BoxWrapper>
-      <Typography
-        sx={{padding: '11px 15px'}}
-        fontSize='1.5rem'
-        fontWeight='fontWeightBold'
-        variant='h2'>
-        People
-      </Typography>
-      {chat.users.map(user => {
-        return <Person key={user.key} user={user}/>
-      })}
+      <Box
+      sx={{
+        maxHeight: '40vh',
+        overflowY: 'auto'
+      }}>
+        <Typography
+          sx={{padding: '11px 15px'}}
+          fontSize='1.5rem'
+          fontWeight='fontWeightBold'
+          variant='h2'>
+          People
+        </Typography>
+        {chat.users.map(user => {
+          return <Person key={user.key} user={user}/>
+        })}
+      </Box>
       <Box onClick={() => navigate(PATH.MESSAGES.addPeople(chat?.id), {state: {background: location}})}>
         <Action name='Add people'/>
       </Box>

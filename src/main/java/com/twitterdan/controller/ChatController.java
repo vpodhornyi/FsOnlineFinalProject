@@ -3,14 +3,12 @@ package com.twitterdan.controller;
 import com.twitterdan.domain.chat.*;
 import com.twitterdan.domain.user.User;
 import com.twitterdan.dto.chat.request.*;
-import com.twitterdan.dto.chat.response.chat.ChatResponseAbstract;
-import com.twitterdan.dto.chat.response.chat.GroupChatResponse;
-import com.twitterdan.dto.chat.response.chat.LeaveChatResponse;
-import com.twitterdan.dto.chat.response.chat.PrivateChatResponse;
+import com.twitterdan.dto.chat.response.chat.*;
 import com.twitterdan.dto.chat.response.message.DeletedMessageResponse;
 import com.twitterdan.dto.chat.response.message.MessageResponseAbstract;
 import com.twitterdan.dto.chat.response.seen.ForeignerMessageSeenResponse;
 import com.twitterdan.facade.chat.request.MessageRequestMapper;
+import com.twitterdan.facade.chat.response.chat.AddNewUserResponseMapper;
 import com.twitterdan.facade.chat.response.message.DeletedMessageResponseMapper;
 import com.twitterdan.facade.chat.response.chat.GroupChatResponseMapper;
 import com.twitterdan.facade.chat.response.chat.LeaveChatResponseMapper;
@@ -31,6 +29,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -134,6 +134,31 @@ public class ChatController {
     groupChatResponse.setOldKey(oldKey);
 
     return ResponseEntity.ok(groupChatResponse);
+  }
+
+  @PostMapping("/add-users")
+  public ResponseEntity<AddNewUserResponse> addUserToGroup(@RequestBody AddUsersToGroupRequest addUsersToGroupRequest, Principal principal) {
+    User authUser = userService.findByUserTag(principal.getName());
+    Long chatId = addUsersToGroupRequest.getChatId();
+    Chat oldChat = chatService.findById(chatId);
+    List<Long> ids = oldChat.getUsers().stream().map(User::getId).toList();
+
+    List<User> usersForAdd = addUsersToGroupRequest.getUsersIds().stream()
+      .filter(id -> ids.stream().filter(i -> Objects.equals(i, id)).findFirst().isEmpty())
+      .map(userService::findById)
+      .toList();
+
+    Chat savedChat = chatService.addUsersToChat(chatId, usersForAdd);
+    savedChat.getUsers().stream().filter(u -> !u.equals(authUser)).forEach(user -> {
+      simpMessagingTemplate.convertAndSend(queue + user.getId(), ResponseEntity.ok(null));
+    });
+
+    usersForAdd.forEach(user -> {
+      GroupChatResponse groupChatResponse = groupChatResponseMapper.convertToDto(savedChat, user);
+      simpMessagingTemplate.convertAndSend(queue + user.getId(), ResponseEntity.ok(groupChatResponse));
+    });
+
+    return ResponseEntity.ok(null);
   }
 
   @GetMapping("/messages")

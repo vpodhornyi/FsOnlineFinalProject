@@ -89,10 +89,8 @@ export const addNewGroupChat = (chat) => async dispatch => {
   }
 }
 
-export const leaveChat = body => async (dispatch, getState) => {
+export const leaveChat = body => async (dispatch) => {
   try {
-    const {user: {authUser}} = getState();
-    body.userId = authUser.id;
     const data = await api.delete(URLS.CHATS.ROOT, {data: body});
     dispatch(ACTIONS.deleteChat(data));
     dispatch(USER_ACTIONS.updateCountUnreadMessages(data));
@@ -108,5 +106,17 @@ export const getPrivateChatByUsersId = ({guestUserId}) => async dispatch => {
 
   } catch (err) {
     console.log('getPrivateChatByUsersId error - ', err);
+  }
+}
+
+export const addPeopleToChat = body => async (dispatch) => {
+  try {
+    const data = await api.post(URLS.CHATS.ADD_PEOPLE, body);
+    console.log(data);
+    // dispatch(ACTIONS.deleteChat(data));
+    // dispatch(USER_ACTIONS.updateCountUnreadMessages(data));
+
+  } catch (err) {
+    console.log('addPeopleToChat error - ', err);
   }
 }

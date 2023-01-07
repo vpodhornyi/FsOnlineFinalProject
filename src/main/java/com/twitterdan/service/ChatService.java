@@ -93,6 +93,18 @@ public class ChatService {
     return chatRepository.save(chat);
   }
 
+  public Chat addUsersToChat(Long chatId, List<User> users) {
+    Optional<Chat> optionalChat = chatRepository.findById(chatId);
+
+    if (optionalChat.isPresent()) {
+      Chat chat = optionalChat.get();
+      chat.addUsers(users);
+      return chatRepository.save(chat);
+    }
+
+    throw new CouldNotFindChatException(false);
+  }
+
   public Chat deleteUserFromPrivateChat(Long chatId, User user) {
     Optional<List<Message>> optionalMessages = messageRepository.findByChatId(chatId, user.getId());
 

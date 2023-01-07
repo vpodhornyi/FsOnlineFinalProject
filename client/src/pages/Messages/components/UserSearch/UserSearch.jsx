@@ -1,5 +1,5 @@
 import React, {useRef, useState} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {styled} from "@mui/material/styles";
 import {useDebouncedCallback} from "use-debounce";
@@ -13,15 +13,17 @@ import NewMassageHeader from "./NewMassageHeader";
 import GrabbedUser from "./GrabbedUser";
 import GroupButton from "./GroupButton";
 import {ModalPage} from '../../../../components';
-import {ACTIONS, searchUser, getPrivateChatByUsersId} from "@redux/chat/action";
+import {ACTIONS, searchUser, getPrivateChatByUsersId, addPeopleToChat} from "@redux/chat/action";
 import {PATH} from "@utils/constants";
 import {getRandomKey} from '@utils';
 import {CHAT_TYPE} from '@utils/constants';
+import {getChatsData} from '@redux/chat/selector';
 
 const Element = ({isGroup, isAdd}) => {
   const {NEW_GROUP, NEW_PRIVATE} = CHAT_TYPE;
   const inputRef = useRef();
   const dispatch = useDispatch();
+  const {selectedChat, chatId} = useSelector(getChatsData);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [text, setText] = useState('');
@@ -31,6 +33,7 @@ const Element = ({isGroup, isAdd}) => {
     if (text.trim() !== '') {
       setLoading(true);
       const users = await dispatch(searchUser({text}));
+      isAdd && users.forEach(u => u.isNotSelectable = selectedChat.users.find(us => us.id === u.id));
       setFoundedUsers(users);
       setLoading(false);
     } else {
@@ -101,7 +104,14 @@ const Element = ({isGroup, isAdd}) => {
   }
 
   const addPeople = () => {
-
+    if (!!grabbedUsers.length) {
+      const data = {
+        chatId,
+        usersIds: grabbedUsers.map(u => u.id),
+      }
+      dispatch(addPeopleToChat(data));
+      navigate(PATH.MESSAGES.chatInfo(chatId));
+    }
   }
 
   return (
