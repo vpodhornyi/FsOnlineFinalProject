@@ -11,18 +11,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MessageSeenRequestMapper extends GeneralFacade<MessageSeen, MessageSeenRequest> {
-  private final UserService userService;
   private final MessageService messageService;
 
-  public MessageSeenRequestMapper(UserService userService, MessageService messageService) {
+  public MessageSeenRequestMapper(MessageService messageService) {
     super(MessageSeen.class, MessageSeenRequest.class);
-    this.userService = userService;
     this.messageService = messageService;
   }
 
   @Override
-  protected void decorateEntity(MessageSeen entity, MessageSeenRequest dto) {
-    User user = userService.findById(dto.getUserId());
+  protected void decorateEntity(MessageSeen entity, MessageSeenRequest dto, User user) {
     Message message = messageService.findById(dto.getMessageId());
     entity.setUser(user);
     entity.setMessage(message);

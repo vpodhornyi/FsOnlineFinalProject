@@ -1,5 +1,5 @@
 import React, {useRef, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {styled} from "@mui/material/styles";
 import {useDebouncedCallback} from "use-debounce";
@@ -23,7 +23,6 @@ const Element = ({isGroup, isAdd}) => {
   const inputRef = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {authUser} = useSelector(state => state.user);
   const [loading, setLoading] = useState(false);
   const [text, setText] = useState('');
   const [foundedUsers, setFoundedUsers] = useState([]);
@@ -72,9 +71,8 @@ const Element = ({isGroup, isAdd}) => {
       if (entity.type === NEW_PRIVATE) {
         const guestUser = grabbedUsers[0];
         entity.guestUserId = guestUser.id;
-        entity.authUserId = authUser.id;
         setLoading(true);
-        const chat = await dispatch(getPrivateChatByUsersId({authUserId: authUser.id, guestUserId: guestUser.id}));
+        const chat = await dispatch(getPrivateChatByUsersId({guestUserId: guestUser.id}));
 
         if (chat?.id) {
           dispatch(ACTIONS.addExistChat({chat}));
@@ -95,7 +93,6 @@ const Element = ({isGroup, isAdd}) => {
         entity.id = id;
         entity.title = 'New group';
         entity.users = grabbedUsers;
-        entity.authUserId = authUser.id;
         dispatch(ACTIONS.addNewGroupChat(entity));
         dispatch(ACTIONS.setChatId({chatId: id}));
         navigate(PATH.MESSAGES.chat(id));

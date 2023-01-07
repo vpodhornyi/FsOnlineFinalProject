@@ -12,20 +12,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MessageRequestMapper extends GeneralFacade<Message, MessageRequest> {
-
-  private final UserService userService;
   private final ChatService chatService;
 
-  public MessageRequestMapper(UserService userService, ChatService chatService) {
+  public MessageRequestMapper(ChatService chatService) {
     super(Message.class, MessageRequest.class);
-    this.userService = userService;
     this.chatService = chatService;
   }
 
   @Override
-  protected void decorateEntity(Message entity, MessageRequest dto) {
-    Long userId = dto.getUserId();
-    User user = userService.findById(userId);
+  protected void decorateEntity(Message entity, MessageRequest dto, User user) {
     entity.setUser(user);
     entity.setCreatedBy(user.getEmail());
     entity.setUpdatedBy(user.getEmail());

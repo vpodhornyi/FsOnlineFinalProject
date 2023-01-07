@@ -36,7 +36,6 @@ const ChatBody = ({chatId}) => {
   const [visible, setVisible] = useState(false);
   const [isScroll, setIsScroll] = useState(false);
   const [loading, setLoading] = useState(false);
-  const {authUser: {id: authUserId}} = useSelector(state => state.user);
   const showScrollDownButton = useDebouncedCallback(v => setVisible(v), 300);
 
   const getScrolling = () => {
@@ -93,7 +92,6 @@ const ChatBody = ({chatId}) => {
       }
       const newMessage = {
         chatId,
-        userId: authUserId,
         key: getRandomKey(),
         text: textMessage,
         isMessageOwner: true,

@@ -9,7 +9,6 @@ import lombok.ToString;
 @ToString
 public class LeaveChatRequest {
   private Long chatId;
-  private Long userId;
   private boolean groupChat;
   private boolean privateChat;
 }

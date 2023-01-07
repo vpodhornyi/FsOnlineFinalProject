@@ -56,7 +56,6 @@ export const addNewPrivateChat = (chat) => async dispatch => {
   try {
     const body = {
       type: CHAT_TYPE.PRIVATE,
-      authUserId: chat.authUserId,
       guestUserId: chat.guestUserId,
       message: chat.message,
       oldKey: chat.key,
@@ -77,7 +76,6 @@ export const addNewGroupChat = (chat) => async dispatch => {
     const body = {
       title: chat.title,
       message: chat.message,
-      authUserId: chat.authUserId,
       type: CHAT_TYPE.GROUP,
       oldKey: chat.key,
       usersIds,
@@ -104,9 +102,9 @@ export const leaveChat = body => async (dispatch, getState) => {
   }
 }
 
-export const getPrivateChatByUsersId = ({authUserId, guestUserId}) => async dispatch => {
+export const getPrivateChatByUsersId = ({guestUserId}) => async dispatch => {
   try {
-    return await api.get(URLS.CHATS.PRIVATE, {params: {authUserId, guestUserId}});
+    return await api.get(URLS.CHATS.PRIVATE, {params: {guestUserId}});
 
   } catch (err) {
     console.log('getPrivateChatByUsersId error - ', err);

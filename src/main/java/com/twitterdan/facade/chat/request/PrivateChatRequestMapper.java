@@ -21,10 +21,8 @@ public class PrivateChatRequestMapper extends GeneralFacade<Chat, PrivateChatReq
   }
 
   @Override
-  protected void decorateEntity(Chat entity, PrivateChatRequest dto) {
-    Long authUserId = dto.getAuthUserId();
+  protected void decorateEntity(Chat entity, PrivateChatRequest dto, User authUser) {
     Long guestUserId = dto.getGuestUserId();
-    User authUser = userService.findById(authUserId);
     User guestUser = userService.findById(guestUserId);
     List<User> users = new ArrayList<>();
     users.add(authUser);

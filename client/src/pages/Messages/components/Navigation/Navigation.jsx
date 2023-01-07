@@ -15,13 +15,12 @@ import {useModal} from '../../../../hooks/useModal';
 const Navigation = () => {
   const {modal, toggleModal} = useModal();
   const dispatch = useDispatch();
-  const {authUser: {id: userId}} = useSelector(state => state.user);
   const {isChatLoading, isChatsExist, chats, pageNumber, pageSize} = useSelector(getChatsData);
 
   useEffect(() => {
     const fetch = async () => {
       if (pageNumber === 0) {
-        dispatch(getChats({userId, pageNumber, pageSize}));
+        dispatch(getChats({pageNumber, pageSize}));
         dispatch(ACTIONS.setPageNumber({pageNumber: pageNumber + 1}));
       }
     }

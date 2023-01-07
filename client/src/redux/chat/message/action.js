@@ -20,10 +20,9 @@ export const ACTIONS = {
   ...actions.actions,
 }
 
-export const getMessages = (id) => async (dispatch, getState) => {
+export const getMessages = (id) => async (dispatch) => {
   try {
-    const {user: {authUser}} = getState();
-    const data = await api.get(URLS.CHATS.MESSAGES, {params: {chatId: id, authUserId: authUser.id}});
+    const data = await api.get(URLS.CHATS.MESSAGES, {params: {chatId: id}});
 
     dispatch(ACTIONS.setMessages({messages: data}));
 
@@ -44,10 +43,8 @@ export const sendMessage = (body) => async (dispatch) => {
   }
 }
 
-export const deleteMessage = (body) => async (dispatch, getState) => {
+export const deleteMessage = (body) => async (dispatch) => {
   try {
-    const {user: {authUser}} = getState();
-    body.userId = authUser.id;
     const data = await api.delete(URLS.CHATS.MESSAGES, {data: body});
     dispatch(ACTIONS.deleteMessage(data));
 

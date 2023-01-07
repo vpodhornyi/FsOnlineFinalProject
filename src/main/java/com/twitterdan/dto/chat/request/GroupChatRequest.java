@@ -11,7 +11,6 @@ import java.util.List;
 @Setter
 public class GroupChatRequest extends ChatRequestAbstract {
   private List<Long> usersIds;
-  private Long authUserId;
   private String title;
   private String oldKey;
 }

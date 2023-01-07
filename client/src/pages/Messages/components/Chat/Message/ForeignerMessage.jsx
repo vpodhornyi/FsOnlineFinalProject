@@ -26,7 +26,7 @@ const ForeignerMessage = ({message, toggleModal}) => {
 
   useEffect(() => {
     if (message && inView && !isMessageSeen) {
-      sendSeen({messageId: message.id, userId: authUserId, chatId: message.chatId});
+      sendSeen({messageId: message.id, chatId: message.chatId});
     }
   }, [inView])
 
