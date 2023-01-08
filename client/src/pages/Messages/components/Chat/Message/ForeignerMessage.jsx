@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {useSelector, useDispatch} from "react-redux";
+import {useDispatch} from "react-redux";
 import {useInView} from 'react-intersection-observer';
 import {styled} from "@mui/material/styles";
 import {Link} from "react-router-dom";
@@ -17,7 +17,6 @@ const ForeignerMessage = ({message, toggleModal}) => {
     threshold: 1.0,
     triggerOnce: true,
   });
-  const {authUser: {id: authUserId}} = useSelector(state => state.user);
   const {isMessageSeen} = message;
 
   const sendSeen = body => {

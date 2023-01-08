@@ -14,6 +14,7 @@ const AddNewUsersMessage = ({item}) => {
 
 const BoxWrapper = styled(Box)(({theme}) => ({
   width: '100%',
+  marginBottom: 10,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',

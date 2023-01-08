@@ -2,6 +2,7 @@ import {createActions} from '../utils';
 import api, {URLS} from "@service/API";
 import {CHAT_TYPE} from "../../utils/constants";
 import {ACTIONS as USER_ACTIONS} from '../user/action';
+import {ACTIONS as MESSAGE_ACTIONS} from "./message/action";
 
 const actions = createActions(
   {
@@ -113,7 +114,7 @@ export const addPeopleToChat = body => async (dispatch) => {
   try {
     const data = await api.post(URLS.CHATS.ADD_PEOPLE, body);
     dispatch(ACTIONS.addUsersToGroupChat(data));
-    // dispatch(USER_ACTIONS.updateCountUnreadMessages(data));
+    dispatch(MESSAGE_ACTIONS.addUsersNotification(data));
 
   } catch (err) {
     console.log('addPeopleToChat error - ', err);
