@@ -48,14 +48,16 @@ export const mainRoutes = (userTag, authorized) => {
           {
             path: PATH.MESSAGES.CHAT,
             element: <Chat/>,
-          },
-          {
-            path: PATH.MESSAGES.CHAT_INFO,
-            element: <ChatInfo/>,
-          },
-          {
-            path: PATH.MESSAGES.PARTICIPANTS,
-            element: <Participants/>,
+            children: [
+              {
+                path: PATH.MESSAGES.CHAT_INFO,
+                element: <ChatInfo/>,
+              },
+              {
+                path: PATH.MESSAGES.PARTICIPANTS,
+                element: <Participants/>,
+              },
+            ]
           },
         ],
       },
@@ -129,21 +131,21 @@ export const modalRoutes = authorized => {
         children: [],
       },
 
-        {
+      {
         path: PATH.TWEET.DELETE,
         element: <DeleteTweet/>,
         children: [],
       },
-        {
-          path: PATH.TWEET.REPLY,
-          element: <Reply/>,
-          children: [],
-        },
-        {
-          path: PATH.TWEET.IMG,
-          element: <ModalImg/>,
-          children: [],
-        },
+      {
+        path: PATH.TWEET.REPLY,
+        element: <Reply/>,
+        children: [],
+      },
+      {
+        path: PATH.TWEET.IMG,
+        element: <ModalImg/>,
+        children: [],
+      },
 
       {
         path: PATH.ALL,

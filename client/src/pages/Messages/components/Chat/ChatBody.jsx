@@ -193,7 +193,7 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   boxSizing: 'border-box',
   position: 'relative',
   width: '100%',
-  height: 'calc(100% - 49px)',
+  height: 'calc(100% - 55px)',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',

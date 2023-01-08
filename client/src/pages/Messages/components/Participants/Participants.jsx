@@ -14,16 +14,25 @@ const Participants = () => {
   return (
     <BoxWrapper>
       <ParticipantsHeader chat={selectedChat}/>
-      {selectedChat?.users?.map(user => {
-        return <Person key={user?.key} user={user}/>
-      })}
+      <Box>
+        {selectedChat?.users?.map(user => {
+          return <Person key={user?.key} user={user}/>
+        })}
+      </Box>
     </BoxWrapper>);
 }
 
 const BoxWrapper = styled(Box)(({theme}) => ({
   width: '100%',
   display: 'flex',
-  flexDirection: 'column'
+  flexDirection: 'column',
+  backgroundColor: '#ffffff',
+  height: '100vh',
+
+  '& > .MuiBox-root': {
+    maxHeight: '90vh',
+    overflowY: 'auto'
+  }
 }));
 
 Participants.propTypes = {
