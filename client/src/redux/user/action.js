@@ -67,9 +67,9 @@ export const authUserSocketSubscribe = () => async (dispatch, getState) => {
           dispatch(CHAT_ACTIONS.addNewGroupChat(body));
           dispatch(ACTIONS.updateCountUnreadMessages(body.lastMessage));
           break;
-        case 'UPDATE_GROUP_CHAT':
-          // dispatch(CHAT_ACTIONS.addNewGroupChat(body));
-          // dispatch(ACTIONS.updateCountUnreadMessages(body.lastMessage));
+        case 'ADD_TO_GROUP_CHAT':
+          dispatch(CHAT_ACTIONS.addUsersToGroupChat(body));
+          dispatch(MESSAGE_ACTIONS.addUsersNotification(body));
           break;
         case 'LEAVE_CHAT':
           dispatch(MESSAGE_ACTIONS.leaveChatNotification(body));

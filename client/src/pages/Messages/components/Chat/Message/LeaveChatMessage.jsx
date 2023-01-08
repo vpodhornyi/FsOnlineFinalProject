@@ -1,6 +1,5 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import {useDispatch} from "react-redux";
 import {styled} from "@mui/material/styles";
 import {Avatar, Box, Typography} from "@mui/material";
 import PropTypes from "prop-types";

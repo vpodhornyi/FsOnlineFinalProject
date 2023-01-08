@@ -9,7 +9,7 @@ const actions = createActions(
       'SET_CHAT_ID', 'RESET_CHAT_ID', 'SET_MESSAGE', 'SET_PAGE_NUMBER', 'SET_LAST_CHAT_ACTION',
       'SET_NEW_CHAT', 'ADD_NEW_PRIVATE_CHAT', 'ADD_NEW_GROUP_CHAT', 'UPDATE_NEW_CHAT', 'DELETE_CHAT',
       'SET_NEW_GROUP', 'ADD_EXIST_CHAT', 'RESET_DATA', 'UPDATE_COUNT_UNREAD_MESSAGES', 'DELETE_USER_FROM_CHAT',
-      'ADD_CHAT_IF_NOT_EXIST'
+      'ADD_CHAT_IF_NOT_EXIST', 'ADD_USERS_TO_GROUP_CHAT'
     ],
     async: ['GET_CHATS', 'SEND_MESSAGE'],
   },
@@ -112,8 +112,7 @@ export const getPrivateChatByUsersId = ({guestUserId}) => async dispatch => {
 export const addPeopleToChat = body => async (dispatch) => {
   try {
     const data = await api.post(URLS.CHATS.ADD_PEOPLE, body);
-    console.log(data);
-    // dispatch(ACTIONS.deleteChat(data));
+    dispatch(ACTIONS.addUsersToGroupChat(data));
     // dispatch(USER_ACTIONS.updateCountUnreadMessages(data));
 
   } catch (err) {

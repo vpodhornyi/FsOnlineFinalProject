@@ -105,6 +105,16 @@ export default (state = init, {payload, type}) => {
       return {
         ...state,
       };
+    case String(ACTIONS.addUsersToGroupChat): {
+      const {chatId, addedUsers} = payload;
+      const existChat = state.chats.find(ch => ch.id === chatId);
+      if (existChat) {
+        existChat.users = [...existChat.users, ...addedUsers];
+      }
+    }
+      return {
+        ...state,
+      };
     case String(ACTIONS.deleteUserFromChat): {
       const {chatId, user} = payload;
       const existChat = state.chats.find(ch => ch.id === chatId);

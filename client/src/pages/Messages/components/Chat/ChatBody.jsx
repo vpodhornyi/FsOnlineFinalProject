@@ -21,6 +21,7 @@ import {getRandomKey} from "@utils";
 import MessageOwner from "./Message/MessageOwner";
 import ForeignerMessage from "./Message/ForeignerMessage";
 import LeaveChatMessage from "./Message/LeaveChatMessage";
+import AddNewUsersMessage from "./Message/AddNewUsersMessage";
 
 
 const ChatBody = ({chatId}) => {
@@ -138,26 +139,34 @@ const ChatBody = ({chatId}) => {
             </Box>
           )}
           {messages.map(message => {
-              if (message.isMessageOwner) {
-                return <MessageOwner
-                  key={message?.key}
-                  message={message}
-                  toggleModal={toggleModal}
-                />
-              }
-              if (message.isForeignerMessage) {
-                return <ForeignerMessage
-                  key={message?.key}
-                  message={message}
-                  toggleModal={toggleModal}
-                  onBottom={onBottom}
-                />
-              }
-              if (message.isLeaveChat) {
-                return <LeaveChatMessage
-                  key={message?.key}
-                  item={message}
-                />
+              switch (true) {
+                case message.isMessageOwner: {
+                  return <MessageOwner
+                    key={message?.key}
+                    message={message}
+                    toggleModal={toggleModal}
+                  />
+                }
+                case message.isForeignerMessage: {
+                  return <ForeignerMessage
+                    key={message?.key}
+                    message={message}
+                    toggleModal={toggleModal}
+                    onBottom={onBottom}
+                  />
+                }
+                case message.isLeaveChat: {
+                  return <LeaveChatMessage
+                    key={message?.key}
+                    item={message}
+                  />
+                }
+                case message.isAddNewUsers: {
+                  return <AddNewUsersMessage
+                    key={message?.key}
+                    item={message}
+                  />
+                }
               }
             }
           )}

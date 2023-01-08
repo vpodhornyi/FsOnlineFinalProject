@@ -13,18 +13,18 @@ const GroupPeople = ({chat}) => {
 
   return (
     <BoxWrapper>
+      <Typography
+        sx={{padding: '11px 15px'}}
+        fontSize='1.5rem'
+        fontWeight='fontWeightBold'
+        variant='h2'>
+        People
+      </Typography>
       <Box
       sx={{
         maxHeight: '40vh',
         overflowY: 'auto'
       }}>
-        <Typography
-          sx={{padding: '11px 15px'}}
-          fontSize='1.5rem'
-          fontWeight='fontWeightBold'
-          variant='h2'>
-          People
-        </Typography>
         {chat.users.map(user => {
           return <Person key={user.key} user={user}/>
         })}
