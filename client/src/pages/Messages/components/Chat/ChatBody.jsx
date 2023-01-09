@@ -4,6 +4,7 @@ import {useNavigate} from "react-router-dom";
 import {useDebouncedCallback} from 'use-debounce';
 import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
+import {Link, Button, Element, Events, animateScroll as scroll, scrollSpy, scroller} from 'react-scroll'
 import PropTypes from "prop-types";
 
 
@@ -42,9 +43,7 @@ const ChatBody = ({chatId}) => {
   const getScrolling = () => {
     const offsetHeight = overlayRef?.current?.offsetHeight;
     const scrollHeight = overlayRef?.current?.scrollHeight;
-    if (offsetHeight === scrollHeight) {
-      showScrollDownButton(false);
-    }
+    showScrollDownButton(offsetHeight !== scrollHeight);
   }
 
   const fetch = useDebouncedCallback(async (id) => {
@@ -53,7 +52,7 @@ const ChatBody = ({chatId}) => {
     setLoading(false);
     setTimeout(() => {
       getScrolling();
-      onBottom();
+      // onBottom();
     }, 200);
   }, 500);
 
@@ -117,17 +116,23 @@ const ChatBody = ({chatId}) => {
   }
 
   const onBottom = () => {
-    const heightBody = chatBodyRef?.current?.offsetHeight;
-    overlayRef?.current?.scroll(0, heightBody);
+    // const heightBody = chatBodyRef?.current?.offsetHeight;
+    // overlayRef?.current?.scroll(0, heightBody);
+
+    scroller.scrollTo('myScrollToElement', {
+      duration: 100,
+      delay: 0,
+      smooth: 'easeInOutQuart',
+      containerId: 'ScrollContainer'
+    })
   }
 
   return (
     <BoxWrapper>
       <Box
+        id='ScrollContainer'
+        className='ScrollContainer'
         ref={overlayRef}
-        sx={{
-          overflowX: 'hidden',
-        }}
         onScroll={onScrollEvent}>
         <Box
           ref={chatBodyRef}
@@ -170,6 +175,7 @@ const ChatBody = ({chatId}) => {
               }
             }
           )}
+          <Element name="myScrollToElement"></Element>
         </Box>
       </Box>
       <Box sx={{position: 'relative'}}>
@@ -198,8 +204,8 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   flexDirection: 'column',
   justifyContent: 'space-between',
 
-  '& > .MuiBox-root > .MessagesBox': {
-    overflow: 'overlay',
+  '& .ScrollContainer': {
+    overflow: 'auto',
     paddingLeft: 15,
     paddingRight: 15,
   },
