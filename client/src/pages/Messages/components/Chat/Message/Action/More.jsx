@@ -8,7 +8,7 @@ import IconByName from "@components/icons/IconByName";
 import DeleteForYouMessageConfirm from "../../../confirms/DeleteForYouMessageConfirm";
 import DeleteForAllMessageConfirm from "../../../confirms/DeleteForAllMessageConfirm";
 
-const More = ({toggleModal, message}) => {
+const More = ({toggleModal, message, isRight}) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -56,7 +56,7 @@ const More = ({toggleModal, message}) => {
         }}
         transformOrigin={{
           vertical: 'top',
-          horizontal: 'left',
+          horizontal: `${isRight ? 'right' : 'left'}`,
         }}
       >
         <MenuItem onClick={deleteForYou}>
@@ -114,6 +114,7 @@ const MenuWrapper = styled(Menu)(({theme}) => ({
 More.propTypes = {
   toggleModal: PropTypes.func,
   message: PropTypes.object,
+  isRight: PropTypes.bool,
 }
 
 export default More;

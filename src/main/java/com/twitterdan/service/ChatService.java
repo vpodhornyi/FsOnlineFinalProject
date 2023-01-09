@@ -3,12 +3,14 @@ package com.twitterdan.service;
 import com.twitterdan.dao.ChatDeletedRepository;
 import com.twitterdan.dao.ChatRepository;
 import com.twitterdan.dao.MessageRepository;
+import com.twitterdan.dao.MessageSeenRepository;
 import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.chat.ChatType;
 import com.twitterdan.domain.chat.Message;
 import com.twitterdan.domain.user.User;
 import com.twitterdan.exception.ChatAlreadyExistException;
 import com.twitterdan.exception.CouldNotFindChatException;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,17 +22,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class ChatService {
   private final ChatRepository chatRepository;
   private final MessageRepository messageRepository;
   private final ChatDeletedRepository chatDeletedRepository;
-
-  public ChatService(ChatRepository chatRepository, MessageRepository messageRepository, ChatDeletedRepository chatDeletedRepository) {
-    this.chatRepository = chatRepository;
-    this.messageRepository = messageRepository;
-    this.chatDeletedRepository = chatDeletedRepository;
-  }
-
   public List<Chat> getAll() {
     return chatRepository.findAll();
   }
@@ -93,8 +89,16 @@ public class ChatService {
     return chatRepository.save(chat);
   }
 
+  @Transactional
   public Chat addUsersToChat(Long chatId, List<User> users) {
     Optional<Chat> optionalChat = chatRepository.findById(chatId);
+    Optional<Message> optionalMessage = messageRepository.findFirstByChatIdOrderByCreatedAtDesc(chatId);
+
+    if (optionalMessage.isPresent()) {
+      Message lastChatMessage = optionalMessage.get();
+      users.forEach(lastChatMessage::addSeen);
+      messageRepository.save(lastChatMessage);
+    }
 
     if (optionalChat.isPresent()) {
       Chat chat = optionalChat.get();

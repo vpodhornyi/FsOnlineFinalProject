@@ -17,7 +17,12 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
     " where m.chat_id = :chatId and (md.user_id != :userId or md.user_id is null)"
   , nativeQuery = true)
   Optional<List<Message>> findByChatId(Long chatId, Long userId);
-  Optional<Message> findFirstByChatIdOrderByCreatedAtDesc(Long id);
+
+//  @Query(value =
+//    " select * from messages m where m.chat_id = :chatId" +
+//      " order by m.created_at desc limit 1"
+//    , nativeQuery = true)
+  Optional<Message> findFirstByChatIdOrderByCreatedAtDesc(Long chatId);
 
   @Query(value =
     " SELECT M1 - M2" +
@@ -28,7 +33,7 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
       " join messages_seen ms on m.id = ms.message_id" +
       " where chat_id = :chatId and ms.user_id = :userId) b"
     , nativeQuery = true)
-  Optional<Integer> getCountUnreadMessages(@Param("chatId") Long chatId, @Param("userId") Long userId);
+  Optional<Integer> getCountUnreadMessages(Long chatId, Long userId);
   @Query(value =
     " SELECT M1 - M2" +
       " from (select count(m.id) M1" +
@@ -46,7 +51,7 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
       " left join messages_deleted md on m.id = md.message_id" +
       " where u.id = :userId and ms.user_id = :userId and (md.user_id != :userId or md.user_id is null)) b"
     , nativeQuery = true)
-  Optional<Integer> getCountAllUnreadMessages(@Param("userId") Long userId);
+  Optional<Integer> getCountAllUnreadMessages(Long userId);
 }
 
 /*

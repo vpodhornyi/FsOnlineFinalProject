@@ -26,7 +26,10 @@ export default (state = init, {payload, type}) => {
     }
       return {...state};
     case String(ACTIONS.addNewGroupChat): {
-      state.chats = [payload, ...state.chats];
+      const find = state.chats.find(ch => ch.id === payload.id);
+      if (!find) {
+        state.chats = [payload, ...state.chats];
+      }
     }
       return {...state};
     case String(ACTIONS.updateNewChat): {
@@ -109,7 +112,10 @@ export default (state = init, {payload, type}) => {
       const {chatId, addedUsers} = payload;
       const existChat = state.chats.find(ch => ch.id === chatId);
       if (existChat) {
-        existChat.users = [...existChat.users, ...addedUsers];
+        addedUsers.forEach(u => {
+          const find = existChat.users.find(ex => ex.id === u.id);
+          if (!find) existChat.users.push(u);
+        })
       }
     }
       return {

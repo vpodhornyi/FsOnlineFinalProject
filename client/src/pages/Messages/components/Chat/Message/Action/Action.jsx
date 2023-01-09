@@ -5,7 +5,7 @@ import CustomIconButton from "@components/buttons/CustomIconButton";
 import More from "./More";
 import PropTypes from "prop-types";
 
-const Action = ({toggleModal, message}) => {
+const Action = ({toggleModal, message, isRight = false}) => {
 
   return (
     <BoxWrapper className='Actions'>
@@ -17,7 +17,7 @@ const Action = ({toggleModal, message}) => {
           size='small'
           iconSize='small'/>
       </Box>
-      <More toggleModal={toggleModal} message={message}/>
+      <More toggleModal={toggleModal} message={message} isRight={isRight}/>
     </BoxWrapper>);
 }
 
@@ -30,6 +30,7 @@ const BoxWrapper = styled(Box)(({theme}) => ({
 Action.propTypes = {
   toggleModal: PropTypes.func,
   message: PropTypes.object,
+  isRight: PropTypes.bool,
 }
 
 export default Action;
