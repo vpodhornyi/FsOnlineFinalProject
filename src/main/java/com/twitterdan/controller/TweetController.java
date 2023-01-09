@@ -1,14 +1,20 @@
 package com.twitterdan.controller;
 
 import com.twitterdan.domain.tweet.Tweet;
+import com.twitterdan.domain.tweet.TweetAction;
+import com.twitterdan.domain.user.User;
 import com.twitterdan.dto.tweet.TweetRequest;
 import com.twitterdan.dto.tweet.TweetResponse;
+import com.twitterdan.dto.tweetAction.TweetActionRequest;
+import com.twitterdan.dto.tweetAction.TweetActionResponse;
+import com.twitterdan.dto.tweetAction.TweetActionResponseAllData;
 import com.twitterdan.facade.tweet.TweetRequestMapper;
 import com.twitterdan.facade.tweet.TweetResponseMapper;
 import com.twitterdan.service.TweetService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -72,7 +78,10 @@ public class TweetController {
             Tweet tweet = tweetRequestMapper.convertToEntity(dto);
           return   tweetResponseMapper.convertToDto(tweetService.save(tweet));
         }
-
+        @PostMapping("/change_actions")
+        public TweetActionResponseAllData changeAction(@RequestBody TweetActionRequest tweetActionRequest,@AuthenticationPrincipal User user){
+           return tweetService.changeAction(tweetActionRequest);
+        }
 
         @ExceptionHandler({Exception.class, MethodArgumentNotValidException.class})
         public ResponseEntity<Object> handleException(Exception ex) {

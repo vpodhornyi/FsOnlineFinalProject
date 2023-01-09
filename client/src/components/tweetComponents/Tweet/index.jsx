@@ -26,7 +26,10 @@ import {
 } from "./style";
 import { useDispatch, useSelector } from "react-redux";
 import ImageListContainer from "../../imageList/ImageListContainer";
-import { handlerBookmark } from "../../../redux/tweet/action";
+import {
+  changeActionsTweet,
+  handlerBookmark,
+} from "../../../redux/tweet/action";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PATH } from "../../../utils/constants";
 import { getPersonalData } from "../../../redux/user/selector";
@@ -135,6 +138,10 @@ const Tweet = ({ tweetInfo }) => {
                   return navigate(PATH.TWEET.ROOT + `/reply/${id}`, {
                     state: { background: location },
                   });
+                case "Like":
+                  return dispatch(
+                    changeActionsTweet({ actionType: "LIKE", tweetId: id })
+                  );
               }
             };
 

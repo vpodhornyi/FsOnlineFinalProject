@@ -57,4 +57,6 @@ public class Tweet extends BaseEntity {
             ", actions=" + actions +
             '}';
   }
+
+
 }
