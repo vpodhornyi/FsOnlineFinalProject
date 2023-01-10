@@ -10,6 +10,7 @@ import com.twitterdan.service.MessageService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -33,6 +34,12 @@ public class GroupForeignerMessageResponseMapper extends GeneralFacade<Message, 
     dto.setCountUnreadAllChatMessages(messageService.getCountAllUnreadChatMessagesByUserId(userId));
     dto.setLastSeenChatMessageId(messageService.findLastSeenChatMessageId(userId, chatId));
     Optional<List<MessageSeen>> seen = entity.getSeen();
+
+    Long lastSeenChatMessageId = messageService.findLastSeenChatMessageId(userId, chatId);
+
+    if (Objects.equals(lastSeenChatMessageId, entity.getId())) {
+      dto.setIsLastMessageSeen(true);
+    }
 
     if (seen.isPresent()) {
       Optional<MessageSeen> optionalMessageSeen = seen.get().stream().filter(e -> e.getUser().equals(user)).findFirst();

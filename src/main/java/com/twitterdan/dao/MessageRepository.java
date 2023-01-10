@@ -28,14 +28,29 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
   @Query(value =
     " select m.id, m.created_at, m.updated_at, m.created_by," +
       " m.updated_by, m.uuid, m.text, m.chat_id, m.user_id" +
-      " from messages m join messages_seen ms on m.id = ms.message_id" +
+      " from messages m" +
+      " join messages_seen ms on m.id = ms.message_id" +
+      " left join messages_deleted md on m.id = md.message_id" +
       " where m.chat_id = :chatId" +
       " and ms.user_id = :userId" +
+      " and (md.user_id != :userId or md.user_id is null)" +
       " order by m.id desc" +
       " limit 1"
     , nativeQuery = true)
   Optional<Message> findLastSeenChatMessage(Long userId, Long chatId);
+/*
+select m.id, m.created_at, m.updated_at, m.created_by,
+        m.updated_by, m.uuid, m.text, m.chat_id, m.user_id
+ from messages m
+          join messages_seen ms on m.id = ms.message_id
+          left join messages_deleted md on m.id = md.message_id
+ where m.chat_id = 4
+   and ms.user_id = 1
+   and (md.user_id != 1 or md.user_id is null)
+ order by m.id desc
+ limit 1;
 
+ */
   @Query(value =
     " SELECT M1 - M2" +
       " from (select count(m.id) M1" +

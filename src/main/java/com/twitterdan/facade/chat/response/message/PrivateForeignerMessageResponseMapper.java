@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,6 +42,12 @@ public class PrivateForeignerMessageResponseMapper extends GeneralFacade<Message
       chatService.resetDeletedChat(userId, chatId);
     } else {
       dto.setChat(null);
+    }
+
+    Long lastSeenChatMessageId = messageService.findLastSeenChatMessageId(userId, chatId);
+
+    if (Objects.equals(lastSeenChatMessageId, entity.getId())) {
+      dto.setIsLastMessageSeen(true);
     }
 
     dto.setCountUnreadMessages(messageService.getCountUnreadChatMessagesByUserId(chatId, userId));

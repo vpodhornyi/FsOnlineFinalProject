@@ -153,12 +153,15 @@ const ChatBody = ({chatId}) => {
                   />
                 }
                 case message.isForeignerMessage: {
-                  return <ForeignerMessage
-                    key={message?.key}
-                    message={message}
-                    toggleModal={toggleModal}
-                    onBottom={onBottom}
-                  />
+                  return <>
+                    <ForeignerMessage
+                      key={message?.key}
+                      message={message}
+                      toggleModal={toggleModal}
+                      onBottom={onBottom}
+                    />
+                    <Element name="myScrollToElement"></Element>
+                  </>
                 }
                 case message.isLeaveChat: {
                   return <LeaveChatMessage
@@ -175,7 +178,6 @@ const ChatBody = ({chatId}) => {
               }
             }
           )}
-          <Element name="myScrollToElement"></Element>
         </Box>
       </Box>
       <Box sx={{position: 'relative'}}>
