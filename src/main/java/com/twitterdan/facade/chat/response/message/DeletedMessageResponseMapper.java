@@ -23,6 +23,6 @@ public class DeletedMessageResponseMapper extends GeneralFacade<Message, Deleted
     dto.setChatId(chatId);
     dto.setMessageId(entity.getId());
     dto.setLastMessage(lastChatMessageMapper.convertToDto(messageService.
-      findLastChatMessage(chatId), user));
+      findLastChatMessage(chatId, user.getId()), user));
   }
 }

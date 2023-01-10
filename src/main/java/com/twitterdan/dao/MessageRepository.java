@@ -19,10 +19,14 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
     , nativeQuery = true)
   Optional<List<Message>> findByChatId(Long chatId, Long userId);
 
-  //  @Query(value =
-//    " select * from messages m where m.chat_id = :chatId" +
-//      " order by m.created_at desc limit 1"
-//    , nativeQuery = true)
+    @Query(value =
+    " select * from messages m" +
+      " left join messages_deleted md on m.id = md.message_id" +
+      " where m.chat_id = :chatId and (md.user_id != :userId or md.user_id is null)" +
+      " order by m.created_at desc limit 1"
+    , nativeQuery = true)
+  Optional<Message> findLastChatMessage(Long chatId, Long userId);
+
   Optional<Message> findFirstByChatIdOrderByCreatedAtDesc(Long chatId);
 
   @Query(value =

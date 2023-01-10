@@ -35,6 +35,7 @@ public class GroupChatResponseMapper extends GeneralFacade<Chat, GroupChatRespon
       .toList();
 
     dto.setUsers(users);
-    dto.setLastMessage(lastChatMessageMapper.convertToDto(messageService.findLastChatMessage(entity.getId()), user));
+    dto.setLastMessage(lastChatMessageMapper
+      .convertToDto(messageService.findLastChatMessage(entity.getId(), user.getId()), user));
   }
 }

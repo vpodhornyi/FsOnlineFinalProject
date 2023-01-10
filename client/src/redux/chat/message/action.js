@@ -47,6 +47,7 @@ export const deleteMessage = (body) => async (dispatch) => {
   try {
     const data = await api.delete(URLS.CHATS.MESSAGES, {data: body});
     dispatch(ACTIONS.deleteMessage(data));
+    dispatch(CHAT_ACTIONS.setLastChatAction(data.lastMessage));
 
   } catch (err) {
     console.log('deleteMessage error - ', err);

@@ -46,8 +46,8 @@ public class MessageService {
     throw new CouldNotFindMessageException(false);
   }
 
-  public Message findLastChatMessage(Long chatId) {
-    Optional<Message> optionalMessage = messageRepository.findFirstByChatIdOrderByCreatedAtDesc(chatId);
+  public Message findLastChatMessage(Long chatId, Long userId) {
+    Optional<Message> optionalMessage = messageRepository.findLastChatMessage(chatId, userId);
 
     if (optionalMessage.isPresent()) {
       return optionalMessage.get();
