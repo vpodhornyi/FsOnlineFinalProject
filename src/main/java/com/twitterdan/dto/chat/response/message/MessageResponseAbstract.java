@@ -19,4 +19,5 @@ public abstract class MessageResponseAbstract {
   private Long chatId;
   private ChatUser user;
   private Integer countUnreadMessages = 0;
+  private Long lastSeenChatMessageId;
 }

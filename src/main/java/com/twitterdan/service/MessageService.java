@@ -102,4 +102,14 @@ public class MessageService {
     }
     messageRepository.deleteById(messageId);
   }
+
+  public Long findLastSeenChatMessageId(Long userId, Long chatId) {
+    Optional<Message> optionalMessage = messageRepository.findLastSeenChatMessage(userId, chatId);
+
+    if (optionalMessage.isPresent()) {
+      return optionalMessage.get().getId();
+    }
+
+    return 0L;
+  }
 }

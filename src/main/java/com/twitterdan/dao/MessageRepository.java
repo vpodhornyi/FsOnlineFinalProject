@@ -11,19 +11,30 @@ import java.util.Optional;
 
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Long> {
-@Query(value =
-  " SELECT * from messages m" +
-    " left join messages_deleted md on m.id = md.message_id" +
-    " where m.chat_id = :chatId and (md.user_id != :userId or md.user_id is null)" +
-    " order by m.created_at"
-  , nativeQuery = true)
+  @Query(value =
+    " SELECT * from messages m" +
+      " left join messages_deleted md on m.id = md.message_id" +
+      " where m.chat_id = :chatId and (md.user_id != :userId or md.user_id is null)" +
+      " order by m.created_at"
+    , nativeQuery = true)
   Optional<List<Message>> findByChatId(Long chatId, Long userId);
 
-//  @Query(value =
+  //  @Query(value =
 //    " select * from messages m where m.chat_id = :chatId" +
 //      " order by m.created_at desc limit 1"
 //    , nativeQuery = true)
   Optional<Message> findFirstByChatIdOrderByCreatedAtDesc(Long chatId);
+
+  @Query(value =
+    " select m.id, m.created_at, m.updated_at, m.created_by," +
+      " m.updated_by, m.uuid, m.text, m.chat_id, m.user_id" +
+      " from messages m join messages_seen ms on m.id = ms.message_id" +
+      " where m.chat_id = :chatId" +
+      " and ms.user_id = :userId" +
+      " order by m.id desc" +
+      " limit 1"
+    , nativeQuery = true)
+  Optional<Message> findLastSeenChatMessage(Long userId, Long chatId);
 
   @Query(value =
     " SELECT M1 - M2" +
@@ -52,6 +63,7 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
       "                       limit 1), 0)) b"
     , nativeQuery = true)
   Optional<Integer> getCountUnreadMessages(Long chatId, Long userId);
+
   @Query(value =
     " SELECT M1 - M2" +
       " from (select count(m.id) M1" +

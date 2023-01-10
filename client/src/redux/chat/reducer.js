@@ -99,10 +99,13 @@ export default (state = init, {payload, type}) => {
         ...state,
       };
     case String(ACTIONS.updateCountUnreadMessages): {
-      const {chatId, countUnreadSelectedChatMessages} = payload;
+      const {chatId, messageId, countUnreadSelectedChatMessages} = payload;
       const existChat = state.chats.find(ch => ch.id === chatId);
       if (existChat) {
-        existChat.lastMessage.countUnreadMessages = countUnreadSelectedChatMessages;
+        if (messageId > existChat.lastMessage.lastSeenChatMessageId) {
+          existChat.lastMessage.countUnreadMessages = countUnreadSelectedChatMessages;
+          existChat.lastMessage.lastSeenChatMessageId = messageId;
+        }
       }
     }
       return {

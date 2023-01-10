@@ -28,8 +28,10 @@ public class GroupMessageOwnerResponseMapper extends GeneralFacade<Message, Grou
   @Override
   protected void decorateDto(GroupMessageOwnerResponse dto, Message entity, User user) {
     Long chatId = entity.getChat().getId();
+    Long userId = user.getId();
     dto.setChatId(chatId);
-    dto.setCountUnreadMessages(messageService.getCountUnreadChatMessagesByUserId(entity.getChat().getId(), user.getId()));
+    dto.setCountUnreadMessages(messageService.getCountUnreadChatMessagesByUserId(entity.getChat().getId(), userId));
+    dto.setLastSeenChatMessageId(messageService.findLastSeenChatMessageId(userId, chatId));
     Optional<List<MessageSeen>> seen = entity.getSeen();
 
     if (seen.isPresent()) {

@@ -26,5 +26,6 @@ public class LastChatMessageMapper extends GeneralFacade<Message, LastChatMessag
     dto.setIsMessageSeen(ForeignerMessageSeenUtil.isMessageSeen(entity, user));
     dto.setChatId(chatId);
     dto.setIsMessageOwner(user.equals(entity.getUser()));
+    dto.setLastSeenChatMessageId(messageService.findLastSeenChatMessageId(userId, chatId));
   }
 }

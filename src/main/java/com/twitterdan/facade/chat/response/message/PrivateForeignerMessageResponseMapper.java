@@ -46,5 +46,6 @@ public class PrivateForeignerMessageResponseMapper extends GeneralFacade<Message
     dto.setCountUnreadMessages(messageService.getCountUnreadChatMessagesByUserId(chatId, userId));
     dto.setIsMessageSeen(ForeignerMessageSeenUtil.isMessageSeen(entity, user));
     dto.setCountUnreadAllChatMessages(messageService.getCountAllUnreadChatMessagesByUserId(userId));
+    dto.setLastSeenChatMessageId(messageService.findLastSeenChatMessageId(userId, chatId));
   }
 }

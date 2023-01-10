@@ -31,6 +31,7 @@ public class PrivateMessageOwnerResponseMapper extends GeneralFacade<Message, Pr
     Long chatId = entity.getChat().getId();
     dto.setChatId(chatId);
     dto.setCountUnreadMessages(messageService.getCountUnreadChatMessagesByUserId(chatId, userId));
+    dto.setLastSeenChatMessageId(messageService.findLastSeenChatMessageId(userId, chatId));
     Optional<List<MessageSeen>> optionalSeen = entity.getSeen();
     Optional<MessageSeen> optionalMessageSeen = Optional.empty();
 

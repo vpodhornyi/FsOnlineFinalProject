@@ -31,6 +31,7 @@ public class GroupForeignerMessageResponseMapper extends GeneralFacade<Message, 
     dto.setChat(groupChatResponseMapper.convertToDto(entity.getChat()));
     dto.setCountUnreadMessages(messageService.getCountUnreadChatMessagesByUserId(chatId, userId));
     dto.setCountUnreadAllChatMessages(messageService.getCountAllUnreadChatMessagesByUserId(userId));
+    dto.setLastSeenChatMessageId(messageService.findLastSeenChatMessageId(userId, chatId));
     Optional<List<MessageSeen>> seen = entity.getSeen();
 
     if (seen.isPresent()) {
