@@ -23,6 +23,7 @@ import MessageOwner from "./Message/MessageOwner";
 import ForeignerMessage from "./Message/ForeignerMessage";
 import LeaveChatMessage from "./Message/LeaveChatMessage";
 import AddNewUsersMessage from "./Message/AddNewUsersMessage";
+import UnreadMessagesNotification from "./Message/UnreadMessagesNotification";
 
 
 const ChatBody = ({chatId}) => {
@@ -34,25 +35,27 @@ const ChatBody = ({chatId}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {selectedChat} = useSelector(getChatsData);
+  const countUnreadMessages = selectedChat?.lastMessage?.countUnreadMessages || 0;
   const {messages} = useSelector(getMessagesData);
+  const lastMessage = messages[messages.length - 1];
   const [visible, setVisible] = useState(false);
-  const [isScroll, setIsScroll] = useState(false);
   const [loading, setLoading] = useState(false);
-  const showScrollDownButton = useDebouncedCallback(v => setVisible(v), 300);
+  // const showScrollDownButton = useDebouncedCallback(v => setVisible(v), 300);
 
-  const getScrolling = () => {
-    const offsetHeight = overlayRef?.current?.offsetHeight;
+/*  const getScrolling = () => {
+    const offsetHeight =
+      overlayRef?.current?.offsetHeight;
     const scrollHeight = overlayRef?.current?.scrollHeight;
     showScrollDownButton(offsetHeight !== scrollHeight);
-  }
+  }*/
 
   const fetch = useDebouncedCallback(async (id) => {
     setLoading(true);
     await dispatch(getMessages(id));
     setLoading(false);
     setTimeout(() => {
-      getScrolling();
-      // onBottom();
+      // getScrolling();
+      countUnreadMessages ? onUnreadMessages() : onBottom();
     }, 200);
   }, 500);
 
@@ -61,7 +64,7 @@ const ChatBody = ({chatId}) => {
     fetch(chatId);
   }, [chatId]);
 
-  const onScrollEvent = () => {
+/*  const onScrollEvent = () => {
     const scroll = overlayRef?.current?.scrollTop;
     const offsetHeight = overlayRef?.current?.offsetHeight;
     const scrollHeight = overlayRef?.current?.scrollHeight;
@@ -72,7 +75,7 @@ const ChatBody = ({chatId}) => {
     } else if (scroll === maxScroll) {
       showScrollDownButton(false);
     }
-  }
+  }*/
 
   const send = async (textMessage) => {
     if (textMessage.trim() !== '') {
@@ -115,11 +118,23 @@ const ChatBody = ({chatId}) => {
     }
   }
 
+  const onUnreadMessages = () => {
+    // const heightBody = chatBodyRef?.current?.offsetHeight;
+    // overlayRef?.current?.scroll(0, heightBody);
+
+    scroller.scrollTo('scroll-unread-messages', {
+      duration: 100,
+      delay: 0,
+      smooth: 'easeInOutQuart',
+      containerId: 'ScrollContainer'
+    })
+  }
+
   const onBottom = () => {
     // const heightBody = chatBodyRef?.current?.offsetHeight;
     // overlayRef?.current?.scroll(0, heightBody);
 
-    scroller.scrollTo('myScrollToElement', {
+    scroller.scrollTo('scroll-to-bottom', {
       duration: 100,
       delay: 0,
       smooth: 'easeInOutQuart',
@@ -133,7 +148,8 @@ const ChatBody = ({chatId}) => {
         id='ScrollContainer'
         className='ScrollContainer'
         ref={overlayRef}
-        onScroll={onScrollEvent}>
+        // onScroll={onScrollEvent}
+      >
         <Box
           ref={chatBodyRef}
           className='MessagesBox'>
@@ -159,7 +175,10 @@ const ChatBody = ({chatId}) => {
                       toggleModal={toggleModal}
                       onBottom={onBottom}
                     />
-                    <Element name="myScrollToElement"></Element>
+                    {(message.isLastMessageSeen && message.id !== lastMessage.id) &&
+                      <Element name="scroll-unread-messages">
+                        <UnreadMessagesNotification/>
+                      </Element>}
                   </Box>
                 }
                 case message.isLeaveChat: {
@@ -177,6 +196,7 @@ const ChatBody = ({chatId}) => {
               }
             }
           )}
+          <Element name="scroll-to-bottom"/>
         </Box>
       </Box>
       <Box sx={{position: 'relative'}}>
