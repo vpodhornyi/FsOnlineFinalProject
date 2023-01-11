@@ -47,7 +47,7 @@ public class MessageService {
   }
 
   public Message findLastChatMessage(Long chatId, Long userId) {
-    Optional<Message> optionalMessage = messageRepository.findLastChatMessage(chatId, userId);
+    Optional<Message> optionalMessage = messageRepository.findLastChatMessageForUser(chatId, userId);
 
     if (optionalMessage.isPresent()) {
       return optionalMessage.get();

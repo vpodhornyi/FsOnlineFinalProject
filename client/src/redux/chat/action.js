@@ -73,7 +73,6 @@ export const addNewPrivateChat = (chat) => async dispatch => {
 export const addNewGroupChat = (chat) => async dispatch => {
   try {
     const usersIds = chat.users.map(u => u.id);
-    usersIds.push(chat.authUserId);
     const body = {
       title: chat.title,
       message: chat.message,

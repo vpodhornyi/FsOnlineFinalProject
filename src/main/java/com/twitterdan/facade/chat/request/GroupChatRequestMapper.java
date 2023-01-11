@@ -22,7 +22,9 @@ public class GroupChatRequestMapper extends GeneralFacade<Chat, GroupChatRequest
   @Override
   protected void decorateEntity(Chat entity, GroupChatRequest dto, User user) {
     String email = user.getEmail();
-    List<User> users = dto.getUsersIds().stream()
+    List<Long> usersIds = dto.getUsersIds();
+    usersIds.add(0, user.getId());
+    List<User> users = usersIds.stream()
       .map(userService::findById)
       .toList();
     entity.setUsers(users);
