@@ -10,14 +10,7 @@ import lombok.Setter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.OneToMany;
-import javax.persistence.ManyToMany;
-import javax.persistence.JoinTable;
-import javax.persistence.JoinColumn;
-import javax.persistence.Column;
-import javax.persistence.CascadeType;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -53,16 +46,16 @@ public class User extends BaseEntity {
   @LazyCollection(LazyCollectionOption.EXTRA)
   @ManyToMany
   @JoinTable(name = "followers",
-    joinColumns = @JoinColumn(name = "followed_id"),
-    inverseJoinColumns = @JoinColumn(name = "follower_id"))
+          joinColumns = @JoinColumn(name = "followed_id"),
+          inverseJoinColumns = @JoinColumn(name = "follower_id"))
   @JsonIgnore
   private Set<User> followers;
 
   @LazyCollection(LazyCollectionOption.EXTRA)
   @ManyToMany
   @JoinTable(name = "followers",
-    joinColumns = @JoinColumn(name = "follower_id"),
-    inverseJoinColumns = @JoinColumn(name = "followed_id"))
+          joinColumns = @JoinColumn(name = "follower_id"),
+          inverseJoinColumns = @JoinColumn(name = "followed_id"))
   @JsonIgnore
   private Set<User> followings;
   @LazyCollection(LazyCollectionOption.EXTRA)
@@ -73,7 +66,7 @@ public class User extends BaseEntity {
   @Override
   public String toString() {
     return "User{" +
-      "userTag='" + userTag + '\'' +
-      '}';
+            "userTag='" + userTag + '\'' +
+            '}';
   }
 }

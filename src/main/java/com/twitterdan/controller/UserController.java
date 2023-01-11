@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,8 +34,8 @@ public class UserController {
   @GetMapping("/all")
   public List<UserResponse> findAll() {
     return userService.findAll().stream()
-      .map(userResponseMapper::convertToDto)
-      .collect(Collectors.toList());
+            .map(userResponseMapper::convertToDto)
+            .collect(Collectors.toList());
   }
 
   @GetMapping("/{id}")
@@ -54,20 +53,20 @@ public class UserController {
 
   @GetMapping("/")
   public UserResponse findByUserTag(
-    @RequestParam(name = "userTag") String userTag
+          @RequestParam(name = "userTag") String userTag
   ) {
     User user = userService.findByUserTag(userTag);
     return userResponseMapper.convertToDto(user);
   }
 
-//  @PutMapping("/{id}")
-//  public boolean updateUserProfile(
-//    @Valid
-//    @PathVariable(name = "id") Long id,
-//    @RequestBody UserProfileUpdateRequestDto dto
-//  ) {
-//    return userService.updateUserProfile(id, dto);
-//  }
+  //@PutMapping("/{id}")
+  //public boolean updateUserProfile(
+  //  @Valid
+  //  @PathVariable(name = "id") Long id,
+  //  @RequestBody UserProfileUpdateRequestDto dto
+  //) {
+  //  return userService.updateUserProfile(id, dto);
+  //}
 
   @ExceptionHandler({Exception.class, MethodArgumentNotValidException.class})
   public ResponseEntity<Object> handleException(Exception ex) {

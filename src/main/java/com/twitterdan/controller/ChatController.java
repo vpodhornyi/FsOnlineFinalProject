@@ -5,10 +5,9 @@ import com.twitterdan.domain.chat.ChatType;
 import com.twitterdan.domain.chat.Message;
 import com.twitterdan.domain.user.User;
 import com.twitterdan.dto.chat.request.GroupChatRequest;
+import com.twitterdan.dto.chat.request.MessageRequest;
 import com.twitterdan.dto.chat.request.PrivateChatRequest;
 import com.twitterdan.dto.chat.response.ChatResponseAbstract;
-import com.twitterdan.dto.chat.request.ChatRequestAbstract;
-import com.twitterdan.dto.chat.request.MessageRequest;
 import com.twitterdan.dto.chat.response.MessageResponse;
 import com.twitterdan.facade.chat.MessageRequestMapper;
 import com.twitterdan.facade.chat.request.GroupChatRequestMapper;
@@ -42,19 +41,13 @@ public class ChatController {
 
   @GetMapping
   public ResponseEntity<List<ChatResponseAbstract>> getChats(
-    @RequestParam Long userId,
-    @RequestParam int pageNumber,
-    @RequestParam int pageSize
-    ) {
-    List<ChatResponseAbstract> chats = chatService.findAlLByUserId(userId, pageNumber, pageSize)
-      .stream()
-      .map(ch -> {
-        if (ch.getType().equals(ChatType.PRIVATE)) {
-          return privateChatResponseMapper.convertToDto(ch);
-        }
-        return groupChatResponseMapper.convertToDto(ch);
-      })
-      .toList();
+          @RequestParam Long userId, @RequestParam int pageNumber, @RequestParam int pageSize) {
+    List<ChatResponseAbstract> chats = chatService.findAlLByUserId(userId, pageNumber, pageSize).stream().map(ch -> {
+      if (ch.getType().equals(ChatType.PRIVATE)) {
+        return privateChatResponseMapper.convertToDto(ch);
+      }
+      return groupChatResponseMapper.convertToDto(ch);
+    }).toList();
     return ResponseEntity.ok(chats);
   }
 
@@ -65,7 +58,8 @@ public class ChatController {
   }
 
   @GetMapping("/private")
-  public ResponseEntity<ChatResponseAbstract> findPrivateChat(@RequestParam Long authUserId, @RequestParam Long guestUserId) {
+  public ResponseEntity<ChatResponseAbstract> findPrivateChat(
+          @RequestParam Long authUserId, @RequestParam Long guestUserId) {
     Chat chat = chatService.findPrivateChatByUsersIds(authUserId, guestUserId);
 
     return ResponseEntity.ok(privateChatResponseMapper.convertToDto(chat));
@@ -96,9 +90,7 @@ public class ChatController {
   @GetMapping("/messages")
   public ResponseEntity<List<MessageResponse>> getMessages(@RequestParam Long chatId) {
     List<Message> messages = messageService.findByChatId(chatId);
-    List<MessageResponse> messageResponses = messages.stream()
-      .map(messageResponseMapper::convertToDto)
-      .toList();
+    List<MessageResponse> messageResponses = messages.stream().map(messageResponseMapper::convertToDto).toList();
     return ResponseEntity.ok(messageResponses);
   }
 

@@ -30,7 +30,7 @@ public class UserService {
     throw new CouldNotFindAccountException();
   }
 
-/*  public boolean updateUserProfile(Long id, UserProfileUpdateRequestDto dto) {
+  /*  public boolean updateUserProfile(Long id, UserProfileUpdateRequestDto dto) {
     Optional<User> user = userRepository.findById(id);
 
     String dtoName = dto.getName();

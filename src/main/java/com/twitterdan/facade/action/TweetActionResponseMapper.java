@@ -1,9 +1,7 @@
-package com.twitterdan.facade.tweetAction;
+package com.twitterdan.facade.action;
 
 import com.twitterdan.domain.tweet.TweetAction;
-import com.twitterdan.dto.tweetAction.TweetActionRequest;
-import com.twitterdan.dto.tweetAction.TweetActionResponse;
-import com.twitterdan.dto.tweetAction.TweetActionResponseAllData;
+import com.twitterdan.dto.action.TweetActionResponseAllData;
 import com.twitterdan.facade.GeneralFacade;
 import org.springframework.stereotype.Service;
 

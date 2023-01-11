@@ -11,5 +11,5 @@ public class PrivateChatResponse extends ChatResponseAbstract {
   private String userTag;
   private ChatUser authUser;
   private ChatUser guestUser;
-  private boolean IsPrivate = true;
+  private boolean isPrivate = true;
 }

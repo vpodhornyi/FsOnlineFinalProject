@@ -10,9 +10,9 @@ public class GeneralFacade<E, D> {
 
   private final ModelMapper modelMapper = new ModelMapper();
 
-  public GeneralFacade(final Class<E> eClass, final Class<D> dClass) {
-    entityClass = eClass;
-    dtoClass = dClass;
+  public GeneralFacade(final Class<E> eclass, final Class<D> dclass) {
+    entityClass = eclass;
+    dtoClass = dclass;
     modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
   }
 

@@ -64,6 +64,7 @@ export const URLS = {
     _ROOT: "/tweets/",
     CREATE_TWEET: "/tweets/create",
     CHANGE_ACTIONS: "/tweets/change_actions",
+    BOOKMARKS: "/tweets/bookmarks",
   },
   CHATS: {
     ROOT: "/chats",

@@ -9,23 +9,21 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface ChatRepository extends JpaRepository<Chat, Long> {
 
   @Query(value =
-      " select c.id, c.uuid, c.title, c.type," +
-      " c.created_at, c.created_by, c.updated_at, c.updated_by" +
-      " from chats c" +
-      " left join messages m on c.id = m.chat_id" +
-      " join chats_users cu on c.id = cu.chats_id" +
-      " join users u on u.id = cu.users_id" +
-      " where u.id = :userId" +
-      " group by c.id" +
-      " order by MAX(m.created_at) desc NULLS LAST "
-    , nativeQuery = true)
+          " select c.id, c.uuid, c.title, c.type," +
+                  " c.created_at, c.created_by, c.updated_at, c.updated_by" +
+                  " from chats c" +
+                  " left join messages m on c.id = m.chat_id" +
+                  " join chats_users cu on c.id = cu.chats_id" +
+                  " join users u on u.id = cu.users_id" +
+                  " where u.id = :userId" +
+                  " group by c.id" +
+                  " order by MAX(m.created_at) desc NULLS LAST ", nativeQuery = true)
   Optional<Page<Chat>> findByUsersId(@Param("userId") Long userId, Pageable pageable);
 
   @Query("Select c from Chat c join c.users u where c.type = ?1 and u.id = ?2 or u.id = ?3 group by c having count(c) = 2")

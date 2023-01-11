@@ -1,4 +1,4 @@
-import { ACTIONS } from "./action";
+import { ACTIONS, changeBookmark } from "./action";
 import { addOrFilterItem } from "../../utils/tweets";
 
 const INITIAL_STATE = {
@@ -36,7 +36,13 @@ export default (state = INITIAL_STATE, { payload, type }) => {
         ...state,
         loading: false,
       };
-    case String(ACTIONS.handlerBookmark):
+    case String(ACTIONS.handlerBookmark.success):
+      localStorage.setItem("bookmarks", JSON.stringify(payload));
+      return {
+        ...state,
+        bookmarks: payload,
+      };
+    case String(ACTIONS.changeBookmark):
       return {
         ...state,
         bookmarks: addOrFilterItem(state.bookmarks, payload, "bookmarks"),
