@@ -25,7 +25,6 @@ import LeaveChatMessage from "./Message/LeaveChatMessage";
 import AddNewUsersMessage from "./Message/AddNewUsersMessage";
 import UnreadMessagesNotification from "./Message/UnreadMessagesNotification";
 import OnBottomElement from "./OnBottomElement";
-import {ACTIONS} from "../../../../redux/chat/message/action";
 
 
 const ChatBody = ({chatId}) => {
@@ -99,12 +98,10 @@ const ChatBody = ({chatId}) => {
         newMessage.isGroupChat = true
         newMessage.messagesSeen = [];
       }
-      dispatch(ACTIONS.addNewMessage(newMessage));
+      await dispatch(MESSAGE_ACTIONS.addNewMessage(newMessage));
       onBottom();
-      dispatch(sendMessage(newMessage));
-
+      await dispatch(sendMessage(newMessage));
       inputRef.current.focus();
-
     }
   }
 
@@ -131,15 +128,15 @@ const ChatBody = ({chatId}) => {
           } else if (scroll === maxScroll) {
             showScrollDownButton(false);
           }*/
-    if (!visible) {
-      setVisible(true);
-    }
+    /*    if (!visible) {
+          setVisible(true);
+        }*/
   }
 
   const onBottom = () => {
     // const heightBody = chatBodyRef?.current?.offsetHeight;
     // overlayRef?.current?.scroll(0, heightBody);
-
+    console.log('kuku');
     scroller.scrollTo('scroll-to-bottom', {
       duration: 100,
       delay: 0,
@@ -149,19 +146,19 @@ const ChatBody = ({chatId}) => {
   }
 
   const toggleVisible = (inView) => {
-    /*    if (inView) {
-          setTimeout(() => {
-            setVisible(false);
-          }, 500);
+    if (inView) {
+      setTimeout(() => {
+        setVisible(false);
+      }, 500);
 
-        } else {
-          setTimeout(() => {
-            setVisible(true);
-          }, 500)
-        }
-        if (!visible) {
-          onBottom();
-        }*/
+    } else {
+      setTimeout(() => {
+        setVisible(true);
+      }, 500)
+    }
+    /*        if (!visible) {
+              onBottom();
+            }*/
   }
 
   return (
