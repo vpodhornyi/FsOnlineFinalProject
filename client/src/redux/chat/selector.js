@@ -25,6 +25,9 @@ export const getMessagesData = state => {
 
     return {
       messages: data.messages,
+      pageNumberUp: data.pageNumberUp,
+      pageNumberDown: data.pageNumberDown,
+      pageSize: data.pageSize,
     }
   }
 }

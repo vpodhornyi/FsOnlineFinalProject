@@ -5,10 +5,9 @@ import {styled} from "@mui/material/styles";
 import {Box} from "@mui/material";
 import PropTypes from "prop-types";
 
-const OnBottomElement = ({toggleVisible}) => {
+const InViewElement = ({toggleVisible}) => {
   const {ref, inView} = useInView({
     threshold: 0.1,
-    // triggerOnce: true,
   });
 
   useEffect(() => {
@@ -24,7 +23,7 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   padding: 1,
 }));
 
-OnBottomElement.propTypes = {
+InViewElement.propTypes = {
   toggleVisible: PropTypes.func,
 }
-export default OnBottomElement;
+export default InViewElement;

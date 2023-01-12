@@ -1,8 +1,9 @@
 import {ACTIONS} from "./action";
 
 const init = {
-  pageNumber: 0,
-  pageSize: 5,
+  pageNumberUp: 0,
+  pageNumberDown: 0,
+  pageSize: 10,
   messages: []
 };
 
@@ -14,10 +15,15 @@ export default (state = init, {payload, type}) => {
         ...state,
         messages: payload.messages,
       };
-    case String(ACTIONS.addPreviousMessages):
+    case String(ACTIONS.addUpMessages):
       return {
         ...state,
         messages: [...payload.messages, ...state.messages],
+      };
+    case String(ACTIONS.addDownMessages):
+      return {
+        ...state,
+        messages: [...state.messages, ...payload.messages],
       };
     case String(ACTIONS.addNewMessage):
       return {
@@ -100,6 +106,16 @@ export default (state = init, {payload, type}) => {
     }
       return {
         ...state,
+      };
+    case String(ACTIONS.setPageNumberUp):
+      return {
+        ...state,
+        pageNumberUp: payload
+      };
+    case String(ACTIONS.setPageNumberDown):
+      return {
+        ...state,
+        pageNumberDown: payload
       };
     case String(ACTIONS.resetMessages):
       return {

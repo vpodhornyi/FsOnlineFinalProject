@@ -24,7 +24,7 @@ import ForeignerMessage from "./Message/ForeignerMessage";
 import LeaveChatMessage from "./Message/LeaveChatMessage";
 import AddNewUsersMessage from "./Message/AddNewUsersMessage";
 import UnreadMessagesNotification from "./Message/UnreadMessagesNotification";
-import OnBottomElement from "./OnBottomElement";
+import InViewElement from "./InViewElement";
 
 
 const ChatBody = ({chatId}) => {
@@ -37,7 +37,7 @@ const ChatBody = ({chatId}) => {
   const navigate = useNavigate();
   const {selectedChat} = useSelector(getChatsData);
   const countUnreadMessages = selectedChat?.lastMessage?.countUnreadMessages || 0;
-  const {messages} = useSelector(getMessagesData);
+  const {messages, pageSize, pageNumberUp, pageNumberDown} = useSelector(getMessagesData);
   const lastMessage = messages[messages.length - 1];
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -52,12 +52,22 @@ const ChatBody = ({chatId}) => {
 
   const fetch = useDebouncedCallback(async (id) => {
     setLoading(true);
-    await dispatch(getMessages(id));
+    const countUnreadMessages = selectedChat.lastMessage.countUnreadMessages;
+    const pageNumber = countUnreadMessages === 0 ? 0 : Math.floor((countUnreadMessages - 1) / pageSize);
+    await dispatch(getMessages({
+      chatId,
+      pageNumber,
+      pageSize,
+      up: true,
+      down: true,
+    }));
     setLoading(false);
     setTimeout(() => {
       // getScrolling();
-      countUnreadMessages ? onUnreadMessages() : onBottom();
+      // countUnreadMessages ? onUnreadMessages() : onBottom();
+      onBottom()
     }, 200);
+    // onBottom()
   }, 500);
 
   useEffect(() => {
@@ -136,29 +146,40 @@ const ChatBody = ({chatId}) => {
   const onBottom = () => {
     // const heightBody = chatBodyRef?.current?.offsetHeight;
     // overlayRef?.current?.scroll(0, heightBody);
-    console.log('kuku');
-    scroller.scrollTo('scroll-to-bottom', {
-      duration: 100,
-      delay: 0,
-      smooth: 'easeInOutQuart',
+    scroller.scrollTo('onBottomElement', {
       containerId: 'ScrollContainer'
     })
   }
 
-  const toggleVisible = (inView) => {
-    if (inView) {
-      setTimeout(() => {
-        setVisible(false);
-      }, 500);
+  const onStartNewPage = () => {
+    scroller.scrollTo('onStartNewPage', {
+      containerId: 'ScrollContainer'
+    })
+  }
 
-    } else {
-      setTimeout(() => {
-        setVisible(true);
-      }, 500)
+  const toggleTopVisible = (inView) => {
+    if (inView) {
+      dispatch(getMessages({
+        chatId,
+        pageNumber: pageNumberUp + 1,
+        pageSize,
+        up: true,
+      }))
+      onStartNewPage();
     }
-    /*        if (!visible) {
-              onBottom();
-            }*/
+  }
+
+  const toggleBottomVisible = (inView) => {
+    setVisible(!inView);
+
+    if (pageNumberDown && inView) {
+      dispatch(getMessages({
+        chatId,
+        pageNumber: pageNumberDown - 1,
+        pageSize,
+        down: true,
+      }))
+    }
   }
 
   return (
@@ -173,51 +194,65 @@ const ChatBody = ({chatId}) => {
           ref={chatBodyRef}
           className='MessagesBox'>
           {selectedChat.isPrivate && <UserInfo/>}
-          {loading && (
-            <Box sx={{position: 'relative', pt: 3, pb: 3}}>
-              <CircularLoader/>
-            </Box>
-          )}
-          {messages.map(message => {
-              switch (true) {
-                case message.isMessageOwner: {
-                  return <MessageOwner
-                    key={message?.key}
-                    message={message}
-                    toggleModal={toggleModal}
-                  />
-                }
-                case message.isForeignerMessage: {
-                  return <Box key={message?.key}>
-                    <ForeignerMessage
-                      message={message}
-                      toggleModal={toggleModal}
-                      onBottom={onBottom}
-                    />
-                    {/* {(message.isLastMessageSeen && message.id !== lastMessage.id) &&
+          {loading ? (
+              <Box sx={{position: 'relative', pt: 3, pb: 3}}>
+                <CircularLoader/>
+              </Box>
+            ) :
+            <>
+              <Element name="onTopElement">
+                <InViewElement toggleVisible={toggleTopVisible}/>
+              </Element>
+              {messages.map(message => {
+                  switch (true) {
+                    case message.isMessageOwner: {
+                      return <MessageOwner
+                        key={message?.key}
+                        message={message}
+                        toggleModal={toggleModal}
+                      />
+                    }
+                    case message.isForeignerMessage: {
+                      return <ForeignerMessage
+                        key={message?.key}
+                        message={message}
+                        toggleModal={toggleModal}
+                        onBottom={onBottom}
+                      />
+                      {/* {(message.isLastMessageSeen && message.id !== lastMessage.id) &&
                       <Element name="scroll-unread-messages">
                         <UnreadMessagesNotification/>
-                      </Element>}*/}
-                  </Box>
+                      </Element>}*/
+                      }
+                    }
+                    case message.isStartNewPage: {
+                      return <Element key={getRandomKey()} name="onStartNewPage"></Element>
+                      {/* {(message.isLastMessageSeen && message.id !== lastMessage.id) &&
+                      <Element name="scroll-unread-messages">
+                        <UnreadMessagesNotification/>
+                      </Element>}*/
+                      }
+                    }
+                    case message.isLeaveChat: {
+                      return <LeaveChatMessage
+                        key={message?.key}
+                        item={message}
+                      />
+                    }
+                    case message.isAddNewUsers: {
+                      return <AddNewUsersMessage
+                        key={message?.key}
+                        item={message}
+                      />
+                    }
+                  }
                 }
-                case message.isLeaveChat: {
-                  return <LeaveChatMessage
-                    key={message?.key}
-                    item={message}
-                  />
-                }
-                case message.isAddNewUsers: {
-                  return <AddNewUsersMessage
-                    key={message?.key}
-                    item={message}
-                  />
-                }
-              }
-            }
-          )}
-          {loading ? null : <Element name="scroll-to-bottom">
-            <OnBottomElement toggleVisible={toggleVisible}/>
-          </Element>}
+              )}
+              <Element name="onBottomElement">
+                <InViewElement toggleVisible={toggleBottomVisible}/>
+              </Element>
+            </>
+          }
         </Box>
       </Box>
       <Box sx={{position: 'relative'}}>
