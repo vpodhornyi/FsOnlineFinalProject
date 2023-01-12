@@ -24,6 +24,7 @@ import ForeignerMessage from "./Message/ForeignerMessage";
 import LeaveChatMessage from "./Message/LeaveChatMessage";
 import AddNewUsersMessage from "./Message/AddNewUsersMessage";
 import UnreadMessagesNotification from "./Message/UnreadMessagesNotification";
+import OnBottomElement from "./OnBottomElement";
 
 
 const ChatBody = ({chatId}) => {
@@ -196,7 +197,9 @@ const ChatBody = ({chatId}) => {
               }
             }
           )}
-          <Element name="scroll-to-bottom"/>
+          {loading ? null : <Element name="scroll-to-bottom">
+            <OnBottomElement toggleVisible={toggleVisible}/>
+          </Element>}
         </Box>
       </Box>
       <Box sx={{position: 'relative'}}>
