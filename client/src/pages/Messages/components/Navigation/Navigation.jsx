@@ -20,8 +20,9 @@ const Navigation = () => {
   useEffect(() => {
     const fetch = async () => {
       if (pageNumber === 0) {
-        dispatch(getChats({pageNumber, pageSize}));
-        dispatch(ACTIONS.setPageNumber({pageNumber: pageNumber + 1}));
+        // dispatch(getChats({pageNumber, pageSize}));
+        // dispatch(ACTIONS.setPageNumber({pageNumber: pageNumber + 1}));
+        dispatch(getChats());
       }
     }
     fetch();

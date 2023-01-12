@@ -1,6 +1,8 @@
 import {ACTIONS} from "./action";
 
 const init = {
+  pageNumber: 0,
+  pageSize: 5,
   messages: []
 };
 

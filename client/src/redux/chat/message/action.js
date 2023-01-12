@@ -20,9 +20,10 @@ export const ACTIONS = {
   ...actions.actions,
 }
 
-export const getMessages = (id) => async (dispatch) => {
+export const getMessages = (chatId) => async (dispatch, getState) => {
   try {
-    const data = await api.get(URLS.CHATS.MESSAGES, {params: {chatId: id}});
+    const {message: {pageNumber, pageSize}} = getState();
+    const data = await api.get(URLS.CHATS.MESSAGES, {params: {chatId, pageNumber, pageSize}});
 
     dispatch(ACTIONS.setMessages({messages: data}));
 

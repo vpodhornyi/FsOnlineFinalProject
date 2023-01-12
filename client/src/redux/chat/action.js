@@ -24,10 +24,12 @@ export const ACTIONS = {
   ...actions.async,
 }
 
-export const getChats = (params) => async dispatch => {
+export const getChats = () => async (dispatch, getState) => {
   try {
+    const {chat: {pageNumber, pageSize}} = getState();
+    ACTIONS.setPageNumber({pageNumber: pageNumber + 1})
     dispatch(ACTIONS.getChats.request());
-    const data = await api.get(URLS.CHATS.ROOT, {params});
+    const data = await api.get(URLS.CHATS.ROOT, {params: {pageNumber, pageSize}});
     dispatch(ACTIONS.getChats.success({chats: data}));
 
     return data;

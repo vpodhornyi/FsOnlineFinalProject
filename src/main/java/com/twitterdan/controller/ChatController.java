@@ -29,8 +29,11 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -164,9 +167,9 @@ public class ChatController {
   }
 
   @GetMapping("/messages")
-  public ResponseEntity<List<MessageResponseAbstract>> getMessages(@RequestParam Long chatId, Principal principal) {
+  public ResponseEntity<List<MessageResponseAbstract>> getMessages(@RequestParam int pageNumber, @RequestParam int pageSize, @RequestParam Long chatId, Principal principal) {
     User authUser = userService.findByUserTag(principal.getName());
-    List<Message> messages = messageService.findByChatId(chatId, authUser.getId());
+    List<Message> messages = messageService.findByChatId(chatId, authUser.getId(), pageNumber, pageSize);
     List<MessageResponseAbstract> messageResponses = messages.stream().map(message -> {
       ChatType type = message.getChat().getType();
 
@@ -184,7 +187,8 @@ public class ChatController {
         return groupForeignerMessageResponseMapper.convertToDto(message, authUser);
       }
 
-    }).toList();
+    }) .collect(Collectors.toCollection(ArrayList::new));
+    Collections.reverse(messageResponses);
 
     return ResponseEntity.ok(messageResponses);
   }

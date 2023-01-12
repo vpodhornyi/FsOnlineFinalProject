@@ -10,6 +10,10 @@ import com.twitterdan.domain.user.User;
 import com.twitterdan.exception.CouldNotFindMessageException;
 import com.twitterdan.exception.DeleteMessageException;
 import com.twitterdan.exception.MessageAlreadySeen;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,9 +35,10 @@ public class MessageService {
     return messageRepository.findAll();
   }
 
-  public List<Message> findByChatId(Long chatId, Long userId) {
-    Optional<List<Message>> optionalMessages = messageRepository.findByChatId(chatId, userId);
-    return optionalMessages.orElseGet(ArrayList::new);
+  public List<Message> findByChatId(Long chatId, Long userId, int pageNumber, int pageSize) {
+    Pageable pageable = PageRequest.of(pageNumber, pageSize);
+    Optional<Page<Message>> optionalMessages = messageRepository.findPageByChatId(chatId, userId, pageable);
+    return optionalMessages.map(Slice::getContent).orElseGet(ArrayList::new);
   }
 
   public Message findById(Long id) {
