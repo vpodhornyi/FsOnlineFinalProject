@@ -25,6 +25,7 @@ import LeaveChatMessage from "./Message/LeaveChatMessage";
 import AddNewUsersMessage from "./Message/AddNewUsersMessage";
 import UnreadMessagesNotification from "./Message/UnreadMessagesNotification";
 import OnBottomElement from "./OnBottomElement";
+import {ACTIONS} from "../../../../redux/chat/message/action";
 
 
 const ChatBody = ({chatId}) => {
@@ -41,14 +42,14 @@ const ChatBody = ({chatId}) => {
   const lastMessage = messages[messages.length - 1];
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
-  // const showScrollDownButton = useDebouncedCallback(v => setVisible(v), 300);
+  const showScrollDownButton = useDebouncedCallback(v => setVisible(v), 300);
 
-/*  const getScrolling = () => {
-    const offsetHeight =
-      overlayRef?.current?.offsetHeight;
-    const scrollHeight = overlayRef?.current?.scrollHeight;
-    showScrollDownButton(offsetHeight !== scrollHeight);
-  }*/
+  /*  const getScrolling = () => {
+      const offsetHeight =
+        overlayRef?.current?.offsetHeight;
+      const scrollHeight = overlayRef?.current?.scrollHeight;
+      showScrollDownButton(offsetHeight !== scrollHeight);
+    }*/
 
   const fetch = useDebouncedCallback(async (id) => {
     setLoading(true);
@@ -64,19 +65,6 @@ const ChatBody = ({chatId}) => {
     dispatch(MESSAGE_ACTIONS.resetMessages());
     fetch(chatId);
   }, [chatId]);
-
-/*  const onScrollEvent = () => {
-    const scroll = overlayRef?.current?.scrollTop;
-    const offsetHeight = overlayRef?.current?.offsetHeight;
-    const scrollHeight = overlayRef?.current?.scrollHeight;
-    const maxScroll = scrollHeight - offsetHeight;
-
-    if (scroll < maxScroll) {
-      showScrollDownButton(true);
-    } else if (scroll === maxScroll) {
-      showScrollDownButton(false);
-    }
-  }*/
 
   const send = async (textMessage) => {
     if (textMessage.trim() !== '') {
@@ -111,11 +99,12 @@ const ChatBody = ({chatId}) => {
         newMessage.isGroupChat = true
         newMessage.messagesSeen = [];
       }
-
-      await dispatch(sendMessage(newMessage));
+      dispatch(ACTIONS.addNewMessage(newMessage));
+      onBottom();
+      dispatch(sendMessage(newMessage));
 
       inputRef.current.focus();
-      onBottom();
+
     }
   }
 
@@ -131,6 +120,22 @@ const ChatBody = ({chatId}) => {
     })
   }
 
+  const onScrollEvent = () => {
+    /*      const scroll = overlayRef?.current?.scrollTop;
+          const offsetHeight = overlayRef?.current?.offsetHeight;
+          const scrollHeight = overlayRef?.current?.scrollHeight;
+          const maxScroll = scrollHeight - offsetHeight;
+
+          if (scroll < maxScroll) {
+            showScrollDownButton(true);
+          } else if (scroll === maxScroll) {
+            showScrollDownButton(false);
+          }*/
+    if (!visible) {
+      setVisible(true);
+    }
+  }
+
   const onBottom = () => {
     // const heightBody = chatBodyRef?.current?.offsetHeight;
     // overlayRef?.current?.scroll(0, heightBody);
@@ -141,6 +146,22 @@ const ChatBody = ({chatId}) => {
       smooth: 'easeInOutQuart',
       containerId: 'ScrollContainer'
     })
+  }
+
+  const toggleVisible = (inView) => {
+    /*    if (inView) {
+          setTimeout(() => {
+            setVisible(false);
+          }, 500);
+
+        } else {
+          setTimeout(() => {
+            setVisible(true);
+          }, 500)
+        }
+        if (!visible) {
+          onBottom();
+        }*/
   }
 
   return (
@@ -176,10 +197,10 @@ const ChatBody = ({chatId}) => {
                       toggleModal={toggleModal}
                       onBottom={onBottom}
                     />
-                    {(message.isLastMessageSeen && message.id !== lastMessage.id) &&
+                    {/* {(message.isLastMessageSeen && message.id !== lastMessage.id) &&
                       <Element name="scroll-unread-messages">
                         <UnreadMessagesNotification/>
-                      </Element>}
+                      </Element>}*/}
                   </Box>
                 }
                 case message.isLeaveChat: {

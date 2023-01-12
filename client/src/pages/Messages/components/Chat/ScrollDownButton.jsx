@@ -7,9 +7,8 @@ import {useSelector} from "react-redux";
 import {getChatsData} from "@redux/chat/selector";
 
 const ScrollDownButton = ({visible}) => {
-  const {countUnreadMessages} = useSelector(getChatsData);
 
-  return visible || countUnreadMessages ? (
+  return visible ? (
     <BoxWrapper className='ScrollDownButton'>
       <Box sx={{position: 'relative'}}>
 

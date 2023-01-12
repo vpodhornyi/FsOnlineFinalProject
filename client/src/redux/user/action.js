@@ -38,7 +38,7 @@ export const authUserSocketSubscribe = () => async (dispatch, getState) => {
     const {user: {authUser}} = getState();
     api.client.subscribe(`/queue/user.${authUser.id}`, async (data) => {
       const {body} = JSON.parse(data.body);
-      console.log(body);
+      // console.log(body);
       switch (body?.type) {
         case 'MESSAGE_ADD':
           const {chat} = body;

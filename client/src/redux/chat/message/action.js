@@ -34,8 +34,7 @@ export const getMessages = (chatId) => async (dispatch, getState) => {
 
 export const sendMessage = (body) => async (dispatch) => {
   try {
-    dispatch(ACTIONS.addNewMessage(body));
-    const data = await api.post(URLS.CHATS.MESSAGES, body);
+       const data = await api.post(URLS.CHATS.MESSAGES, body);
     dispatch(ACTIONS.updateOrAddNewMessage(data));
     dispatch(CHAT_ACTIONS.setLastChatAction(data));
 
