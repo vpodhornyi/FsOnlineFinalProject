@@ -204,7 +204,7 @@ public class ChatController {
 
     users.stream().filter(u -> !u.equals(authUser)).forEach(user -> {
       MessageResponseAbstract responseAbstract;
-
+      System.out.println(user.getId());
       if (type.equals(ChatType.PRIVATE)) {
         if (user.equals(savedMessage.getUser())) {
           responseAbstract = privateMessageOwnerResponseMapper.convertToDto(savedMessage, user);

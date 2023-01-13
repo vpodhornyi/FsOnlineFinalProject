@@ -9,7 +9,7 @@ const actions = createActions(
       'SET_MESSAGES', 'ADD_UP_MESSAGES', 'ADD_DOWN_MESSAGES', 'ADD_NEW_MESSAGE', 'UPDATE_OR_ADD_NEW_MESSAGE',
       'RESET_MESSAGES', 'UPDATE_MESSAGE_OWNER_SEEN', 'UPDATE_FOREIGNER_MESSAGE_SEEN', 'RESET_DATA',
       'DELETE_MESSAGE', 'LEAVE_CHAT_NOTIFICATION', 'ADD_USERS_NOTIFICATION', 'SET_PAGE_NUMBER_UP',
-      'SET_PAGE_NUMBER_DOWN'
+      'SET_PAGE_NUMBER_DOWN', 'DELETE_FIRST_MESSAGE'
     ],
   },
   {
@@ -24,26 +24,29 @@ export const ACTIONS = {
 export const getMessages = ({chatId, pageNumber, pageSize, up = false, down = false}) =>
   async (dispatch) => {
     try {
-      up && console.log('pageNumber up - ', pageNumber);
-      down && console.log('pageNumber down - ', pageNumber);
       const data = await api.get(URLS.CHATS.MESSAGES, {params: {chatId, pageNumber, pageSize}});
-      if (data.length && up) {
-        data.push({[`isStartPage${pageNumber}`]: true});
-      }
       switch (true) {
         case up && down:
-          await dispatch(ACTIONS.setPageNumberUp(pageNumber));
-          await dispatch(ACTIONS.setPageNumberDown(pageNumber));
+          if (data.length) {
+            await dispatch(ACTIONS.setPageNumberUp(pageNumber));
+            await dispatch(ACTIONS.setPageNumberDown(pageNumber));
+          }
           await dispatch(ACTIONS.setMessages({messages: data}));
           break;
         case up:
-          await dispatch(ACTIONS.setPageNumberUp(pageNumber));
+          if (data.length) {
+            await dispatch(ACTIONS.setPageNumberUp(pageNumber));
+          }
           await dispatch(ACTIONS.addUpMessages({messages: data}));
           break;
         default:
-          await dispatch(ACTIONS.setPageNumberDown(pageNumber));
+          if (data.length) {
+            await dispatch(ACTIONS.setPageNumberDown(pageNumber));
+          }
           await dispatch(ACTIONS.addDownMessages({messages: data}));
       }
+      return data;
+
     } catch (err) {
       console.log('getChats error - ', err);
     }

@@ -1,11 +1,8 @@
 import React from "react";
-import {useSelector, useDispatch} from "react-redux";
 import {styled} from "@mui/material/styles";
 import {Box, Typography} from "@mui/material";
-import PropTypes from "prop-types";
 
-const UnreadMessagesNotification = ({item}) => {
-  const dispatch = useDispatch();
+const UnreadMessagesNotification = () => {
 
   return (
     <BoxWrapper>
@@ -23,8 +20,4 @@ const BoxWrapper = styled(Box)(({theme}) => ({
     textAlign: 'center',
   }
 }));
-
-UnreadMessagesNotification.propTypes = {
-  item: PropTypes.object,
-}
 export default UnreadMessagesNotification;

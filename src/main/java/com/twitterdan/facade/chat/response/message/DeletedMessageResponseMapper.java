@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 public class DeletedMessageResponseMapper extends GeneralFacade<Message, DeletedMessageResponse> {
   private final MessageService messageService;
   private final LastChatMessageMapper lastChatMessageMapper;
+
   public DeletedMessageResponseMapper(MessageService messageService, LastChatMessageMapper lastChatMessageMapper) {
     super(Message.class, DeletedMessageResponse.class);
     this.messageService = messageService;
@@ -22,7 +23,13 @@ public class DeletedMessageResponseMapper extends GeneralFacade<Message, Deleted
     Long chatId = entity.getChat().getId();
     dto.setChatId(chatId);
     dto.setMessageId(entity.getId());
-    dto.setLastMessage(lastChatMessageMapper.convertToDto(messageService.
-      findLastChatMessage(chatId, user.getId()), user));
+
+    try {
+      Message lastChatMessage = messageService.findLastChatMessage(chatId, user.getId());
+      dto.setLastMessage(lastChatMessageMapper.convertToDto(lastChatMessage, user));
+
+    } catch (Exception e) {
+      dto.setLastMessage(null);
+    }
   }
 }

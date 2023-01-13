@@ -3,7 +3,7 @@ import {ACTIONS} from "./action";
 const init = {
   pageNumberUp: 0,
   pageNumberDown: 0,
-  pageSize: 10,
+  pageSize: 30,
   messages: []
 };
 
@@ -16,9 +16,10 @@ export default (state = init, {payload, type}) => {
         messages: payload.messages,
       };
     case String(ACTIONS.addUpMessages):
+      const newMessages = payload.messages.filter(m => !state.messages.find(ms => ms.key === m.key))
       return {
         ...state,
-        messages: [...payload.messages, ...state.messages],
+        messages: [...newMessages, ...state.messages],
       };
     case String(ACTIONS.addDownMessages):
       return {
@@ -26,6 +27,9 @@ export default (state = init, {payload, type}) => {
         messages: [...state.messages, ...payload.messages],
       };
     case String(ACTIONS.addNewMessage):
+      if (state.messages.length > state.pageSize) {
+        state.messages.splice(0, 1);
+      }
       return {
         ...state,
         messages: [...state.messages, payload],
@@ -36,6 +40,9 @@ export default (state = init, {payload, type}) => {
         const index = state.messages.findIndex(m => m.key === payload.oldKey);
         if (index === -1) {
           state.messages = [...state.messages, payload];
+          if (state.messages.length > state.pageSize) {
+            state.messages.splice(0, 1);
+          }
         } else {
           state.messages.splice(index, 1, payload);
         }

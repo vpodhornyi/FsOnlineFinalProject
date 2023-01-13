@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom";
 import {useDebouncedCallback} from 'use-debounce';
 import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import {Link, Button, Element, Events, animateScroll as scroll, scrollSpy, scroller} from 'react-scroll'
+import {Element, scroller} from 'react-scroll'
 import PropTypes from "prop-types";
 
 
@@ -36,38 +36,35 @@ const ChatBody = ({chatId}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {selectedChat} = useSelector(getChatsData);
-  const countUnreadMessages = selectedChat?.lastMessage?.countUnreadMessages || 0;
   const {messages, pageSize, pageNumberUp, pageNumberDown} = useSelector(getMessagesData);
-  const lastMessage = messages[messages.length - 1];
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
-  const showScrollDownButton = useDebouncedCallback(v => setVisible(v), 300);
-
-  /*  const getScrolling = () => {
-      const offsetHeight =
-        overlayRef?.current?.offsetHeight;
-      const scrollHeight = overlayRef?.current?.scrollHeight;
-      showScrollDownButton(offsetHeight !== scrollHeight);
-    }*/
+  const [loadingUp, setLoadingUp] = useState(false);
+  const [loadingDown, setLoadingDown] = useState(false);
 
   const fetch = useDebouncedCallback(async (id) => {
-    setLoading(true);
-    const countUnreadMessages = selectedChat.lastMessage.countUnreadMessages;
-    const pageNumber = countUnreadMessages === 0 ? 0 : Math.floor((countUnreadMessages - 1) / pageSize);
-    await dispatch(getMessages({
-      chatId,
-      pageNumber,
-      pageSize,
-      up: true,
-      down: true,
-    }));
-    setLoading(false);
-    setTimeout(() => {
-      // getScrolling();
-      // countUnreadMessages ? onUnreadMessages() : onBottom();
-      onBottom()
-    }, 200);
-    // onBottom()
+    if (selectedChat) {
+      setLoading(true);
+      const countUnreadMessages = selectedChat.lastMessage.countUnreadMessages;
+      const pageNumber = countUnreadMessages === 0 ? 0 : Math.floor((countUnreadMessages - 1) / pageSize);
+      const data = await dispatch(getMessages({
+        chatId,
+        pageNumber,
+        pageSize,
+        up: true,
+        down: true,
+      }));
+      setLoading(false);
+      setTimeout(() => {
+        const lastChatMessage = data[data.length - 1];
+        let id = data[0]?.lastSeenChatMessageId;
+        if (lastChatMessage?.isMessageOwner) {
+          id = lastChatMessage.id
+        }
+        console.log(id);
+        onElement(`elementName${id}`)
+      }, 300);
+    }
   }, 500);
 
   useEffect(() => {
@@ -115,71 +112,48 @@ const ChatBody = ({chatId}) => {
     }
   }
 
-  const onUnreadMessages = () => {
-    // const heightBody = chatBodyRef?.current?.offsetHeight;
-    // overlayRef?.current?.scroll(0, heightBody);
-
-    scroller.scrollTo('scroll-unread-messages', {
-      duration: 100,
-      delay: 0,
-      smooth: 'easeInOutQuart',
+  const onElement = (name) => {
+    scroller.scrollTo(name, {
       containerId: 'ScrollContainer'
     })
-  }
-
-  const onScrollEvent = () => {
-    /*      const scroll = overlayRef?.current?.scrollTop;
-          const offsetHeight = overlayRef?.current?.offsetHeight;
-          const scrollHeight = overlayRef?.current?.scrollHeight;
-          const maxScroll = scrollHeight - offsetHeight;
-
-          if (scroll < maxScroll) {
-            showScrollDownButton(true);
-          } else if (scroll === maxScroll) {
-            showScrollDownButton(false);
-          }*/
-    /*    if (!visible) {
-          setVisible(true);
-        }*/
   }
 
   const onBottom = () => {
-    // const heightBody = chatBodyRef?.current?.offsetHeight;
-    // overlayRef?.current?.scroll(0, heightBody);
-    scroller.scrollTo('onBottomElement', {
+    scroller.scrollTo('elementNameBottom', {
       containerId: 'ScrollContainer'
     })
   }
 
-  const onStartNewPage = () => {
-    scroller.scrollTo('onStartNewPage', {
-      containerId: 'ScrollContainer'
-    })
-  }
-
-  const toggleTopVisible = (inView) => {
+  const toggleElementVisible = async (inView, id) => {
+    const limit = 10;
     if (inView) {
-      dispatch(getMessages({
-        chatId,
-        pageNumber: pageNumberUp + 1,
-        pageSize,
-        up: true,
-      }))
-      onStartNewPage();
+      if (messages[limit]?.id === id) {
+        setLoadingUp(true);
+        const data = await dispatch(getMessages({
+          chatId,
+          pageNumber: pageNumberUp + 1,
+          pageSize,
+          up: true,
+        }))
+        setLoadingUp(false);
+        // if (data.length) onElement(`elementName${data[data.length - 1]?.id}`);
+      }
+
+      if (pageNumberDown && messages[messages.length - limit]?.id === id) {
+        setLoadingDown(true);
+        await dispatch(getMessages({
+          chatId,
+          pageNumber: pageNumberDown - 1,
+          pageSize,
+          down: true,
+        }))
+        setLoadingDown(false);
+      }
     }
   }
 
   const toggleBottomVisible = (inView) => {
     setVisible(!inView);
-
-    if (pageNumberDown && inView) {
-      dispatch(getMessages({
-        chatId,
-        pageNumber: pageNumberDown - 1,
-        pageSize,
-        down: true,
-      }))
-    }
   }
 
   return (
@@ -188,7 +162,6 @@ const ChatBody = ({chatId}) => {
         id='ScrollContainer'
         className='ScrollContainer'
         ref={overlayRef}
-        // onScroll={onScrollEvent}
       >
         <Box
           ref={chatBodyRef}
@@ -200,38 +173,37 @@ const ChatBody = ({chatId}) => {
               </Box>
             ) :
             <>
-              <Element name="onTopElement">
-                <InViewElement toggleVisible={toggleTopVisible}/>
-              </Element>
-              {messages.map(message => {
+              {messages.map((message, i) => {
                   switch (true) {
                     case message.isMessageOwner: {
-                      return <MessageOwner
+                      return <InViewElement
                         key={message?.key}
+                        toggleVisible={toggleElementVisible}
                         message={message}
                         toggleModal={toggleModal}
+                        element={MessageOwner}
                       />
                     }
                     case message.isForeignerMessage: {
-                      return <ForeignerMessage
-                        key={message?.key}
-                        message={message}
-                        toggleModal={toggleModal}
-                        onBottom={onBottom}
-                      />
-                      {/* {(message.isLastMessageSeen && message.id !== lastMessage.id) &&
-                      <Element name="scroll-unread-messages">
-                        <UnreadMessagesNotification/>
-                      </Element>}*/
-                      }
+                      return <Box key={message?.key}>
+                        <InViewElement
+                          key={message?.key}
+                          toggleVisible={toggleElementVisible}
+                          message={message}
+                          toggleModal={toggleModal}
+                          element={ForeignerMessage}
+                        />
+                        {message.isLastMessageSeen && messages.length - 1 !== i &&
+                          !messages[i + 1]?.isMessageOwner &&
+                          <UnreadMessagesNotification key={getRandomKey()}/>
+                        }
+                      </Box>
                     }
-                    case message.isStartNewPage: {
-                      return <Element key={getRandomKey()} name="onStartNewPage"></Element>
-                      {/* {(message.isLastMessageSeen && message.id !== lastMessage.id) &&
-                      <Element name="scroll-unread-messages">
-                        <UnreadMessagesNotification/>
-                      </Element>}*/
-                      }
+                    case loadingDown: {
+                      return <LeaveChatMessage
+                        key={message?.key}
+                        item={message}
+                      />
                     }
                     case message.isLeaveChat: {
                       return <LeaveChatMessage
@@ -248,9 +220,12 @@ const ChatBody = ({chatId}) => {
                   }
                 }
               )}
-              <Element name="onBottomElement">
-                <InViewElement toggleVisible={toggleBottomVisible}/>
-              </Element>
+              <InViewElement toggleVisible={toggleBottomVisible} message={{id: 'Bottom'}}/>
+              {loadingDown ? (
+                <Box sx={{position: 'relative'}}>
+                  <CircularLoader/>
+                </Box>
+              ) : null}
             </>
           }
         </Box>

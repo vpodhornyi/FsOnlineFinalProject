@@ -21,7 +21,7 @@ export const getChatsData = state => {
 
 export const getMessagesData = state => {
   if (state) {
-    const data = JSON.parse(JSON.stringify(state.message));
+    const data = state.message;
 
     return {
       messages: data.messages,
