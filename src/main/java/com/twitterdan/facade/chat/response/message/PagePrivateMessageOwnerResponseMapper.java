@@ -7,6 +7,9 @@ import com.twitterdan.facade.GeneralFacade;
 import com.twitterdan.utils.message.ForeignerMessageSeenUtil;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class PagePrivateMessageOwnerResponseMapper extends GeneralFacade<Message, PrivateMessageOwnerResponse> {
   public PagePrivateMessageOwnerResponseMapper() {
@@ -15,6 +18,14 @@ public class PagePrivateMessageOwnerResponseMapper extends GeneralFacade<Message
 
   @Override
   protected void decorateDto(PrivateMessageOwnerResponse dto, Message entity, User user) {
-    dto.setIsMessageSeen(ForeignerMessageSeenUtil.isMessageSeen(entity, user));
+    List<User> users = entity.getChat().getUsers();
+
+    Optional<User> optionalUser = users.stream().filter(u -> !u.equals(user)).findFirst();
+
+    if (optionalUser.isPresent()) {
+      dto.setIsMessageSeen(ForeignerMessageSeenUtil.isMessageSeen(entity, optionalUser.get()));
+    } else {
+      dto.setIsMessageSeen(false);
+    }
   }
 }
