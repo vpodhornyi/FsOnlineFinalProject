@@ -4,6 +4,9 @@ const init = {
   pageNumberUp: 0,
   pageNumberDown: 0,
   pageSize: 30,
+  lastSeenChatMessageId: 0,
+  totalPages: 0,
+  chatId: 0,
   messages: []
 };
 
@@ -11,9 +14,13 @@ export default (state = init, {payload, type}) => {
 
   switch (type) {
     case String(ACTIONS.setMessages):
+      const {messages, lastSeenChatMessageId, chatId, totalPages} = payload;
       return {
         ...state,
-        messages: payload.messages,
+        messages,
+        lastSeenChatMessageId,
+        chatId,
+        totalPages,
       };
     case String(ACTIONS.addUpMessages):
       const newMessages = payload.messages.filter(m => !state.messages.find(ms => ms.key === m.key))
@@ -35,7 +42,7 @@ export default (state = init, {payload, type}) => {
         messages: [...state.messages, payload],
       };
     case String(ACTIONS.updateOrAddNewMessage): {
-      const chatId = state.messages[0]?.chatId;
+      const chatId = state.chatId;
       if (chatId && (chatId === payload.chatId)) {
         const index = state.messages.findIndex(m => m.key === payload.oldKey);
         if (index === -1) {
@@ -88,8 +95,7 @@ export default (state = init, {payload, type}) => {
         ...state,
       };
     case String(ACTIONS.leaveChatNotification): {
-      const chatId = state.messages[0]?.chatId;
-      if (chatId === payload.chatId) {
+      if (state.chatId === payload.chatId) {
         state.messages.push(payload);
       }
     }
@@ -97,8 +103,7 @@ export default (state = init, {payload, type}) => {
         ...state,
       };
     case String(ACTIONS.addUsersNotification): {
-      const chatId = state.messages[0]?.chatId;
-      if (chatId === payload.chatId) {
+      if (state.chatId === payload.chatId) {
         state.messages.push(payload);
       }
     }

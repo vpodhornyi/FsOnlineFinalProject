@@ -35,19 +35,11 @@ public class MessageService {
     return messageRepository.findAll();
   }
 
-  public List<Message> findByChatId(Long chatId, Long userId, int pageNumber, int pageSize) {
+  public Page<Message> findByChatId(Long chatId, Long userId, int pageNumber, int pageSize) {
     Pageable pageable = PageRequest.of(pageNumber, pageSize);
     Optional<Page<Message>> optionalMessages = messageRepository.findPageByChatId(chatId, userId, pageable);
 
-    if(optionalMessages.isPresent()) {
-      Page<Message> page = optionalMessages.get();
-      int totalPages = page.getTotalPages();
-      long totalElements = page.getTotalElements();
-      System.out.println(totalPages);
-      System.out.println(totalElements);
-    }
-
-    return optionalMessages.map(Slice::getContent).orElseGet(ArrayList::new);
+    return optionalMessages.orElse(Page.empty());
   }
 
   public Message findById(Long id) {

@@ -1,7 +1,6 @@
 package com.twitterdan.facade.chat.response.message;
 
 import com.twitterdan.domain.chat.Chat;
-import com.twitterdan.domain.chat.ChatDeleted;
 import com.twitterdan.domain.chat.Message;
 import com.twitterdan.domain.user.User;
 import com.twitterdan.dto.chat.response.message.privateMessage.PrivateForeignerMessageResponse;
@@ -12,10 +11,6 @@ import com.twitterdan.service.MessageService;
 import com.twitterdan.utils.message.ForeignerMessageSeenUtil;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 public class PrivateForeignerMessageResponseMapper extends GeneralFacade<Message, PrivateForeignerMessageResponse> {

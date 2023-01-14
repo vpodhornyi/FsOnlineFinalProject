@@ -57,14 +57,16 @@ const ChatBody = ({chatId}) => {
       }));
       setLoading(false);
       setTimeout(() => {
-        const lastChatMessage = data[data.length - 1];
-        let id = data[0]?.lastSeenChatMessageId;
-        if (lastChatMessage?.isMessageOwner) {
-          id = lastChatMessage.id
-        }
-        console.log(id);
-        setLastSeenChatMessageId(id);
-        onElement(`elementName${id}`);
+        // const lastChatMessage = data[data.length - 1];
+        // let id = data[0]?.lastSeenChatMessageId;
+        // if (lastChatMessage?.isMessageOwner) {
+        //   id = lastChatMessage.id
+        // }
+        const {lastSeenChatMessageId} = data;
+        setLastSeenChatMessageId(lastSeenChatMessageId);
+        console.log('lastSeenChatMessageId - ', lastSeenChatMessageId);
+
+        onElement(`elementName${lastSeenChatMessageId}`);
         // setLastSeenChatMessageId(0);
       }, 300);
     }
@@ -131,6 +133,7 @@ const ChatBody = ({chatId}) => {
     const limit = 10;
     if (inView) {
       if (messages[limit]?.id === id) {
+        console.log('inView UP');
         setLoadingUp(true);
         const data = await dispatch(getMessages({
           chatId,
@@ -143,6 +146,7 @@ const ChatBody = ({chatId}) => {
       }
 
       if (pageNumberDown && messages[messages.length - limit]?.id === id) {
+        console.log('inView DOWN');
         setLoadingDown(true);
         await dispatch(getMessages({
           chatId,
@@ -176,7 +180,7 @@ const ChatBody = ({chatId}) => {
               </Box>
             ) :
             <>
-              {messages.map((message, i) => {
+              {messages?.map((message, i) => {
                   switch (true) {
                     case message.isMessageOwner: {
                       return <InViewElement

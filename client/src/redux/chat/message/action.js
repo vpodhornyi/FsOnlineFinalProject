@@ -27,23 +27,23 @@ export const getMessages = ({chatId, pageNumber, pageSize, up = false, down = fa
       const data = await api.get(URLS.CHATS.MESSAGES, {params: {chatId, pageNumber, pageSize}});
       switch (true) {
         case up && down:
-          if (data.length) {
+          if (data?.messages?.length) {
             await dispatch(ACTIONS.setPageNumberUp(pageNumber));
             await dispatch(ACTIONS.setPageNumberDown(pageNumber));
           }
-          await dispatch(ACTIONS.setMessages({messages: data}));
+          await dispatch(ACTIONS.setMessages(data));
           break;
         case up:
-          if (data.length) {
+          if (data?.messages?.length) {
             await dispatch(ACTIONS.setPageNumberUp(pageNumber));
           }
-          await dispatch(ACTIONS.addUpMessages({messages: data}));
+          await dispatch(ACTIONS.addUpMessages(data));
           break;
         default:
-          if (data.length) {
+          if (data?.messages?.length) {
             await dispatch(ACTIONS.setPageNumberDown(pageNumber));
           }
-          await dispatch(ACTIONS.addDownMessages({messages: data}));
+          await dispatch(ACTIONS.addDownMessages(data));
       }
       return data;
 

@@ -61,7 +61,7 @@ spring:
   sql:
     init:
       mode: always
-      data-locations: classpath:data-ps.sql
+#      data-locations: classpath:data-ps.sql
   datasource:
     url: ${LOCAL_DB_URL}
     username: ${LOCAL_DB_USER}

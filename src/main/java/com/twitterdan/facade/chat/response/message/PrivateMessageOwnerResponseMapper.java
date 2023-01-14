@@ -38,17 +38,6 @@ public class PrivateMessageOwnerResponseMapper extends GeneralFacade<Message, Pr
       chatService.resetDeletedChat(userId, chatId);
     }
 
-/*    Optional<List<MessageSeen>> optionalSeen = entity.getSeen();
-    Optional<MessageSeen> optionalMessageSeen = Optional.empty();
-
-    if (optionalSeen.isPresent()) {
-      optionalMessageSeen = optionalSeen.get().stream()
-        .filter(e -> !e.getUser().equals(user))
-        .findFirst();
-    }
-
-    dto.setIsMessageSeen(optionalMessageSeen.isPresent());*/
-
     dto.setIsMessageSeen(ForeignerMessageSeenUtil.isMessageSeen(entity, user));
   }
 }

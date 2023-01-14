@@ -7,6 +7,7 @@ import com.twitterdan.dto.chat.request.*;
 import com.twitterdan.dto.chat.response.chat.*;
 import com.twitterdan.dto.chat.response.message.DeletedMessageResponse;
 import com.twitterdan.dto.chat.response.message.MessageResponseAbstract;
+import com.twitterdan.dto.chat.response.message.PageMessagesResponse;
 import com.twitterdan.dto.chat.response.seen.ForeignerMessageSeenResponse;
 import com.twitterdan.facade.chat.ChatUserMapper;
 import com.twitterdan.facade.chat.request.MessageRequestMapper;
@@ -24,6 +25,7 @@ import com.twitterdan.service.ChatService;
 import com.twitterdan.service.MessageService;
 import com.twitterdan.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -59,6 +61,7 @@ public class ChatController {
   private final DeletedMessageResponseMapper deletedMessageMapper;
   private final LeaveChatResponseMapper leaveChatResponseMapper;
   private final ChatUserMapper chatUserMapper;
+  private final PageMessagesMapper pageMessagesMapper;
 
   @GetMapping
   public ResponseEntity<List<ChatResponseAbstract>> getChats(@RequestParam int pageNumber, @RequestParam int pageSize, Principal principal) {
@@ -167,30 +170,11 @@ public class ChatController {
   }
 
   @GetMapping("/messages")
-  public ResponseEntity<List<MessageResponseAbstract>> getMessages(@RequestParam int pageNumber, @RequestParam int pageSize, @RequestParam Long chatId, Principal principal) {
+  public ResponseEntity<PageMessagesResponse> getMessages(@RequestParam int pageNumber, @RequestParam int pageSize, @RequestParam Long chatId, Principal principal) {
     User authUser = userService.findByUserTag(principal.getName());
-    List<Message> messages = messageService.findByChatId(chatId, authUser.getId(), pageNumber, pageSize);
-    List<MessageResponseAbstract> messageResponses = messages.stream().map(message -> {
-      ChatType type = message.getChat().getType();
+    Page<Message> messages = messageService.findByChatId(chatId, authUser.getId(), pageNumber, pageSize);
 
-      if (type.equals(ChatType.PRIVATE)) {
-        if (authUser.equals(message.getUser())) {
-          return privateMessageOwnerResponseMapper.convertToDto(message, authUser);
-        } else {
-          return privateForeignerMessageResponseMapper.convertToDto(message, authUser);
-        }
-      }
-
-      if (authUser.equals(message.getUser())) {
-        return groupMessageOwnerResponseMapper.convertToDto(message, authUser);
-      } else {
-        return groupForeignerMessageResponseMapper.convertToDto(message, authUser);
-      }
-
-    }).collect(Collectors.toCollection(ArrayList::new));
-    Collections.reverse(messageResponses);
-
-    return ResponseEntity.ok(messageResponses);
+    return ResponseEntity.ok(pageMessagesMapper.convertToDto(messages, authUser));
   }
 
   @PostMapping("/messages")

@@ -8,7 +8,6 @@ import org.modelmapper.convention.MatchingStrategies;
 public class GeneralFacade<E, D> {
   private final Class<E> entityClass;
   private final Class<D> dtoClass;
-
   private final ModelMapper modelMapper = new ModelMapper();
 
   public GeneralFacade(final Class<E> eClass, final Class<D> dClass) {
