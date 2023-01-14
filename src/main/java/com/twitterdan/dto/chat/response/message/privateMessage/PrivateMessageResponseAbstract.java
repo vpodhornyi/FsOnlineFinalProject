@@ -8,4 +8,5 @@ import lombok.Setter;
 @Setter
 public abstract class PrivateMessageResponseAbstract extends MessageResponseAbstract {
   private final boolean IsPrivateChat = true;
+  private boolean IsMessageSeen = false;
 }

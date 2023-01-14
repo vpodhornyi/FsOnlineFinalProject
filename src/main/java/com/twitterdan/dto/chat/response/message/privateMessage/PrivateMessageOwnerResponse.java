@@ -7,5 +7,4 @@ import lombok.Setter;
 @Setter
 public class PrivateMessageOwnerResponse extends PrivateMessageResponseAbstract {
   private final boolean IsMessageOwner = true;
-  private boolean IsMessageSeen = false;
 }

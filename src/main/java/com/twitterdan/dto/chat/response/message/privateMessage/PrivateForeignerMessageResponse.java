@@ -8,7 +8,6 @@ import lombok.Setter;
 @Setter
 public class PrivateForeignerMessageResponse extends PrivateMessageResponseAbstract {
   private final boolean IsForeignerMessage = true;
-  private boolean IsMessageSeen = false;
   private Integer countUnreadAllChatMessages = 0;
   private PrivateChatResponse chat;
 }

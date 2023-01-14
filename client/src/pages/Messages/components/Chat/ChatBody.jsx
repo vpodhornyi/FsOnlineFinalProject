@@ -57,17 +57,9 @@ const ChatBody = ({chatId}) => {
       }));
       setLoading(false);
       setTimeout(() => {
-        // const lastChatMessage = data[data.length - 1];
-        // let id = data[0]?.lastSeenChatMessageId;
-        // if (lastChatMessage?.isMessageOwner) {
-        //   id = lastChatMessage.id
-        // }
         const {lastSeenChatMessageId} = data;
         setLastSeenChatMessageId(lastSeenChatMessageId);
-        console.log('lastSeenChatMessageId - ', lastSeenChatMessageId);
-
         onElement(`elementName${lastSeenChatMessageId}`);
-        // setLastSeenChatMessageId(0);
       }, 300);
     }
   }, 500);
@@ -163,6 +155,58 @@ const ChatBody = ({chatId}) => {
     setVisible(!inView);
   }
 
+
+  const showMessage = (m, i) => {
+    let message = null;
+    let notification = null;
+    if (m.isMessageOwner) {
+      message = <InViewElement
+        key={m?.key}
+        toggleVisible={toggleElementVisible}
+        message={m}
+        toggleModal={toggleModal}
+        element={MessageOwner}
+      />
+    }
+
+    if (m.isForeignerMessage) {
+      message = <InViewElement
+        key={m?.key}
+        toggleVisible={toggleElementVisible}
+        message={m}
+        toggleModal={toggleModal}
+        element={ForeignerMessage}
+      />
+    }
+
+    if ((m.id === lastSeenChatMessageId) &&
+      messages.length - 1 !== i &&
+      !messages[i + 1]?.isMessageOwner) {
+      notification = <UnreadMessagesNotification key={getRandomKey()}/>
+    }
+
+
+    switch (true) {
+      case m.isLeaveChat: {
+        return <LeaveChatMessage
+          key={m?.key}
+          item={m}
+        />
+      }
+      case m.isAddNewUsers: {
+        return <AddNewUsersMessage
+          key={m?.key}
+          item={m}
+        />
+      }
+    }
+    return <Box key={message.key}>
+      {message}
+      {notification}
+    </Box>
+  }
+
+
   return (
     <BoxWrapper>
       <Box
@@ -180,48 +224,7 @@ const ChatBody = ({chatId}) => {
               </Box>
             ) :
             <>
-              {messages?.map((message, i) => {
-                  switch (true) {
-                    case message.isMessageOwner: {
-                      return <InViewElement
-                        key={message?.key}
-                        toggleVisible={toggleElementVisible}
-                        message={message}
-                        toggleModal={toggleModal}
-                        element={MessageOwner}
-                      />
-                    }
-                    case message.isForeignerMessage: {
-                      return <Box key={message?.key}>
-                        <InViewElement
-                          key={message?.key}
-                          toggleVisible={toggleElementVisible}
-                          message={message}
-                          toggleModal={toggleModal}
-                          element={ForeignerMessage}
-                        />
-                        {(message.id === lastSeenChatMessageId) &&
-                          messages.length - 1 !== i &&
-                          !messages[i + 1]?.isMessageOwner &&
-                          <UnreadMessagesNotification key={getRandomKey()}/>
-                        }
-                      </Box>
-                    }
-                    case message.isLeaveChat: {
-                      return <LeaveChatMessage
-                        key={message?.key}
-                        item={message}
-                      />
-                    }
-                    case message.isAddNewUsers: {
-                      return <AddNewUsersMessage
-                        key={message?.key}
-                        item={message}
-                      />
-                    }
-                  }
-                }
-              )}
+              {messages?.map(showMessage)}
               <InViewElement toggleVisible={toggleBottomVisible} message={{id: 'Bottom'}}/>
               {loadingDown ? (
                 <Box sx={{position: 'relative'}}>
