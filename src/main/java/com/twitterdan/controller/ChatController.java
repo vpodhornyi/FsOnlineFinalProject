@@ -187,7 +187,7 @@ public class ChatController {
         return groupForeignerMessageResponseMapper.convertToDto(message, authUser);
       }
 
-    }) .collect(Collectors.toCollection(ArrayList::new));
+    }).collect(Collectors.toCollection(ArrayList::new));
     Collections.reverse(messageResponses);
 
     return ResponseEntity.ok(messageResponses);
@@ -204,7 +204,6 @@ public class ChatController {
 
     users.stream().filter(u -> !u.equals(authUser)).forEach(user -> {
       MessageResponseAbstract responseAbstract;
-      System.out.println(user.getId());
       if (type.equals(ChatType.PRIVATE)) {
         if (user.equals(savedMessage.getUser())) {
           responseAbstract = privateMessageOwnerResponseMapper.convertToDto(savedMessage, user);
@@ -226,8 +225,6 @@ public class ChatController {
 
     if (type.equals(ChatType.PRIVATE)) {
       responseAbstract = privateMessageOwnerResponseMapper.convertToDto(savedMessage, authUser);
-
-
     } else {
       responseAbstract = groupMessageOwnerResponseMapper.convertToDto(savedMessage, authUser);
     }

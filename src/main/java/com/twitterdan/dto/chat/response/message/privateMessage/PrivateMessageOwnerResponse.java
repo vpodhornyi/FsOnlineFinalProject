@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PrivateMessageOwnerResponse extends PrivateMessageResponseAbstract {
-  private boolean IsMessageOwner = true;
+  private final boolean IsMessageOwner = true;
   private boolean IsMessageSeen = false;
 }

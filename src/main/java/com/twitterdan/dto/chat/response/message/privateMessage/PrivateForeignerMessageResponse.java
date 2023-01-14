@@ -9,7 +9,6 @@ import lombok.Setter;
 public class PrivateForeignerMessageResponse extends PrivateMessageResponseAbstract {
   private final boolean IsForeignerMessage = true;
   private boolean IsMessageSeen = false;
-  private boolean IsLastMessageSeen = false;
   private Integer countUnreadAllChatMessages = 0;
   private PrivateChatResponse chat;
 }

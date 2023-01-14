@@ -41,11 +41,12 @@ const ChatBody = ({chatId}) => {
   const [loading, setLoading] = useState(false);
   const [loadingUp, setLoadingUp] = useState(false);
   const [loadingDown, setLoadingDown] = useState(false);
+  const [lastSeenChatMessageId, setLastSeenChatMessageId] = useState(0);
 
   const fetch = useDebouncedCallback(async (id) => {
     if (selectedChat) {
       setLoading(true);
-      const countUnreadMessages = selectedChat.lastMessage.countUnreadMessages;
+      const countUnreadMessages = selectedChat?.lastMessage?.countUnreadMessages || 0;
       const pageNumber = countUnreadMessages === 0 ? 0 : Math.floor((countUnreadMessages - 1) / pageSize);
       const data = await dispatch(getMessages({
         chatId,
@@ -62,7 +63,9 @@ const ChatBody = ({chatId}) => {
           id = lastChatMessage.id
         }
         console.log(id);
-        onElement(`elementName${id}`)
+        setLastSeenChatMessageId(id);
+        onElement(`elementName${id}`);
+        // setLastSeenChatMessageId(0);
       }, 300);
     }
   }, 500);
@@ -193,17 +196,12 @@ const ChatBody = ({chatId}) => {
                           toggleModal={toggleModal}
                           element={ForeignerMessage}
                         />
-                        {message.isLastMessageSeen && messages.length - 1 !== i &&
+                        {(message.id === lastSeenChatMessageId) &&
+                          messages.length - 1 !== i &&
                           !messages[i + 1]?.isMessageOwner &&
                           <UnreadMessagesNotification key={getRandomKey()}/>
                         }
                       </Box>
-                    }
-                    case loadingDown: {
-                      return <LeaveChatMessage
-                        key={message?.key}
-                        item={message}
-                      />
                     }
                     case message.isLeaveChat: {
                       return <LeaveChatMessage

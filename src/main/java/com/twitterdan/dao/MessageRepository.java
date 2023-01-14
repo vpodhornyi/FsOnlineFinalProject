@@ -5,7 +5,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,24 +15,24 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
   @Query(value =
     " SELECT m.id, m.uuid, m.created_at, m.created_by, m.updated_at, m.updated_by," +
       " m.text, m.user_id, m.chat_id from messages m" +
-      " left join messages_deleted md on m.id = md.message_id" +
-      " where m.chat_id = :chatId and (md.user_id != :userId or md.user_id is null)" +
+      " where m.chat_id = :chatId" +
+      " and (select md1.id from messages_deleted md1 where md1.user_id = :userId and md1.message_id = m.id) is null" +
       " order by m.created_at desc"
     , nativeQuery = true)
-  Optional<Page<Message>> findPageByChatId(@Param("chatId") Long chatId, @Param("userId") Long userId, Pageable pageable);
+  Optional<Page<Message>> findPageByChatId(Long chatId, Long userId, Pageable pageable);
 
   @Query(value =
     " SELECT * from messages m" +
-      " left join messages_deleted md on m.id = md.message_id" +
-      " where m.chat_id = :chatId and (md.user_id != :userId or md.user_id is null)" +
+      " where m.chat_id = :chatId" +
+      " and (select md1.id from messages_deleted md1 where md1.user_id = :userId and md1.message_id = m.id) is null" +
       " order by m.created_at"
     , nativeQuery = true)
   Optional<List<Message>> findByChatId(Long chatId, Long userId);
 
-    @Query(value =
+  @Query(value =
     " select * from messages m" +
-      " left join messages_deleted md on m.id = md.message_id" +
-      " where m.chat_id = :chatId and (md.user_id != :userId or md.user_id is null)" +
+      " where m.chat_id = :chatId" +
+      " and (select md1.id from messages_deleted md1 where md1.user_id = :userId and md1.message_id = m.id) is null" +
       " order by m.created_at desc limit 1"
     , nativeQuery = true)
   Optional<Message> findLastChatMessageForUser(Long chatId, Long userId);
@@ -45,10 +44,9 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
       " m.updated_by, m.uuid, m.text, m.chat_id, m.user_id" +
       " from messages m" +
       " join messages_seen ms on m.id = ms.message_id" +
-      " left join messages_deleted md on m.id = md.message_id" +
       " where m.chat_id = :chatId" +
       " and ms.user_id = :userId" +
-      " and (md.user_id != :userId or md.user_id is null)" +
+      " and (select md1.id from messages_deleted md1 where md1.user_id = :userId and md1.message_id = m.id) is null" +
       " order by m.id desc" +
       " limit 1"
     , nativeQuery = true)

@@ -32,17 +32,15 @@ public class GroupForeignerMessageResponseMapper extends GeneralFacade<Message, 
     dto.setChat(groupChatResponseMapper.convertToDto(entity.getChat()));
     dto.setCountUnreadMessages(messageService.getCountUnreadChatMessagesByUserId(chatId, userId));
     dto.setCountUnreadAllChatMessages(messageService.getCountAllUnreadChatMessagesByUserId(userId));
-    dto.setLastSeenChatMessageId(messageService.findLastSeenChatMessageId(userId, chatId));
     Optional<List<MessageSeen>> seen = entity.getSeen();
 
     Long lastSeenChatMessageId = messageService.findLastSeenChatMessageId(userId, chatId);
+    dto.setLastSeenChatMessageId(lastSeenChatMessageId);
 
-    if (Objects.equals(lastSeenChatMessageId, entity.getId())) {
-      dto.setIsLastMessageSeen(true);
-    }
 
     if (seen.isPresent()) {
-      Optional<MessageSeen> optionalMessageSeen = seen.get().stream().filter(e -> e.getUser().equals(user)).findFirst();
+      Optional<MessageSeen> optionalMessageSeen = seen.get().stream()
+        .filter(e -> e.getUser().equals(user)).findFirst();
 
       if (optionalMessageSeen.isPresent()) {
         dto.setIsMessageSeen(true);
