@@ -43,13 +43,11 @@ const ChatBody = ({chatId}) => {
   const [loadingDown, setLoadingDown] = useState(false);
   const [lastSeenChatMessageId, setLastSeenChatMessageId] = useState(0);
 
-  const fetch = useDebouncedCallback(async (id) => {
+  const fetch = useDebouncedCallback(async (id, pageNumber) => {
     if (selectedChat) {
       setLoading(true);
-      const countUnreadMessages = selectedChat?.lastMessage?.countUnreadMessages || 0;
-      const pageNumber = countUnreadMessages === 0 ? 0 : Math.floor((countUnreadMessages - 1) / pageSize);
       const data = await dispatch(getMessages({
-        chatId,
+        chatId: id,
         pageNumber,
         pageSize,
         up: true,
@@ -66,7 +64,9 @@ const ChatBody = ({chatId}) => {
 
   useEffect(() => {
     dispatch(MESSAGE_ACTIONS.resetMessages());
-    fetch(chatId);
+    const countUnreadMessages = selectedChat?.lastMessage?.countUnreadMessages || 0;
+    const pageNumber = countUnreadMessages === 0 ? 0 : Math.floor((countUnreadMessages - 1) / pageSize);
+    fetch(chatId, pageNumber);
   }, [chatId]);
 
   const send = async (textMessage) => {
@@ -116,16 +116,17 @@ const ChatBody = ({chatId}) => {
   }
 
   const onBottom = () => {
-    scroller.scrollTo('elementNameBottom', {
-      containerId: 'ScrollContainer'
-    })
+    if (pageNumberDown === 0) {
+      scroller.scrollTo('elementNameBottom', {
+        containerId: 'ScrollContainer'
+      })
+    }
   }
 
   const toggleElementVisible = async (inView, id) => {
     const limit = 10;
     if (inView) {
       if (messages[limit]?.id === id) {
-        console.log('inView UP');
         setLoadingUp(true);
         const data = await dispatch(getMessages({
           chatId,
@@ -134,11 +135,9 @@ const ChatBody = ({chatId}) => {
           up: true,
         }))
         setLoadingUp(false);
-        // if (data.length) onElement(`elementName${data[data.length - 1]?.id}`);
       }
 
       if (pageNumberDown && messages[messages.length - limit]?.id === id) {
-        console.log('inView DOWN');
         setLoadingDown(true);
         await dispatch(getMessages({
           chatId,
@@ -237,7 +236,11 @@ const ChatBody = ({chatId}) => {
       </Box>
       <Box sx={{position: 'relative'}}>
         <Box onClick={onBottom}>
-          <ScrollDownButton visible={visible}/>
+          <ScrollDownButton
+            pageNumberDown={pageNumberDown}
+            getLastPage={fetch}
+            visible={visible}
+            chat={selectedChat}/>
         </Box>
         <StartMessage
           inputRef={inputRef}
