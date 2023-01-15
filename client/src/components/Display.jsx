@@ -5,13 +5,15 @@ import {Box} from "@mui/material";
 import PropTypes from "prop-types";
 
 import ModalPage from "./ModalPage";
+import CustomizationModal from "./CustomizationModal";
+
 
 const Display = ({item}) => {
   const dispatch = useDispatch();
 
   return <ModalPage element={
     <BoxWrapper>
-      DISPLAY SETTINGS ELEMENT
+    <CustomizationModal/>
     </BoxWrapper>
   }/>
 }
