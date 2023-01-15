@@ -11,6 +11,7 @@ import com.twitterdan.dto.chat.response.message.PageMessagesResponse;
 import com.twitterdan.dto.chat.response.seen.ForeignerMessageSeenResponse;
 import com.twitterdan.facade.chat.ChatUserMapper;
 import com.twitterdan.facade.chat.request.MessageRequestMapper;
+import com.twitterdan.facade.chat.response.chat.PageChatsResponseMapper;
 import com.twitterdan.facade.chat.response.message.DeletedMessageResponseMapper;
 import com.twitterdan.facade.chat.response.chat.GroupChatResponseMapper;
 import com.twitterdan.facade.chat.response.chat.LeaveChatResponseMapper;
@@ -31,11 +32,8 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -62,17 +60,14 @@ public class ChatController {
   private final LeaveChatResponseMapper leaveChatResponseMapper;
   private final ChatUserMapper chatUserMapper;
   private final PageMessagesMapper pageMessagesMapper;
+private final PageChatsResponseMapper pageChatsResponseMapper;
 
   @GetMapping
-  public ResponseEntity<List<ChatResponseAbstract>> getChats(@RequestParam int pageNumber, @RequestParam int pageSize, Principal principal) {
+  public ResponseEntity<PageChatResponse> getChats(@RequestParam int pageNumber, @RequestParam int pageSize, Principal principal) {
     User authUser = userService.findByUserTag(principal.getName());
-    List<ChatResponseAbstract> chats = chatService.findAlLByUserId(authUser.getId(), pageNumber, pageSize).stream().map(ch -> {
-      if (ch.getType().equals(ChatType.PRIVATE)) {
-        return privateChatResponseMapper.convertToDto(ch, authUser);
-      }
-      return groupChatResponseMapper.convertToDto(ch, authUser);
-    }).toList();
-    return ResponseEntity.ok(chats);
+    Page<Chat> chats = chatService.findAlLByUserId(authUser.getId(), pageNumber, pageSize);
+
+    return ResponseEntity.ok(pageChatsResponseMapper.convertToDto(chats, authUser));
   }
 
   @DeleteMapping

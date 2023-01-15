@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {Box} from "@mui/material";
 import PropTypes from "prop-types";
@@ -11,20 +11,19 @@ import SearchBox from "./SearchBox";
 import {CircularLoader} from "../../../../components";
 import {ModalWindow} from "../../../../components";
 import {useModal} from '../../../../hooks/useModal';
+import InViewElement from "../InViewElement";
 
 const Navigation = () => {
   const {modal, toggleModal} = useModal();
   const dispatch = useDispatch();
-  const {isChatLoading, isChatsExist, chats, pageNumber, pageSize} = useSelector(getChatsData);
+  const [loading, setLoading] = useState(false);
+  const {isChatLoading, isChatsExist, chats, pageNumber} = useSelector(getChatsData);
+
+  const fetch = async () => {
+    await dispatch(getChats());
+  }
 
   useEffect(() => {
-    const fetch = async () => {
-      if (pageNumber === 0) {
-        // dispatch(getChats({pageNumber, pageSize}));
-        // dispatch(ACTIONS.setPageNumber({pageNumber: pageNumber + 1}));
-        dispatch(getChats());
-      }
-    }
     fetch();
   }, []);
 
@@ -34,10 +33,22 @@ const Navigation = () => {
     </Box>
   );
 
+  const toggleVisible = async (inView) => {
+    if (inView) {
+      setLoading(true)
+      await fetch();
+      setLoading(false)
+    }
+  }
+
   if (isChatsExist) return (
     <Box>
       <SearchBox/>
       {chats.map(chat => <ChatRoute key={chat.key} chat={chat} toggleModal={toggleModal}/>)}
+      {!loading && <InViewElement toggleVisible={toggleVisible}/>}
+      {loading && (<Box sx={{position: 'relative', pt: 1, pb: 1}}>
+        <CircularLoader/>
+      </Box>)}
       <ModalWindow
         isShowing={modal.isShowing}
         toggleModal={toggleModal}
@@ -45,7 +56,6 @@ const Navigation = () => {
       />
     </Box>
   )
-
   return <ActionWelcome/>;
 }
 

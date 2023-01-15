@@ -24,8 +24,7 @@ import ForeignerMessage from "./Message/ForeignerMessage";
 import LeaveChatMessage from "./Message/LeaveChatMessage";
 import AddNewUsersMessage from "./Message/AddNewUsersMessage";
 import UnreadMessagesNotification from "./Message/UnreadMessagesNotification";
-import InViewElement from "./InViewElement";
-
+import MessageViewElement from "./MessageViewElement";
 
 const ChatBody = ({chatId}) => {
   const {modal, toggleModal} = useModal();
@@ -150,7 +149,7 @@ const ChatBody = ({chatId}) => {
     let message = null;
     let notification = null;
     if (m.isMessageOwner) {
-      message = <InViewElement
+      message = <MessageViewElement
         key={m?.key}
         toggleVisible={toggleElementVisible}
         message={m}
@@ -161,7 +160,7 @@ const ChatBody = ({chatId}) => {
     }
 
     if (m.isForeignerMessage) {
-      message = <InViewElement
+      message = <MessageViewElement
         key={m?.key}
         toggleVisible={toggleElementVisible}
         message={m}
@@ -208,16 +207,16 @@ const ChatBody = ({chatId}) => {
         className='MessagesBox'>
         {selectedChat.isPrivate && <UserInfo/>}
         {loading ? (<Box sx={{position: 'relative', pt: 3, pb: 3}}>
-            <CircularLoader/>
-          </Box>) : <Box sx={{padding: '5px 0'}}>
+          <CircularLoader/>
+        </Box>) : <Box sx={{padding: '5px 0'}}>
           {loadingUp ? (<Box sx={{position: 'relative', pt: 2, pb: 2}}>
-              <CircularLoader size={20}/>
-            </Box>) : null}
+            <CircularLoader size={20}/>
+          </Box>) : null}
           {messages?.map(showMessage)}
-          <InViewElement toggleVisible={toggleBottomVisible} message={{id: 'Bottom'}}/>
+          <MessageViewElement toggleVisible={toggleBottomVisible} message={{id: 'Bottom'}}/>
           {loadingDown ? (<Box sx={{position: 'relative', pt: 2, pb: 2}}>
-              <CircularLoader size={20}/>
-            </Box>) : null}
+            <CircularLoader size={20}/>
+          </Box>) : null}
         </Box>}
       </Box>
     </Box>

@@ -40,11 +40,11 @@ public class ChatService {
     throw new CouldNotFindChatException();
   }
 
-  public List<Chat> findAlLByUserId(Long userId, int pageNumber, int pageSize) {
+  public Page<Chat> findAlLByUserId(Long userId, int pageNumber, int pageSize) {
     Pageable pageable = PageRequest.of(pageNumber, pageSize);
     Optional<Page<Chat>> optionalChats = chatRepository.findByUsersId(userId, pageable);
 
-    return optionalChats.map(Slice::getContent).orElseGet(ArrayList::new);
+    return optionalChats.orElse(Page.empty());
   }
 
   public Chat findPrivateChatByUsersIds(Long authUserId, Long guestUserId) {

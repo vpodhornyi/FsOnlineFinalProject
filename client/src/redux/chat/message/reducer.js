@@ -23,14 +23,14 @@ export default (state = init, {payload, type}) => {
         totalPages,
       };
     case String(ACTIONS.addUpMessages): {
-      const newMessages = payload.messages.filter(m => !state.messages.find(ms => ms.key === m.key));
+      const newMessages = payload.messages.filter(m => !state.messages.find(ms => ms.id === m.id));
       return {
         ...state,
         messages: [...newMessages, ...state.messages],
       };
     }
     case String(ACTIONS.addDownMessages): {
-      const newMessages = payload.messages.filter(m => !state.messages.find(ms => ms.key === m.key))
+      const newMessages = payload.messages.filter(m => !state.messages.find(ms => ms.id === m.id));
       return {
         ...state,
         messages: [...state.messages, ...newMessages],

@@ -1,10 +1,9 @@
 import {ACTIONS} from "./action";
-import moment from "moment";
 
 const init = {
   loading: false,
   pageNumber: 0,
-  pageSize: 50,
+  pageSize: 2,
   chatId: -1,
   chats: [],
   onBottom: false,
@@ -76,10 +75,10 @@ export default (state = init, {payload, type}) => {
         loading: true,
       };
     case String(ACTIONS.getChats.success):
+      const newChats = payload.chats.filter(ch => !state.chats.find(c => ch.id === c.id));
       return {
         ...state,
-        loading: false,
-        chats: payload.chats,
+        chats: [...state.chats, ...newChats],
       };
     case String(ACTIONS.getChats.fail):
       return {
