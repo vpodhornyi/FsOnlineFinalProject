@@ -28,6 +28,7 @@ export const getMessagesData = state => {
       pageNumberUp: data.pageNumberUp,
       pageNumberDown: data.pageNumberDown,
       pageSize: data.pageSize,
+      totalPages: data.totalPages,
       lastSeenChatMessageId: data.lastSeenChatMessageId,
     }
   }

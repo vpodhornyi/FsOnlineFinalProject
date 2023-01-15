@@ -2,9 +2,9 @@ import React, {useEffect, useRef, useState} from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {useDebouncedCallback} from 'use-debounce';
+import {scroller} from 'react-scroll';
 import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import {Element, scroller} from 'react-scroll'
 import PropTypes from "prop-types";
 
 
@@ -12,7 +12,7 @@ import StartMessage from "./StartMessage";
 import {useModal} from "../../../../hooks/useModal";
 import UserInfo from "./UserInfo";
 import ScrollDownButton from "./ScrollDownButton";
-import {CircularLoader, LineLoader, ModalWindow} from "../../../../components";
+import {CircularLoader, ModalWindow} from "../../../../components";
 import {ACTIONS as CHAT_ACTIONS, addNewPrivateChat, addNewGroupChat} from "@redux/chat/action";
 import {ACTIONS as MESSAGE_ACTIONS, getMessages, sendMessage} from "@redux/chat/message/action";
 import {getChatsData, getMessagesData} from "@redux/chat/selector";
@@ -36,7 +36,7 @@ const ChatBody = ({chatId}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {selectedChat} = useSelector(getChatsData);
-  const {messages, pageSize, pageNumberUp, pageNumberDown} = useSelector(getMessagesData);
+  const {messages, pageSize, pageNumberUp, pageNumberDown, totalPages} = useSelector(getMessagesData);
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingUp, setLoadingUp] = useState(false);
@@ -126,9 +126,9 @@ const ChatBody = ({chatId}) => {
   }
 
   const toggleElementVisible = async (inView, id) => {
-    const limit = 1;
+    const limit = 7;
     if (inView) {
-      if (messages[limit]?.id === id) {
+      if ((messages[limit]?.id === id || messages[0]?.id === id) && pageNumberUp < totalPages - 1) {
         setLoadingUp(true);
         const data = await dispatch(getMessages({
           chatId,
@@ -143,7 +143,7 @@ const ChatBody = ({chatId}) => {
         }
       }
 
-      if (pageNumberDown && messages[messages.length - limit]?.id === id) {
+      if (pageNumberDown && (messages[messages.length - limit]?.id === id || messages[messages.length - 1]?.id === id)) {
         setLoadingDown(true);
         await dispatch(getMessages({
           chatId,
@@ -230,22 +230,20 @@ const ChatBody = ({chatId}) => {
                 <CircularLoader/>
               </Box>
             ) :
-            <>
+            <Box sx={{padding: '5px 0'}}>
               {loadingUp ? (
                 <Box sx={{position: 'relative', pt: 2, pb: 2}}>
                   <CircularLoader size={20}/>
                 </Box>
               ) : null}
               {messages?.map(showMessage)}
-              <Box sx={{mb: '3px'}}>
-                <InViewElement toggleVisible={toggleBottomVisible} message={{id: 'Bottom'}}/>
-              </Box>
+              <InViewElement toggleVisible={toggleBottomVisible} message={{id: 'Bottom'}}/>
               {loadingDown ? (
                 <Box sx={{position: 'relative', pt: 2, pb: 2}}>
                   <CircularLoader size={20}/>
                 </Box>
               ) : null}
-            </>
+            </Box>
           }
         </Box>
       </Box>
