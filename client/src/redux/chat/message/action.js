@@ -76,10 +76,12 @@ export const deleteMessage = (body) => async (dispatch) => {
 
 export const setSeenMessage = ({body}) => async dispatch => {
   try {
+    dispatch(ACTIONS.updateForeignerMessageSeen({...body}));
     const data = await api.post(URLS.CHATS.MESSAGES_SEEN, body);
-    dispatch(ACTIONS.updateForeignerMessageSeen(data));
-    dispatch(CHAT_ACTIONS.updateCountUnreadMessages(data));
-    dispatch(USER_ACTIONS.updateCountUnreadMessages(data));
+    if (body.countUnreadMessages > 0 ) {
+      dispatch(CHAT_ACTIONS.updateCountUnreadMessages(data));
+      dispatch(USER_ACTIONS.updateCountUnreadMessages(data));
+    }
 
   } catch (err) {
     console.log('seenMessage error - ', err);

@@ -12,7 +12,7 @@ import ModalPage from "./ModalPage";
 import NoMatches from "./NoMatches";
 import ColumnWrapper from "./ColumnWrapper";
 import {LogoIcon, IconByName,} from "./icons";
-import {Preloader, CircularLoader} from "./loaders";
+import {Preloader, CircularLoader, LineLoader} from "./loaders";
 import {CustomIconButton, CustomFabButton, FollowButton} from "./buttons";
 import StickyHeader from "./StickyHeader";
 import LoginPanel from "./LoginPanel";
@@ -45,6 +45,7 @@ export {
   StickyHeader,
   Preloader,
   CircularLoader,
+  LineLoader,
   LoginPanel,
   Display,
   ModalWindow,

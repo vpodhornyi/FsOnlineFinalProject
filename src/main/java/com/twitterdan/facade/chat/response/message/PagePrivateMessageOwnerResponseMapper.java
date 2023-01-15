@@ -19,7 +19,7 @@ public class PagePrivateMessageOwnerResponseMapper extends GeneralFacade<Message
   @Override
   protected void decorateDto(PrivateMessageOwnerResponse dto, Message entity, User user) {
     List<User> users = entity.getChat().getUsers();
-
+    dto.setChatId(entity.getChat().getId());
     Optional<User> optionalUser = users.stream().filter(u -> !u.equals(user)).findFirst();
 
     if (optionalUser.isPresent()) {

@@ -10,12 +10,16 @@ import {setSeenMessage} from '@redux/chat/message/action';
 const ScrollDownButton = ({chat, visible, getLastPage, pageNumberDown}) => {
   const dispatch = useDispatch();
   const fetch = async () => {
-    const message = chat.lastMessage;
-    const body = {messageId: message.id, chatId: chat.id};
-    await dispatch(setSeenMessage({body}));
+    if (chat) {
+      const message = chat.lastMessage;
+      const body = {messageId: message.id, chatId: chat.id, countUnreadMessages: message.countUnreadMessages};
+      if (message.id !== message.lastSeenChatMessageId) {
+        await dispatch(setSeenMessage({body}));
+      }
 
-    if (pageNumberDown > 0 && chat) {
-      await getLastPage(chat.id, 0);
+      if (pageNumberDown > 0) {
+        await getLastPage(chat.id, 0);
+      }
     }
   }
 

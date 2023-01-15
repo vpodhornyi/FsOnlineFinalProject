@@ -16,6 +16,7 @@ public class PagePrivateForeignerMessageResponseMapper extends GeneralFacade<Mes
 
   @Override
   protected void decorateDto(PrivateForeignerMessageResponse dto, Message entity, User user) {
+    dto.setChatId(entity.getChat().getId());
     dto.setIsMessageSeen(ForeignerMessageSeenUtil.isMessageSeen(entity, user));
   }
 }

@@ -12,7 +12,7 @@ import StartMessage from "./StartMessage";
 import {useModal} from "../../../../hooks/useModal";
 import UserInfo from "./UserInfo";
 import ScrollDownButton from "./ScrollDownButton";
-import {CircularLoader, ModalWindow} from "../../../../components";
+import {CircularLoader, LineLoader, ModalWindow} from "../../../../components";
 import {ACTIONS as CHAT_ACTIONS, addNewPrivateChat, addNewGroupChat} from "@redux/chat/action";
 import {ACTIONS as MESSAGE_ACTIONS, getMessages, sendMessage} from "@redux/chat/message/action";
 import {getChatsData, getMessagesData} from "@redux/chat/selector";
@@ -41,6 +41,7 @@ const ChatBody = ({chatId}) => {
   const [loading, setLoading] = useState(false);
   const [loadingUp, setLoadingUp] = useState(false);
   const [loadingDown, setLoadingDown] = useState(false);
+  const [pageNumber, setPageNumber] = useState(0);
   const [lastSeenChatMessageId, setLastSeenChatMessageId] = useState(0);
 
   const fetch = useDebouncedCallback(async (id, pageNumber) => {
@@ -57,7 +58,7 @@ const ChatBody = ({chatId}) => {
       setTimeout(() => {
         const {lastSeenChatMessageId} = data;
         setLastSeenChatMessageId(lastSeenChatMessageId);
-        onElement(`elementName${lastSeenChatMessageId}`);
+        onElement(lastSeenChatMessageId);
       }, 300);
     }
   }, 500);
@@ -66,6 +67,7 @@ const ChatBody = ({chatId}) => {
     dispatch(MESSAGE_ACTIONS.resetMessages());
     const countUnreadMessages = selectedChat?.lastMessage?.countUnreadMessages || 0;
     const pageNumber = countUnreadMessages === 0 ? 0 : Math.floor((countUnreadMessages - 1) / pageSize);
+    setPageNumber(pageNumber)
     fetch(chatId, pageNumber);
   }, [chatId]);
 
@@ -110,7 +112,7 @@ const ChatBody = ({chatId}) => {
   }
 
   const onElement = (name) => {
-    scroller.scrollTo(name, {
+    scroller.scrollTo(`elementName${name}`, {
       containerId: 'ScrollContainer'
     })
   }
@@ -124,7 +126,7 @@ const ChatBody = ({chatId}) => {
   }
 
   const toggleElementVisible = async (inView, id) => {
-    const limit = 10;
+    const limit = 1;
     if (inView) {
       if (messages[limit]?.id === id) {
         setLoadingUp(true);
@@ -135,6 +137,10 @@ const ChatBody = ({chatId}) => {
           up: true,
         }))
         setLoadingUp(false);
+        const messages = data.messages;
+        if (pageNumberUp > pageNumber && messages?.length) {
+          onElement(messages[messages.length - 1]?.id);
+        }
       }
 
       if (pageNumberDown && messages[messages.length - limit]?.id === id) {
@@ -165,6 +171,7 @@ const ChatBody = ({chatId}) => {
         message={m}
         toggleModal={toggleModal}
         element={MessageOwner}
+        chat={selectedChat}
       />
     }
 
@@ -175,6 +182,7 @@ const ChatBody = ({chatId}) => {
         message={m}
         toggleModal={toggleModal}
         element={ForeignerMessage}
+        chat={selectedChat}
       />
     }
 
@@ -223,11 +231,18 @@ const ChatBody = ({chatId}) => {
               </Box>
             ) :
             <>
+              {loadingUp ? (
+                <Box sx={{position: 'relative', pt: 2, pb: 2}}>
+                  <CircularLoader size={20}/>
+                </Box>
+              ) : null}
               {messages?.map(showMessage)}
-              <InViewElement toggleVisible={toggleBottomVisible} message={{id: 'Bottom'}}/>
+              <Box sx={{mb: '3px'}}>
+                <InViewElement toggleVisible={toggleBottomVisible} message={{id: 'Bottom'}}/>
+              </Box>
               {loadingDown ? (
-                <Box sx={{position: 'relative'}}>
-                  <CircularLoader/>
+                <Box sx={{position: 'relative', pt: 2, pb: 2}}>
+                  <CircularLoader size={20}/>
                 </Box>
               ) : null}
             </>

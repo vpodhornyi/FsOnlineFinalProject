@@ -11,7 +11,7 @@ import {moment} from "@utils";
 import {setSeenMessage} from '@redux/chat/message/action';
 import {PATH} from "@utils/constants";
 
-const ForeignerMessage = ({message, toggleModal}) => {
+const ForeignerMessage = ({chat, message, toggleModal}) => {
   const dispatch = useDispatch();
   const {ref, inView} = useInView({
     threshold: 1.0,
@@ -25,7 +25,8 @@ const ForeignerMessage = ({message, toggleModal}) => {
 
   useEffect(() => {
     if (message && inView && !isMessageSeen) {
-      sendSeen({messageId: message.id, chatId: message.chatId});
+      const lastMessage = chat.lastMessage;
+      sendSeen({messageId: message.id, chatId: message.chatId, countUnreadMessages: lastMessage.countUnreadMessages});
     }
   }, [inView])
 
@@ -95,6 +96,7 @@ const TimeBox = styled(Box)(({theme}) => ({
 }));
 
 ForeignerMessage.propTypes = {
+  chat: PropTypes.object,
   message: PropTypes.object,
   toggleModal: PropTypes.func,
 }

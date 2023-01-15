@@ -5,7 +5,7 @@ import {styled} from "@mui/material/styles";
 import {Box} from "@mui/material";
 import PropTypes from "prop-types";
 
-const InViewElement = ({toggleVisible, message, toggleModal, element: Foo}) => {
+const InViewElement = ({toggleVisible, message, toggleModal, element: Foo, chat}) => {
   const {ref, inView} = useInView({
     threshold: 0.1,
   });
@@ -19,6 +19,7 @@ const InViewElement = ({toggleVisible, message, toggleModal, element: Foo}) => {
       {
         Foo &&  <Foo
           message={message}
+          chat={chat}
           toggleModal={toggleModal}
         />
       }
@@ -36,5 +37,6 @@ InViewElement.propTypes = {
   message: PropTypes.object,
   toggleModal: PropTypes.func,
   element: PropTypes.func,
+  chat: PropTypes.object,
 }
 export default InViewElement;

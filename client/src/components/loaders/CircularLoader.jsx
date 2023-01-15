@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 const CircularLoader = ({size = 25, styles}) => {
   return (
     <BoxWrapper sx={{...styles}}>
-      <CircularProgress size={size}/>
+      <CircularProgress disableShrink  size={size}/>
     </BoxWrapper>
   )
 }
