@@ -48,11 +48,7 @@ const ChatBody = ({chatId}) => {
     if (selectedChat) {
       setLoading(true);
       const data = await dispatch(getMessages({
-        chatId: id,
-        pageNumber,
-        pageSize,
-        up: true,
-        down: true,
+        chatId: id, pageNumber, pageSize, up: true, down: true,
       }));
       setLoading(false);
       setTimeout(() => {
@@ -88,11 +84,7 @@ const ChatBody = ({chatId}) => {
         return;
       }
       const newMessage = {
-        chatId,
-        key: getRandomKey(),
-        text: textMessage,
-        isMessageOwner: true,
-        sending: true,
+        chatId, key: getRandomKey(), text: textMessage, isMessageOwner: true, sending: true,
       };
 
       if (selectedChat.isPrivate || type === NEW_PRIVATE) {
@@ -126,15 +118,11 @@ const ChatBody = ({chatId}) => {
   }
 
   const toggleElementVisible = async (inView, id) => {
-    const limit = 7;
     if (inView) {
-      if ((messages[limit]?.id === id || messages[0]?.id === id) && pageNumberUp < totalPages - 1) {
+      if (messages[0]?.id === id && pageNumberUp < totalPages - 1) {
         setLoadingUp(true);
         const data = await dispatch(getMessages({
-          chatId,
-          pageNumber: pageNumberUp + 1,
-          pageSize,
-          up: true,
+          chatId, pageNumber: pageNumberUp + 1, pageSize, up: true,
         }))
         setLoadingUp(false);
         const messages = data.messages;
@@ -143,13 +131,10 @@ const ChatBody = ({chatId}) => {
         }
       }
 
-      if (pageNumberDown && (messages[messages.length - limit]?.id === id || messages[messages.length - 1]?.id === id)) {
+      if (pageNumberDown && messages[messages.length - 1]?.id === id) {
         setLoadingDown(true);
         await dispatch(getMessages({
-          chatId,
-          pageNumber: pageNumberDown - 1,
-          pageSize,
-          down: true,
+          chatId, pageNumber: pageNumberDown - 1, pageSize, down: true,
         }))
         setLoadingDown(false);
       }
@@ -186,9 +171,7 @@ const ChatBody = ({chatId}) => {
       />
     }
 
-    if ((m.id === lastSeenChatMessageId) &&
-      messages.length - 1 !== i &&
-      !messages[i + 1]?.isMessageOwner) {
+    if ((m.id === lastSeenChatMessageId) && messages.length - 1 !== i && !messages[i + 1]?.isMessageOwner) {
       notification = <UnreadMessagesNotification key={getRandomKey()}/>
     }
 
@@ -214,58 +197,49 @@ const ChatBody = ({chatId}) => {
   }
 
 
-  return (
-    <BoxWrapper>
+  return (<BoxWrapper>
+    <Box
+      id='ScrollContainer'
+      className='ScrollContainer'
+      ref={overlayRef}
+    >
       <Box
-        id='ScrollContainer'
-        className='ScrollContainer'
-        ref={overlayRef}
-      >
-        <Box
-          ref={chatBodyRef}
-          className='MessagesBox'>
-          {selectedChat.isPrivate && <UserInfo/>}
-          {loading ? (
-              <Box sx={{position: 'relative', pt: 3, pb: 3}}>
-                <CircularLoader/>
-              </Box>
-            ) :
-            <Box sx={{padding: '5px 0'}}>
-              {loadingUp ? (
-                <Box sx={{position: 'relative', pt: 2, pb: 2}}>
-                  <CircularLoader size={20}/>
-                </Box>
-              ) : null}
-              {messages?.map(showMessage)}
-              <InViewElement toggleVisible={toggleBottomVisible} message={{id: 'Bottom'}}/>
-              {loadingDown ? (
-                <Box sx={{position: 'relative', pt: 2, pb: 2}}>
-                  <CircularLoader size={20}/>
-                </Box>
-              ) : null}
-            </Box>
-          }
-        </Box>
+        ref={chatBodyRef}
+        className='MessagesBox'>
+        {selectedChat.isPrivate && <UserInfo/>}
+        {loading ? (<Box sx={{position: 'relative', pt: 3, pb: 3}}>
+            <CircularLoader/>
+          </Box>) : <Box sx={{padding: '5px 0'}}>
+          {loadingUp ? (<Box sx={{position: 'relative', pt: 2, pb: 2}}>
+              <CircularLoader size={20}/>
+            </Box>) : null}
+          {messages?.map(showMessage)}
+          <InViewElement toggleVisible={toggleBottomVisible} message={{id: 'Bottom'}}/>
+          {loadingDown ? (<Box sx={{position: 'relative', pt: 2, pb: 2}}>
+              <CircularLoader size={20}/>
+            </Box>) : null}
+        </Box>}
       </Box>
-      <Box sx={{position: 'relative'}}>
-        <Box onClick={onBottom}>
-          <ScrollDownButton
-            pageNumberDown={pageNumberDown}
-            getLastPage={fetch}
-            visible={visible}
-            chat={selectedChat}/>
-        </Box>
-        <StartMessage
-          inputRef={inputRef}
-          chatId={chatId}
-          sendMessage={send}
-        />
+    </Box>
+    <Box sx={{position: 'relative'}}>
+      <Box onClick={onBottom}>
+        <ScrollDownButton
+          pageNumberDown={pageNumberDown}
+          getLastPage={fetch}
+          visible={visible}
+          chat={selectedChat}/>
       </Box>
-      <ModalWindow
-        isShowing={modal.isShowing}
-        toggleModal={toggleModal}
-        element={modal.element}/>
-    </BoxWrapper>);
+      <StartMessage
+        inputRef={inputRef}
+        chatId={chatId}
+        sendMessage={send}
+      />
+    </Box>
+    <ModalWindow
+      isShowing={modal.isShowing}
+      toggleModal={toggleModal}
+      element={modal.element}/>
+  </BoxWrapper>);
 }
 
 const BoxWrapper = styled(Box)(({theme}) => ({
@@ -278,14 +252,11 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   justifyContent: 'space-between',
 
   '& .ScrollContainer': {
-    overflow: 'auto',
-    paddingLeft: 15,
-    paddingRight: 15,
+    overflow: 'auto', paddingLeft: 15, paddingRight: 15,
   },
 
   '@keyframes fadein': {
-    from: {opacity: 0},
-    to: {opacity: 1}
+    from: {opacity: 0}, to: {opacity: 1}
   },
 
   '& .ScrollDownButton': {
