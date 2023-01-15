@@ -3,7 +3,7 @@ import {ACTIONS} from "./action";
 const init = {
   pageNumberUp: 0,
   pageNumberDown: 0,
-  pageSize: 30,
+  pageSize: 20,
   lastSeenChatMessageId: 0,
   totalPages: 0,
   chatId: 0,
@@ -22,17 +22,20 @@ export default (state = init, {payload, type}) => {
         chatId,
         totalPages,
       };
-    case String(ACTIONS.addUpMessages):
-      const newMessages = payload.messages.filter(m => !state.messages.find(ms => ms.key === m.key))
+    case String(ACTIONS.addUpMessages): {
+      const newMessages = payload.messages.filter(m => !state.messages.find(ms => ms.key === m.key));
       return {
         ...state,
         messages: [...newMessages, ...state.messages],
       };
-    case String(ACTIONS.addDownMessages):
+    }
+    case String(ACTIONS.addDownMessages): {
+      const newMessages = payload.messages.filter(m => !state.messages.find(ms => ms.key === m.key))
       return {
         ...state,
-        messages: [...state.messages, ...payload.messages],
+        messages: [...state.messages, ...newMessages],
       };
+    }
     case String(ACTIONS.addNewMessage):
       if (state.messages.length > state.pageSize) {
         state.messages.splice(0, 1);
