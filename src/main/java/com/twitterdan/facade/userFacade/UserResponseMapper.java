@@ -20,11 +20,13 @@ public class UserResponseMapper extends GeneralFacade<User, UserResponseDto> {
         }
 
         for (User user : entity.getFollowers()) {
-            dto.getFollowersIds().add(user.getId());
+//            dto.getFollowersIds().add(user.getId());
+            dto.getFollowersIds().add(user.getUserTag());
         }
 
         for (User user : entity.getFollowings()) {
-            dto.getFollowingsIds().add(user.getId());
+//            dto.getFollowingsIds().add(user.getId());
+            dto.getFollowingsIds().add(user.getUserTag());
         }
     }
 }

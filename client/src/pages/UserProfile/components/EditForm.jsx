@@ -71,7 +71,7 @@ const EditForm = () => {
             }
         );
 
-        if (authUser?.headerImgUrl !== null && authUser.headerImgUrl.length > 0 && headerFile === "") {
+        if (authUser?.headerImgUrl !== null && authUser.headerImgUrl.length > 0 && headerFile === "" && headerLocalUrl.length == 0) {
             await updateUser(authUser?.id, {headerImgUrl: ""});
         }
 

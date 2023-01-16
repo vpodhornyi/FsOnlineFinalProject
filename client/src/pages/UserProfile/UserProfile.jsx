@@ -16,6 +16,7 @@ import EditForm from "./components/EditForm";
 import {useDispatch, useSelector} from "react-redux";
 import {getPersonalData} from "../../redux/auth/selector";
 import {getUserByUserTag} from "../../services/userApi";
+import {followUser, unfollowUser} from "../../services/followService";
 
 export function a11yProps(index) {
     return {
@@ -55,6 +56,7 @@ const UserProfile = () => {
         </Container>
     }
 
+
     return (
         <Container sx={{width: "100%"}}>
                 <Box sx={{
@@ -77,7 +79,7 @@ const UserProfile = () => {
                                     </StyledLightButton>
                                     :
                                     <>
-                                        {authUser?.followings.includes(user.id)
+                                        {authUser?.followings.includes(user?.userTag)
                                             ?
                                             <StyledLightButton
                                                 sx={{
@@ -91,9 +93,14 @@ const UserProfile = () => {
                                                 variant="contained"
                                                 onMouseEnter={handleOnMouseEnter}
                                                 onMouseLeave={handleOnMouseLeave}
+                                                onClick={() => unfollowUser(authUser?.id, user?.id)}
                                             >Following</StyledLightButton>
                                             :
-                                            <StyledDarkButton variant="contained">Follow</StyledDarkButton>
+                                            <StyledDarkButton
+                                                onClick={() => followUser(authUser?.id, user?.id)}
+                                                variant="contained"
+                                            >Follow
+                                            </StyledDarkButton>
                                         }
                                     </>
                             }

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const DEV_API_URL = "http://localhost:8000/"
+export const DEV_API_URL = "http://localhost:8010/"
 
 export const updateUser = async (id, data) => {
     const response = await axios.put(`${DEV_API_URL}users/${id}`, data);

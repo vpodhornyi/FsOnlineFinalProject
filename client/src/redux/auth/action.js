@@ -3,10 +3,15 @@ import api, {URLS} from "@service/API";
 import {setAuthToken, setHeaderAuthorization, setRefreshToken} from "@utils";
 import {openDialog, closeDialog} from "@redux/dialog/action";
 import SingInSecondStep from '@pages/Auth/SingIn/SecondStep';
+import {getUserById, getUsers} from "../../services/userApi";
 
 export const GET_USER_REQUEST = "GET_USER_REQUEST";
 export const GET_USER_SUCCESS = "GET_USER_SUCCESS";
 export const GET_USER_ERROR = "GET_USER_ERROR";
+export const GET_USERS_REQUEST = "GET_USERS_REQUEST";
+export const GET_USERS_SUCCESS = "GET_USERS_SUCCESS";
+export const GET_USERS_ERROR = "GET_USERS_ERROR";
+
 
 const actions = createActions(
     {
@@ -28,6 +33,19 @@ export const ACTIONS = {
 //       dispatch(ACTIONS.isAccountExist.success(data));
 //       return true;
 //   }
+
+export const getAllUsers = () => async (dispatch) => {
+    try {
+        dispatch({type: GET_USERS_REQUEST});
+        const res = await getUsers();
+        dispatch({type: GET_USERS_SUCCESS, payload: res});
+    } catch (e) {
+        dispatch({
+            type: GET_USERS_ERROR,
+            payload: `failed to get all users. ` + String(e),
+        });
+    }
+}
 
 export const getAuthUser = (id) => async (dispatch) => {
     try {

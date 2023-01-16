@@ -6,4 +6,5 @@ export const MESSAGES_ROUTE = "/messages";
 export const LISTS_ROUTE = "/lists";
 export const BOOKMARKS_ROUTE = "/bookmarks";
 export const LOGOUT_ROUTE = "/logout";
-export const SUBSCRIBING_ROUTE = "/:username/subscribing"
+export const FOLLOWERS_ROUTE = "/:username/followers"
+export const FOLLOWINGS_ROUTE = "/:username/followings"

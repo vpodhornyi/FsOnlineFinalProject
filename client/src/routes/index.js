@@ -1,11 +1,11 @@
 import {
   AUTH_ROUTE,
   BOOKMARKS_ROUTE,
-  EXPLORE_ROUTE,
+  EXPLORE_ROUTE, FOLLOWERS_ROUTE, FOLLOWINGS_ROUTE,
   HOME_ROUTE,
   LISTS_ROUTE, LOGOUT_ROUTE,
   MESSAGES_ROUTE,
-  NOTIFICATIONS_ROUTE, SUBSCRIBING_ROUTE
+  NOTIFICATIONS_ROUTE,
 } from "../utils/constants";
 import UserProfile from "../pages/UserProfile/UserProfile";
 import Main from "../pages/Main";
@@ -76,7 +76,13 @@ const routes = [
   {
     isPublic: false,
     exact: true,
-    path: SUBSCRIBING_ROUTE,
+    path: FOLLOWERS_ROUTE,
+    element: Subscribing,
+  },
+  {
+    isPublic: false,
+    exact: true,
+    path: FOLLOWINGS_ROUTE,
     element: Subscribing,
   }
 ];

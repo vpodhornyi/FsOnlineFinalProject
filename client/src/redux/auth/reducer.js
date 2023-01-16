@@ -2,7 +2,7 @@ import {
     ACTIONS,
     GET_USER_REQUEST,
     GET_USER_SUCCESS,
-    GET_USER_ERROR,
+    GET_USER_ERROR, GET_USERS_REQUEST, GET_USERS_SUCCESS, GET_USERS_ERROR,
 } from "./action";
 import {getTokens} from "@utils";
 
@@ -23,63 +23,64 @@ const INIT_STATE = {
         birthDate: null,
         bio: null,
         location: null,
-        avatarImgUrl: "http://res.cloudinary.com/dz8sgyn3r/image/upload/v1668538981/bof2vd1yymddc4tc2nrv.jpg",
-        headerImgUrl: "http://res.cloudinary.com/dz8sgyn3r/image/upload/v1668538979/rgamxtlantrufkow7f90.jpg",
-        followers: [
-            2,
-            4
-        ],
-        followings: [
-            2,
-            4
-        ],
+        avatarImgUrl: "",
+        headerImgUrl: "",
+        followers: [],
+        followings: [],
         tweets: [
             1
         ]
     },
     error: "",
+    users: []
 }
 export default (state = INIT_STATE, {payload, type}) => {
-  switch (type) {
-    case GET_USER_REQUEST:
-      return {
-        ...state,
-        loading: true
-      }
-    case GET_USER_SUCCESS:
-      return {...state, user: payload, loading: false}
-    case GET_USER_ERROR:
-      return {...state, loading: false, error: payload}
-    case String(ACTIONS.isAccountExist.request):
-    case String(ACTIONS.authorize.request):
-      return {
-        ...state,
-        loading: true,
-      }
-    case String(ACTIONS.isAccountExist.success):
-      return {
-        ...state,
-        loginName: payload.login,
-        loading: false,
-      }
-    case String(ACTIONS.authorize.success):
-      return {
-        ...INIT_STATE,
-        authorized: true,
-        loading: false,
-      }
-    case String(ACTIONS.logout.success):
-      return {
-        ...INIT_STATE,
-        authorized: false,
-      }
-    case String(ACTIONS.isAccountExist.fail):
-    case String(ACTIONS.authorize.fail):
-      return {
-        ...state,
-        loading: false,
-      }
-    default:
-      return state
-  }
+    switch (type) {
+        case GET_USER_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case GET_USER_SUCCESS:
+            return {...state, user: payload, loading: false}
+        case GET_USER_ERROR:
+            return {...state, loading: false, error: payload}
+        case GET_USERS_REQUEST:
+            return {...state, loading: true}
+        case GET_USERS_SUCCESS:
+            return {...state, users: payload, loading: false}
+        case GET_USERS_ERROR:
+            return {...state, loading: false, error: payload}
+        case String(ACTIONS.isAccountExist.request):
+        case String(ACTIONS.authorize.request):
+            return {
+                ...state,
+                loading: true,
+            }
+        case String(ACTIONS.isAccountExist.success):
+            return {
+                ...state,
+                loginName: payload.login,
+                loading: false,
+            }
+        case String(ACTIONS.authorize.success):
+            return {
+                ...INIT_STATE,
+                authorized: true,
+                loading: false,
+            }
+        case String(ACTIONS.logout.success):
+            return {
+                ...INIT_STATE,
+                authorized: false,
+            }
+        case String(ACTIONS.isAccountExist.fail):
+        case String(ACTIONS.authorize.fail):
+            return {
+                ...state,
+                loading: false,
+            }
+        default:
+            return state
+    }
 }

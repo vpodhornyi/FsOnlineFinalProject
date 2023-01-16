@@ -5,6 +5,7 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import {StyledTypography, userProfileSecondaryFontColor} from "../../../components/StyledComponents/styledComponents";
 import PropTypes from "prop-types";
+import {Link} from "react-router-dom";
 
 const UserProfileData = ({username, userTag, joinedDate, followers, followings, bio, location}) => {
     return (
@@ -37,9 +38,12 @@ const UserProfileData = ({username, userTag, joinedDate, followers, followings, 
                 </div>
 
                 <div style={{display: "flex"}}>
-                    <StyledTypography><strong style={{color: "black"}}>{followers}</strong> Followers</StyledTypography>
-                    <StyledTypography sx={{marginLeft: "10px"}}><strong
-                        style={{color: "black"}}>{followings}</strong> Followings</StyledTypography>
+                    <StyledTypography>
+                        <Link style={{color: "black", textDecoration: "none"}} to={`/${userTag}/followers`}>{followers} Followers</Link>
+                    </StyledTypography>
+                    <StyledTypography sx={{marginLeft: "10px"}}>
+                        <Link style={{color: "black", textDecoration: "none"}} to={`/${userTag}/followings`}>{followings} Followings</Link>
+                    </StyledTypography>
                 </div>
             </Box>
         </>

@@ -8,7 +8,7 @@ import routes from "../routes";
 import {AUTH_ROUTE, LOGOUT_ROUTE} from "../utils/constants";
 import Container from "@mui/material/Container";
 import Sidebar from "../components/Sidebar/Sidebar";
-import {getAuthUser} from "../redux/auth/action";
+import {getAllUsers, getAuthUser} from "../redux/auth/action";
 import {getPersonalData} from "../redux/auth/selector";
 
 const AppContainer = () => {
@@ -27,7 +27,8 @@ const AppContainer = () => {
     );
 
     useEffect(() => {
-        dispatch(getAuthUser(authUser?.id))
+        dispatch(getAuthUser(authUser?.id));
+        dispatch(getAllUsers());
     }, []);
 
     return (

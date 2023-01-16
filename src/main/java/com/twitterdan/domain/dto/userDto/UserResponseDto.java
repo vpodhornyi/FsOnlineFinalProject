@@ -40,10 +40,10 @@ public class UserResponseDto {
     private String headerImgUrl;
 
     @JsonProperty("followers")
-    private Set<Long> followersIds = new HashSet<>();
+    private Set<String> followersIds = new HashSet<>();
 
     @JsonProperty("followings")
-    private Set<Long> followingsIds = new HashSet<>();
+    private Set<String> followingsIds = new HashSet<>();
 
     @JsonProperty("tweets")
     private Set<Long> tweetsIds = new HashSet<>();

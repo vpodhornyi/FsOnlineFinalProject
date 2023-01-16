@@ -8,8 +8,8 @@ const UserBackground = ({imageUrl, styles, children}) => {
             <Box style={styles} sx={{
                 width: "100%",
                 height: "20%",
-                bgcolor: "gray",
                 backgroundImage: imageUrl ? `url('${imageUrl}')` : "none",
+                bgcolor: "gray",
                 backgroundPosition: "center",
                 backgroundSize: "cover",
             }}>
