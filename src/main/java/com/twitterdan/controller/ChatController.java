@@ -141,9 +141,14 @@ public class ChatController {
   @PutMapping("/group")
   public ResponseEntity<GroupChatResponse> editGroupChat(@RequestBody GroupChatRequest groupChatRequest, Principal principal) {
     User authUser = userService.findByUserTag(principal.getName());
+    Chat  chat = chatService.editGroupChat(
+      groupChatRequest.getChatId(),
+      groupChatRequest.getTitle(),
+      groupChatRequest.getImgUrl(),
+      authUser
+    );
 
-  
-    return ResponseEntity.ok(null);
+    return ResponseEntity.ok(groupChatResponseMapper.convertToDto(chat));
   }
 
   @PostMapping("/add-users")

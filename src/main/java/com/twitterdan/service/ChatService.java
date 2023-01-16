@@ -18,6 +18,8 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -27,6 +29,7 @@ public class ChatService {
   private final ChatRepository chatRepository;
   private final MessageRepository messageRepository;
   private final ChatDeletedRepository chatDeletedRepository;
+
   public List<Chat> getAll() {
     return chatRepository.findAll();
   }
@@ -75,6 +78,24 @@ public class ChatService {
 
   public Chat saveChat(Chat chat) {
     return chatRepository.save(chat);
+  }
+
+  public Chat editGroupChat(Long chatId, String title, String imgUrl, User user) {
+    Optional<Chat> optionalChat = chatRepository.findById(chatId);
+
+    if (optionalChat.isPresent()) {
+      Chat chat = optionalChat.get();
+
+      if (chat.getType().equals(ChatType.GROUP)) {
+        chat.setTitle(title);
+        chat.setAvatarImgUrl(imgUrl);
+        chat.setUpdatedBy(user.getEmail());
+        chat.setUpdatedAt(LocalDateTime.now());
+
+        return saveChat(chat);
+      }
+    }
+    throw new CouldNotFindChatException();
   }
 
   public Chat deleteUserFromGroupChat(Long chatId, User user) {

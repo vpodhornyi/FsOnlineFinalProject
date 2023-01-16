@@ -1,24 +1,51 @@
-import React, {useContext, useState} from "react";
-import {useSelector} from "react-redux";
+import React, {useContext, useState, useRef, useEffect} from "react";
+import {useSelector, useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {styled} from "@mui/material/styles";
 import {Avatar, Box, TextField, Typography} from "@mui/material";
 import PropTypes from "prop-types";
 
 import {BackgroundContext} from "../../../utils/context";
-import {ModalPage, CustomIconButton, FollowButton, IconByName} from "../../../components";
+import {ModalPage, CustomIconButton, FollowButton, IconByName, CircularLoader} from "../../../components";
 import {getChatsData} from '@redux/chat/selector';
+import {editGroupChat} from '@redux/chat/action';
 import Fab from "@mui/material/Fab";
 
-const GroupEditPage = ({item}) => {
+const GroupEditPage = () => {
   const {background} = useContext(BackgroundContext);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const {selectedChat: chat} = useSelector(getChatsData);
   const [name, setName] = useState(chat.title);
+  const [disabled, setDisabled] = useState(true);
+  const [imageUrl, setImageUrl] = useState('');
+  const [loader, setLoader] = useState(false);
+  const inputFileRef = useRef();
+
+  useEffect(() => {
+    setImageUrl(chat?.avatarImgUrl);
+  }, [])
 
   const onChangeLogin = e => {
     setName(() => e.target.value);
+    const text = e.target.value.trim();
+    setDisabled(text === chat.title || text === '');
   }
+
+  const handleFileUploader = (event) => {
+    if (event.target.files[0]) {
+      setImageUrl(URL.createObjectURL(event.target.files[0]));
+      setDisabled(false);
+    }
+  }
+
+  const save = async () => {
+    setLoader(true);
+    await dispatch(editGroupChat());
+    setLoader(false);
+    navigate(background?.pathname || PATH.ROOT);
+  }
+
   return (
     <BoxWrapper>
       <Box className='EditHeader'>
@@ -32,13 +59,22 @@ const GroupEditPage = ({item}) => {
           <CustomIconButton name='Close'/>
           <Typography sx={{ml: 2}} fontWeight='fontWeightBold' fontSize='1.5rem' variant='h2'>Edit</Typography>
         </Box>
-        <Box onClick={() => console.log('Save')}>
-          <FollowButton name='Save' disabled={true}/>
+        <Box onClick={save}>
+          <FollowButton name='Save' disabled={disabled}/>
         </Box>
       </Box>
       <Box className='AddPhoto'>
-        <Avatar sx={{width: '6rem', height: '6rem'}} src={chat?.avatarImgUrl}/>
-        <Fab className='AddPhotoButton'>
+        {loader && <CircularLoader/>}
+        <Avatar sx={{width: '6rem', height: '6rem'}} src={imageUrl}/>
+        <Fab className='AddPhotoButton' onClick={() => inputFileRef.current.click()}>
+          <input
+            ref={inputFileRef}
+            type="file"
+            multiple
+            hidden
+            id="file-upload"
+            onChange={handleFileUploader}
+          />
           <IconByName iconStyle={{fontSize: '1.3rem'}} iconName='AddAPhotoOutlined'/>
         </Fab>
       </Box>
@@ -111,9 +147,5 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   }
 
 }));
-
-GroupEditPage.propTypes = {
-  item: PropTypes.object,
-}
 
 export default Foo;

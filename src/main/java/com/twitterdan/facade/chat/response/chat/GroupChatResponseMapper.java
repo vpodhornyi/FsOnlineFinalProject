@@ -34,6 +34,7 @@ public class GroupChatResponseMapper extends GeneralFacade<Chat, GroupChatRespon
       .map(chatUserMapper::convertToDto)
       .toList();
     dto.setUsers(users);
+    dto.setAvatarImgUrl(entity.getAvatarImgUrl());
 
     try {
       Message lastChatMessage = messageService.findLastChatMessage(entity.getId(), user.getId());

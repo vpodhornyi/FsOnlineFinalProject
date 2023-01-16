@@ -3,6 +3,7 @@ import api, {URLS} from "@service/API";
 import {CHAT_TYPE} from "../../utils/constants";
 import {ACTIONS as USER_ACTIONS} from '../user/action';
 import {ACTIONS as MESSAGE_ACTIONS} from "./message/action";
+import {uploadImage} from '../../utils/uploadImage';
 
 const actions = createActions(
   {
@@ -118,6 +119,17 @@ export const addPeopleToChat = body => async (dispatch) => {
     const data = await api.post(URLS.CHATS.ADD_PEOPLE, body);
     dispatch(ACTIONS.addUsersToGroupChat(data));
     dispatch(MESSAGE_ACTIONS.addUsersNotification(data));
+
+  } catch (err) {
+    console.log('addPeopleToChat error - ', err);
+  }
+}
+
+export const editGroupChat = body => async (dispatch) => {
+  try {
+
+    const imgData = await uploadImage()
+    const data = await api.put(URLS.CHATS.GROUP, body);
 
   } catch (err) {
     console.log('addPeopleToChat error - ', err);

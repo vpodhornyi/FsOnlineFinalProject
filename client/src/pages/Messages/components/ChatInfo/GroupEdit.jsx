@@ -13,11 +13,9 @@ const GroupEdit = ({chat}) => {
     <BoxWrapper>
       <Box sx={{
         display: 'flex',
-        alignItems: 'center'
+        alignItems: 'center',
       }}>
-        <Link
-          to={`${PATH.MESSAGES.participants(chat?.id)}`}
-        >
+        <Link to={`${PATH.MESSAGES.participants(chat?.id)}`}>
           <Avatar sx={{mr: 2, width: '3.3rem', height: '3.3rem'}} src={chat?.avatarImgUrl}/>
         </Link>
         <Typography fontWeight='fontWeightBold'>{chat?.title}</Typography>

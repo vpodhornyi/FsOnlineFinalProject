@@ -17,7 +17,7 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
 
   @Query(value =
     " select c.id, c.uuid, c.title, c.type," +
-      " c.created_at, c.created_by, c.updated_at, c.updated_by" +
+      " c.created_at, c.created_by, c.updated_at, c.updated_by, c.avatar_img_url" +
       " from chats c" +
       " left join messages m on c.id = m.chat_id" +
       " join chats_users cu on c.id = cu.chats_id" +

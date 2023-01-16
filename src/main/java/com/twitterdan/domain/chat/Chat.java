@@ -21,6 +21,7 @@ import java.util.Optional;
 @NoArgsConstructor
 public class Chat extends BaseEntity {
   private String title;
+  private String avatarImgUrl;
   @Enumerated(EnumType.STRING)
   private ChatType type;
   @LazyCollection(LazyCollectionOption.EXTRA)
@@ -36,15 +37,12 @@ public class Chat extends BaseEntity {
 
   @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "chat")
   private List<ChatDeleted> deleted = new ArrayList<>();
-
   public void setDeleted(List<ChatDeleted> deleted) {
     this.deleted = deleted;
   }
-
   public void addDeleted(User user) {
     deleted.add(new ChatDeleted(this, user));
   }
-
   public void addUsers(List<User> users) {
     users.forEach(u -> {
       Optional<User> optionalUser = this.users.stream().filter(user -> user.equals(u)).findFirst();

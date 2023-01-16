@@ -32,7 +32,7 @@ const ChatHeader = ({chat}) => {
         }
         {
           chat.isPrivate &&
-          <Link to={`${PATH.userProfile(chat?.guestUser?.userTag)}`}>
+          <Link className='PrivateChatAvatar' to={`${PATH.userProfile(chat?.guestUser?.userTag)}`}>
             <Avatar sx={{mr: '10px', width: '2.5rem', height: '2.5rem'}} src={chat?.avatarImgUrl}/>
           </Link>
         }
@@ -49,6 +49,10 @@ const StyledStickyHeader = styled(StickyHeader)(({theme}) => ({
     border: '2px solid #ffffff',
     width: '2.5rem',
     height: '2.5rem'
+  },
+
+  '& .PrivateChatAvatar': {
+    padding: '2px',
   },
 
   padding: '6px 15px',

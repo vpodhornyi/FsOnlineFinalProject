@@ -34,7 +34,7 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(Exception.class)
   public ResponseEntity<Object> internalServerErrorException(Exception exception) {
-    final String serverErrorMessage = "Oops, something went wrong, please try again!";
+    final String serverErrorMessage = "Oops, something went wrong, please try later!";
     int statusCode = HttpStatus.INTERNAL_SERVER_ERROR.value();
     final ResponseError responseError = new ResponseError(statusCode, serverErrorMessage, true, exception.getMessage());
 
