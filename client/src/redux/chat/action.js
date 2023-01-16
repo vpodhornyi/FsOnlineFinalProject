@@ -11,7 +11,7 @@ const actions = createActions(
       'SET_CHAT_ID', 'RESET_CHAT_ID', 'SET_MESSAGE', 'SET_PAGE_NUMBER', 'SET_LAST_CHAT_ACTION',
       'SET_NEW_CHAT', 'ADD_NEW_PRIVATE_CHAT', 'ADD_NEW_GROUP_CHAT', 'UPDATE_NEW_CHAT', 'DELETE_CHAT',
       'SET_NEW_GROUP', 'ADD_EXIST_CHAT', 'RESET_DATA', 'UPDATE_COUNT_UNREAD_MESSAGES', 'DELETE_USER_FROM_CHAT',
-      'ADD_CHAT_IF_NOT_EXIST', 'ADD_USERS_TO_GROUP_CHAT'
+      'ADD_CHAT_IF_NOT_EXIST', 'ADD_USERS_TO_GROUP_CHAT', 'UPDATE_CHAT'
     ],
     async: ['GET_CHATS', 'SEND_MESSAGE'],
   },
@@ -127,9 +127,9 @@ export const addPeopleToChat = body => async (dispatch) => {
 
 export const editGroupChat = body => async (dispatch) => {
   try {
-
-    const imgData = await uploadImage()
     const data = await api.put(URLS.CHATS.GROUP, body);
+    console.log(data);
+    dispatch(ACTIONS.updateChat(data));
 
   } catch (err) {
     console.log('addPeopleToChat error - ', err);

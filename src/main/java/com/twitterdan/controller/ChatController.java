@@ -23,6 +23,7 @@ import com.twitterdan.facade.chat.request.PrivateChatRequestMapper;
 import com.twitterdan.facade.chat.response.seen.ForeignerMessageSeenResponseMapper;
 import com.twitterdan.facade.chat.response.seen.MessageOwnerSeenResponseMapper;
 import com.twitterdan.service.ChatService;
+import com.twitterdan.service.CloudinaryService;
 import com.twitterdan.service.MessageService;
 import com.twitterdan.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 import java.util.List;
@@ -61,6 +63,7 @@ public class ChatController {
   private final ChatUserMapper chatUserMapper;
   private final PageMessagesMapper pageMessagesMapper;
   private final PageChatsResponseMapper pageChatsResponseMapper;
+  private final CloudinaryService cloudinaryService;
 
   @GetMapping
   public ResponseEntity<PageChatResponse> getChats(@RequestParam int pageNumber, @RequestParam int pageSize, Principal principal) {
@@ -139,16 +142,15 @@ public class ChatController {
   }
 
   @PutMapping("/group")
-  public ResponseEntity<GroupChatResponse> editGroupChat(@RequestBody GroupChatRequest groupChatRequest, Principal principal) {
+  public ResponseEntity<GroupChatResponse> editGroupChat(@RequestParam MultipartFile uploadFile,
+                                                         @RequestParam String name,
+                                                         @RequestParam Long chatId,
+                                                         Principal principal) {
     User authUser = userService.findByUserTag(principal.getName());
-    Chat  chat = chatService.editGroupChat(
-      groupChatRequest.getChatId(),
-      groupChatRequest.getTitle(),
-      groupChatRequest.getImgUrl(),
-      authUser
-    );
+    String imgUrl = cloudinaryService.uploadImage(uploadFile);
+    Chat chat = chatService.editGroupChat(chatId, name, imgUrl, authUser);
 
-    return ResponseEntity.ok(groupChatResponseMapper.convertToDto(chat));
+    return ResponseEntity.ok(groupChatResponseMapper.convertToDto(chat, authUser));
   }
 
   @PostMapping("/add-users")

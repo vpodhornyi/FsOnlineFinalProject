@@ -6,7 +6,6 @@ import com.twitterdan.exception.CouldNotGetImagesException;
 import com.twitterdan.exception.CouldNotUploadImageException;
 import org.cloudinary.json.JSONArray;
 import org.cloudinary.json.JSONObject;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,21 +18,12 @@ import java.util.List;
 
 @Service
 public class CloudinaryService {
-  @Value("${cloudinary.cloud_name}")
-  @Qualifier("com.cloudinary.cloud_name")
-  String cloudName;
-
-  @Value("${cloudinary.api_key}")
-  @Qualifier("com.cloudinary.api_key")
-  String apiKey;
-
-  @Value("${cloudinary.api_secret}")
-  @Qualifier("com.cloudinary.api_secret")
-  String apiSecret;
   private final Cloudinary cloud;
 
-  public CloudinaryService() {
-    this.cloud = new Cloudinary("cloudinary://" + apiKey + ":" + apiSecret + "@" + cloudName);
+  public CloudinaryService(@Value("${cloudinary.cloud_name}") String cloudName,
+                           @Value("${cloudinary.api_key}") String apiKey,
+                           @Value("${cloudinary.api_secret}") String apiSecret) {
+    cloud = new Cloudinary("cloudinary://" + apiKey + ":" + apiSecret + "@" + cloudName);
   }
 
   public List<String> getImages(String name) {
@@ -53,7 +43,6 @@ public class CloudinaryService {
 
   public String uploadImage(MultipartFile uploadFile) {
     try {
-      System.out.println("cloudinary://" + apiKey + ":" + apiSecret + "@" + cloudName);
       File file = Files.createTempFile("temp", uploadFile.getOriginalFilename()).toFile();
       uploadFile.transferTo(file);
       JSONObject json = new JSONObject(cloud.uploader().upload(file, ObjectUtils.emptyMap()));

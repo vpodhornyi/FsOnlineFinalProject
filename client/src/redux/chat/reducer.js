@@ -54,12 +54,20 @@ export default (state = init, {payload, type}) => {
       return {
         ...state,
       };
-    case String(ACTIONS.addExistChat):
+    case String(ACTIONS.addExistChat): {
       const isExistChat = state.chats.find(v => v.id === payload?.chat?.id);
       if (!isExistChat) state.chats = [payload.chat, ...state.chats];
       return {
         ...state,
       };
+    }
+    case String(ACTIONS.updateChat): {
+      const index = state.chats.findIndex(v => v.id === payload?.id);
+      if (index !== -1) state.chats[index] = payload;
+      return {
+        ...state,
+      };
+    }
     case String(ACTIONS.setChatId):
       return {
         ...state,

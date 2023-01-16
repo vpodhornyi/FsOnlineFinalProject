@@ -20,28 +20,35 @@ const GroupEditPage = () => {
   const [disabled, setDisabled] = useState(true);
   const [imageUrl, setImageUrl] = useState('');
   const [loader, setLoader] = useState(false);
+  const [file, setFile] = useState(null);
   const inputFileRef = useRef();
 
   useEffect(() => {
     setImageUrl(chat?.avatarImgUrl);
   }, [])
 
-  const onChangeLogin = e => {
+  const onChangeName = e => {
     setName(() => e.target.value);
     const text = e.target.value.trim();
     setDisabled(text === chat.title || text === '');
   }
 
   const handleFileUploader = (event) => {
-    if (event.target.files[0]) {
-      setImageUrl(URL.createObjectURL(event.target.files[0]));
+    const file = event.target.files[0];
+    if (file) {
+      setImageUrl(URL.createObjectURL(file));
+      setFile(file);
       setDisabled(false);
     }
   }
 
   const save = async () => {
     setLoader(true);
-    await dispatch(editGroupChat());
+    const formData = new FormData();
+    formData.append('uploadFile', file);
+    formData.append('name', name);
+    formData.append('chatId', chat.id);
+    await dispatch(editGroupChat(formData));
     setLoader(false);
     navigate(background?.pathname || PATH.ROOT);
   }
@@ -82,7 +89,7 @@ const GroupEditPage = () => {
         <TextField
           color='primary'
           sx={{width: '100%'}}
-          onChange={e => onChangeLogin(e)}
+          onChange={e => onChangeName(e)}
           value={name}
           id="email"
           label="Group name"
