@@ -1,4 +1,3 @@
-/*
 package com.twitterdan.config;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -33,6 +32,4 @@ public class CloudinaryConfig {
   public String getCloudinaryApiSecret() {
     return cloudApiSecret;
   }
-
 }
-*/
