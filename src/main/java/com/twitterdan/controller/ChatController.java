@@ -60,7 +60,7 @@ public class ChatController {
   private final LeaveChatResponseMapper leaveChatResponseMapper;
   private final ChatUserMapper chatUserMapper;
   private final PageMessagesMapper pageMessagesMapper;
-private final PageChatsResponseMapper pageChatsResponseMapper;
+  private final PageChatsResponseMapper pageChatsResponseMapper;
 
   @GetMapping
   public ResponseEntity<PageChatResponse> getChats(@RequestParam int pageNumber, @RequestParam int pageSize, Principal principal) {
@@ -136,6 +136,14 @@ private final PageChatsResponseMapper pageChatsResponseMapper;
     groupChatResponse.setOldKey(oldKey);
 
     return ResponseEntity.ok(groupChatResponse);
+  }
+
+  @PutMapping("/group")
+  public ResponseEntity<GroupChatResponse> editGroupChat(@RequestBody GroupChatRequest groupChatRequest, Principal principal) {
+    User authUser = userService.findByUserTag(principal.getName());
+
+  
+    return ResponseEntity.ok(null);
   }
 
   @PostMapping("/add-users")
