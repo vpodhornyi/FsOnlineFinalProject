@@ -8,6 +8,7 @@ export const getChatsData = state => {
       isChatsExist: data.chats.length,
       isChatSelected: data.chatId !== -1,
       chats: data.chats,
+      totalPages: data.totalPages,
       chatId: data.chatId,
       selectedChat,
       countUnreadMessages: selectedChat?.lastMessage?.countUnreadMessages,
@@ -21,7 +22,7 @@ export const getChatsData = state => {
 
 export const getMessagesData = state => {
   if (state) {
-    const data = state.message;
+    const data = JSON.parse(JSON.stringify(state.message));
 
     return {
       messages: data.messages,

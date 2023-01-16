@@ -17,7 +17,7 @@ const Navigation = () => {
   const {modal, toggleModal} = useModal();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  const {isChatLoading, isChatsExist, chats, pageNumber} = useSelector(getChatsData);
+  const {isChatLoading, isChatsExist, chats, totalPages, pageNumber} = useSelector(getChatsData);
 
   const fetch = async () => {
     await dispatch(getChats());
@@ -34,10 +34,10 @@ const Navigation = () => {
   );
 
   const toggleVisible = async (inView) => {
-    if (inView) {
-      setLoading(true)
+    if (inView && (pageNumber < totalPages - 1)) {
+      setLoading(true);
       await fetch();
-      setLoading(false)
+      setLoading(false);
     }
   }
 

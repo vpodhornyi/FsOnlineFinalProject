@@ -3,7 +3,8 @@ import {ACTIONS} from "./action";
 const init = {
   loading: false,
   pageNumber: 0,
-  pageSize: 2,
+  pageSize: 10,
+  totalPages: 0,
   chatId: -1,
   chats: [],
   onBottom: false,
@@ -78,6 +79,7 @@ export default (state = init, {payload, type}) => {
       const newChats = payload.chats.filter(ch => !state.chats.find(c => ch.id === c.id));
       return {
         ...state,
+        totalPages: payload.totalPages,
         chats: [...state.chats, ...newChats],
       };
     case String(ACTIONS.getChats.fail):
