@@ -4,24 +4,29 @@ import PropTypes from "prop-types";
 import {styled} from "@mui/material/styles";
 import {Box, Typography} from "@mui/material";
 import Seen from "./Seen";
-import Reaction from "./Reaction";
+// import Reaction from "./Reaction";
 import Action from "./Action/Action";
 import {moment} from "@utils";
 
-const MessageOwner = ({message, toggleModal}) => {
+const MessageOwner = ({message, toggleModal, messageBoxClick, sameMessage, activeMessageId}) => {
+  const active = message.id === activeMessageId;
+
   return (
     <BoxWrapper>
-      <MessageBox>
+      <MessageBox onClick={() => messageBoxClick(message?.id)}>
         <Action toggleModal={toggleModal} message={message} isRight={true}/>
-        <MessageTextBox>
+        <MessageTextBox
+          className={`${sameMessage && 'SameMessageTextBox'} ${active && 'SameMessageTextBoxActive'}`}>
           <Typography>{message.text}</Typography>
         </MessageTextBox>
       </MessageBox>
-      {/*<Reaction/>*/}
-      <TimeBox>
-        <Typography variant='body3'>{moment(message.createdAt).fromNow(true)}</Typography>
-        <Seen message={message}/>
-      </TimeBox>
+      <Box className={`InfoMessageBox ${sameMessage && !active && 'SameMessage'}`}>
+        {/*<Reaction/>*/}
+        <TimeBox>
+          <Typography variant='body3'>{moment(message.createdAt).fromNow(true)}</Typography>
+          <Seen message={message}/>
+        </TimeBox>
+      </Box>
     </BoxWrapper>
   );
 }
@@ -30,8 +35,24 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   display: 'flex',
   justifyContent: 'flex-end',
   flexDirection: 'column',
-  paddingBottom: 10,
   alignItems: 'end',
+
+  '& .InfoMessageBox': {
+    marginTop: 5,
+    marginBottom: 10,
+  },
+
+  '& .SameMessage': {
+    display: 'none',
+  },
+
+  '& .SameMessageTextBox': {
+    borderBottomRightRadius: 24,
+  },
+
+  '& .SameMessageTextBoxActive': {
+    backgroundColor: theme.palette.primary.secondary,
+  }
 }));
 
 const MessageBox = styled(Box)(({theme}) => ({
@@ -40,7 +61,6 @@ const MessageBox = styled(Box)(({theme}) => ({
   display: 'flex',
   justifyContent: 'flex-end',
   alignItems: 'center',
-  marginBottom: 5,
 
   '&:hover .Actions': {
     opacity: 1
@@ -69,5 +89,8 @@ const TimeBox = styled(Box)(({theme}) => ({
 MessageOwner.propTypes = {
   message: PropTypes.object,
   toggleModal: PropTypes.func,
+  messageBoxClick: PropTypes.func,
+  sameMessage: PropTypes.bool,
+  activeMessageId: PropTypes.number,
 }
 export default MessageOwner;

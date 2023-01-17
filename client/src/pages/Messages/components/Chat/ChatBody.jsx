@@ -41,6 +41,7 @@ const ChatBody = ({chatId}) => {
   const [loadingUp, setLoadingUp] = useState(false);
   const [loadingDown, setLoadingDown] = useState(false);
   const [pageNumber, setPageNumber] = useState(0);
+  const [activeMessageId, setActiveMessageId] = useState(0);
   const [lastSeenChatMessageId, setLastSeenChatMessageId] = useState(0);
 
   const fetch = useDebouncedCallback(async (id, pageNumber) => {
@@ -144,6 +145,9 @@ const ChatBody = ({chatId}) => {
     setVisible(!inView);
   }
 
+  const messageBoxClick = (id) => {
+    setActiveMessageId(activeMessageId === id ? 0 : id);
+  }
 
   const showMessage = (m, i) => {
     let message = null;
@@ -156,6 +160,9 @@ const ChatBody = ({chatId}) => {
         toggleModal={toggleModal}
         element={MessageOwner}
         chat={selectedChat}
+        messageBoxClick={messageBoxClick}
+        nextMessage={messages[i + 1]}
+        activeMessageId={activeMessageId}
       />
     }
 
@@ -167,6 +174,8 @@ const ChatBody = ({chatId}) => {
         toggleModal={toggleModal}
         element={ForeignerMessage}
         chat={selectedChat}
+        messageBoxClick={messageBoxClick}
+        nextMessage={messages[i + 1]}
       />
     }
 
@@ -194,7 +203,6 @@ const ChatBody = ({chatId}) => {
       {notification}
     </Box>
   }
-
 
   return (<BoxWrapper>
     <Box

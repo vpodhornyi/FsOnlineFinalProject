@@ -17,7 +17,9 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
       " m.text, m.user_id, m.chat_id from messages m" +
       " where m.chat_id = :chatId" +
       " and (select md1.id from messages_deleted md1 where md1.user_id = :userId and md1.message_id = m.id) is null" +
-      " order by m.created_at desc"
+      " order by m.created_at desc",
+    countQuery = "select count(m.id) from messages m where m.chat_id = :chatId " +
+      " and (select md1.id from messages_deleted md1 where md1.user_id = :userId and md1.message_id = m.id) is null"
     , nativeQuery = true)
   Optional<Page<Message>> findPageByChatId(Long chatId, Long userId, Pageable pageable);
 

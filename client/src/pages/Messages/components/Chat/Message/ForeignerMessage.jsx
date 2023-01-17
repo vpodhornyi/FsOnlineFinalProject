@@ -6,12 +6,13 @@ import {Link} from "react-router-dom";
 import {Avatar, Box, Typography} from "@mui/material";
 import PropTypes from "prop-types";
 
-import Action from "./Action/Action";
 import {moment} from "@utils";
 import {setSeenMessage} from '@redux/chat/message/action';
 import {PATH} from "@utils/constants";
+import Action from "./Action/Action";
+// import Reaction from "./Reaction";
 
-const ForeignerMessage = ({chat, message, toggleModal}) => {
+const ForeignerMessage = ({chat, message, sameMessage, toggleModal}) => {
   const dispatch = useDispatch();
   const {ref, inView} = useInView({
     threshold: 1.0,
@@ -38,15 +39,17 @@ const ForeignerMessage = ({chat, message, toggleModal}) => {
             <Avatar sx={{mr: '10px', width: '2.7rem', height: '2.7rem'}} src={message.user.avatarImgUrl}/>
           </Link>
         }
-        <MessageTextBox>
+        <MessageTextBox className={`${sameMessage && 'SameMessageTextBox'}`}>
           <Typography>{message.text}</Typography>
         </MessageTextBox>
         <Action toggleModal={toggleModal} message={message}/>
       </MessageBox>
-      {/*<Reaction/>*/}
-      <TimeBox>
-        <Typography variant='body3'>{moment(message.createdAt).fromNow(true)}</Typography>
-      </TimeBox>
+      <Box className={`InfoMessageBox ${sameMessage && 'SameMessage'}`}>
+        {/*<Reaction/>*/}
+        <TimeBox>
+          <Typography variant='body3'>{moment(message.createdAt).fromNow(true)}</Typography>
+        </TimeBox>
+      </Box>
     </BoxWrapper>
   );
 }
@@ -55,12 +58,24 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   display: 'flex',
   justifyContent: 'flex-start',
   flexDirection: 'column',
-  paddingBottom: 10,
   alignItems: 'start',
 
   '& .MuiTypography-root': {
     alignItems: 'start',
-  }
+  },
+
+  '& .InfoMessageBox': {
+    marginTop: 5,
+    marginBottom: 10,
+  },
+
+  '& .SameMessage': {
+    display: 'none',
+  },
+
+  '& .SameMessageTextBox': {
+    borderBottomLeftRadius: 24,
+  },
 }));
 
 const MessageBox = styled(Box)(({theme}) => ({
@@ -69,7 +84,6 @@ const MessageBox = styled(Box)(({theme}) => ({
   display: 'flex',
   justifyContent: 'flex-start',
   alignItems: 'center',
-  marginBottom: 5,
 
   '&:hover .Actions': {
     opacity: 1
@@ -99,5 +113,6 @@ ForeignerMessage.propTypes = {
   chat: PropTypes.object,
   message: PropTypes.object,
   toggleModal: PropTypes.func,
+  sameMessage: PropTypes.bool,
 }
 export default ForeignerMessage;
