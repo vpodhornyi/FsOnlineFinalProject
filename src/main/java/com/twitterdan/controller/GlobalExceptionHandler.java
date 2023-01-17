@@ -15,11 +15,10 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(AbstractException.class)
   public ResponseEntity<Object> handleItemNotFoundException(AbstractException exception) {
-    final ResponseError responseError = new ResponseError(exception.getRawStatusCode(), exception.getShowMessage(), exception.getShow());
+    final ResponseError responseError =
+            new ResponseError(exception.getRawStatusCode(), exception.getShowMessage(), exception.getShow());
 
-    return ResponseEntity
-      .status(exception.getRawStatusCode())
-      .body(responseError);
+    return ResponseEntity.status(exception.getRawStatusCode()).body(responseError);
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
