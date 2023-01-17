@@ -150,6 +150,11 @@ public class ChatController {
     String imgUrl = cloudinaryService.uploadImage(uploadFile);
     Chat chat = chatService.editGroupChat(chatId, name, imgUrl, authUser);
 
+    chat.getUsers().stream().filter(u -> !u.equals(authUser)).forEach(user -> {
+      GroupChatResponse groupChatResponse = groupChatResponseMapper.convertToDto(chat, user);
+      simpMessagingTemplate.convertAndSend(queue + user.getId(), ResponseEntity.ok(groupChatResponse));
+    });
+
     return ResponseEntity.ok(groupChatResponseMapper.convertToDto(chat, authUser));
   }
 

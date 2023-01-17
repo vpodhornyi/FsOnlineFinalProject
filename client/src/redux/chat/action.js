@@ -128,7 +128,6 @@ export const addPeopleToChat = body => async (dispatch) => {
 export const editGroupChat = body => async (dispatch) => {
   try {
     const data = await api.put(URLS.CHATS.GROUP, body);
-    console.log(data);
     dispatch(ACTIONS.updateChat(data));
 
   } catch (err) {

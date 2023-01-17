@@ -25,9 +25,11 @@ export default (state = init, {payload, type}) => {
     }
       return {...state};
     case String(ACTIONS.addNewGroupChat): {
-      const find = state.chats.find(ch => ch.id === payload.id);
-      if (!find) {
+      const index = state.chats.findIndex(ch => ch.id === payload.id);
+      if (index === -1) {
         state.chats = [payload, ...state.chats];
+      } else {
+        state.chats[index] = payload;
       }
     }
       return {...state};
@@ -38,8 +40,8 @@ export default (state = init, {payload, type}) => {
       } else {
         state.chats.unshift(payload);
       }
-    }
       return {...state};
+    }
     case String(ACTIONS.deleteChat): {
       const index = state.chats.findIndex(c => c.id === payload.chatId);
       if (index !== -1) {
