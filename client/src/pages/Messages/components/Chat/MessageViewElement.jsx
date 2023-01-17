@@ -1,11 +1,11 @@
 import React, {useEffect} from "react";
-import {Element} from 'react-scroll'
+import {Element} from 'react-scroll';
 import {useInView} from 'react-intersection-observer';
 import {styled} from "@mui/material/styles";
 import {Box} from "@mui/material";
 import PropTypes from "prop-types";
 
-const MessageViewElement = ({toggleVisible, message, toggleModal, element: Foo, chat}) => {
+const MessageViewElement = ({toggleVisible, message, toggleModal, element: Message, chat}) => {
   const {ref, inView} = useInView({
     threshold: 1,
   });
@@ -17,7 +17,7 @@ const MessageViewElement = ({toggleVisible, message, toggleModal, element: Foo, 
   return (<BoxWrapper ref={ref}>
     <Element name={`elementName${message?.id}`}>
       {
-        Foo &&  <Foo
+        Message &&  <Message
           message={message}
           chat={chat}
           toggleModal={toggleModal}

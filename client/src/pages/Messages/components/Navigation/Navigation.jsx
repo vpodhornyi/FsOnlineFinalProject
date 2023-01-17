@@ -34,7 +34,7 @@ const Navigation = () => {
   );
 
   const toggleVisible = async (inView) => {
-    if (inView && (pageNumber < totalPages - 1)) {
+    if (inView && (pageNumber < totalPages)) {
       setLoading(true);
       await fetch();
       setLoading(false);

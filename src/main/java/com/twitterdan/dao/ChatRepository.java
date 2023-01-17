@@ -25,8 +25,11 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
       " left join chats_deleted cd on cd.chat_id = c.id" +
       " where u.id = :userId and (cd.id is null or cd.user_id != :userId)" +
       " group by c.id" +
-      " order by MAX(m.created_at) desc NULLS LAST "
-    , nativeQuery = true)
+      " order by MAX(m.created_at) desc NULLS LAST ",
+    countQuery = "select count(c.id) from chats c left join messages m on c.id = m.chat_id join chats_users cu on c.id = cu.chats_id" +
+      " join users u on u.id = cu.users_id left join chats_deleted cd on cd.chat_id = c.id where u.id = :userId " +
+      " and (cd.id is null or cd.user_id != :userId) group by c.id",
+    nativeQuery = true)
   Optional<Page<Chat>> findByUsersId(@Param("userId") Long userId, Pageable pageable);
 
   /*

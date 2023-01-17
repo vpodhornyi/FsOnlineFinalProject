@@ -35,7 +35,9 @@ public class CloudinaryService {
         JSONObject j = ja.getJSONObject(i);
         images.add(j.getString("url"));
       }
+
       return images;
+
     } catch (Exception e) {
       throw new CouldNotGetImagesException();
     }
@@ -46,6 +48,7 @@ public class CloudinaryService {
       File file = Files.createTempFile("temp", uploadFile.getOriginalFilename()).toFile();
       uploadFile.transferTo(file);
       JSONObject json = new JSONObject(cloud.uploader().upload(file, ObjectUtils.emptyMap()));
+
       return json.getString("url");
 
     } catch (IOException e) {
