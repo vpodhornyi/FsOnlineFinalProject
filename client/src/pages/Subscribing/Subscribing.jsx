@@ -7,10 +7,15 @@ import ProfilePreview from "../../components/ProfilePreview/ProfilePreview";
 import noFollowers from "../../assets/img/no_followers.png"
 import {Typography} from "@mui/material";
 import {getUsers} from "../../services/userApi";
+import {getAuthUser} from "../../redux/auth/action";
+import {getPersonalData} from "../../redux/auth/selector";
 
 const Subscribing = () => {
     const {username} = useParams();
     const path = useLocation().pathname;
+
+    const authUser = useSelector(getPersonalData);
+
     const [userFollowers, setUserFollowers] = useState([]);
     const [userFollowings, setUserFollowings] = useState([]);
 
@@ -19,7 +24,7 @@ const Subscribing = () => {
             setUserFollowers(users?.filter(user => user.followings.includes(username)))
             setUserFollowings(users?.filter(user => user.followers.includes(username)));
         });
-    }, []);
+    }, [authUser]);
 
 
     const StyledLink = styled(props => (<Link {...props}/>))(() => ({
@@ -65,6 +70,8 @@ const Subscribing = () => {
                                 id={u.id}
                                 avatar={u.avatarImgUrl}
                                 descr={u.bio}
+                                followers={u.followers}
+                                followings={u.followings}
                             />
                         )) :
                             <Box sx={{display: "flex", flexDirection: "column", alignItems: "center", maxWidth: "70%", margin: "0 auto"}}>
@@ -88,6 +95,8 @@ const Subscribing = () => {
                                 id={u.id}
                                 avatar={u.avatarImgUrl}
                                 descr={u.bio}
+                                followers={u.followers}
+                                followings={u.followings}
                             />
 
                         )) :

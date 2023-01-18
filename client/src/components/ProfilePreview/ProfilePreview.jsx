@@ -4,14 +4,17 @@ import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
 import {Typography} from "@mui/material";
 import {StyledDarkButton, StyledLightButton, StyledTypography} from "../StyledComponents/styledComponents";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {getPersonalData} from "../../redux/auth/selector";
 import {Link} from "react-router-dom";
 import {followUser, unfollowUser} from "../../services/followService";
+import {getAuthUser} from "../../redux/auth/action";
 
 const ProfilePreview = (props) => {
-    const {id, avatar, username, userTag, descr} = props;
+    const {id, avatar, username, userTag, descr, followers, followings} = props;
+
     const authUser = useSelector(getPersonalData);
+    const dispatch = useDispatch();
     const handleOnMouseEnter = (e) => e.target.innerText = "Unfollow";
     const handleOnMouseLeave = (e) => e.target.innerText = "Following";
 
@@ -32,7 +35,15 @@ const ProfilePreview = (props) => {
                 <div style={{display: "flex"}}>
                     <Avatar src={avatar || ""}>{username[0].toUpperCase()}</Avatar>
                     <div style={{marginLeft: "10%"}}>
-                        <Typography>{username}</Typography>
+                        <Typography sx={{textDecoration: "none"}}>
+                            {username}
+                            {authUser?.userTag === userTag ?
+                                <Typography sx={{fontWeight: 'bold', display: "inline-block"}}>
+                                    (Me)
+                                </Typography>
+                                : ""
+                            }
+                        </Typography>
                         <StyledTypography>@{userTag}</StyledTypography>
                         <StyledTypography>{descr}</StyledTypography>
                     </div>
@@ -41,28 +52,37 @@ const ProfilePreview = (props) => {
 
 
                 {
-                    authUser?.followings.includes(userTag) ?
-                        <StyledLightButton
-                            sx={{
-                                "&:hover": {
-                                    borderColor: "rgb(253, 201, 206)",
-                                    color: "rgb(244, 33, 46)",
-                                    backgroundColor: "rgba(244, 33, 46, 0.1)",
-                                    transition: "0.5s",
-                                }
-                            }}
-                            variant="contained"
-                            onMouseEnter={handleOnMouseEnter}
-                            onMouseLeave={handleOnMouseLeave}
-                            onClick={() => {unfollowUser(authUser?.id, id);}}
-                        >
-                            Following
-                        </StyledLightButton> :
-                        <StyledDarkButton
-                            onClick={() => followUser(authUser?.id, id)}
-                        >
-                            Follow
-                        </StyledDarkButton>
+                    <Box style={{display: authUser?.userTag === userTag ? "none" : "block"}}>
+                        {followers.includes(authUser?.userTag) ?
+                            <StyledLightButton
+                                sx={{
+                                    "&:hover": {
+                                        borderColor: "rgb(253, 201, 206)",
+                                        color: "rgb(244, 33, 46)",
+                                        backgroundColor: "rgba(244, 33, 46, 0.1)",
+                                        transition: "0.5s",
+                                    }
+                                }}
+                                variant="contained"
+                                onMouseEnter={handleOnMouseEnter}
+                                onMouseLeave={handleOnMouseLeave}
+                                onClick={() => {
+                                    unfollowUser(authUser?.id, id);
+                                    dispatch(getAuthUser(authUser?.id));
+                                }}
+                            >
+                                Following
+                            </StyledLightButton> :
+                            <StyledDarkButton
+                                onClick={() => {
+                                    followUser(authUser?.id, id);
+                                    dispatch(getAuthUser(authUser?.id));
+                                }}
+                            >
+                                Follow
+                            </StyledDarkButton>
+                        }
+                    </Box>
                 }
             </Box>
     );
@@ -74,6 +94,8 @@ ProfilePreview.propTypes = {
     username: PropTypes.string,
     userTag: PropTypes.string,
     descr: PropTypes.string,
+    followers: PropTypes.array,
+    followings: PropTypes.array,
 }
 
 export default ProfilePreview;

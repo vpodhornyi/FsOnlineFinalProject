@@ -17,6 +17,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {getPersonalData} from "../../redux/auth/selector";
 import {getUserByUserTag} from "../../services/userApi";
 import {followUser, unfollowUser} from "../../services/followService";
+import {getAuthUser} from "../../redux/auth/action";
 
 export function a11yProps(index) {
     return {
@@ -30,7 +31,7 @@ const UserProfile = () => {
     const [tabVal, setTabVal] = useState(0)
     const [user, setUser] = useState(null);
     const dispatch = useDispatch();
-    const authUser =  useSelector(getPersonalData);
+    const authUser = useSelector(getPersonalData);
 
     async function fetchUser () {
         try {
@@ -79,7 +80,7 @@ const UserProfile = () => {
                                     </StyledLightButton>
                                     :
                                     <>
-                                        {authUser?.followings.includes(user?.userTag)
+                                        {user?.followers.includes(authUser?.userTag)
                                             ?
                                             <StyledLightButton
                                                 sx={{
@@ -93,11 +94,17 @@ const UserProfile = () => {
                                                 variant="contained"
                                                 onMouseEnter={handleOnMouseEnter}
                                                 onMouseLeave={handleOnMouseLeave}
-                                                onClick={() => unfollowUser(authUser?.id, user?.id)}
+                                                onClick={async () => {
+                                                    unfollowUser(authUser?.id, user?.id);
+                                                    dispatch(getAuthUser(authUser?.id));
+                                                }}
                                             >Following</StyledLightButton>
                                             :
                                             <StyledDarkButton
-                                                onClick={() => followUser(authUser?.id, user?.id)}
+                                                onClick={() => {
+                                                    followUser(authUser?.id, user?.id);
+                                                    dispatch(getAuthUser(authUser?.id));
+                                                }}
                                                 variant="contained"
                                             >Follow
                                             </StyledDarkButton>
