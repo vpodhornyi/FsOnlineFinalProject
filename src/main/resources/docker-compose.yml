@@ -1,4 +1,4 @@
-version: '3'
+version: '1.0'
 services:
   postgres:
     image: postgres:14.5
@@ -9,19 +9,19 @@ services:
       - POSTGRES_PASSWORD=root
       - POSTGRES_DATABASE=twitter
     ports:
-      - '5432:5432'
+      - 5432:5432
     volumes:
-      - 'postgresqldata14:/var/lib/postgresql/data'
+      - postgresqldata14:/var/lib/postgresql/data
   rabbitmq:
     image: rabbit-stomp-plugin:latest
-    container_name: 'rabbitmq'
+    container_name: rabbitmq
     ports:
-      - '5672:5672'
-      - '15672:15672'
-      - '15674:15674'
-      - '61613:61613'
+      - 5672:5672
+      - 15672:15672
+      - 15674:15674
+      - 61613:61613
     volumes:
-      - 'rabbitmq-data:/var/lib/rabbitmq/mnesia'
+      - rabbitmq-data:/var/lib/rabbitmq/mnesia
 volumes:
   postgresqldata14:
     external: true
