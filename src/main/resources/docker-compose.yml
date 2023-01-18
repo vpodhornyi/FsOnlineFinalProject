@@ -24,7 +24,5 @@ services:
       - 'rabbitmq-data:/var/lib/rabbitmq/mnesia'
 volumes:
   postgresqldata14:
-    external: true
   rabbitmq-data:
-    external: true
 
