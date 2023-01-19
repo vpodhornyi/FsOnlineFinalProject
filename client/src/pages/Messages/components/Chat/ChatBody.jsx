@@ -73,13 +73,13 @@ const ChatBody = ({chatId}) => {
       const type = selectedChat.type;
 
       if (type === NEW_PRIVATE) {
-        const newChatId = await dispatch(addNewPrivateChat(selectedChat));
+        const newChatId = await dispatch(addNewPrivateChat(selectedChat, textMessage));
         navigate(PATH.MESSAGES.chat(newChatId));
         return;
       }
 
       if (type === NEW_GROUP) {
-        const newChatId = await dispatch(addNewGroupChat(selectedChat));
+        const newChatId = await dispatch(addNewGroupChat(selectedChat, textMessage));
         navigate(PATH.MESSAGES.chat(newChatId));
         return;
       }

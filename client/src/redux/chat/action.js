@@ -54,12 +54,12 @@ export const searchUser = ({text}) => async dispatch => {
   }
 }
 
-export const addNewPrivateChat = (chat) => async dispatch => {
+export const addNewPrivateChat = (chat, text) => async dispatch => {
   try {
     const body = {
       type: CHAT_TYPE.PRIVATE,
       guestUserId: chat.guestUserId,
-      message: chat.message,
+      message: text,
       oldKey: chat.key,
     }
     const data = await api.post(URLS.CHATS.PRIVATE, body);
@@ -71,12 +71,12 @@ export const addNewPrivateChat = (chat) => async dispatch => {
   }
 }
 
-export const addNewGroupChat = (chat) => async dispatch => {
+export const addNewGroupChat = (chat, text) => async dispatch => {
   try {
     const usersIds = chat.users.map(u => u.id);
     const body = {
       title: chat.title,
-      message: chat.message,
+      message: text,
       type: CHAT_TYPE.GROUP,
       oldKey: chat.key,
       usersIds,
