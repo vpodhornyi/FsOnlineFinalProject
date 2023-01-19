@@ -1,15 +1,15 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import {styled} from "@mui/material/styles";
-import CustomIconButton from "@components/buttons/CustomIconButton";
 import {ListItemIcon, Menu, MenuItem, Box, ListItemText, Typography} from "@mui/material";
 import PropTypes from "prop-types";
 
 import IconByName from "@components/icons/IconByName";
 import DeleteForYouMessageConfirm from "../../../confirms/DeleteForYouMessageConfirm";
 import DeleteForAllMessageConfirm from "../../../confirms/DeleteForAllMessageConfirm";
+import {CustomIconButton} from "@components";
 
 const More = ({toggleModal, message, isRight}) => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
