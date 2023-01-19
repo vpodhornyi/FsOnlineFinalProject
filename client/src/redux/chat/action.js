@@ -44,10 +44,6 @@ export const getChats = () => async (dispatch, getState) => {
   }
 }
 
-export const subscribeToChats = () => async (dispatch) => {
-  const data = await api.get(URLS.CHATS.ALL);
-}
-
 export const searchUser = ({text}) => async dispatch => {
   try {
     return await api.get(URLS.USERS.SEARCH, {params: {text}});
