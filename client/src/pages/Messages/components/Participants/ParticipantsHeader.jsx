@@ -6,7 +6,6 @@ import {Typography, Box} from "@mui/material";
 
 import CustomIconButton from "@components/buttons/CustomIconButton";
 import {StickyHeader} from '@components';
-import {PATH} from "@utils/constants";
 
 
 const ChatInfoHeader = ({chat}) => {

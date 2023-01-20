@@ -78,7 +78,6 @@ export const handlerBookmark = () => async (dispatch) => {
     const bookmarksId = await api.get(URLS.TWEET.BOOKMARKS);
     dispatch(ACTIONS.handlerBookmark.success(bookmarksId));
 
-    return data;
   } catch (err) {
     //TODO show error
     dispatch(ACTIONS.handlerBookmark.fail());

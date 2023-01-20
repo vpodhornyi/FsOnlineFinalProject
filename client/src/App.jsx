@@ -27,13 +27,13 @@ const App = () => {
             <NavBar
               user={authUser}
               menu={mainMenu}
-              authorized={authorized}/>
+              authorized={authorized}
+            />
           </Header>
           <Main>
             <MainContainer>
               <MainRoutes
                 authorized={authorized}
-                authUser={authUser}
                 background={background}
                 location={location}/>
             </MainContainer>

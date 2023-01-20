@@ -22,6 +22,7 @@ import Confirm from "./Confirm";
 import {TweetForm} from "./tweetComponents/TweetForm";
 import Tweet from "./tweetComponents/Tweet";
 import DeleteTweet from "./tweetComponents/DeleteTweet";
+import PrimaryHeader from './PrimaryHeader';
 
 export {
   Header,
@@ -53,4 +54,5 @@ export {
   TweetForm,
   Tweet,
   DeleteTweet,
+  PrimaryHeader,
 }

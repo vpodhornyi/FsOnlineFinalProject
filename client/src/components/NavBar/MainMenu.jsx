@@ -16,8 +16,8 @@ const MainMenu = ({user, menu}) => {
           to={path}
           state={modalPage ? {background: location} : {}}
         >
-          {({isActive}) => (
-            <MenuItem>
+          {({isActive}) => {
+            return <MenuItem>
               <MainMenuButton
                 user={user}
                 isActive={isActive}
@@ -26,7 +26,7 @@ const MainMenu = ({user, menu}) => {
                 iconName={isActive ? iconActive : iconName}
                 text={text}/>
             </MenuItem>
-          )}
+          }}
         </NavLink>
       ))}
     </MenuNav>

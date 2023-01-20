@@ -1,10 +1,10 @@
 import React from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import {styled} from "@mui/material/styles";
-import {Avatar, Box, Typography} from "@mui/material";
+import {Box, Typography} from "@mui/material";
 
 import {PATH} from "../../utils/constants";
-import {CustomIconButton, StickyHeader} from "../../components";
+import {CustomIconButton} from "../../components";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ const Header = () => {
 
   return (
     <BoxWrapper>
-      <Typography className='MessageTitle' variant='h2'>Messages</Typography>
+      <Typography className='HeaderTitle' variant='h2'>Messages</Typography>
       <Box onClick={() => navigate(PATH.MESSAGES.COMPOSE, {state: {background: location}})}>
         <CustomIconButton name='ForwardToInboxOutlined' title='New message'/>
       </Box>
@@ -25,11 +25,6 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-
-  '& .MessageTitle': {
-    fontSize: '1.3rem',
-    fontWeight: 600
-  }
 }));
 
 export default Header;

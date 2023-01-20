@@ -36,13 +36,13 @@ export const menu = (userTag, authorized, isChatSelected, countUnreadMessages, c
         text: 'Bookmarks',
       },
       {
-        path: PATH.LISTS,
+        path: PATH.lists(userTag),
         iconName: "ArticleOutlined",
         iconActive: "Article",
         text: 'Lists',
       },
       {
-        path: `/${userTag}`,
+        path: PATH.userProfile(userTag),
         iconName: "PersonOutlined",
         iconActive: "Person",
         text: 'Profile',

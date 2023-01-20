@@ -57,7 +57,7 @@ export default () => {
   if (accessToken) {
     setHeaderAuthorization(accessToken, tokenType);
     store.dispatch(getAuthUser())
-      .then(() => {
+      .then((data) => {
         api.client = stompClient(() => {
           store.dispatch(authUserSocketSubscribe());
         });
