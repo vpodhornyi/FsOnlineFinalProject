@@ -18,7 +18,6 @@ const Home = () => {
           <Tweets/>
         </Suspense>
       </PrimaryColumn>
-
       <SitebarColumn>
         <StickyHeader>
           HEADER Home sitebar column
@@ -28,6 +27,5 @@ const Home = () => {
     </ColumnWrapper>
   );
 };
-
 
 export default Home;

@@ -33,7 +33,7 @@ const App = () => {
             <MainContainer>
               <MainRoutes
                 authorized={authorized}
-                userTag={authUser.userTag}
+                authUser={authUser}
                 background={background}
                 location={location}/>
             </MainContainer>

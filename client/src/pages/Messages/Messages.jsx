@@ -2,15 +2,17 @@ import React from "react";
 import {Outlet} from 'react-router-dom';
 
 import {SectionNavigation, SectionDetails} from '../../components';
-import NavigationHeader from './components/NavigationHeader';
+import Header from '../Header';
 import Navigation from './components/Navigation/Navigation';
+import MessagesHeader from './Header';
+import PropTypes from "prop-types";
 
-const Messages = () => {
+const Messages = ({user}) => {
 
   return (
     <>
       <SectionNavigation>
-        <NavigationHeader/>
+        <Header user={user} pageElement={MessagesHeader}/>
         <Navigation/>
       </SectionNavigation>
       <SectionDetails>
@@ -18,6 +20,10 @@ const Messages = () => {
       </SectionDetails>
     </>
   );
+}
+
+Messages.propTypes = {
+  user: PropTypes.object,
 }
 
 export default Messages;

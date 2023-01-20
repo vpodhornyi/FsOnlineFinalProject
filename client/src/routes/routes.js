@@ -15,7 +15,7 @@ const lazyLoading = (path) => {
   return (<LazyElement/>);
 }
 
-export const mainRoutes = (userTag, authorized) => {
+export const mainRoutes = (authUser, authorized) => {
   return authorized ?
     [
       {
@@ -39,7 +39,7 @@ export const mainRoutes = (userTag, authorized) => {
       },
       {
         path: PATH.MESSAGES.ROOT,
-        element: <Messages/>,
+        element: <Messages user={authUser}/>,
         children: [
           {
             index: true,
