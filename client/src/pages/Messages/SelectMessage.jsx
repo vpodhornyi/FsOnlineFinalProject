@@ -6,6 +6,8 @@ import Box from "@mui/material/Box";
 import Action from "./components/Action";
 import {ACTIONS} from '@redux/chat/action';
 import {getChatsData} from '@redux/chat/selector';
+import {PrimaryHeader} from "../../components";
+import MessagesHeader from "./Header";
 
 const ACTION_TITLE = 'Select a message';
 const ACTION_DESCRIPTION = 'Choose from your existing conversations, start a new one, or just keep swimming.';

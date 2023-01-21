@@ -20,6 +20,6 @@ const BoxWrapper = styled(Box)(({theme}) => ({
 }));
 
 Header.propTypes = {
-  user: PropTypes.func,
+  user: PropTypes.object,
 }
 export default Header;

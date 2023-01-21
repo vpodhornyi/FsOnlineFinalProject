@@ -4,20 +4,26 @@ import {Outlet} from 'react-router-dom';
 import {SectionNavigation, SectionDetails, PrimaryHeader} from '../../components';
 import Navigation from './components/Navigation/Navigation';
 import MessagesHeader from './Header';
+import PropTypes from "prop-types";
 
-const Messages = () => {
+const Messages = ({isMiddle}) => {
 
-  return (
+  return isMiddle ?
     <>
       <SectionNavigation>
-        <PrimaryHeader pageElement={MessagesHeader}/>
         <Navigation/>
       </SectionNavigation>
       <SectionDetails>
         <Outlet/>
       </SectionDetails>
-    </>
-  );
+    </> :
+    <SectionNavigation>
+      <Outlet/>
+    </SectionNavigation>
+}
+
+Messages.propTypes = {
+  isMiddle: PropTypes.bool,
 }
 
 export default Messages;

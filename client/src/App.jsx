@@ -1,6 +1,7 @@
 import React from "react";
 import {useSelector} from "react-redux";
 import {useLocation} from "react-router-dom";
+import {useResizeDetector} from 'react-resize-detector';
 
 import {
   Preloader, RootContainer, LoginPanel,
@@ -13,6 +14,7 @@ import ModalRoutes from './routes/ModalRoutes';
 import {getChatsData} from '@redux/chat/selector';
 
 const App = () => {
+  const { width, ref } = useResizeDetector();
   const {authorized} = useSelector(state => state.auth);
   const {authUser, preloader} = useSelector(state => state.user);
   const {isChatSelected, chatId} = useSelector(getChatsData);
@@ -22,7 +24,7 @@ const App = () => {
 
   return (preloader ? <Preloader/> :
       <BackgroundContext.Provider value={{background}}>
-        <RootContainer>
+        <RootContainer ref={ref}>
           <Header>
             <NavBar
               user={authUser}
@@ -33,6 +35,7 @@ const App = () => {
           <Main>
             <MainContainer>
               <MainRoutes
+                width={width}
                 authorized={authorized}
                 background={background}
                 location={location}/>

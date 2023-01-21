@@ -2,6 +2,7 @@ import Home from './Home/Home';
 import Explore from './Explore/Explore';
 import Notifications from './Notifications/Notifications';
 import Messages from './Messages/Messages';
+import Navigation from './Messages/components/Navigation/Navigation';
 import SelectMessage from './Messages/SelectMessage';
 import Chat from './Messages/components/Chat/Chat';
 import UserSearch from './Messages/components/UserSearch/UserSearch';
@@ -36,6 +37,7 @@ export {
 
   // messages page
   Messages,
+  Navigation,
   SelectMessage,
   Chat,
   UserSearch,

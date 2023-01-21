@@ -1,23 +1,30 @@
 import React from "react";
+import {useDispatch} from "react-redux";
 import {useNavigate, Link} from "react-router-dom";
 import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import {Avatar, Typography, AvatarGroup} from "@mui/material";
-import CustomIconButton from "@components/buttons/CustomIconButton";
-import {StickyHeader} from '../../../../components';
 import PropTypes from "prop-types";
+
+import CustomIconButton from "@components/buttons/CustomIconButton";
+import {StickyHeader} from '@components';
 import {PATH} from "@utils/constants";
+import {ACTIONS} from '@redux/chat/action';
 
 const ChatHeader = ({chat}) => {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
+const handleClick = () => {
+  navigate(PATH.MESSAGES.ROOT);
+  dispatch(ACTIONS.resetChatId());
+}
   return (
     <StyledStickyHeader>
       <Box sx={{display: 'flex', alignItems: 'center'}}>
         <Box
           className='backButton'
           sx={{mr: '10px'}}
-          onClick={() => navigate(PATH.MESSAGES.chat(chat?.id))}>
+          onClick={handleClick}>
           <CustomIconButton name='ArrowBackOutlined' title='Back'/>
         </Box>
         {

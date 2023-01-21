@@ -3,19 +3,23 @@ import {Navigate} from "react-router-dom";
 import {
   Home, Explore, Notifications, Messages, Chat, ChatInfo, Bookmarks, CreateAccount, SelectMessage,
   Lists, UserProfile, UserSearch, Auth, Login, Password, ForgotPassword, SingUp, UserData, Participants,
-  GroupEditPage
+  GroupEditPage, Navigation
 } from "../pages";
 import {PATH} from "../utils/constants";
-import {Display, TweetCompose, DeleteTweet} from "../components";
+import {Display, DeleteTweet} from "../components";
 import Reply from "../components/tweetComponents/Reply";
 import ModalImg from "../components/tweetComponents/ModalImg";
+import {defaultTheme} from "../utils/defaultTheme";
 
+const BREAKPOINTS_VALUES = defaultTheme.breakpoints.values;
 const lazyLoading = (path) => {
   const LazyElement = lazy(() => import(path));
   return (<LazyElement/>);
 }
 
-export const mainRoutes = (authorized) => {
+export const mainRoutes = (width, authorized) => {
+  const isMiddle = width > BREAKPOINTS_VALUES.md;
+
   return authorized ?
     [
       {
@@ -39,8 +43,31 @@ export const mainRoutes = (authorized) => {
       },
       {
         path: PATH.MESSAGES.ROOT,
-        element: <Messages/>,
-        children: [
+        element: <Messages isMiddle={isMiddle}/>,
+        children: isMiddle ? [
+          {
+            index: true,
+            element: <SelectMessage/>,
+          },
+          {
+            path: PATH.MESSAGES.CHAT,
+            element: <Chat/>,
+            children: [
+              {
+                path: PATH.MESSAGES.CHAT_INFO,
+                element: <ChatInfo/>,
+              },
+              {
+                path: PATH.MESSAGES.PARTICIPANTS,
+                element: <Participants/>,
+              },
+            ]
+          },
+        ] : [
+          {
+            index: true,
+            element: <Navigation/>,
+          },
           {
             index: true,
             element: <SelectMessage/>,
