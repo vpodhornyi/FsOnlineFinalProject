@@ -1,5 +1,4 @@
-import axios from "axios";
-import {DEV_API_URL} from "../services/userApi";
+import api, {URLS} from "../services/API";
 
 /**
  * @param file - image file
@@ -9,9 +8,10 @@ import {DEV_API_URL} from "../services/userApi";
  */
 
 export const uploadImage = async (file, id, uploadType) => {
-    const formData = new FormData();
-    formData.append('upload', file);
-    formData.append("entityId", String(id));
-    formData.append("uploadType", uploadType);
-    await axios.post(`${DEV_API_URL}cloud/image`, formData);
+  const formData = new FormData();
+  formData.append('upload', file);
+  formData.append("entityId", String(id));
+  formData.append("uploadType", uploadType);
+
+  return await api.post(URLS.CLOUD.IMAGE, formData);
 }

@@ -5,13 +5,20 @@ import {
     GET_USER_ERROR, GET_USERS_REQUEST, GET_USERS_SUCCESS, GET_USERS_ERROR,
 } from "./action";
 import {getTokens} from "@utils";
+import {ACTIONS} from "./action";
 
 const {accessToken} = getTokens();
 
 const INIT_STATE = {
-    // authorized: Boolean(accessToken),
-    authorized: true,
+    authorized: Boolean(accessToken),
+    loginName: '',
+    preloader: false,
     loading: false,
+    newUser: {
+        name: '',
+        email: '',
+        birthDate: '',
+    },
     user: {
         isBlocked: false,
         isAdmin: false,
@@ -25,14 +32,19 @@ const INIT_STATE = {
         location: null,
         avatarImgUrl: "",
         headerImgUrl: "",
-        followers: [],
-        followings: [],
+        followers: [
+            2,
+            4
+        ],
+        followings: [
+            2,
+            4
+        ],
         tweets: [
             1
         ]
     },
     error: "",
-    users: []
 }
 export default (state = INIT_STATE, {payload, type}) => {
     switch (type) {
@@ -51,6 +63,34 @@ export default (state = INIT_STATE, {payload, type}) => {
             return {...state, users: payload, loading: false}
         case GET_USERS_ERROR:
             return {...state, loading: false, error: payload}
+        case String(ACTIONS.preloaderStart):
+            return {
+                ...state,
+                preloader: true,
+            }
+        case String(ACTIONS.preloaderEnd):
+            return {
+                ...state,
+                preloader: false,
+            }
+        case String(ACTIONS.setNewUserData):
+            return {
+                ...state,
+                newUser: {
+                    name: payload.name,
+                    email: payload.email,
+                    birthDate: payload.birthDate,
+                }
+            }
+        case String(ACTIONS.clearNewUserData):
+            return {
+                ...state,
+                newUser: {
+                    name: '',
+                    email: '',
+                    birthDate: '',
+                }
+            }
         case String(ACTIONS.isAccountExist.request):
         case String(ACTIONS.authorize.request):
             return {
@@ -61,6 +101,10 @@ export default (state = INIT_STATE, {payload, type}) => {
             return {
                 ...state,
                 loginName: payload.login,
+            }
+        case String(ACTIONS.disableLoading):
+            return {
+                ...state,
                 loading: false,
             }
         case String(ACTIONS.authorize.success):
@@ -78,7 +122,7 @@ export default (state = INIT_STATE, {payload, type}) => {
         case String(ACTIONS.authorize.fail):
             return {
                 ...state,
-                loading: false,
+                authorized: false,
             }
         default:
             return state

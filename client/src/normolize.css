@@ -23,28 +23,42 @@ time, mark, audio, video {
     font: inherit;
     vertical-align: baseline;
 }
+
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
     display: block;
 }
+
 body {
     line-height: 1;
 }
+
 ol, ul {
     list-style: none;
 }
+
 blockquote, q {
     quotes: none;
 }
+
 blockquote:before, blockquote:after,
 q:before, q:after {
     content: '';
     content: none;
 }
+
 table {
     border-collapse: collapse;
     border-spacing: 0;
+}
+
+div, section, main, header {
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
 }
 
 html, body {
@@ -53,4 +67,12 @@ html, body {
 
 html {
     font-size: 14px;
+    overflow: auto scroll;
+    overscroll-behavior-y: none;
+
+    /*overflow: hidden;*/
+}
+
+#root {
+    height: 100%;
 }

@@ -25,7 +25,7 @@ function BackgroundCustomization() {
             borderRadius: "3px",
             minWidth: "120px",
             margin: "4px",
-            backgroundColor: "rgba(255,255,255,1.00)",
+            backgroundColor: "rgb(239, 243, 244)",
             paddingTop: "5px",
             paddingBot: "7px",
             paddingRight: "20px",

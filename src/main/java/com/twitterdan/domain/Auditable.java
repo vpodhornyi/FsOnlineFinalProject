@@ -11,7 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -24,7 +24,7 @@ public abstract class Auditable<T> {
 
   @CreatedDate
   @Column(name = "created_at")
-  private LocalDate createdAt;
+  private LocalDateTime createdAt;
 
   @LastModifiedBy
   @Column(name = "updated_by")
@@ -32,5 +32,5 @@ public abstract class Auditable<T> {
 
   @LastModifiedDate
   @Column(name = "updated_at")
-  private LocalDate updatedAt;
+  private LocalDateTime updatedAt;
 }

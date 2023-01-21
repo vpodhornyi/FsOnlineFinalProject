@@ -9,7 +9,7 @@ const Search = styled('div')(({theme}) => ({
   display: 'flex',
   justifyContent: 'center',
   borderRadius: 20,
-  border: '1px solid #DDDFE2',
+  border: '1px solid rgb(239, 243, 244)',
   // backgroundColor: alpha(theme.palette.common.white, 0.15),
   '&:hover': {
     // backgroundColor: alpha(theme.palette.common.white, 0.25),

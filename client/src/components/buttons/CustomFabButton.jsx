@@ -4,38 +4,38 @@ import Fab from '@mui/material/Fab';
 import {Typography} from "@mui/material";
 import PropTypes from "prop-types";
 
-const def = theme =>  ({
+const CustomFabButton = ({onClick, className, name, disabled}) => {
+  return (
+    <FabWrapper
+      onClick={onClick}
+      disabled={disabled}
+      className={className}
+      variant="extended">
+      <Typography className='CustomFabButtonName' variant='body1'>{name}</Typography>
+    </FabWrapper>
+  );
+};
+
+const styles = ({theme}) => ({
   textTransform: 'none',
-  color: '#000000',
   boxShadow: 'none',
-  backgroundColor: theme.palette.primary.main,
-  '&:hover': {
-    backgroundColor: '#DBE7F0',
-  },
+
   '&:active': {
     boxShadow: 'none',
   },
+
   '& .MuiTouchRipple-root': {
     display: 'none'
   },
 });
 
-const CustomFabButton = ({customStyle, name, iconName, fontWeight = 'fontWeightMedium'}) => {
-
-  const FabWrapper = styled(Fab)(({theme}) => ({...def(theme), ...customStyle}));
-
-  return (
-    <FabWrapper variant="extended">
-      <Typography variant='body1'>{name}</Typography>
-    </FabWrapper>
-  );
-};
+const FabWrapper = styled(Fab)(styles);
 
 CustomFabButton.propTypes = {
-  customStyle: PropTypes.any,
+  onClick: PropTypes.func,
+  disabled: PropTypes.bool,
   name: PropTypes.string,
-  iconName: PropTypes.string,
-  fontWeight: PropTypes.string,
+  className: PropTypes.string,
 }
 
 export default CustomFabButton;

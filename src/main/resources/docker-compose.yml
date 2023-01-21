@@ -1,0 +1,27 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:14.5
+    container_name: postgres_14_5
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DATABASE=twitter
+    ports:
+      - 5432:5432
+    volumes:
+      - postgresqldata14:/var/lib/postgresql/data
+  rabbitmq:
+    image: pcloud/rabbitmq-stomp:latest
+    container_name: 'rabbitmq'
+    ports:
+      - 5672:5672
+      - 15672:15672
+      - 61613:61613
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq/mnesia
+volumes:
+  postgresqldata14:
+  rabbitmq-data:
+
