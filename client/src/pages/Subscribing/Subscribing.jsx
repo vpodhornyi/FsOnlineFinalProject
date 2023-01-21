@@ -2,13 +2,13 @@ import React, {useEffect, useState} from 'react';
 import Box from "@mui/material/Box";
 import {Link, useLocation, useParams} from "react-router-dom";
 import {styled} from "@mui/system";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import ProfilePreview from "../../components/ProfilePreview/ProfilePreview";
 import noFollowers from "../../assets/img/no_followers.png"
-import {Typography} from "@mui/material";
+import {CircularProgress, Typography} from "@mui/material";
 import {getUsers} from "../../services/userApi";
-import {getAuthUser} from "../../redux/auth/action";
 import {getPersonalData} from "../../redux/auth/selector";
+import Container from "@mui/material/Container";
 
 const Subscribing = () => {
     const {username} = useParams();
@@ -16,8 +16,8 @@ const Subscribing = () => {
 
     const authUser = useSelector(getPersonalData);
 
-    const [userFollowers, setUserFollowers] = useState([]);
-    const [userFollowings, setUserFollowings] = useState([]);
+    const [userFollowers, setUserFollowers] = useState(null);
+    const [userFollowings, setUserFollowings] = useState(null);
 
     useEffect( () => {
         getUsers().then(users => {
@@ -44,6 +44,12 @@ const Subscribing = () => {
         }
     }))
 
+    if (userFollowers === null || userFollowings === null) {
+        return <Container sx={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
+            <CircularProgress disableShrink />
+        </Container>
+    }
+
     return (
         <Box sx={{width: "100%", marginTop: "25px"}}>
             <Box sx={{borderBottom: 1, borderColor: 'divider', display: "flex", justifyContent: "space-around"}}>
@@ -57,7 +63,6 @@ const Subscribing = () => {
                             Followings
                         </StyledLink>
             </Box>
-
 
             {
                 path.includes("followers") &&
@@ -79,7 +84,6 @@ const Subscribing = () => {
                                 <Typography sx={{margin: "15px 0 10px 0", fontWeight: "bold"}} variant={"h4"}>Looking for followers?</Typography>
                                 <Typography variant={"subtitle2"}>When someone follows this account, they’ll show up here. Tweeting and interacting with others helps boost followers.</Typography>
                             </Box>
-
                         }
                     </>
 
