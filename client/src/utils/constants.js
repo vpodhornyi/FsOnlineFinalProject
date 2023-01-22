@@ -27,7 +27,7 @@ export const PATH = {
     COMPOSE: '/messages/compose',
     COMPOSE_GROUP: '/messages/compose/group',
   },
-  BOOKMARKS: 'i/bookmarks',
+  BOOKMARKS: '/i/bookmarks',
   LISTS: `/:user_tag/lists`,
   lists: userTag =>  `/${userTag}/lists`,
   USER_PROFILE: '/:user_tag',

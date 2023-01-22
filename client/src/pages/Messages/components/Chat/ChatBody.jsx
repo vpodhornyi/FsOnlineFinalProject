@@ -228,7 +228,7 @@ const ChatBody = ({chatId}) => {
         </Box>}
       </Box>
     </Box>
-    <Box sx={{position: 'relative'}}>
+    <Box sx={{position: 'relative', zIndex: 1000,}}>
       <Box onClick={onBottom}>
         <ScrollDownButton
           pageNumberDown={pageNumberDown}

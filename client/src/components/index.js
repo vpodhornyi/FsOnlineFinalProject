@@ -1,6 +1,7 @@
 import Header from "./Header";
 import Main from "./Main";
 import NavBar from "./NavBar/NavBar";
+import MobileNavBar from "./NavBar/MobileNavBar";
 import DialogWindow from "./DialogWindow";
 import RootContainer from "./RootContainer";
 import MainContainer from "./MainContainer";
@@ -23,11 +24,13 @@ import {TweetForm} from "./tweetComponents/TweetForm";
 import Tweet from "./tweetComponents/Tweet";
 import DeleteTweet from "./tweetComponents/DeleteTweet";
 import PrimaryHeader from './PrimaryHeader';
+import MobileDrawer from './Driwer/Drawer';
 
 export {
   Header,
   Main,
   NavBar,
+  MobileNavBar,
   DialogWindow,
   RootContainer,
   MainContainer,
@@ -55,4 +58,5 @@ export {
   Tweet,
   DeleteTweet,
   PrimaryHeader,
+  MobileDrawer,
 }

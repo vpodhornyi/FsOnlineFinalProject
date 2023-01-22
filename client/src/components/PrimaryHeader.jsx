@@ -1,25 +1,35 @@
-import React from "react";
+import React, {useState} from "react";
 import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {styled} from "@mui/material/styles";
-import {Avatar, Box} from "@mui/material";
+import {Avatar, Box, Drawer} from "@mui/material";
 import PropTypes from "prop-types";
 
-import {StickyHeader, CustomIconButton} from "../components";
+import {StickyHeader, CustomIconButton, MobileDrawer} from "../components";
 
 const PrimaryHeader = ({isBack = false, pageElement: PageElement}) => {
+  const [open, setOpen] = useState(false);
   const {authUser} = useSelector(state => state.user);
   const navigate = useNavigate();
-  const handleClick = () => {
+  const toggleDrawer = () => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+    setOpen(!open);
   }
 
   return (
     <StyledStickyHeader>
-      {authUser?.id && !isBack && <StyledAvatar onClick={handleClick} src={authUser.avatarImgUrl}/>}
+      {authUser?.id && !isBack && <StyledAvatar onClick={toggleDrawer()} src={authUser.avatarImgUrl}/>}
       {isBack && <Box sx={{mr: 3}} onClick={() => navigate(-1)}>
         <CustomIconButton name='ArrowBackOutlined' title='Back'/>
       </Box>}
       <PageElement user={authUser}/>
+      <Drawer anchor='left'
+              open={open}
+              onClose={toggleDrawer()}>
+        <MobileDrawer toggleDrawer={toggleDrawer}/>
+      </Drawer>
     </StyledStickyHeader>
   );
 }

@@ -50,7 +50,6 @@ const ChatRoute = ({chat, toggleModal}) => {
             <Box sx={{display: 'flex'}}>
               {authUser?.id !== chat?.lastMessage?.user.id && chat?.lastMessage?.user.name &&
                 <Typography variant='body2' sx={{mr: 1}}>{chat?.lastMessage?.user.name}:</Typography>}
-              {/*<Box><Typography>You reacted with {':-)'}:</Typography></Box>*/}
               <Typography variant='body2'>{getText(chat?.lastMessage?.text)}</Typography>
             </Box>
           </Box>
@@ -95,11 +94,16 @@ const BoxWrapper = styled(Box)(({theme}) => ({
     },
 
     '& .MoreIcon': {
-      opacity: 0,
+      opacity: 1,
+
       position: 'absolute',
       top: '5px',
       right: '5px',
-      zIndex: 1000,
+      zIndex: 998,
+
+      [theme.breakpoints.up('xs')]: {
+        opacity: 0,
+      }
     },
 
     '&:hover  .MoreIcon': {

@@ -5,7 +5,7 @@ import {useResizeDetector} from 'react-resize-detector';
 
 import {
   Preloader, RootContainer, LoginPanel,
-  Header, NavBar, Main, MainContainer
+  Header, NavBar, MobileNavBar, Main, MainContainer
 } from "./components";
 import {menu} from './utils/menu';
 import {BackgroundContext} from "./utils/context";
@@ -14,7 +14,7 @@ import ModalRoutes from './routes/ModalRoutes';
 import {getChatsData} from '@redux/chat/selector';
 
 const App = () => {
-  const { width, ref } = useResizeDetector();
+  const {width, ref} = useResizeDetector();
   const {authorized} = useSelector(state => state.auth);
   const {authUser, preloader} = useSelector(state => state.user);
   const {isChatSelected, chatId} = useSelector(getChatsData);
@@ -42,6 +42,11 @@ const App = () => {
             </MainContainer>
           </Main>
           {!authorized && <LoginPanel/>}
+          <MobileNavBar
+            user={authUser}
+            isChatSelected={isChatSelected}
+            countUnreadMessages={authUser.countUnreadMessages}
+            chatId={chatId}/>
           <ModalRoutes authorized={authorized}/>
         </RootContainer>
       </BackgroundContext.Provider>

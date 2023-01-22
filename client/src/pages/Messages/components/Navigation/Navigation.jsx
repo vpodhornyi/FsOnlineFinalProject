@@ -13,6 +13,7 @@ import {ModalWindow} from "../../../../components";
 import {useModal} from '../../../../hooks/useModal';
 import InViewElement from "../InViewElement";
 import MessagesHeader from "../../Header";
+import {styled} from "@mui/material/styles";
 
 const Navigation = () => {
   const {modal, toggleModal} = useModal();
@@ -66,8 +67,18 @@ const Navigation = () => {
   return <>
     <PrimaryHeader pageElement={MessagesHeader}/>
     {element}
+    <BoxWrapper/>
   </>
 }
+
+const BoxWrapper = styled(Box)(({theme}) => ({
+  width: '100%',
+  padding: '35px 0',
+
+  [theme.breakpoints.up('xs')]: {
+    display: 'none',
+  },
+}));
 
 Navigation.propTypes = {
   user: PropTypes.object,

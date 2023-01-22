@@ -36,7 +36,7 @@ export const getAuthUser = () => async (dispatch) => {
 export const authUserSocketSubscribe = () => async (dispatch, getState) => {
   try {
     const {user: {authUser}} = getState();
-    authUser && api.client.subscribe(`/queue/user.${authUser.id}`, async (data) => {
+    authUser?.id && api.client.subscribe(`/queue/user.${authUser.id}`, async (data) => {
       const {body} = JSON.parse(data.body);
       // console.log('stomp body - ', body);
       switch (body?.type) {

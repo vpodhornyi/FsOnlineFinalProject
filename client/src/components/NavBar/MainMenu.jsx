@@ -9,7 +9,7 @@ const MainMenu = ({user, menu}) => {
   const location = useLocation();
 
   return (
-    <MenuNav>
+    <MenuNav className='NavigationMenu'>
       {menu?.map(({path, text, iconName, iconActive, isBadge, badgeContent, modalPage}) => (
         <NavLink
           key={path}
@@ -35,7 +35,6 @@ const MainMenu = ({user, menu}) => {
 
 const MenuNav = styled('nav')(({theme}) => ({
   display: 'flex',
-  flexDirection: 'row',
 
   [theme.breakpoints.up('xs')]: {
     flexDirection: 'column',
