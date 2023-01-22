@@ -14,6 +14,7 @@ public class TweetRequest {
   private Long id;
   private TweetType tweetType;
   private ArrayList<String> images;
+  private Long parentTweetId;
   private String body;
   private User user;
 }

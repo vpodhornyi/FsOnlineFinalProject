@@ -11,17 +11,16 @@ import {
 } from "../../redux/tweet/selector";
 import Loading from "../../components/Loader/Loading";
 import PropTypes from "prop-types";
-import { getPersonalData } from "../../redux/user/selector";
 
 const Tweets = ({ bookmarksValue = false }) => {
   const dispatch = useDispatch();
   const bookmarksArr = useSelector(getBookmarksState);
   const tweets = useSelector(getTweetsState);
-  const mapArr = bookmarksValue
-    ? tweets.filter((tweet) => {
-        return bookmarksArr.includes(tweet.id);
-      })
-    : tweets;
+  const mapArr = tweets.filter((tweet) => {
+    return bookmarksValue
+      ? bookmarksArr.includes(tweet.id)
+      : tweet.tweetType !== "REPLY";
+  });
   const loadingTweets = useSelector(loadingTweetsState);
   useEffect(() => {
     dispatch(getTweets());
@@ -31,15 +30,13 @@ const Tweets = ({ bookmarksValue = false }) => {
   return (
     <BoxWrapper>
       {loadingTweets && <Loading />}
-      {mapArr
-        ?.filter((tweet) => tweet.tweetType === "TWEET")
-        ?.map((e, i) => {
-          return (
-            <div key={e.id}>
-              <Tweet tweetInfo={e} />
-            </div>
-          );
-        })}
+      {mapArr?.map((e, i) => {
+        return (
+          <div key={e.id}>
+            <Tweet tweetInfo={e} />
+          </div>
+        );
+      })}
     </BoxWrapper>
   );
 };

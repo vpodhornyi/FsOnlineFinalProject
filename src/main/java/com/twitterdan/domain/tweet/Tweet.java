@@ -47,6 +47,7 @@ public class Tweet extends BaseEntity {
   @OnDelete(action = OnDeleteAction.CASCADE)
   private Set<TweetAction> actions = new HashSet<>();
 
+  private Long parentTweetId;
   @Override
   public String toString() {
     return "Tweet{" + "tweetType=" + tweetType + ", body='" + body + '\'' + ", user=" + user + ", images=" + images

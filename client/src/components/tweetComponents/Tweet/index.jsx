@@ -29,12 +29,13 @@ import ImageListContainer from "../../imageList/ImageListContainer";
 import {
   changeActionsTweet,
   changeBookmark,
+  handlerReplies,
 } from "../../../redux/tweet/action";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PATH } from "../../../utils/constants";
 import { getPersonalData } from "../../../redux/user/selector";
 
-const Tweet = ({ tweetInfo }) => {
+const Tweet = ({ tweetInfo,styles }) => {
   const dispatch = useDispatch();
   const { id, body, images, actions } = tweetInfo;
   const { name, avatarImgUrl, userTag, created_at } = tweetInfo.user;
@@ -43,7 +44,13 @@ const Tweet = ({ tweetInfo }) => {
   const location = useLocation();
   return (
     <>
-      <TweetContainer className='TweetContainer'>
+      <TweetContainer
+          sx={styles}
+        onClick={() => {
+
+          navigate(PATH.HOME.tweetPage(id));
+        }}
+      >
         <Content>
           <Box sx={{ display: "flex" }}>
             <AvatarWrapper>
@@ -86,11 +93,12 @@ const Tweet = ({ tweetInfo }) => {
           <IconBlue>
             <Tooltip title={"Delete"}>
               <MoreIcon
-                onClick={() =>
+                onClick={(e) => {
+                  e.stopPropagation();
                   navigate(PATH.TWEET.ROOT + `/${id}`, {
                     state: { background: location },
-                  })
-                }
+                  });
+                }}
                 sx={{ padding: 1 }}
               />
             </Tooltip>{" "}
@@ -130,7 +138,8 @@ const Tweet = ({ tweetInfo }) => {
                 p: 0,
               },
             };
-            const chooseIconHandler = () => {
+            const chooseIconHandler = (e) => {
+              e.stopPropagation();
               switch (itemData.tooltip) {
                 case "Bookmark":
                   dispatch(
@@ -189,6 +198,6 @@ const Tweet = ({ tweetInfo }) => {
 };
 Tweet.propTypes = {
   tweetInfo: PropTypes.object,
-  setBookmarks: PropTypes.any,
+  styles: PropTypes.any,
 };
 export default Tweet;

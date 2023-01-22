@@ -5,6 +5,7 @@ const INITIAL_STATE = {
   loading: false,
   tweets: [],
   bookmarks: JSON.parse(localStorage.getItem("bookmarks")) || [],
+  replies: [],
 };
 
 export default (state = INITIAL_STATE, {payload, type}) => {
@@ -41,6 +42,11 @@ export default (state = INITIAL_STATE, {payload, type}) => {
       return {
         ...state,
         bookmarks: payload,
+      };
+    case String(ACTIONS.handlerReplies.success):
+      return {
+        ...state,
+        replies: payload,
       };
     case String(ACTIONS.changeBookmark):
       return {

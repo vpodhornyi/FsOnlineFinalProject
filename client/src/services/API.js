@@ -64,6 +64,7 @@ export const URLS = {
     CREATE_TWEET: "/tweets/create",
     CHANGE_ACTIONS: "/tweets/change_actions",
     BOOKMARKS: "/tweets/bookmarks",
+    getReplies: (id) => `/tweets/replies/${id}`,
     USER_TWEETS: "/tweets/user-tweets/",
     USER_LIKES: "/tweets/user-likes/",
     USER_REPLIES: "/tweets/replies/"

@@ -16,7 +16,9 @@ public class TweetResponse {
   private TweetType tweetType;
   private Set<AttachmentResponse> images;
   private Set<TweetActionResponse> actions;
+  private Long parentTweetId;
   private String body;
+  private Integer replyCounter;
   private User user;
 
 }

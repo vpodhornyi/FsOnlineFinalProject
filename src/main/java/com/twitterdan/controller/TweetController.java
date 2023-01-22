@@ -3,10 +3,10 @@ package com.twitterdan.controller;
 import com.twitterdan.dao.UserDao;
 import com.twitterdan.domain.tweet.Tweet;
 import com.twitterdan.domain.user.User;
-import com.twitterdan.dto.tweet.TweetRequest;
-import com.twitterdan.dto.tweet.TweetResponse;
 import com.twitterdan.dto.action.TweetActionRequest;
 import com.twitterdan.dto.action.TweetActionResponseAllData;
+import com.twitterdan.dto.tweet.TweetRequest;
+import com.twitterdan.dto.tweet.TweetResponse;
 import com.twitterdan.facade.tweet.TweetRequestMapper;
 import com.twitterdan.facade.tweet.TweetResponseMapper;
 import com.twitterdan.service.TweetService;
@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,7 +39,18 @@ public class TweetController {
     this.tweetRequestMapper = tweetRequestMapper;
     this.tweetResponseMapper = tweetResponseMapper;
   }
-
+  @GetMapping("/user-tweets/")
+  public List<TweetResponse> getTweetsByUserId(  Principal principal) {
+    User userCurrent  = userDao.findByUserTag(principal.getName());
+    List<Tweet> tweets = tweetService.getTweetsByUserId(userCurrent.getId());
+    return tweets.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
+  }
+  @GetMapping("/user-likes/")
+  public List<TweetResponse> findCurrentUserLikeTweets(  Principal principal) {
+    User userCurrent  = userDao.findByUserTag(principal.getName());
+    List<Tweet> tweets = tweetService.findCurrentUserLikeTweets(userCurrent.getId());
+    return tweets.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
+  }
 
   @GetMapping
   public List<TweetResponse> getAll() {
@@ -72,13 +82,23 @@ public class TweetController {
   }
 
   @GetMapping("/bookmarks")
-  public List<Long> getBookmarks() {
-    return tweetService.getBookmarks();
+  public List<Long> getBookmarks(Principal principal) {
+    User user = userDao.findByUserTag(principal.getName());
+    return tweetService.getBookmarks(user);
+
+
+  }
+
+  @GetMapping("/replies/{id}")
+  public List<TweetResponse> getReplies(@PathVariable("id") String tweetId) {
+    List<Tweet> replies = tweetService.getReplies(Long.parseLong(tweetId));
+    return replies.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
+
+
   }
 
   @GetMapping("/{id}")
-  public TweetResponse getById(@PathVariable("id") String userId, Principal principal) throws Exception {
-    System.out.println(principal.getName());
+  public TweetResponse getById(@PathVariable("id") String userId) throws Exception {
     Tweet tweet = tweetService.findById(Long.parseLong(userId));
     if (tweet.equals(new Tweet())) {
       throw new NullPointerException("There is no tweet with this id ");
@@ -113,8 +133,9 @@ public class TweetController {
 
   @PostMapping("/change_actions")
   public TweetActionResponseAllData changeAction(@RequestBody TweetActionRequest tweetActionRequest,
-                                                 @AuthenticationPrincipal User user) {
-    return tweetService.changeAction(tweetActionRequest);
+                                                 Principal principal) {
+    User user = userDao.findByUserTag(principal.getName());
+    return tweetService.changeAction(tweetActionRequest, user);
   }
 
   @ExceptionHandler({Exception.class, MethodArgumentNotValidException.class})

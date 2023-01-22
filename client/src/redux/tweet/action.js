@@ -10,6 +10,7 @@ const actions = createActions(
       "GET_TWEETS",
       "CHANGE_ACTIONS_TWEET",
       "HANDLER_BOOKMARK",
+      "HANDLER_REPLIES",
     ],
   },
   {
@@ -77,10 +78,22 @@ export const handlerBookmark = () => async (dispatch) => {
     dispatch(ACTIONS.handlerBookmark.request());
     const bookmarksId = await api.get(URLS.TWEET.BOOKMARKS);
     dispatch(ACTIONS.handlerBookmark.success(bookmarksId));
-
   } catch (err) {
+    console.log(err);
     //TODO show error
     dispatch(ACTIONS.handlerBookmark.fail());
     console.log("getBookmarks error - ", err);
+  }
+};
+export const handlerReplies = (id) => async (dispatch) => {
+  try {
+    dispatch(ACTIONS.handlerReplies.request());
+    const handlerReplies = await api.get(URLS.TWEET.getReplies(id));
+    dispatch(ACTIONS.handlerReplies.success(handlerReplies));
+  } catch (err) {
+    console.log(err);
+    //TODO show error
+    dispatch(ACTIONS.handlerReplies.fail());
+    console.log("getReplys error - ", err);
   }
 };
