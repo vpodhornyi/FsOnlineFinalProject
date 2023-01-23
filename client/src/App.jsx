@@ -42,11 +42,13 @@ const App = () => {
             </MainContainer>
           </Main>
           {!authorized && <LoginPanel/>}
-          <MobileNavBar
-            user={authUser}
-            isChatSelected={isChatSelected}
-            countUnreadMessages={authUser.countUnreadMessages}
-            chatId={chatId}/>
+          {authorized &&
+            <MobileNavBar
+              user={authUser}
+              isChatSelected={isChatSelected}
+              countUnreadMessages={authUser.countUnreadMessages}
+              chatId={chatId}/>
+          }
           <ModalRoutes authorized={authorized}/>
         </RootContainer>
       </BackgroundContext.Provider>

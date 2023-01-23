@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {styled} from "@mui/material/styles";
-import {ListItemIcon, ListItemText, Typography, Box, MenuItem, Menu} from "@mui/material";
+import {ListItemIcon, ListItemText, Typography, Box, MenuItem, Menu, Drawer} from "@mui/material";
 import PropTypes from "prop-types";
 
 import CustomIconButton from "@components/buttons/CustomIconButton";
@@ -102,7 +102,17 @@ const MenuWrapper = styled(Menu)(({theme}) => ({
     }
   },
 }));
+const MobileBoxWrapper = styled(Box)(({theme}) => ({
 
+
+  '& .MuiButtonBase-root': {
+    borderBottom: '1px solid rgb(239, 243, 244)',
+
+    '& .MuiTouchRipple-root': {
+      display: 'none'
+    },
+  }
+}));
 More.propTypes = {
   toggleModal: PropTypes.func,
   chat: PropTypes.object,

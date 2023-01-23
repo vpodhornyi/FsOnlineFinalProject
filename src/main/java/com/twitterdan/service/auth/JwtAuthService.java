@@ -112,6 +112,7 @@ public class JwtAuthService implements AuthService {
   }
 
   @Override
+  @Transactional
   public void deleteAllByLogin(String login) {
     refreshJwtStoreDao.deleteAllByLogin(login);
   }

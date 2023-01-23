@@ -38,7 +38,6 @@ const stompClient = (onConnect) => {
     },
     reconnectDelay: 5000,
     onConnect,
-
   });
   api.client = client;
 

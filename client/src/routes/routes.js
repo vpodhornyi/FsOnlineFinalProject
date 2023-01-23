@@ -9,9 +9,9 @@ import {PATH} from "../utils/constants";
 import {Display, DeleteTweet} from "../components";
 import Reply from "../components/tweetComponents/Reply";
 import ModalImg from "../components/tweetComponents/ModalImg";
-import {defaultTheme} from "../utils/defaultTheme";
+import {themeStyles} from "../utils/defaultTheme";
 
-const BREAKPOINTS_VALUES = defaultTheme.breakpoints.values;
+const BREAKPOINTS_VALUES = themeStyles.breakpoints.values;
 const lazyLoading = (path) => {
   const LazyElement = lazy(() => import(path));
   return (<LazyElement/>);
