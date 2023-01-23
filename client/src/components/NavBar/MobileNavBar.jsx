@@ -7,7 +7,8 @@ import MainMenu from "./MainMenu";
 import {mobileMenu} from '@utils/menu';
 
 const MobileNavBar = ({user, isChatSelected, countUnreadMessages, chatId}) => {
-  const menu = mobileMenu(user.userTag, false, isChatSelected, countUnreadMessages, chatId);
+  const isDrawer = false;
+  const menu = mobileMenu(user.userTag, isDrawer, isChatSelected, countUnreadMessages, chatId);
 
   return (
     <BoxWrapper>

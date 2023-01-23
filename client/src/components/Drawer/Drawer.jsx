@@ -13,7 +13,8 @@ import {getChatsData} from '@redux/chat/selector';
 const Drawer = ({toggleDrawer}) => {
   const {authUser} = useSelector(state => state.user);
   const {isChatSelected, countUnreadMessages, chatId} = useSelector(getChatsData);
-  const menu = mobileMenu(authUser.userTag, true, isChatSelected, countUnreadMessages, chatId);
+  const isDrawer = true;
+  const menu = mobileMenu(authUser.userTag, isDrawer, isChatSelected, countUnreadMessages, chatId);
 
   return (
     <BoxWrapper>

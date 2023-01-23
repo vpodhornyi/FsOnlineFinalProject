@@ -22,7 +22,6 @@ const More = ({toggleModal, chat}) => {
     handleClose();
   }
 
-
   return (
     <Box onClick={e => e.stopPropagation()}>
       <Box
@@ -50,36 +49,39 @@ const More = ({toggleModal, chat}) => {
             horizontal: 'right',
           }}
         >
-          <MenuItem>
-            <ListItemIcon>
-              <IconByName iconName='PushPinOutlined'/>
-            </ListItemIcon>
-            <ListItemText>
-              <Typography variant='body1'>Pin conversation</Typography>
-            </ListItemText>
-          </MenuItem>
-          <MenuItem>
-            <ListItemIcon>
-              <IconByName iconName='NotificationsOffOutlined'/>
-            </ListItemIcon>
-            <ListItemText>
-              <Typography variant='body1'>Snooze conversation</Typography>
-            </ListItemText>
-          </MenuItem>
-          <MenuItem onClick={openLeaveChatConfirm}>
-            <ListItemIcon>
-              <IconByName iconStyle={{color: 'red'}} iconName='DeleteOutlined'/>
-            </ListItemIcon>
-            <ListItemText>
-              <Typography color='red' variant='body1'>Delete conversation</Typography>
-            </ListItemText>
-          </MenuItem>
+          <MenuList openLeaveChatConfirm={openLeaveChatConfirm}/>
         </MenuWrapper>
       </Box>
     </Box>
   );
 }
 
+const MenuList = ({openLeaveChatConfirm}) => (<>
+  <MenuItem>
+    <ListItemIcon>
+      <IconByName iconName='PushPinOutlined'/>
+    </ListItemIcon>
+    <ListItemText>
+      <Typography variant='body1'>Pin conversation</Typography>
+    </ListItemText>
+  </MenuItem>
+  <MenuItem>
+    <ListItemIcon>
+      <IconByName iconName='NotificationsOffOutlined'/>
+    </ListItemIcon>
+    <ListItemText>
+      <Typography variant='body1'>Snooze conversation</Typography>
+    </ListItemText>
+  </MenuItem>
+  <MenuItem onClick={openLeaveChatConfirm}>
+    <ListItemIcon>
+      <IconByName iconStyle={{color: 'red'}} iconName='DeleteOutlined'/>
+    </ListItemIcon>
+    <ListItemText>
+      <Typography color='red' variant='body1'>Delete conversation</Typography>
+    </ListItemText>
+  </MenuItem>
+</>)
 
 const MenuWrapper = styled(Menu)(({theme}) => ({
   '& .MuiPaper-root': {
@@ -106,4 +108,7 @@ More.propTypes = {
   chat: PropTypes.object,
 }
 
+MenuList.propTypes = {
+  openLeaveChatConfirm: PropTypes.func,
+}
 export default More;

@@ -6,17 +6,12 @@ import {Avatar, Box, Drawer} from "@mui/material";
 import PropTypes from "prop-types";
 
 import {StickyHeader, CustomIconButton, MobileDrawer} from "../components";
+import {useDrawer} from '../hooks/useDrawer';
 
 const PrimaryHeader = ({isBack = false, pageElement: PageElement}) => {
-  const [open, setOpen] = useState(false);
+  const {drawer, toggleDrawer} = useDrawer();
   const {authUser} = useSelector(state => state.user);
   const navigate = useNavigate();
-  const toggleDrawer = () => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-      return;
-    }
-    setOpen(!open);
-  }
 
   return (
     <StyledStickyHeader>
@@ -26,7 +21,7 @@ const PrimaryHeader = ({isBack = false, pageElement: PageElement}) => {
       </Box>}
       <PageElement user={authUser}/>
       <Drawer anchor='left'
-              open={open}
+              open={drawer}
               onClose={toggleDrawer()}>
         <MobileDrawer toggleDrawer={toggleDrawer}/>
       </Drawer>

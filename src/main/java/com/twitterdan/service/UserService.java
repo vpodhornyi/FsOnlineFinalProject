@@ -82,7 +82,6 @@ public class UserService {
       user.get().setAvatarImgUrl(avatarImgUrl);
       userRepository.save(user.get());
     }
-
   }
 
   public User createNewUser(User user) {

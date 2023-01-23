@@ -24,7 +24,8 @@ import {TweetForm} from "./tweetComponents/TweetForm";
 import Tweet from "./tweetComponents/Tweet";
 import DeleteTweet from "./tweetComponents/DeleteTweet";
 import PrimaryHeader from './PrimaryHeader';
-import MobileDrawer from './Driwer/Drawer';
+import MobileDrawer from './Drawer/Drawer';
+import CustomDrawer from './CustomDrawer';
 
 export {
   Header,
@@ -59,4 +60,5 @@ export {
   DeleteTweet,
   PrimaryHeader,
   MobileDrawer,
+  CustomDrawer,
 }
