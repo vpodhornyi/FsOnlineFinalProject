@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.twitterdan.domain.BaseEntity;
 import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.tweet.Tweet;
+
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,7 +34,7 @@ public class User extends BaseEntity {
 
   @Column(nullable = false)
   private String password;
-  private LocalDate birthDate;
+  private String birthDate;
   private String bio;
   private String location;
   private String avatarImgUrl;
