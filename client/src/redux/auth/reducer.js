@@ -1,83 +1,86 @@
-import {getTokens} from "@utils";
-import {ACTIONS} from "./action";
+import { getTokens } from "@utils";
+import { ACTIONS } from "./action";
 
-const {accessToken} = getTokens();
-const init = {
+const { accessToken } = getTokens();
+
+const INIT_STATE = {
   authorized: Boolean(accessToken),
-  loginName: '',
+  loginName: "",
   preloader: false,
   loading: false,
   newUser: {
-    name: '',
-    email: '',
-    birthDate: '',
-  },
-}
-export default (state = JSON.parse(JSON.stringify(init)), {payload, type}) => {
+    name: "",
+    email: "",
+    password: "",
+    birthDate: ""
+  }
+};
+export default (state = INIT_STATE, { payload, type }) => {
   switch (type) {
     case String(ACTIONS.preloaderStart):
       return {
         ...state,
-        preloader: true,
-      }
+        preloader: true
+      };
     case String(ACTIONS.preloaderEnd):
       return {
         ...state,
-        preloader: false,
-      }
+        preloader: false
+      };
     case String(ACTIONS.setNewUserData):
       return {
         ...state,
         newUser: {
           name: payload.name,
           email: payload.email,
-          birthDate: payload.birthDate,
+          password: payload.password,
+          birthDate: payload.birthDate
         }
-      }
+      };
     case String(ACTIONS.clearNewUserData):
       return {
         ...state,
         newUser: {
-          name: '',
-          email: '',
-          birthDate: '',
+          name: "",
+          email: "",
+          password: "",
+          birthDate: ""
         }
-      }
+      };
     case String(ACTIONS.isAccountExist.request):
     case String(ACTIONS.authorize.request):
       return {
         ...state,
-        loading: true,
-      }
+        loading: true
+      };
     case String(ACTIONS.isAccountExist.success):
       return {
         ...state,
-        loginName: payload.login,
-      }
+        loginName: payload.login
+      };
     case String(ACTIONS.disableLoading):
       return {
         ...state,
-        loading: false,
-      }
+        loading: false
+      };
     case String(ACTIONS.authorize.success):
       return {
-        ...init,
+        ...INIT_STATE,
         authorized: true,
-        loading: false,
-      }
+        loading: false
+      };
     case String(ACTIONS.logout.success):
-    case String(ACTIONS.logout.fail):
       return {
-        ...init,
-        authorized: false,
-      }
+        ...INIT_STATE,
+        authorized: false
+      };
     case String(ACTIONS.isAccountExist.fail):
     case String(ACTIONS.authorize.fail):
       return {
         ...state,
-        authorized: false,
-      }
+        authorized: false
+      };
     default:
-      return state
+      return state;
   }
-}
+};
