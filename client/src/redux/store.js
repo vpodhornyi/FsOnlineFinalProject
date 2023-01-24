@@ -14,6 +14,7 @@ import dialogReducer from "./dialog/reducer";
 
 import chatReducer from "./chat/reducer";
 import messagesReducer from "./chat/message/reducer";
+import notificationsReducer from "./notification/reducer";
 
 const {applyMiddleware, combineReducers, createStore} = require("redux");
 
@@ -24,6 +25,7 @@ const reducer = combineReducers({
   auth: authReducer,
   user: userReducer,
   dialog: dialogReducer,
+  notification: notificationsReducer,
 })
 
 const stompClient = (onConnect) => {

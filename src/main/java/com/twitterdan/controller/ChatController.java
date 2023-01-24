@@ -1,6 +1,8 @@
 package com.twitterdan.controller;
 
 import com.twitterdan.domain.chat.*;
+import com.twitterdan.domain.notification.Notification;
+import com.twitterdan.domain.notification.NotificationType;
 import com.twitterdan.domain.user.User;
 import com.twitterdan.dto.chat.ChatUser;
 import com.twitterdan.dto.chat.request.*;
@@ -27,6 +29,7 @@ import com.twitterdan.service.CloudinaryService;
 import com.twitterdan.service.MessageService;
 import com.twitterdan.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -36,6 +39,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -65,6 +69,9 @@ public class ChatController {
   private final PageChatsResponseMapper pageChatsResponseMapper;
   private final CloudinaryService cloudinaryService;
 
+  @Value("${genNotificationsDest}")
+  private String genNotificationsDest;
+
   @GetMapping
   public ResponseEntity<PageChatResponse> getChats(@RequestParam int pageNumber, @RequestParam int pageSize, Principal principal) {
     User authUser = userService.findByUserTag(principal.getName());
@@ -83,6 +90,13 @@ public class ChatController {
       Chat chat = chatService.deleteUserFromGroupChat(chatId, authUser);
       LeaveChatResponse finalLeaveChatResponse = leaveChatResponseMapper.convertToDto(chat, authUser);
       chat.getUsers().forEach(u -> simpMessagingTemplate.convertAndSend(queue + u.getId(), ResponseEntity.ok(finalLeaveChatResponse)));
+
+
+      Notification notification = new Notification()
+              .setNotificationType(NotificationType.LEAVE_CHAT).setUserReceiver(authUser).setUserInitiator(authUser).setTweet(null).setRead(false);
+      simpMessagingTemplate.convertAndSend(genNotificationsDest + authUser.getId(), notification);
+
+
       return ResponseEntity.ok(finalLeaveChatResponse);
     }
 

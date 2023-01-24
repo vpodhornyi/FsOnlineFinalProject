@@ -6,6 +6,7 @@ import com.twitterdan.domain.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
@@ -14,6 +15,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@Accessors(chain=true)
 public class Notification extends BaseEntity {
 
   @Enumerated(EnumType.STRING)

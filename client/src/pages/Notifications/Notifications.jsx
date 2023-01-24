@@ -6,10 +6,12 @@ import notifSel from '@redux/notification/selector';
 
 const Notifications = () => {
 
-    const {notifications} = useSelector(notifSel.notifications);
+    const notifications = useSelector(notifSel.notifications);
 
     // notifications[0].avatarImgUrl = "https://static.dezeen.com/uploads/2021/06/elon-musk-architect_dezeen_1704_col_0.jpg";
     // notifications[0].userTag = "musk";
+
+    if (!notifications) return;
 
     const notificationElements = notifications.map((notification, ind)=> {
         switch (notification.Type) {

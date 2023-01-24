@@ -43,7 +43,8 @@ export default (state = notifications, {payload, type}) => {
         //         ...state,
         //     };
 
-
+        default:
+            return state;
     }
 
 }

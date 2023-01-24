@@ -3,7 +3,8 @@ import api, {URLS} from "../../services/API";
 import {ACTIONS as AUTH_ACTIONS} from '../auth/action';
 import {ACTIONS as CHAT_ACTIONS} from "../chat/action";
 import {ACTIONS as MESSAGE_ACTIONS} from "../chat/message/action";
-
+import {ACTIONS as NOTIFICATION_ACTIONS} from "../notification/action";
+import destinations from '../../subscriptions.js';
 
 const actions = createActions(
   {
@@ -36,6 +37,19 @@ export const getAuthUser = () => async (dispatch) => {
 export const authUserSocketSubscribe = () => async (dispatch, getState) => {
   try {
     const {user: {authUser}} = getState();
+
+
+    authUser?.id && api.client.subscribe(destinations.genNotificationsDest, (json) => {
+      console.log("notification arrived!");
+      if (json.body) {
+        const message = JSON.parse(json.body);
+        dispatch(NOTIFICATION_ACTIONS.setNotifications(message));
+      }
+    });
+
+
+
+
     authUser?.id && api.client.subscribe(`/queue/user.${authUser.id}`, async (data) => {
       const {body} = JSON.parse(data.body);
       console.log('stomp body - ', body);

@@ -4,5 +4,7 @@ public enum NotificationType {
   LIKE,
   QUOTE_TWEET,
   REPLY,
-  RETWEET
+  RETWEET,
+  LEAVE_CHAT,
+  LOGGED_IN
 }
