@@ -10,7 +10,7 @@ public class UserRequest {
   private String userTag;
   private String email;
   private String password;
-  private Date birthDate;
+  private String birthDate;
   private String bio;
   private String location;
   private String avatarImgUrl;

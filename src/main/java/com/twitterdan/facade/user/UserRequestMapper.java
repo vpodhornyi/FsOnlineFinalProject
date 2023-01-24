@@ -6,10 +6,17 @@ import com.twitterdan.dto.user.UserRequest;
 import com.twitterdan.facade.GeneralFacade;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.Optional;
+import java.util.Random;
+
 @Service
 public class UserRequestMapper extends GeneralFacade<User, UserRequest> {
 
   private final UserRepository userRepository;
+
   public UserRequestMapper(UserRepository userRepository) {
     super(User.class, UserRequest.class);
     this.userRepository = userRepository;
@@ -17,8 +24,18 @@ public class UserRequestMapper extends GeneralFacade<User, UserRequest> {
 
   @Override
   protected void decorateEntity(User entity, UserRequest dto) {
-    System.out.println(entity);
 
+    Random rand = new Random();
+    int randomNumber = rand.nextInt(99);
+
+    String userTagGenerate = dto.getName().toLowerCase() + dto.getBirthDate().replaceAll("[\\s\\-()]", "");
+    Optional<User> optionalUser = userRepository.findByUserTag(userTagGenerate);
+
+    if (optionalUser.isPresent()) {
+      userTagGenerate = userTagGenerate + randomNumber;
+    }
+
+    entity.setUserTag(userTagGenerate);
     /*
      User user = new User();
       Optional<User> findUserByEmail = userRepository.findByEmail(signUpRequest.getEmail());
