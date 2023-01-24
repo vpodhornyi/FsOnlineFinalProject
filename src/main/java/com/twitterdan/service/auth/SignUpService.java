@@ -19,7 +19,6 @@ public class SignUpService {
   private final BCryptPasswordEncoder passwordEncoder;
   private final UserRepository userRepository;
 
-  
 
   public String signup(SignUpRequest signUpRequest) {
     User user = new User();

@@ -31,9 +31,9 @@ public class JwtAuthService implements AuthService {
   @Override
   public AccountCheckResponse account(@NonNull AccountCheckRequest req) {
     try {
-      userService.findByUserTag(req.getLogin());
+      userService.findByUserTagTrowException(req.getLogin());
     } catch (Exception e) {
-      userService.findByUserEmail(req.getLogin());
+      userService.findByUserEmailTrowException(req.getLogin());
     }
 
     return new AccountCheckResponse(req.getLogin());
@@ -44,9 +44,9 @@ public class JwtAuthService implements AuthService {
     User user;
 
     try {
-      user = userService.findByUserTag(req.getLogin());
+      user = userService.findByUserTagTrowException(req.getLogin());
     } catch (Exception e) {
-      user = userService.findByUserEmail(req.getLogin());
+      user = userService.findByUserEmailTrowException(req.getLogin());
     }
 
     if (user.getPassword().equals(req.getPassword())) {
@@ -78,7 +78,7 @@ public class JwtAuthService implements AuthService {
         String saveRefreshToken = refreshJwtStoreOptional.get().getRefreshToken();
 
         if (saveRefreshToken != null && saveRefreshToken.equals(refreshToken)) {
-          final User user = userService.findByUserTag(login);
+          final User user = userService.findByUserTagTrowException(login);
           final String accessToken = jwtProvider.generateAccessToken(user);
 
           return new JwtResponse(accessToken, null);
@@ -99,7 +99,7 @@ public class JwtAuthService implements AuthService {
         String saveRefreshToken = refreshJwtStoreOptional.get().getRefreshToken();
 
         if (saveRefreshToken != null && saveRefreshToken.equals(refreshToken)) {
-          User user = userService.findByUserTag(login);
+          User user = userService.findByUserTagTrowException(login);
           return getJwtResponse(user);
         }
       }
