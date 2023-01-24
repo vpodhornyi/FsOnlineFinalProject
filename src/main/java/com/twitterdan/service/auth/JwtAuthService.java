@@ -14,6 +14,7 @@ import io.jsonwebtoken.Claims;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -24,6 +25,7 @@ public class JwtAuthService implements AuthService {
   public final UserService userService;
   private final RefreshJwtStoreDao refreshJwtStoreDao;
   private final JwtProvider jwtProvider;
+  private final BCryptPasswordEncoder passwordEncoder;
 
   @Override
   public AccountCheckResponse account(@NonNull AccountCheckRequest req) {
@@ -38,7 +40,7 @@ public class JwtAuthService implements AuthService {
 
   @Override
   public JwtResponse login(@NonNull JwtRequest req) {
-    return login(req.getLogin(), req.getLogin());
+    return login(req.getLogin(), req.getPassword());
   }
 
   public JwtResponse login(String login, String password) {
@@ -50,14 +52,14 @@ public class JwtAuthService implements AuthService {
       user = userService.findByUserEmailTrowException(password);
     }
 
-    if (user.getPassword().equals(password)) {
+    if (passwordEncoder.matches(password, user.getPassword())) {
       return getJwtResponse(user);
     }
 
     throw new WrongPasswordException();
   }
 
-  private JwtResponse getJwtResponse(User user) {
+  public JwtResponse getJwtResponse(User user) {
     final String newAccessToken = jwtProvider.generateAccessToken(user);
     final String newRefreshToken = jwtProvider.generateRefreshToken(user);
     RefreshJwtStore refreshJwtStore = new RefreshJwtStore(user.getUserTag(), newRefreshToken);

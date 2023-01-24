@@ -4,11 +4,9 @@ import com.twitterdan.dao.UserRepository;
 import com.twitterdan.domain.user.User;
 import com.twitterdan.dto.user.UserRequest;
 import com.twitterdan.facade.GeneralFacade;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Optional;
 import java.util.Random;
 
@@ -16,10 +14,12 @@ import java.util.Random;
 public class UserRequestMapper extends GeneralFacade<User, UserRequest> {
 
   private final UserRepository userRepository;
+  private final BCryptPasswordEncoder passwordEncoder;
 
-  public UserRequestMapper(UserRepository userRepository) {
+  public UserRequestMapper(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
     super(User.class, UserRequest.class);
     this.userRepository = userRepository;
+    this.passwordEncoder = passwordEncoder;
   }
 
   @Override
@@ -36,7 +36,7 @@ public class UserRequestMapper extends GeneralFacade<User, UserRequest> {
     }
 
     entity.setUserTag(userTagGenerate);
-
+    entity.setPassword(passwordEncoder.encode(dto.getPassword()));
     /*
      User user = new User();
       Optional<User> findUserByEmail = userRepository.findByEmail(signUpRequest.getEmail());

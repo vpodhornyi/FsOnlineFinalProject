@@ -9,6 +9,7 @@ import com.twitterdan.dto.auth.RefreshJwtRequest;
 import com.twitterdan.domain.user.User;
 import com.twitterdan.dto.user.UserRequest;
 import com.twitterdan.dto.user.UserResponse;
+import com.twitterdan.facade.user.NewUserResponseMapper;
 import com.twitterdan.facade.user.UserRequestMapper;
 import com.twitterdan.facade.user.UserResponseMapper;
 import com.twitterdan.service.UserService;
@@ -40,7 +41,7 @@ public class AuthController {
   private final JwtAuthService jwtAuthService;
   private final SignUpService signUpService;
   private final UserRequestMapper userRequestMapper;
-  private final UserResponseMapper userResponseMapper;
+  private final NewUserResponseMapper newUserResponseMapper;
   private final UserService userService;
 
   @Autowired
@@ -88,7 +89,7 @@ public class AuthController {
   @PostMapping("/signup")
   public ResponseEntity<UserResponse> signup(@RequestBody UserRequest userRequest) {
     User user = userService.createNewUser(userRequestMapper.convertToEntity(userRequest));
-    return ResponseEntity.ok(userResponseMapper.convertToDto(user));
+    return ResponseEntity.ok(newUserResponseMapper.convertToDto(user));
   }
 }
 
