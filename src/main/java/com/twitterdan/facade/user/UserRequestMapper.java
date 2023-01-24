@@ -28,7 +28,7 @@ public class UserRequestMapper extends GeneralFacade<User, UserRequest> {
     Random rand = new Random();
     int randomNumber = rand.nextInt(99);
 
-    String userTagGenerate = dto.getName().toLowerCase() + dto.getBirthDate().replaceAll("[\\s\\-()]", "");
+    String userTagGenerate = dto.getName().toLowerCase() + dto.getBirthDate().getYear();
     Optional<User> optionalUser = userRepository.findByUserTag(userTagGenerate);
 
     if (optionalUser.isPresent()) {
@@ -36,6 +36,7 @@ public class UserRequestMapper extends GeneralFacade<User, UserRequest> {
     }
 
     entity.setUserTag(userTagGenerate);
+
     /*
      User user = new User();
       Optional<User> findUserByEmail = userRepository.findByEmail(signUpRequest.getEmail());

@@ -1,4 +1,4 @@
-package com.twitterdan.domain.auth;
+package com.twitterdan.dto.auth;
 
 import com.twitterdan.domain.BaseEntity;
 import lombok.Getter;

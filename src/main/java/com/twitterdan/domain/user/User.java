@@ -34,7 +34,7 @@ public class User extends BaseEntity {
 
   @Column(nullable = false)
   private String password;
-  private String birthDate;
+  private LocalDate birthDate;
   private String bio;
   private String location;
   private String avatarImgUrl;

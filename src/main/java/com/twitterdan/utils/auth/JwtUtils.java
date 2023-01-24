@@ -1,7 +1,7 @@
 package com.twitterdan.utils.auth;
 
 
-import com.twitterdan.domain.auth.JwtAuthentication;
+import com.twitterdan.dto.auth.JwtAuthentication;
 import io.jsonwebtoken.Claims;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

@@ -1,6 +1,6 @@
 package com.twitterdan.filter;
 
-import com.twitterdan.domain.auth.JwtAuthentication;
+import com.twitterdan.dto.auth.JwtAuthentication;
 import com.twitterdan.service.auth.JwtProvider;
 import com.twitterdan.utils.auth.JwtUtils;
 import io.jsonwebtoken.Claims;

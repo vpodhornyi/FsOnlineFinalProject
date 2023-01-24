@@ -1,24 +1,21 @@
 package com.twitterdan.service.auth;
 
 import com.twitterdan.dao.RefreshJwtStoreDao;
-import com.twitterdan.domain.auth.AccountCheckResponse;
-import com.twitterdan.domain.auth.AccountCheckRequest;
-import com.twitterdan.domain.auth.JwtResponse;
-import com.twitterdan.domain.auth.JwtRequest;
-import com.twitterdan.domain.auth.RefreshJwtStore;
-import com.twitterdan.domain.auth.JwtAuthentication;
+import com.twitterdan.dto.auth.AccountCheckResponse;
+import com.twitterdan.dto.auth.AccountCheckRequest;
+import com.twitterdan.dto.auth.JwtResponse;
+import com.twitterdan.dto.auth.JwtRequest;
+import com.twitterdan.dto.auth.RefreshJwtStore;
+import com.twitterdan.dto.auth.JwtAuthentication;
 import com.twitterdan.domain.user.User;
-import com.twitterdan.exception.CouldNotFindAccountException;
 import com.twitterdan.exception.WrongPasswordException;
 import com.twitterdan.service.UserService;
 import io.jsonwebtoken.Claims;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
@@ -41,15 +38,19 @@ public class JwtAuthService implements AuthService {
 
   @Override
   public JwtResponse login(@NonNull JwtRequest req) {
+    return login(req.getLogin(), req.getLogin());
+  }
+
+  public JwtResponse login(String login, String password) {
     User user;
 
     try {
-      user = userService.findByUserTagTrowException(req.getLogin());
+      user = userService.findByUserTagTrowException(login);
     } catch (Exception e) {
-      user = userService.findByUserEmailTrowException(req.getLogin());
+      user = userService.findByUserEmailTrowException(password);
     }
 
-    if (user.getPassword().equals(req.getPassword())) {
+    if (user.getPassword().equals(password)) {
       return getJwtResponse(user);
     }
 

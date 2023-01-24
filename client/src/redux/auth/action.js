@@ -36,7 +36,7 @@ const disableLoading = dispatch => {
 export const isAccountExist = login => async dispatch => {
   try {
     dispatch(ACTIONS.isAccountExist.request());
-    const data = await api.post(URLS.AUTH.IS_ACCOUNT_EXIST, { login });
+    const data = await api.post(URLS.AUTH.IS_ACCOUNT_EXIST, {login});
     dispatch(ACTIONS.isAccountExist.success(data));
 
     return true;
@@ -48,71 +48,71 @@ export const isAccountExist = login => async dispatch => {
 };
 
 export const createNewUser =
-  ({ name, email, password, birthDate, navigate }) =>
-  async dispatch => {
-    try {
-      dispatch(ACTIONS.createNewUser.request());
-      const data = await api.post(URLS.AUTH.CREATE_NEW_USER, {
-        name,
-        email,
-        password,
-        birthDate
-      });
-      dispatch(ACTIONS.createNewUser.success(data));
-      navigate(`${PATH.HOME}`);
-    } catch (e) {
-      dispatch(ACTIONS.createNewUser.fail());
-    }
-  };
+  ({name, email, password, birthDate, navigate}) =>
+    async dispatch => {
+      try {
+        dispatch(ACTIONS.createNewUser.request());
+        const data = await api.post(URLS.AUTH.CREATE_NEW_USER, {
+          name,
+          email,
+          password,
+          birthDate
+        });
+        dispatch(ACTIONS.createNewUser.success(data));
+        navigate(`${PATH.HOME}`);
+      } catch (e) {
+        dispatch(ACTIONS.createNewUser.fail());
+      }
+    };
 
 export const runLoginSecondStep =
-  ({ login, navigate, background }) =>
-  async dispatch => {
-    if (await dispatch(isAccountExist(login))) {
-      navigate(`${PATH.AUTH.ROOT}/${PATH.AUTH.SING_IN.PASSWORD}`, {
-        state: { background }
-      });
-    }
-    disableLoading(dispatch);
-  };
+  ({login, navigate, background}) =>
+    async dispatch => {
+      if (await dispatch(isAccountExist(login))) {
+        navigate(`${PATH.AUTH.ROOT}/${PATH.AUTH.SING_IN.PASSWORD}`, {
+          state: {background}
+        });
+      }
+      disableLoading(dispatch);
+    };
 
 export const runSingUpSecondStep =
-  ({ name, email, password, birthDate, navigate, background }) =>
-  async dispatch => {
-    if (!(await dispatch(isAccountExist(email)))) {
-      dispatch(ACTIONS.setNewUserData({ name, email, password, birthDate }));
-      navigate(`${PATH.AUTH.ROOT}/${PATH.AUTH.SING_UP.CREATE_ACCOUNT}`, {
-        state: { background }
-      });
-      disableLoading(dispatch);
-    }
-  };
+  ({name, email, password, birthDate, navigate, background}) =>
+    async dispatch => {
+      if (!(await dispatch(isAccountExist(email)))) {
+        dispatch(ACTIONS.setNewUserData({name, email, password, birthDate}));
+        navigate(`${PATH.AUTH.ROOT}/${PATH.AUTH.SING_UP.CREATE_ACCOUNT}`, {
+          state: {background}
+        });
+        disableLoading(dispatch);
+      }
+    };
 
 export const authorize =
-  ({ login, password, navigate, background }) =>
-  async dispatch => {
-    try {
-      dispatch(ACTIONS.authorize.request());
-      const { type, accessToken, refreshToken } = await api.post(
-        URLS.AUTH.AUTHORIZE,
-        { login, password }
-      );
-      setHeaderAuthorization(accessToken, type);
-      setAuthToken(accessToken);
-      setRefreshToken(refreshToken);
-      setTokenType(type);
-      dispatch(ACTIONS.authorize.success());
-      dispatch(getAuthUser());
-      navigate(`${PATH.HOME}`);
-    } catch (err) {
-      //TODO show error
-      setTimeout(() => {
-        dispatch(ACTIONS.disableLoading());
-        dispatch(ACTIONS.authorize.fail());
-      }, 300);
-      console.log("login error - ", err);
-    }
-  };
+  ({login, password, navigate}) =>
+    async dispatch => {
+      try {
+        dispatch(ACTIONS.authorize.request());
+        const {type, accessToken, refreshToken} = await api.post(
+          URLS.AUTH.AUTHORIZE,
+          {login, password}
+        );
+        setHeaderAuthorization(accessToken, type);
+        setAuthToken(accessToken);
+        setRefreshToken(refreshToken);
+        setTokenType(type);
+        dispatch(ACTIONS.authorize.success());
+        dispatch(getAuthUser());
+        navigate(`${PATH.HOME}`);
+      } catch (err) {
+        //TODO show error
+        setTimeout(() => {
+          dispatch(ACTIONS.disableLoading());
+          dispatch(ACTIONS.authorize.fail());
+        }, 300);
+        console.log("login error - ", err);
+      }
+    };
 
 export const logout = ({navigate}) => async dispatch => {
   try {
