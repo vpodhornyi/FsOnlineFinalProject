@@ -51,7 +51,6 @@ export const deleteTweet = (userId, tweetID) => async (dispatch) => {
   try {
     dispatch(ACTIONS.deleteTweet.request());
     const data = await api.delete(`${URLS.TWEET._ROOT + userId}/${tweetID}`);
-    console.log(tweetID);
     dispatch(ACTIONS.deleteTweet.success(tweetID));
   } catch (err) {
     //TODO show error

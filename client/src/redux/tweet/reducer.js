@@ -1,5 +1,5 @@
-import {ACTIONS} from "./action";
-import {addOrFilterItem} from "../../utils/tweets";
+import { ACTIONS, changeBookmark } from "./action";
+import { addOrFilterItem } from "../../utils/tweets";
 
 const INITIAL_STATE = {
   loading: false,
@@ -21,14 +21,15 @@ export default (state = INITIAL_STATE, {payload, type}) => {
         tweets: state.tweets.filter((el) => el.id !== payload),
       };
     case String(ACTIONS.createTweet.success):
+      const{tweets}=state
+      for (let i = 0; i < tweets.length; i++) {
+        const currentCounter=tweets[i].replyCounter
+        if(payload.parentTweetId===tweets[i].id) tweets[i].replyCounter+=1;
+        if(currentCounter!==tweets[i].replyCounter) break;
+      }
       return {
         ...state,
-        tweets: [...state.tweets.map(tweet=>{
-          if(payload.parentTweetId===tweet.id){
-            tweet.replyCounter+=1
-          }
-          return tweet
-        }), payload],
+        tweets: [...tweets, payload],
       };
 
     case String(ACTIONS.getTweets.success):
@@ -59,27 +60,32 @@ export default (state = INITIAL_STATE, {payload, type}) => {
         bookmarks: addOrFilterItem(state.bookmarks, payload, "bookmarks"),
       };
     case String(ACTIONS.changeActionsTweet.success):
+
+      for (let i = 0; i < state.tweets.length; i++) {
+        const currentTweet = state.tweets[i];
+        const { tweet, actionType, user } = payload;
+        const currentLength=currentTweet.actions.length;
+        if (currentTweet.id === tweet.id) {
+          const findActionIndex = currentTweet.actions.findIndex((action) => {
+            return (
+                action.actionType === actionType && action.user.id === user.id
+            );
+          });
+          if (findActionIndex < 0) {
+            currentTweet.actions.push({
+              actionType: actionType,
+              user: user,
+            });
+          } else {
+            currentTweet.actions.splice(findActionIndex, 1);
+          }
+        }
+        console.log(i)
+        if(currentLength!==currentTweet.actions.length) break;
+      }
       return {
         ...state,
-        tweets: state.tweets.map((currentTweet) => {
-          const {tweet, actionType, user} = payload;
-          if (currentTweet.id === tweet.id) {
-            const findActionIndex = currentTweet.actions.findIndex((action) => {
-              return (
-                  action.actionType === actionType && action.user.id === user.id
-              );
-            });
-            if (findActionIndex < 0) {
-              currentTweet.actions.push({
-                actionType: actionType,
-                user: user,
-              });
-            } else {
-              currentTweet.actions.splice(findActionIndex, 1);
-            }
-          }
-          return currentTweet;
-        }),
+        tweets: state.tweets
       };
 
     default: {
