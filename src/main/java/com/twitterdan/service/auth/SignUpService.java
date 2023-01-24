@@ -33,7 +33,7 @@ public class SignUpService {
     }
       user.setEmail(signUpRequest.getEmail());
       user.setName(signUpRequest.getName());
-      user.setBirthDate(signUpRequest.getBirthDate());
+//      user.setBirthDate(signUpRequest.getBirthDate());
       user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
       user.setUserTag(userTagGenerate);
       userRepository.save(user);

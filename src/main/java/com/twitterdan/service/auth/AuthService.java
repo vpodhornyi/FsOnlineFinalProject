@@ -1,16 +1,11 @@
 package com.twitterdan.service.auth;
 
-import com.twitterdan.domain.auth.AccountCheckResponse;
+import com.twitterdan.dto.auth.AccountCheckResponse;
 
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-import com.twitterdan.dao.UserRepository;
-import com.twitterdan.domain.auth.AccountCheckRequest;
-import com.twitterdan.domain.auth.JwtResponse;
-import com.twitterdan.dto.signup.SignUpRequest;
-import com.twitterdan.domain.auth.JwtRequest;
-import com.twitterdan.domain.auth.JwtAuthentication;
+import com.twitterdan.dto.auth.AccountCheckRequest;
+import com.twitterdan.dto.auth.JwtResponse;
+import com.twitterdan.dto.auth.JwtRequest;
+import com.twitterdan.dto.auth.JwtAuthentication;
 import lombok.NonNull;
 
 public interface AuthService {

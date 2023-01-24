@@ -1,13 +1,12 @@
 package com.twitterdan.controller;
 
 import com.twitterdan.dao.UserRepository;
-import com.twitterdan.domain.auth.AccountCheckResponse;
-import com.twitterdan.domain.auth.AccountCheckRequest;
-import com.twitterdan.domain.auth.JwtResponse;
-import com.twitterdan.domain.auth.JwtRequest;
-import com.twitterdan.domain.auth.RefreshJwtRequest;
+import com.twitterdan.dto.auth.AccountCheckResponse;
+import com.twitterdan.dto.auth.AccountCheckRequest;
+import com.twitterdan.dto.auth.JwtResponse;
+import com.twitterdan.dto.auth.JwtRequest;
+import com.twitterdan.dto.auth.RefreshJwtRequest;
 import com.twitterdan.domain.user.User;
-import com.twitterdan.dto.signup.SignUpRequest;
 import com.twitterdan.dto.user.UserRequest;
 import com.twitterdan.dto.user.UserResponse;
 import com.twitterdan.facade.user.UserRequestMapper;
@@ -18,7 +17,6 @@ import com.twitterdan.service.auth.SignUpService;
 
 import lombok.RequiredArgsConstructor;
 
-import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;

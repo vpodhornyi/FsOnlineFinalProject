@@ -1,6 +1,6 @@
 package com.twitterdan.dao;
 
-import com.twitterdan.domain.auth.RefreshJwtStore;
+import com.twitterdan.dto.auth.RefreshJwtStore;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;
