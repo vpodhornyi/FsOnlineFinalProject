@@ -12,53 +12,30 @@ import java.util.Random;
 
 @Service
 public class UserRequestMapper extends GeneralFacade<User, UserRequest> {
-
   private final UserRepository userRepository;
   private final BCryptPasswordEncoder passwordEncoder;
+  private final Random rand;
 
   public UserRequestMapper(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
     super(User.class, UserRequest.class);
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
+    this.rand = new Random();
   }
 
   @Override
   protected void decorateEntity(User entity, UserRequest dto) {
 
-    Random rand = new Random();
-    int randomNumber = rand.nextInt(99);
-
-    String userTagGenerate = dto.getName().toLowerCase() + dto.getBirthDate().getYear();
+    String userTagGenerate = dto.getName().replaceAll("\\s+", "").toLowerCase() + dto.getBirthDate().getYear();
     Optional<User> optionalUser = userRepository.findByUserTag(userTagGenerate);
 
-    if (optionalUser.isPresent()) {
+    while (optionalUser.isPresent()) {
+      int randomNumber = rand.nextInt(9);
       userTagGenerate = userTagGenerate + randomNumber;
+      optionalUser = userRepository.findByUserTag(userTagGenerate);
     }
 
     entity.setUserTag(userTagGenerate);
     entity.setPassword(passwordEncoder.encode(dto.getPassword()));
-    /*
-     User user = new User();
-      Optional<User> findUserByEmail = userRepository.findByEmail(signUpRequest.getEmail());
-      if (findUserByEmail.isEmpty()) {
-        Random rand = new Random();
-    int randomNumber = rand.nextInt(99);
-    String userTagGenerate = signUpRequest.getName().toLowerCase() + signUpRequest.getBirthDate().replaceAll("[\\s\\-()]", "");
-    Optional<User> optionalUser = userRepository.findByUserTag(userTagGenerate);
-    if (optionalUser.isPresent()) {
-      userTagGenerate = userTagGenerate + randomNumber;
-    }
-      user.setEmail(signUpRequest.getEmail());
-      user.setName(signUpRequest.getName());
-      user.setBirthDate(signUpRequest.getBirthDate());
-      user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
-      user.setUserTag(userTagGenerate);
-      userRepository.save(user);
-      return "User was successfully registered";
-    } else {
-      throw new AccountAlreadyExistException(signUpRequest.getEmail());
-    }
-      }
-     */
   }
 }
