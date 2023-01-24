@@ -85,13 +85,17 @@ public class UserService {
   }
 
   public User createNewUser(User user) {
-    try {
-      userRepository.findByEmail(user.getEmail());
-      throw new AccountAlreadyExistException(user.getEmail());
+    Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
 
-    } catch (Exception e) {
+    if (optionalUser.isEmpty()) {
       return userRepository.save(user);
     }
+
+    throw new AccountAlreadyExistException(user.getEmail());
+  }
+
+  public User save(User user) {
+    return userRepository.save(user);
   }
 
   public List<User> getAll() {
@@ -107,7 +111,7 @@ public class UserService {
     return true;
   }
 
-  public User findByUserTag(String userTag) {
+  public User findByUserTagTrowException(String userTag) {
     Optional<User> optionalUser = userRepository.findByUserTag(userTag);
 
     if (optionalUser.isPresent()) {
@@ -116,7 +120,7 @@ public class UserService {
     throw new CouldNotFindAccountException();
   }
 
-  public User findByUserEmail(String email) {
+  public User findByUserEmailTrowException(String email) {
     Optional<User> optionalUser = userRepository.findByEmail(email);
 
     if (optionalUser.isPresent()) {
