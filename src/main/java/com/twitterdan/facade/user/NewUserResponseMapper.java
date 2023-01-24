@@ -1,8 +1,6 @@
 package com.twitterdan.facade.user;
 
 import com.twitterdan.domain.user.User;
-import com.twitterdan.dto.auth.JwtRequest;
-import com.twitterdan.dto.auth.JwtResponse;
 import com.twitterdan.dto.user.NewUserResponse;
 import com.twitterdan.facade.GeneralFacade;
 import com.twitterdan.service.auth.JwtAuthService;
@@ -18,6 +16,6 @@ public class NewUserResponseMapper extends GeneralFacade<User, NewUserResponse> 
 
   @Override
   protected void decorateDto(NewUserResponse dto, User entity) {
-    JwtResponse jwt = jwtAuthService.login(entity.getUserTag(), entity.getPassword());
+    dto.setJwt(jwtAuthService.getJwtResponse(entity));
   }
 }

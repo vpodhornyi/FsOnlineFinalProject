@@ -48,6 +48,7 @@ export default (state = INIT_STATE, { payload, type }) => {
         }
       };
     case String(ACTIONS.isAccountExist.request):
+    case String(ACTIONS.createNewUser.request):
     case String(ACTIONS.authorize.request):
       return {
         ...state,
@@ -58,6 +59,18 @@ export default (state = INIT_STATE, { payload, type }) => {
         ...state,
         loginName: payload.login
       };
+      case String(ACTIONS.createNewUser.success):
+      return {
+        ...state,
+        loading: false,
+        newUser: {
+          name: "",
+          email: "",
+          password: "",
+          birthDate: ""
+        }
+      };
+    case String(ACTIONS.createNewUser.fail):
     case String(ACTIONS.disableLoading):
       return {
         ...state,

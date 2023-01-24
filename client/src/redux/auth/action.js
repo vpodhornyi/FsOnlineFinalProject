@@ -3,6 +3,7 @@ import {createActions} from '../utils';
 import {setAuthToken, setTokenType, setHeaderAuthorization, setRefreshToken} from "@utils";
 import {PATH} from "../../utils/constants";
 import {getAuthUser} from '../user/action';
+import {ACTIONS as USER_ACTIONS} from '../user/action';
 import {ACTIONS as CHAT_ACTIONS} from '../chat/action';
 import {ACTIONS as MESSAGE_ACTIONS} from '../chat/message/action';
 
@@ -47,23 +48,25 @@ export const isAccountExist = login => async dispatch => {
   }
 };
 
-export const createNewUser =
-  ({name, email, password, birthDate, navigate}) =>
-    async dispatch => {
-      try {
-        dispatch(ACTIONS.createNewUser.request());
-        const data = await api.post(URLS.AUTH.CREATE_NEW_USER, {
-          name,
-          email,
-          password,
-          birthDate
-        });
-        dispatch(ACTIONS.createNewUser.success(data));
-        navigate(`${PATH.HOME}`);
-      } catch (e) {
-        dispatch(ACTIONS.createNewUser.fail());
-      }
-    };
+export const createNewUser = (body) => async dispatch => {
+  try {
+    dispatch(ACTIONS.createNewUser.request());
+    const data = await api.post(URLS.AUTH.CREATE_NEW_USER, body);
+    const {jwt} = data;
+    setHeaderAuthorization(jwt.accessToken, jwt.type);
+    setAuthToken(jwt.accessToken);
+    setRefreshToken(jwt.refreshToken);
+    setTokenType(jwt.type);
+    delete data.jwt;
+    dispatch(ACTIONS.authorize.success());
+    dispatch(USER_ACTIONS.getAuthUser.success(data));
+    dispatch(ACTIONS.createNewUser.success());
+
+  } catch (e) {
+    console.log(e);
+    dispatch(ACTIONS.createNewUser.fail());
+  }
+};
 
 export const runLoginSecondStep =
   ({login, navigate, background}) =>
@@ -84,8 +87,11 @@ export const runSingUpSecondStep =
         navigate(`${PATH.AUTH.ROOT}/${PATH.AUTH.SING_UP.CREATE_ACCOUNT}`, {
           state: {background}
         });
-        disableLoading(dispatch);
+      } else {
+        //TODO show error
+        console.log("runSingUpSecondStep - ", 'Account already exist');
       }
+      disableLoading(dispatch);
     };
 
 export const authorize =
