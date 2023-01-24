@@ -9,7 +9,7 @@ services:
       - POSTGRES_PASSWORD=root
       - POSTGRES_DATABASE=twitter
     ports:
-      - 5432:5432
+      - 6432:5432
     volumes:
       - postgresqldata14:/var/lib/postgresql/data
   rabbitmq:
