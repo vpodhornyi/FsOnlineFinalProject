@@ -34,7 +34,7 @@ public class TweetService {
   }
 
   public List<Tweet> getAll() {
-    return (List<Tweet>) tweetDao.findAll();
+    return  tweetDao.findTweetsByParentTweetIdIsNull();
   }
 
   public Tweet save(Tweet tweet) {
