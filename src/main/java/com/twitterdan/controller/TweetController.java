@@ -94,5 +94,4 @@ public class TweetController {
   public ResponseEntity<Object> handleException(Exception ex) {
     return new ResponseEntity<>(ex.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
   }
-
 }
