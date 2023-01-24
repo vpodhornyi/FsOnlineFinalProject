@@ -37,7 +37,7 @@ import { getPersonalData } from "../../../redux/user/selector";
 
 const Tweet = ({ tweetInfo,styles }) => {
   const dispatch = useDispatch();
-  const { id, body, images, actions } = tweetInfo;
+  const { id, body, images, actions,replyCounter } = tweetInfo;
   const { name, avatarImgUrl, userTag, created_at } = tweetInfo.user;
   const user = useSelector(getPersonalData);
   const navigate = useNavigate();
@@ -187,7 +187,7 @@ const Tweet = ({ tweetInfo,styles }) => {
                     {itemData.icon}
                   </ListItemIcon>
                 </Tooltip>{" "}
-                <ListItemText primary={filterActions.length} />
+                <ListItemText primary={itemData.tooltip==="Reply"?replyCounter:filterActions.length} />
               </ListItem>
             );
           })}

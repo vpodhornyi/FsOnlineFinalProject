@@ -23,7 +23,12 @@ export default (state = INITIAL_STATE, {payload, type}) => {
     case String(ACTIONS.createTweet.success):
       return {
         ...state,
-        tweets: [...state.tweets, payload],
+        tweets: [...state.tweets.map(tweet=>{
+          if(payload.parentTweetId===tweet.id){
+            tweet.replyCounter+=1
+          }
+          return tweet
+        }), payload],
       };
 
     case String(ACTIONS.getTweets.success):

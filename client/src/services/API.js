@@ -61,6 +61,7 @@ export const URLS = {
   },
   TWEET: {
     _ROOT: "/tweets/",
+    getTweet:(id)=>`/tweets/${id}`,
     CREATE_TWEET: "/tweets/create",
     CHANGE_ACTIONS: "/tweets/change_actions",
     BOOKMARKS: "/tweets/bookmarks",

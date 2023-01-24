@@ -5,10 +5,10 @@ import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 
 import MainMenu from "./MainMenu";
-import TweetButton from "./TweetButton";
 import NavBarFooter from "./NavBarFooter";
 import {LogoIcon} from "../.";
 import {PATH} from "../../utils/constants";
+import {TweetButton} from "../buttons";
 
 const NavBar = ({user, authorized, menu}) => {
   const navigate = useNavigate();
