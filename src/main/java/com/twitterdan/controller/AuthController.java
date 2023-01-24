@@ -1,6 +1,5 @@
 package com.twitterdan.controller;
 
-import com.twitterdan.dao.UserRepository;
 import com.twitterdan.dto.auth.AccountCheckResponse;
 import com.twitterdan.dto.auth.AccountCheckRequest;
 import com.twitterdan.dto.auth.JwtResponse;
@@ -11,10 +10,8 @@ import com.twitterdan.dto.user.UserRequest;
 import com.twitterdan.dto.user.UserResponse;
 import com.twitterdan.facade.user.NewUserResponseMapper;
 import com.twitterdan.facade.user.UserRequestMapper;
-import com.twitterdan.facade.user.UserResponseMapper;
 import com.twitterdan.service.UserService;
 import com.twitterdan.service.auth.JwtAuthService;
-import com.twitterdan.service.auth.SignUpService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -39,14 +36,12 @@ import javax.validation.Valid;
 @CrossOrigin
 public class AuthController {
   private final JwtAuthService jwtAuthService;
-  private final SignUpService signUpService;
   private final UserRequestMapper userRequestMapper;
   private final NewUserResponseMapper newUserResponseMapper;
   private final UserService userService;
 
   @Autowired
   PasswordEncoder passwordEncoder;
-  private final UserRepository userRepository;
 
   @PostMapping("/account")
   public ResponseEntity<AccountCheckResponse> account(@Valid @RequestBody AccountCheckRequest authRequest) {
@@ -79,12 +74,6 @@ public class AuthController {
     final JwtResponse jwtResponse = jwtAuthService.refresh(request.getRefreshToken());
     return ResponseEntity.ok(jwtResponse);
   }
-
-//  @PostMapping("/signup")
-//  public ResponseEntity<HttpStatus> signup(@RequestBody SignUpRequest signUpRequest) {
-//    this.signUpService.signup(signUpRequest);
-//    return ResponseEntity.ok().build();
-//  }
 
   @PostMapping("/signup")
   public ResponseEntity<UserResponse> signup(@RequestBody UserRequest userRequest) {
