@@ -10,7 +10,7 @@ const actions = createActions(
     actions: ['OPEN', 'close'],
   },
   {
-    prefix: "user",
+    prefix: "snack",
   }
 );
 
