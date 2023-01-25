@@ -91,4 +91,4 @@ export default (state = JSON.parse(JSON.stringify(init)), {payload, type}) => {
     default:
       return state;
   }
-};
+}

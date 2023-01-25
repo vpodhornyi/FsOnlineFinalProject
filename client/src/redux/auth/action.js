@@ -2,9 +2,8 @@ import api, {URLS} from "@service/API";
 import {createActions} from '../utils';
 import {setAuthToken, setTokenType, setHeaderAuthorization, setRefreshToken} from "@utils";
 import {PATH} from "../../utils/constants";
-import {getAuthUser} from '../user/action';
+import {getAuthUser as USER_ACTIONS} from '../user/action';
 import {ACTIONS as SNACK_ACTIONS} from '../snack/action';
-import {ACTIONS as USER_ACTIONS} from '../user/action';
 import {ACTIONS as CHAT_ACTIONS} from '../chat/action';
 import {ACTIONS as MESSAGE_ACTIONS} from '../chat/message/action';
 
@@ -46,8 +45,8 @@ export const isAccountExist = (login, showErr = true) => async dispatch => {
     showErr && dispatch(SNACK_ACTIONS.open(err?.response?.data));
     dispatch(ACTIONS.isAccountExist.fail());
     return false;
-  }
-};
+}
+}
 
 export const createNewUser = (body) => async dispatch => {
   try {
@@ -129,12 +128,13 @@ export const logout = ({navigate}) => async dispatch => {
     dispatch(ACTIONS.logout.success());
     navigate(PATH.ROOT);
 
-  } catch (err) {
-    dispatch(ACTIONS.logout.success());
-    dispatch(SNACK_ACTIONS.open(err?.response?.data));
+  } catch (e) {
+    dispatch(ACTIONS.logout.fail());
+    dispatch(SNACK_ACTIONS.open(e?.response?.data));
 
   } finally {
     dispatch(CHAT_ACTIONS.resetData());
     dispatch(MESSAGE_ACTIONS.resetData());
+    dispatch(USER_ACTIONS.resetData());
   }
 }
