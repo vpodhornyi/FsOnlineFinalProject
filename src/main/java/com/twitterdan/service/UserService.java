@@ -124,6 +124,7 @@ public class UserService {
 
       Notification notification = new Notification()
               .setNotificationType(NotificationType.LOGGED_IN).setUserReceiver(optionalUser.get()).setUserInitiator(optionalUser.get()).setTweet(null).setRead(false);
+      System.out.println("findByUserTag-> genNotificationsDest + optionalUser.get().getId(): "+ genNotificationsDest + optionalUser.get().getId());
       simpMessagingTemplate.convertAndSend(genNotificationsDest + optionalUser.get().getId(), notification);
 
 

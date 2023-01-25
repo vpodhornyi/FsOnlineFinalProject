@@ -6,7 +6,7 @@ import {ACTIONS as NOTIFICATION_ACTIONS} from './action';
 const actions = createActions(
   {
     actions: [
-      'GET_NOTIFICATIONS', 'SET_NOTIFICATION'
+      'SET_NOTIFICATIONS'
     ],
     async: [''],
   },

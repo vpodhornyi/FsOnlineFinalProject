@@ -16,6 +16,7 @@ import chatReducer from "./chat/reducer";
 import messagesReducer from "./chat/message/reducer";
 import notificationsReducer from "./notification/reducer";
 
+
 const {applyMiddleware, combineReducers, createStore} = require("redux");
 
 const reducer = combineReducers({
@@ -25,12 +26,13 @@ const reducer = combineReducers({
   auth: authReducer,
   user: userReducer,
   dialog: dialogReducer,
-  notification: notificationsReducer,
+  notificationData: notificationsReducer,
 })
 
 const stompClient = (onConnect) => {
   const client = new Client({
-    brokerURL: process.env.REACT_APP_API_BROKER_URL,
+    brokerURL: 'ws://localhost:9000/ws',
+    // brokerURL: process.env.REACT_APP_API_BROKER_URL,
     connectHeaders: {
       login: 'user',
       passcode: 'password',
@@ -59,9 +61,12 @@ export default () => {
     setHeaderAuthorization(accessToken, tokenType);
     store.dispatch(getAuthUser())
       .then(() => {
+        console.log("in store.js->   store.dispatch(authUserSocketSubscribe()")
         api.client = stompClient(() => {
           store.dispatch(authUserSocketSubscribe());
         });
+
+        // stompClient(authUserSocketSubscribe);
       })
   }
 

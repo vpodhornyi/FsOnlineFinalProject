@@ -1,6 +1,6 @@
 import {ACTIONS} from "./action";
 
-const notifications = [
+const initNotifications = [
     {
     notificationType: "LIKE",
     userReceiver: 2,
@@ -29,19 +29,14 @@ const notifications = [
 ]
 
 
-export default (state = notifications, {payload, type}) => {
+export default (state = {notifications: initNotifications}, {payload, type}) => {
     switch (type) {
 
         case String(ACTIONS.setNotifications):
             return {
                 ...state,
-                notifications: [...notifications, payload],
+                notifications: [...state.notifications, payload],
             };
-
-        // case String(ACTIONS.getNotifications):
-        //     return {
-        //         ...state,
-        //     };
 
         default:
             return state;

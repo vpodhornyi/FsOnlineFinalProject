@@ -1,4 +1,4 @@
-const notifications = (state) => state.notification.notifications;
+const notifications = (state) => state.notificationData.notifications;
 
 
 

@@ -1,3 +1,3 @@
 export default {
-    "genNotificationsDest": "/queue/general-notifications/user.",
+    "genNotificationsDest": "/queue/generalNotifications.user.",
 }
