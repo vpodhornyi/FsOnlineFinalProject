@@ -13,30 +13,29 @@ const Notifications = () => {
 
     if (!notifications) return;
 
+    console.log("notifications: ", notifications)
     const notificationElements = notifications.map((notification, ind)=> {
-        switch (notification.Type) {
+        switch (notification.notificationType) {
             case "LIKE":
-                notification.title = `Your tweet liked by: ${notifications.userInitiator}`;
+                notification.title = `Your tweet liked by: ${notification.userInitiator.userTag}`;
                 break;
             case "QUOTE_TWEET":
-                notification.title = `Your tweet quoted by: ${notifications.userInitiator}`;
+                notification.title = `Your tweet quoted by: ${notification.userInitiator.userTag}`;
                 break;
             case "REPLY":
-                notification.title = `Your tweet replied by: ${notifications.userInitiator}`;
+                notification.title = `Your tweet replied by: ${notification.userInitiator.userTag}`;
                 break;
             case "RETWEET":
-                notification.title = `Your tweet retweeted by: ${notifications.userInitiator}`;
+                notification.title = `Your tweet retweeted by: ${notification.userInitiator.userTag}`;
                 break;
             case "LEAVE_CHAT":
-                notification.title = `You left one of your chats: ${notifications.userInitiator.id}`;
+                notification.title = `You left one of your chats: ${notification.userInitiator.userTag}`;
                 break;
                 case "LOGGED_IN":
-                notification.title = `You logged!: ${notifications.userInitiator.id}`;
+                notification.title = `You logged!: ${notification.userReceiver.userTag}`;
                 break;
             default:
         }
-        notification.avatarImgUrl = notifications.userInitiator.avatarImgUrl;
-        notification.userTag = notifications.userInitiator.userTag;
 
           return  <NotificationItem key={ind} notification={notification}/>
         }

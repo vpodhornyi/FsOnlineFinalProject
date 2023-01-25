@@ -61,12 +61,9 @@ export default () => {
     setHeaderAuthorization(accessToken, tokenType);
     store.dispatch(getAuthUser())
       .then(() => {
-        console.log("in store.js->   store.dispatch(authUserSocketSubscribe()")
         api.client = stompClient(() => {
           store.dispatch(authUserSocketSubscribe());
         });
-
-        // stompClient(authUserSocketSubscribe);
       })
   }
 

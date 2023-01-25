@@ -8,35 +8,31 @@ import PropTypes from "prop-types";
 
 
 const NotificationItem = ({notification}) => {
-  const {authUser} = useSelector(state => state.user);
-  const dispatch = useDispatch();
   const {id} = useParams();
 
-  const handleNotificationClick = (chat) => {
+  const handleNotificationClick = () => {
 
   }
 
-  const getText = (text) => {
-    const ln = text?.length;
-    return ln && ln > 30 ? text.slice(0, 30) + '...' : text;
-  }
 
   return (
     <BoxWrapper onClick={() => handleNotificationClick(notification)}>
       <Box
-        className={id && (id === notification.id) ? `ChatRoutWrapperActive` : notification?.lastMessage?.countUnreadMessages ? 'NotReadMessagesExist' : ''}>
+        // className={`ChatRoutWrapperActive`}
+        className={`NotReadMessagesExist`}
+        >
         <Box sx={{display: 'flex'}}>
-          <Avatar sx={{mr: '10px', width: '3.3rem', height: '3.3rem'}} src={notification.avatarImgUrl}/>
+          <Avatar sx={{mr: '10px', width: '3.3rem', height: '3.3rem'}} src={notification.userInitiator.avatarImgUrl}/>
           <Box>
             <Box sx={{display: 'flex'}}>
               <Typography sx={{fontWeight: 600}}>{notification.title}</Typography>
 
-              {notification.isPrivate && <Typography variant='body2' sx={{ml: '5px'}}>@{notification.userTag}</Typography>}
+              {<Typography variant='body2' sx={{ml: '5px'}}>@{notification.userInitiator.userTag}</Typography>}
             </Box>
           </Box>
         </Box>
         <Badge
-          badgeContent={notification?.lastMessage?.countUnreadMessages}
+          badgeContent={"hi!"}
           color="primary"
           max={99}
         >

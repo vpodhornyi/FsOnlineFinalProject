@@ -41,10 +41,9 @@ export const authUserSocketSubscribe = () => async (dispatch, getState) => {
 
     /*** блок коллбэков stomp-Notifications ***/
     authUser?.id && api.client.subscribe(`${destinations.genNotificationsDest}${authUser.id}`, (json) => {
-      console.log("user/action.js-> generalNotification arrived, dispatching it to store:  dispatch(NOTIFICATION_ACTIONS.setNotifications(message))");
+      console.log("user/action.js-> generalNotification arrived, dispatching to store");
       if (json.body) {
         const message = JSON.parse(json.body);
-        console.log("message: ", message)
         dispatch(NOTIFICATION_ACTIONS.setNotifications(message));
       }
     });
