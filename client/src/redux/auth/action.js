@@ -2,7 +2,7 @@ import api, {URLS} from "@service/API";
 import {createActions} from '../utils';
 import {setAuthToken, setTokenType, setHeaderAuthorization, setRefreshToken} from "@utils";
 import {PATH} from "../../utils/constants";
-import {getAuthUser as USER_ACTIONS} from '../user/action';
+import {getAuthUser, ACTIONS as USER_ACTIONS} from '../user/action';
 import {ACTIONS as SNACK_ACTIONS} from '../snack/action';
 import {ACTIONS as CHAT_ACTIONS} from '../chat/action';
 import {ACTIONS as MESSAGE_ACTIONS} from '../chat/message/action';
