@@ -34,9 +34,15 @@ const Div = styled('div')(({theme}) => ({
   '& .LinkText': {
     marginLeft: 14,
     fontSize: '1.254rem',
+    fontWeight: theme.typography.fontWeightBold,
 
-    [theme.breakpoints.down('xl')]: {
-      display: 'none'
+    [theme.breakpoints.up('xs')]: {
+      display: 'none',
+      fontWeight: theme.typography.fontWeightRegular
+    },
+
+    [theme.breakpoints.up('xl')]: {
+      display: 'inline'
     },
 
     '&_active': {

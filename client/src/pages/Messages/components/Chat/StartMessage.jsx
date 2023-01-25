@@ -93,7 +93,7 @@ const ButtonsBoxWrapper = styled(Box)(({theme}) => ({
 const BoxWrapper = styled(Box)(({theme}) => ({
   padding: '7px 15px',
   borderTop: '1px solid rgb(239, 243, 244)',
-  backgroundColor: 'rgba(255,255,255, 1)'
+  backgroundColor: 'rgba(255,255,255, 1)',
 }));
 const TextFieldWrapper = styled(TextField)(({theme}) => ({
   width: '95%',

@@ -5,7 +5,7 @@ import {getTokens, setTokenType, setAuthToken, setHeaderAuthorization, deleteTok
 
 const BASE_URL = process.env.REACT_APP_API_VERSION;
 const api = axios.create({
-  baseURL: BASE_URL,
+  baseURL: BASE_URL
 });
 
 export const interceptor = store => {
@@ -14,42 +14,46 @@ export const interceptor = store => {
     return conf;
   });
 
-  api.interceptors.response.use(res => res.data, async error => {
-    const originalRequest = error?.config;
+  api.interceptors.response.use(
+    res => res.data,
+    async error => {
+      const originalRequest = error?.config;
 
-    if (error?.response?.status === 403 && !originalRequest?._retry) {
-      originalRequest._retry = true;
-      const {refreshToken} = getTokens();
-      const {data: {type, accessToken}} = await axios.post(`${BASE_URL}/auth/access`, {refreshToken});
+      if (error?.response?.status === 403 && !originalRequest?._retry) {
+        originalRequest._retry = true;
+        const { refreshToken } = getTokens();
+        const {
+          data: { type, accessToken }
+        } = await axios.post(`${BASE_URL}/auth/access`, { refreshToken });
 
-      if (accessToken === null) {
-        store.dispatch(ACTIONS.authorize.fail());
-        deleteTokens();
+        if (accessToken === null) {
+          store.dispatch(ACTIONS.authorize.fail());
+          deleteTokens();
+        } else {
+          setHeaderAuthorization(accessToken, type);
+          setAuthToken(accessToken);
+          setTokenType(type);
+          originalRequest.headers.Authorization = `${type} ${accessToken}`;
 
-      } else {
-        setHeaderAuthorization(accessToken, type);
-        setAuthToken(accessToken);
-        setTokenType(type);
-        originalRequest.headers.Authorization = `${type} ${accessToken}`;
-
-        return api(originalRequest);
+          return api(originalRequest);
+        }
       }
+
+      return Promise.reject(error);
     }
-
-    return Promise.reject(error);
-  });
-}
-
+  );
+};
 
 export const URLS = {
   AUTH: {
     IS_ACCOUNT_EXIST: `/auth/account`,
     AUTHORIZE: `/auth/login`,
     LOGOUT: `/auth/logout`,
+    CREATE_NEW_USER: `/auth/signup`
   },
   USERS: {
     ROOT: "/users",
-    SEARCH: '/users/search'
+    SEARCH: "/users/search"
   },
   SUBSCRIBING: {
     FOLLOW: "/subscribing/follow",
@@ -70,9 +74,9 @@ export const URLS = {
     GROUP: '/chats/group',
     ADD_PEOPLE: '/chats/add-users',
   },
-  CLOUD:{
-    IMAGE:'/cloud/image',
-    IMAGES:'/cloud/images',
+  CLOUD: {
+    IMAGE: "/cloud/image",
+    IMAGES: "/cloud/images"
   }
 };
 

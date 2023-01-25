@@ -1,6 +1,6 @@
 package com.twitterdan.controller;
 
-import com.twitterdan.domain.error.ResponseError;
+import com.twitterdan.dto.error.ResponseError;
 import com.twitterdan.exception.AbstractException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

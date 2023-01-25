@@ -19,7 +19,6 @@ const Tweets = ({ bookmarksValue = false }) => {
   const tweets = useSelector(getTweetsState);
   const mapArr = bookmarksValue
     ? tweets.filter((tweet) => {
-        console.log(tweet);
         return bookmarksArr.includes(tweet.id);
       })
     : tweets;

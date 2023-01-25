@@ -6,7 +6,7 @@ import {useDebouncedCallback} from "use-debounce";
 import {Box, LinearProgress} from "@mui/material";
 import PropTypes from "prop-types";
 
-import IconByName from "@components/icons/IconByName";
+import {IconByName} from "@components";
 import SearchTextField from "./SearchTextField";
 import FoundUser from "./FoundUser";
 import NewMassageHeader from "./NewMassageHeader";

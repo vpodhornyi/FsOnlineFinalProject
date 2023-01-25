@@ -67,7 +67,7 @@ public class ChatController {
 
   @GetMapping
   public ResponseEntity<PageChatResponse> getChats(@RequestParam int pageNumber, @RequestParam int pageSize, Principal principal) {
-    User authUser = userService.findByUserTag(principal.getName());
+    User authUser = userService.findByUserTagTrowException(principal.getName());
     Page<Chat> chats = chatService.findAlLByUserId(authUser.getId(), pageNumber, pageSize);
 
     return ResponseEntity.ok(pageChatsResponseMapper.convertToDto(chats, authUser));
@@ -75,7 +75,7 @@ public class ChatController {
 
   @DeleteMapping
   public ResponseEntity<LeaveChatResponse> leaveChat(@RequestBody LeaveChatRequest leaveChatRequest, Principal principal) {
-    User authUser = userService.findByUserTag(principal.getName());
+    User authUser = userService.findByUserTagTrowException(principal.getName());
     Long chatId = leaveChatRequest.getChatId();
     LeaveChatResponse leaveChatResponse = null;
 
@@ -96,13 +96,13 @@ public class ChatController {
 
   @GetMapping("/private")
   public ResponseEntity<ChatResponseAbstract> findPrivateChat(@RequestParam Long guestUserId, Principal principal) {
-    User authUser = userService.findByUserTag(principal.getName());
+    User authUser = userService.findByUserTagTrowException(principal.getName());
     return ResponseEntity.ok(privateChatResponseMapper.convertToDto(chatService.findPrivateChatByUsersIds(authUser.getId(), guestUserId), authUser));
   }
 
   @PostMapping("/private")
   public ResponseEntity<PrivateChatResponse> addPrivateChat(@RequestBody PrivateChatRequest privateChatRequest, Principal principal) {
-    User authUser = userService.findByUserTag(principal.getName());
+    User authUser = userService.findByUserTagTrowException(principal.getName());
     Chat chat = privateChatRequestMapper.convertToEntity(privateChatRequest, authUser);
     Chat savedChat = chatService.savePrivateChat(chat);
     String oldKey = privateChatRequest.getOldKey();
@@ -122,7 +122,7 @@ public class ChatController {
 
   @PostMapping("/group")
   public ResponseEntity<GroupChatResponse> addGroupChat(@RequestBody GroupChatRequest groupChatRequest, Principal principal) {
-    User authUser = userService.findByUserTag(principal.getName());
+    User authUser = userService.findByUserTagTrowException(principal.getName());
     String oldKey = groupChatRequest.getOldKey();
     String text = groupChatRequest.getMessage();
     Chat chat = groupChatRequestMapper.convertToEntity(groupChatRequest, authUser);
@@ -146,7 +146,7 @@ public class ChatController {
                                                          @RequestParam String name,
                                                          @RequestParam Long chatId,
                                                          Principal principal) {
-    User authUser = userService.findByUserTag(principal.getName());
+    User authUser = userService.findByUserTagTrowException(principal.getName());
     String imgUrl = cloudinaryService.uploadImage(uploadFile);
     Chat chat = chatService.editGroupChat(chatId, name, imgUrl, authUser);
 
@@ -160,7 +160,7 @@ public class ChatController {
 
   @PostMapping("/add-users")
   public ResponseEntity<AddUsersToGroupResponse> addUserToGroup(@RequestBody AddUsersToGroupRequest addUsersToGroupRequest, Principal principal) {
-    User authUser = userService.findByUserTag(principal.getName());
+    User authUser = userService.findByUserTagTrowException(principal.getName());
     Long chatId = addUsersToGroupRequest.getChatId();
     Chat oldChat = chatService.findById(chatId);
     List<Long> ids = oldChat.getUsers().stream().map(User::getId).toList();
@@ -186,7 +186,7 @@ public class ChatController {
 
   @GetMapping("/messages")
   public ResponseEntity<PageMessagesResponse> getMessages(@RequestParam int pageNumber, @RequestParam int pageSize, @RequestParam Long chatId, Principal principal) {
-    User authUser = userService.findByUserTag(principal.getName());
+    User authUser = userService.findByUserTagTrowException(principal.getName());
     Page<Message> messages = messageService.findByChatId(chatId, authUser.getId(), pageNumber, pageSize);
 
     return ResponseEntity.ok(pageMessagesMapper.convertToDto(messages, authUser));
@@ -194,7 +194,7 @@ public class ChatController {
 
   @PostMapping("/messages")
   public ResponseEntity<MessageResponseAbstract> saveNewMessage(@RequestBody MessageRequest messageRequest, Principal principal) {
-    User authUser = userService.findByUserTag(principal.getName());
+    User authUser = userService.findByUserTagTrowException(principal.getName());
     String oldKey = messageRequest.getKey();
     Message message = messageRequestMapper.convertToEntity(messageRequest, authUser);
     Message savedMessage = messageService.save(message);
@@ -236,7 +236,7 @@ public class ChatController {
   public ResponseEntity<DeletedMessageResponse> deleteMessage(@RequestBody DeleteMessageRequest deleteMessageRequest, Principal principal) {
     Long messageId = deleteMessageRequest.getMessageId();
     Message message = messageService.findById(messageId);
-    User authUser = userService.findByUserTag(principal.getName());
+    User authUser = userService.findByUserTagTrowException(principal.getName());
 
     if (deleteMessageRequest.isDeleteForYou()) {
       Message updatedMessage = messageService.deleteMessageForAuthUser(message, authUser);
@@ -257,7 +257,7 @@ public class ChatController {
   @PostMapping("/messages/seen")
   public ResponseEntity<ForeignerMessageSeenResponse> setSeenMessage(@RequestBody MessageSeenRequest messageSeenRequest,
                                                                      Principal principal) {
-    User authUser = userService.findByUserTag(principal.getName());
+    User authUser = userService.findByUserTagTrowException(principal.getName());
     MessageSeen messageSeen = messageSeenRequestMapper.convertToEntity(messageSeenRequest, authUser);
 
     MessageSeen savedMessageSeen = messageService.saveMessageSeen(messageSeen);

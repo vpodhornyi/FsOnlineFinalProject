@@ -29,7 +29,7 @@ public class UserController {
   @GetMapping
   public UserResponse findAuthUser() {
     String userTag = (String) jwtAuthService.getAuthInfo().getPrincipal();
-    User user = userService.findByUserTag(userTag);
+    User user = userService.findByUserTagTrowException(userTag);
     return userResponseMapper.convertToDto(user);
   }
 
@@ -57,7 +57,7 @@ public class UserController {
   public UserResponse findByUserTag(
           @RequestParam(name = "userTag") String userTag
   ) {
-    User user = userService.findByUserTag(userTag);
+    User user = userService.findByUserTagTrowException(userTag);
     return userResponseMapper.convertToDto(user);
   }
 

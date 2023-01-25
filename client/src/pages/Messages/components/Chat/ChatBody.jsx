@@ -228,7 +228,7 @@ const ChatBody = ({chatId}) => {
         </Box>}
       </Box>
     </Box>
-    <Box sx={{position: 'relative'}}>
+    <Box sx={{position: 'relative', zIndex: 1000,}}>
       <Box onClick={onBottom}>
         <ScrollDownButton
           pageNumberDown={pageNumberDown}
@@ -253,7 +253,7 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   boxSizing: 'border-box',
   position: 'relative',
   width: '100%',
-  height: 'calc(100% - 55px)',
+  height: 'calc(100vh - 55px)',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',

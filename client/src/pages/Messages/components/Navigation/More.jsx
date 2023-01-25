@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {styled} from "@mui/material/styles";
-import {ListItemIcon, ListItemText, Typography, Box, MenuItem, Menu} from "@mui/material";
+import {ListItemIcon, ListItemText, Typography, Box, MenuItem, Menu, Drawer} from "@mui/material";
 import PropTypes from "prop-types";
 
 import CustomIconButton from "@components/buttons/CustomIconButton";
@@ -21,7 +21,6 @@ const More = ({toggleModal, chat}) => {
     toggleModal(<LeaveChatConfirm toggleModal={toggleModal} chat={chat}/>, true);
     handleClose();
   }
-
 
   return (
     <Box onClick={e => e.stopPropagation()}>
@@ -50,36 +49,39 @@ const More = ({toggleModal, chat}) => {
             horizontal: 'right',
           }}
         >
-          <MenuItem>
-            <ListItemIcon>
-              <IconByName iconName='PushPinOutlined'/>
-            </ListItemIcon>
-            <ListItemText>
-              <Typography variant='body1'>Pin conversation</Typography>
-            </ListItemText>
-          </MenuItem>
-          <MenuItem>
-            <ListItemIcon>
-              <IconByName iconName='NotificationsOffOutlined'/>
-            </ListItemIcon>
-            <ListItemText>
-              <Typography variant='body1'>Snooze conversation</Typography>
-            </ListItemText>
-          </MenuItem>
-          <MenuItem onClick={openLeaveChatConfirm}>
-            <ListItemIcon>
-              <IconByName iconStyle={{color: 'red'}} iconName='DeleteOutlined'/>
-            </ListItemIcon>
-            <ListItemText>
-              <Typography color='red' variant='body1'>Delete conversation</Typography>
-            </ListItemText>
-          </MenuItem>
+          <MenuList openLeaveChatConfirm={openLeaveChatConfirm}/>
         </MenuWrapper>
       </Box>
     </Box>
   );
 }
 
+const MenuList = ({openLeaveChatConfirm}) => (<>
+  <MenuItem>
+    <ListItemIcon>
+      <IconByName iconName='PushPinOutlined'/>
+    </ListItemIcon>
+    <ListItemText>
+      <Typography variant='body1'>Pin conversation</Typography>
+    </ListItemText>
+  </MenuItem>
+  <MenuItem>
+    <ListItemIcon>
+      <IconByName iconName='NotificationsOffOutlined'/>
+    </ListItemIcon>
+    <ListItemText>
+      <Typography variant='body1'>Snooze conversation</Typography>
+    </ListItemText>
+  </MenuItem>
+  <MenuItem onClick={openLeaveChatConfirm}>
+    <ListItemIcon>
+      <IconByName iconStyle={{color: 'red'}} iconName='DeleteOutlined'/>
+    </ListItemIcon>
+    <ListItemText>
+      <Typography color='red' variant='body1'>Delete conversation</Typography>
+    </ListItemText>
+  </MenuItem>
+</>)
 
 const MenuWrapper = styled(Menu)(({theme}) => ({
   '& .MuiPaper-root': {
@@ -100,10 +102,23 @@ const MenuWrapper = styled(Menu)(({theme}) => ({
     }
   },
 }));
+const MobileBoxWrapper = styled(Box)(({theme}) => ({
 
+
+  '& .MuiButtonBase-root': {
+    borderBottom: '1px solid rgb(239, 243, 244)',
+
+    '& .MuiTouchRipple-root': {
+      display: 'none'
+    },
+  }
+}));
 More.propTypes = {
   toggleModal: PropTypes.func,
   chat: PropTypes.object,
 }
 
+MenuList.propTypes = {
+  openLeaveChatConfirm: PropTypes.func,
+}
 export default More;

@@ -7,7 +7,7 @@ import {ACTIONS as MESSAGE_ACTIONS} from "../chat/message/action";
 
 const actions = createActions(
   {
-    actions: ['UPDATE_COUNT_UNREAD_MESSAGES'],
+    actions: ['UPDATE_COUNT_UNREAD_MESSAGES', 'RESET_DATA'],
     async: ['GET_AUTH_USER'],
   },
   {
@@ -36,9 +36,9 @@ export const getAuthUser = () => async (dispatch) => {
 export const authUserSocketSubscribe = () => async (dispatch, getState) => {
   try {
     const {user: {authUser}} = getState();
-    api.client.subscribe(`/queue/user.${authUser.id}`, async (data) => {
+    authUser?.id && api.client.subscribe(`/queue/user.${authUser.id}`, async (data) => {
       const {body} = JSON.parse(data.body);
-      // console.log('stomp body - ', body);
+      console.log('stomp body - ', body);
       switch (body?.type) {
         case 'MESSAGE_ADD':
           const {chat} = body;

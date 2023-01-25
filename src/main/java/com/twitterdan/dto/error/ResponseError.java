@@ -1,4 +1,4 @@
-package com.twitterdan.domain.error;
+package com.twitterdan.dto.error;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

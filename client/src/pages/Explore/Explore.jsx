@@ -1,13 +1,12 @@
 import React from 'react';
-import {ColumnWrapper, PrimaryColumn, SitebarColumn, StickyHeader} from "../../components";
+import {ColumnWrapper, PrimaryColumn, PrimaryHeader, SitebarColumn, StickyHeader} from "../../components";
+import ExploreHeader from "./Header";
 
 const Explore = () => {
   return (
     <ColumnWrapper>
       <PrimaryColumn>
-        <StickyHeader>
-          HEADER Explore primary column
-        </StickyHeader>
+        <PrimaryHeader pageElement={ExploreHeader}/>
         BODY Explore primary column
       </PrimaryColumn>
 
