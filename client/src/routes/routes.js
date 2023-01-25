@@ -9,6 +9,8 @@ import {PATH} from "../utils/constants";
 import {Display, TweetCompose, DeleteTweet} from "../components";
 import Reply from "../components/tweetComponents/Reply";
 import ModalImg from "../components/tweetComponents/ModalImg";
+import Subscribing from "../pages/Subscribing/Subscribing";
+import EditProfile from "../pages/UserProfile/components/EditProfile";
 
 const lazyLoading = (path) => {
   const LazyElement = lazy(() => import(path));
@@ -77,6 +79,16 @@ export const mainRoutes = (userTag, authorized) => {
         children: [],
       },
       {
+        path: PATH.FOLLOWERS,
+        element: <Subscribing/>,
+        children: []
+      },
+      {
+        path: PATH.FOLLOWINGS,
+        element: <Subscribing/>,
+        children: []
+      },
+      {
         path: PATH.NO_MATCHES,
         element: <>Not Found PAGE</>,
       },
@@ -135,6 +147,11 @@ export const modalRoutes = authorized => {
         path: PATH.TWEET.DELETE,
         element: <DeleteTweet/>,
         children: [],
+      },
+      {
+        path: PATH.SETTINGS.PROFILE,
+        element: <EditProfile/>,
+        children: []
       },
       {
         path: PATH.TWEET.REPLY,

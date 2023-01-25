@@ -1,9 +1,3 @@
-import {
-    ACTIONS,
-    GET_USER_REQUEST,
-    GET_USER_SUCCESS,
-    GET_USER_ERROR, GET_USERS_REQUEST, GET_USERS_SUCCESS, GET_USERS_ERROR,
-} from "./action";
 import {getTokens} from "@utils";
 import {ACTIONS} from "./action";
 
@@ -19,50 +13,10 @@ const INIT_STATE = {
         email: '',
         birthDate: '',
     },
-    user: {
-        isBlocked: false,
-        isAdmin: false,
-        id: 1,
-        name: "Bob",
-        userTag: "bob1234",
-        email: "abc@gmail.com",
-        password: "1111",
-        birthDate: null,
-        bio: null,
-        location: null,
-        avatarImgUrl: "",
-        headerImgUrl: "",
-        followers: [
-            2,
-            4
-        ],
-        followings: [
-            2,
-            4
-        ],
-        tweets: [
-            1
-        ]
-    },
     error: "",
 }
 export default (state = INIT_STATE, {payload, type}) => {
     switch (type) {
-        case GET_USER_REQUEST:
-            return {
-                ...state,
-                loading: true
-            }
-        case GET_USER_SUCCESS:
-            return {...state, user: payload, loading: false}
-        case GET_USER_ERROR:
-            return {...state, loading: false, error: payload}
-        case GET_USERS_REQUEST:
-            return {...state, loading: true}
-        case GET_USERS_SUCCESS:
-            return {...state, users: payload, loading: false}
-        case GET_USERS_ERROR:
-            return {...state, loading: false, error: payload}
         case String(ACTIONS.preloaderStart):
             return {
                 ...state,

@@ -6,8 +6,8 @@ export const MESSAGES_ROUTE = "/messages";
 export const LISTS_ROUTE = "/lists";
 export const BOOKMARKS_ROUTE = "/bookmarks";
 export const LOGOUT_ROUTE = "/logout";
-export const FOLLOWERS_ROUTE = "/:username/followers"
-export const FOLLOWINGS_ROUTE = "/:username/followings"
+export const FOLLOWERS_ROUTE = "/:user_tag/followers"
+export const FOLLOWINGS_ROUTE = "/:user_tag/followings"
 
 export const PATH = {
   ROOT: '/',
@@ -32,7 +32,11 @@ export const PATH = {
   BOOKMARKS: '/bookmarks',
   LISTS: '/lists',
   USER_PROFILE: '/:user_tag',
+  FOLLOWERS: '/:user_tag/followers',
+  FOLLOWINGS: '/:user_tag/followings',
   userProfile: userTag =>  `/${userTag}`,
+  followers: userTag => `/${userTag}/followers`,
+  followings: userTag => `/${userTag}/followings`,
   AUTH: {
     ROOT: '/auth',
     SING_IN: {
@@ -48,7 +52,8 @@ export const PATH = {
   },
   NO_MATCHES: '/:user_tag/*',
   SETTINGS: {
-    DISPLAY: '/settings/display'
+    DISPLAY: '/settings/display',
+    PROFILE: '/settings/profile'
   },
   TWEET: {
     ROOT:"/tweet",

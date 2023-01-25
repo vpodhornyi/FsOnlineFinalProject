@@ -5,10 +5,10 @@ import Avatar from "@mui/material/Avatar";
 import {Typography} from "@mui/material";
 import {StyledDarkButton, StyledLightButton, StyledTypography} from "../StyledComponents/styledComponents";
 import {useDispatch, useSelector} from "react-redux";
-import {getPersonalData} from "../../redux/auth/selector";
+import {getPersonalData} from "../../redux/user/selector";
 import {Link} from "react-router-dom";
 import {followUser, unfollowUser} from "../../services/followService";
-import {getAuthUser} from "../../redux/auth/action";
+import {getAuthUser} from "../../redux/user/action";
 
 const ProfilePreview = (props) => {
     const {id, avatar, username, userTag, descr, followers, followings} = props;
@@ -38,9 +38,9 @@ const ProfilePreview = (props) => {
                         <Typography sx={{textDecoration: "none"}}>
                             {username}
                             {authUser?.userTag === userTag ?
-                                <Typography sx={{fontWeight: 'bold', display: "inline-block"}}>
+                                <span style={{fontWeight: 'bold', marginLeft: "5px"}}>
                                     (Me)
-                                </Typography>
+                                </span>
                                 : ""
                             }
                         </Typography>
@@ -68,7 +68,7 @@ const ProfilePreview = (props) => {
                                 onMouseLeave={handleOnMouseLeave}
                                 onClick={() => {
                                     unfollowUser(authUser?.id, id);
-                                    dispatch(getAuthUser(authUser?.id));
+                                    dispatch(getAuthUser());
                                 }}
                             >
                                 Following
@@ -76,7 +76,7 @@ const ProfilePreview = (props) => {
                             <StyledDarkButton
                                 onClick={() => {
                                     followUser(authUser?.id, id);
-                                    dispatch(getAuthUser(authUser?.id));
+                                    dispatch(getAuthUser());
                                 }}
                             >
                                 Follow

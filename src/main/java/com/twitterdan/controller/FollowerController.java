@@ -1,21 +1,15 @@
 package com.twitterdan.controller;
 
-import com.twitterdan.domain.dto.userDto.UserResponseDto;
-import com.twitterdan.domain.user.User;
-import com.twitterdan.facade.userFacade.UserResponseMapper;
 import com.twitterdan.service.FollowerService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @CrossOrigin("*")
 @RestController
 @AllArgsConstructor
+@RequestMapping("${api.version}/subscribing")
 public class FollowerController {
     private final FollowerService followerService;
-    private final UserResponseMapper userResponseMapper;
 
     @PutMapping("/follow")
     public boolean followUser(

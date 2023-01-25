@@ -2,7 +2,7 @@ spring:
   config:
     import: env.properties
   profiles:
-    active: ${ACTIVE}
+    active: test
   h2:
     console:
       enabled: true

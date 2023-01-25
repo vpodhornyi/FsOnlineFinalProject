@@ -2,6 +2,7 @@ package com.twitterdan.controller;
 
 import com.twitterdan.domain.user.User;
 import com.twitterdan.dto.user.UserResponse;
+import com.twitterdan.dto.user.UserUpdateDataRequest;
 import com.twitterdan.facade.user.UserResponseMapper;
 import com.twitterdan.service.UserService;
 import com.twitterdan.service.auth.JwtAuthService;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,14 +61,14 @@ public class UserController {
     return userResponseMapper.convertToDto(user);
   }
 
-  //@PutMapping("/{id}")
-  //public boolean updateUserProfile(
-  //  @Valid
-  //  @PathVariable(name = "id") Long id,
-  //  @RequestBody UserProfileUpdateRequestDto dto
-  //) {
-  //  return userService.updateUserProfile(id, dto);
-  //}
+  @PutMapping("/{id}")
+  public boolean updateUserProfile(
+          @Valid
+          @PathVariable(name = "id") Long id,
+          @RequestBody UserUpdateDataRequest dto
+  ) {
+    return userService.updateUserProfile(id, dto);
+  }
 
   @ExceptionHandler({Exception.class, MethodArgumentNotValidException.class})
   public ResponseEntity<Object> handleException(Exception ex) {

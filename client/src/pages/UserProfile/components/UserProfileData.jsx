@@ -6,17 +6,18 @@ import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import {StyledTypography, userProfileSecondaryFontColor} from "../../../components/StyledComponents/styledComponents";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
+import {PATH} from "../../../utils/constants";
 
 const UserProfileData = ({username, userTag, joinedDate, followers, followings, bio, location}) => {
     return (
         <>
-            <Box sx={{margin: "15px 0 20px 0"}}>
+            <Box sx={{margin: "15px 0 15px 0"}}>
                 <Typography sx={{fontSize: "18px"}}><strong>{username}</strong></Typography>
                 <Typography sx={{color: userProfileSecondaryFontColor, fontSize: "12px"}}>@{userTag}</Typography>
             </Box>
 
             <Box>
-                {bio ? <Typography>{bio}</Typography> : <></>}
+                {bio ? <Typography sx={{fontSize: "18px"}}>{bio}</Typography> : <></>}
 
                 <div style={{
                     color: userProfileSecondaryFontColor,
@@ -39,10 +40,10 @@ const UserProfileData = ({username, userTag, joinedDate, followers, followings, 
 
                 <div style={{display: "flex"}}>
                     <StyledTypography>
-                        <Link style={{color: "black", textDecoration: "none"}} to={`/${userTag}/followers`}>{followers} Followers</Link>
+                        <Link style={{color: "black", textDecoration: "none"}} to={`${PATH.followers(userTag)}`}>{followers} Followers</Link>
                     </StyledTypography>
                     <StyledTypography sx={{marginLeft: "10px"}}>
-                        <Link style={{color: "black", textDecoration: "none"}} to={`/${userTag}/followings`}>{followings} Followings</Link>
+                        <Link style={{color: "black", textDecoration: "none"}} to={`${PATH.followings(userTag)}`}>{followings} Followings</Link>
                     </StyledTypography>
                 </div>
             </Box>

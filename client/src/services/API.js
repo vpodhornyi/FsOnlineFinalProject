@@ -51,6 +51,10 @@ export const URLS = {
     ROOT: "/users",
     SEARCH: '/users/search'
   },
+  SUBSCRIBING: {
+    FOLLOW: "/subscribing/follow",
+    UNFOLLOW: "/subscribing/unfollow",
+  },
   TWEET: {
     _ROOT: "/tweets/",
     CREATE_TWEET: "/tweets/create",

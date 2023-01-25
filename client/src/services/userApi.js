@@ -1,23 +1,17 @@
-import axios from "axios";
-
-export const DEV_API_URL = "http://localhost:8010/"
+import api, {URLS} from "./API";
 
 export const updateUser = async (id, data) => {
-    const response = await axios.put(`${DEV_API_URL}users/${id}`, data);
-    return response?.data;
+    return  await api.put(`${URLS.USERS.ROOT}/${id}`, data);
 }
 
 export const getUserById = async (id) => {
-    const response = await axios.get(`${DEV_API_URL}users/${id}`);
-    return response?.data;
+    return await api.get(`${URLS.USERS.ROOT}/${id}`);
 }
 
 export const getUserByUserTag = async (userTag) => {
-    const response = await axios.get(`${DEV_API_URL}users/?userTag=${userTag}`);
-    return response?.data;
+    return await api.get(`${URLS.USERS.ROOT}/?userTag=${userTag}`);
 }
 
 export const getUsers = async () => {
-    const response = await axios.get(`${DEV_API_URL}users`);
-    return response?.data;
+    return await api.get(`${URLS.USERS.ROOT}/all`);
 }

@@ -7,11 +7,12 @@ import ProfilePreview from "../../components/ProfilePreview/ProfilePreview";
 import noFollowers from "../../assets/img/no_followers.png"
 import {CircularProgress, Typography} from "@mui/material";
 import {getUsers} from "../../services/userApi";
-import {getPersonalData} from "../../redux/auth/selector";
 import Container from "@mui/material/Container";
+import {getPersonalData} from "../../redux/user/selector";
+
 
 const Subscribing = () => {
-    const {username} = useParams();
+    const {user_tag} = useParams();
     const path = useLocation().pathname;
 
     const authUser = useSelector(getPersonalData);
@@ -21,8 +22,8 @@ const Subscribing = () => {
 
     useEffect( () => {
         getUsers().then(users => {
-            setUserFollowers(users?.filter(user => user.followings.includes(username)))
-            setUserFollowings(users?.filter(user => user.followers.includes(username)));
+            setUserFollowers(users?.filter(user => user.followings.includes(user_tag)))
+            setUserFollowings(users?.filter(user => user.followers.includes(user_tag)));
         });
     }, [authUser]);
 
@@ -54,12 +55,12 @@ const Subscribing = () => {
         <Box sx={{width: "100%", marginTop: "25px"}}>
             <Box sx={{borderBottom: 1, borderColor: 'divider', display: "flex", justifyContent: "space-around"}}>
                         <StyledLink sx={{borderBottom: path.includes("followers") ? "2px solid black": "none"}}
-                                    to={`/${username}/followers`}>
+                                    to={`/${user_tag}/followers`}>
                             Followers
                         </StyledLink>
 
                         <StyledLink sx={{borderBottom: path.includes("followings") ? "2px solid black": "none"}}
-                                    to={`/${username}/followings`}>
+                                    to={`/${user_tag}/followings`}>
                             Followings
                         </StyledLink>
             </Box>

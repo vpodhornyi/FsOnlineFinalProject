@@ -4,20 +4,19 @@ import Box from "@mui/material/Box";
 import UserBackground from "./components/UserBackground";
 import UserIcon from "./components/UserIcon";
 import {CircularProgress, Tab, Tabs} from "@mui/material";
-import {useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import TabPanel from "./components/TabPanel";
 import {
     StyledDarkButton,
     StyledLightButton,
 } from "../../components/StyledComponents/styledComponents";
 import UserProfileData from "./components/UserProfileData";
-import {openDialog} from "../../redux/dialog/action";
-import EditForm from "./components/EditForm";
 import {useDispatch, useSelector} from "react-redux";
-import {getPersonalData} from "../../redux/auth/selector";
+import {getPersonalData} from "../../redux/user/selector";
 import {getUserByUserTag} from "../../services/userApi";
 import {followUser, unfollowUser} from "../../services/followService";
-import {getAuthUser} from "../../redux/auth/action";
+import {getAuthUser} from "../../redux/user/action";
+import {PATH} from "../../utils/constants";
 
 export function a11yProps(index) {
     return {
@@ -27,15 +26,17 @@ export function a11yProps(index) {
 }
 
 const UserProfile = () => {
-    const {username} = useParams();
-    const [tabVal, setTabVal] = useState(0)
-    const [user, setUser] = useState(null);
     const dispatch = useDispatch();
     const authUser = useSelector(getPersonalData);
+    const {user_tag} = useParams();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [tabVal, setTabVal] = useState(0)
+    const [user, setUser] = useState(null);
 
     async function fetchUser () {
         try {
-            const data = await getUserByUserTag(username);
+            const data = await getUserByUserTag(user_tag);
             setUser(data);
         } catch (e) {
             console.log("request error", e)
@@ -44,7 +45,7 @@ const UserProfile = () => {
 
     useEffect(  () => {
         fetchUser();
-    }, [username, authUser]);
+    }, [user_tag, authUser]);
 
     const handleTabVal = (e, newVal) => setTabVal(newVal);
 
@@ -72,10 +73,12 @@ const UserProfile = () => {
                         <Box sx={{display: "flex", justifyContent: "space-between"}}>
                             <UserIcon src={user?.avatarImgUrl} width={120} height={120} iconLetter={user?.name[0].toUpperCase()}/>
                             {
-                                authUser?.userTag === username ?
+                                authUser?.userTag === user_tag ?
                                     <StyledLightButton sx={
                                         {"&:hover": {backgroundColor: "rgba(15, 20, 25, 0.1)"}}
-                                    } onClick={() => {dispatch(openDialog(EditForm))}}>
+                                    } onClick={() => navigate(PATH.SETTINGS.PROFILE, {
+                                        state: {background: location}
+                                    })}>
                                         Edit
                                     </StyledLightButton>
                                     :
@@ -96,14 +99,14 @@ const UserProfile = () => {
                                                 onMouseLeave={handleOnMouseLeave}
                                                 onClick={async () => {
                                                     unfollowUser(authUser?.id, user?.id);
-                                                    dispatch(getAuthUser(authUser?.id));
+                                                    dispatch(getAuthUser());
                                                 }}
                                             >Following</StyledLightButton>
                                             :
                                             <StyledDarkButton
                                                 onClick={() => {
                                                     followUser(authUser?.id, user?.id);
-                                                    dispatch(getAuthUser(authUser?.id));
+                                                    dispatch(getAuthUser());
                                                 }}
                                                 variant="contained"
                                             >Follow
@@ -131,7 +134,6 @@ const UserProfile = () => {
                                     aria-label="basic tabs example"
                                     indicatorColor={"primary"}
                                     textColor={"primary"}
-                                    // centered
                                 >
                                     <Tab label="Tweet" {...a11yProps(0)} />
                                     <Tab label="Tweet & Replies" {...a11yProps(1)} />
