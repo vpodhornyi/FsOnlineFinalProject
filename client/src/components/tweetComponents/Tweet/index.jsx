@@ -60,7 +60,7 @@ const Tweet = ({ tweetInfo,styles }) => {
             <Box>
               <Box sx={{ marginLeft: 0.688 }}>
                 <PostInfo>
-                  <UserName onClick={() => navigate(`/${userTag}`)} variant="h2" underline={"hover"}>
+                  <UserName variant="h2" underline={"hover"}>
                     {name}
                   </UserName>
                   <VerifiedIcon

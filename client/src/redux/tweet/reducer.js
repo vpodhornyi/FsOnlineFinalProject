@@ -80,12 +80,11 @@ export default (state = INITIAL_STATE, {payload, type}) => {
             currentTweet.actions.splice(findActionIndex, 1);
           }
         }
-        console.log(i)
         if(currentLength!==currentTweet.actions.length) break;
       }
       return {
         ...state,
-        tweets: state.tweets
+        tweets:[ ...state.tweets]
       };
 
     default: {
