@@ -4,7 +4,7 @@ import {useLocation} from "react-router-dom";
 import {useResizeDetector} from 'react-resize-detector';
 
 import {
-  Preloader, RootContainer, LoginPanel,
+  Preloader, RootContainer, LoginPanel, SnackBar,
   Header, NavBar, MobileNavBar, Main, MainContainer
 } from "./components";
 import {menu} from './utils/menu';
@@ -24,33 +24,34 @@ const App = () => {
 
   return (preloader ? <Preloader/> :
       <BackgroundContext.Provider value={{background}}>
-        <RootContainer ref={ref}>
-          <Header>
-            <NavBar
-              user={authUser}
-              menu={mainMenu}
-              authorized={authorized}
-            />
-          </Header>
-          <Main>
-            <MainContainer>
-              <MainRoutes
-                width={width}
+          <RootContainer ref={ref}>
+            <Header>
+              <NavBar
+                user={authUser}
+                menu={mainMenu}
                 authorized={authorized}
-                background={background}
-                location={location}/>
-            </MainContainer>
-          </Main>
-          {!authorized && <LoginPanel/>}
-          {authorized &&
-            <MobileNavBar
-              user={authUser}
-              isChatSelected={isChatSelected}
-              countUnreadMessages={authUser.countUnreadMessages}
-              chatId={chatId}/>
-          }
-          <ModalRoutes authorized={authorized}/>
-        </RootContainer>
+              />
+            </Header>
+            <Main>
+              <MainContainer>
+                <MainRoutes
+                  width={width}
+                  authorized={authorized}
+                  background={background}
+                  location={location}/>
+              </MainContainer>
+            </Main>
+            {!authorized && <LoginPanel/>}
+            {authorized &&
+              <MobileNavBar
+                user={authUser}
+                isChatSelected={isChatSelected}
+                countUnreadMessages={authUser.countUnreadMessages}
+                chatId={chatId}/>
+            }
+            <ModalRoutes authorized={authorized}/>
+            <SnackBar/>
+          </RootContainer>
       </BackgroundContext.Provider>
   )
 }

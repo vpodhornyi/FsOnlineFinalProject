@@ -50,7 +50,7 @@ const OutletWrapper = styled(Box)(({theme}) => ({
   position: 'absolute',
   left: 0,
   right: 0,
-  zIndex: 1999,
+  zIndex: 1299,
 }));
 
 export default Chat;

@@ -4,6 +4,7 @@ import {setAuthToken, setTokenType, setHeaderAuthorization, setRefreshToken} fro
 import {PATH} from "../../utils/constants";
 import {getAuthUser, ACTIONS as USER_ACTIONS} from '../user/action';
 import {ACTIONS as CHAT_ACTIONS} from '../chat/action';
+import {ACTIONS as SNACK_ACTIONS} from '../snack/action';
 import {ACTIONS as MESSAGE_ACTIONS} from '../chat/message/action';
 
 const actions = createActions({
@@ -33,10 +34,10 @@ export const isAccountExist = (login) => async dispatch => {
     return true;
 
   } catch (e) {
-    console.log(e);
+    dispatch(SNACK_ACTIONS.open(e?.response?.data));
     dispatch(ACTIONS.isAccountExist.fail());
     return false;
-  }
+}
 }
 
 export const createNewUser = ({name, email, birthDate}) => async dispatch => {
@@ -46,6 +47,7 @@ export const createNewUser = ({name, email, birthDate}) => async dispatch => {
     dispatch(ACTIONS.createNewUser.success(data));
 
   } catch (e) {
+    dispatch(SNACK_ACTIONS.open(e?.response?.data));
     dispatch(ACTIONS.createNewUser.fail());
   }
 }
@@ -66,7 +68,7 @@ export const runSingUpSecondStep = ({name, email, birthDate, navigate, backgroun
   }
 }
 
-export const authorize = ({login, password, navigate, background}) => async dispatch => {
+export const authorize = ({login, password, navigate}) => async dispatch => {
   try {
     dispatch(ACTIONS.authorize.request());
     const {type, accessToken, refreshToken} = await api.post(URLS.AUTH.AUTHORIZE, {login, password});
@@ -78,13 +80,12 @@ export const authorize = ({login, password, navigate, background}) => async disp
     dispatch(getAuthUser());
     navigate(`${PATH.HOME}`);
 
-  } catch (err) {
-    //TODO show error
+  } catch (e) {
     setTimeout(() => {
       dispatch(ACTIONS.disableLoading());
       dispatch(ACTIONS.authorize.fail());
     }, 300)
-    console.log("login error - ", err);
+    dispatch(SNACK_ACTIONS.open(e?.response?.data));
   }
 }
 
@@ -97,11 +98,9 @@ export const logout = ({navigate}) => async dispatch => {
     dispatch(ACTIONS.logout.success());
     navigate(PATH.ROOT);
 
-  } catch (err) {
-    //TODO show error
-    //TODO ref success to fail
-    dispatch(ACTIONS.logout.success());
-    console.log('logout error - ', err);
+  } catch (e) {
+    dispatch(ACTIONS.logout.fail());
+    dispatch(SNACK_ACTIONS.open(e?.response?.data));
 
   } finally {
     dispatch(CHAT_ACTIONS.resetData());

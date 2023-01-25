@@ -11,6 +11,7 @@ import tweetReducer from "./tweet/reducer";
 import authReducer from "./auth/reducer";
 import userReducer from "./user/reducer";
 import dialogReducer from "./dialog/reducer";
+import snackReducer from "./snack/reducer";
 
 import chatReducer from "./chat/reducer";
 import messagesReducer from "./chat/message/reducer";
@@ -24,6 +25,7 @@ const reducer = combineReducers({
   auth: authReducer,
   user: userReducer,
   dialog: dialogReducer,
+  snack: snackReducer,
 })
 
 const stompClient = (onConnect) => {

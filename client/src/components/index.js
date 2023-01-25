@@ -26,6 +26,7 @@ import DeleteTweet from "./tweetComponents/DeleteTweet";
 import PrimaryHeader from './PrimaryHeader';
 import MobileDrawer from './Drawer/Drawer';
 import CustomDrawer from './CustomDrawer';
+import SnackBar from './SnackBar';
 
 export {
   Header,
@@ -61,4 +62,5 @@ export {
   PrimaryHeader,
   MobileDrawer,
   CustomDrawer,
+  SnackBar,
 }

@@ -2,8 +2,7 @@ import {getTokens} from "@utils";
 import {ACTIONS} from "./action";
 
 const {accessToken} = getTokens();
-
-const INIT_STATE = {
+const init = {
   authorized: Boolean(accessToken),
   loginName: '',
   preloader: false,
@@ -14,8 +13,7 @@ const INIT_STATE = {
     birthDate: '',
   },
 }
-export default (state = INIT_STATE, {payload, type}) => {
-
+export default (state = JSON.parse(JSON.stringify(init)), {payload, type}) => {
   switch (type) {
     case String(ACTIONS.preloaderStart):
       return {
@@ -63,13 +61,14 @@ export default (state = INIT_STATE, {payload, type}) => {
       }
     case String(ACTIONS.authorize.success):
       return {
-        ...INIT_STATE,
+        ...init,
         authorized: true,
         loading: false,
       }
     case String(ACTIONS.logout.success):
+    case String(ACTIONS.logout.fail):
       return {
-        ...INIT_STATE,
+        ...init,
         authorized: false,
       }
     case String(ACTIONS.isAccountExist.fail):
