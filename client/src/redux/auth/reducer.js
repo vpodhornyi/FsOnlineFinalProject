@@ -1,9 +1,9 @@
-import { getTokens } from "@utils";
-import { ACTIONS } from "./action";
+import {getTokens} from "@utils";
+import {ACTIONS} from "./action";
 
-const { accessToken } = getTokens();
+const {accessToken} = getTokens();
 
-const INIT_STATE = {
+const init = {
   authorized: Boolean(accessToken),
   loginName: "",
   preloader: false,
@@ -15,7 +15,7 @@ const INIT_STATE = {
     birthDate: ""
   }
 };
-export default (state = INIT_STATE, { payload, type }) => {
+export default (state = JSON.parse(JSON.stringify(init)), {payload, type}) => {
   switch (type) {
     case String(ACTIONS.preloaderStart):
       return {
@@ -37,16 +37,6 @@ export default (state = INIT_STATE, { payload, type }) => {
           birthDate: payload.birthDate
         }
       };
-    case String(ACTIONS.clearNewUserData):
-      return {
-        ...state,
-        newUser: {
-          name: "",
-          email: "",
-          password: "",
-          birthDate: ""
-        }
-      };
     case String(ACTIONS.isAccountExist.request):
     case String(ACTIONS.createNewUser.request):
     case String(ACTIONS.authorize.request):
@@ -59,7 +49,7 @@ export default (state = INIT_STATE, { payload, type }) => {
         ...state,
         loginName: payload.login
       };
-      case String(ACTIONS.createNewUser.success):
+    case String(ACTIONS.createNewUser.success):
       return {
         ...state,
         loading: false,
@@ -78,13 +68,13 @@ export default (state = INIT_STATE, { payload, type }) => {
       };
     case String(ACTIONS.authorize.success):
       return {
-        ...INIT_STATE,
+        ...init,
         authorized: true,
         loading: false
       };
     case String(ACTIONS.logout.success):
       return {
-        ...INIT_STATE,
+        ...init,
         authorized: false
       };
     case String(ACTIONS.isAccountExist.fail):
@@ -92,6 +82,11 @@ export default (state = INIT_STATE, { payload, type }) => {
       return {
         ...state,
         authorized: false
+      };
+    case String(ACTIONS.resetData):
+      state = init;
+      return {
+        ...state,
       };
     default:
       return state;

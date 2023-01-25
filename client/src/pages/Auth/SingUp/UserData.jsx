@@ -1,5 +1,5 @@
 import React, {useContext, useState} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {Typography, TextField, Stack, Box} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
@@ -16,15 +16,17 @@ import {Container, ButtonWrapper} from "../components";
 import {CustomFabButton} from "../../../components";
 import {BackgroundContext} from "../../../utils/context";
 import {runSingUpSecondStep} from "@redux/auth/action";
+import {ACTIONS} from '@redux/auth/action';
 
 const UserData = () => {
+  const newUser = useSelector(state => state.auth.newUser)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {background} = useContext(BackgroundContext);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [birthDate, setBirthDate] = useState("");
-  const [password, setPassword] = useState("");
+  const [name, setName] = useState(newUser.name);
+  const [email, setEmail] = useState(newUser.email);
+  const [birthDate, setBirthDate] = useState(newUser.birthDate);
+  const [password, setPassword] = useState(newUser.password);
   const [showPassword, setShowPassword] = useState(false);
 
   const onChangeLogin = e => {

@@ -3,6 +3,7 @@ import {createActions} from '../utils';
 import {setAuthToken, setTokenType, setHeaderAuthorization, setRefreshToken} from "@utils";
 import {PATH} from "../../utils/constants";
 import {getAuthUser} from '../user/action';
+import {ACTIONS as SNACK_ACTIONS} from '../snack/action';
 import {ACTIONS as USER_ACTIONS} from '../user/action';
 import {ACTIONS as CHAT_ACTIONS} from '../chat/action';
 import {ACTIONS as MESSAGE_ACTIONS} from '../chat/message/action';
@@ -12,9 +13,9 @@ const actions = createActions(
     actions: [
       "DISABLE_LOADING",
       "SET_NEW_USER_DATA",
-      "CLEAR_NEW_USER_DATA",
       "PRELOADER_START",
-      "PRELOADER_END"
+      "PRELOADER_END",
+      "RESET_DATA",
     ],
     async: ["IS_ACCOUNT_EXIST", "AUTHORIZE", "CREATE_NEW_USER", "LOGOUT"]
   },
@@ -34,15 +35,15 @@ const disableLoading = dispatch => {
   }, 300);
 };
 
-export const isAccountExist = login => async dispatch => {
+export const isAccountExist = (login, showErr = true) => async dispatch => {
   try {
     dispatch(ACTIONS.isAccountExist.request());
     const data = await api.post(URLS.AUTH.IS_ACCOUNT_EXIST, {login});
     dispatch(ACTIONS.isAccountExist.success(data));
 
     return true;
-  } catch (e) {
-    console.log(e);
+  } catch (err) {
+    showErr && dispatch(SNACK_ACTIONS.open(err?.response?.data));
     dispatch(ACTIONS.isAccountExist.fail());
     return false;
   }
@@ -62,8 +63,8 @@ export const createNewUser = (body) => async dispatch => {
     dispatch(USER_ACTIONS.getAuthUser.success(data));
     dispatch(ACTIONS.createNewUser.success());
 
-  } catch (e) {
-    console.log(e);
+  } catch (err) {
+    dispatch(SNACK_ACTIONS.open(err?.response?.data));
     dispatch(ACTIONS.createNewUser.fail());
   }
 };
@@ -82,14 +83,14 @@ export const runLoginSecondStep =
 export const runSingUpSecondStep =
   ({name, email, password, birthDate, navigate, background}) =>
     async dispatch => {
-      if (!(await dispatch(isAccountExist(email)))) {
-        dispatch(ACTIONS.setNewUserData({name, email, password, birthDate}));
+      dispatch(ACTIONS.setNewUserData({name, email, password, birthDate}));
+
+      if (!(await dispatch(isAccountExist(email, false)))) {
         navigate(`${PATH.AUTH.ROOT}/${PATH.AUTH.SING_UP.CREATE_ACCOUNT}`, {
           state: {background}
         });
       } else {
-        //TODO show error
-        console.log("runSingUpSecondStep - ", 'Account already exist');
+        dispatch(SNACK_ACTIONS.open({message: `Account with email ${email} already exist!`}));
       }
       disableLoading(dispatch);
     };
@@ -111,12 +112,11 @@ export const authorize =
         dispatch(getAuthUser());
         navigate(`${PATH.HOME}`);
       } catch (err) {
-        //TODO show error
         setTimeout(() => {
           dispatch(ACTIONS.disableLoading());
           dispatch(ACTIONS.authorize.fail());
         }, 300);
-        console.log("login error - ", err);
+        dispatch(SNACK_ACTIONS.open(err?.response?.data));
       }
     };
 
@@ -130,10 +130,8 @@ export const logout = ({navigate}) => async dispatch => {
     navigate(PATH.ROOT);
 
   } catch (err) {
-    //TODO show error
-    //TODO ref success to fail
     dispatch(ACTIONS.logout.success());
-    console.log('logout error - ', err);
+    dispatch(SNACK_ACTIONS.open(err?.response?.data));
 
   } finally {
     dispatch(CHAT_ACTIONS.resetData());

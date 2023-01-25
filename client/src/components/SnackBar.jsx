@@ -2,7 +2,6 @@ import React from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {styled} from "@mui/material/styles";
 import {Box, Typography, Snackbar} from "@mui/material";
-import PropTypes from "prop-types";
 
 import {ACTIONS} from '@redux/snack/action';
 
