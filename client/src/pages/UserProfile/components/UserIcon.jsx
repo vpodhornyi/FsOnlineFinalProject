@@ -1,10 +1,8 @@
 import React from 'react';
 import Avatar from "@mui/material/Avatar";
-import {sidebarMenu} from "../../../components/Sidebar/data/sidebarMenu"
 import PropTypes from "prop-types";
 
 const UserIcon = ({width, height, src, iconLetter, children}) => {
-    const {themeColor} = sidebarMenu;
 
     return (
         <>
@@ -13,7 +11,6 @@ const UserIcon = ({width, height, src, iconLetter, children}) => {
                 sx={{
                     width: width,
                     height: height,
-                    bgcolor: themeColor,
                     backgroundImage: src ? `url('${src}')` : 'none',
                     backgroundPosition: "center",
                     backgroundSize: "cover",
