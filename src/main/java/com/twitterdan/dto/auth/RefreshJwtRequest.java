@@ -1,4 +1,4 @@
-package com.twitterdan.domain.auth;
+package com.twitterdan.dto.auth;
 
 import lombok.Getter;
 import lombok.Setter;
