@@ -7,7 +7,7 @@ import {ACTIONS as MESSAGE_ACTIONS} from "../chat/message/action";
 
 const actions = createActions(
   {
-    actions: ['OPEN', 'close'],
+    actions: ['OPEN', 'CLOSE'],
   },
   {
     prefix: "snack",
