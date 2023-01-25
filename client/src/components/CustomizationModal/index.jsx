@@ -31,10 +31,13 @@ const tweetInfo = {
     }
 }
 export default function CustomizationModal() {
-    const {fontSize, setFontSize} = useContext(ThemeContext);
+    const {color, backgroundColor} = useContext(ThemeContext);
     const fontSizeHandler = (event, newValue) => {
-        setFontSize(newValue);
+        document.getElementsByTagName("html")[0].style.fontSize = newValue + "px";
+
     };
+
+
     return (
         <>
             <Box
@@ -44,14 +47,14 @@ export default function CustomizationModal() {
                     paddingRight: "30px",
                     overflow: "hidden",
                     maxHeight: "90vw",
-                    backgroundColor: "white",
+                    backgroundColor: backgroundColor,
                     borderRadius: "8px"
 
                 }}
             >
                 <Box
                     sx={{
-                        fontSize: "23px",
+                        fontSize: "1.533rem",
                         fontWeight: 800,
                         textAlign: "center",
                         marginTop: "32px",
@@ -64,7 +67,7 @@ export default function CustomizationModal() {
 
                 <Box
                     sx={{
-                        fontSize: "15px",
+                        fontSize: "1rem",
                         fontWeight: 400,
                         textAlign: "center",
                         lineHeight: "20px",
@@ -80,7 +83,7 @@ export default function CustomizationModal() {
 
                 <Box
                     sx={{
-                        fontSize: "13px",
+                        fontSize: "0.867rem",
                         color: "rgb(83, 100, 113)",
                         fontWeight: 700,
                         lineHeight: "20px",
@@ -88,13 +91,15 @@ export default function CustomizationModal() {
                 >
                     Font size
                 </Box>
-                <Slider step={1} marks min={1} max={5} onChange={fontSizeHandler}/>
+                <Slider sx={{color: color}} step={1} marks min={14} max={18} onChange={fontSizeHandler}/>
                 <Box
                     sx={{
-                        fontSize: "13px",
+                        fontSize: "0.867rem",
                         color: "rgb(83, 100, 113)",
                         fontWeight: 700,
                         lineHeight: "20px",
+                        marginBottom: "3px",
+                        marginTop: "8px"
                     }}
                 >
                     Color
@@ -102,10 +107,11 @@ export default function CustomizationModal() {
                 <ColorCustomization/>
                 <Box
                     sx={{
-                        fontSize: "13px",
+                        fontSize: "0.867rem",
                         color: "rgb(83, 100, 113)",
                         fontWeight: 700,
                         lineHeight: "20px",
+                        marginTop: "8px"
                     }}
                 >
                     Background
@@ -115,6 +121,8 @@ export default function CustomizationModal() {
                     sx={{
                         display: "flex",
                         justifyContent: "center",
+                        marginTop: "15px",
+                        marginBottom: "15px"
                     }}
                 >
                     <UseButton name="Done" customStyle={"buttonStyle"} onclickAction={function () {

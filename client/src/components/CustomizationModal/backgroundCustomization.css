@@ -1,0 +1,25 @@
+.background-customization-check-active {
+    width: 20px;
+    height: 20px;
+    border-radius: 30px;
+    border-width: 2px;
+    border-style: solid;
+    /*background-color: rgb(29, 155, 240);*/
+    /*border-color: rgb(29, 155, 240);*/
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    align-content: center;
+}
+
+.background-customization-check-inactive {
+    width: 20px;
+    height: 20px;
+    border-radius: 30px;
+    border-color: rgb(185, 202, 211);
+    border-width: 2px;
+    border-style: solid;
+    cursor: pointer;
+
+}
+

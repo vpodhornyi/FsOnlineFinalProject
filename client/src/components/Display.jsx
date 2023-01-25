@@ -9,23 +9,24 @@ import CustomizationModal from "./CustomizationModal";
 
 
 const Display = ({item}) => {
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-  return <ModalPage element={
-    <BoxWrapper>
-    <CustomizationModal/>
-    </BoxWrapper>
-  }/>
+    return <ModalPage element={
+        <BoxWrapper>
+            <CustomizationModal/>
+        </BoxWrapper>
+    }
+                      styles={{width: '1000px'}}/>
 }
 
 const styles = ({theme}) => ({
-  width: '100%',
-  display: 'flex',
+    width: '100%',
+    display: 'flex',
 });
 
 const BoxWrapper = styled(Box)(styles);
 
 Display.propTypes = {
-  item: PropTypes.object,
+    item: PropTypes.object,
 }
 export default Display;

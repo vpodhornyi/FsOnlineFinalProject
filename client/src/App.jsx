@@ -20,10 +20,9 @@ import {getChatsData} from "@redux/chat/selector";
 import {ThemeContext} from "./utils/themeContext";
 
 const App = () => {
-    const [fontSize, setFontSize] = useState('3rem');
     const [color, setColor] = useState('rgb(29, 155, 240)');
     const [backgroundColor, setBackgroundColor] = useState('#ffffff');
-    const themeValue = {fontSize, setFontSize, color, setColor, backgroundColor, setBackgroundColor};
+    const themeValue = {color, setColor, backgroundColor, setBackgroundColor};
 
     const {authorized} = useSelector((state) => state.auth);
     const {
@@ -33,9 +32,6 @@ const App = () => {
     const {isChatSelected, chatId} = useSelector(getChatsData);
     const location = useLocation();
     const background = location.state?.background;
-    useEffect(() => {
-        console.log(fontSize + ":" + color + ":" + backgroundColor)
-    });
     return preloader ? (
         <Preloader/>
     ) : (
