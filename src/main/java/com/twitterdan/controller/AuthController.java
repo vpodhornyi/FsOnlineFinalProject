@@ -15,9 +15,7 @@ import com.twitterdan.service.auth.JwtAuthService;
 
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +25,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.validation.Valid;
-
 
 @RestController
 @RequestMapping("${api.version}/auth")
@@ -39,9 +36,6 @@ public class AuthController {
   private final UserRequestMapper userRequestMapper;
   private final NewUserResponseMapper newUserResponseMapper;
   private final UserService userService;
-
-  @Autowired
-  PasswordEncoder passwordEncoder;
 
   @PostMapping("/account")
   public ResponseEntity<AccountCheckResponse> account(@Valid @RequestBody AccountCheckRequest authRequest) {
