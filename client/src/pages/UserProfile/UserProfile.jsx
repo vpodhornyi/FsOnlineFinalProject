@@ -44,6 +44,7 @@ const UserProfile = () => {
     }
 
     useEffect(  () => {
+        setUser(null)
         fetchUser();
     }, [user_tag, authUser]);
 
@@ -135,16 +136,17 @@ const UserProfile = () => {
                                     indicatorColor={"primary"}
                                     textColor={"primary"}
                                 >
-                                    <Tab label="Tweet" {...a11yProps(0)} />
-                                    <Tab label="Tweet & Replies" {...a11yProps(1)} />
-                                    <Tab label="Likes" {...a11yProps(2)} />
+                                    <Tab onClick={() => navigate(PATH.USER_PAGE.userProfile(user_tag))} label="Tweets" {...a11yProps(0)} />
+                                    <Tab onClick={() => navigate(PATH.USER_PAGE.tweetReplies(user_tag))} label="Tweets & Replies" {...a11yProps(1)} />
+                                    <Tab onClick={() => navigate(PATH.USER_PAGE.likes(user_tag))} label="Likes" {...a11yProps(2)} />
                                 </Tabs>
                             </Box>
                             <TabPanel value={tabVal} index={0}>
                                 Tweet Component
                             </TabPanel>
                             <TabPanel value={tabVal} index={1}>
-                                Tweet & Replies Component
+
+                                <div>Tweet & Replies Component</div>
                             </TabPanel>
                             <TabPanel value={tabVal} index={2}>
                                 Likes

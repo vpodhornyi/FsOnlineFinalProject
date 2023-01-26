@@ -17,11 +17,11 @@ public class UserUpdateDataRequest {
     @Max(50)
     private String name;
 
-    @Min(5)
+    @Min(0)
     @Max(160)
     private String bio;
 
-    @Min(2)
+    @Min(0)
     @Max(30)
     private String location;
 

@@ -155,10 +155,8 @@ const EditProfile = () => {
                             disabled={
                                 name.length < 3 ||
                                 name.length > 50 ||
-                                bio.length < 5 ||
-                                bio.length > 160 ||
-                                location.length < 2 ||
-                                location.length > 30
+                                location.length > 30 ||
+                                bio.length > 160
                             }
                             onClick={() => {
                                 handleSaveClick()
@@ -224,7 +222,7 @@ const EditProfile = () => {
                                 <Grid item xs={12} sx={{padding: '10px 0'}}>
                                     <TextField
                                         error={name.length < 3 || name.length > 50}
-                                        helperText={"Name must includes from 3 to 50 symbols"}
+                                        helperText={(name.length < 3 || name.length > 50) ? "Name must includes from 3 to 50 symbols" : `${name.length} / 50`}
                                         value={name}
                                         sx={{width: '100%'}}
                                         id="name"
@@ -235,8 +233,8 @@ const EditProfile = () => {
                                 </Grid>
                                 <Grid item sx={{padding: '10px 0'}}>
                                     <TextField
-                                        error={bio.length < 5 || bio.length > 160}
-                                        helperText={"Bio must includes from 5 to 160 symbols"}
+                                        error={bio.length > 160}
+                                        helperText={bio.length > 160 ? "Bio must includes max to 160 symbols" : `${bio.length} / 160`}
                                         value={bio}
                                         id="bio"
                                         sx={{width: '100%'}}
@@ -247,8 +245,8 @@ const EditProfile = () => {
                                 </Grid>
                                 <Grid item sx={{padding: '10px 0'}}>
                                     <TextField
-                                        error={location.length < 2 || location.length > 30}
-                                        helperText={"Value must includes from 2 to 30 symbols"}
+                                        error={location.length > 30}
+                                        helperText={location.length > 30 ? "Bio must includes max to 160 symbols" : `${location.length} / 160`}
                                         value={location}
                                         id="location"
                                         sx={{width: '100%'}}

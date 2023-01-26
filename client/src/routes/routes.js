@@ -101,19 +101,29 @@ export const mainRoutes = (width, authorized) => {
         children: [],
       },
       {
-        path: PATH.USER_PROFILE,
+        path: PATH.USER_PAGE.USER_PROFILE,
         element: <UserProfile/>,
         children: [],
       },
       {
-        path: PATH.FOLLOWERS,
+        path: PATH.USER_PAGE.FOLLOWERS,
         element: <Subscribing/>,
         children: []
       },
       {
-        path: PATH.FOLLOWINGS,
+        path: PATH.USER_PAGE.FOLLOWINGS,
         element: <Subscribing/>,
         children: []
+      },
+      {
+        path: PATH.USER_PAGE.LIKES,
+        element: <UserProfile/>,
+        children: [],
+      },
+      {
+        path: PATH.USER_PAGE.TWEET_REPLIES,
+        element: <UserProfile/>,
+        children: [],
       },
       {
         path: PATH.NO_MATCHES,
@@ -128,11 +138,6 @@ export const mainRoutes = (width, authorized) => {
       {
         path: PATH.EXPLORE,
         element: <Explore/>,
-        children: [],
-      },
-      {
-        path: PATH.USER_PROFILE,
-        element: <UserProfile/>,
         children: [],
       },
       {

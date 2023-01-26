@@ -8,7 +8,7 @@ import {ACTIONS as MESSAGE_ACTIONS} from "../chat/message/action";
 const actions = createActions(
   {
     actions: ['UPDATE_COUNT_UNREAD_MESSAGES', 'RESET_DATA'],
-    async: ['GET_AUTH_USER'],
+    async: ['GET_AUTH_USER', "GET_USER_TWEETS", "GET_USER_LIKES"],
   },
   {
     prefix: "user",
@@ -20,9 +20,33 @@ export const ACTIONS = {
   ...actions.async,
 }
 
-export const getAuthUser = () => async (dispatch) => {
+export const getUserLikes = (preloader = false) => async dispatch => {
+  try{
+    dispatch(ACTIONS.getUserLikes.request(preloader));
+    const data = await api.get(URLS.TWEET.USER_LIKES);
+    dispatch(ACTIONS.getUserLikes.success(data));
+  }catch (e) {
+    console.log(e);
+    dispatch(ACTIONS.getUserLikes.fail(e));
+    dispatch(ACTIONS.getUserLikes.fail());
+  }
+}
+
+export const getUserTweets = (preloader = false) => async dispatch => {
   try {
-    dispatch(ACTIONS.getAuthUser.request());
+    dispatch(ACTIONS.getUserTweets.request(preloader));
+    const data = await api.get(URLS.TWEET.USER_TWEETS);
+    dispatch(ACTIONS.getUserTweets.success(data));
+  }catch (e) {
+    console.log(e);
+    dispatch(ACTIONS.getUserTweets.fail(e));
+    dispatch(ACTIONS.getUserTweets.fail());
+  }
+}
+
+export const getAuthUser = (preloader = false) => async (dispatch) => {
+  try {
+    dispatch(ACTIONS.getAuthUser.request(preloader));
     const data = await api.get(URLS.USERS.ROOT);
     dispatch(ACTIONS.getAuthUser.success(data));
 

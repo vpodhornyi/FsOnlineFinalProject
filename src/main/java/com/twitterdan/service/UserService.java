@@ -47,10 +47,10 @@ public class UserService {
       if (dtoName != null && dtoName.length() > 0) {
         user.get().setName(dtoName);
       }
-      if (dtoBio != null && dtoBio.length() > 0) {
+      if (dtoBio != null) {
         user.get().setBio(dtoBio);
       }
-      if (dtoLocation != null && dtoLocation.length() > 0) {
+      if (dtoLocation != null) {
         user.get().setLocation(dtoLocation);
       }
 

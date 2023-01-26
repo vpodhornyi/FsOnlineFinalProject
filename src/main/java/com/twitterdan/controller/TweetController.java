@@ -1,5 +1,6 @@
 package com.twitterdan.controller;
 
+import com.twitterdan.dao.UserDao;
 import com.twitterdan.domain.tweet.Tweet;
 import com.twitterdan.domain.user.User;
 import com.twitterdan.dto.tweet.TweetRequest;
@@ -10,6 +11,7 @@ import com.twitterdan.facade.tweet.TweetRequestMapper;
 import com.twitterdan.facade.tweet.TweetResponseMapper;
 import com.twitterdan.service.TweetService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -29,6 +31,8 @@ public class TweetController {
   private final TweetService tweetService;
   private final TweetRequestMapper tweetRequestMapper;
   private final TweetResponseMapper tweetResponseMapper;
+  @Autowired
+  private UserDao userDao;
 
   public TweetController(TweetService tweetService, TweetRequestMapper tweetRequestMapper,
                          TweetResponseMapper tweetResponseMapper) {
@@ -43,6 +47,20 @@ public class TweetController {
     List<Tweet> tweets = tweetService.getAll();
     return tweets.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
   }
+
+  @GetMapping("/user-tweets/")
+  public List<TweetResponse> getTweetsByUserId(  Principal principal) {
+    User userCurrent  = userDao.findByUserTag(principal.getName());
+    List<Tweet> tweets = tweetService.getTweetsByUserId(userCurrent.getId());
+    return tweets.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
+  }
+  @GetMapping("/user-likes/")
+  public List<TweetResponse> findCurrentUserLikeTweets(  Principal principal) {
+    User userCurrent  = userDao.findByUserTag(principal.getName());
+    List<Tweet> tweets = tweetService.findCurrentUserLikeTweets(userCurrent.getId());
+    return tweets.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
+  }
+
 
   @GetMapping("/bookmarks")
   public List<Long> getBookmarks() {

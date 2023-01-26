@@ -9,6 +9,7 @@ import {CircularProgress, Typography} from "@mui/material";
 import {getUsers} from "../../services/userApi";
 import Container from "@mui/material/Container";
 import {getPersonalData} from "../../redux/user/selector";
+import {PATH} from "../../utils/constants";
 
 
 const Subscribing = () => {
@@ -55,12 +56,12 @@ const Subscribing = () => {
         <Box sx={{width: "100%", marginTop: "25px"}}>
             <Box sx={{borderBottom: 1, borderColor: 'divider', display: "flex", justifyContent: "space-around"}}>
                         <StyledLink sx={{borderBottom: path.includes("followers") ? "2px solid black": "none"}}
-                                    to={`/${user_tag}/followers`}>
+                                    to={`${PATH.USER_PAGE.followers(user_tag)}`}>
                             Followers
                         </StyledLink>
 
                         <StyledLink sx={{borderBottom: path.includes("followings") ? "2px solid black": "none"}}
-                                    to={`/${user_tag}/followings`}>
+                                    to={`${PATH.USER_PAGE.followings(user_tag)}`}>
                             Followings
                         </StyledLink>
             </Box>

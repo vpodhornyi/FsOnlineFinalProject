@@ -32,6 +32,13 @@ public class TweetService {
   @Autowired
   private UserDao userDao;
 
+  public List<Tweet> getTweetsByUserId(Long userId) {
+    return (List<Tweet>) tweetDao.findTweetsByUserId(userId);
+  }
+  public List<Tweet> findCurrentUserLikeTweets(Long userId) {
+    return (List<Tweet>) tweetDao.findCurrentUserLikeTweets(userId);
+  }
+
   public List<Tweet> getAll() {
     return (List<Tweet>) tweetDao.findAll();
   }

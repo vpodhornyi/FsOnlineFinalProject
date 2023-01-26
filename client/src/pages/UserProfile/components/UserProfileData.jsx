@@ -32,7 +32,7 @@ const UserProfileData = ({username, userTag, joinedDate, followers, followings, 
                         </Box>
                     }
 
-                    <Box sx={{display: "flex", alignItems: "center", marginLeft: "15px"}}>
+                    <Box sx={{display: "flex", alignItems: "center"}}>
                         <CalendarMonthIcon sx={{color: userProfileSecondaryFontColor}}/>
                         <Typography sx={{marginLeft: "5px"}}>Joined: {joinedDate}</Typography>
                     </Box>
@@ -40,10 +40,10 @@ const UserProfileData = ({username, userTag, joinedDate, followers, followings, 
 
                 <div style={{display: "flex"}}>
                     <StyledTypography>
-                        <Link style={{color: "black", textDecoration: "none"}} to={`${PATH.followers(userTag)}`}>{followers} Followers</Link>
+                        <Link style={{color: userProfileSecondaryFontColor, textDecoration: "none"}} to={`${PATH.USER_PAGE.followers(userTag)}`}><span style={{color: "black", fontWeight: 600}}>{followers}</span> Followers</Link>
                     </StyledTypography>
                     <StyledTypography sx={{marginLeft: "10px"}}>
-                        <Link style={{color: "black", textDecoration: "none"}} to={`${PATH.followings(userTag)}`}>{followings} Followings</Link>
+                        <Link style={{color: userProfileSecondaryFontColor, textDecoration: "none"}} to={`${PATH.USER_PAGE.followings(userTag)}`}><span style={{color: "black", fontWeight: 600}}>{followings}</span> Followings</Link>
                     </StyledTypography>
                 </div>
             </Box>
