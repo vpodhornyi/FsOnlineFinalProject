@@ -27,11 +27,15 @@ public class TweetService {
   @Autowired
   private TweetActionResponseMapper tweetActionResponseMapper;
   public List<Tweet> getTweetsByUserId(Long userId) {
-    return (List<Tweet>) tweetDao.findTweetsByUserId(userId);
+     List<Tweet> userTweets = tweetDao.findTweetsByUserId(userId);
+     List<Tweet> userRetweets =  tweetDao.findCurrentUserActionTweets("RETWEET",userId);
+      userTweets.addAll(userRetweets);
+      return userTweets;
   }
   public List<Tweet> findCurrentUserLikeTweets(Long userId) {
-    return (List<Tweet>) tweetDao.findCurrentUserLikeTweets(userId);
+    return (List<Tweet>) tweetDao.findCurrentUserActionTweets("LIKE",userId);
   }
+
 
   public List<Tweet> getAll() {
     return  tweetDao.findTweetsByParentTweetIdIsNull();

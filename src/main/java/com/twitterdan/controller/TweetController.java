@@ -45,6 +45,7 @@ public class TweetController {
     List<Tweet> tweets = tweetService.getTweetsByUserId(userCurrent.getId());
     return tweets.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
   }
+
   @GetMapping("/user-likes/")
   public List<TweetResponse> findCurrentUserLikeTweets(  Principal principal) {
     User userCurrent  = userDao.findByUserTag(principal.getName());
