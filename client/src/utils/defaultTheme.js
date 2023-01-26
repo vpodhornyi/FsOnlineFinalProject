@@ -22,10 +22,14 @@ export const themeStyles = {
       main: 'rgb(29, 155, 240)',
       secondary: 'rgb(26, 140, 216)',
       third: 'rgba(29, 155, 240, 0.1)',
+      light: 'rgb(142, 205, 248)',
       contrastText: '#ffffff'
     },
     neutral: {
       main: '#ffd400',
+    },
+    border: {
+      lightGrey: 'rgb(239, 243, 244)',
     },
     orangeAccent: {
       main: '#ff7a00',
