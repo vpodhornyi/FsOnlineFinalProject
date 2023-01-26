@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {useSelector} from "react-redux";
 import {useLocation} from "react-router-dom";
 import {useResizeDetector} from 'react-resize-detector';
+import {ThemeProvider} from "@emotion/react";
 
 import {
   Preloader, RootContainer, LoginPanel, SnackBar,
@@ -13,15 +14,18 @@ import MainRoutes from "./routes/MainRoutes";
 import ModalRoutes from "./routes/ModalRoutes";
 import {getChatsData} from "@redux/chat/selector";
 import {ThemeContext} from "./utils/themeContext";
+import {createTheme} from "@mui/material/styles";
+import {themeStyles} from "./utils/defaultTheme";
 
 const App = () => {
-  const [color, setColor] = useState('rgb(29, 155, 240)');
-  const [backgroundColor, setBackgroundColor] = useState('#ffffff');
-  const themeValue = {color, setColor, backgroundColor, setBackgroundColor};
+  // const [color, setColor] = useState('rgb(29, 155, 240)');
+  // const [backgroundColor, setBackgroundColor] = useState('#ffffff');
+  // const themeValue = {color, setColor, backgroundColor, setBackgroundColor};
 
   const {width, ref} = useResizeDetector();
   const {authorized} = useSelector(state => state.auth);
   const {authUser, preloader} = useSelector(state => state.user);
+  const theme = createTheme(themeStyles('dim', 'blue'));
   const {isChatSelected, chatId} = useSelector(getChatsData);
   const location = useLocation();
   const background = location.state?.background;
@@ -29,7 +33,7 @@ const App = () => {
 
   return (preloader ? <Preloader/> :
       <BackgroundContext.Provider value={{background}}>
-        <ThemeContext.Provider value={themeValue}>
+        <ThemeProvider theme={theme}>
           <RootContainer ref={ref}>
             <Header>
               <NavBar
@@ -58,7 +62,7 @@ const App = () => {
             <ModalRoutes authorized={authorized}/>
             <SnackBar/>
           </RootContainer>
-        </ThemeContext.Provider>
+        </ThemeProvider>
       </BackgroundContext.Provider>
   )
 }

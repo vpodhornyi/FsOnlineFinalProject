@@ -40,7 +40,7 @@ const FormControlLabelWrapper = styled(FormControlLabel)(({theme}) => ({
 
   '& .MuiButtonBase-root': {
     position: 'absolute',
-    left: 5,
+    left: 0,
   },
 
   '& .MuiTypography-root': {

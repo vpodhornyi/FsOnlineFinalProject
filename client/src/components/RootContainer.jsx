@@ -5,6 +5,7 @@ const RootContainer = styled('div')(({theme}) => ({
   width: '100%',
   display: 'flex',
   position: 'relative',
+  backgroundColor: theme.palette.background.paper,
 
   '& .MuiSnackbar-root': {
     bottom: '90px'

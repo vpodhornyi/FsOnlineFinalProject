@@ -14,7 +14,7 @@ const ColorDot = ({backgroundColor, value}) => {
     <FormControlLabelWrapper
       sx={{backgroundColor}}
       value={value}
-      control={<Radio color='primary' checkedIcon={<CheckOutlinedIcon size='50'/>}/>}
+      control={<Radio color='primary' checkedIcon={<CheckOutlinedIcon/>}/>}
     />
   </Box>
 }

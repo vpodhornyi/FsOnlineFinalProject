@@ -33,12 +33,8 @@ export default function CustomizationModal() {
     document.getElementsByTagName("html")[0].style.fontSize = newValue + "px";
   };
 
-  const handleClick = () => {
-    navigate(background?.pathname || PATH.ROOT);
-  }
-
   const doneClick = () => {
-    handleClick();
+
   }
 
   return <BoxWrapper>
@@ -46,7 +42,7 @@ export default function CustomizationModal() {
       <Box
         className='backButton'
         sx={{mr: '10px'}}
-        onClick={handleClick}>
+        onClick={() => navigate(background?.pathname || PATH.ROOT)}>
         <CustomIconButton name='ArrowBackOutlined' title='Back'/>
       </Box>
       <Typography className='DisplayHeaderTitle' variant='h2'>Customize your view</Typography>
