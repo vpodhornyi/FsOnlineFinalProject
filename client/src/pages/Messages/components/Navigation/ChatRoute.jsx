@@ -2,7 +2,7 @@ import React from "react";
 import {useDispatch, useSelector} from 'react-redux';
 import {useParams, useNavigate} from 'react-router-dom';
 import {styled} from "@mui/material/styles";
-import {Avatar, Typography, Box} from "@mui/material";
+import {Avatar, Typography, Box, Badge} from "@mui/material";
 import PropTypes from "prop-types";
 
 import {ACTIONS} from '@redux/chat/action';
@@ -18,17 +18,18 @@ const ChatRoute = ({chat, toggleModal}) => {
 
   const handleChatClick = (chat) => {
     dispatch(ACTIONS.setChatId({chatId: chat?.id}));
-    navigate(`${PATH.MESSAGES.ROOT}/${chat?.id}`);
+    navigate(PATH.MESSAGES.chat(chat?.id));
   }
 
   const getText = (text) => {
     const ln = text?.length;
-    return   ln && ln > 30 ? text.slice(0, 30) + '...' : text;
+    return ln && ln > 30 ? text.slice(0, 30) + '...' : text;
   }
 
   return (
     <BoxWrapper onClick={() => handleChatClick(chat)}>
-      <Box className={id && (id == chat.id) ? `ChatRoutWrapperActive` : ''}>
+      <Box
+        className={id && (id == chat.id) ? `ChatRoutWrapperActive` : chat?.lastMessage?.countUnreadMessages ? 'NotReadMessagesExist' : ''}>
         <Box sx={{display: 'flex'}}>
           <Avatar sx={{mr: '10px', width: '3.3rem', height: '3.3rem'}} src={chat.avatarImgUrl}/>
           <Box>
@@ -36,35 +37,48 @@ const ChatRoute = ({chat, toggleModal}) => {
               <Typography sx={{fontWeight: 600}}>{chat.title}</Typography>
 
               {chat.isPrivate && <Typography variant='body2' sx={{ml: '5px'}}>@{chat.userTag}</Typography>}
-              <Typography variant='body2' sx={{
-                '&:before': {
-                  content: '"·"',
-                  marginLeft: '5px',
-                  marginRight: '5px',
-                }
-              }}>{moment(chat?.lastMessage?.createdAt).fromNow(true)}</Typography>
+              {chat?.lastMessage &&
+                <Typography variant='body2' sx={{
+                  '&:before': {
+                    content: '"·"',
+                    marginLeft: '5px',
+                    marginRight: '5px',
+                  }
+                }}>{moment(chat?.lastMessage?.createdAt).fromNow(true)}</Typography>
+              }
             </Box>
             <Box sx={{display: 'flex'}}>
               {authUser?.id !== chat?.lastMessage?.user.id && chat?.lastMessage?.user.name &&
                 <Typography variant='body2' sx={{mr: 1}}>{chat?.lastMessage?.user.name}:</Typography>}
-              {/*<Box><Typography>You reacted with {':-)'}:</Typography></Box>*/}
               <Typography variant='body2'>{getText(chat?.lastMessage?.text)}</Typography>
             </Box>
           </Box>
         </Box>
-        <Box className='MoreIcon'>
-          <More toggleModal={toggleModal}/>
-        </Box>
+        <Badge
+          badgeContent={chat?.lastMessage?.countUnreadMessages}
+          color="primary"
+          max={99}
+          // variant="dot"
+        >
+          <Box className='MoreIcon'>
+            <More toggleModal={toggleModal} chat={chat}/>
+          </Box>
+        </Badge>
       </Box>
     </BoxWrapper>);
 }
 
-const styles = ({theme}) => ({
+const BoxWrapper = styled(Box)(({theme}) => ({
   position: 'relative',
+  marginBottom: 2,
 
   '& .ChatRoutWrapperActive': {
     backgroundColor: 'rgb(239, 243, 244)',
     borderRight: `2px ${theme.palette.primary.main} solid`,
+  },
+
+  '& > .NotReadMessagesExist': {
+    backgroundColor: 'rgb(247, 249, 249)'
   },
 
   '& > .MuiBox-root': {
@@ -75,26 +89,28 @@ const styles = ({theme}) => ({
     justifyContent: 'space-between',
     cursor: 'pointer',
 
-
     '&:hover': {
       backgroundColor: 'rgb(247, 249, 249)'
     },
 
     '& .MoreIcon': {
-      opacity: 0,
+      opacity: 1,
+
       position: 'absolute',
       top: '5px',
       right: '5px',
-      zIndex: 1000,
+      zIndex: 998,
+
+      [theme.breakpoints.up('xs')]: {
+        opacity: 0,
+      }
     },
 
-    '&:hover > .MoreIcon': {
+    '&:hover  .MoreIcon': {
       opacity: 1,
     }
   }
-});
-
-const BoxWrapper = styled(Box)(styles);
+}));
 
 ChatRoute.propTypes = {
   chat: PropTypes.object,

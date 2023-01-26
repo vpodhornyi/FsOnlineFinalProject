@@ -20,9 +20,15 @@ const GroupPeople = ({chat}) => {
         variant='h2'>
         People
       </Typography>
-      {chat.users.map(user => {
-        return <Person key={user.key} user={user}/>
-      })}
+      <Box
+      sx={{
+        maxHeight: '40vh',
+        overflowY: 'auto'
+      }}>
+        {chat.users.map(user => {
+          return <Person key={user.key} user={user}/>
+        })}
+      </Box>
       <Box onClick={() => navigate(PATH.MESSAGES.addPeople(chat?.id), {state: {background: location}})}>
         <Action name='Add people'/>
       </Box>

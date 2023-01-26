@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserDao extends JpaRepository<User, Long> {
-    User findByUserTag(String userTag);
+  User findByUserTag(String userTag);
 
-    User findByEmail(String email);
+  User findByEmail(String email);
 }

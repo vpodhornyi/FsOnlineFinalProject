@@ -1,13 +1,13 @@
 import {ACTIONS} from "./action";
 
 // sample, need ref
-const INIT_STATE = {
+const init = {
   preloader: false,
   authUser: {},
   error: "",
 }
 
-export default (state = INIT_STATE, {payload, type}) => {
+export default (state = init, {payload, type}) => {
   switch (type) {
     case String(ACTIONS.getAuthUser.request):
       return {
@@ -26,6 +26,21 @@ export default (state = INIT_STATE, {payload, type}) => {
         preloader: false,
         error: payload
       }
+    case String(ACTIONS.updateCountUnreadMessages):
+      const {countUnreadAllChatMessages} = payload;
+      if (countUnreadAllChatMessages || countUnreadAllChatMessages === 0) {
+        state.authUser.countUnreadMessages = countUnreadAllChatMessages;
+      }
+      return {
+        ...state,
+        preloader: false,
+        error: payload
+      }
+    case String(ACTIONS.resetData):
+      state = init;
+      return {
+        ...state,
+      };
     default:
       return state
   }

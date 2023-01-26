@@ -1,11 +1,17 @@
 import {createActions} from '../utils';
 import api, {URLS} from "@service/API";
 import {CHAT_TYPE} from "../../utils/constants";
+import {ACTIONS as USER_ACTIONS} from '../user/action';
+import {ACTIONS as MESSAGE_ACTIONS} from "./message/action";
 
 const actions = createActions(
   {
-    actions: ['SET_CHAT_ID', 'RESET_CHAT_ID', 'SET_MESSAGE', 'SET_PAGE_NUMBER', 'SET_LAST_CHAT_ACTION',
-      'SET_NEW_CHAT', 'ADD_NEW_CHAT', 'SET_NEW_GROUP', 'ADD_EXIST_CHAT', 'RESET_DATA'],
+    actions: [
+      'SET_CHAT_ID', 'RESET_CHAT_ID', 'SET_MESSAGE', 'SET_PAGE_NUMBER', 'SET_LAST_CHAT_ACTION',
+      'SET_NEW_CHAT', 'ADD_NEW_PRIVATE_CHAT', 'ADD_NEW_GROUP_CHAT', 'UPDATE_NEW_CHAT', 'DELETE_CHAT',
+      'SET_NEW_GROUP', 'ADD_EXIST_CHAT', 'RESET_DATA', 'UPDATE_COUNT_UNREAD_MESSAGES', 'DELETE_USER_FROM_CHAT',
+      'ADD_CHAT_IF_NOT_EXIST', 'ADD_USERS_TO_GROUP_CHAT', 'UPDATE_CHAT'
+    ],
     async: ['GET_CHATS', 'SEND_MESSAGE'],
   },
   {
@@ -18,11 +24,15 @@ export const ACTIONS = {
   ...actions.async,
 }
 
-export const getChats = (params) => async dispatch => {
+export const getChats = () => async (dispatch, getState) => {
   try {
+    const {chat: {pageNumber, pageSize}} = getState();
     dispatch(ACTIONS.getChats.request());
-    const data = await api.get(URLS.CHATS.ROOT, {params});
-    dispatch(ACTIONS.getChats.success({chats: data}));
+    const data = await api.get(URLS.CHATS.ROOT, {params: {pageNumber, pageSize}});
+    if (data?.chats.length > 0) {
+      dispatch(ACTIONS.setPageNumber({pageNumber: pageNumber + 1}));
+    }
+    dispatch(ACTIONS.getChats.success(data));
 
     return data;
 
@@ -43,16 +53,16 @@ export const searchUser = ({text}) => async dispatch => {
   }
 }
 
-export const addNewPrivateChat = (chat) => async dispatch => {
+export const addNewPrivateChat = (chat, text) => async dispatch => {
   try {
     const body = {
       type: CHAT_TYPE.PRIVATE,
-      authUserId: chat.authUserId,
       guestUserId: chat.guestUserId,
-      message: chat.message
+      message: text,
+      oldKey: chat.key,
     }
     const data = await api.post(URLS.CHATS.PRIVATE, body);
-    dispatch(ACTIONS.addNewChat({chatData: data, oldKey: chat.key}));
+    dispatch(ACTIONS.updateNewChat(data));
     return data.id;
 
   } catch (err) {
@@ -60,19 +70,18 @@ export const addNewPrivateChat = (chat) => async dispatch => {
   }
 }
 
-export const addNewGroupChat = (chat) => async dispatch => {
+export const addNewGroupChat = (chat, text) => async dispatch => {
   try {
     const usersIds = chat.users.map(u => u.id);
-    usersIds.push(chat.authUserId);
     const body = {
       title: chat.title,
-      message: chat.message,
-      authUserId: chat.authUserId,
+      message: text,
       type: CHAT_TYPE.GROUP,
+      oldKey: chat.key,
       usersIds,
     }
     const data = await api.post(URLS.CHATS.GROUP, body);
-    dispatch(ACTIONS.addNewChat({chatData: data, oldKey: chat.key}));
+    dispatch(ACTIONS.updateNewChat(data));
     return data.id;
 
   } catch (err) {
@@ -80,35 +89,43 @@ export const addNewGroupChat = (chat) => async dispatch => {
   }
 }
 
-export const getMessages = (id) => async dispatch => {
+export const leaveChat = body => async (dispatch) => {
   try {
-    return await api.get(URLS.CHATS.MESSAGES, {params: {chatId: id}});
+    const data = await api.delete(URLS.CHATS.ROOT, {data: body});
+    dispatch(ACTIONS.deleteChat(data));
+    dispatch(USER_ACTIONS.updateCountUnreadMessages(data));
 
   } catch (err) {
-    console.log('getChats error - ', err);
-    return [];
+    console.log('leavePrivateChat error - ', err);
   }
 }
 
-export const sendMessage = ({chatId, text}) => async (dispatch, getState) => {
+export const getPrivateChatByUsersId = ({guestUserId}) => async dispatch => {
   try {
-    const {user: {authUser}} = getState();
-    const body = {chatId, text, userId: authUser?.id};
-    const data = await api.post(URLS.CHATS.MESSAGES, body);
-    dispatch(ACTIONS.setLastChatAction({actionData: data}))
-    return data;
+    return await api.get(URLS.CHATS.PRIVATE, {params: {guestUserId}});
 
   } catch (err) {
-    console.log('sendMessage error - ', err);
-    return {};
+    console.log('getPrivateChatByUsersId error - ', err);
   }
 }
 
-export const getPrivateChatByUsersId = ({authUserId, guestUserId}) => async dispatch => {
+export const addPeopleToChat = body => async (dispatch) => {
   try {
-    return await api.get(URLS.CHATS.PRIVATE, {params: {authUserId, guestUserId}});
+    const data = await api.post(URLS.CHATS.ADD_PEOPLE, body);
+    dispatch(ACTIONS.addUsersToGroupChat(data));
+    dispatch(MESSAGE_ACTIONS.addUsersNotification(data));
 
   } catch (err) {
-    console.log('getPrivetChatByUsersId error - ', err);
+    console.log('addPeopleToChat error - ', err);
+  }
+}
+
+export const editGroupChat = body => async (dispatch) => {
+  try {
+    const data = await api.put(URLS.CHATS.GROUP, body);
+    dispatch(ACTIONS.updateChat(data));
+
+  } catch (err) {
+    console.log('editGroupChat error - ', err);
   }
 }

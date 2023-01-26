@@ -1,13 +1,13 @@
 import React, {useEffect} from "react";
 import {useSelector, useDispatch} from "react-redux";
-import {useParams, useNavigate} from 'react-router-dom';
+import {useParams, useNavigate, Outlet} from 'react-router-dom';
 import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import ChatHeader from "./ChatHeader";
 import ChatBody from "./ChatBody";
 import {getChatsData} from '@redux/chat/selector';
 import {ACTIONS} from '@redux/chat/action';
-import {PATH} from "../../../../utils/constants";
+import {PATH} from "@utils/constants";
 
 const Chat = () => {
   const {selectedChat, chats} = useSelector(getChatsData);
@@ -31,10 +31,12 @@ const Chat = () => {
 
   return (
     <BoxWrapper>
+      <OutletWrapper>
+        <Outlet/>
+      </OutletWrapper>
       <ChatHeader chat={selectedChat}/>
       <ChatBody chatId={parseInt(id)}/>
-    </BoxWrapper>
-  );
+    </BoxWrapper>);
 }
 
 const BoxWrapper = styled(Box)(({theme}) => ({
@@ -42,6 +44,13 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   height: '100%',
   display: 'flex',
   flexDirection: 'column',
+  position: 'relative',
+}));
+const OutletWrapper = styled(Box)(({theme}) => ({
+  position: 'absolute',
+  left: 0,
+  right: 0,
+  zIndex: 1299,
 }));
 
 export default Chat;

@@ -13,7 +13,6 @@ import "./normolize.css";
 
 const reduxStore = store();
 const root = createRoot(document.getElementById("root"));
-
 const theme = createTheme(themeStyles);
 
 root.render(

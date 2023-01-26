@@ -1,13 +1,11 @@
 import React from 'react';
-import {ColumnWrapper, PrimaryColumn, SitebarColumn, StickyHeader} from "../../components";
-
+import {ColumnWrapper, PrimaryColumn, SitebarColumn, StickyHeader, PrimaryHeader} from "../../components";
+import Header from "./Header";
 const Lists = () => {
   return (
     <ColumnWrapper>
       <PrimaryColumn>
-        <StickyHeader>
-          HEADER Lists primary column
-        </StickyHeader>
+        <PrimaryHeader pageElement={Header} isBack={true}/>
         BODY Lists primary column
       </PrimaryColumn>
 

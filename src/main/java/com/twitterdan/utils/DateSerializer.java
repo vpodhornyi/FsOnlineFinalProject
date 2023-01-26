@@ -9,18 +9,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DateSerializer extends StdSerializer<Date> {
-    private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+  private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
 
-    public DateSerializer() {
-        this(null);
-    }
+  public DateSerializer() {
+    this(null);
+  }
 
-    public DateSerializer(Class<Date> t) {
-        super(t);
-    }
+  public DateSerializer(Class<Date> dateClass) {
+    super(dateClass);
+  }
 
-    @Override
-    public void serialize(Date date, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-        jsonGenerator.writeString(FORMATTER.format(date));
-    }
+  @Override
+  public void serialize(Date date, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+    jsonGenerator.writeString(FORMATTER.format(date));
+  }
 }

@@ -6,24 +6,25 @@ import {useDebouncedCallback} from "use-debounce";
 import {Box, LinearProgress} from "@mui/material";
 import PropTypes from "prop-types";
 
-import IconByName from "@components/icons/IconByName";
+import {IconByName} from "@components";
 import SearchTextField from "./SearchTextField";
 import FoundUser from "./FoundUser";
 import NewMassageHeader from "./NewMassageHeader";
 import GrabbedUser from "./GrabbedUser";
 import GroupButton from "./GroupButton";
 import {ModalPage} from '../../../../components';
-import {ACTIONS, searchUser, getPrivateChatByUsersId} from "@redux/chat/action";
+import {ACTIONS, searchUser, getPrivateChatByUsersId, addPeopleToChat} from "@redux/chat/action";
 import {PATH} from "@utils/constants";
 import {getRandomKey} from '@utils';
 import {CHAT_TYPE} from '@utils/constants';
+import {getChatsData} from '@redux/chat/selector';
 
 const Element = ({isGroup, isAdd}) => {
   const {NEW_GROUP, NEW_PRIVATE} = CHAT_TYPE;
   const inputRef = useRef();
   const dispatch = useDispatch();
+  const {selectedChat, chatId} = useSelector(getChatsData);
   const navigate = useNavigate();
-  const {authUser} = useSelector(state => state.user);
   const [loading, setLoading] = useState(false);
   const [text, setText] = useState('');
   const [foundedUsers, setFoundedUsers] = useState([]);
@@ -32,6 +33,7 @@ const Element = ({isGroup, isAdd}) => {
     if (text.trim() !== '') {
       setLoading(true);
       const users = await dispatch(searchUser({text}));
+      isAdd && users.forEach(u => u.isNotSelectable = selectedChat.users.find(us => us.id === u.id));
       setFoundedUsers(users);
       setLoading(false);
     } else {
@@ -65,26 +67,28 @@ const Element = ({isGroup, isAdd}) => {
       const entity = {
         key: getRandomKey(),
         type: isGroup ? NEW_GROUP : grabbedUsers.length === 1 ? NEW_PRIVATE : NEW_GROUP,
+        isNew: true,
       }
       const id = Date.now();
 
       if (entity.type === NEW_PRIVATE) {
         const guestUser = grabbedUsers[0];
         entity.guestUserId = guestUser.id;
-        entity.authUserId = authUser.id;
         setLoading(true);
-        const chat = await dispatch(getPrivateChatByUsersId({authUserId: authUser.id, guestUserId: guestUser.id}));
+        const chat = await dispatch(getPrivateChatByUsersId({guestUserId: guestUser.id}));
 
         if (chat?.id) {
           dispatch(ACTIONS.addExistChat({chat}));
-          navigate(`${PATH.MESSAGES.ROOT}/${chat.id}`);
+          navigate(PATH.MESSAGES.chat(chat.id));
         } else {
           entity.id = id;
           entity.title = guestUser.name;
           entity.userTag = guestUser.userTag;
           entity.avatarImgUrl = guestUser.avatarImgUrl;
-          dispatch(ACTIONS.setNewChat({entity}));
-          navigate(`${PATH.MESSAGES.ROOT}/${id}`);
+          dispatch(ACTIONS.addNewPrivateChat(entity));
+          dispatch(ACTIONS.setChatId({chatId: id}));
+          navigate(PATH.MESSAGES.chat(id));
+
         }
         setLoading(false);
 
@@ -92,15 +96,22 @@ const Element = ({isGroup, isAdd}) => {
         entity.id = id;
         entity.title = 'New group';
         entity.users = grabbedUsers;
-        entity.authUserId = authUser.id;
-        dispatch(ACTIONS.setNewChat({entity}));
-        navigate(`${PATH.MESSAGES.ROOT}/${id}`);
+        dispatch(ACTIONS.addNewGroupChat(entity));
+        dispatch(ACTIONS.setChatId({chatId: id}));
+        navigate(PATH.MESSAGES.chat(id));
       }
     }
   }
 
   const addPeople = () => {
-
+    if (!!grabbedUsers.length) {
+      const data = {
+        chatId,
+        usersIds: grabbedUsers.map(u => u.id),
+      }
+      dispatch(addPeopleToChat(data));
+      navigate(PATH.MESSAGES.chatInfo(chatId));
+    }
   }
 
   return (

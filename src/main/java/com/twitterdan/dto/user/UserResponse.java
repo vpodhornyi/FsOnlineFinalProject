@@ -3,7 +3,7 @@ package com.twitterdan.dto.user;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.UUID;
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,4 +16,5 @@ public class UserResponse {
   private String bio;
   private String avatarImgUrl;
   private String headerImgUrl;
+  private Integer countUnreadMessages = 0;
 }

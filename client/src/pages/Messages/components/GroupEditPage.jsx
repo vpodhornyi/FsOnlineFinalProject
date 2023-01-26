@@ -1,24 +1,60 @@
-import React, {useContext, useState} from "react";
-import {useSelector} from "react-redux";
+import React, {useContext, useState, useRef, useEffect} from "react";
+import {useSelector, useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {styled} from "@mui/material/styles";
-import {Avatar, Box, TextField, Typography} from "@mui/material";
+import {Avatar, Box, TextField, Typography, Fab} from "@mui/material";
 import PropTypes from "prop-types";
 
 import {BackgroundContext} from "../../../utils/context";
-import {ModalPage, CustomIconButton, FollowButton, IconByName} from "../../../components";
+import {ModalPage, CustomIconButton, FollowButton, IconByName, CircularLoader} from "../../../components";
 import {getChatsData} from '@redux/chat/selector';
-import Fab from "@mui/material/Fab";
+import {editGroupChat} from '@redux/chat/action';
+import {PATH} from '@utils/constants';
 
-const GroupEditPage = ({item}) => {
+const GroupEditPage = () => {
   const {background} = useContext(BackgroundContext);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const {selectedChat: chat} = useSelector(getChatsData);
   const [name, setName] = useState(chat.title);
+  const [disabled, setDisabled] = useState(true);
+  const [imageUrl, setImageUrl] = useState('');
+  const [loader, setLoader] = useState(false);
+  const [file, setFile] = useState(null);
+  const inputFileRef = useRef();
 
-  const onChangeLogin = e => {
+  useEffect(() => {
+    setImageUrl(chat?.avatarImgUrl);
+  }, [])
+
+  const onChangeName = e => {
     setName(() => e.target.value);
+    const text = e.target.value.trim();
+    setDisabled(text === chat.title || text === '');
   }
+
+  const handleFileUploader = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setImageUrl(URL.createObjectURL(file));
+      setFile(file);
+      setDisabled(false);
+    }
+  }
+
+  const save = async () => {
+    if (!disabled) {
+      setLoader(true);
+      const formData = new FormData();
+      formData.append('uploadFile', file);
+      formData.append('name', name);
+      formData.append('chatId', chat.id);
+      await dispatch(editGroupChat(formData));
+      setLoader(false);
+      navigate(background?.pathname || PATH.ROOT);
+    }
+  }
+
   return (
     <BoxWrapper>
       <Box className='EditHeader'>
@@ -32,13 +68,22 @@ const GroupEditPage = ({item}) => {
           <CustomIconButton name='Close'/>
           <Typography sx={{ml: 2}} fontWeight='fontWeightBold' fontSize='1.5rem' variant='h2'>Edit</Typography>
         </Box>
-        <Box onClick={() => console.log('Save')}>
-          <FollowButton name='Save' disabled={true}/>
+        <Box onClick={save}>
+          <FollowButton name='Save' disabled={disabled}/>
         </Box>
       </Box>
       <Box className='AddPhoto'>
-        <Avatar sx={{width: '6rem', height: '6rem'}} src={chat?.avatarImgUrl}/>
-        <Fab className='AddPhotoButton'>
+        {loader && <CircularLoader/>}
+        <Avatar sx={{width: '6rem', height: '6rem'}} src={imageUrl}/>
+        <Fab className='AddPhotoButton' onClick={() => inputFileRef.current.click()}>
+          <input
+            ref={inputFileRef}
+            type="file"
+            multiple
+            hidden
+            id="file-upload"
+            onChange={handleFileUploader}
+          />
           <IconByName iconStyle={{fontSize: '1.3rem'}} iconName='AddAPhotoOutlined'/>
         </Fab>
       </Box>
@@ -46,7 +91,7 @@ const GroupEditPage = ({item}) => {
         <TextField
           color='primary'
           sx={{width: '100%'}}
-          onChange={e => onChangeLogin(e)}
+          onChange={e => onChangeName(e)}
           value={name}
           id="email"
           label="Group name"
@@ -59,12 +104,17 @@ const GroupEditPage = ({item}) => {
 const Foo = () => <ModalPage element={<GroupEditPage/>}/>;
 
 const BoxWrapper = styled(Box)(({theme}) => ({
-  maxWidth: '80vw',
-  minWidth: '600px',
   display: 'flex',
   flexDirection: 'column',
   backgroundColor: '#ffffff',
-  borderRadius: '16px',
+  height: '100%',
+
+  [theme.breakpoints.up('sm')]: {
+    width: 600,
+    maxWidth: '80vw',
+    minWidth: '600px',
+    borderRadius: '16px',
+  },
 
   '& > .EditHeader': {
     width: '100%',
@@ -111,9 +161,5 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   }
 
 }));
-
-GroupEditPage.propTypes = {
-  item: PropTypes.object,
-}
 
 export default Foo;

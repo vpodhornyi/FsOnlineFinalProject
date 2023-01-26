@@ -8,15 +8,16 @@ import BlockConfirm from "../confirms/BlockConfirm";
 import {ModalWindow} from "../../../../components";
 
 const BlockUser = ({userTag}) => {
-  const {isShowing, toggle} = useModal();
+  const {modal, toggleModal} = useModal();
 
   return (
-    <Box onClick={() => toggle()}>
+    <Box onClick={() => toggleModal(<BlockConfirm toggleModal={toggleModal}/>, true)}>
       <Action name={`Block @${userTag}`}/>
       <ModalWindow
-        isShowing={isShowing}
-        toggleModal={toggle}
-        element={<BlockConfirm userTag={userTag} toggleModal={toggle}/>}/>
+        isShowing={modal.isShowing}
+        toggleModal={toggleModal}
+        element={modal.element}
+      />
     </Box>);
 }
 

@@ -6,11 +6,11 @@ import Box from "@mui/material/Box";
 
 import MainMenu from "./MainMenu";
 import TweetButton from "./TweetButton";
+import NavBarFooter from "./NavBarFooter";
 import {LogoIcon} from "../.";
-import SidebarFooter from "../Sidebar/components/SidebarFooter";
 import {PATH} from "../../utils/constants";
 
-const NavBar = ({authorized, menu}) => {
+const NavBar = ({user, authorized, menu}) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -20,7 +20,7 @@ const NavBar = ({authorized, menu}) => {
         <Link className='Logo' to={PATH.HOME}>
           <LogoIcon/>
         </Link>
-        <MainMenu authorized={authorized} menu={menu}/>
+        <MainMenu user={user} authorized={authorized} menu={menu}/>
         {
           authorized &&
           <Box onClick={() => navigate(PATH.TWEET.COMPOSE, {state: {background: location}})}>
@@ -28,7 +28,7 @@ const NavBar = ({authorized, menu}) => {
           </Box>
         }
       </Box>
-      {authorized && <SidebarFooter/>}
+      {authorized && <NavBarFooter user={user}/>}
     </StyledBox>
   );
 }
@@ -58,12 +58,12 @@ const styles = ({theme}) => ({
       fontSize: '2rem'
     }
   }
-
 })
 
 const StyledBox = styled(Box)(styles);
 
 NavBar.propTypes = {
+  user: PropTypes.object,
   authorized: PropTypes.bool,
   menu: PropTypes.array,
 }

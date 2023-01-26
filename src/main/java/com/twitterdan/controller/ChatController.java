@@ -1,112 +1,270 @@
 package com.twitterdan.controller;
 
-import com.twitterdan.domain.chat.Chat;
-import com.twitterdan.domain.chat.ChatType;
-import com.twitterdan.domain.chat.Message;
+import com.twitterdan.domain.chat.*;
 import com.twitterdan.domain.user.User;
-import com.twitterdan.dto.chat.request.GroupChatRequest;
-import com.twitterdan.dto.chat.request.PrivateChatRequest;
-import com.twitterdan.dto.chat.response.ChatResponseAbstract;
-import com.twitterdan.dto.chat.request.ChatRequestAbstract;
-import com.twitterdan.dto.chat.request.MessageRequest;
-import com.twitterdan.dto.chat.response.MessageResponse;
-import com.twitterdan.facade.chat.MessageRequestMapper;
+import com.twitterdan.dto.chat.ChatUser;
+import com.twitterdan.dto.chat.request.*;
+import com.twitterdan.dto.chat.response.chat.*;
+import com.twitterdan.dto.chat.response.message.DeletedMessageResponse;
+import com.twitterdan.dto.chat.response.message.MessageResponseAbstract;
+import com.twitterdan.dto.chat.response.message.PageMessagesResponse;
+import com.twitterdan.dto.chat.response.seen.ForeignerMessageSeenResponse;
+import com.twitterdan.facade.chat.ChatUserMapper;
+import com.twitterdan.facade.chat.request.MessageRequestMapper;
+import com.twitterdan.facade.chat.response.chat.PageChatsResponseMapper;
+import com.twitterdan.facade.chat.response.message.DeletedMessageResponseMapper;
+import com.twitterdan.facade.chat.response.chat.GroupChatResponseMapper;
+import com.twitterdan.facade.chat.response.chat.LeaveChatResponseMapper;
+import com.twitterdan.facade.chat.response.chat.PrivateChatResponseMapper;
+import com.twitterdan.facade.chat.response.message.*;
 import com.twitterdan.facade.chat.request.GroupChatRequestMapper;
+import com.twitterdan.facade.chat.request.MessageSeenRequestMapper;
 import com.twitterdan.facade.chat.request.PrivateChatRequestMapper;
-import com.twitterdan.facade.chat.response.GroupChatResponseMapper;
-import com.twitterdan.facade.chat.response.MessageResponseMapper;
-import com.twitterdan.facade.chat.response.PrivateChatResponseMapper;
+import com.twitterdan.facade.chat.response.seen.ForeignerMessageSeenResponseMapper;
+import com.twitterdan.facade.chat.response.seen.MessageOwnerSeenResponseMapper;
 import com.twitterdan.service.ChatService;
+import com.twitterdan.service.CloudinaryService;
 import com.twitterdan.service.MessageService;
 import com.twitterdan.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.security.Principal;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("${api.version}/chats")
 public class ChatController {
-
+  private final String queue = "/queue/user.";
   private final ChatService chatService;
   private final UserService userService;
   private final MessageService messageService;
-  private final MessageResponseMapper messageResponseMapper;
   private final MessageRequestMapper messageRequestMapper;
   private final PrivateChatResponseMapper privateChatResponseMapper;
   private final GroupChatResponseMapper groupChatResponseMapper;
   private final PrivateChatRequestMapper privateChatRequestMapper;
   private final GroupChatRequestMapper groupChatRequestMapper;
+  private final SimpMessagingTemplate simpMessagingTemplate;
+  private final PrivateMessageOwnerResponseMapper privateMessageOwnerResponseMapper;
+  private final PrivateForeignerMessageResponseMapper privateForeignerMessageResponseMapper;
+  private final GroupMessageOwnerResponseMapper groupMessageOwnerResponseMapper;
+  private final GroupForeignerMessageResponseMapper groupForeignerMessageResponseMapper;
+  private final MessageOwnerSeenResponseMapper messageOwnerSeenResponseMapper;
+  private final ForeignerMessageSeenResponseMapper foreignerMessageSeenResponseMapper;
+  private final MessageSeenRequestMapper messageSeenRequestMapper;
+  private final DeletedMessageResponseMapper deletedMessageMapper;
+  private final LeaveChatResponseMapper leaveChatResponseMapper;
+  private final ChatUserMapper chatUserMapper;
+  private final PageMessagesMapper pageMessagesMapper;
+  private final PageChatsResponseMapper pageChatsResponseMapper;
+  private final CloudinaryService cloudinaryService;
 
   @GetMapping
-  public ResponseEntity<List<ChatResponseAbstract>> getChats(
-    @RequestParam Long userId,
-    @RequestParam int pageNumber,
-    @RequestParam int pageSize
-    ) {
-    List<ChatResponseAbstract> chats = chatService.findAlLByUserId(userId, pageNumber, pageSize)
-      .stream()
-      .map(ch -> {
-        if (ch.getType().equals(ChatType.PRIVATE)) {
-          return privateChatResponseMapper.convertToDto(ch);
-        }
-        return groupChatResponseMapper.convertToDto(ch);
-      })
-      .toList();
-    return ResponseEntity.ok(chats);
+  public ResponseEntity<PageChatResponse> getChats(@RequestParam int pageNumber, @RequestParam int pageSize, Principal principal) {
+    User authUser = userService.findByUserTagTrowException(principal.getName());
+    Page<Chat> chats = chatService.findAlLByUserId(authUser.getId(), pageNumber, pageSize);
+
+    return ResponseEntity.ok(pageChatsResponseMapper.convertToDto(chats, authUser));
   }
 
-  private void saveFirstChatMessage(Long id, Chat chat, String text) {
-    User user = userService.findById(id);
-    Message message = messageService.saveFirstNewChatMessage(chat, user, text);
-    chat.setLastMessage(message);
+  @DeleteMapping
+  public ResponseEntity<LeaveChatResponse> leaveChat(@RequestBody LeaveChatRequest leaveChatRequest, Principal principal) {
+    User authUser = userService.findByUserTagTrowException(principal.getName());
+    Long chatId = leaveChatRequest.getChatId();
+    LeaveChatResponse leaveChatResponse = null;
+
+    if (leaveChatRequest.isGroupChat()) {
+      Chat chat = chatService.deleteUserFromGroupChat(chatId, authUser);
+      LeaveChatResponse finalLeaveChatResponse = leaveChatResponseMapper.convertToDto(chat, authUser);
+      chat.getUsers().forEach(u -> simpMessagingTemplate.convertAndSend(queue + u.getId(), ResponseEntity.ok(finalLeaveChatResponse)));
+      return ResponseEntity.ok(finalLeaveChatResponse);
+    }
+
+    if (leaveChatRequest.isPrivateChat()) {
+      Chat chat = chatService.deleteUserFromPrivateChat(chatId, authUser);
+      leaveChatResponse = leaveChatResponseMapper.convertToDto(chat, authUser);
+    }
+
+    return ResponseEntity.ok(leaveChatResponse);
   }
 
   @GetMapping("/private")
-  public ResponseEntity<ChatResponseAbstract> findPrivateChat(@RequestParam Long authUserId, @RequestParam Long guestUserId) {
-    Chat chat = chatService.findPrivateChatByUsersIds(authUserId, guestUserId);
-
-    return ResponseEntity.ok(privateChatResponseMapper.convertToDto(chat));
+  public ResponseEntity<ChatResponseAbstract> findPrivateChat(@RequestParam Long guestUserId, Principal principal) {
+    User authUser = userService.findByUserTagTrowException(principal.getName());
+    return ResponseEntity.ok(privateChatResponseMapper.convertToDto(chatService.findPrivateChatByUsersIds(authUser.getId(), guestUserId), authUser));
   }
 
   @PostMapping("/private")
-  public ResponseEntity<ChatResponseAbstract> addPrivateChat(@RequestBody PrivateChatRequest privateChatRequest) {
-    Chat chat = privateChatRequestMapper.convertToEntity(privateChatRequest);
+  public ResponseEntity<PrivateChatResponse> addPrivateChat(@RequestBody PrivateChatRequest privateChatRequest, Principal principal) {
+    User authUser = userService.findByUserTagTrowException(principal.getName());
+    Chat chat = privateChatRequestMapper.convertToEntity(privateChatRequest, authUser);
     Chat savedChat = chatService.savePrivateChat(chat);
-    Long authUserId = privateChatRequest.getAuthUserId();
+    String oldKey = privateChatRequest.getOldKey();
+    Long guestUserId = privateChatRequest.getGuestUserId();
     String text = privateChatRequest.getMessage();
-    saveFirstChatMessage(authUserId, savedChat, text);
+    User guestUser = userService.findById(guestUserId);
+    messageService.save(new Message(text, savedChat, authUser));
 
-    return ResponseEntity.ok(privateChatResponseMapper.convertToDto(savedChat));
+    PrivateChatResponse privateChatResponseAuth = privateChatResponseMapper.convertToDto(savedChat, authUser);
+    PrivateChatResponse privateChatResponseGuest = privateChatResponseMapper.convertToDto(savedChat, guestUser);
+    privateChatResponseAuth.setOldKey(oldKey);
+    privateChatResponseGuest.setOldKey(oldKey);
+    simpMessagingTemplate.convertAndSend(queue + guestUserId, ResponseEntity.ok(privateChatResponseGuest));
+
+    return ResponseEntity.ok(privateChatResponseAuth);
   }
 
   @PostMapping("/group")
-  public ResponseEntity<ChatResponseAbstract> addGroupChat(@RequestBody GroupChatRequest groupChatRequest) {
-    Chat chat = groupChatRequestMapper.convertToEntity(groupChatRequest);
-    Chat savedChat = chatService.saveGroupChat(chat);
-    Long authUserId = groupChatRequest.getAuthUserId();
+  public ResponseEntity<GroupChatResponse> addGroupChat(@RequestBody GroupChatRequest groupChatRequest, Principal principal) {
+    User authUser = userService.findByUserTagTrowException(principal.getName());
+    String oldKey = groupChatRequest.getOldKey();
     String text = groupChatRequest.getMessage();
-    saveFirstChatMessage(authUserId, savedChat, text);
+    Chat chat = groupChatRequestMapper.convertToEntity(groupChatRequest, authUser);
+    Chat savedChat = chatService.saveChat(chat);
+    messageService.save(new Message(text, savedChat, authUser));
 
-    return ResponseEntity.ok(groupChatResponseMapper.convertToDto(savedChat));
+    savedChat.getUsers().stream().filter(u -> !u.equals(authUser)).forEach(user -> {
+      GroupChatResponse groupChatResponse = groupChatResponseMapper.convertToDto(savedChat, user);
+      groupChatResponse.setOldKey(oldKey);
+      simpMessagingTemplate.convertAndSend(queue + user.getId(), ResponseEntity.ok(groupChatResponse));
+    });
+
+    GroupChatResponse groupChatResponse = groupChatResponseMapper.convertToDto(savedChat, authUser);
+    groupChatResponse.setOldKey(oldKey);
+
+    return ResponseEntity.ok(groupChatResponse);
+  }
+
+  @PutMapping("/group")
+  public ResponseEntity<GroupChatResponse> editGroupChat(@RequestParam MultipartFile uploadFile,
+                                                         @RequestParam String name,
+                                                         @RequestParam Long chatId,
+                                                         Principal principal) {
+    User authUser = userService.findByUserTagTrowException(principal.getName());
+    String imgUrl = cloudinaryService.uploadImage(uploadFile);
+    Chat chat = chatService.editGroupChat(chatId, name, imgUrl, authUser);
+
+    chat.getUsers().stream().filter(u -> !u.equals(authUser)).forEach(user -> {
+      GroupChatResponse groupChatResponse = groupChatResponseMapper.convertToDto(chat, user);
+      simpMessagingTemplate.convertAndSend(queue + user.getId(), ResponseEntity.ok(groupChatResponse));
+    });
+
+    return ResponseEntity.ok(groupChatResponseMapper.convertToDto(chat, authUser));
+  }
+
+  @PostMapping("/add-users")
+  public ResponseEntity<AddUsersToGroupResponse> addUserToGroup(@RequestBody AddUsersToGroupRequest addUsersToGroupRequest, Principal principal) {
+    User authUser = userService.findByUserTagTrowException(principal.getName());
+    Long chatId = addUsersToGroupRequest.getChatId();
+    Chat oldChat = chatService.findById(chatId);
+    List<Long> ids = oldChat.getUsers().stream().map(User::getId).toList();
+
+    List<User> usersForAdd = addUsersToGroupRequest.getUsersIds().stream()
+      .filter(id -> ids.stream().filter(i -> Objects.equals(i, id)).findFirst().isEmpty())
+      .map(userService::findById)
+      .toList();
+    List<ChatUser> chatUsers = usersForAdd.stream().map(chatUserMapper::convertToDto).toList();
+
+    Chat savedChat = chatService.addUsersToChat(chatId, usersForAdd);
+    oldChat.getUsers().stream().filter(u -> !u.equals(authUser)).forEach(user -> simpMessagingTemplate
+      .convertAndSend(queue + user.getId(), ResponseEntity.ok(new AddUsersToGroupResponse(chatId,
+        chatUserMapper.convertToDto(authUser), chatUsers))));
+
+    usersForAdd.forEach(user -> {
+      GroupChatResponse groupChatResponse = groupChatResponseMapper.convertToDto(savedChat, user);
+      simpMessagingTemplate.convertAndSend(queue + user.getId(), ResponseEntity.ok(groupChatResponse));
+    });
+
+    return ResponseEntity.ok(new AddUsersToGroupResponse(chatId, chatUserMapper.convertToDto(authUser), chatUsers));
   }
 
   @GetMapping("/messages")
-  public ResponseEntity<List<MessageResponse>> getMessages(@RequestParam Long chatId) {
-    List<Message> messages = messageService.findByChatId(chatId);
-    List<MessageResponse> messageResponses = messages.stream()
-      .map(messageResponseMapper::convertToDto)
-      .toList();
-    return ResponseEntity.ok(messageResponses);
+  public ResponseEntity<PageMessagesResponse> getMessages(@RequestParam int pageNumber, @RequestParam int pageSize, @RequestParam Long chatId, Principal principal) {
+    User authUser = userService.findByUserTagTrowException(principal.getName());
+    Page<Message> messages = messageService.findByChatId(chatId, authUser.getId(), pageNumber, pageSize);
+
+    return ResponseEntity.ok(pageMessagesMapper.convertToDto(messages, authUser));
   }
 
   @PostMapping("/messages")
-  public ResponseEntity<MessageResponse> saveMessage(@RequestBody MessageRequest messageRequest) {
-    Message message = messageRequestMapper.convertToEntity(messageRequest);
+  public ResponseEntity<MessageResponseAbstract> saveNewMessage(@RequestBody MessageRequest messageRequest, Principal principal) {
+    User authUser = userService.findByUserTagTrowException(principal.getName());
+    String oldKey = messageRequest.getKey();
+    Message message = messageRequestMapper.convertToEntity(messageRequest, authUser);
     Message savedMessage = messageService.save(message);
-    return ResponseEntity.ok(messageResponseMapper.convertToDto(savedMessage));
+    ChatType type = savedMessage.getChat().getType();
+    List<User> users = chatService.findById(messageRequest.getChatId()).getUsers();
+
+    users.stream().filter(u -> !u.equals(authUser)).forEach(user -> {
+      MessageResponseAbstract responseAbstract;
+      if (type.equals(ChatType.PRIVATE)) {
+        if (user.equals(savedMessage.getUser())) {
+          responseAbstract = privateMessageOwnerResponseMapper.convertToDto(savedMessage, user);
+        } else {
+          responseAbstract = privateForeignerMessageResponseMapper.convertToDto(savedMessage, user);
+        }
+      } else {
+        if (user.equals(savedMessage.getUser())) {
+          responseAbstract = groupMessageOwnerResponseMapper.convertToDto(savedMessage, user);
+        } else {
+          responseAbstract = groupForeignerMessageResponseMapper.convertToDto(savedMessage, user);
+        }
+      }
+      responseAbstract.setOldKey(oldKey);
+      simpMessagingTemplate.convertAndSend(queue + user.getId(), ResponseEntity.ok(responseAbstract));
+    });
+
+    MessageResponseAbstract responseAbstract;
+
+    if (type.equals(ChatType.PRIVATE)) {
+      responseAbstract = privateMessageOwnerResponseMapper.convertToDto(savedMessage, authUser);
+    } else {
+      responseAbstract = groupMessageOwnerResponseMapper.convertToDto(savedMessage, authUser);
+    }
+    responseAbstract.setOldKey(oldKey);
+
+    return ResponseEntity.ok(responseAbstract);
+  }
+
+  @DeleteMapping("/messages")
+  public ResponseEntity<DeletedMessageResponse> deleteMessage(@RequestBody DeleteMessageRequest deleteMessageRequest, Principal principal) {
+    Long messageId = deleteMessageRequest.getMessageId();
+    Message message = messageService.findById(messageId);
+    User authUser = userService.findByUserTagTrowException(principal.getName());
+
+    if (deleteMessageRequest.isDeleteForYou()) {
+      Message updatedMessage = messageService.deleteMessageForAuthUser(message, authUser);
+      return ResponseEntity.ok(deletedMessageMapper.convertToDto(updatedMessage, authUser));
+    }
+
+    if (deleteMessageRequest.isDeleteForAll()) {
+      messageService.deleteMessageForAll(messageId, authUser);
+      List<User> users = message.getChat().getUsers();
+      users.stream().filter(u -> !u.equals(authUser)).forEach(u -> {
+        simpMessagingTemplate.convertAndSend(queue + u.getId(), ResponseEntity.ok(deletedMessageMapper.convertToDto(message, u)));
+      });
+    }
+
+    return ResponseEntity.ok(deletedMessageMapper.convertToDto(message, authUser));
+  }
+
+  @PostMapping("/messages/seen")
+  public ResponseEntity<ForeignerMessageSeenResponse> setSeenMessage(@RequestBody MessageSeenRequest messageSeenRequest,
+                                                                     Principal principal) {
+    User authUser = userService.findByUserTagTrowException(principal.getName());
+    MessageSeen messageSeen = messageSeenRequestMapper.convertToEntity(messageSeenRequest, authUser);
+
+    MessageSeen savedMessageSeen = messageService.saveMessageSeen(messageSeen);
+    Long userId = savedMessageSeen.getMessage().getUser().getId();
+    simpMessagingTemplate.convertAndSend(queue + userId, ResponseEntity.ok(messageOwnerSeenResponseMapper.convertToDto(savedMessageSeen)));
+
+    return ResponseEntity.ok(foreignerMessageSeenResponseMapper.convertToDto(savedMessageSeen));
   }
 
 //  @GetMapping("/test")

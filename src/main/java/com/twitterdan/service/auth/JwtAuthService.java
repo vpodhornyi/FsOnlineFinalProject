@@ -1,20 +1,20 @@
 package com.twitterdan.service.auth;
 
 import com.twitterdan.dao.RefreshJwtStoreDao;
-import com.twitterdan.domain.auth.AccountCheckResponse;
-import com.twitterdan.domain.auth.AccountCheckRequest;
-import com.twitterdan.domain.auth.JwtResponse;
-import com.twitterdan.domain.auth.JwtRequest;
-import com.twitterdan.domain.auth.RefreshJwtStore;
-import com.twitterdan.domain.auth.JwtAuthentication;
+import com.twitterdan.dto.auth.AccountCheckResponse;
+import com.twitterdan.dto.auth.AccountCheckRequest;
+import com.twitterdan.dto.auth.JwtResponse;
+import com.twitterdan.dto.auth.JwtRequest;
+import com.twitterdan.dto.auth.RefreshJwtStore;
+import com.twitterdan.dto.auth.JwtAuthentication;
 import com.twitterdan.domain.user.User;
-import com.twitterdan.exception.CouldNotFindAccountException;
 import com.twitterdan.exception.WrongPasswordException;
 import com.twitterdan.service.UserService;
 import io.jsonwebtoken.Claims;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -26,13 +26,14 @@ public class JwtAuthService implements AuthService {
   public final UserService userService;
   private final RefreshJwtStoreDao refreshJwtStoreDao;
   private final JwtProvider jwtProvider;
+  private final BCryptPasswordEncoder passwordEncoder;
 
   @Override
   public AccountCheckResponse account(@NonNull AccountCheckRequest req) {
     try {
-      userService.findByUserTag(req.getLogin());
+      userService.findByUserTagTrowException(req.getLogin());
     } catch (Exception e) {
-      userService.findByUserEmail(req.getLogin());
+      userService.findByUserEmailTrowException(req.getLogin());
     }
 
     return new AccountCheckResponse(req.getLogin());
@@ -40,22 +41,26 @@ public class JwtAuthService implements AuthService {
 
   @Override
   public JwtResponse login(@NonNull JwtRequest req) {
+    return login(req.getLogin(), req.getPassword());
+  }
+
+  public JwtResponse login(String login, String password) {
     User user;
 
     try {
-      user = userService.findByUserTag(req.getLogin());
+      user = userService.findByUserTagTrowException(login);
     } catch (Exception e) {
-      user = userService.findByUserEmail(req.getLogin());
+      user = userService.findByUserEmailTrowException(password);
     }
 
-    if (user.getPassword().equals(req.getPassword())) {
+    if (passwordEncoder.matches(password, user.getPassword())) {
       return getJwtResponse(user);
     }
 
     throw new WrongPasswordException();
   }
 
-  private JwtResponse getJwtResponse(User user) {
+  public JwtResponse getJwtResponse(User user) {
     final String newAccessToken = jwtProvider.generateAccessToken(user);
     final String newRefreshToken = jwtProvider.generateRefreshToken(user);
     RefreshJwtStore refreshJwtStore = new RefreshJwtStore(user.getUserTag(), newRefreshToken);
@@ -77,7 +82,7 @@ public class JwtAuthService implements AuthService {
         String saveRefreshToken = refreshJwtStoreOptional.get().getRefreshToken();
 
         if (saveRefreshToken != null && saveRefreshToken.equals(refreshToken)) {
-          final User user = userService.findByUserTag(login);
+          final User user = userService.findByUserTagTrowException(login);
           final String accessToken = jwtProvider.generateAccessToken(user);
 
           return new JwtResponse(accessToken, null);
@@ -98,7 +103,7 @@ public class JwtAuthService implements AuthService {
         String saveRefreshToken = refreshJwtStoreOptional.get().getRefreshToken();
 
         if (saveRefreshToken != null && saveRefreshToken.equals(refreshToken)) {
-          User user = userService.findByUserTag(login);
+          User user = userService.findByUserTagTrowException(login);
           return getJwtResponse(user);
         }
       }
@@ -112,6 +117,7 @@ public class JwtAuthService implements AuthService {
   }
 
   @Override
+  @Transactional
   public void deleteAllByLogin(String login) {
     refreshJwtStoreDao.deleteAllByLogin(login);
   }

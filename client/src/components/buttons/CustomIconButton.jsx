@@ -5,10 +5,10 @@ import PropTypes from "prop-types";
 import {styled} from "@mui/material/styles";
 
 const CustomIconButton = ({name, title, size = 'medium', disabled = false, iconSize, color}) => {
-  const StyledIconButton = styled(IconButton)(styles);
+
   return (
     // <Tooltip title={title}>
-    <Box>
+    <Box className='CustomIconButtonWrapper'>
       <StyledIconButton color={color} size={size} disabled={disabled}>
         <IconsByName iconName={name} iconSize={iconSize}/>
       </StyledIconButton>
@@ -16,6 +16,14 @@ const CustomIconButton = ({name, title, size = 'medium', disabled = false, iconS
     // </Tooltip>
   )
 };
+
+const StyledIconButton = styled(IconButton)(({theme}) => ({
+  padding: '11px !important',
+
+  '& .MuiTouchRipple-root': {
+    display: 'none',
+  },
+}));
 
 CustomIconButton.propTypes = {
   name: PropTypes.string,
@@ -25,11 +33,5 @@ CustomIconButton.propTypes = {
   iconSize: PropTypes.string,
   color: PropTypes.string,
 }
-
-const styles = ({theme}) => ({
-  '& .MuiTouchRipple-root': {
-    display: 'none'
-  },
-});
 
 export default CustomIconButton;

@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import {styled} from "@mui/material/styles";
 import {Avatar, Box, Typography} from "@mui/material";
 import {getChatsData} from "@redux/chat/selector";
+import {PATH} from "@utils/constants";
 
 const styles = ({theme}) => ({
   paddingTop: 70,
@@ -28,7 +29,7 @@ const Index = () => {
   const {selectedChat} = useSelector(getChatsData);
 
   return (
-    <Link to={`/${selectedChat.userTag}`} style={{textDecoration: 'none', color: '#000000'}}>
+    <Link to={PATH.userProfile(selectedChat.userTag)} style={{textDecoration: 'none', color: '#000000'}}>
       <BoxWrapper>
         <Avatar sx={{width: '5rem', height: '5rem'}} src={selectedChat.avatarImgUrl}/>
         <Typography sx={{fontWeight: 600}}>{selectedChat.title}</Typography>

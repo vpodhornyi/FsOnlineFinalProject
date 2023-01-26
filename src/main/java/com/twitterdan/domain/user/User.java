@@ -4,23 +4,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.twitterdan.domain.BaseEntity;
 import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.tweet.Tweet;
+
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.OneToMany;
-import javax.persistence.ManyToMany;
-import javax.persistence.JoinTable;
-import javax.persistence.JoinColumn;
-import javax.persistence.Column;
-import javax.persistence.CascadeType;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Set;
-
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -53,27 +48,39 @@ public class User extends BaseEntity {
   @LazyCollection(LazyCollectionOption.EXTRA)
   @ManyToMany
   @JoinTable(name = "followers",
-    joinColumns = @JoinColumn(name = "followed_id"),
-    inverseJoinColumns = @JoinColumn(name = "follower_id"))
+          joinColumns = @JoinColumn(name = "followed_id"),
+          inverseJoinColumns = @JoinColumn(name = "follower_id"))
   @JsonIgnore
   private Set<User> followers;
 
   @LazyCollection(LazyCollectionOption.EXTRA)
   @ManyToMany
   @JoinTable(name = "followers",
-    joinColumns = @JoinColumn(name = "follower_id"),
-    inverseJoinColumns = @JoinColumn(name = "followed_id"))
+          joinColumns = @JoinColumn(name = "follower_id"),
+          inverseJoinColumns = @JoinColumn(name = "followed_id"))
   @JsonIgnore
   private Set<User> followings;
   @LazyCollection(LazyCollectionOption.EXTRA)
   @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)
   @JsonIgnore
-  private Set<Chat> chats;
+  private transient Set<Chat> chats;
 
   @Override
   public String toString() {
     return "User{" +
-      "userTag='" + userTag + '\'' +
-      '}';
+            "userTag='" + userTag + '\'' +
+            '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof User user)) return false;
+    return Objects.equals(userTag, user.userTag) && Objects.equals(email, user.email);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(userTag, email);
   }
 }

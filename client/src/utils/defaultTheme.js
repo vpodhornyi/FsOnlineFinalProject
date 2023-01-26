@@ -1,19 +1,3 @@
-export const defaultTheme = {
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 500,
-      // left container dissapears when < 500
-      md: 988,
-      // right container dissapears when < 988
-      lg: 1077,
-      // messages icon tab dissapears from bottom right side when <  1077
-      xl: 1265,
-      // left container becomes compressed when < 1265
-    },
-  },
-};
-
 export const themeStyles = {
   breakpoints: {
     values: {
@@ -38,7 +22,7 @@ export const themeStyles = {
       main: 'rgb(29, 155, 240)',
       secondary: 'rgb(26, 140, 216)',
       third: 'rgba(29, 155, 240, 0.1)',
-      contrastText: '#ffd400'
+      contrastText: '#ffffff'
     },
     neutral: {
       main: '#ffd400',
@@ -87,6 +71,11 @@ export const themeStyles = {
     body2: {
       fontSize: '0.95rem',
       color: 'rgb(83, 100, 113)'
+    },
+    body3: {
+      fontSize: '0.8rem',
+      color: 'rgb(83, 100, 113)',
+      fontFamily: "TwitterChirp, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif",
     },
   },
 }

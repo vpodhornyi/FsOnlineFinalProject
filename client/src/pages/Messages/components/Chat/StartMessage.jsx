@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {styled} from "@mui/material/styles";
-import {Box, LinearProgress, TextField} from "@mui/material";
+import {Box, TextField} from "@mui/material";
 import PropTypes from "prop-types";
 
 import {CustomIconButton} from "../../../../components";
@@ -9,7 +9,7 @@ import {useDebouncedCallback} from "use-debounce";
 import {ACTIONS} from "@redux/chat/action";
 import {getChatsData} from "@redux/chat/selector";
 
-const StartMessage = ({sending, chatId, inputRef, sendMessage}) => {
+const StartMessage = ({chatId, inputRef, sendMessage}) => {
   const dispatch = useDispatch();
   const {message} = useSelector(getChatsData);
   const [text, setText] = useState('');
@@ -43,7 +43,6 @@ const StartMessage = ({sending, chatId, inputRef, sendMessage}) => {
   return (
     <BoxWrapper>
       <ProgressWrapper>
-        {sending && <LinearProgress color='primary' sx={{height: 2}}/>}
       </ProgressWrapper>
       <ButtonsBoxWrapper>
         <Box>
@@ -64,7 +63,7 @@ const StartMessage = ({sending, chatId, inputRef, sendMessage}) => {
           multiline
           id="messageText"
           variant="filled"/>
-        <Box onClick={onClickSend}>
+        <Box onClick={() => onClickSend()}>
           <CustomIconButton
             color='primary'
             name='SendOutlined'
@@ -94,7 +93,7 @@ const ButtonsBoxWrapper = styled(Box)(({theme}) => ({
 const BoxWrapper = styled(Box)(({theme}) => ({
   padding: '7px 15px',
   borderTop: '1px solid rgb(239, 243, 244)',
-  backgroundColor: 'rgba(255,255,255, 1)'
+  backgroundColor: 'rgba(255,255,255, 1)',
 }));
 const TextFieldWrapper = styled(TextField)(({theme}) => ({
   width: '95%',
@@ -131,7 +130,6 @@ const TextFieldWrapper = styled(TextField)(({theme}) => ({
 }));
 
 StartMessage.propTypes = {
-  sending: PropTypes.bool,
   chatId: PropTypes.number,
   inputRef: PropTypes.object,
   sendMessage: PropTypes.func,
