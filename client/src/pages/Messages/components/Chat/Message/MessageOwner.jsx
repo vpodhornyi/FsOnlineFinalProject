@@ -83,7 +83,8 @@ const MessageTextBox = styled(Box)(({theme}) => ({
 
 const TimeBox = styled(Box)(({theme}) => ({
   display: 'flex',
-  alignItems: 'center'
+  alignItems: 'center',
+  fontFamily: theme.typography.fontFamily
 }));
 
 MessageOwner.propTypes = {

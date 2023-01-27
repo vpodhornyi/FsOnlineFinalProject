@@ -13,19 +13,14 @@ import {BackgroundContext} from "./utils/context";
 import MainRoutes from "./routes/MainRoutes";
 import ModalRoutes from "./routes/ModalRoutes";
 import {getChatsData} from "@redux/chat/selector";
-import {ThemeContext} from "./utils/themeContext";
 import {createTheme} from "@mui/material/styles";
-import {themeStyles} from "./utils/defaultTheme";
+import {themeStyles} from "./utils/theme";
 
 const App = () => {
-  // const [color, setColor] = useState('rgb(29, 155, 240)');
-  // const [backgroundColor, setBackgroundColor] = useState('#ffffff');
-  // const themeValue = {color, setColor, backgroundColor, setBackgroundColor};
-
   const {width, ref} = useResizeDetector();
   const {authorized} = useSelector(state => state.auth);
-  const {authUser, preloader} = useSelector(state => state.user);
-  const theme = createTheme(themeStyles('dim', 'blue'));
+  const {authUser, preloader, customize} = useSelector(state => state.user);
+  const theme = createTheme(themeStyles(customize.background, customize.color));
   const {isChatSelected, chatId} = useSelector(getChatsData);
   const location = useLocation();
   const background = location.state?.background;

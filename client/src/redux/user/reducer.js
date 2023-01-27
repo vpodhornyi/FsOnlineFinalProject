@@ -5,6 +5,11 @@ const init = {
   preloader: false,
   authUser: {},
   error: "",
+  customize: {
+    fontSize: 14,
+    color: 'yellow',
+    background: 'default'
+  }
 }
 
 export default (state = init, {payload, type}) => {
@@ -25,6 +30,12 @@ export default (state = init, {payload, type}) => {
         ...state,
         preloader: false,
         error: payload
+      }
+    case String(ACTIONS.setCustomize):
+
+      return {
+        ...state,
+        customize: {...state.customize, ...payload}
       }
     case String(ACTIONS.updateCountUnreadMessages):
       const {countUnreadAllChatMessages} = payload;

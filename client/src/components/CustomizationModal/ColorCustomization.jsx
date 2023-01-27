@@ -1,50 +1,29 @@
-import React, {useContext} from "react";
-import {useState} from "react";
+import React from "react";
 import {styled} from "@mui/material/styles";
 import {RadioGroup} from "@mui/material";
+import PropTypes from "prop-types";
 
-import {ThemeContext} from "../../utils/themeContext";
 import {getRandomKey} from '@utils';
 import ColorDot from './ColorDot';
+import {COLOR} from "@utils/theme";
 
 
-const COLORS = [
-  {
-    value: 'blue',
-    color: 'rgb(29, 155, 240)',
-  },
-  {
-    value: 'yellow',
-    color: 'rgb(255, 212, 0)',
-  },
-  {
-    value: 'pink',
-    color: 'rgb(249, 24, 128)',
-  },
-  {
-    value: 'purple',
-    color: 'rgb(120, 86, 255)',
-  },
-  {
-    value: 'orange',
-    color: 'rgb(255, 122, 0)',
-  },
-  {
-    value: 'green',
-    color: 'rgb(0, 186, 124)',
-  },
-];
-
-export default function ColorCustomization() {
-  const {color, setColor} = useContext(ThemeContext);
-  const [active, setActive] = useState();
-  const handleColorChange = (newColor) => {
-    setColor(newColor);
+const colors = (() => Object.keys(COLOR).map(key => {
+  const v = COLOR[key];
+  return {
+    value: key,
+    color: v.primary.main,
   }
-  return <RadioGroupWrapper defaultValue='blue'>
+}))();
+
+const ColorCustomization = ({handleChange, activeValue}) => {
+  return <RadioGroupWrapper value={activeValue} onChange={handleChange}>
     {
-      COLORS.map((v, i) => {
-        return <ColorDot key={i + getRandomKey()} backgroundColor={v.color} value={v.value}/>
+      colors.map((v, i) => {
+        return <ColorDot
+          key={i + getRandomKey()}
+          backgroundColor={v.color}
+          value={v.value}/>
       })
     }
   </RadioGroupWrapper>
@@ -63,3 +42,9 @@ const RadioGroupWrapper = styled(RadioGroup)(({theme}) => ({
     flexWrap: 'nowrap',
   }
 }));
+
+ColorCustomization.propTypes = {
+  handleChange: PropTypes.func,
+  activeValue: PropTypes.string,
+}
+export default ColorCustomization;

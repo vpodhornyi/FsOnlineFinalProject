@@ -42,7 +42,7 @@ const StyledBox = styled(Box)(({theme}) => ({
   top: 0,
   left: 0,
   overflow: 'auto',
-  backgroundColor: 'rgba(0,0,0,0.4)',
+  backgroundColor: 'rgba(91, 112, 131, 0.4)',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',

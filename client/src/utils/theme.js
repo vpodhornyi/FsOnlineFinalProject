@@ -1,18 +1,100 @@
-const BACKGROUND_COLOR = {
+import {blue, yellow, pink, purple, orange, green, grey, blueGrey} from '@mui/material/colors';
+
+export const BACKGROUND = {
   default: {
-    paper: 'rgba(255,255,255,1.00)',
-    default: '#000000',
+    title: 'Default',
+    textColor: '#000000',
+    background: {
+      main: '#ffffff',
+      1: grey[100],
+      custom: grey,
+    },
+    border: {
+      main: grey[200],
+    },
   },
   dim: {
-    paper: 'rgba(21, 32, 43)',
-    default: '#000000',
+    title: 'Dim',
+    textColor: '#ffffff',
+    background: {
+      main: blueGrey[900],
+      1: blueGrey[800],
+      custom: blueGrey,
+    },
+    border: {
+      main: blueGrey[700],
+    },
   },
   lights_out: {
-    paper: 'rgba(0, 0, 0)',
-    default: '#000000',
+    title: 'Lights out',
+    textColor: '#ffffff',
+    background: {
+      main: '#000000',
+      1: grey[900],
+      custom: grey,
+    },
+    border: {
+      main: grey[800],
+    },
   },
 }
-export const themeStyles = (backgroundColor, color) =>  {
+export const COLOR = {
+  blue: {
+    primary: {
+      main: blue[500],
+      secondary: blue[600],
+      light: blue[300],
+      custom: blue,
+      contrastText: '#ffffff'
+    },
+  },
+  yellow: {
+    primary: {
+      main: yellow[600],
+      secondary: yellow[700],
+      light: yellow[400],
+      custom: yellow,
+      contrastText: '#ffffff'
+    },
+  },
+  pink: {
+    primary: {
+      main: pink[500],
+      secondary: pink[600],
+      light: pink[300],
+      custom: pink,
+      contrastText: '#ffffff'
+    },
+  },
+  purple: {
+    primary: {
+      main: purple[500],
+      secondary: purple[600],
+      light: purple[300],
+      custom: purple,
+      contrastText: '#ffffff'
+    },
+  },
+  orange: {
+    primary: {
+      main: orange[500],
+      secondary: orange[600],
+      light: orange[300],
+      custom: orange,
+      contrastText: '#ffffff'
+    },
+  },
+  green: {
+    primary: {
+      main: green[500],
+      secondary: green[600],
+      light: green[300],
+      custom: green,
+      contrastText: '#ffffff'
+    },
+  },
+}
+export const themeStyles = (background, color) => {
   return ({
     breakpoints: {
       values: {
@@ -69,7 +151,9 @@ export const themeStyles = (backgroundColor, color) =>  {
       },
       action: {
         active: '#0f1419'
-      }
+      },
+      ...COLOR[color],
+      ...BACKGROUND[background],
     },
     typography: {
       fontFamily: "TwitterChirp, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif",
@@ -93,7 +177,6 @@ export const themeStyles = (backgroundColor, color) =>  {
       body3: {
         fontSize: '0.8rem',
         color: 'rgb(83, 100, 113)',
-        fontFamily: "TwitterChirp, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif",
       },
     },
   });

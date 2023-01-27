@@ -23,7 +23,7 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   position: 'fixed',
   bottom: 0,
   zIndex: 999,
-  backgroundColor: theme.palette.background.paper,
+  backgroundColor: theme.palette.background.main,
 
   [theme.breakpoints.up('xs')]: {
     display: 'none',

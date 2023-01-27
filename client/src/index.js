@@ -5,9 +5,6 @@ import store from "../src/redux/store";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 
-import { createTheme } from "@mui/material/styles";
-import { themeStyles } from "./utils/defaultTheme";
-
 import "./normolize.css";
 
 const reduxStore = store();

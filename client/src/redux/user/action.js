@@ -7,7 +7,7 @@ import {ACTIONS as MESSAGE_ACTIONS} from "../chat/message/action";
 
 const actions = createActions(
   {
-    actions: ['UPDATE_COUNT_UNREAD_MESSAGES', 'RESET_DATA'],
+    actions: ['UPDATE_COUNT_UNREAD_MESSAGES', 'RESET_DATA', 'SET_CUSTOMIZE'],
     async: ['GET_AUTH_USER'],
   },
   {

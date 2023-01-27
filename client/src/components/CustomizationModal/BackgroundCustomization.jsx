@@ -1,51 +1,32 @@
-import React, {useContext} from "react";
-import {useState} from "react";
+import React from "react";
 import {RadioGroup} from "@mui/material";
 import {styled} from "@mui/material/styles";
+import PropTypes from "prop-types";
 
-import {ThemeContext} from "../../utils/themeContext";
 import BackgroundButton from './BackgroundButton';
 import {getRandomKey} from '@utils';
+import {BACKGROUND} from "@utils/theme";
 
-const COLORS = [
-  {
-    title: 'Default',
-    value: 'default',
-    color: 'rgba(255,255,255,1.00)',
-    textColor: '#000000',
-  },
-  {
-    title: 'Dim',
-    value: 'dim',
-    color: 'rgba(21, 32, 43)',
-    textColor: '#ffffff',
-  },
-  {
-    title: 'Lights out',
-    value: 'lights_out',
-    color: 'rgba(0, 0, 0)',
-    textColor: '#ffffff',
-  },
-];
-const defaultColorValue = 'default';
-
-const BackgroundCustomization = () => {
-  const {color, backgroundColor, setBackgroundColor} = useContext(ThemeContext);
-  const [active, setActive] = useState('default');
-
-  const handleColorChange = (e, v) => {
-    setActive(v)
+const background = (() => Object.keys(BACKGROUND).map(key => {
+  const v = BACKGROUND[key];
+  return {
+    title: v.title,
+    value: key,
+    color: v.background.main,
+    textColor: v.textColor,
   }
+}))();
 
-  return <RadioGroupWrapper defaultValue={defaultColorValue} onChange={handleColorChange}>
+const BackgroundCustomization = ({handleChange, activeValue}) => {
+  return <RadioGroupWrapper value={activeValue} onChange={handleChange}>
     {
-      COLORS.map((v, i) => {
+      background.map((v, i) => {
         return <BackgroundButton
           key={i + getRandomKey()}
           backgroundColor={v.color}
           value={v.value}
           color={v.textColor}
-          activeColor={active}
+          activeColor={activeValue}
           title={v.title}/>;
       })
     }
@@ -68,5 +49,10 @@ const RadioGroupWrapper = styled(RadioGroup)(({theme}) => ({
     borderColor: theme.palette.primary.main,
   },
 }));
+
+BackgroundCustomization.propTypes = {
+  handleChange: PropTypes.func,
+  activeValue: PropTypes.string,
+}
 
 export default BackgroundCustomization;

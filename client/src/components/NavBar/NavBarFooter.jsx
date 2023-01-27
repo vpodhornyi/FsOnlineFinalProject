@@ -121,7 +121,7 @@ const MenuWrapper = styled(Menu)(({theme}) => ({
       '& .MuiButtonBase-root': {
         width: '300px',
         padding: '11px 15px',
-        backgroundColor: theme.palette.background.paper,
+        backgroundColor: theme.palette.background.main,
 
         '&:hover': {
           backgroundColor: 'rgba(0, 0, 0, 0.04)',

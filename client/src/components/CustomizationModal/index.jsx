@@ -1,16 +1,18 @@
-import React, {useContext} from "react";
-import {useDispatch} from "react-redux";
+import React, {useEffect, useContext} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {Box, Typography, Slider} from "@mui/material";
+import {styled} from "@mui/material/styles";
+
 import ColorCustomization from "./ColorCustomization";
 import BackgroundCustomization from "./BackgroundCustomization";
 import Tweet from "../tweetComponents/Tweet";
-import {ThemeContext} from "../../utils/themeContext"
-import {styled} from "@mui/material/styles";
 import {CustomIconButton, CustomFabButton} from "../buttons";
 import {PATH} from "@utils/constants";
+import {ACTIONS} from "@redux/user/action";
 import StickyHeader from "../StickyHeader";
 import {BackgroundContext} from "../../utils/context";
+
 
 const tweetInfo = {
   id: "999999",
@@ -25,15 +27,33 @@ const tweetInfo = {
   }
 }
 
-export default function CustomizationModal() {
+const CustomizationModal = () => {
+  const {customize: {fontSize, color, background: backgroundColor}} = useSelector(state => state.user);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {color, backgroundColor} = useContext(ThemeContext);
   const {background} = useContext(BackgroundContext);
-  const fontSizeHandler = (event, newValue) => {
-    document.getElementsByTagName("html")[0].style.fontSize = newValue + "px";
+
+  const setFontSize = size => {
+    document.getElementsByTagName("html")[0].style.fontSize = `${size}px`;
+  }
+
+  useEffect(() => {
+    setFontSize(fontSize);
+  }, [])
+
+  const fontSizeHandler = (e, fontSize) => {
+    setFontSize(fontSize);
+    dispatch(ACTIONS.setCustomize({fontSize}));
   };
 
-  const doneClick = () => {
+  const colorHandler = (e, color) => {
+    dispatch(ACTIONS.setCustomize({color}));
+  };
+
+  const backgroundHandler = (e, background) => {
+    dispatch(ACTIONS.setCustomize({background}));
+  };
+  const submit = () => {
 
   }
 
@@ -60,24 +80,27 @@ export default function CustomizationModal() {
         <Typography className='MinSize'>Aa</Typography>
         <Slider
           className='FontSizeSlider'
-          sx={{color}}
-          step={1}
+          value={fontSize}
           marks
-          min={14}
-          max={18}
+          min={13}
+          max={17}
           onChange={fontSizeHandler}/>
         <Typography className='MaxSize'>Aa</Typography>
       </StyledBox>
       <StyledTitle>Color</StyledTitle>
       <StyledBox>
-        <ColorCustomization/>
+        <ColorCustomization
+          handleChange={colorHandler}
+          activeValue={color}/>
       </StyledBox>
       <StyledTitle>Background</StyledTitle>
       <StyledBox>
-        <BackgroundCustomization/>
+        <BackgroundCustomization
+          handleChange={backgroundHandler}
+          activeValue={backgroundColor}/>
       </StyledBox>
       <Box className='StyleDoneButtonBox'>
-        <Box onClick={doneClick}>
+        <Box onClick={submit}>
           <CustomFabButton className='StyleDoneButton' name='Done'/>
         </Box>
       </Box>
@@ -94,7 +117,7 @@ const StyledTitle = styled(Typography)(({theme}) => ({
 }));
 
 const StyledBox = styled(Box)(({theme}) => ({
-  backgroundColor: 'rgb(247, 249, 249)',
+  backgroundColor: theme.palette.background[1],
   borderRadius: '16px',
 }));
 
@@ -102,7 +125,7 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   width: '100%',
   height: '100%',
   overflow: "auto",
-  backgroundColor: theme.palette.background.paper,
+  backgroundColor: theme.palette.background.main,
 
   '& .DisplayHeader': {
     display: 'flex',
@@ -138,7 +161,7 @@ const BoxWrapper = styled(Box)(({theme}) => ({
     padding: '0 32px 32px 32px',
 
     '& .TweetBox': {
-      border: '1px solid rgb(239, 243, 244)',
+      border: `1px solid ${theme.palette.border.main}`,
       borderRadius: '16px',
       marginBottom: '15px',
 
@@ -215,3 +238,6 @@ const BoxWrapper = styled(Box)(({theme}) => ({
     }
   }
 }));
+
+
+export default CustomizationModal;

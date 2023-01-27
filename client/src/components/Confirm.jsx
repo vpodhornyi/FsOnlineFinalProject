@@ -23,7 +23,7 @@ const Confirm = ({title, description, confirmName, confirmAction, toggleModal, c
 const BoxWrapper = styled(Box)(({theme}) => ({
   padding: 30,
   borderRadius: '16px',
-  backgroundColor: theme.palette.background.paper,
+  backgroundColor: theme.palette.background.main,
   width: '320px',
   display: 'flex',
   flexDirection: 'column',
