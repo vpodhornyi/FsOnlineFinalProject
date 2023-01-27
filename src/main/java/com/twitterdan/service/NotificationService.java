@@ -5,6 +5,8 @@ import com.twitterdan.domain.notification.Notification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -14,9 +16,16 @@ import java.util.Set;
 public class NotificationService {
 
     private final NotificationRepository notificationRepository;
+    private final EntityManagerFactory emf;
 
-    public void saveNotification(Notification notification){
-        notificationRepository.save(notification);
+    public Long saveNotification(Notification notification) {
+//        notificationRepository.save(notification);
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.persist(notification);
+        em.getTransaction().commit();
+//        System.out.println("in saveNotification, persisted id: " + id);
+        return notification.getId();
     }
 
     public Optional<Notification> getNotificationById(Long id) {
@@ -30,7 +39,7 @@ public class NotificationService {
     }
 
     public void deactivateNotificationById(Long id) {
-       Optional<Notification> optNotif = notificationRepository.getNotificationById(id);
+        Optional<Notification> optNotif = notificationRepository.getNotificationById(id);
     }
 
     public void deleteNotificationById(Long id) {

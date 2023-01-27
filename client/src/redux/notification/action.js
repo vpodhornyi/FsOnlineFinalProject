@@ -1,6 +1,4 @@
 import {createActions} from '../utils';
-import {CHAT_TYPE} from "../../utils/constants";
-import {ACTIONS as NOTIFICATION_ACTIONS} from './action';
 import api, {URLS} from "../../services/API";
 
 const actions = createActions(
@@ -23,7 +21,7 @@ export const ACTIONS = {
 const storeNotification = (notification) => async(dispatch) => {
     try {
         console.log("in api.post -> storeNotification: ")
-        await api.post(`${URLS.NOTIFICATIONS.POST}`, notification);
+        notification.id = await api.post(`${URLS.NOTIFICATIONS.POST}`, notification);
         dispatch(ACTIONS.storeNotification.success(notification));
     } catch (err) {
         console.log('storeNotification error - ', err);

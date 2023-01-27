@@ -19,8 +19,8 @@ public class NotificationsController {
     private final NotificationService notificationService;
 
     @PostMapping()
-    public void saveNotification(@RequestBody Notification notification){
-        notificationService.saveNotification(notification);
+    public Long saveNotification(@RequestBody Notification notification){
+        return notificationService.saveNotification(notification);
     }
 
     @GetMapping()
