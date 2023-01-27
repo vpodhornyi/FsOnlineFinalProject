@@ -54,6 +54,7 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   maxWidth: '70%',
   minWidth: '280px',
   height: '100%',
+  backgroundColor: theme.palette.background.main,
 
   '& .NavigationMenu': {
     flexDirection: 'column'
@@ -62,11 +63,11 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   '& .LogOutBtn': {
     width: '100%',
     height: '35px',
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.background[9],
 
     '& .CustomFabButtonName': {
       fontWeight: theme.typography.fontWeightBold,
-      color: theme.palette.primary.contrastText,
+      color: theme.palette.text.secondary,
     }
   }
 }));

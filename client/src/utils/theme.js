@@ -23,6 +23,7 @@ export const BACKGROUND = {
       },
       text: {
         main: grey[900],
+        secondary: '#ffffff',
       },
     },
     typography: {
@@ -72,6 +73,7 @@ export const BACKGROUND = {
       h2: {
         fontSize: '2.2rem',
         color: blueGrey[50],
+        secondary: grey[900],
       },
       body1: {
         fontSize: '1rem',
@@ -93,15 +95,15 @@ export const BACKGROUND = {
       textColor: '#ffffff',
       background: {
         main: '#000000',
-        1: grey[800],
-        2: grey[700],
-        3: grey[600],
-        4: grey[500],
-        5: grey[400],
-        6: grey[300],
-        7: grey[200],
-        8: grey[100],
-        9: grey[50],
+        1: grey[900],
+        2: grey[800],
+        3: grey[700],
+        4: grey[600],
+        5: grey[500],
+        6: grey[400],
+        7: grey[300],
+        8: grey[200],
+        9: grey[100],
         custom: grey,
       },
       border: {
@@ -109,6 +111,7 @@ export const BACKGROUND = {
       },
       text: {
         main: grey[50],
+        secondary: grey[900],
       },
     },
     typography: {

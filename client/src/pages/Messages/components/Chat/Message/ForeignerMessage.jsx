@@ -95,7 +95,7 @@ const MessageTextBox = styled(Box)(({theme}) => ({
   padding: '11px 15px',
   borderRadius: 24,
   borderBottomLeftRadius: 4,
-  backgroundColor: '#eff3f4',
+  backgroundColor: theme.palette.background[2],
   color: theme.palette.text.primary,
 
   '& .MuiTypography-root': {

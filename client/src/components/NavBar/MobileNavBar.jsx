@@ -18,7 +18,7 @@ const MobileNavBar = ({user, isChatSelected, countUnreadMessages, chatId}) => {
 
 const BoxWrapper = styled(Box)(({theme}) => ({
   width: '100%',
-  borderTop: '1px solid rgb(239, 243, 244)',
+  borderTop: `1px solid ${theme.palette.border.main}`,
   display: 'flex',
   position: 'fixed',
   bottom: 0,

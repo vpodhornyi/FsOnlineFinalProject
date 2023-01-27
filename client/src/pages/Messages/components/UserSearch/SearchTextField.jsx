@@ -19,6 +19,7 @@ const TextFieldWrapper = styled(TextField)(({theme}) => ({
   '& .MuiInputBase-root': {
     paddingLeft: 50,
     paddingBottom: 5,
+    color: theme.palette.text.main,
 
     '&:before': {
       content: 'none'

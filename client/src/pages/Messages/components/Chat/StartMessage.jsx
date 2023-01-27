@@ -87,13 +87,13 @@ const ButtonsBoxWrapper = styled(Box)(({theme}) => ({
   padding: '5px',
   display: 'flex',
   alignItems: 'center',
-  backgroundColor: 'rgb(239, 243, 244)',
+  backgroundColor: theme.palette.background[1],
   borderRadius: '16px',
 }));
 const BoxWrapper = styled(Box)(({theme}) => ({
   padding: '7px 15px',
-  borderTop: '1px solid rgb(239, 243, 244)',
-  backgroundColor: 'rgba(255,255,255, 1)',
+  borderTop: `1px solid ${theme.palette.border.main}`,
+  backgroundColor: theme.palette.background.main,
 }));
 const TextFieldWrapper = styled(TextField)(({theme}) => ({
   width: '95%',
@@ -105,7 +105,7 @@ const TextFieldWrapper = styled(TextField)(({theme}) => ({
     overflow: 'overlay !important',
     overflowX: 'hidden',
     maxHeight: '150px',
-    backgroundColor: 'rgb(239, 243, 244)',
+    backgroundColor: theme.palette.background[1],
   },
 
   '& .MuiFilledInput-root': {
