@@ -5,6 +5,7 @@ import {ACTIONS as CHAT_ACTIONS} from "../chat/action";
 import {ACTIONS as MESSAGE_ACTIONS} from "../chat/message/action";
 import NOTIFICATION_ACTIONS_Cust, {ACTIONS as NOTIFICATION_ACTIONS} from "../notification/action";
 import destinations from '../../subscriptions.js';
+import NOTIFICATIONS_ACTIONS from '@redux/notification/action';
 
 const actions = createActions(
   {
@@ -26,6 +27,7 @@ export const getAuthUser = () => async (dispatch) => {
     dispatch(ACTIONS.getAuthUser.request());
     const data = await api.get(URLS.USERS.ROOT);
     dispatch(ACTIONS.getAuthUser.success(data));
+    dispatch(NOTIFICATIONS_ACTIONS.getNotifications());
 
   } catch (e) {
     console.log(e);
@@ -40,7 +42,6 @@ export const authUserSocketSubscribe = () => async (dispatch, getState) => {
 
     /*** блок коллбэков stomp-Notifications ***/
     authUser?.id && api.client.subscribe(`${destinations.genNotificationsDest}${authUser.id}`, (json) => {
-      console.log("user/action.js-> generalNotification arrived, dispatching to store");
       if (json.body) {
         const message = JSON.parse(json.body);
         dispatch(NOTIFICATION_ACTIONS_Cust.storeNotification(message));

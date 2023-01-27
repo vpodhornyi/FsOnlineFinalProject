@@ -25,13 +25,11 @@ public class NotificationsController {
 
     @GetMapping()
     public Optional<Notification> getNotificationById(Long id) {
-
         return notificationService.getNotificationById(id);
     }
 
     @GetMapping("/all")
     public List<Notification> getAllNotifications() {
-
         return notificationService.getAllNotifications();
     }
 

@@ -15,7 +15,6 @@ const Notifications = () => {
 
 
     const handleNotificationClick = (e) => {
-        // const element = e.target.closest('div[data-name="1"]');
         const element = e.target.closest('div[data-name]');
         const notificationId = element?.getAttribute("data-name");
         if ( !isNaN(notificationId) ) {

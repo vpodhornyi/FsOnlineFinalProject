@@ -20,7 +20,6 @@ export const ACTIONS = {
 
 const storeNotification = (notification) => async(dispatch) => {
     try {
-        console.log("in api.post -> storeNotification: ")
         notification.id = await api.post(`${URLS.NOTIFICATIONS.POST}`, notification);
         dispatch(ACTIONS.storeNotification.success(notification));
     } catch (err) {
@@ -53,7 +52,9 @@ const deactivateNotification = () => async (dispatch) => {
 
 const getNotifications = () => async (dispatch) => {
     try {
-
+        const notifications = await api.get(`${URLS.NOTIFICATIONS.GET_ALL}`);
+        console.log(notifications )
+        dispatch(ACTIONS.setNotifications(notifications));
     } catch (err) {
         console.log('getNotifications error - ', err);
         dispatch(ACTIONS.getNotifications.fail());

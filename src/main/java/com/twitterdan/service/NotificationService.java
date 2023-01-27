@@ -19,12 +19,10 @@ public class NotificationService {
     private final EntityManagerFactory emf;
 
     public Long saveNotification(Notification notification) {
-//        notificationRepository.save(notification);
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         em.persist(notification);
         em.getTransaction().commit();
-//        System.out.println("in saveNotification, persisted id: " + id);
         return notification.getId();
     }
 

@@ -42,10 +42,12 @@ export default (state = {notifications: initNotifications}, {payload, type}) => 
                 ...state,
                 notifications: [...state.notifications, payload],
             };
+
+
         case String(ACTIONS.setNotifications):
             return {
                 ...state,
-                notifications: [...state.notifications, payload],
+                notifications: payload,
             };
 
         default:
