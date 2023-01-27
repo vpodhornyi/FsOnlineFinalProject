@@ -61,6 +61,11 @@ public class TweetController {
     return tweets.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
   }
 
+  @GetMapping("/replies/{id}")
+  public List<TweetResponse> getReplies(@PathVariable("id") String tweetId) {
+    List<Tweet> replies = tweetService.getReplies(Long.parseLong(tweetId));
+    return replies.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
+  }
 
   @GetMapping("/bookmarks")
   public List<Long> getBookmarks() {

@@ -39,6 +39,11 @@ public class TweetService {
     return (List<Tweet>) tweetDao.findCurrentUserLikeTweets(userId);
   }
 
+  public List<Tweet> getReplies(Long id) {
+
+    return tweetDao.findReplies("REPLY",id );
+  };
+
   public List<Tweet> getAll() {
     return (List<Tweet>) tweetDao.findAll();
   }
