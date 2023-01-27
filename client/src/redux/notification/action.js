@@ -8,7 +8,7 @@ const actions = createActions(
         actions: [
             'SET_NOTIFICATIONS'
         ],
-        async: ['DEACTIVATE_NOTIFICATION', 'DELETE_NOTIFICATION'],
+        async: ['DEACTIVATE_NOTIFICATION', 'DELETE_NOTIFICATION', 'STORE_NOTIFICATION'],
     },
     {
         prefix: 'chats',
@@ -18,6 +18,18 @@ const actions = createActions(
 export const ACTIONS = {
     ...actions.actions,
     ...actions.async,
+}
+
+const storeNotification = (notification) => async(dispatch) => {
+    try {
+        console.log("in api.post -> storeNotification: ")
+        await api.post(`${URLS.NOTIFICATIONS.POST}`, notification);
+        dispatch(ACTIONS.storeNotification.success(notification));
+    } catch (err) {
+        console.log('storeNotification error - ', err);
+        dispatch(ACTIONS.storeNotification.fail());
+        return [];
+    }
 }
 
 const deleteNotification = (id) => async (dispatch) => {
@@ -52,6 +64,7 @@ const getNotifications = () => async (dispatch) => {
 }
 
 export default {
+    storeNotification,
     deleteNotification,
     deactivateNotification,
     getNotifications,

@@ -18,6 +18,11 @@ public class NotificationsController {
 
     private final NotificationService notificationService;
 
+    @PostMapping()
+    public void saveNotification(@RequestBody Notification notification){
+        notificationService.saveNotification(notification);
+    }
+
     @GetMapping()
     public Optional<Notification> getNotificationById(Long id) {
 

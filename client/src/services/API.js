@@ -4,7 +4,6 @@ import {ACTIONS} from '@redux/auth/action';
 import {getTokens, setTokenType, setAuthToken, setHeaderAuthorization, deleteTokens} from "@utils";
 
 const BASE_URL = process.env.REACT_APP_API_VERSION;
-console.log("in API:  BASE_URL = process.env.REACT_APP_API_VERSION = ", BASE_URL)
 const api = axios.create({
     baseURL: BASE_URL,
 });
@@ -73,6 +72,7 @@ export const URLS = {
     },
     NOTIFICATIONS: {
         DELETE: '/notifications',
+        POST: '/notifications',
     }
 };
 

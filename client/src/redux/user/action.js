@@ -3,7 +3,7 @@ import api, {URLS} from "../../services/API";
 import {ACTIONS as AUTH_ACTIONS} from '../auth/action';
 import {ACTIONS as CHAT_ACTIONS} from "../chat/action";
 import {ACTIONS as MESSAGE_ACTIONS} from "../chat/message/action";
-import {ACTIONS as NOTIFICATION_ACTIONS} from "../notification/action";
+import NOTIFICATION_ACTIONS_Cust, {ACTIONS as NOTIFICATION_ACTIONS} from "../notification/action";
 import destinations from '../../subscriptions.js';
 
 const actions = createActions(
@@ -35,7 +35,6 @@ export const getAuthUser = () => async (dispatch) => {
 }
 
 export const authUserSocketSubscribe = () => async (dispatch, getState) => {
-
   try {
     const {user: {authUser}} = getState();
 
@@ -44,7 +43,8 @@ export const authUserSocketSubscribe = () => async (dispatch, getState) => {
       console.log("user/action.js-> generalNotification arrived, dispatching to store");
       if (json.body) {
         const message = JSON.parse(json.body);
-        dispatch(NOTIFICATION_ACTIONS.setNotifications(message));
+        dispatch(NOTIFICATION_ACTIONS_Cust.storeNotification(message));
+
       }
     });
 /*** конец блока коллбэков stomp-Notifications ***/

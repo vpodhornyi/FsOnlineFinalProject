@@ -30,9 +30,9 @@ const reducer = combineReducers({
 })
 
 const stompClient = (onConnect) => {
+
   const client = new Client({
-    brokerURL: 'ws://localhost:9000/ws',
-    // brokerURL: process.env.REACT_APP_API_BROKER_URL,
+    brokerURL: process.env.REACT_APP_API_BROKER_URL,
     connectHeaders: {
       login: 'user',
       passcode: 'password',

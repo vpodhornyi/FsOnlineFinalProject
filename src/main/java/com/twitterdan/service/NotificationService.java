@@ -15,6 +15,9 @@ public class NotificationService {
 
     private final NotificationRepository notificationRepository;
 
+    public void saveNotification(Notification notification){
+        notificationRepository.save(notification);
+    }
 
     public Optional<Notification> getNotificationById(Long id) {
 
