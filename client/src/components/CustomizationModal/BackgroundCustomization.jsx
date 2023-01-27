@@ -10,10 +10,10 @@ import {BACKGROUND} from "@utils/theme";
 const background = (() => Object.keys(BACKGROUND).map(key => {
   const v = BACKGROUND[key];
   return {
-    title: v.title,
+    title: v.palette.title,
     value: key,
-    color: v.background.main,
-    textColor: v.textColor,
+    color: v.palette.background.main,
+    textColor: v.palette.textColor,
   }
 }))();
 

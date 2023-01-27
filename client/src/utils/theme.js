@@ -2,40 +2,133 @@ import {blue, yellow, pink, purple, orange, green, grey, blueGrey} from '@mui/ma
 
 export const BACKGROUND = {
   default: {
-    title: 'Default',
-    textColor: '#000000',
-    background: {
-      main: '#ffffff',
-      1: grey[100],
-      custom: grey,
+    palette:  {
+      title: 'Default',
+      textColor: '#000000',
+      background: {
+        main: '#ffffff',
+        1: grey[100],
+        2: grey[200],
+        3: grey[300],
+        4: grey[400],
+        5: grey[500],
+        6: grey[600],
+        7: grey[700],
+        8: grey[800],
+        9: grey[900],
+        custom: grey,
+      },
+      border: {
+        main: grey[200],
+      },
+      text: {
+        main: grey[900],
+      },
     },
-    border: {
-      main: grey[200],
-    },
+    typography: {
+      h2: {
+        fontSize: '2.2rem',
+        color: grey[900],
+      },
+      body1: {
+        fontSize: '1rem',
+        color: grey[900],
+      },
+      body2: {
+        fontSize: '0.95rem',
+        color: grey[700],
+      },
+      body3: {
+        fontSize: '0.8rem',
+        color: grey[700],
+      },
+    }
   },
   dim: {
-    title: 'Dim',
-    textColor: '#ffffff',
-    background: {
-      main: blueGrey[900],
-      1: blueGrey[800],
-      custom: blueGrey,
+    palette: {
+      title: 'Dim',
+      textColor: '#ffffff',
+      background: {
+        main: blueGrey[900],
+        1: blueGrey[800],
+        2: blueGrey[700],
+        3: blueGrey[600],
+        4: blueGrey[500],
+        5: blueGrey[400],
+        6: blueGrey[300],
+        7: blueGrey[200],
+        8: blueGrey[100],
+        9: blueGrey[50],
+        custom: blueGrey,
+      },
+      border: {
+        main: blueGrey[700],
+      },
+      text: {
+        main: blueGrey[50],
+      },
     },
-    border: {
-      main: blueGrey[700],
-    },
+    typography: {
+      h2: {
+        fontSize: '2.2rem',
+        color: blueGrey[50],
+      },
+      body1: {
+        fontSize: '1rem',
+        color: blueGrey[50],
+      },
+      body2: {
+        fontSize: '0.95rem',
+        color: blueGrey[300],
+      },
+      body3: {
+        fontSize: '0.8rem',
+        color: blueGrey[300],
+      },
+    }
   },
   lights_out: {
-    title: 'Lights out',
-    textColor: '#ffffff',
-    background: {
-      main: '#000000',
-      1: grey[900],
-      custom: grey,
+    palette: {
+      title: 'Lights out',
+      textColor: '#ffffff',
+      background: {
+        main: '#000000',
+        1: grey[800],
+        2: grey[700],
+        3: grey[600],
+        4: grey[500],
+        5: grey[400],
+        6: grey[300],
+        7: grey[200],
+        8: grey[100],
+        9: grey[50],
+        custom: grey,
+      },
+      border: {
+        main: grey[800],
+      },
+      text: {
+        main: grey[50],
+      },
     },
-    border: {
-      main: grey[800],
-    },
+    typography: {
+      h2: {
+        fontSize: '2.2rem',
+        color: grey[50],
+      },
+      body1: {
+        fontSize: '1rem',
+        color: grey[50],
+      },
+      body2: {
+        fontSize: '0.95rem',
+        color: grey[300],
+      },
+      body3: {
+        fontSize: '0.8rem',
+        color: grey[300],
+      },
+    }
   },
 }
 export const COLOR = {
@@ -107,8 +200,9 @@ export const themeStyles = (background, color) => {
     },
     palette: {
       common: {
-        black: '#1976d2',
-        white: '#ffffff',
+        black: '#000000',
+        textWhite: '#ffffff',
+        textBlack: grey[900],
       },
       background: {
         paper: '#ffffff',
@@ -119,20 +213,8 @@ export const themeStyles = (background, color) => {
         secondary: 'rgb(26, 140, 216)',
         third: 'rgba(29, 155, 240, 0.1)',
         light: 'rgb(142, 205, 248)',
-        contrastText: '#ffffff'
-      },
-      neutral: {
-        main: '#ffd400',
-      },
-      border: {
-        lightGrey: 'rgb(239, 243, 244)',
-      },
-      orangeAccent: {
-        main: '#ff7a00',
-      },
-      greenAccent: {
-        main: 'rgb(0, 186, 124)',
-        secondary: 'rgba(0, 186, 124, 0.1)',
+        contrastText: '#ffffff',
+        text: '#ffffff'
       },
       redAccent: {
         main: 'rgb(244, 33, 46)',
@@ -147,13 +229,13 @@ export const themeStyles = (background, color) => {
         main: 'rgb(83, 100, 113)',
       },
       text: {
-        primary: '#000000'
+        main: '#ffffff'
       },
       action: {
         active: '#0f1419'
       },
       ...COLOR[color],
-      ...BACKGROUND[background],
+      ...BACKGROUND[background]?.palette,
     },
     typography: {
       fontFamily: "TwitterChirp, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif",
@@ -161,23 +243,7 @@ export const themeStyles = (background, color) => {
       fontWeightRegular: 400,
       fontWeightMedium: 500,
       fontWeightBold: 700,
-      h1: {
-        fontSize: '4rem',
-      },
-      h2: {
-        fontSize: '2.2rem',
-      },
-      body1: {
-        fontSize: '1rem',
-      },
-      body2: {
-        fontSize: '0.95rem',
-        color: 'rgb(83, 100, 113)'
-      },
-      body3: {
-        fontSize: '0.8rem',
-        color: 'rgb(83, 100, 113)',
-      },
+      ...BACKGROUND[background]?.typography,
     },
   });
 }

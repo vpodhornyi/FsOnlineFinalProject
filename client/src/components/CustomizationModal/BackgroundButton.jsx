@@ -4,13 +4,13 @@ import {Radio, FormControlLabel} from "@mui/material";
 import CheckCircle from "@mui/icons-material/CheckCircle";
 import PropTypes from "prop-types";
 
-const BackgroundButton = ({backgroundColor, value, color, activeColor, title}) => {
+const BackgroundButton = ({backgroundColor, value, activeColor, title}) => {
   return (
     <FormControlLabelWrapper
       className={activeColor === value ? 'ActiveBackground' : null}
-      sx={{backgroundColor, color, borderColor: backgroundColor}}
+      sx={{backgroundColor, borderColor: backgroundColor}}
       value={value}
-      control={<Radio checkedIcon={<CheckCircle/>} color='primary'/>}
+      control={<Radio checkedIcon={<CheckCircle/>}/>}
       label={title}/>
   )
 }
@@ -44,7 +44,7 @@ const FormControlLabelWrapper = styled(FormControlLabel)(({theme}) => ({
   },
 
   '& .MuiTypography-root': {
-    fontWeight: theme.typography.fontWeightBold
+    fontWeight: theme.typography.fontWeightBold,
   },
 
   [theme.breakpoints.up('sm')]: {

@@ -46,14 +46,14 @@ const MenuItem = styled('div')(({theme}) => ({
   margin: '4px 0',
   display: 'flex',
   cursor: 'pointer',
-  color: theme.palette.action.active,
+  // color: theme.palette.action.active,
 
   '& .MainMenuButton': {
     borderRadius: 40,
   },
 
   '&:hover .MainMenuButton': {
-    backgroundColor: '#E0E0E0',
+    backgroundColor: theme.palette.background[3],
     transition: '0.1s'
   }
 }));

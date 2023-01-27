@@ -7,12 +7,12 @@ const init = {
   error: "",
   customize: {
     fontSize: 14,
-    color: 'yellow',
+    color: 'blue',
     background: 'default'
   }
 }
 
-export default (state = init, {payload, type}) => {
+export default (state = JSON.parse(JSON.stringify(init)), {payload, type}) => {
   switch (type) {
     case String(ACTIONS.getAuthUser.request):
       return {

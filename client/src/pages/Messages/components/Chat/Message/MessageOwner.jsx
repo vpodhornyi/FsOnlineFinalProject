@@ -73,11 +73,11 @@ const MessageTextBox = styled(Box)(({theme}) => ({
   borderRadius: 24,
   borderBottomRightRadius: 4,
   backgroundColor: theme.palette.primary.main,
-  color: theme.palette.common.white,
 
   '& .MuiTypography-root': {
     wordWrap: 'break-word',
     minWidth: 0,
+    color: theme.palette.common.textWhite,
   }
 }));
 
