@@ -34,11 +34,12 @@ const ForeignerMessage = ({chat, message, sameMessage, toggleModal}) => {
   return (
     <BoxWrapper>
       <MessageBox ref={ref}>
-        {message.isGroupChat && !sameMessage &&
+        {message.isGroupChat && (sameMessage ?
+            <Box sx={{mr: '10px', width: '2.7rem', height: '2.7rem'}}></Box> :
           <Link to={`${PATH.userProfile(message.user.id)}`}>
             <Avatar sx={{mr: '10px', width: '2.7rem', height: '2.7rem'}} src={message.user.avatarImgUrl}/>
           </Link>
-        }
+        )}
         <MessageTextBox className={`${sameMessage && 'SameMessageTextBox'}`}>
           <Typography>{message.text}</Typography>
         </MessageTextBox>

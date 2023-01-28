@@ -48,9 +48,9 @@ const StartMessage = ({chatId, inputRef, sendMessage}) => {
         <Box>
           <CustomIconButton color='primary' name='PermMediaOutlined' iconSize='small'/>
         </Box>
-        <Box>
-          <CustomIconButton color='primary' name='GifBoxOutlined' iconSize='small'/>
-        </Box>
+        {/*<Box>*/}
+        {/*  <CustomIconButton color='primary' name='GifBoxOutlined' iconSize='small'/>*/}
+        {/*</Box>*/}
         <Box>
           <CustomIconButton color='primary' name='EmojiEmotionsOutlined' iconSize='small'/>
         </Box>
