@@ -55,7 +55,7 @@ const NavBarFooter = ({user}) => {
             <Typography variant='body2'>@{user?.userTag}</Typography>
           </Box>
         </Box>
-        <IconsByName iconName='MoreHoriz'/>
+        <IconsByName color='text' iconName='MoreHoriz'/>
       </BoxWrapper>
     </>
   );
@@ -114,6 +114,7 @@ const MenuWrapper = styled(Menu)(({theme}) => ({
     boxShadow: 'rgb(101 119 134 / 20%) 0px 0px 15px, rgb(101 119 134 / 15%) 0px 0px 3px 1px !important',
     borderRadius: '12px !important',
     padding: '10px 0',
+    backgroundColor: theme.palette.background.main,
 
     '& .MuiList-root': {
       padding: 0,
@@ -124,7 +125,7 @@ const MenuWrapper = styled(Menu)(({theme}) => ({
         backgroundColor: theme.palette.background.main,
 
         '&:hover': {
-          backgroundColor: 'rgba(0, 0, 0, 0.04)',
+          backgroundColor: theme.palette.background[1],
         },
 
         '& .MuiTouchRipple-root': {

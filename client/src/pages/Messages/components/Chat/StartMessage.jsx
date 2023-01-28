@@ -63,7 +63,7 @@ const StartMessage = ({chatId, inputRef, sendMessage}) => {
           multiline
           id="messageText"
           variant="filled"/>
-        <Box onClick={() => onClickSend()}>
+        <Box className='SendButton' onClick={() => onClickSend()}>
           <CustomIconButton
             color='primary'
             name='SendOutlined'
@@ -89,11 +89,19 @@ const ButtonsBoxWrapper = styled(Box)(({theme}) => ({
   alignItems: 'center',
   backgroundColor: theme.palette.background[1],
   borderRadius: '16px',
+
+  '& .MuiInputBase-input': {
+    color: theme.palette.text.main,
+  }
 }));
 const BoxWrapper = styled(Box)(({theme}) => ({
   padding: '7px 15px',
   borderTop: `1px solid ${theme.palette.border.main}`,
   backgroundColor: theme.palette.background.main,
+
+  '& .SendButton .MuiIconButton-root.Mui-disabled': {
+    color: theme.palette.primary.custom[200],
+  }
 }));
 const TextFieldWrapper = styled(TextField)(({theme}) => ({
   width: '95%',

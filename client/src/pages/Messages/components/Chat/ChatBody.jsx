@@ -25,6 +25,7 @@ import LeaveChatMessage from "./Message/LeaveChatMessage";
 import AddNewUsersMessage from "./Message/AddNewUsersMessage";
 import UnreadMessagesNotification from "./Message/UnreadMessagesNotification";
 import MessageViewElement from "./MessageViewElement";
+import ChatHeader from "./ChatHeader";
 
 const ChatBody = ({chatId}) => {
   const {modal, toggleModal} = useModal();

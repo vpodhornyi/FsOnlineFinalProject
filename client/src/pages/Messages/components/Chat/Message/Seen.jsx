@@ -78,17 +78,22 @@ const MenuWrapper = styled(Menu)(({theme}) => ({
   '& .MuiPaper-root': {
     boxShadow: 'rgb(101 119 134 / 20%) 0px 0px 15px, rgb(101 119 134 / 15%) 0px 0px 3px 1px !important',
     borderRadius: '12px !important',
+    backgroundColor: theme.palette.background.main,
 
     '& .MuiList-root': {
       padding: 0,
 
       '& .MuiButtonBase-root': {
         padding: '11px 15px',
-        borderBottom: '1px solid rgb(239, 243, 244)',
-        backgroundColor: theme.palette.background.main,
+        borderBottom: `1px solid ${theme.palette.border.main}`,
+
+        '&:last-child': {
+          borderBottom: 'none',
+        },
 
         '&:hover': {
-          backgroundColor: 'rgb(247, 249, 249)',
+          transition: 0.1,
+          backgroundColor: theme.palette.background[1],
         },
 
         '& .MuiTouchRipple-root': {

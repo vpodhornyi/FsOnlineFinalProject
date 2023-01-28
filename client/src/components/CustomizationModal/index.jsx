@@ -63,7 +63,7 @@ const CustomizationModal = () => {
         className='backButton'
         sx={{mr: '10px'}}
         onClick={() => navigate(background?.pathname || PATH.ROOT)}>
-        <CustomIconButton name='ArrowBackOutlined' title='Back'/>
+        <CustomIconButton name='ArrowBackOutlined' title='Back' color='text'/>
       </Box>
       <Typography className='DisplayHeaderTitle' variant='h2'>Customize your view</Typography>
     </StickyHeader>

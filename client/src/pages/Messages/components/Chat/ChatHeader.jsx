@@ -14,44 +14,51 @@ import {ACTIONS} from '@redux/chat/action';
 const ChatHeader = ({chat}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-const handleClick = () => {
-  navigate(PATH.MESSAGES.ROOT);
-  dispatch(ACTIONS.resetChatId());
-}
+  const handleClick = () => {
+    navigate(PATH.MESSAGES.ROOT);
+    dispatch(ACTIONS.resetChatId());
+  }
   return (
-    <StyledStickyHeader>
-      <Box sx={{display: 'flex', alignItems: 'center'}}>
-        <Box
-          className='backButton'
-          sx={{mr: '10px'}}
-          onClick={handleClick}>
-          <CustomIconButton name='ArrowBackOutlined' title='Back'/>
+    <StickyHeader>
+      <BoxWrapper>
+        <Box sx={{display: 'flex', alignItems: 'center'}}>
+          <Box
+            className='BackButton'
+            onClick={handleClick}>
+            <CustomIconButton name='ArrowBackOutlined' title='Back' color='text'/>
+          </Box>
+          {
+            chat.isGroup &&
+            <Link to={`${PATH.MESSAGES.participants(chat?.id)}`}>
+              <AvatarGroup max={5}>
+                {
+                  chat.users.map(user => <Avatar key={user.key} src={user.avatarImgUrl}/>)
+                }
+              </AvatarGroup>
+            </Link>
+          }
+          {
+            chat.isPrivate &&
+            <Link className='PrivateChatAvatar' to={`${PATH.userProfile(chat?.guestUser?.userTag)}`}>
+              <Avatar sx={{mr: '10px', width: '2.5rem', height: '2.5rem'}} src={chat?.avatarImgUrl}/>
+            </Link>
+          }
+          <Typography sx={{ml: 2}} variant='h2'>{chat?.title}</Typography>
         </Box>
-        {
-          chat.isGroup &&
-          <Link to={`${PATH.MESSAGES.participants(chat?.id)}`}>
-            <AvatarGroup max={5}>
-              {
-                chat.users.map(user => <Avatar key={user.key} src={user.avatarImgUrl}/>)
-              }
-            </AvatarGroup>
-          </Link>
-        }
-        {
-          chat.isPrivate &&
-          <Link className='PrivateChatAvatar' to={`${PATH.userProfile(chat?.guestUser?.userTag)}`}>
-            <Avatar sx={{mr: '10px', width: '2.5rem', height: '2.5rem'}} src={chat?.avatarImgUrl}/>
-          </Link>
-        }
-        <Typography sx={{ml: 2}} variant='h2'>{chat?.title}</Typography>
-      </Box>
-      <Box onClick={() => navigate(PATH.MESSAGES.chatInfo(chat?.id))}>
-        <CustomIconButton name='InfoOutlined' title='Details'/>
-      </Box>
-    </StyledStickyHeader>);
+        <Box onClick={() => navigate(PATH.MESSAGES.chatInfo(chat?.id))}>
+          <CustomIconButton name='InfoOutlined' title='Details' color='text'/>
+        </Box>
+      </BoxWrapper>
+    </StickyHeader>
+  );
 }
 
-const StyledStickyHeader = styled(StickyHeader)(({theme}) => ({
+const BoxWrapper = styled(Box)(({theme}) => ({
+  width: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+
   '& .MuiAvatarGroup-root .MuiAvatar-root': {
     border: '2px solid #ffffff',
     width: '2.5rem',
@@ -62,7 +69,12 @@ const StyledStickyHeader = styled(StickyHeader)(({theme}) => ({
     padding: '2px',
   },
 
-  padding: '6px 15px',
+  padding: '6px 0',
+
+  [theme.breakpoints.up('sm')]: {
+    padding: '6px 16px',
+  },
+
   '.avatarWrapper': {
     [theme.breakpoints.up('sm')]: {
       display: 'none',
@@ -74,9 +86,10 @@ const StyledStickyHeader = styled(StickyHeader)(({theme}) => ({
     fontWeight: theme.typography.fontWeightBold
   },
 
-  '& .backButton': {
+  '& .BackButton': {
     [theme.breakpoints.up('md')]: {
       display: 'none',
+      marginRight: '10px'
     }
   }
 }));

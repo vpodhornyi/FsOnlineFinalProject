@@ -46,14 +46,14 @@ const styles = ({theme}) => ({
   position: 'absolute',
   right: 50,
   top: -55,
-  backgroundColor: '#ffffff',
+  backgroundColor: theme.palette.background.main,
   padding: '0px 10px',
   borderRadius: 24,
   boxShadow: 'rgb(101 119 134 / 20%) 0px 0px 8px, rgb(101 119 134 / 25%) 0px 1px 3px 1px',
   transition: '0.3s',
 
   '&:hover': {
-    backgroundColor: 'rgb(230, 230, 230)',
+    backgroundColor: theme.palette.background[1],
   },
 
   "& .MuiBadge-badge": {

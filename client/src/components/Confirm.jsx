@@ -30,14 +30,14 @@ const BoxWrapper = styled(Box)(({theme}) => ({
 
   '& .BlackConfirmButton': {
     marginBottom: '11px',
-    backgroundColor: theme.palette.blackAccent.main,
+    backgroundColor: theme.palette.text.main,
 
     '&:hover': {
-      backgroundColor: theme.palette.blackAccent.secondary,
+      backgroundColor: theme.palette.background[8],
     },
 
     '& > .CustomFabButtonName': {
-      color: '#ffffff',
+      color: theme.palette.text.secondary,
       fontWeight: theme.typography.fontWeightBold,
     }
   },
@@ -58,10 +58,10 @@ const BoxWrapper = styled(Box)(({theme}) => ({
 
   '& .CancelButton': {
     border: '1px solid rgb(207, 217, 222)',
-    backgroundColor: 'rgba(0, 0, 0, 0)',
+    backgroundColor: theme.palette.background.main,
 
     '&:hover': {
-      backgroundColor: 'rgba(15, 20, 25, 0.1)',
+      backgroundColor: theme.palette.background[1],
     },
 
     '& .CustomFabButtonName': {

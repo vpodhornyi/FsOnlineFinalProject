@@ -15,7 +15,7 @@ const UnreadMessagesNotification = ({item}) => {
 
 const BoxWrapper = styled(Box)(({theme}) => ({
   width: '100%',
-  backgroundColor: 'rgb(247, 249, 249)',
+  backgroundColor: theme.palette.background[1],
   marginBottom: 5,
 
   '& .MuiTypography-root': {

@@ -39,7 +39,7 @@ const StyledBox = styled(Box)(({theme}) => ({
   height: '100vh',
   display: 'flex',
   flexDirection: 'column',
-  backgroundColor: '#ffffff'
+  backgroundColor: theme.palette.background.main,
 }));
 
 export default ChatInfo;

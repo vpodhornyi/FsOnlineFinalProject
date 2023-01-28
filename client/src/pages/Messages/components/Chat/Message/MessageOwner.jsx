@@ -16,7 +16,7 @@ const MessageOwner = ({message, toggleModal, messageBoxClick, sameMessage, activ
       <MessageBox onClick={() => messageBoxClick(message?.id)}>
         <Action toggleModal={toggleModal} message={message} isRight={true}/>
         <MessageTextBox
-          className={`${sameMessage && 'SameMessageTextBox'} ${active && 'SameMessageTextBoxActive'}`}>
+          className={`${sameMessage ? 'SameMessageTextBox' : null} ${active ? 'SameMessageTextBoxActive' : null}`}>
           <Typography>{message.text}</Typography>
         </MessageTextBox>
       </MessageBox>
@@ -73,6 +73,10 @@ const MessageTextBox = styled(Box)(({theme}) => ({
   borderRadius: 24,
   borderBottomRightRadius: 4,
   backgroundColor: theme.palette.primary.main,
+
+  '&:hover': {
+    backgroundColor: theme.palette.primary.secondary,
+  },
 
   '& .MuiTypography-root': {
     wordWrap: 'break-word',

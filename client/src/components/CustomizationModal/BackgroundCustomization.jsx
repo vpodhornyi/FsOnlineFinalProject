@@ -48,6 +48,16 @@ const RadioGroupWrapper = styled(RadioGroup)(({theme}) => ({
   '& .ActiveBackground': {
     borderColor: theme.palette.primary.main,
   },
+
+  '& .defaultClass .MuiTypography-root': {
+    color: theme.palette.common.defaultText
+  },
+  '& .dimClass .MuiTypography-root': {
+    color: theme.palette.common.dimText
+  },
+  '& .lights_outClass .MuiTypography-root': {
+    color: theme.palette.common.lightsOutText
+  },
 }));
 
 BackgroundCustomization.propTypes = {

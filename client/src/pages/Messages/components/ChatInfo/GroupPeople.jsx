@@ -39,7 +39,7 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   width: '100%',
   display: 'flex',
   flexDirection: 'column',
-  borderTop: '1px solid rgb(239, 243, 244)',
+  borderTop: `1px solid ${theme.palette.border.main}`,
 }));
 
 GroupPeople.propTypes = {

@@ -31,7 +31,7 @@ const Search = styled('div')(({theme}) => ({
   display: 'flex',
   justifyContent: 'center',
   borderRadius: 20,
-  border: '1px solid rgb(239, 243, 244)',
+  border: `1px solid ${theme.palette.border.main}`,
   backgroundColor: 'rgb(239, 243, 244)',
   width: '90%',
 

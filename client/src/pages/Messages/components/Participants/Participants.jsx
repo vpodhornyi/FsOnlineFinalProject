@@ -26,7 +26,7 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   width: '100%',
   display: 'flex',
   flexDirection: 'column',
-  backgroundColor: '#ffffff',
+  backgroundColor: theme.palette.background.main,
   height: '100vh',
 
   '& > .MuiBox-root': {

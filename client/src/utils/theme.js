@@ -1,4 +1,5 @@
-import {blue, yellow, pink, purple, orange, green, grey, blueGrey} from '@mui/material/colors';
+import {blue, yellow, pink, purple, orange, green, grey, blueGrey, red} from '@mui/material/colors';
+import { alpha } from "@mui/material/styles";
 
 export const BACKGROUND = {
   default: {
@@ -17,6 +18,7 @@ export const BACKGROUND = {
         8: grey[800],
         9: grey[900],
         custom: grey,
+        alpha: alpha('#ffffff', 0.35)
       },
       border: {
         main: grey[200],
@@ -24,6 +26,10 @@ export const BACKGROUND = {
       text: {
         main: grey[900],
         secondary: '#ffffff',
+        third: grey[800],
+      },
+      action: {
+        main: grey[500],
       },
     },
     typography: {
@@ -61,12 +67,18 @@ export const BACKGROUND = {
         8: blueGrey[100],
         9: blueGrey[50],
         custom: blueGrey,
+        alpha: alpha(blueGrey[900], 0.35)
       },
       border: {
         main: blueGrey[700],
       },
       text: {
         main: blueGrey[50],
+        secondary: grey[900],
+        third: blueGrey[200],
+      },
+      action: {
+        main: grey[400],
       },
     },
     typography: {
@@ -105,6 +117,7 @@ export const BACKGROUND = {
         8: grey[200],
         9: grey[100],
         custom: grey,
+        alpha: alpha(grey[900], 0.35)
       },
       border: {
         main: grey[800],
@@ -112,6 +125,10 @@ export const BACKGROUND = {
       text: {
         main: grey[50],
         secondary: grey[900],
+        third: grey[100],
+      },
+      action: {
+        main: grey[300],
       },
     },
     typography: {
@@ -139,8 +156,10 @@ export const COLOR = {
     primary: {
       main: blue[500],
       secondary: blue[600],
+      third: blue[800],
       light: blue[300],
       custom: blue,
+      alpha: alpha(blue[300], 0.2),
       contrastText: '#ffffff'
     },
   },
@@ -150,6 +169,7 @@ export const COLOR = {
       secondary: yellow[700],
       light: yellow[400],
       custom: yellow,
+      alpha: alpha(yellow[300], 0.2),
       contrastText: '#ffffff'
     },
   },
@@ -159,6 +179,7 @@ export const COLOR = {
       secondary: pink[600],
       light: pink[300],
       custom: pink,
+      alpha: alpha(pink[300], 0.2),
       contrastText: '#ffffff'
     },
   },
@@ -168,6 +189,7 @@ export const COLOR = {
       secondary: purple[600],
       light: purple[300],
       custom: purple,
+      alpha: alpha(purple[300], 0.2),
       contrastText: '#ffffff'
     },
   },
@@ -177,6 +199,7 @@ export const COLOR = {
       secondary: orange[600],
       light: orange[300],
       custom: orange,
+      alpha: alpha(orange[300], 0.2),
       contrastText: '#ffffff'
     },
   },
@@ -186,6 +209,7 @@ export const COLOR = {
       secondary: green[600],
       light: green[300],
       custom: green,
+      alpha: alpha(green[300], 0.2),
       contrastText: '#ffffff'
     },
   },
@@ -205,7 +229,9 @@ export const themeStyles = (background, color) => {
       common: {
         black: '#000000',
         textWhite: '#ffffff',
-        textBlack: grey[900],
+        defaultText: grey[900],
+        dimText: blueGrey[50],
+        lightsOutText: grey[50],
       },
       background: {
         paper: '#ffffff',
@@ -222,7 +248,9 @@ export const themeStyles = (background, color) => {
       redAccent: {
         main: 'rgb(244, 33, 46)',
         secondary: 'rgb(220, 30, 41)',
-        third: 'rgba(244, 33, 46, 0.1)',
+        third: alpha(red[900], 0.2),
+        light: alpha(red[300], 0.2),
+        custom: red,
       },
       blackAccent: {
         main: 'rgb(15, 20, 25)',
@@ -230,6 +258,7 @@ export const themeStyles = (background, color) => {
       },
       greyAccent: {
         main: 'rgb(83, 100, 113)',
+        third: grey,
       },
       text: {
         main: '#ffffff'

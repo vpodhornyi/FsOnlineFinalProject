@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 const BackgroundButton = ({backgroundColor, value, activeColor, title}) => {
   return (
     <FormControlLabelWrapper
-      className={activeColor === value ? 'ActiveBackground' : null}
+      className={`${activeColor === value ? 'ActiveBackground' : ''} ${value}Class`}
       sx={{backgroundColor, borderColor: backgroundColor}}
       value={value}
       control={<Radio checkedIcon={<CheckCircle/>}/>}
@@ -25,7 +25,7 @@ const FormControlLabelWrapper = styled(FormControlLabel)(({theme}) => ({
   border: `2px solid`,
 
   '& .MuiSvgIcon-root': {
-    color: 'rgb(92, 110, 126)',
+    color: theme.palette.greyAccent.third[400],
   },
 
   '& .Mui-checked': {
