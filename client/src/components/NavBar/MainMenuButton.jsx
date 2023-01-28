@@ -9,6 +9,7 @@ const MainMenuButton = ({isActive, isBadge = false, badgeContent, iconName, text
     {isBadge ? <Badge
       badgeContent={badgeContent}
       color="primary"
+
       max={99}
     >
       <IconByName color='text' iconName={iconName}/>
@@ -28,6 +29,10 @@ const Div = styled('div')(({theme}) => ({
   display: 'flex',
   alignItems: 'center',
   cursor: 'pointer',
+
+  '& .MuiBadge-badge': {
+    color: theme.palette.common.white
+  },
 
   '& .IconByName': {
     fontSize: '2rem',

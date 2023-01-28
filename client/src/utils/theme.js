@@ -160,7 +160,6 @@ export const COLOR = {
       light: blue[300],
       custom: blue,
       alpha: alpha(blue[300], 0.2),
-      contrastText: '#ffffff'
     },
   },
   yellow: {
@@ -170,7 +169,6 @@ export const COLOR = {
       light: yellow[400],
       custom: yellow,
       alpha: alpha(yellow[300], 0.2),
-      contrastText: '#ffffff'
     },
   },
   pink: {
@@ -180,7 +178,6 @@ export const COLOR = {
       light: pink[300],
       custom: pink,
       alpha: alpha(pink[300], 0.2),
-      contrastText: '#ffffff'
     },
   },
   purple: {
@@ -190,7 +187,6 @@ export const COLOR = {
       light: purple[300],
       custom: purple,
       alpha: alpha(purple[300], 0.2),
-      contrastText: '#ffffff'
     },
   },
   orange: {
@@ -200,7 +196,6 @@ export const COLOR = {
       light: orange[300],
       custom: orange,
       alpha: alpha(orange[300], 0.2),
-      contrastText: '#ffffff'
     },
   },
   green: {

@@ -113,7 +113,7 @@ const StyledTitle = styled(Typography)(({theme}) => ({
   fontWeight: theme.typography.fontWeightBold,
   textAlign: 'left',
   marginBottom: '4px',
-  color: 'rgb(83, 100, 113)'
+  color: theme.palette.background[6],
 }));
 
 const StyledBox = styled(Box)(({theme}) => ({

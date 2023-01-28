@@ -72,6 +72,10 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   position: 'relative',
   marginBottom: 2,
 
+  '& .MuiBadge-badge': {
+    color: theme.palette.common.white
+  },
+
   '& .ChatRoutWrapperActive': {
     backgroundColor: theme.palette.background[2],
     borderRight: `2px ${theme.palette.primary.main} solid`,
