@@ -62,8 +62,8 @@ export default () => {
         //TODO delete mok customize
         user.customize = {
           fontSize: 14,
-          color: 'green',
-          background: 'dim'
+          color: 'blue',
+          background: 'default'
         }
         // ----
         setFontSize(user?.customize.fontSize);

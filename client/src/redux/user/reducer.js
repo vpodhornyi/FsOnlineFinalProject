@@ -1,6 +1,5 @@
 import {ACTIONS} from "./action";
 
-// sample, need ref
 const init = {
   preloader: false,
   authUser: {},
