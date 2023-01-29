@@ -53,7 +53,8 @@ export const URLS = {
   },
   USERS: {
     ROOT: "/users",
-    SEARCH: "/users/search"
+    SEARCH: "/users/search",
+    CUSTOMIZE: "/users/customize"
   },
   TWEET: {
     _ROOT: "/tweets/",

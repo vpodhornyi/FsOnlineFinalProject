@@ -1,4 +1,4 @@
-import React, {useEffect, useContext} from "react";
+import React, {useState, useContext} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {Box, Typography, Slider} from "@mui/material";
@@ -9,10 +9,11 @@ import BackgroundCustomization from "./BackgroundCustomization";
 import Tweet from "../tweetComponents/Tweet";
 import {CustomIconButton, CustomFabButton} from "../buttons";
 import {PATH} from "@utils/constants";
-import {ACTIONS} from "@redux/user/action";
+import {ACTIONS, updateCustomize} from "@redux/user/action";
 import StickyHeader from "../StickyHeader";
 import {BackgroundContext} from "../../utils/context";
-
+import {setFontSize, setBackgroundColor} from "@utils/theme";
+import {CircularLoader} from '../loaders';
 
 const tweetInfo = {
   id: "999999",
@@ -28,19 +29,20 @@ const tweetInfo = {
 }
 
 const CustomizationModal = () => {
-  const {customize: {fontSize, color, background: backgroundColor}} = useSelector(state => state.user);
+  const {
+    authUser: {customize},
+    customize: {
+      fontSize,
+      color,
+      background: backgroundColor
+    }
+  } = useSelector(state => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const {background} = useContext(BackgroundContext);
 
-  const setFontSize = size => {
-    document.getElementsByTagName("html")[0].style.fontSize = `${size}px`;
-  }
-
-  useEffect(() => {
-    setFontSize(fontSize);
-  }, [])
-
+  const close = () => navigate(background?.pathname || PATH.ROOT);
   const fontSizeHandler = (e, fontSize) => {
     setFontSize(fontSize);
     dispatch(ACTIONS.setCustomize({fontSize}));
@@ -51,18 +53,29 @@ const CustomizationModal = () => {
   };
 
   const backgroundHandler = (e, background) => {
+    setBackgroundColor(background);
     dispatch(ACTIONS.setCustomize({background}));
   };
-  const submit = () => {
-
+  const submit = async () => {
+    if (customize.fontSize !== fontSize || customize.color !== color || customize.background !== backgroundColor) {
+      setLoading(true);
+      await dispatch(updateCustomize({
+        fontSize,
+        color,
+        background: backgroundColor
+      }));
+      setLoading(false);
+    }
+    close();
   }
 
   return <BoxWrapper>
+    {loading && <CircularLoader/>}
     <StickyHeader className='DisplayHeader'>
       <Box
         className='backButton'
         sx={{mr: '10px'}}
-        onClick={() => navigate(background?.pathname || PATH.ROOT)}>
+        onClick={close}>
         <CustomIconButton name='ArrowBackOutlined' title='Back' color='text'/>
       </Box>
       <Typography className='DisplayHeaderTitle' variant='h2'>Customize your view</Typography>
@@ -122,6 +135,7 @@ const StyledBox = styled(Box)(({theme}) => ({
 }));
 
 const BoxWrapper = styled(Box)(({theme}) => ({
+  position: 'relative',
   width: '100%',
   height: '100%',
   overflow: "auto",

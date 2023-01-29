@@ -25,11 +25,22 @@ export const getAuthUser = () => async (dispatch) => {
     dispatch(ACTIONS.getAuthUser.request());
     const data = await api.get(URLS.USERS.ROOT);
     dispatch(ACTIONS.getAuthUser.success(data));
+    return data;
 
   } catch (e) {
     console.log(e);
     dispatch(ACTIONS.getAuthUser.fail(e));
     dispatch(AUTH_ACTIONS.authorize.fail());
+  }
+}
+
+export const updateCustomize = body => async (dispatch) => {
+  try {
+    const data = await api.put(URLS.USERS.CUSTOMIZE, body);
+    dispatch(ACTIONS.setCustomize(data));
+
+  } catch (e) {
+    console.log(e);
   }
 }
 

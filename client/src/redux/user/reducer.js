@@ -5,11 +5,7 @@ const init = {
   preloader: false,
   authUser: {},
   error: "",
-  customize: {
-    fontSize: 14,
-    color: 'blue',
-    background: 'default'
-  }
+  customize: {}
 }
 
 export default (state = JSON.parse(JSON.stringify(init)), {payload, type}) => {
@@ -32,7 +28,6 @@ export default (state = JSON.parse(JSON.stringify(init)), {payload, type}) => {
         error: payload
       }
     case String(ACTIONS.setCustomize):
-
       return {
         ...state,
         customize: {...state.customize, ...payload}
