@@ -19,6 +19,7 @@ public class TweetResponse {
   private Long parentTweetId;
   private String body;
   private Integer replyCounter;
+  private Long retweetId;
   private User user;
 
 }

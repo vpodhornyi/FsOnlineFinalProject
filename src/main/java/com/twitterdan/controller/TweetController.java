@@ -54,8 +54,9 @@ public class TweetController {
   }
 
   @GetMapping
-  public List<TweetResponse> getAll() {
-    List<Tweet> tweets = tweetService.getAll();
+  public List<TweetResponse> getAll(Principal principal) {
+    User userCurrent  = userDao.findByUserTag(principal.getName());
+    List<Tweet> tweets = tweetService.getAll(userCurrent.getId());
     return tweets.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
   }
 

@@ -37,8 +37,8 @@ public class TweetService {
   }
 
 
-  public List<Tweet> getAll() {
-    return  tweetDao.findTweetsByParentTweetIdIsNull();
+  public List<Tweet> getAll(Long userId) {
+    return  tweetDao.findFollowedTweetsAndRetweet(userId);
   }
 
   public Tweet save(Tweet tweet) {

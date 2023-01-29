@@ -19,6 +19,7 @@ public class TweetResponseMapper extends GeneralFacade<Tweet, TweetResponse> {
 
   @Override
   protected void decorateDto(TweetResponse dto, Tweet entity) {
+    System.out.println(entity);
     Integer replyCounter = tweetDao.findReplies("REPLY",entity.getId()).size();
     dto.setReplyCounter(replyCounter);
     Long parentValue = dto.getTweetType().equals("TWEET")?null:entity.getId();

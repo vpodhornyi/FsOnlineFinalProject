@@ -36,21 +36,21 @@ const Tweet = ({tweetInfo, styles}) => {
     );
     const actionsObj = {
         "LIKE": {
-            counter: 0, color: "pink", handler: () => changeAction("LIKE"),
+            counter: 0, color: "#f91880", handler: () => changeAction("LIKE"),
             userBol: false
         },
         "RETWEET": {
-            counter: 0, color: "green", handler: () => changeAction("RETWEET"),
+            counter: 0, color: "#00ba7c", handler: () => changeAction("RETWEET"),
             userBol: false
         },
         "BOOKMARK": {
-            counter: 0, color: "blue", handler: () => changeAction("BOOKMARK").then(
+            counter: 0, color: "#1d9bf0", handler: () => changeAction("BOOKMARK").then(
                 (res) => res && dispatch(changeBookmark(res.tweet.id))
             ),
             userBol: false
         },
         "REPLY": {
-            color: "inherit", handler: () => navigate(PATH.TWEET.ROOT + `/reply/${id}`, {
+            color: "#1d9bf0", handler: () => navigate(PATH.TWEET.ROOT + `/reply/${id}`, {
                 state: {background: location},
             }),
             userBol: false
