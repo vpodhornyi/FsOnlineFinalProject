@@ -217,7 +217,7 @@ export const COLOR = {
     },
   },
 }
-export const themeStyles = (background, color) => {
+export const themeStyles = (background = 'default', color = 'blue') => {
   return ({
     breakpoints: {
       values: {
@@ -262,7 +262,7 @@ export const themeStyles = (background, color) => {
         active: '#0f1419'
       },
       ...COLOR[color],
-      ...BACKGROUND[background]?.palette,
+      ...BACKGROUND[background].palette,
     },
     typography: {
       fontFamily: "TwitterChirp, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif",
@@ -270,7 +270,7 @@ export const themeStyles = (background, color) => {
       fontWeightRegular: 400,
       fontWeightMedium: 500,
       fontWeightBold: 700,
-      ...BACKGROUND[background]?.typography,
+      ...BACKGROUND[background].typography,
     },
   });
 }
