@@ -3,6 +3,7 @@ import api, {URLS} from "../../services/API";
 import {ACTIONS as AUTH_ACTIONS} from '../auth/action';
 import {ACTIONS as CHAT_ACTIONS} from "../chat/action";
 import {ACTIONS as MESSAGE_ACTIONS} from "../chat/message/action";
+import {ACTIONS as SNACK_ACTIONS} from "../snack/action";
 
 
 const actions = createActions(
@@ -39,8 +40,8 @@ export const updateCustomize = body => async (dispatch) => {
     const data = await api.put(URLS.USERS.CUSTOMIZE, body);
     dispatch(ACTIONS.setCustomize(data));
 
-  } catch (e) {
-    console.log(e);
+  } catch (err) {
+    dispatch(SNACK_ACTIONS.open(err?.response?.data));
   }
 }
 
