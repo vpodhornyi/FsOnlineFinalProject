@@ -163,7 +163,6 @@ const BoxWrapper = styled(Box)(({theme}) => ({
       color: theme.palette.text.main,
     }
   }
-
 }));
 
 export default Foo;

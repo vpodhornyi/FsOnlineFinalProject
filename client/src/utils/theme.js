@@ -274,8 +274,6 @@ export const themeStyles = (background, color) => {
     },
   });
 }
-
-
 export const setFontSize = size => {
   document.getElementsByTagName("html")[0].style.fontSize = `${size}px`;
 }
