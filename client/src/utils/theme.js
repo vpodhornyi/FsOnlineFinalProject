@@ -31,6 +31,9 @@ export const BACKGROUND = {
       action: {
         main: grey[500],
       },
+      logo: {
+        main: blue[500]
+      },
     },
     typography: {
       h2: {
@@ -79,6 +82,9 @@ export const BACKGROUND = {
       },
       action: {
         main: grey[400],
+      },
+      logo: {
+        main: blueGrey[50],
       },
     },
     typography: {
@@ -129,6 +135,9 @@ export const BACKGROUND = {
       },
       action: {
         main: grey[300],
+      },
+      logo: {
+        main: grey[50],
       },
     },
     typography: {
@@ -205,7 +214,6 @@ export const COLOR = {
       light: green[300],
       custom: green,
       alpha: alpha(green[300], 0.2),
-      contrastText: '#ffffff'
     },
   },
 }
@@ -231,14 +239,6 @@ export const themeStyles = (background, color) => {
       background: {
         paper: '#ffffff',
         default: '#000000',
-      },
-      primary: {
-        main: 'rgb(29, 155, 240)',
-        secondary: 'rgb(26, 140, 216)',
-        third: 'rgba(29, 155, 240, 0.1)',
-        light: 'rgb(142, 205, 248)',
-        contrastText: '#ffffff',
-        text: '#ffffff'
       },
       redAccent: {
         main: 'rgb(244, 33, 46)',

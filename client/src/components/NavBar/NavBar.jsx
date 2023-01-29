@@ -53,7 +53,8 @@ const styles = ({theme}) => ({
 
   '& .Logo': {
     paddingLeft: 15,
-    color: theme.palette.primary.main,
+    color: theme.palette.logo.main,
+
     '& .MuiSvgIcon-root': {
       fontSize: '2rem'
     }
