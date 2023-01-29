@@ -5,7 +5,7 @@ const Lists = () => {
   return (
     <ColumnWrapper>
       <PrimaryColumn>
-        <PrimaryHeader pageElement={Header} isBack={true}/>
+        <PrimaryHeader page={"Lists"} pageElement={Header} isBack={true}/>
         BODY Lists primary column
       </PrimaryColumn>
 

@@ -57,8 +57,6 @@ export default () => {
 
   if (accessToken) {
     setHeaderAuthorization(accessToken, tokenType);
-    store.dispatch(getUserTweets(true))
-    store.dispatch(getUserLikes(true))
     store.dispatch(getAuthUser(true))
       .then(() => {
         api.client = stompClient(() => {

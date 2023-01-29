@@ -1,6 +1,5 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
 
-import {closeDialog} from "../../../redux/dialog/action";
 import {useDispatch, useSelector} from "react-redux";
 import Box from "@mui/material/Box";
 import CloseIcon from "@mui/icons-material/Close";
@@ -38,17 +37,43 @@ const EditProfile = () => {
     const handleAvatarFileClick = () => avatarFileUpload.current.click();
     const authUser = useSelector(getPersonalData);
 
+    const initialState = {
+        name: authUser?.name || "",
+        bio: authUser?.bio ||"",
+        location: authUser?.location || "",
+        headerFile: "",
+        headerLocalUrl: authUser?.headerImgUrl || "",
+        avatarFile: "",
+        avatarLocalUrl: "",
+        month: authUser.birthDate ? authUser.birthDate.substring(5, 7) : "",
+        day: authUser.birthDate ? authUser.birthDate.substring(8, 10) : "",
+        year: authUser.birthDate ? authUser.birthDate.substring(0, 4) : ""
+    }
+
     const [loading, setLoading] = useState(false);
-    const [name, setName] = useState(authUser?.name || "");
-    const [bio, setBio] = useState(authUser?.bio ||"");
-    const [location, setLocation] = useState(authUser?.location || "");
-    const [headerFile, setHeaderFile] = useState("");
-    const [headerLocalUrl, setHeaderLocalUrl] = useState(authUser?.headerImgUrl || "");
-    const [avatarFile, setAvatarFile] = useState("");
-    const [avatarLocalUrl, setAvatarLocalUrl] = useState("");
-    const [month, setMonth] = useState(authUser.birthDate ? authUser.birthDate.substring(3, 5) : "");
-    const [day, setDay] = useState(authUser.birthDate ? authUser.birthDate.substring(0, 2) : "");
-    const [year, setYear] = useState(authUser.birthDate ? authUser.birthDate.substring(6, 10) : "");
+    const [name, setName] = useState(initialState.name);
+    const [bio, setBio] = useState(initialState.bio);
+    const [location, setLocation] = useState(initialState.location);
+    const [headerFile, setHeaderFile] = useState(initialState.headerFile);
+    const [headerLocalUrl, setHeaderLocalUrl] = useState(initialState.headerLocalUrl);
+    const [avatarFile, setAvatarFile] = useState(initialState.avatarFile);
+    const [avatarLocalUrl, setAvatarLocalUrl] = useState(initialState.avatarLocalUrl);
+    const [month, setMonth] = useState(initialState.month);
+    const [day, setDay] = useState(initialState.day);
+    const [year, setYear] = useState(initialState.year);
+
+    const currentState = {
+        name,
+        bio,
+        location,
+        headerFile,
+        headerLocalUrl,
+        avatarFile,
+        avatarLocalUrl,
+        month,
+        day,
+        year
+    }
 
     const handleMonthChange = e => setMonth(e.target.value);
     const handleDayChange = e => setDay(e.target.value);
@@ -56,8 +81,6 @@ const EditProfile = () => {
     const handleNameChange = e => setName(e.target.value);
     const handleBioChange = e => setBio(e.target.value);
     const handleLocationChange = e => setLocation(e.target.value);
-
-    console.log(day, month, year)
 
     const handleSaveClick = async () => {
         setLoading(true);
@@ -156,7 +179,8 @@ const EditProfile = () => {
                                 name.length < 3 ||
                                 name.length > 50 ||
                                 location.length > 30 ||
-                                bio.length > 160
+                                bio.length > 160 ||
+                                (JSON.stringify(initialState) === JSON.stringify(currentState))
                             }
                             onClick={() => {
                                 handleSaveClick()
@@ -222,7 +246,7 @@ const EditProfile = () => {
                                 <Grid item xs={12} sx={{padding: '10px 0'}}>
                                     <TextField
                                         error={name.length < 3 || name.length > 50}
-                                        helperText={(name.length < 3 || name.length > 50) ? "Name must includes from 3 to 50 symbols" : `${name.length} / 50`}
+                                        helperText={(name.length < 3 || name.length > 50) ? `${name.length} / 50. Name must includes from 3 to 50 symbols!` : `${name.length} / 50`}
                                         value={name}
                                         sx={{width: '100%'}}
                                         id="name"
@@ -234,7 +258,7 @@ const EditProfile = () => {
                                 <Grid item sx={{padding: '10px 0'}}>
                                     <TextField
                                         error={bio.length > 160}
-                                        helperText={bio.length > 160 ? "Bio must includes max to 160 symbols" : `${bio.length} / 160`}
+                                        helperText={bio.length > 160 ? `${bio.length} / 160. Bio must includes max to 160 symbols!` : `${bio.length} / 160`}
                                         value={bio}
                                         id="bio"
                                         sx={{width: '100%'}}
@@ -246,7 +270,7 @@ const EditProfile = () => {
                                 <Grid item sx={{padding: '10px 0'}}>
                                     <TextField
                                         error={location.length > 30}
-                                        helperText={location.length > 30 ? "Bio must includes max to 160 symbols" : `${location.length} / 160`}
+                                        helperText={location.length > 30 ? `${location.length} / 30. Location must includes max to 30 symbols!` : `${location.length} / 30`}
                                         value={location}
                                         id="location"
                                         sx={{width: '100%'}}

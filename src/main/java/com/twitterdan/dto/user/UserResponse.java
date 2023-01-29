@@ -23,8 +23,8 @@ public class UserResponse {
   private String name;
   private String userTag;
   private String email;
-  @JsonSerialize(using = DateSerializer.class)
-  private Date birthDate;
+//  @JsonSerialize(using = DateSerializer.class)
+  private String birthDate;
   private String bio;
   private String location;
   private String avatarImgUrl;

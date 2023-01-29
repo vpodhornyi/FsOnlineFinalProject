@@ -49,15 +49,19 @@ public class TweetController {
   }
 
   @GetMapping("/user-tweets/")
-  public List<TweetResponse> getTweetsByUserId(  Principal principal) {
-    User userCurrent  = userDao.findByUserTag(principal.getName());
-    List<Tweet> tweets = tweetService.getTweetsByUserId(userCurrent.getId());
+  public List<TweetResponse> getTweetsByUserId(
+          @RequestParam (name = "userTag") String userTag
+  ) {
+    User user  = userDao.findByUserTag(userTag);
+    List<Tweet> tweets = tweetService.getTweetsByUserId(user.getId());
     return tweets.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
   }
   @GetMapping("/user-likes/")
-  public List<TweetResponse> findCurrentUserLikeTweets(  Principal principal) {
-    User userCurrent  = userDao.findByUserTag(principal.getName());
-    List<Tweet> tweets = tweetService.findCurrentUserLikeTweets(userCurrent.getId());
+  public List<TweetResponse> findCurrentUserLikeTweets(
+          @RequestParam (name = "userTag") String userTag
+  ) {
+    User user  = userDao.findByUserTag(userTag);
+    List<Tweet> tweets = tweetService.findCurrentUserLikeTweets(user.getId());
     return tweets.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
   }
 

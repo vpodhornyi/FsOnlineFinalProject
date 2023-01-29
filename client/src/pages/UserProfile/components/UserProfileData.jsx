@@ -3,12 +3,13 @@ import Box from "@mui/material/Box";
 import {Typography} from "@mui/material";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
+import CakeOutlinedIcon from '@mui/icons-material/CakeOutlined';
 import {StyledTypography, userProfileSecondaryFontColor} from "../../../components/StyledComponents/styledComponents";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 import {PATH} from "../../../utils/constants";
 
-const UserProfileData = ({username, userTag, joinedDate, followers, followings, bio, location}) => {
+const UserProfileData = ({username, userTag, joinedDate, followers, followings, bio, location, birthDate}) => {
     return (
         <>
             <Box sx={{margin: "15px 0 15px 0"}}>
@@ -33,7 +34,11 @@ const UserProfileData = ({username, userTag, joinedDate, followers, followings, 
                     }
 
                     <Box sx={{display: "flex", alignItems: "center"}}>
-                        <CalendarMonthIcon sx={{color: userProfileSecondaryFontColor}}/>
+                        {birthDate && <>
+                            <CakeOutlinedIcon sx={{color: userProfileSecondaryFontColor}}/>
+                            <Typography sx={{marginLeft: "5px"}}>Born: {birthDate.replaceAll("-", ".")}</Typography>
+                        </>}
+                        <CalendarMonthIcon sx={{color: userProfileSecondaryFontColor, marginLeft: "5px"}}/>
                         <Typography sx={{marginLeft: "5px"}}>Joined: {joinedDate}</Typography>
                     </Box>
                 </div>
@@ -59,6 +64,7 @@ UserProfileData.propTypes = {
     followings: PropTypes.number,
     bio: PropTypes.string,
     location: PropTypes.string,
+    birthDate: PropTypes.string,
 }
 
 export default UserProfileData;
