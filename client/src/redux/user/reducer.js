@@ -4,7 +4,11 @@ const init = {
   preloader: false,
   authUser: {},
   error: "",
-  customize: {}
+  customize: {
+    fontSize: 14,
+    color: 'blue',
+    background: 'default'
+  }
 }
 
 export default (state = JSON.parse(JSON.stringify(init)), {payload, type}) => {
