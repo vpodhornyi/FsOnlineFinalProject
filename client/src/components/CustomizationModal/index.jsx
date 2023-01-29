@@ -61,8 +61,8 @@ const CustomizationModal = () => {
       setLoading(true);
       await dispatch(updateCustomize({
         fontSize,
-        color,
-        background: backgroundColor
+        color: color.toUpperCase(),
+        background: backgroundColor.toUpperCase(),
       }));
       setLoading(false);
     }
