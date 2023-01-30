@@ -4,7 +4,7 @@ import api, {URLS} from "../../services/API";
 const actions = createActions(
     {
         actions: [
-            'SET_NOTIFICATIONS'
+            'SET_NOTIFICATIONS', 'DISMISS_NOTIFICATION'
         ],
         async: ['DEACTIVATE_NOTIFICATION', 'DELETE_NOTIFICATION', 'STORE_NOTIFICATION'],
     },

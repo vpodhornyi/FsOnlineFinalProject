@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {ColumnWrapper, PrimaryColumn, SitebarColumn, StickyHeader} from "../../components";
 import NotificationItem from "./NotificationItem";
 import {useDispatch, useSelector} from "react-redux";
@@ -10,8 +10,8 @@ import ACTIONS_Cust, {ACTIONS as NOTIFICATION_ACTIONS} from "@redux/notification
 const Notifications = () => {
 
     const notifications = useSelector(notifSel.notifications);
-    if (!notifications) return;
     const dispatch = useDispatch();
+    if (!notifications || notifications.length === 0) return;
 
 
     const handleNotificationClick = (e) => {
@@ -20,6 +20,7 @@ const Notifications = () => {
         if ( !isNaN(notificationId) ) {
             dispatch(ACTIONS_Cust.deactivateNotification(notificationId));
             dispatch(ACTIONS_Cust.deleteNotification(notificationId));
+            dispatch(NOTIFICATION_ACTIONS.dismissNotification(notificationId));
         } else {
             console.log("notificationId: ", notificationId);
         }
@@ -53,7 +54,6 @@ const Notifications = () => {
             return <NotificationItem key={ind} notification={notification} handleNotificationClick={handleNotificationClick}/>
         }
     );
-
 
     return (
         <ColumnWrapper>
