@@ -38,10 +38,21 @@ const initNotifications_ = [
 
 export default (state = init, {payload, type}) => {
     switch (type) {
+        case String(ACTIONS.unckeckNotification): {
+            const updatedNotifications = state.notifications.map(notification => {
+                if (Number(notification.id) === Number(payload)){
+                    notification.isRead = true;
+                }
+                return notification
+            });
+            return {
+                ...state,
+                notifications: updatedNotifications
+            }
+        }
+
         case String(ACTIONS.dismissNotification): {
-            console.log("notificationId: ", payload)
             const updatedNotifications = state.notifications.filter(notification => Number(notification.id) !== Number(payload));
-            console.log("updatedNotifications: ", updatedNotifications)
             return {
                 ...state,
                 notifications: updatedNotifications

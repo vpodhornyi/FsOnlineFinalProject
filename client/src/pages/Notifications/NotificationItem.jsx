@@ -22,8 +22,8 @@ const NotificationItem = ({notification, handleNotificationClick}) => {
                     </Box>
                 </Box>
                 <Badge
-                    badgeContent={"new"}
-                    color={"primary"}
+                    badgeContent={notification.isRead? "dismissed" :  "new"}
+                    color={notification.isRead? "error" : "primary"}
                     max={99}
                 >
                 </Badge>

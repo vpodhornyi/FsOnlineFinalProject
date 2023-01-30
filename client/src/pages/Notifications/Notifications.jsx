@@ -20,9 +20,8 @@ const Notifications = () => {
         if ( !isNaN(notificationId) ) {
             dispatch(ACTIONS_Cust.deactivateNotification(notificationId));
             dispatch(ACTIONS_Cust.deleteNotification(notificationId));
-            dispatch(NOTIFICATION_ACTIONS.dismissNotification(notificationId));
-        } else {
-            console.log("notificationId: ", notificationId);
+            dispatch(NOTIFICATION_ACTIONS.unckeckNotification(notificationId));
+            // dispatch(NOTIFICATION_ACTIONS.dismissNotification(notificationId)); //TODO раскомметировать для мгновенного удаления кликнутого уведомления с экрана
         }
 
     }
