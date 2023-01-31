@@ -17,10 +17,12 @@ import {getUserByUserTag} from "../../services/userApi";
 import {followUser, unfollowUser} from "../../services/followService";
 import {getAuthUser} from "../../redux/user/action";
 import {PATH} from "../../utils/constants";
-import {ColumnWrapper, PrimaryColumn, PrimaryHeader, SitebarColumn, StickyHeader, Tweet} from "../../components";
-import tweet from "../../components/tweetComponents/Tweet";
-import {getUserLikes, getUserTweets} from "../../services/tweetService";
+import {ColumnWrapper, PrimaryColumn, PrimaryHeader, SitebarColumn, StickyHeader} from "../../components";
+
 import Header from "../Lists/Header";
+import Likes from "./pages/Likes";
+import TweetReplies from "./pages/TweetReplies";
+import Tweets from "./pages/Tweets";
 
 export function a11yProps(index) {
     return {
@@ -35,26 +37,19 @@ const UserProfile = () => {
     const {user_tag} = useParams();
     const navigate = useNavigate();
     const location = useLocation();
-    const [tabVal, setTabVal] = useState(0)
+    const [tabVal, setTabVal] = useState(
+        location.pathname === PATH.USER_PAGE.userProfile(user_tag) ? 0 :
+        location.pathname === PATH.USER_PAGE.tweetReplies(user_tag) ? 1 : 2
+    );
     const [user, setUser] = useState(null);
-    const [userTweets, setUserTweets] = useState([]);
-    const [userLikes, setUserLikes] = useState([]);
 
-    async function fetchUser() {
-        try {
-            const data = await getUserByUserTag(user_tag);
-            const tweets = await getUserTweets(user_tag);
-            const likes = await getUserLikes(user_tag);
-            setUser(data);
-            setUserTweets(tweets);
-            setUserLikes(likes);
-        } catch (e) {
-            console.log("request error", e)
-        }
+    const fetchUser = async () => {
+        const data = await getUserByUserTag(user_tag);
+        setUser(data);
     }
 
     useEffect(() => {
-        setUser(null)
+        setUser(null);
         fetchUser();
     }, [user_tag, authUser]);
 
@@ -151,29 +146,13 @@ const UserProfile = () => {
                                 </Tabs>
                             </Box>
                             <TabPanel value={tabVal} index={0}>
-                                {userTweets
-                                    ?.filter(tweet => tweet.tweetType !== "REPLY")
-                                    ?.map(tweet =>
-                                        <div key={tweet.id}>
-                                            <Tweet tweetInfo={tweet}/>
-                                        </div>
-                                    )}
+                                <Tweets/>
                             </TabPanel>
                             <TabPanel value={tabVal} index={1}>
-                                <div>Hello</div>
+                                <TweetReplies userId={user?.id}/>
                             </TabPanel>
                             <TabPanel value={tabVal} index={2}>
-                                {userLikes.length > 0 ? userLikes?.map(tweet =>
-                                        <div key={tweet.id}>
-                                            <Tweet tweetInfo={tweet}/>
-                                        </div>
-                                    ) :
-                                    <Box sx={{display: "flex", alignItems: "center", flexDirection: "column", maxWidth: "70%", margin: "0 auto"}}>
-                                        <Typography sx={{margin: "15px 0 10px 0", fontWeight: "bold"}} variant={"h4"}>You don’t have any likes yet</Typography>
-                                        <Typography variant={"subtitle2"}>Tap the heart on any Tweet to show it some love. When you do, it’ll show up here.
-                                        </Typography>
-                                    </Box>
-                                }
+                                <Likes/>
                             </TabPanel>
                         </Box>
                     </Box>

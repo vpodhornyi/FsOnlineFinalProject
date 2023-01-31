@@ -1,25 +1,28 @@
 import React, {useEffect, useState} from 'react';
 import Box from "@mui/material/Box";
-import {Link, useLocation, useParams} from "react-router-dom";
+import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
 import {styled} from "@mui/system";
 import {useSelector} from "react-redux";
 import ProfilePreview from "../../components/ProfilePreview/ProfilePreview";
 import noFollowers from "../../assets/img/no_followers.png"
-import {CircularProgress, Typography} from "@mui/material";
+import {CircularProgress, Tab, Tabs, Typography} from "@mui/material";
 import {getUsers} from "../../services/userApi";
 import Container from "@mui/material/Container";
 import {getPersonalData} from "../../redux/user/selector";
 import {PATH} from "../../utils/constants";
-
+import {ColumnWrapper, PrimaryColumn, PrimaryHeader, SitebarColumn, StickyHeader} from "../../components";
+import Header from "../Lists/Header";
 
 const Subscribing = () => {
     const {user_tag} = useParams();
     const path = useLocation().pathname;
+    console.log(path)
 
     const authUser = useSelector(getPersonalData);
 
     const [userFollowers, setUserFollowers] = useState(null);
     const [userFollowings, setUserFollowings] = useState(null);
+
 
     useEffect( () => {
         getUsers().then(users => {
@@ -53,8 +56,11 @@ const Subscribing = () => {
     }
 
     return (
-        <Box sx={{width: "100%", marginTop: "25px"}}>
-            <Box sx={{borderBottom: 1, borderColor: 'divider', display: "flex", justifyContent: "space-around"}}>
+        <ColumnWrapper>
+            <PrimaryColumn>
+                <PrimaryHeader page={user_tag} pageElement={Header} isBack={true}/>
+                <Box sx={{width: "100%"}}>
+                    <Box sx={{borderBottom: 1, borderColor: 'divider', display: "flex", justifyContent: "space-around"}}>
                         <StyledLink sx={{borderBottom: path.includes("followers") ? "2px solid black": "none"}}
                                     to={`${PATH.USER_PAGE.followers(user_tag)}`}>
                             Followers
@@ -64,56 +70,65 @@ const Subscribing = () => {
                                     to={`${PATH.USER_PAGE.followings(user_tag)}`}>
                             Followings
                         </StyledLink>
-            </Box>
+                    </Box>
 
-            {
-                path.includes("followers") &&
-                    <>
-                        {userFollowers?.length > 0 ? userFollowers?.map(u => (
-                            <ProfilePreview
-                                key={u.id}
-                                userTag={u.userTag}
-                                username={u.name}
-                                id={u.id}
-                                avatar={u.avatarImgUrl}
-                                descr={u.bio}
-                                followers={u.followers}
-                                followings={u.followings}
-                            />
-                        )) :
-                            <Box sx={{display: "flex", flexDirection: "column", alignItems: "center", maxWidth: "70%", margin: "0 auto"}}>
-                                <img src={noFollowers} alt="No followers image."/>
-                                <Typography sx={{margin: "15px 0 10px 0", fontWeight: "bold"}} variant={"h4"}>Looking for followers?</Typography>
-                                <Typography variant={"subtitle2"}>When someone follows this account, they’ll show up here. Tweeting and interacting with others helps boost followers.</Typography>
-                            </Box>
-                        }
-                    </>
+                    {
+                        path.includes("followers") &&
+                        <>
+                            {userFollowers?.length > 0 ? userFollowers?.map(u => (
+                                    <ProfilePreview
+                                        key={u.id}
+                                        userTag={u.userTag}
+                                        username={u.name}
+                                        id={u.id}
+                                        avatar={u.avatarImgUrl}
+                                        descr={u.bio}
+                                        followers={u.followers}
+                                        followings={u.followings}
+                                    />
+                                )) :
+                                <Box sx={{display: "flex", flexDirection: "column", alignItems: "center", maxWidth: "70%", margin: "0 auto"}}>
+                                    <img src={noFollowers} alt="No followers image."/>
+                                    <Typography sx={{margin: "15px 0 10px 0", fontWeight: "bold"}} variant={"h4"}>Looking for followers?</Typography>
+                                    <Typography variant={"subtitle2"}>When someone follows this account, they’ll show up here. Tweeting and interacting with others helps boost followers.</Typography>
+                                </Box>
+                            }
+                        </>
 
-            }
-            {
-                path.includes("followings") &&
-                    <>
-                        {userFollowings.length > 0 ? userFollowings?.map(u => (
-                            <ProfilePreview
-                                key={u.id}
-                                userTag={u.userTag}
-                                username={u.name}
-                                id={u.id}
-                                avatar={u.avatarImgUrl}
-                                descr={u.bio}
-                                followers={u.followers}
-                                followings={u.followings}
-                            />
+                    }
+                    {
+                        path.includes("followings") &&
+                        <>
+                            {userFollowings.length > 0 ? userFollowings?.map(u => (
+                                    <ProfilePreview
+                                        key={u.id}
+                                        userTag={u.userTag}
+                                        username={u.name}
+                                        id={u.id}
+                                        avatar={u.avatarImgUrl}
+                                        descr={u.bio}
+                                        followers={u.followers}
+                                        followings={u.followings}
+                                    />
 
-                        )) :
-                            <Box sx={{display: "flex", alignItems: "center", flexDirection: "column", maxWidth: "70%", margin: "0 auto"}}>
-                                <Typography sx={{margin: "15px 0 10px 0", fontWeight: "bold"}} variant={"h4"}>Be in the know</Typography>
-                                <Typography variant={"subtitle2"}>Following accounts is an easy way to curate your timeline and know what’s happening with the topics and people you’re interested in.</Typography>
-                            </Box>
-                        }
-                    </>
-            }
-        </Box>
+                                )) :
+                                <Box sx={{display: "flex", alignItems: "center", flexDirection: "column", maxWidth: "70%", margin: "0 auto"}}>
+                                    <Typography sx={{margin: "15px 0 10px 0", fontWeight: "bold"}} variant={"h4"}>Be in the know</Typography>
+                                    <Typography variant={"subtitle2"}>Following accounts is an easy way to curate your timeline and know what’s happening with the topics and people you’re interested in.</Typography>
+                                </Box>
+                            }
+                        </>
+                    }
+                </Box>
+
+            </PrimaryColumn>
+            <SitebarColumn>
+                <StickyHeader>
+                    HEADER Lists sitebar column
+                </StickyHeader>
+                BODY Lists sitebar column
+            </SitebarColumn>
+        </ColumnWrapper>
     );
 };
 

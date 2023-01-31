@@ -9,15 +9,15 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import DateOfBirth from "../../Auth/components/DateOfBirth";
 import {StyledDarkButton} from "../../../components/StyledComponents/styledComponents";
-import UserBackground from "./UserBackground";
-import UserIcon from "./UserIcon";
+import UserBackground from "../components/UserBackground";
+import UserIcon from "../components/UserIcon";
 import LinkedCameraOutlinedIcon from '@mui/icons-material/LinkedCameraOutlined';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import {getPersonalData} from "../../../redux/user/selector";
 import {getAuthUser} from "../../../redux/user/action";
-import {uploadImage} from "../../../utils/uploadImage";
+import {uploadImage, uploadTypes} from "../../../utils/uploadImage";
 import {Backdrop, CircularProgress} from "@mui/material";
 import {updateUser} from "../../../services/userApi";
 import {useNavigate} from "react-router-dom";
@@ -86,11 +86,11 @@ const EditProfile = () => {
         setLoading(true);
 
         if (headerFile instanceof Object) {
-            await uploadImage(headerFile, authUser.id, "UPDATE_PROFILE_HEADER")
+            await uploadImage(headerFile, authUser.id, uploadTypes.UPDATE_PROFILE_HEADER)
         }
 
         if (avatarFile instanceof Object) {
-            await uploadImage(avatarFile, authUser.id, "UPDATE_PROFILE_AVATAR")
+            await uploadImage(avatarFile, authUser.id, uploadTypes.UPDATE_PROFILE_AVATAR)
         }
 
         await updateUser(
@@ -242,13 +242,13 @@ const EditProfile = () => {
                                 </UserIcon>
                             </Box>
 
-                            <Grid sx={{padding: "20px", width: "500px"}}>
+                            <Grid sx={{padding: "20px"}}>
                                 <Grid item xs={12} sx={{padding: '10px 0'}}>
                                     <TextField
                                         error={name.length < 3 || name.length > 50}
                                         helperText={(name.length < 3 || name.length > 50) ? `${name.length} / 50. Name must includes from 3 to 50 symbols!` : `${name.length} / 50`}
                                         value={name}
-                                        sx={{width: '100%'}}
+                                        fullWidth
                                         id="name"
                                         label="Name"
                                         variant="outlined"
@@ -261,7 +261,7 @@ const EditProfile = () => {
                                         helperText={bio.length > 160 ? `${bio.length} / 160. Bio must includes max to 160 symbols!` : `${bio.length} / 160`}
                                         value={bio}
                                         id="bio"
-                                        sx={{width: '100%'}}
+                                        fullWidth
                                         label="Bio"
                                         variant="outlined"
                                         onChange={handleBioChange}
@@ -273,7 +273,7 @@ const EditProfile = () => {
                                         helperText={location.length > 30 ? `${location.length} / 30. Location must includes max to 30 symbols!` : `${location.length} / 30`}
                                         value={location}
                                         id="location"
-                                        sx={{width: '100%'}}
+                                        fullWidth
                                         label="Location"
                                         variant="outlined"
                                         onChange={handleLocationChange}

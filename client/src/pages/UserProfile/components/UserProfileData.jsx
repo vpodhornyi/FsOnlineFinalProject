@@ -36,10 +36,10 @@ const UserProfileData = ({username, userTag, joinedDate, followers, followings, 
                     <Box sx={{display: "flex", alignItems: "center"}}>
                         {birthDate && <>
                             <CakeOutlinedIcon sx={{color: userProfileSecondaryFontColor}}/>
-                            <Typography sx={{marginLeft: "5px"}}>Born: {birthDate.replaceAll("-", ".")}</Typography>
+                            <Typography sx={{margin: "0 5px"}}>Born: {birthDate.replaceAll("-", ".")}</Typography>
                         </>}
-                        <CalendarMonthIcon sx={{color: userProfileSecondaryFontColor, marginLeft: "5px"}}/>
-                        <Typography sx={{marginLeft: "5px"}}>Joined: {joinedDate}</Typography>
+                        <CalendarMonthIcon sx={{color: userProfileSecondaryFontColor, marginRight: "5px"}}/>
+                        <Typography>Joined: {joinedDate}</Typography>
                     </Box>
                 </div>
 

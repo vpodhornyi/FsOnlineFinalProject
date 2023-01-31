@@ -65,7 +65,8 @@ export const URLS = {
     CHANGE_ACTIONS: "/tweets/change_actions",
     BOOKMARKS: "/tweets/bookmarks",
     USER_TWEETS: "/tweets/user-tweets/",
-    USER_LIKES: "/tweets/user-likes/"
+    USER_LIKES: "/tweets/user-likes/",
+    USER_REPLIES: "/tweets/replies/"
   },
   CHATS: {
     ROOT: '/chats',

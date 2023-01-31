@@ -14,7 +14,7 @@ public interface TweetRepository extends JpaRepository<Tweet, Long> {
     List<Tweet> findCurrentUserLikeTweets( Long userId);
     List<Tweet>findTweetsByUserId(Long userId);
 
-    @Query(value = "Select * from TWEETS where TWEET_TYPE=:type and PARENT_TWEET_ID=:id ",
+    @Query(value = "Select * from TWEETS where TWEET_TYPE=:type and USER_ID=:id ",
             nativeQuery = true)
     List<Tweet> findReplies(String type, Long id);
 }
