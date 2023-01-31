@@ -1,10 +1,10 @@
 import Box from "@mui/material/Box";
-import React, {useState} from "react";
+import React from "react";
 import {Link, List, ListItem, ListItemIcon, ListItemText, Tooltip, Typography,} from "@mui/material";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import {ICONS} from "./tweetData";
 import PropTypes from "prop-types";
-import {MoreIcon} from "../../../media/icons";
+import {MoreIcon, RetweetIcon} from "../../../media/icons";
 import Reply from "../Reply";
 import {
     AvatarDecorate,
@@ -25,12 +25,11 @@ import {getPersonalData} from "../../../redux/user/selector";
 
 const Tweet = ({tweetInfo, styles}) => {
     const dispatch = useDispatch();
-    const {id, body, images, actions, replyCounter} = tweetInfo;
+    const {id, body, images, actions, replyCounter, retweetFollowedName} = tweetInfo;
     const {name, avatarImgUrl, userTag, created_at} = tweetInfo.user;
     const user = useSelector(getPersonalData);
     const navigate = useNavigate();
     const location = useLocation();
-    const [retweetMessage,setRetweetMessage]=useState('')
     const changeAction = (action) => dispatch(
         changeActionsTweet({actionType: action, tweetId: id})
     );
@@ -73,6 +72,15 @@ const Tweet = ({tweetInfo, styles}) => {
                     navigate(PATH.HOME.tweetPage(id));
                 }}
             >
+                {retweetFollowedName!==""&&<Typography sx={{
+                    display: "flex",
+                    alignItems: "center",
+                }}><RetweetIcon sx={{
+                    width: "16px",
+                    height: "16px",
+                    display: "inline-block",
+                    marginRight: "5px"
+                }}></RetweetIcon>{retweetFollowedName}</Typography>}
                 <Content>
                     <Box sx={{display: "flex"}}>
                         <AvatarWrapper>

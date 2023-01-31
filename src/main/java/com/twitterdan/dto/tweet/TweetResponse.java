@@ -13,13 +13,13 @@ import java.util.Set;
 public class TweetResponse {
   private Long id;
   private String key;
-  private TweetType tweetType;
+  private String tweetType;
   private Set<AttachmentResponse> images;
   private Set<TweetActionResponse> actions;
   private Long parentTweetId;
   private String body;
   private Integer replyCounter;
-  private Long retweetId;
+  private String retweetFollowedName;
   private User user;
 
 }

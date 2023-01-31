@@ -9,25 +9,64 @@ import java.util.List;
 
 @Repository
 public interface TweetRepository extends JpaRepository<Tweet, Long> {
-  @Query(value = "SELECT TWEETS.*  FROM TWEETS Join TWEET_ACTIONS on TWEET_ACTIONS.TWEET_ID = TWEETS.ID \n"
-          + " where TWEET_ACTIONS.ACTION_TYPE=:type AND TWEET_ACTIONS.USER_ID = "
-          + ":userId", nativeQuery = true)
+  @Query(value = "SELECT tweets.* FROM tweets   \n"
+          + "WHERE tweets.user_id=:userId AND tweets.tweet_type='TWEET'\n"
+          + " UNION ALL \n"
+          + "SELECT tweets.id, tweets.created_at, tweets.created_by, tweets.updated_at, tweets.updated_by, tweets.uuid,  body ,   \n"
+          + "parent_tweet_id, tweet_type, tweet_actions.user_id AS retweet_id,  tweets.user_id FROM tweets \n"
+          + "JOIN tweet_actions ON tweet_actions.tweet_id =tweets.id \n"
+          + "WHERE  tweet_actions.action_type=:type AND tweet_actions.user_id=:userId \n"
+          + " ORDER BY created_at  DESC", nativeQuery = true)
   List<Tweet> findCurrentUserActionTweets(String type, Long userId);
-
-  List<Tweet> findTweetsByParentTweetIdIsNull();
-
+  @Query(value ="  SELECT tweets.id, tweets.created_at, tweets.created_by, tweets.updated_at, tweets.updated_by, tweets.uuid,  body ,\n"
+          + "        parent_tweet_id, tweet_type, retweet_id,  tweets.user_id FROM tweets\n"
+          + "        JOIN tweet_actions ON tweet_actions.tweet_id =tweets.id\n"
+          + "        WHERE  tweet_actions.action_type='LIKE' AND tweet_actions.user_id=:userId\n"
+          + "        ORDER BY created_at  DESC", nativeQuery = true)
+          List<Tweet>findCurrentUserLikeTweets(Long userId);
   @Query(value =
-          "  SELECT TWEETS.* FROM TWEETS Join FOLLOWERS on FOLLOWERS.FOLLOWED_ID= TWEETS.USER_ID  where  FOLLOWERS.FOLLOWER_ID=1 and TWEETS.TWEET_TYPE='TWEET' UNION all SELECT TWEETS.ID,\tTWEETS.CREATED_AT, \tTWEETS.CREATED_BY,\tTWEETS.UPDATED_AT,  \tTWEETS.UPDATED_BY,  \tTWEETS.UUID,  \tTWEETS.BODY,  \tTWEETS.PARENT_TWEET_ID, TWEET_ACTIONS.USER_ID as retweet_id,   \tTWEETS.TWEET_TYPE,  \tTWEETS.USER_ID   FROM TWEETS Join TWEET_ACTIONS on TWEET_ACTIONS.TWEET_ID = TWEETS.ID  where TWEET_ACTIONS.ACTION_TYPE='RETWEET' AND TWEET_ACTIONS.USER_ID in (select followers.followed_id from followers where followers.follower_id=1)\n"
-                  + "  ORDER BY CREATED_AT  DESC", nativeQuery = true)
+          "SELECT tweets.* FROM tweets JOIN followers ON followers.followed_id=tweets.user_id \n"
+                  + " WHERE  followers.follower_id=:userId AND tweets.tweet_type='TWEET' \n"
+                  + "UNION ALL \n"
+                  + "SELECT tweets.id, tweets.created_at, tweets.created_by, tweets.updated_at, tweets.updated_by, tweets.uuid,  body ,   \n"
+                  + "parent_tweet_id,tweet_type, tweet_actions.user_id AS retweet_id,  tweets.user_id FROM tweets \n"
+                  + "JOIN tweet_actions ON tweet_actions.tweet_id =tweets.id \n"
+                  + "WHERE tweet_actions.action_type='RETWEET' AND tweet_actions.user_id IN (SELECT followers.followed_id \n"
+                  + "  FROM followers WHERE followers.follower_id=:userId)\n"
+                  + " ORDER BY created_at  DESC", nativeQuery = true)
   List<Tweet> findFollowedTweetsAndRetweet(Long userId);
-
-  List<Tweet> findTweetsByUserId(Long userId);
-
   @Query(value = "Select * from TWEETS where TWEET_TYPE=:type and PARENT_TWEET_ID=:id ",
           nativeQuery = true)
   List<Tweet> findReplies(String type, Long id);
+  List<Tweet> findTweetsByParentTweetIdIsNull();
+  List<Tweet> findTweetsByUserId(Long userId);
 }
-//  SELECT TWEETS.*, TWEETS.PARENT_TWEET_ID as retweet_id FROM TWEETS Join FOLLOWERS on FOLLOWERS.FOLLOWED_ID= TWEETS.USER_ID  where  FOLLOWERS.FOLLOWER_ID=1 and TWEETS.TWEET_TYPE='TWEET' UNION all SELECT TWEETS.*,TWEET_ACTIONS.USER_ID as retweet_id  FROM TWEETS Join TWEET_ACTIONS on TWEET_ACTIONS.TWEET_ID = TWEETS.ID  where TWEET_ACTIONS.ACTION_TYPE='RETWEET' AND TWEET_ACTIONS.USER_ID in (select followers.followed_id from followers where followers.follower_id=1)
-//        ORDER BY CREATED_AT  DESC
-//SELECT TWEETS.* FROM TWEETS Join FOLLOWERS on FOLLOWERS.FOLLOWED_ID= TWEETS.USER_ID  where  FOLLOWERS.FOLLOWER_ID=1 and TWEETS.TWEET_TYPE='TWEET' UNION all SELECT TWEETS.ID, TWEETS.CREATED_AT, TWEETS.CREATED_BY, TWEETS.UPDATED_AT,  TWEETS.UPDATED_BY,   TWEETS.UUID,   TWEETS.BODY,   TWEETS.PARENT_TWEET_ID, TWEET_ACTIONS.USER_ID as retweet_id,    TWEETS.TWEET_TYPE,   TWEETS.USER_ID   FROM TWEETS Join TWEET_ACTIONS on TWEET_ACTIONS.TWEET_ID = TWEETS.ID  where TWEET_ACTIONS.ACTION_TYPE='RETWEET' AND TWEET_ACTIONS.USER_ID in (select followers.followed_id from followers where followers.follower_id=1)
-//        ORDER BY CREATED_AT  DESC
+
+
+
+////////////////////////////////////////////findFollowedTweetsAndRetweet////////////////////////////////////////
+//  SELECT tweets.* FROM tweets JOIN followers ON followers.followed_id=tweets.user_id
+//        WHERE  followers.follower_id=3 AND tweets.tweet_type='TWEET'
+//        UNION ALL
+//        SELECT tweets.id, tweets.created_at, tweets.created_by, tweets.updated_at, tweets.updated_by, tweets.uuid,  body ,
+//        parent_tweet_id,tweet_type, tweet_actions.user_id AS retweet_id,  tweets.user_id FROM tweets
+//        JOIN tweet_actions ON tweet_actions.tweet_id =tweets.id
+//        WHERE tweet_actions.action_type='RETWEET' AND tweet_actions.user_id IN (SELECT followers.followed_id
+//        FROM followers WHERE followers.follower_id=3)
+//        ORDER BY created_at  DESC
+//////////////////////findCurrentUserActionTweets///////////////////////////////////
+//SELECT tweets.* FROM tweets
+//        WHERE tweets.user_id=2 AND tweets.tweet_type='TWEET'
+//        UNION ALL
+//        SELECT tweets.id, tweets.created_at, tweets.created_by, tweets.updated_at, tweets.updated_by, tweets.uuid,  body ,
+//        parent_tweet_id, tweet_type, tweet_actions.user_id AS retweet_id,  tweets.user_id FROM tweets
+//        JOIN tweet_actions ON tweet_actions.tweet_id =tweets.id
+//        WHERE  tweet_actions.action_type='RETWEET' AND tweet_actions.user_id=2
+//        ORDER BY created_at  DESC
+///////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////findCurrentUserLikeTweets//////////////////////////////////////////////////
+//SELECT tweets.id, tweets.created_at, tweets.created_by, tweets.updated_at, tweets.updated_by, tweets.uuid,  body ,parent_tweet_id, tweet_type, retweet_id,  tweets.user_id FROM tweets
+//        JOIN tweet_actions ON tweet_actions.tweet_id =tweets.id
+//        WHERE  tweet_actions.action_type='LIKE' AND tweet_actions.user_id=2
+//        ORDER BY created_at  DESC
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
