@@ -43,7 +43,7 @@ const MessageOwnerSeen = ({user}) => {
   }
 
   return (
-    <BoxWrapper onClick={() => navigate(`${PATH.userProfile(user.userTag)}`)}>
+    <BoxWrapper onClick={() => navigate(`${PATH.USER_PAGE.userProfile(user.userTag)}`)}>
       <Avatar sx={{mr: '10px', width: '3.3rem', height: '3.3rem'}} src={user.avatarImgUrl}/>
       <Box sx={{display: 'flex', flexDirection: 'column', mr: 3}}>
         <Typography sx={{fontWeight: 600}}>{user.name}</Typography>

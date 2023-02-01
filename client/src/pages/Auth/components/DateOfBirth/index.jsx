@@ -17,7 +17,7 @@ const DateOfBirth = (props) => {
 
     return (
         <>
-            <DialogContentText sx={{pt: 10, fontWeight: 600, color: '#000'}}>Date of birth </DialogContentText>
+            <DialogContentText sx={{paddingTop: "10px", fontWeight: 600, color: '#000'}}>Date of birth </DialogContentText>
             <DialogContentText sx={{fontSize: 14}}>
                 This will not be shown publicly. Confirm your own age, even if this account is for a business, a pet, or
                 something else.
@@ -33,7 +33,7 @@ const DateOfBirth = (props) => {
                         onChange={setMonth}
                     >
                         {months.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
+                            <MenuItem sx={{position: "relative", zIndex: "101"}} key={option.value} value={option.value}>
                                 {option.label}
                             </MenuItem>
                         ))}

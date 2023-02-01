@@ -10,6 +10,10 @@ import {Display, DeleteTweet} from "../components";
 import Reply from "../components/tweetComponents/Reply";
 import ModalImg from "../components/tweetComponents/ModalImg";
 import {themeStyles} from "../utils/defaultTheme";
+import Subscribing from "../pages/Subscribing/Subscribing";
+import EditProfile from "../pages/UserProfile/pages/EditProfile";
+import Likes from "../pages/UserProfile/pages/Likes";
+import TweetReplies from "../pages/UserProfile/pages/TweetReplies";
 
 const BREAKPOINTS_VALUES = themeStyles.breakpoints.values;
 const lazyLoading = (path) => {
@@ -99,9 +103,28 @@ export const mainRoutes = (width, authorized) => {
         children: [],
       },
       {
-        path: PATH.USER_PROFILE,
+        path: PATH.USER_PAGE.USER_PROFILE,
         element: <UserProfile/>,
-        children: [],
+        children: [
+            {
+                path: PATH.USER_PAGE.LIKES,
+                element: <Likes/>,
+            },
+            {
+                path: PATH.USER_PAGE.TWEET_REPLIES,
+                element: <TweetReplies/>,
+            },
+        ],
+      },
+      {
+        path: PATH.USER_PAGE.FOLLOWERS,
+        element: <Subscribing/>,
+        children: []
+      },
+      {
+        path: PATH.USER_PAGE.FOLLOWINGS,
+        element: <Subscribing/>,
+        children: []
       },
       {
         path: PATH.NO_MATCHES,
@@ -116,11 +139,6 @@ export const mainRoutes = (width, authorized) => {
       {
         path: PATH.EXPLORE,
         element: <Explore/>,
-        children: [],
-      },
-      {
-        path: PATH.USER_PROFILE,
-        element: <UserProfile/>,
         children: [],
       },
       {
@@ -162,6 +180,11 @@ export const modalRoutes = authorized => {
         path: PATH.TWEET.DELETE,
         element: <DeleteTweet/>,
         children: [],
+      },
+      {
+        path: PATH.SETTINGS.PROFILE,
+        element: <EditProfile/>,
+        children: []
       },
       {
         path: PATH.TWEET.REPLY,

@@ -55,11 +55,18 @@ export const URLS = {
     ROOT: "/users",
     SEARCH: "/users/search"
   },
+  SUBSCRIBING: {
+    FOLLOW: "/subscribing/follow",
+    UNFOLLOW: "/subscribing/unfollow",
+  },
   TWEET: {
     _ROOT: "/tweets/",
     CREATE_TWEET: "/tweets/create",
     CHANGE_ACTIONS: "/tweets/change_actions",
     BOOKMARKS: "/tweets/bookmarks",
+    USER_TWEETS: "/tweets/user-tweets/",
+    USER_LIKES: "/tweets/user-likes/",
+    USER_REPLIES: "/tweets/replies/"
   },
   CHATS: {
     ROOT: '/chats',

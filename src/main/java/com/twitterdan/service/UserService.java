@@ -2,12 +2,14 @@ package com.twitterdan.service;
 
 import com.twitterdan.dao.UserRepository;
 import com.twitterdan.domain.user.User;
+import com.twitterdan.dto.user.UserUpdateDataRequest;
 import com.twitterdan.exception.AccountAlreadyExistException;
 import com.twitterdan.exception.CouldNotFindAccountException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +32,7 @@ public class UserService {
     throw new CouldNotFindAccountException();
   }
 
-  /*  public boolean updateUserProfile(Long id, UserProfileUpdateRequestDto dto) {
+  public boolean updateUserProfile(Long id, UserUpdateDataRequest dto) {
     Optional<User> user = userRepository.findById(id);
 
     String dtoName = dto.getName();
@@ -39,14 +41,16 @@ public class UserService {
     String dtoBirth = dto.getBirth();
     String dtoHeaderImgUrl = dto.getHeaderImgUrl();
 
+    System.out.println(dtoBirth);
+
     if (user.isPresent()) {
       if (dtoName != null && dtoName.length() > 0) {
         user.get().setName(dtoName);
       }
-      if (dtoBio != null && dtoBio.length() > 0) {
+      if (dtoBio != null) {
         user.get().setBio(dtoBio);
       }
-      if (dtoLocation != null && dtoLocation.length() > 0) {
+      if (dtoLocation != null) {
         user.get().setLocation(dtoLocation);
       }
 
@@ -64,7 +68,7 @@ public class UserService {
     }
 
     return false;
-  }*/
+  }
 
   public void updateUserHeader(Long id, String headerImgUrl) {
     Optional<User> user = userRepository.findById(id);
@@ -95,14 +99,6 @@ public class UserService {
   }
 
   public User save(User user) {
-    return userRepository.save(user);
-  }
-
-  public List<User> getAll() {
-    return userRepository.findAll();
-  }
-
-  public User updateUser(User user) {
     return userRepository.save(user);
   }
 

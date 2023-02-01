@@ -12,7 +12,7 @@ export default (state = init, {payload, type}) => {
     case String(ACTIONS.getAuthUser.request):
       return {
         ...state,
-        preloader: true
+        preloader: payload
       }
     case String(ACTIONS.getAuthUser.success):
       return {
