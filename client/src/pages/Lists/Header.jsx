@@ -3,23 +3,24 @@ import {styled} from "@mui/material/styles";
 import {Box, Typography} from "@mui/material";
 import PropTypes from "prop-types";
 
-const Header = ({user}) => {
+const Header = ({user, page}) => {
 
-  return (
-    <BoxWrapper>
-      <Typography className='HeaderTitle' variant='h2'>Lists</Typography>
-      <Typography variant='body2'>@{user?.userTag}</Typography>
-    </BoxWrapper>
-  );
+    return (
+        <BoxWrapper>
+            <Typography className='HeaderTitle' variant='h2'>{page}</Typography>
+            <Typography variant='body2'>@{user?.userTag}</Typography>
+        </BoxWrapper>
+    );
 }
 
 const BoxWrapper = styled(Box)(({theme}) => ({
-  width: '100%',
-  display: 'flex',
-  flexDirection: 'column',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
 }));
 
 Header.propTypes = {
-  user: PropTypes.object,
+    user: PropTypes.object,
+    page: PropTypes.string
 }
 export default Header;

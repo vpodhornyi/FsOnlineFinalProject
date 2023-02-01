@@ -9,7 +9,7 @@ import {PATH} from "@utils/constants";
 const LeaveChatMessage = ({item}) => {
   return (
     <BoxWrapper>
-      <Link to={`${PATH.userProfile(item.user.userTag)}`}>
+      <Link to={`${PATH.USER_PAGE.userProfile(item.user.userTag)}`}>
         <Avatar sx={{width: '3rem', height: '3rem'}} src={item.user.avatarImgUrl}/>
       </Link>
       <Typography sx={{mt: 2}} variant={"body2"}>{item?.user?.name} has been left the conversation</Typography>

@@ -29,6 +29,8 @@ public class Tweet extends BaseEntity {
 
   private String body;
 
+  private Long parentTweetId;
+
   @LazyCollection(LazyCollectionOption.EXTRA)
   @ManyToOne
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
