@@ -19,6 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
   private final JwtFilter jwtFilter;
   private final String ws;
+  private final String oauth2;
   private final String account;
   private final String login;
   private final String token;
@@ -26,12 +27,14 @@ public class SecurityConfig {
 
   public SecurityConfig(JwtFilter jwtFilter,
                         @Value("/ws") String ws,
+                        @Value("/login/oauth2/code/google") String oauth2,
                         @Value("${api.version}/auth/account") String account,
                         @Value("${api.version}/auth/login") String login,
                         @Value("${api.version}/auth/signup") String signup,
                         @Value("${api.version}/auth/access") String token) {
     this.ws = ws;
     this.jwtFilter = jwtFilter;
+    this.oauth2 = oauth2;
     this.account = account;
     this.login = login;
     this.token = token;
@@ -46,17 +49,22 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     return http
-            .httpBasic().disable()
-            .csrf().disable()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .authorizeHttpRequests(
-                    auth -> auth
-                            .antMatchers(ws, account, login, token, signup).permitAll()
-                            .anyRequest().authenticated()
-                            .and()
-                            .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-            ).build();
+      .httpBasic().disable()
+      .csrf().disable()
+      .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+      .and()
+      .oauth2Login()
+      .loginPage(oauth2)
+//                    .redirectionEndpoint()
+//                        .baseUri("/oauth2/callback/*")
+      .and()
+      .authorizeHttpRequests(
+        auth -> auth
+          .antMatchers(ws, oauth2, account, login, token, signup).permitAll()
+          .anyRequest().authenticated()
+          .and()
+          .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+      ).build();
   }
 
   @Bean
@@ -64,3 +72,6 @@ public class SecurityConfig {
     return new BCryptPasswordEncoder();
   }
 }
+
+// 950603709592-hu89bhmn5tbopjl1hs0lk7iq0o147o8q.apps.googleusercontent.com  - client id
+// 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  - client secret

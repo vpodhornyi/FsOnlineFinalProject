@@ -119,6 +119,32 @@ export const authorize =
       }
     };
 
+export const authorizeGoogle =
+  ({login, password, navigate}) =>
+    async dispatch => {
+      try {
+        console.log('kuku');
+        // dispatch(ACTIONS.authorize.request());
+        const data = await api.post(
+          URLS.AUTH.AUTHORIZE_GOOGLE);
+        console.log(data);
+        // setHeaderAuthorization(accessToken, type);
+        // setAuthToken(accessToken);
+        // setRefreshToken(refreshToken);
+        // setTokenType(type);
+        // dispatch(ACTIONS.authorize.success());
+        // dispatch(getAuthUser());
+        // navigate(`${PATH.HOME}`);
+      } catch (err) {
+        console.log(err);
+        // setTimeout(() => {
+        //   dispatch(ACTIONS.disableLoading());
+        //   dispatch(ACTIONS.authorize.fail());
+        // }, 300);
+        dispatch(SNACK_ACTIONS.open(err?.response?.data));
+      }
+    };
+
 export const logout = ({navigate}) => async dispatch => {
   try {
     await api.get(URLS.AUTH.LOGOUT)

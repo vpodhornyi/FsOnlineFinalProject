@@ -51,6 +51,13 @@ public class AuthController {
     return ResponseEntity.ok(res);
   }
 
+  @PostMapping("/login/oauth2/code/google")
+  public ResponseEntity<JwtResponse> loginGoogle() {
+    System.out.println("kuku");
+
+    return ResponseEntity.ok(null);
+  }
+
   @GetMapping("/logout")
   public void logout() {
     String userTag = (String) jwtAuthService.getAuthInfo().getPrincipal();

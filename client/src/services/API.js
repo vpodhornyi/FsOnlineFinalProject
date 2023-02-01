@@ -48,6 +48,7 @@ export const URLS = {
   AUTH: {
     IS_ACCOUNT_EXIST: `/auth/account`,
     AUTHORIZE: `/auth/login`,
+    AUTHORIZE_GOOGLE: `/oauth2/authorization/google`,
     LOGOUT: `/auth/logout`,
     CREATE_NEW_USER: `/auth/signup`
   },

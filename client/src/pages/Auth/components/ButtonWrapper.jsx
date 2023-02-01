@@ -4,7 +4,7 @@ import {Box} from "@mui/material";
 export default styled(Box)(({theme}) => ({
   '& .MuiFab-root': {
     width: '100%',
-    height: '2.4rem',
+    height: '3.0rem',
     backgroundColor: 'rgba(0, 0, 0, 0)',
     border: '1px solid rgb(239, 243, 244)',
     margin: '10px 0',

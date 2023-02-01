@@ -8,6 +8,14 @@ spring:
       enabled: true
       settings:
         trace: false
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 718160775978-trq26lq49hti0dkltjv4e9n9l3vi9576.apps.googleusercontent.com
+            client-secret: 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
+            scope: openid,profile,email
 server:
   port: ${PORT}
   error:

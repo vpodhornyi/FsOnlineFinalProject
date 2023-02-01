@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, Link} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import {Box, Typography, TextField} from '@mui/material';
 
@@ -7,7 +7,7 @@ import {OrLine, Question, Container, ButtonWrapper} from '../components';
 import {CustomFabButton} from '../../../components';
 import {BackgroundContext} from "../../../utils/context";
 import {PATH} from "../../../utils/constants";
-import {runLoginSecondStep} from '@redux/auth/action';
+import {runLoginSecondStep, authorizeGoogle} from '@redux/auth/action';
 
 const Login = () => {
   const [login, setLogin] = useState('');
@@ -22,9 +22,12 @@ const Login = () => {
   return (
     <Container>
       <Typography className='StepTitle' variant='h1'>{"Sign in to Twitter"}</Typography>
-      <ButtonWrapper>
-        <CustomFabButton className='GoogleSingIn' name='Sing in with Google'/>
-      </ButtonWrapper>
+      <a  href='http://localhost:9000/oauth2/authorization/google'>
+        {/*<ButtonWrapper onClick={dispatch(authorizeGoogle)}>*/}
+        <ButtonWrapper>
+          <CustomFabButton className='GoogleSingIn' name='Sing in with Google'/>
+        </ButtonWrapper>
+      </a>
       <OrLine/>
       <TextField
         value={login}
