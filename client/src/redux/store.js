@@ -29,18 +29,13 @@ const reducer = combineReducers({
   snack: snackReducer,
 })
 
-const stompClient = (onConnect) => {
+export const stompClient = (onConnect) => {
   const client = new Client({
-    brokerURL: process.env.REACT_APP_API_BROKER_URL,
-    connectHeaders: {
-      login: 'user',
-      passcode: 'password',
-    },
-    debug: function (str) {
+    brokerURL: process.env.REACT_APP_API_BROKER_URL, connectHeaders: {
+      login: 'user', passcode: 'password',
+    }, debug: function (str) {
       // console.log(str);
-    },
-    reconnectDelay: 5000,
-    onConnect,
+    }, reconnectDelay: 5000, onConnect,
   });
 
   client.activate();
@@ -49,33 +44,28 @@ const stompClient = (onConnect) => {
 
 export default () => {
   const {accessToken, tokenType} = getTokens();
-  const store = createStore(
-    reducer,
-    composeWithDevTools(applyMiddleware(thunk))
-  );
+  const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
   interceptor(store);
 
   if (accessToken) {
     setHeaderAuthorization(accessToken, tokenType);
     store.dispatch(getAuthUser(true))
       .then(() => {
-    store.dispatch(getAuthUser())
-      .then((user) => {
-        //TODO delete mok customize
-        user.customize = {
-          fontSize: 14,
-          color: 'blue',
-          background: 'default'
-        }
-        // ----
-        setFontSize(user?.customize.fontSize);
-        setBackgroundColor(user?.customize.background);
-        store.dispatch(ACTIONS.setCustomize(user?.customize));
-        api.client = stompClient(() => {
-          store.dispatch(authUserSocketSubscribe());
-        });
+        store.dispatch(getAuthUser())
+          .then((user) => {
+            //TODO delete mok customize
+            user.customize = {
+              fontSize: 14, color: 'blue', background: 'default'
+            }
+            // ----
+            setFontSize(user?.customize.fontSize);
+            setBackgroundColor(user?.customize.background);
+            store.dispatch(ACTIONS.setCustomize(user?.customize));
+            api.client = stompClient(() => {
+              store.dispatch(authUserSocketSubscribe());
+            });
+          })
       })
   }
-
   return store;
 }

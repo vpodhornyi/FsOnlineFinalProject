@@ -45,15 +45,15 @@ const StartMessage = ({chatId, inputRef, sendMessage}) => {
       <ProgressWrapper>
       </ProgressWrapper>
       <ButtonsBoxWrapper>
-        <Box>
+       {/* <Box>
           <CustomIconButton color='primary' name='PermMediaOutlined' iconSize='small'/>
-        </Box>
+        </Box>*/}
         {/*<Box>*/}
         {/*  <CustomIconButton color='primary' name='GifBoxOutlined' iconSize='small'/>*/}
         {/*</Box>*/}
-        <Box>
+       {/* <Box>
           <CustomIconButton color='primary' name='EmojiEmotionsOutlined' iconSize='small'/>
-        </Box>
+        </Box>*/}
         <TextFieldWrapper
           inputRef={inputRef}
           onChange={handleChangeInputText}

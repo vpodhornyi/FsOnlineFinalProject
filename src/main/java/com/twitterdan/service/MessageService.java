@@ -1,10 +1,11 @@
 package com.twitterdan.service;
 
+import com.twitterdan.dao.ChatRepository;
 import com.twitterdan.dao.MessageRepository;
 import com.twitterdan.dao.MessageSeenRepository;
+import com.twitterdan.dao.UserRepository;
 import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.chat.Message;
-import com.twitterdan.domain.chat.MessageDeleted;
 import com.twitterdan.domain.chat.MessageSeen;
 import com.twitterdan.domain.user.User;
 import com.twitterdan.exception.CouldNotFindMessageException;
@@ -13,20 +14,20 @@ import com.twitterdan.exception.MessageAlreadySeen;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class MessageService {
+  private final ChatRepository chatRepository;
   private final MessageRepository messageRepository;
   private final MessageSeenRepository messageSeenRepository;
 
-  public MessageService(MessageRepository messageRepository, MessageSeenRepository messageSeenRepository) {
+  public MessageService(ChatRepository chatRepository, MessageRepository messageRepository, MessageSeenRepository messageSeenRepository) {
+    this.chatRepository = chatRepository;
     this.messageRepository = messageRepository;
     this.messageSeenRepository = messageSeenRepository;
   }
@@ -68,8 +69,10 @@ public class MessageService {
   }
 
   public Integer getCountAllUnreadChatMessagesByUserId(Long userId) {
-    Optional<Integer> countUnreadMessages = messageRepository.getCountAllUnreadMessages(userId);
-    return countUnreadMessages.orElse(0);
+    Optional<List<Chat>> optionalChats = chatRepository.findByUsersId(userId);
+    return optionalChats.map(chats -> chats.stream()
+      .map(ch -> messageRepository.getCountUnreadMessages(ch.getId(), userId).orElse(0))
+      .reduce(0, Integer::sum)).orElse(0);
   }
 
   @Transactional

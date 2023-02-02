@@ -57,7 +57,7 @@ const More = ({toggleModal, chat}) => {
 }
 
 const MenuList = ({openLeaveChatConfirm}) => (<>
-  <MenuItem>
+{/*  <MenuItem>
     <ListItemIcon>
       <IconByName iconName='PushPinOutlined' color='text'/>
     </ListItemIcon>
@@ -72,7 +72,7 @@ const MenuList = ({openLeaveChatConfirm}) => (<>
     <ListItemText>
       <Typography variant='body1'>Snooze conversation</Typography>
     </ListItemText>
-  </MenuItem>
+  </MenuItem>*/}
   <MenuItem onClick={openLeaveChatConfirm}>
     <ListItemIcon>
       <IconByName iconStyle={{color: 'red'}} iconName='DeleteOutlined'/>

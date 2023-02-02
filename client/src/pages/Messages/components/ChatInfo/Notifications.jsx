@@ -31,7 +31,7 @@ const Notifications = ({chat}) => {
 
   return (
     <BoxWrapper>
-      <Box className='NotificationsTitle' pb={1} mb={1}>
+{/*      <Box className='NotificationsTitle' pb={1} mb={1}>
       <Typography
         sx={{padding: '11px 15px'}}
         fontSize='1.5rem'
@@ -50,7 +50,7 @@ const Notifications = ({chat}) => {
     </Box>
   {
     chat.isPrivate && <BlockUser userTag={chat?.guestUser?.userTag}/>
-  }
+  }*/}
   <LeaveChat chat={chat}/>
 </BoxWrapper>)
   ;

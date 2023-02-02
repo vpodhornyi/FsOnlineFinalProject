@@ -8,7 +8,8 @@ const init = {
     fontSize: 14,
     color: 'blue',
     background: 'default'
-  }
+  },
+  stompSubscribeId: ''
 }
 
 export default (state = JSON.parse(JSON.stringify(init)), {payload, type}) => {
@@ -45,6 +46,11 @@ export default (state = JSON.parse(JSON.stringify(init)), {payload, type}) => {
         preloader: false,
         error: payload
       }
+    case String(ACTIONS.setStompSubscribeId):
+      return {
+        ...state,
+        stompSubscribeId: payload,
+      };
     case String(ACTIONS.resetData):
       state = init;
       return {

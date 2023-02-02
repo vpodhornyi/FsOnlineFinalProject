@@ -8,7 +8,8 @@ import {ACTIONS as SNACK_ACTIONS} from "../snack/action";
 
 const actions = createActions(
   {
-    actions: ['UPDATE_COUNT_UNREAD_MESSAGES', 'RESET_DATA', 'SET_CUSTOMIZE'],
+    actions: ['UPDATE_COUNT_UNREAD_MESSAGES', 'RESET_DATA', 'SET_CUSTOMIZE',
+      'SET_STOMP_SUBSCRIBE_ID'],
     async: ['GET_AUTH_USER'],
   },
   {
@@ -41,16 +42,16 @@ export const updateCustomize = body => async (dispatch) => {
     dispatch(ACTIONS.setCustomize(data));
 
   } catch (err) {
-    dispatch(SNACK_ACTIONS.open(err?.response?.data));
+    // dispatch(SNACK_ACTIONS.open(err?.response?.data));
   }
 }
 
 export const authUserSocketSubscribe = () => async (dispatch, getState) => {
   try {
     const {user: {authUser}} = getState();
-    authUser?.id && api.client.subscribe(`/queue/user.${authUser.id}`, async (data) => {
+    const subData = authUser?.id && api.client.subscribe(`/queue/user.${authUser.id}`, async (data) => {
       const {body} = JSON.parse(data.body);
-      // console.log('stomp body - ', body);
+      console.log('stomp body - ', body);
       switch (body?.type) {
         case 'MESSAGE_ADD':
           const {chat} = body;
@@ -91,6 +92,9 @@ export const authUserSocketSubscribe = () => async (dispatch, getState) => {
           console.log('no type');
       }
     });
+    if (subData?.id) {
+      dispatch(ACTIONS.setStompSubscribeId(subData.id));
+    }
   } catch (err) {
     console.log('chatSubscribes error - ', err);
   }

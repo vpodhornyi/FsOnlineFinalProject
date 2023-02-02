@@ -9,7 +9,6 @@ import {PATH} from "../utils/constants";
 import {Display, DeleteTweet} from "../components";
 import Reply from "../components/tweetComponents/Reply";
 import ModalImg from "../components/tweetComponents/ModalImg";
-import {themeStyles} from "../utils/defaultTheme";
 import Subscribing from "../pages/Subscribing/Subscribing";
 import EditProfile from "../pages/UserProfile/pages/EditProfile";
 import Likes from "../pages/UserProfile/pages/Likes";

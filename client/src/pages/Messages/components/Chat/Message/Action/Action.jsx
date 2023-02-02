@@ -9,14 +9,14 @@ const Action = ({toggleModal, message, isRight = false}) => {
 
   return (
     <BoxWrapper className='Actions'>
-      <Box>
+ {/*     <Box>
         <CustomIconButton
           color='action'
           name='FavoriteBorderOutlined'
           title='React'
           size='small'
           iconSize='small'/>
-      </Box>
+      </Box>*/}
       <More toggleModal={toggleModal} message={message} isRight={isRight}/>
     </BoxWrapper>);
 }

@@ -39,7 +39,7 @@ const ChatHeader = ({chat}) => {
           }
           {
             chat.isPrivate &&
-            <Link className='PrivateChatAvatar' to={`${PATH.userProfile(chat?.guestUser?.userTag)}`}>
+            <Link className='PrivateChatAvatar' to={`${PATH.USER_PAGE.userProfile(chat?.guestUser?.userTag)}`}>
               <Avatar sx={{mr: '10px', width: '2.5rem', height: '2.5rem'}} src={chat?.avatarImgUrl}/>
             </Link>
           }

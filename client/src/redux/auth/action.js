@@ -2,10 +2,12 @@ import api, {URLS} from "@service/API";
 import {createActions} from '../utils';
 import {setAuthToken, setTokenType, setHeaderAuthorization, setRefreshToken} from "@utils";
 import {PATH} from "../../utils/constants";
-import {getAuthUser, ACTIONS as USER_ACTIONS} from '../user/action';
+import {getAuthUser, ACTIONS as USER_ACTIONS, authUserSocketSubscribe} from '../user/action';
 import {ACTIONS as SNACK_ACTIONS} from '../snack/action';
 import {ACTIONS as CHAT_ACTIONS} from '../chat/action';
 import {ACTIONS as MESSAGE_ACTIONS} from '../chat/message/action';
+import {setFontSize, setBackgroundColor} from "@utils/theme";
+import {stompClient} from "../store";
 
 const actions = createActions(
   {
@@ -106,7 +108,20 @@ export const authorize =
         setRefreshToken(refreshToken);
         setTokenType(type);
         dispatch(ACTIONS.authorize.success());
-        dispatch(getAuthUser());
+        dispatch(getAuthUser())
+          .then((user) => {
+            //TODO delete mok customize
+            user.customize = {
+              fontSize: 14, color: 'blue', background: 'default'
+            }
+            // ----
+            setFontSize(user?.customize.fontSize);
+            setBackgroundColor(user?.customize.background);
+            dispatch(USER_ACTIONS.setCustomize(user?.customize));
+            api.client = stompClient(() => {
+              dispatch(authUserSocketSubscribe());
+            });
+          })
         navigate(`${PATH.HOME}`);
       } catch (err) {
         setTimeout(() => {
@@ -117,7 +132,7 @@ export const authorize =
       }
     };
 
-export const logout = ({navigate}) => async dispatch => {
+export const logout = ({navigate}) => async (dispatch, getState) => {
   try {
     await api.get(URLS.AUTH.LOGOUT)
     setAuthToken();
@@ -134,5 +149,7 @@ export const logout = ({navigate}) => async dispatch => {
     dispatch(CHAT_ACTIONS.resetData());
     dispatch(MESSAGE_ACTIONS.resetData());
     dispatch(USER_ACTIONS.resetData());
+    const {user: {stompSubscribeId}} = getState();
+    api.client.unsubscribe(stompSubscribeId);
   }
 }

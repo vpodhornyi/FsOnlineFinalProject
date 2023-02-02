@@ -78,14 +78,14 @@ const More = ({toggleModal, message, isRight}) => {
             </ListItemText>
           </MenuItem>
         }
-        <MenuItem>
+{/*        <MenuItem>
           <ListItemIcon>
             <IconByName iconName='ContentCopy' color='text'/>
           </ListItemIcon>
           <ListItemText>
             <Typography variant='body1'>Copy text</Typography>
           </ListItemText>
-        </MenuItem>
+        </MenuItem>*/}
       </MenuWrapper>
     </Box>
   );
