@@ -6,7 +6,7 @@ export default styled(Box)(({theme}) => ({
     width: '100%',
     height: '2.4rem',
     backgroundColor: 'rgba(0, 0, 0, 0)',
-    border: '1px solid rgb(239, 243, 244)',
+    border: `1px solid ${theme.palette.border.main}`,
     margin: '10px 0',
     transitionDuration: '0.2s',
 

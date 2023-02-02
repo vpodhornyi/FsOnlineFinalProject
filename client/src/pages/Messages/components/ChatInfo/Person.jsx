@@ -33,7 +33,7 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   transition: '0.2s',
 
   '&:hover': {
-    backgroundColor: 'rgb(239, 243, 244)',
+    backgroundColor: theme.palette.background[1],
   }
 }));
 

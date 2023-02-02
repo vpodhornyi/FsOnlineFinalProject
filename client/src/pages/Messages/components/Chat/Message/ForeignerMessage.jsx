@@ -34,11 +34,12 @@ const ForeignerMessage = ({chat, message, sameMessage, toggleModal}) => {
   return (
     <BoxWrapper>
       <MessageBox ref={ref}>
-        {message.isGroupChat && !sameMessage &&
-          <Link to={`${PATH.USER_PAGE.userProfile(message.user.id)}`}>
+        {message.isGroupChat && (sameMessage ?
+            <Box sx={{mr: '10px', width: '2.7rem', height: '2.7rem'}}></Box> :
+          <Link to={`${PATH.userProfile(message.user.id)}`}>
             <Avatar sx={{mr: '10px', width: '2.7rem', height: '2.7rem'}} src={message.user.avatarImgUrl}/>
           </Link>
-        }
+        )}
         <MessageTextBox className={`${sameMessage && 'SameMessageTextBox'}`}>
           <Typography>{message.text}</Typography>
         </MessageTextBox>
@@ -95,7 +96,7 @@ const MessageTextBox = styled(Box)(({theme}) => ({
   padding: '11px 15px',
   borderRadius: 24,
   borderBottomLeftRadius: 4,
-  backgroundColor: '#eff3f4',
+  backgroundColor: theme.palette.background[2],
   color: theme.palette.text.primary,
 
   '& .MuiTypography-root': {
@@ -106,7 +107,8 @@ const MessageTextBox = styled(Box)(({theme}) => ({
 
 const TimeBox = styled(Box)(({theme}) => ({
   display: 'flex',
-  alignItems: 'center'
+  alignItems: 'center',
+  fontFamily: theme.typography.fontFamily
 }));
 
 ForeignerMessage.propTypes = {

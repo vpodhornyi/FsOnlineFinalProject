@@ -24,7 +24,7 @@ const Header = () => {
         <Typography variant='h2'>Messages</Typography>
       </Box>
       <Box onClick={onClick}>
-        <CustomIconButton name='ForwardToInboxOutlined' title='New message'/>
+        <CustomIconButton name='ForwardToInboxOutlined' title='New message' color='text'/>
       </Box>
     </BoxWrapper>
   );

@@ -8,14 +8,13 @@ import CustomIconButton from "@components/buttons/CustomIconButton";
 import {StickyHeader} from '@components';
 import {PATH} from "@utils/constants";
 
-
 const ChatInfoHeader = ({chat}) => {
   const navigate = useNavigate();
 
   return (
     <StyledStickyHeader>
       <Box onClick={() => navigate(PATH.MESSAGES.chat(chat?.id))}>
-        <CustomIconButton name='ArrowBackOutlined' title='Back'/>
+        <CustomIconButton name='ArrowBackOutlined' title='Back' color='text'/>
       </Box>
       <Typography variant='h2'>
         {chat?.isGroup && 'Group '}

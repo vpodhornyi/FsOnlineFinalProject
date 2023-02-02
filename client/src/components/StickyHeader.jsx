@@ -9,10 +9,11 @@ const StickyHeader = styled(Box)(({theme}) => ({
   left: 0,
   right: 0,
   zIndex: 1000,
-  backgroundColor: 'rgba(255,255,255, 0.9)',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
+  backgroundColor: theme.palette.background.alpha,
+  backdropFilter: 'blur(12px)',
+  // display: 'flex',
+  // alignItems: 'center',
+  // justifyContent: 'space-between',
 }));
 
 export default StickyHeader;

@@ -43,7 +43,10 @@ const styles = ({theme}) => ({
 
   '& .MuiBox-root .NextStepBtn': {
     backgroundColor: 'rgb(15, 20, 25) ',
-    color: '#ffffff',
+
+    '& .MuiTypography-root': {
+      color: '#ffffff',
+    },
 
     '&:hover': {
       backgroundColor: 'rgb(39, 44, 48)',

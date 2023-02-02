@@ -24,6 +24,7 @@
     "classnames": "^2.3.2",
     "cloudinary-react": "^1.8.1",
     "emoji-picker-react": "^4.4.3",
+    "eslint-config-react-app": "^7.0.1",
     "fs": "^0.0.1-security",
     "less-loader": "^11.1.0",
     "lodash": "^4.17.21",

@@ -18,13 +18,13 @@ const NewMessageHeader = ({isAdd, isGroup, isNext, next, addPeople}) => {
         {isGroup ?
           <>
             <Box onClick={() => navigate(PATH.MESSAGES.COMPOSE, {state: {background}})}>
-              <CustomIconButton name='ArrowBack'/>
+              <CustomIconButton name='ArrowBack' color='text'/>
             </Box>
             <Typography variant='h2'>Create a group</Typography>
           </> :
           <>
             <Box onClick={() => navigate(background?.pathname || PATH.ROOT)}>
-              <CustomIconButton name='Close'/>
+              <CustomIconButton name='Close' color='text'/>
             </Box>
             {isAdd ?
               <Typography variant='h2'>Add people</Typography>

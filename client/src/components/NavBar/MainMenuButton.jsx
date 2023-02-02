@@ -9,13 +9,16 @@ const MainMenuButton = ({isActive, isBadge = false, badgeContent, iconName, text
     {isBadge ? <Badge
       badgeContent={badgeContent}
       color="primary"
+
       max={99}
     >
-      <IconByName iconName={iconName}/>
-    </Badge> : <IconByName iconName={iconName}/>}
+      <IconByName color='text' iconName={iconName}/>
+    </Badge> : <IconByName color='text' iconName={iconName}/>}
     <Typography
+      color='text'
       className={`LinkText ${isActive && 'LinkText_active'}`}
-      variant='body1'>
+      variant='body1'
+    >
       {text}
     </Typography>
   </Div>
@@ -26,6 +29,10 @@ const Div = styled('div')(({theme}) => ({
   display: 'flex',
   alignItems: 'center',
   cursor: 'pointer',
+
+  '& .MuiBadge-badge': {
+    color: theme.palette.common.white
+  },
 
   '& .IconByName': {
     fontSize: '2rem',
@@ -46,7 +53,7 @@ const Div = styled('div')(({theme}) => ({
     },
 
     '&_active': {
-      fontWeight: 600
+      fontWeight: theme.typography.fontWeightBold,
     }
   },
 }));

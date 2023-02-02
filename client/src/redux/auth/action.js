@@ -12,8 +12,6 @@ const actions = createActions(
     actions: [
       "DISABLE_LOADING",
       "SET_NEW_USER_DATA",
-      "PRELOADER_START",
-      "PRELOADER_END",
       "RESET_DATA",
     ],
     async: ["IS_ACCOUNT_EXIST", "AUTHORIZE", "CREATE_NEW_USER", "LOGOUT"]

@@ -6,26 +6,7 @@ import {Avatar, Box, Typography} from "@mui/material";
 import {getChatsData} from "@redux/chat/selector";
 import {PATH} from "@utils/constants";
 
-const styles = ({theme}) => ({
-  paddingTop: 70,
-  paddingBottom: 50,
-  width: '100%',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'center',
-  borderBottom: '1px solid rgb(239, 243, 244)',
-  marginBottom: 15,
-
-  '&:hover': {
-    backgroundColor: '#eff3f4',
-    transition: '0.5s',
-  }
-});
-
-const BoxWrapper = styled(Box)(styles);
-
-const Index = () => {
+const UserInfo = () => {
   const {selectedChat} = useSelector(getChatsData);
 
   return (
@@ -41,4 +22,23 @@ const Index = () => {
   );
 }
 
-export default Index;
+const styles = ({theme}) => ({
+  paddingTop: 70,
+  paddingBottom: 50,
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderBottom: `1px solid ${theme.palette.border.main}`,
+  marginBottom: 15,
+
+  '&:hover': {
+    backgroundColor: theme.palette.background[1],
+    transition: '0.5s',
+  }
+});
+
+const BoxWrapper = styled(Box)(styles);
+
+export default UserInfo;

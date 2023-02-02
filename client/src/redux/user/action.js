@@ -3,11 +3,12 @@ import api, {URLS} from "../../services/API";
 import {ACTIONS as AUTH_ACTIONS} from '../auth/action';
 import {ACTIONS as CHAT_ACTIONS} from "../chat/action";
 import {ACTIONS as MESSAGE_ACTIONS} from "../chat/message/action";
+import {ACTIONS as SNACK_ACTIONS} from "../snack/action";
 
 
 const actions = createActions(
   {
-    actions: ['UPDATE_COUNT_UNREAD_MESSAGES', 'RESET_DATA'],
+    actions: ['UPDATE_COUNT_UNREAD_MESSAGES', 'RESET_DATA', 'SET_CUSTOMIZE'],
     async: ['GET_AUTH_USER'],
   },
   {
@@ -25,11 +26,22 @@ export const getAuthUser = (preloader = false) => async (dispatch) => {
     dispatch(ACTIONS.getAuthUser.request(preloader));
     const data = await api.get(URLS.USERS.ROOT);
     dispatch(ACTIONS.getAuthUser.success(data));
+    return data;
 
   } catch (e) {
     console.log(e);
     dispatch(ACTIONS.getAuthUser.fail(e));
     dispatch(AUTH_ACTIONS.authorize.fail());
+  }
+}
+
+export const updateCustomize = body => async (dispatch) => {
+  try {
+    const data = await api.put(URLS.USERS.CUSTOMIZE, body);
+    dispatch(ACTIONS.setCustomize(data));
+
+  } catch (err) {
+    dispatch(SNACK_ACTIONS.open(err?.response?.data));
   }
 }
 

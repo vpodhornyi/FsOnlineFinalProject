@@ -5,7 +5,8 @@ import {Client} from "@stomp/stompjs";
 import api from "@service/API";
 import {getTokens, setHeaderAuthorization} from "@utils";
 import {interceptor} from "@service/API";
-import {authUserSocketSubscribe, getAuthUser, getUserLikes, getUserTweets} from "./user/action";
+import {ACTIONS, authUserSocketSubscribe, getAuthUser, getUserLikes, getUserTweets} from "./user/action";
+import {setFontSize, setBackgroundColor} from "@utils/theme";
 
 import tweetReducer from "./tweet/reducer";
 import authReducer from "./auth/reducer";
@@ -58,6 +59,18 @@ export default () => {
     setHeaderAuthorization(accessToken, tokenType);
     store.dispatch(getAuthUser(true))
       .then(() => {
+    store.dispatch(getAuthUser())
+      .then((user) => {
+        //TODO delete mok customize
+        user.customize = {
+          fontSize: 14,
+          color: 'blue',
+          background: 'default'
+        }
+        // ----
+        setFontSize(user?.customize.fontSize);
+        setBackgroundColor(user?.customize.background);
+        store.dispatch(ACTIONS.setCustomize(user?.customize));
         api.client = stompClient(() => {
           store.dispatch(authUserSocketSubscribe());
         });

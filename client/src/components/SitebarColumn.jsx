@@ -7,6 +7,7 @@ const styles = ({theme}) => ({
   height: '100vh',
   position: 'sticky',
   top: 0,
+  backgroundColor: theme.palette.background.main,
 
   [theme.breakpoints.up('md')]: {
     display: 'block',

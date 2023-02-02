@@ -1,106 +1,68 @@
 import React from "react";
-import { useState } from "react";
-import "./colorCustomization.scss";
-import Box from "@mui/material/Box";
-import Checkbox from "@mui/material/Checkbox";
+import {RadioGroup} from "@mui/material";
+import {styled} from "@mui/material/styles";
+import PropTypes from "prop-types";
 
-import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
+import BackgroundButton from './BackgroundButton';
+import {getRandomKey} from '@utils';
+import {BACKGROUND} from "@utils/theme";
 
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-function BackgroundCustomization() {
-  return (
-    <>
-      <Box
-        sx={{
-          flexDirection: "row",
-          display: "flex",
-          justifyContent: "space-between",
-          paddingBottom: "4px",
-          paddingTop: "4px",
-          backgroundColor: "rgb(247, 249, 249)",
-        }}
-      >
-        <Box
-          sx={{
-            borderRadius: "3px",
-            minWidth: "120px",
-            margin: "4px",
-            backgroundColor: "rgb(239, 243, 244)",
-            paddingTop: "5px",
-            paddingBot: "7px",
-            paddingRight: "20px",
-            textAlign: "center",
-            display: "flex",
-            justifyContent: "space-around",
-            fontWeight: "700",
-            fontSize: "15px",
-            lineHeight: "20px",
-          }}
-        >
-          <Checkbox
-            label="CheckCircleIcon"
-            icon={
-              <RadioButtonUncheckedIcon style={{ color: "rgb(62, 65, 68)" }} />
-            }
-            checkedIcon={<CheckCircleIcon />}
-          />
-          <p>Default</p>
-        </Box>
-        <Box
-          sx={{
-            borderRadius: "3px",
-            minWidth: "120px",
-            margin: "4px",
-            backgroundColor: "rgba(21, 32, 43)",
-            paddingTop: "5px",
-            paddingBot: "7px",
-            paddingRight: "20px",
-            textAlign: "center",
-            display: "flex",
-            justifyContent: "space-around",
-            fontWeight: "700",
-            fontSize: "15px",
-            lineHeight: "20px",
-          }}
-        >
-          <Checkbox
-            label="CheckCircleIcon"
-            icon={
-              <RadioButtonUncheckedIcon style={{ color: "rgb(62, 65, 68)" }} />
-            }
-            checkedIcon={<CheckCircleIcon />}
-          />
-          <p style={{ color: "white" }}>Dim</p>
-        </Box>
-        <Box
-          sx={{
-            borderRadius: "3px",
-            minWidth: "120px",
-            margin: "4px",
-            backgroundColor: "rgba(0, 0, 0)",
-            paddingTop: "5px",
-            paddingBot: "7px",
-            paddingRight: "20px",
-            textAlign: "center",
-            display: "flex",
-            justifyContent: "space-around",
-            fontWeight: "700",
-            fontSize: "15px",
-            lineHeight: "20px",
-          }}
-        >
-          <Checkbox
-            label="CheckCircleIcon"
-            icon={
-              <RadioButtonUncheckedIcon style={{ color: "rgb(62, 65, 68)" }} />
-            }
-            checkedIcon={<CheckCircleIcon />}
-          />
-          <p style={{ color: "white" }}>Lights out</p>
-        </Box>
-      </Box>
-    </>
-  );
+const background = (() => Object.keys(BACKGROUND).map(key => {
+  const v = BACKGROUND[key];
+  return {
+    title: v.palette.title,
+    value: key,
+    color: v.palette.background.main,
+    textColor: v.palette.textColor,
+  }
+}))();
+
+const BackgroundCustomization = ({handleChange, activeValue}) => {
+  return <RadioGroupWrapper value={activeValue} onChange={handleChange}>
+    {
+      background.map((v, i) => {
+        return <BackgroundButton
+          key={i + getRandomKey()}
+          backgroundColor={v.color}
+          value={v.value}
+          color={v.textColor}
+          activeColor={activeValue}
+          title={v.title}/>;
+      })
+    }
+  </RadioGroupWrapper>
+}
+
+const RadioGroupWrapper = styled(RadioGroup)(({theme}) => ({
+  display: "flex",
+  flexDirection: "column",
+  marginTop: "3px",
+  padding: 8,
+
+  [theme.breakpoints.up('sm')]: {
+    width: '100%',
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+
+  '& .ActiveBackground': {
+    borderColor: theme.palette.primary.main,
+  },
+
+  '& .defaultClass .MuiTypography-root': {
+    color: theme.palette.common.defaultText
+  },
+  '& .dimClass .MuiTypography-root': {
+    color: theme.palette.common.dimText
+  },
+  '& .lights_outClass .MuiTypography-root': {
+    color: theme.palette.common.lightsOutText
+  },
+}));
+
+BackgroundCustomization.propTypes = {
+  handleChange: PropTypes.func,
+  activeValue: PropTypes.string,
 }
 
 export default BackgroundCustomization;

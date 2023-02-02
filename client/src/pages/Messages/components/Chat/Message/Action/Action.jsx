@@ -11,7 +11,7 @@ const Action = ({toggleModal, message, isRight = false}) => {
     <BoxWrapper className='Actions'>
       <Box>
         <CustomIconButton
-          color='greyAccent'
+          color='action'
           name='FavoriteBorderOutlined'
           title='React'
           size='small'

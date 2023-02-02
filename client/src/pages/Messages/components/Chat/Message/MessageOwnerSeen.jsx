@@ -69,7 +69,7 @@ const BoxWrapper = styled(Box)(({theme}) => ({
 
 
   '& .CustomIconButtonWrapper': {
-    border: '1px solid rgb(207, 217, 222)',
+    border: `1px solid ${theme.palette.border.main}`,
     borderRadius: '30px',
   },
 

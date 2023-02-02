@@ -30,8 +30,11 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   width: '100%',
   padding: 10,
   backgroundColor: theme.palette.primary.main,
-  color: theme.palette.primary.contrastText,
   borderRadius: '5px',
+
+  '& .MuiTypography-root': {
+    color: theme.palette.common.textWhite,
+  },
 }));
 
 export default SnackBar;
