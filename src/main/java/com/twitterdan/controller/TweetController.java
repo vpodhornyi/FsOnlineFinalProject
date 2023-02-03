@@ -12,6 +12,9 @@ import com.twitterdan.facade.tweet.TweetResponseMapper;
 import com.twitterdan.service.TweetService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -54,9 +57,10 @@ public class TweetController {
   }
 
   @GetMapping
-  public List<TweetResponse> getAll(Principal principal) {
+  public List<TweetResponse> getAll(Principal principal,@RequestParam int  pageNumber,@RequestParam int pageSize) {
     User userCurrent  = userDao.findByUserTag(principal.getName());
-    List<Tweet> tweets = tweetService.getAll(userCurrent.getId());
+    Pageable pageable = PageRequest.of(pageNumber, pageSize);
+    Page<Tweet> tweets = tweetService.getAll(userCurrent.getId(),pageable);
     return tweets.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
   }
 

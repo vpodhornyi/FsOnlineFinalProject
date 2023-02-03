@@ -11,10 +11,13 @@ import com.twitterdan.dto.action.TweetActionResponseAllData;
 import com.twitterdan.facade.action.TweetActionResponseMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -35,8 +38,10 @@ public class TweetService {
   }
 
 
-  public List<Tweet> getAll(Long userId) {
-    return  tweetDao.findFollowedTweetsAndRetweet(userId);
+  public  Page<Tweet> getAll(Long userId, Pageable pageable) {
+
+    Optional<Page<Tweet>> optionalTweets = tweetDao.findFollowedTweetsAndRetweet(userId,  pageable);
+    return optionalTweets.orElse(Page.empty());
   }
 
   public Tweet save(Tweet tweet) {

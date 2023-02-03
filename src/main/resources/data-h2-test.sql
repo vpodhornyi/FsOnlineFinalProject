@@ -17,20 +17,22 @@ VALUES ('https://static.dezeen.com/uploads/2021/06/elon-musk-architect_dezeen_17
        ('https://img.freepik.com/free-photo/dreamy-young-woman-sunglasses-looking-front_197531-16739.jpg?w=2000',  'e9a18795-4db1-4983-8fe4-7c6b78e68fa3', 'Mia', 'wedwoqie0', '$2a$10$FTQ2vMdjnI/GlCQ82r.cZuiZfZeo8cd4Cs5z6AcKm4uyfux2cQMf2', 'rfegrtg@gmail.com');
 
 
-INSERT INTO tweets (uuid, body, tweet_type, user_id)
-values ('4c85c829-f8c7-4505-8932-6dac1c9e01d4', 'Bob test tweet', 'TWEET', 1),
-       ('992217dd-7c49-47a8-9a14-f4566c5d5648', 'Jon test tweet', 'TWEET', 2),
-       ('c9d2f623-967f-4aba-aefd-9f973c39441e', 'Lily test tweet', 'TWEET', 3),
-       ('072983bb-fd71-4fb0-a43e-584d8f7f53ba', 'Marta tweet', 'TWEET', 4);
+INSERT INTO tweets (created_at ,uuid, body, tweet_type, user_id)
+values ('2023-01-03 22:51:08.764847','4c85c829-f8c7-4505-8932-6dac1c9e01d4', 'Bob test tweet', 'TWEET', 1),
+       ('2023-02-01 22:51:08.764847','992217dd-7c49-47a8-9a14-f4566c5d5648', 'Jon test tweet', 'TWEET', 2),
+       ('2023-02-02 22:51:08.764847','c9d2f623-967f-4aba-aefd-9dfdfc39441e', 'Lily test tweet help', 'TWEET', 3),
+       ('2023-01-01 22:51:08.764847','c9d2f623-967f-4aba-aefd-9f973c39441e', 'Lily test tweet', 'TWEET', 3),
+       ('2023-01-05 22:51:08.764847','072983bb-fd71-4fb0-a43e-58dfdd7f53ba', 'Marta tweet help', 'TWEET', 4),
+('2023-01-10 22:51:08.764847','072983bb-fd71-4fb0-a43e-584d8f7f53ba', 'Marta tweet', 'TWEET', 4);
 
-INSERT INTO tweet_actions (uuid, action_type, tweet_id, user_id)
-values ('e6b8be4a-cc42-47b9-8be4-5db08164bf30', 'LIKE', 1, 2),
-       ('cf6d3c40-e2a3-41d7-978e-d25f0a906d6f', 'LIKE', 1, 3),
-       ('93d81c1b-0c98-4b23-a3f7-54a82793f929', 'BOOKMARK', 1, 4),
-       ('0597ae45-aa82-4818-9653-6ccbd0e1e6ca', 'RETWEET', 3, 5),
-       ('d77a828d-2bfc-4c42-8d7d-7e345f75df12', 'BOOKMARK', 3, 2),
-       ('234bca02-771b-4bdb-919a-32a9dd96d307', 'RETWEET', 4, 2),
-       ('785a2e3b-a256-4b37-8ffe-ee6c4f7011f6', 'LIKE', 4, 3);
+INSERT INTO tweet_actions (created_at ,uuid, action_type, tweet_id, user_id)
+values (null,'e6b8be4a-cc42-47b9-8be4-5db08164bf30', 'LIKE', 1, 2),
+       (null,'cf6d3c40-e2a3-41d7-978e-d25f0a906d6f', 'LIKE', 1, 3),
+       (null,'93d81c1b-0c98-4b23-a3f7-54a82793f929', 'BOOKMARK', 1, 4),
+       ('2023-02-03 22:51:08.764847','0597ae45-aa82-4818-9653-6ccbd0e1e6ca', 'RETWEET', 3, 5),
+       (null,'d77a828d-2bfc-4c42-8d7d-7e345f75df12', 'BOOKMARK', 3, 2),
+       ('2023-01-10 22:51:08.764847','234bca02-771b-4bdb-919a-32a9dd96d307', 'RETWEET', 4, 2),
+       (null,'785a2e3b-a256-4b37-8ffe-ee6c4f7011f6', 'LIKE', 4, 3);
 
 INSERT INTO notifications (uuid, is_read, notification_type, tweet_id, initiator_id, receiver_id)
 values
@@ -140,8 +142,11 @@ INSERT INTO followers (follower_id, followed_id)
 values (1, 2),
        (1, 4),
        (2, 1),
-       (3, 4),
+       (3, 2),
        (3, 5),
-       (4, 1);
+       (4, 2),
+       (2, 3),
+       (2, 4),
+       (2, 5);
 
 -- alter table users  alter column id add generated always as identity;
