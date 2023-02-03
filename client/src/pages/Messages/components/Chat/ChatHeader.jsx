@@ -30,7 +30,7 @@ const ChatHeader = ({chat}) => {
           {
             chat.isGroup &&
             <Link to={`${PATH.MESSAGES.participants(chat?.id)}`}>
-              <AvatarGroup max={5}>
+              <AvatarGroup max={3}>
                 {
                   chat.users.map(user => <Avatar key={user.key} src={user.avatarImgUrl}/>)
                 }

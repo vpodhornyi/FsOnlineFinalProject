@@ -266,9 +266,4 @@ public class ChatController {
 
     return ResponseEntity.ok(foreignerMessageSeenResponseMapper.convertToDto(savedMessageSeen));
   }
-
-//  @GetMapping("/test")
-//  public List<Chat> test(@RequestParam Long userId){
-//    return chatService.test(userId);
-//  }
 }

@@ -7,6 +7,7 @@ const StyledSection = styled('section')(({theme}) => ({
   height: '100vh',
   position: 'sticky',
   top: 0,
+  maxWidth: '600px',
 
   [theme.breakpoints.up('sm')]: {
     borderRight: `1px solid ${theme.palette.border.main}`,

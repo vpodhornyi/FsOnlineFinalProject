@@ -59,6 +59,7 @@ const styles = ({theme}) => ({
   "& .MuiBadge-badge": {
     top: `-5px`,
     left: `17px`,
+    color: theme.palette.common.white
   }
 });
 

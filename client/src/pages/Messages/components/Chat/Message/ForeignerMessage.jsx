@@ -10,7 +10,6 @@ import {moment} from "@utils";
 import {setSeenMessage} from '@redux/chat/message/action';
 import {PATH} from "@utils/constants";
 import Action from "./Action/Action";
-// import Reaction from "./Reaction";
 
 const ForeignerMessage = ({chat, message, sameMessage, toggleModal}) => {
   const dispatch = useDispatch();

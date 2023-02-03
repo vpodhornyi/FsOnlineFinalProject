@@ -62,6 +62,7 @@ const StartMessage = ({chatId, inputRef, sendMessage}) => {
           placeholder='Start a new message'
           multiline
           id="messageText"
+          maxRows={10}
           variant="filled"/>
         <Box className='SendButton' onClick={() => onClickSend()}>
           <CustomIconButton

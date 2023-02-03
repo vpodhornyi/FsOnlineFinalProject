@@ -71,7 +71,7 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   justifyContent: 'space-between',
   cursor: 'pointer',
 
-  [theme.breakpoints.up('md')]: {
+  [theme.breakpoints.up('xl')]: {
     width: '100%',
   },
 
