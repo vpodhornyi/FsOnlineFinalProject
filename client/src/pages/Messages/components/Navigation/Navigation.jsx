@@ -22,19 +22,19 @@ const Navigation = () => {
   const {isChatLoading, isChatsExist, chats, totalPages, pageNumber} = useSelector(getChatsData);
 
   const fetch = async () => {
-    await dispatch(getChats());
+    if (pageNumber < totalPages) {
+      setLoading(true);
+      await dispatch(getChats());
+      setLoading(false);
+    }
   }
 
   useEffect(() => {
     fetch();
   }, []);
 
-  const toggleVisible = async (inView) => {
-    if (inView && (pageNumber < totalPages)) {
-      setLoading(true);
-      await fetch();
-      setLoading(false);
-    }
+  const toggleVisible = (inView) => {
+    if (inView) fetch();
   }
 
   let element = <ActionWelcome/>;

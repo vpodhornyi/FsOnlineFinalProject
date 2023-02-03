@@ -202,31 +202,15 @@ public class ChatController {
     List<User> users = chatService.findById(messageRequest.getChatId()).getUsers();
 
     users.stream().filter(u -> !u.equals(authUser)).forEach(user -> {
-      MessageResponseAbstract responseAbstract;
-      if (type.equals(ChatType.PRIVATE)) {
-        if (user.equals(savedMessage.getUser())) {
-          responseAbstract = privateMessageOwnerResponseMapper.convertToDto(savedMessage, user);
-        } else {
-          responseAbstract = privateForeignerMessageResponseMapper.convertToDto(savedMessage, user);
-        }
-      } else {
-        if (user.equals(savedMessage.getUser())) {
-          responseAbstract = groupMessageOwnerResponseMapper.convertToDto(savedMessage, user);
-        } else {
-          responseAbstract = groupForeignerMessageResponseMapper.convertToDto(savedMessage, user);
-        }
-      }
-      responseAbstract.setOldKey(oldKey);
+      MessageResponseAbstract responseAbstract = type.equals(ChatType.PRIVATE) ?
+        privateForeignerMessageResponseMapper.convertToDto(savedMessage, user) :
+        groupForeignerMessageResponseMapper.convertToDto(savedMessage, user);
       simpMessagingTemplate.convertAndSend(queue + user.getId(), ResponseEntity.ok(responseAbstract));
     });
 
-    MessageResponseAbstract responseAbstract;
-
-    if (type.equals(ChatType.PRIVATE)) {
-      responseAbstract = privateMessageOwnerResponseMapper.convertToDto(savedMessage, authUser);
-    } else {
-      responseAbstract = groupMessageOwnerResponseMapper.convertToDto(savedMessage, authUser);
-    }
+    MessageResponseAbstract responseAbstract = type.equals(ChatType.PRIVATE) ?
+      privateMessageOwnerResponseMapper.convertToDto(savedMessage, authUser) :
+      groupMessageOwnerResponseMapper.convertToDto(savedMessage, authUser);
     responseAbstract.setOldKey(oldKey);
 
     return ResponseEntity.ok(responseAbstract);

@@ -6,14 +6,13 @@ import {mainRoutes} from "./routes";
 import ModalRoutes from "./ModalRoutes";
 
 
-const MainRoutes = ({width, authorized, location, background}) => {
-  return useRoutes(mainRoutes(width, authorized), background || location);
+const MainRoutes = ({width, authorized, location}) => {
+  return useRoutes(mainRoutes(width, authorized), location);
 }
 
 ModalRoutes.propTypes = {
   authorized: PropTypes.bool,
   location: PropTypes.object,
-  background: PropTypes.object,
 }
 
 export default MainRoutes;

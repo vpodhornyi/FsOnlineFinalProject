@@ -42,8 +42,8 @@ const App = () => {
                 <MainRoutes
                   width={width}
                   authorized={authorized}
-                  background={background}
-                  location={location}/>
+                  location={background || location}
+                />
               </MainContainer>
             </Main>
             {!authorized && <LoginPanel/>}
