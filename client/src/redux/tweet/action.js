@@ -3,7 +3,7 @@ import api, { URLS } from "../../services/API";
 
 const actions = createActions(
   {
-    actions: ["CHANGE_BOOKMARK"],
+    actions: ["CHANGE_BOOKMARK",'SET_PAGE_NUMBER'],
     async: [
       "DELETE_TWEET",
       "CREATE_TWEET",
@@ -11,6 +11,7 @@ const actions = createActions(
       "CHANGE_ACTIONS_TWEET",
       "HANDLER_BOOKMARK",
       "HANDLER_REPLIES",
+      "GET_TWEETS_NEW"
     ],
   },
   {
@@ -35,6 +36,26 @@ export const getTweets = () => async (dispatch) => {
     console.log("getTweets error - ", err);
   }
 };
+export const getTweetsNew = () => async (dispatch, getState) => {
+  try {
+    const {tweet: {pageNumber, pageSize}} = getState();
+    dispatch(ACTIONS.getTweetsNew.request());
+    const data = await api.get(URLS.TWEET._ROOT, {params: {pageNumber, pageSize}});
+    // if (data?.length > 0) {
+    //   console.log("test")
+    //   dispatch(ACTIONS.setPageNumber({pageNumber: pageNumber + 1}));
+    // }
+    dispatch(ACTIONS.getTweetsNew.success(data));
+
+    return data;
+
+  } catch (err) {
+    console.log('getTweetsError error - ', err);
+    dispatch(ACTIONS.getTweetsNew.fail());
+    return [];
+  }
+}
+
 export const createTweet = (obj) => async (dispatch) => {
   try {
     dispatch(ACTIONS.createTweet.request());

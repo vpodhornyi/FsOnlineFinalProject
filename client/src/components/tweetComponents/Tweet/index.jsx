@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import React from "react";
+import React, { forwardRef } from "react";
 import {Link, List, ListItem, ListItemIcon, ListItemText, Tooltip, Typography,} from "@mui/material";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import {ICONS} from "./tweetData";
@@ -22,9 +22,9 @@ import {changeActionsTweet, changeBookmark,} from "../../../redux/tweet/action";
 import {useLocation, useNavigate} from "react-router-dom";
 import {PATH} from "../../../utils/constants";
 import {getPersonalData} from "../../../redux/user/selector";
-
-const Tweet = ({tweetInfo, styles}) => {
+const Tweet = forwardRef((props, ref) => {
     const dispatch = useDispatch();
+    const {tweetInfo, styles}=props;
     const {id, body, images, actions, replyCounter, retweetFollowedName} = tweetInfo;
     const {name, avatarImgUrl, userTag, created_at} = tweetInfo.user;
     const user = useSelector(getPersonalData);
@@ -67,6 +67,7 @@ const Tweet = ({tweetInfo, styles}) => {
     return (
         <>
             <TweetContainer
+                ref={ref}
                 sx={styles}
                 onClick={() => {
                     navigate(PATH.HOME.tweetPage(id));
@@ -181,9 +182,10 @@ const Tweet = ({tweetInfo, styles}) => {
             </TweetContainer>
         </>
     );
-};
+});
 Tweet.propTypes = {
   tweetInfo: PropTypes.object,
   styles: PropTypes.any,
 };
+Tweet.displayName = 'Tweet';
 export default Tweet;
