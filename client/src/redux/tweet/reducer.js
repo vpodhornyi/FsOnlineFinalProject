@@ -5,7 +5,7 @@ const INITIAL_STATE = {
   loading: false,
   pageNumber: 0,
   pageSize: 4,
-  totalPages: 2,
+  totalPages: true,
   tweets: [],
   bookmarks: JSON.parse(localStorage.getItem("bookmarks")) || [],
   replies: [],
@@ -13,11 +13,7 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, {payload, type}) => {
   switch (type) {
-    // case String(ACTIONS.setPageNumber):
-    //   return {
-    //     ...state,
-    //     pageNumber: payload.pageNumber,
-    //   };
+
     case String(ACTIONS.getTweetsNew.request):
       return {
         ...state,
@@ -26,14 +22,24 @@ export default (state = INITIAL_STATE, {payload, type}) => {
     case String(ACTIONS.getTweetsNew.success):
       const tweetsId=state.tweets.map(tweet=>tweet.id)
       console.log(tweetsId)
-      const newTweets = payload.filter(resTweet => !tweetsId.includes(resTweet.id));
-      return {
-        ...state,
-        loading: false,
-        // totalPages: payload.totalPages,//TODO
-        tweets: [...state.tweets, ...newTweets],
-        pageNumber: state.pageNumber+1,
-      };
+      const newTweets = payload?.filter(resTweet => !tweetsId.includes(resTweet.id));
+      if(newTweets.length){
+        return {
+          ...state,
+          loading: false,
+
+          tweets: [...state.tweets, ...newTweets],
+          pageNumber: state.pageNumber+1,
+        }
+
+      }else{
+        return {
+          ...state,
+
+          totalPages: false,
+
+        }
+      }
     case String(ACTIONS.getTweets.request):
       return {
         ...state,
