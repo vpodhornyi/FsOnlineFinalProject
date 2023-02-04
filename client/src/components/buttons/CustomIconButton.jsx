@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 import {styled} from "@mui/material/styles";
 
 const CustomIconButton = ({name, title, size = 'medium', disabled = false, iconSize, color}) => {
-
   return (
     // <Tooltip title={title}>
     <Box className='CustomIconButtonWrapper'>
@@ -26,6 +25,7 @@ const StyledIconButton = styled(IconButton)(({theme}) => ({
 }));
 
 CustomIconButton.propTypes = {
+  iconColor: PropTypes.string,
   name: PropTypes.string,
   title: PropTypes.string,
   size: PropTypes.string,

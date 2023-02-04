@@ -158,6 +158,10 @@
                             <goal>check</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>checkstyle-validation</id>
+                        <phase>none</phase>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>

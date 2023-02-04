@@ -7,11 +7,10 @@ import PropTypes from "prop-types";
 
 import {StickyHeader, CustomIconButton, MobileDrawer} from "../components";
 
-const PrimaryHeader = ({isBack = false, pageElement: PageElement}) => {
+const PrimaryHeader = ({isBack = false, pageElement: PageElement, page}) => {
   const [open, setOpen] = useState(false);
   const {authUser} = useSelector(state => state.user);
   const navigate = useNavigate();
-
   const toggleDrawer = () => event => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
@@ -19,21 +18,34 @@ const PrimaryHeader = ({isBack = false, pageElement: PageElement}) => {
     setOpen(!open);
   }
 
-  return (
-    <StyledStickyHeader>
+  return (<StickyHeader>
+    <BoxWrapper>
       {authUser?.id && !isBack && <StyledAvatar onClick={toggleDrawer()} src={authUser.avatarImgUrl}/>}
       {isBack && <Box sx={{mr: 3}} onClick={() => navigate(-1)}>
-        <CustomIconButton name='ArrowBackOutlined' title='Back'/>
+        <CustomIconButton name='ArrowBackOutlined' title='Back' color='text'/>
       </Box>}
-      <PageElement user={authUser}/>
+      <PageElement user={authUser} page={page}/>
       <Drawer anchor='left'
               open={open}
               onClose={toggleDrawer()}>
         <MobileDrawer toggleDrawer={toggleDrawer}/>
       </Drawer>
-    </StyledStickyHeader>
-  );
+    </BoxWrapper>
+  </StickyHeader>);
 }
+
+const BoxWrapper = styled(Box)(({theme}) => ({
+  padding: '10px 14px',
+  width: '100%',
+  height: '50px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+
+  '& .HeaderTitle': {
+    fontSize: '1.3rem', fontWeight: theme.typography.fontWeightBold,
+  }
+}));
 
 const StyledAvatar = styled(Avatar)(({theme}) => ({
   cursor: 'pointer',
@@ -60,5 +72,6 @@ const StyledStickyHeader = styled(StickyHeader)(({theme}) => ({
 PrimaryHeader.propTypes = {
   pageElement: PropTypes.func,
   isBack: PropTypes.bool,
+  page: PropTypes.string
 }
 export default PrimaryHeader;

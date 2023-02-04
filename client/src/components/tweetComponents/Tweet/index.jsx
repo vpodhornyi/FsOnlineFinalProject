@@ -43,7 +43,7 @@ const Tweet = ({ tweetInfo }) => {
   const location = useLocation();
   return (
     <>
-      <TweetContainer>
+      <TweetContainer className='TweetContainer'>
         <Content>
           <Box sx={{ display: "flex" }}>
             <AvatarWrapper>
@@ -53,7 +53,7 @@ const Tweet = ({ tweetInfo }) => {
             <Box>
               <Box sx={{ marginLeft: 0.688 }}>
                 <PostInfo>
-                  <UserName variant="h2" underline={"hover"}>
+                  <UserName onClick={() => navigate(`/${userTag}`)} variant="h2" underline={"hover"}>
                     {name}
                   </UserName>
                   <VerifiedIcon

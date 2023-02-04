@@ -108,10 +108,12 @@ const styles = ({theme}) => ({
         '& .titleMain': {
           fontSize: '1.5rem',
           fontWeight: 600,
+          color: theme.palette.common.textWhite
         },
 
         '& .titleSecondary': {
           fontSize: '1rem',
+          color: theme.palette.common.textWhite
         },
       },
 

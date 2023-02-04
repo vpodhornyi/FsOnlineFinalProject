@@ -45,7 +45,7 @@ public class ChatService {
 
   public Page<Chat> findAlLByUserId(Long userId, int pageNumber, int pageSize) {
     Pageable pageable = PageRequest.of(pageNumber, pageSize);
-    Optional<Page<Chat>> optionalChats = chatRepository.findByUsersId(userId, pageable);
+    Optional<Page<Chat>> optionalChats = chatRepository.findByUsersIdPageable(userId, pageable);
 
     return optionalChats.orElse(Page.empty());
   }
@@ -150,8 +150,4 @@ public class ChatService {
   public void resetDeletedChat(Long userId, Long chatId) {
     chatDeletedRepository.deleteByUserIdAndChatId(userId, chatId);
   }
-
-//  public List<Chat> test (Long id) {
-//    return findAlLByUserId(id);
-//  }
 }

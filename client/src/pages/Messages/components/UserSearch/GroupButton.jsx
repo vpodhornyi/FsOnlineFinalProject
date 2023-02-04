@@ -28,12 +28,12 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   cursor: 'pointer',
   padding: '10px 20px',
   margin: '2px 0',
-  borderBottom: '1px solid rgb(239, 243, 244)',
+  borderBottom: `1px solid ${theme.palette.border.main}`,
 
   '& .GroupIConWrapper': {
     width: '2.7rem',
     height: '2.7rem',
-    border: '1px solid rgb(207, 217, 222)',
+    border: `1px solid ${theme.palette.border.main}`,
     borderRadius: '2.5rem',
     display: 'flex',
     alignItems: 'center',
@@ -42,7 +42,7 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   },
 
   '&:hover': {
-    backgroundColor: 'rgb(247, 249, 249)',
+    backgroundColor: theme.palette.background[1],
   },
 
 }));

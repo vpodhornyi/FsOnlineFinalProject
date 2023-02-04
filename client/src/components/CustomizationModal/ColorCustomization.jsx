@@ -1,28 +1,50 @@
 import React from "react";
-import { useState } from "react";
-import "./colorCustomization.scss";
-import Box from "@mui/material/Box";
+import {styled} from "@mui/material/styles";
+import {RadioGroup} from "@mui/material";
+import PropTypes from "prop-types";
 
-export default function ColorCustomization() {
-  return (
-    <>
-      <Box
-        sx={{
-          flexDirection: "row",
-          display: "flex",
-          justifyContent: "space-around",
-          padding: "16px",
-          backgroundColor: "rgb(247, 249, 249)",
-          borderRadius: "16px",
-        }}
-      >
-        <span className={["blue-dot", "dot"].join(" ")}></span>
-        <span className={["yellow-dot", "dot"].join(" ")}></span>
-        <span className={["pink-dot", "dot"].join(" ")}></span>
-        <span className={["purple-dot", "dot"].join(" ")}></span>
-        <span className={["orange-dot", "dot"].join(" ")}></span>
-        <span className={["green-dot", "dot"].join(" ")}></span>
-      </Box>
-    </>
-  );
+import {getRandomKey} from '@utils';
+import ColorDot from './ColorDot';
+import {COLOR} from "@utils/theme";
+
+
+const colors = (() => Object.keys(COLOR).map(key => {
+  const v = COLOR[key];
+  return {
+    value: key,
+    color: v.primary.main,
+  }
+}))();
+
+const ColorCustomization = ({handleChange, activeValue}) => {
+  return <RadioGroupWrapper value={activeValue} onChange={handleChange}>
+    {
+      colors.map((v, i) => {
+        return <ColorDot
+          key={i + getRandomKey()}
+          backgroundColor={v.color}
+          value={v.value}/>
+      })
+    }
+  </RadioGroupWrapper>
 }
+
+const RadioGroupWrapper = styled(RadioGroup)(({theme}) => ({
+  width: '100%',
+  flexDirection: "row",
+  display: "flex",
+  justifyContent: "space-around",
+  flexWrap: 'wrap',
+  padding: "10px 0",
+  marginBottom: '12px',
+
+  [theme.breakpoints.up('sm')]: {
+    flexWrap: 'nowrap',
+  }
+}));
+
+ColorCustomization.propTypes = {
+  handleChange: PropTypes.func,
+  activeValue: PropTypes.string,
+}
+export default ColorCustomization;

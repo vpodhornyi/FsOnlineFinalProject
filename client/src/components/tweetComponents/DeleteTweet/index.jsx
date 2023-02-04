@@ -47,7 +47,7 @@ const DeleteTweet = () => {
 const BoxWrapper = styled(Box)(({theme}) => ({
   width: '100%',
   height: '100%',
-  backgroundColor: theme.palette.common.white,
+  backgroundColor: theme.palette.common.textWhite,
   padding: '40px 0',
   position: 'relative',
 

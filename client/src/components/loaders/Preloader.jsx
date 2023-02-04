@@ -24,7 +24,7 @@ const styles = ({theme}) => ({
 
   '& > .IconByName': {
     fontSize: '10rem',
-    color: theme.palette.primary.main
+    color: theme.palette.primary.light
   }
 
 });

@@ -8,7 +8,7 @@ const Index = () => {
     <BoxWrapper>
       <Box>
         <IconByName iconName='HistoryEdu'/>
-        <Typography>Tweet</Typography>
+        <Typography >Tweet</Typography>
       </Box>
     </BoxWrapper>);
 }
@@ -21,7 +21,7 @@ const styles = ({theme}) => ({
     display: 'flex',
     justifyContent: 'center',
     backgroundColor: theme.palette.primary.main,
-    color: theme.palette.common.white,
+    color: theme.palette.common.textWhite,
     borderRadius: 40,
     padding: 15,
     cursor: 'pointer',
@@ -45,7 +45,7 @@ const styles = ({theme}) => ({
     "& .MuiTypography-root": {
       display: 'none',
       fontWeight: theme.typography.fontWeightBold,
-
+      color: theme.palette.common.textWhite,
 
       [theme.breakpoints.up('xl')]: {
         display: 'block',

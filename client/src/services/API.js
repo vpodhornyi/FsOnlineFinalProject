@@ -54,13 +54,21 @@ export const URLS = {
   },
   USERS: {
     ROOT: "/users",
-    SEARCH: "/users/search"
+    SEARCH: "/users/search",
+    CUSTOMIZE: "/users/customize"
+  },
+  SUBSCRIBING: {
+    FOLLOW: "/subscribing/follow",
+    UNFOLLOW: "/subscribing/unfollow",
   },
   TWEET: {
     _ROOT: "/tweets/",
     CREATE_TWEET: "/tweets/create",
     CHANGE_ACTIONS: "/tweets/change_actions",
     BOOKMARKS: "/tweets/bookmarks",
+    USER_TWEETS: "/tweets/user-tweets/",
+    USER_LIKES: "/tweets/user-likes/",
+    USER_REPLIES: "/tweets/replies/"
   },
   CHATS: {
     ROOT: '/chats',

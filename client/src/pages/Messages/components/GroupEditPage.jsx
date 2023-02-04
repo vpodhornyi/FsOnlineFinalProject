@@ -65,7 +65,7 @@ const GroupEditPage = () => {
             justifyContent: 'center'
           }}
           onClick={() => navigate(background?.pathname || PATH.ROOT)}>
-          <CustomIconButton name='Close'/>
+          <CustomIconButton name='Close' color='text'/>
           <Typography sx={{ml: 2}} fontWeight='fontWeightBold' fontSize='1.5rem' variant='h2'>Edit</Typography>
         </Box>
         <Box onClick={save}>
@@ -106,7 +106,7 @@ const Foo = () => <ModalPage element={<GroupEditPage/>}/>;
 const BoxWrapper = styled(Box)(({theme}) => ({
   display: 'flex',
   flexDirection: 'column',
-  backgroundColor: '#ffffff',
+  backgroundColor: theme.palette.background.main,
   height: '100%',
 
   [theme.breakpoints.up('sm')]: {
@@ -126,7 +126,7 @@ const BoxWrapper = styled(Box)(({theme}) => ({
 
   '& > .AddPhoto': {
     position: 'relative',
-    borderTop: '1px solid rgb(239, 243, 244)',
+    borderTop: `1px solid ${theme.palette.border.main}`,
     padding: '19px 15px',
     display: 'flex',
     justifyContent: 'center',
@@ -158,8 +158,11 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   '& > .GroupNameFieldWrapper': {
     width: '100%',
     padding: '11px 15px',
-  }
 
+    '& .MuiInputBase-input': {
+      color: theme.palette.text.main,
+    }
+  }
 }));
 
 export default Foo;

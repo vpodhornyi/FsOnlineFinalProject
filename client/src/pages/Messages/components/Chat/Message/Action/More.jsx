@@ -38,7 +38,7 @@ const More = ({toggleModal, message, isRight}) => {
         onClick={handleClick}
       >
         <CustomIconButton
-          color='greyAccent'
+          color='action'
           name='MoreHorizOutlined'
           title='More'
           size='small'
@@ -78,14 +78,14 @@ const More = ({toggleModal, message, isRight}) => {
             </ListItemText>
           </MenuItem>
         }
-        <MenuItem>
+{/*        <MenuItem>
           <ListItemIcon>
-            <IconByName iconName='ContentCopy'/>
+            <IconByName iconName='ContentCopy' color='text'/>
           </ListItemIcon>
           <ListItemText>
             <Typography variant='body1'>Copy text</Typography>
           </ListItemText>
-        </MenuItem>
+        </MenuItem>*/}
       </MenuWrapper>
     </Box>
   );
@@ -95,17 +95,26 @@ const MenuWrapper = styled(Menu)(({theme}) => ({
   '& .MuiPaper-root': {
     boxShadow: 'rgb(101 119 134 / 20%) 0px 0px 15px, rgb(101 119 134 / 15%) 0px 0px 3px 1px !important',
     borderRadius: '12px !important',
+    backgroundColor: theme.palette.background.main,
 
     '& .MuiList-root': {
       padding: 0,
 
       '& .MuiButtonBase-root': {
         padding: '11px 15px',
-        borderBottom: '1px solid rgb(239, 243, 244)',
+        borderBottom: `1px solid ${theme.palette.border.main}`,
+
+        '&:last-child': {
+          borderBottom: 'none',
+        },
 
         '& .MuiTouchRipple-root': {
           display: 'none'
         },
+
+        '&:hover': {
+          backgroundColor: theme.palette.background[1],
+        }
       }
     }
   },

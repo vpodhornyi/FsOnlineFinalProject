@@ -10,7 +10,7 @@ import {PATH} from "@utils/constants";
 const UserInfo = ({user}) => {
   return (
     <BoxWrapper>
-      <Link  to={PATH.userProfile(user.userTag)}>
+      <Link  to={PATH.USER_PAGE.userProfile(user.userTag)}>
         <Avatar sx={{width: '3.5rem', height: '3.5rem', mb: 1}} src={user.avatarImgUrl}/>
       </Link>
       <Typography fontWeight='bold' fontSize='1.3rem'>{user.name}</Typography>

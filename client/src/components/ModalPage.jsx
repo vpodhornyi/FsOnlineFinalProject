@@ -36,13 +36,13 @@ const ModalPage = ({element, closable = true, styles}) => {
 
 const StyledBox = styled(Box)(({theme}) => ({
   position: 'fixed',
-  zIndex: 1298,
+  zIndex: 1299,
   right: 0,
   bottom: 0,
   top: 0,
   left: 0,
   overflow: 'auto',
-  backgroundColor: 'rgba(0,0,0,0.4)',
+  backgroundColor: 'rgba(91, 112, 131, 0.4)',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',

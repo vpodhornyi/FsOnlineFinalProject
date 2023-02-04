@@ -1,10 +1,11 @@
 import React from "react";
 import {Box, Modal} from "@mui/material";
 import PropTypes from "prop-types";
+import {styled} from "@mui/material/styles";
 
 const ModalWindow = ({style, isShowing, toggleModal, element}) => {
   return (
-    <Modal
+    <StyledModal
       sx={{
         display: 'flex',
         justifyContent: 'center',
@@ -22,9 +23,13 @@ const ModalWindow = ({style, isShowing, toggleModal, element}) => {
            onClick={e => e.stopPropagation()}>
         {element}
       </Box>
-    </Modal>
+    </StyledModal>
   );
 }
+
+const StyledModal = styled(Modal)(({theme}) => ({
+  backgroundColor: 'rgba(91, 112, 131, 0.4)',
+}));
 
 ModalWindow.propTypes = {
   style: PropTypes.object,

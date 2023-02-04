@@ -72,13 +72,17 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   position: 'relative',
   marginBottom: 2,
 
+  '& .MuiBadge-badge': {
+    color: theme.palette.common.white
+  },
+
   '& .ChatRoutWrapperActive': {
-    backgroundColor: 'rgb(239, 243, 244)',
+    backgroundColor: theme.palette.background[2],
     borderRight: `2px ${theme.palette.primary.main} solid`,
   },
 
   '& > .NotReadMessagesExist': {
-    backgroundColor: 'rgb(247, 249, 249)'
+    backgroundColor: theme.palette.background[1],
   },
 
   '& > .MuiBox-root': {
@@ -90,7 +94,7 @@ const BoxWrapper = styled(Box)(({theme}) => ({
     cursor: 'pointer',
 
     '&:hover': {
-      backgroundColor: 'rgb(247, 249, 249)'
+      backgroundColor: theme.palette.background[1],
     },
 
     '& .MoreIcon': {

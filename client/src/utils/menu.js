@@ -13,7 +13,7 @@ export const menu = (userTag, authorized, isChatSelected, countUnreadMessages, c
         path: PATH.EXPLORE,
         iconName: "ExploreOutlined",
         iconActive: "Explore",
-        text: 'Explorer',
+        text: 'Explore',
       },
       {
         path: PATH.NOTIFICATIONS,
@@ -42,7 +42,7 @@ export const menu = (userTag, authorized, isChatSelected, countUnreadMessages, c
         text: 'Lists',
       },
       {
-        path: PATH.userProfile(userTag),
+        path: PATH.USER_PAGE.userProfile(userTag),
         iconName: "PersonOutlined",
         iconActive: "Person",
         text: 'Profile',
@@ -69,7 +69,7 @@ export const mobileMenu = (userTag, isDrawer, isChatSelected, countUnreadMessage
 
   return isDrawer ? [
     {
-      path: PATH.userProfile(userTag),
+      path: PATH.USER_PAGE.userProfile(userTag),
       iconName: "PersonOutlined",
       iconActive: "Person",
       text: 'Profile',

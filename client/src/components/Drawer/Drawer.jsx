@@ -30,7 +30,7 @@ const Drawer = ({toggleDrawer}) => {
         <Header>
           <Typography fontWeight='bold' fontSize='1.2rem'>Account info</Typography>
           <Box onClick={toggleDrawer()}>
-            <CustomIconButton name='Close'/>
+            <CustomIconButton name='Close' color='text'/>
           </Box>
         </Header>
         <UserInfo user={authUser}/>
@@ -54,19 +54,24 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   maxWidth: '70%',
   minWidth: '280px',
   height: '100%',
+  backgroundColor: theme.palette.background.main,
 
   '& .NavigationMenu': {
     flexDirection: 'column'
   },
 
+  '& .MuiBox-root .MuiDivider-root': {
+    borderColor: theme.palette.text.main,
+  },
+
   '& .LogOutBtn': {
     width: '100%',
     height: '35px',
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.background[9],
 
     '& .CustomFabButtonName': {
       fontWeight: theme.typography.fontWeightBold,
-      color: theme.palette.primary.contrastText,
+      color: theme.palette.text.secondary,
     }
   }
 }));

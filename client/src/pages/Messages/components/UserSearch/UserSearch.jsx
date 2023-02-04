@@ -122,7 +122,7 @@ const Element = ({isGroup, isAdd}) => {
         isNext={!grabbedUsers.length}
         next={next}
         addPeople={addPeople}/>
-      <Box sx={{position: 'relative', width: '100%', borderBottom: '1px solid rgb(207, 217, 222)',}}>
+      <Box className='SearchFieldBox'>
         <Box className='SearchIconWrapper'>
           <IconByName color='primary' iconName='SearchOutlined'/>
         </Box>
@@ -159,8 +159,14 @@ const UserSearch = ({isGroup, isAdd}) => <ModalPage element={<Element isAdd={isA
 const BoxWrapper = styled(Box)(({theme}) => ({
   width: '100%',
   height: '100%',
-  backgroundColor: '#fefefe',
+  backgroundColor: theme.palette.background.main,
   paddingBottom: 20,
+
+  '& .SearchFieldBox': {
+    position: 'relative',
+    width: '100%',
+    borderBottom: `1px solid ${theme.palette.border.main}`
+  },
 
   '& .SearchIconWrapper': {
     position: 'absolute',

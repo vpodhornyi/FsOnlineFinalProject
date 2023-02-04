@@ -12,6 +12,11 @@ const Header = () => {
   return (
     <BoxWrapper onClick={() => dispatch(() => console.log('header avatar'))}>
       <Avatar sx={{mr: '10px', width: '2.5rem', height: '2.5rem'}} src={chat.avatarImgUrl}/>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolorum expedita nihil, nobis porro quasi vel. Consequatur eius eveniet fuga, hic id laudantium tempore veritatis. Consequuntur dignissimos laudantium magnam rem?
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolorum expedita nihil, nobis porro quasi vel. Consequatur eius eveniet fuga, hic id laudantium tempore veritatis. Consequuntur dignissimos laudantium magnam rem?
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolorum expedita nihil, nobis porro quasi vel. Consequatur eius eveniet fuga, hic id laudantium tempore veritatis. Consequuntur dignissimos laudantium magnam rem?
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolorum expedita nihil, nobis porro quasi vel. Consequatur eius eveniet fuga, hic id laudantium tempore veritatis. Consequuntur dignissimos laudantium magnam rem?
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolorum expedita nihil, nobis porro quasi vel. Consequatur eius eveniet fuga, hic id laudantium tempore veritatis. Consequuntur dignissimos laudantium magnam rem?
     </BoxWrapper>
   )
 }

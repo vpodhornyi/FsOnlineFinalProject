@@ -1,5 +1,6 @@
 package com.twitterdan.facade.user;
 
+import com.twitterdan.domain.tweet.Tweet;
 import com.twitterdan.domain.user.User;
 import com.twitterdan.dto.user.UserResponse;
 import com.twitterdan.facade.GeneralFacade;
@@ -16,7 +17,23 @@ public class UserResponseMapper extends GeneralFacade<User, UserResponse> {
   }
 
   @Override
+  protected void decorateEntity(User entity, UserResponse dto) {
+
+  }
+  @Override
   protected void decorateDto(UserResponse dto, User entity) {
     dto.setCountUnreadMessages(messageService.getCountAllUnreadChatMessagesByUserId(entity.getId()));
+
+    for (Tweet tweet : entity.getTweets()) {
+      dto.getTweetsIds().add(tweet.getId());
+    }
+
+    for (User user : entity.getFollowers()) {
+      dto.getFollowersTags().add(user.getUserTag());
+    }
+
+    for (User user : entity.getFollowings()) {
+      dto.getFollowingsTags().add(user.getUserTag());
+    }
   }
 }
