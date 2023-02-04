@@ -10,7 +10,7 @@ const Messages = ({isMiddle}) => {
   return isMiddle ?
     <>
       <SectionNavigation>
-        {/*<Navigation/>*/}
+        <Navigation/>
       </SectionNavigation>
       <SectionDetails>
         <Outlet/>

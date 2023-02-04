@@ -202,10 +202,9 @@ public class ChatController {
     List<User> users = chatService.findById(messageRequest.getChatId()).getUsers();
 
     users.stream().filter(u -> !u.equals(authUser)).forEach(user -> {
-      MessageResponseAbstract responseAbstract = type.equals(ChatType.PRIVATE) ?
+      simpMessagingTemplate.convertAndSend(queue + user.getId(), ResponseEntity.ok(type.equals(ChatType.PRIVATE) ?
         privateForeignerMessageResponseMapper.convertToDto(savedMessage, user) :
-        groupForeignerMessageResponseMapper.convertToDto(savedMessage, user);
-      simpMessagingTemplate.convertAndSend(queue + user.getId(), ResponseEntity.ok(responseAbstract));
+        groupForeignerMessageResponseMapper.convertToDto(savedMessage, user)));
     });
 
     MessageResponseAbstract responseAbstract = type.equals(ChatType.PRIVATE) ?
