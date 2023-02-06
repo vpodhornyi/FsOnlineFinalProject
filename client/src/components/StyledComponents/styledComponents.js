@@ -1,7 +1,8 @@
 import {styled} from "@mui/system";
 import Button from "@mui/material/Button";
 import React from "react";
-import {Typography} from "@mui/material";
+import {Box, Typography} from "@mui/material";
+import Container from "@mui/material/Container";
 
 export const userProfileSecondaryFontColor = "rgb(83, 100, 113)";
 
@@ -42,5 +43,24 @@ export const StyledTypography = styled(props => (<Typography {...props}/>))(() =
     "&: hover": {
         textDecoration: "underline",
         cursor: "pointer",
+    }
+}));
+
+export const StyledLoadContainer = styled(props => (<Container {...props}/>))(() => ({
+    "&": {
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center"
+    }
+}));
+
+export const BoxContainer = styled(props => (<Box {...props}/>))(() => ({
+    "&": {
+        display: "flex",
+        alignItems: "center",
+        flexDirection: "column",
+        maxWidth: "70%",
+        margin: "0 auto"
     }
 }));

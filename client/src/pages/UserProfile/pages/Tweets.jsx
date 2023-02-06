@@ -3,10 +3,9 @@ import {useParams} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {getPersonalData} from "../../../redux/user/selector";
 import {getUserTweets} from "../../../services/tweetService";
-import Container from "@mui/material/Container";
 import {CircularProgress, Typography} from "@mui/material";
 import {Tweet} from "../../../components";
-import Box from "@mui/material/Box";
+import {BoxContainer, StyledLoadContainer} from "../../../components/StyledComponents/styledComponents";
 
 const Tweets = () => {
     const {user_tag} = useParams();
@@ -23,7 +22,7 @@ const Tweets = () => {
     }, []);
 
     if (!tweets) {
-        return <Container sx={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}><CircularProgress disableShrink/></Container>
+        return <StyledLoadContainer><CircularProgress disableShrink/></StyledLoadContainer>
     }
 
     return (
@@ -33,10 +32,10 @@ const Tweets = () => {
                     <Tweet tweetInfo={el}/>
                 </div>
             ) :
-                <Box sx={{display: "flex", alignItems: "center", flexDirection: "column", maxWidth: "70%", margin: "0 auto"}}>
+                <BoxContainer>
                     <Typography sx={{margin: "15px 0 10px 0", fontWeight: "bold"}} variant={"h4"}>{user?.userTag === user_tag ? `You ` : `@${user_tag}`} don’t have any tweets yet</Typography>
                     <Typography variant={"subtitle2"}>The tweet will be shown as soon as it is published</Typography>
-                </Box>
+                </BoxContainer>
             }
         </>
     );
