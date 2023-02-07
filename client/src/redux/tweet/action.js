@@ -23,37 +23,27 @@ export const ACTIONS = {
   ...actions.actions,
   ...actions.async,
 };
-export const getTweets = () => async (dispatch) => {
-  try {
-    dispatch(ACTIONS.getTweets.request());
-    const data = await api.get(URLS.TWEET._ROOT);
-    dispatch(ACTIONS.getTweets.success(data));
 
-    return data;
-  } catch (err) {
-    //TODO show error
-    dispatch(ACTIONS.getTweets.fail());
-    console.log("getTweets error - ", err);
-  }
-};
-export const getTweetsNew = () => async (dispatch, getState) => {
-  try {
-    const {tweet: {pageNumber, pageSize}} = getState();
-    dispatch(ACTIONS.getTweetsNew.request());
-    const data = await api.get(URLS.TWEET._ROOT, {params: {pageNumber, pageSize}});
-    // if (data?.length > 0) {
-    //   console.log("test")
-    //   dispatch(ACTIONS.setPageNumber({pageNumber: pageNumber + 1}));
-    // }
-    dispatch(ACTIONS.getTweetsNew.success(data));
+export const getTweetsNew = (url,stateItem) => {
+  return async (dispatch, getState) => {
+    try {
+      const {tweet} = getState();
+      const pageNumber = tweet[stateItem].pageNumber;
+      const pageSize = tweet[stateItem].pageSize;
 
-    return data;
+      dispatch(ACTIONS.getTweetsNew.request());
+      const data = await api.get(url, {params: {pageNumber, pageSize}});
 
-  } catch (err) {
-    console.log('getTweetsError error - ', err);
-    dispatch(ACTIONS.getTweetsNew.fail());
-    return [];
-  }
+      dispatch(ACTIONS.getTweetsNew.success({data, stateItem}));
+
+      return data;
+
+    } catch (err) {
+      console.log('getTweetsError error - ', err);
+      dispatch(ACTIONS.getTweetsNew.fail());
+      return [];
+    }
+  };
 }
 
 export const createTweet = (obj) => async (dispatch) => {
@@ -90,21 +80,19 @@ export const changeActionsTweet = (obj) => async (dispatch) => {
     alert(err.message);
   }
 };
-export const changeBookmark = (id) => (dispatch) => {
-  dispatch(ACTIONS.changeBookmark(id));
-};
-export const handlerBookmark = () => async (dispatch) => {
-  try {
-    dispatch(ACTIONS.handlerBookmark.request());
-    const bookmarksId = await api.get(URLS.TWEET.BOOKMARKS);
-    dispatch(ACTIONS.handlerBookmark.success(bookmarksId));
-  } catch (err) {
-    console.log(err);
-    //TODO show error
-    dispatch(ACTIONS.handlerBookmark.fail());
-    console.log("getBookmarks error - ", err);
-  }
-};
+
+// export const handlerBookmark = () => async (dispatch) => {
+//   try {
+//     dispatch(ACTIONS.handlerBookmark.request());
+//     const bookmarks = await api.get(URLS.TWEET.BOOKMARKS);
+//     dispatch(ACTIONS.handlerBookmark.success(bookmarks));
+//   } catch (err) {
+//     console.log(err);
+//     //TODO show error
+//     dispatch(ACTIONS.handlerBookmark.fail());
+//     console.log("getBookmarks error - ", err);
+//   }
+// };
 export const handlerReplies = (id) => async (dispatch) => {
   try {
     dispatch(ACTIONS.handlerReplies.request());

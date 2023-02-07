@@ -43,9 +43,7 @@ const Tweet = forwardRef((props, ref) => {
             userBol: false
         },
         "BOOKMARK": {
-            counter: 0, color: "#1d9bf0", handler: () => changeAction("BOOKMARK").then(
-                (res) => res && dispatch(changeBookmark(res.tweet.id))
-            ),
+            counter: 0, color: "#1d9bf0", handler: () => changeAction("BOOKMARK"),
             userBol: false
         },
         "REPLY": {
