@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {styled} from "@mui/material/styles";
 import {Box} from "@mui/material";
 import {Tweet} from "../../components";
-import {getTweetsNew} from "../../redux/tweet/action";
+import {getTweets} from "../../redux/tweet/action";
 import {getTweetState, loadingTweetsState,} from "../../redux/tweet/selector";
 import Loading from "../../components/Loader/Loading";
 import PropTypes from "prop-types";
@@ -11,20 +11,25 @@ import {URLS} from "../../services/API";
 
 const Tweets = ({bookmarksValue = false}) => {
     const dispatch = useDispatch();
-
+    const stateValue = bookmarksValue ? {name: 'bookmarks', url: URLS.TWEET.BOOKMARKS} : {
+        name: 'tweets',
+        url: URLS.TWEET._ROOT
+    };
     const tweetState = useSelector(getTweetState);
-    const mapArr = bookmarksValue ? tweetState.bookmarks.data : tweetState.tweets.data;
     const loadingTweets = useSelector(loadingTweetsState);
+    const currentState = tweetState[stateValue.name];
     useEffect(() => {
-        bookmarksValue ? dispatch(getTweetsNew(URLS.TWEET.BOOKMARKS, 'bookmarks')) : dispatch(getTweetsNew(URLS.TWEET._ROOT, 'tweets'))
+        dispatch(getTweets(stateValue.url, stateValue.name))
+
     }, []);
     const lastItem = createRef();
     const observerLoader = useRef();
 
     const actionInSight = (entries) => {
-        const str = bookmarksValue ? 'bookmarks' : 'tweets';
-        if (entries[0].isIntersecting && tweetState[str].totalPages) {
-            bookmarksValue ? dispatch(getTweetsNew(URLS.TWEET.BOOKMARKS, 'bookmarks')) : dispatch(getTweetsNew(URLS.TWEET._ROOT, 'tweets'))
+
+        if (entries[0].isIntersecting && currentState.totalPages) {
+            dispatch(getTweets(stateValue.url, stateValue.name))
+
         }
     };
 
@@ -38,9 +43,9 @@ const Tweets = ({bookmarksValue = false}) => {
     return (
         <BoxWrapper>
             {loadingTweets && <Loading/>}
-            {mapArr?.map((e, i) => {
+            {currentState.data?.map((e, i) => {
                 const keyValue = e.id + e.retweetFollowedName
-                if (i + 1 === mapArr.length) {
+                if (i + 1 === currentState.data.length) {
                     return (
                         <Tweet key={keyValue} tweetInfo={e} ref={lastItem}/>
                     );

@@ -11,7 +11,6 @@ const actions = createActions(
       "CHANGE_ACTIONS_TWEET",
       "HANDLER_BOOKMARK",
       "HANDLER_REPLIES",
-      "GET_TWEETS_NEW"
     ],
   },
   {
@@ -24,23 +23,23 @@ export const ACTIONS = {
   ...actions.async,
 };
 
-export const getTweetsNew = (url,stateItem) => {
+export const getTweets= (url,stateItem) => {
   return async (dispatch, getState) => {
     try {
       const {tweet} = getState();
       const pageNumber = tweet[stateItem].pageNumber;
       const pageSize = tweet[stateItem].pageSize;
 
-      dispatch(ACTIONS.getTweetsNew.request());
+      dispatch(ACTIONS.getTweets.request());
       const data = await api.get(url, {params: {pageNumber, pageSize}});
 
-      dispatch(ACTIONS.getTweetsNew.success({data, stateItem}));
+      dispatch(ACTIONS.getTweets.success({data, stateItem}));
 
       return data;
 
     } catch (err) {
       console.log('getTweetsError error - ', err);
-      dispatch(ACTIONS.getTweetsNew.fail());
+      dispatch(ACTIONS.getTweets.fail());
       return [];
     }
   };

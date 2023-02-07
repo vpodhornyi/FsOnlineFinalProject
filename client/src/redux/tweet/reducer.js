@@ -21,15 +21,14 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, {payload, type}) => {
     switch (type) {
 
-        case String(ACTIONS.getTweetsNew.request):
+        case String(ACTIONS.getTweets.request):
             return {
                 ...state,
                 loading: true,
             };
-        case String(ACTIONS.getTweetsNew.success):
+        case String(ACTIONS.getTweets.success):
             const {data, stateItem} = payload
             const tweetsId = state[stateItem].data.map(tweet => tweet.id)
-            console.log(tweetsId)
             const newTweets = data?.filter(resTweet => !tweetsId.includes(resTweet.id));
             if (newTweets.length) {
                 return {
@@ -72,12 +71,11 @@ export default (state = INITIAL_STATE, {payload, type}) => {
 
             };
 
-        case String(ACTIONS.getTweetsNew.fail):
+        case String(ACTIONS.getTweets.fail):
             return {
                 ...state,
                 loading: false,
             };
-
         case String(ACTIONS.handlerReplies.success):
             return {
                 ...state,
