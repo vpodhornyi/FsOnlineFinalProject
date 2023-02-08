@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,6 +62,7 @@ public class TweetController {
     User userCurrent  = userDao.findByUserTag(principal.getName());
     Pageable pageable = PageRequest.of(pageNumber, pageSize);
     Page<Tweet> tweets = tweetService.getAll(userCurrent.getId(),pageable);
+
     return tweets.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
   }
 
@@ -88,10 +90,11 @@ public class TweetController {
   }
 
   @GetMapping("/bookmarks")
-  public List<Long> getBookmarks(Principal principal) {
+  public List<TweetResponse> getBookmarks(Principal principal,@RequestParam int  pageNumber,@RequestParam int pageSize) {
     User user = userDao.findByUserTag(principal.getName());
-    return tweetService.getBookmarks(user);
-
+    Pageable pageable = PageRequest.of(pageNumber, pageSize);
+    Page<Tweet> tweets =  tweetService.getBookmarks(user.getId(),pageable);
+    return tweets.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
 
   }
 

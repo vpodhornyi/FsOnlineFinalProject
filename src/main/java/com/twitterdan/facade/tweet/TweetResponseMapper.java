@@ -23,12 +23,12 @@ public class TweetResponseMapper extends GeneralFacade<Tweet, TweetResponse> {
 
   @Override
   protected void decorateDto(TweetResponse dto, Tweet entity) {
-    System.out.println(entity);
     Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     String userTag = principal instanceof UserDetails
             ? ((UserDetails) principal).getUsername()
             : principal.toString();
     User retweetUser = entity.getRetweet_user();
+    System.out.println(entity);
     String name = Optional.ofNullable(retweetUser).map(userRetweet-> {
      String retweetName = userRetweet.getUserTag().equals(userTag)?"You":userRetweet.getName();
     return retweetName + " Retweeted";

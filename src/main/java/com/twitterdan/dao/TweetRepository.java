@@ -31,25 +31,24 @@ public interface TweetRepository extends PagingAndSortingRepository<Tweet, Long>
   List<Tweet> findCurrentUserLikeTweets(Long userId);
 
   @Query(value =
-          "SELECT tweets.* FROM tweets JOIN followers ON followers.followed_id=tweets.user_id \n"
-                  + " WHERE  followers.follower_id=:userId AND tweets.tweet_type='TWEET' \n"
-                  + "UNION ALL \n"
-                  + "SELECT tweets.id, tweets.created_at, tweets.created_by, tweets.updated_at, tweets.updated_by, tweets.uuid,  body ,   \n"
-                  + "parent_tweet_id,tweet_type, tweet_actions.user_id AS retweet_id,  tweets.user_id FROM tweets \n"
-                  + "JOIN tweet_actions ON tweet_actions.tweet_id =tweets.id \n"
-                  + "WHERE tweet_actions.action_type='RETWEET' AND tweet_actions.user_id IN (SELECT followers.followed_id \n"
-                  + "  FROM followers WHERE followers.follower_id=:userId)\n"
-                  + " ORDER BY created_at  DESC", countQuery =
-          "SELECT count(*) from (SELECT tweets.* FROM tweets JOIN followers ON followers.followed_id=tweets.user_id\n"
-                  + "        WHERE  followers.follower_id=:userId AND tweets.tweet_type='TWEET'\n"
-                  + "        UNION ALL\n"
-                  + "        SELECT tweets.id, tweets.created_at, tweets.created_by, tweets.updated_at, tweets.updated_by, tweets.uuid,  body ,\n"
-                  + "        parent_tweet_id,tweet_type, tweet_actions.user_id AS retweet_id,  tweets.user_id FROM tweets\n"
-                  + "        JOIN tweet_actions ON tweet_actions.tweet_id =tweets.id\n"
-                  + "        WHERE tweet_actions.action_type='RETWEET' AND tweet_actions.user_id IN (SELECT followers.followed_id\n"
-                  + "        FROM followers WHERE followers.follower_id=:userId) ORDER BY created_at  DESC) AS result ",
+          "SELECT tweets.* FROM tweets JOIN followers ON followers.followed_id=tweets.user_id\n"
+                  + "       WHERE  followers.follower_id=:userId AND tweets.tweet_type='TWEET'\n"
+                  + "        ORDER BY created_at  DESC", countQuery =
+          "SELECT count(*) from (SELECT tweets.* FROM tweets JOIN followers ON followers.followed_id=tweets.user_id  WHERE  "
+                  + "followers.follower_id=:userId  AND  tweets.tweet_type='TWEET' ORDER BY created_at  DESC) AS\n"
+                  + "        followersTweets",
           nativeQuery = true)
   Optional<Page<Tweet>> findFollowedTweetsAndRetweet(Long userId, Pageable pageable);
+
+  @Query(value =
+          "SELECT tweets.* FROM tweets JOIN tweet_actions ON tweets.id = tweet_actions.tweet_id  WHERE  tweet_actions\n"
+                  + "        .user_id =:id  AND  tweet_actions.action_type='BOOKMARK' ORDER BY created_at  DESC",
+          countQuery =
+                  "SELECT count(*) from (SELECT tweets.* FROM tweets JOIN tweet_actions ON tweets.id = tweet_actions.tweet_id  WHERE  "
+                          + "tweet_actions\n"
+                          + "        .user_id =:id   AND  tweet_actions.action_type='BOOKMARK' ORDER BY created_at  DESC) AS\n"
+                          + "        bookmarkTweets", nativeQuery = true)
+  Optional<Page<Tweet>> findBookmarks(Long id, Pageable pageable);
 
   @Query(value = "Select * from TWEETS where TWEET_TYPE=:type and PARENT_TWEET_ID=:id ",
           nativeQuery = true)
@@ -90,3 +89,10 @@ public interface TweetRepository extends PagingAndSortingRepository<Tweet, Long>
 //        WHERE  tweet_actions.action_type='LIKE' AND tweet_actions.user_id=2
 //        ORDER BY created_at  DESC
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////findBookmarks/////////////////////////////////////////////////
+//SELECT tweets.* FROM tweets JOIN tweet_actions ON tweets.id = tweet_actions.tweet_id  WHERE  tweet_actions
+//        .user_id =2  AND  tweet_actions.action_type='BOOKMARK'
+/////////////////////////////////////findFollowersTweets////////////////////////////////////////
+//SELECT * FROM tweets JOIN followers ON followers.followed_id=tweets.user_id
+//        WHERE  followers.follower_id=2 AND tweets.tweet_type='TWEET'
+//        ORDER BY created_at  DESC

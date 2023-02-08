@@ -48,9 +48,9 @@ public class TweetService {
     return tweetDao.save(tweet);
   }
 
-  public List<Long> getBookmarks(User user) {
-
-    return tweetActionRepository.findBookmarks(user.getId(), "BOOKMARK");
+  public Page<Tweet> getBookmarks(Long userId, Pageable pageable) {
+    Optional<Page<Tweet>> optionalTweets = tweetDao.findBookmarks(userId,  pageable);
+    return optionalTweets.orElse(Page.empty());
   }
   public List<Tweet> getReplies(Long id) {
 
