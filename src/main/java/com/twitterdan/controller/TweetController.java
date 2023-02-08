@@ -116,13 +116,13 @@ public class TweetController {
     return tweetResponseMapper.convertToDto(tweet);
   }
 
-  @DeleteMapping("/{userId}/{tweetId}")
-  public void delete(@PathVariable(value = "userId") Long userId,
-                     @PathVariable(value = "tweetId") Long tweetId) throws Exception {
+  @DeleteMapping("/{tweetId}")
+  public void delete(Principal principal,@PathVariable(value = "tweetId") Long tweetId) throws Exception {
+    User userCurrent  = userDao.findByUserTag(principal.getName());
     Tweet tweet = tweetService.findById(tweetId);
     if (tweet.equals(new Tweet())) {
       throw new Exception("The list has no element with this id");
-    } else if (tweet.getUser().getId() != userId) {
+    } else if (!tweet.getUser().equals(userCurrent)  ) {
       throw new Exception("This is not this user's tweet ");
     } else {
       tweetService.deleteById(tweetId);

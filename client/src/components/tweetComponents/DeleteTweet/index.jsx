@@ -16,7 +16,6 @@ const DeleteTweet = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { id } = useParams();
-  const personData = useSelector(getPersonalData);
   return (
     <ModalPage
       styles={{
@@ -59,7 +58,7 @@ const DeleteTweet = () => {
           <ModalButton
               styles={{background: "red", color: "white","&:hover":{background:"#dc1e29"}}}
             click={() => {
-              dispatch(deleteTweet(personData.id, +id));
+              dispatch(deleteTweet(+id));
               navigate(-1);
             }}
           >
