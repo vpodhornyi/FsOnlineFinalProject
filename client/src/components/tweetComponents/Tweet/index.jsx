@@ -39,11 +39,22 @@ const Tweet = forwardRef((props, ref) => {
             userBol: false
         },
         "RETWEET": {
-            counter: 0, color: "#00ba7c", handler: () => changeAction("RETWEET"),
+            counter: 0, color: "#00ba7c", handler: () =>
+                    changeAction("RETWEET")
+             ,
             userBol: false
         },
         "BOOKMARK": {
-            counter: 0, color: "#1d9bf0", handler: () => changeAction("BOOKMARK"),
+            counter: 0, color: "#1d9bf0", handler: () =>{
+                if(location.pathname === '/i/bookmarks'){
+                    dispatch(
+                        changeBookmark( id)
+                    );
+                }
+                    changeAction("BOOKMARK")
+
+
+            } ,
             userBol: false
         },
         "REPLY": {

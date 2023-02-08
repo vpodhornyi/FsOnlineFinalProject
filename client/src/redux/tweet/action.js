@@ -79,6 +79,9 @@ export const changeActionsTweet = (obj) => async (dispatch) => {
     alert(err.message);
   }
 };
+export const changeBookmark = (id) => (dispatch) => {
+  dispatch(ACTIONS.changeBookmark(id));
+};
 
 // export const handlerBookmark = () => async (dispatch) => {
 //   try {

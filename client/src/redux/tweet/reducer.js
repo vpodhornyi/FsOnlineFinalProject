@@ -1,4 +1,5 @@
 import {ACTIONS} from "./action";
+import {useParams} from "react-router-dom";
 
 const INITIAL_STATE = {
     loading: false,
@@ -58,6 +59,11 @@ export default (state = INITIAL_STATE, {payload, type}) => {
                 ...state,
                 tweets: {...state.tweets, data: state.tweets.data.filter((el) => el.id !== payload)},
             };
+            case String(ACTIONS.changeBookmark):
+            return {
+                ...state,
+                bookmarks: {...state.bookmarks, data: state.bookmarks.data.filter((el) => el.id !== payload)},
+            };
         case String(ACTIONS.createTweet.success):
             const {tweets} = state
             for (let i = 0; i < tweets.data.length; i++) {
@@ -85,6 +91,7 @@ export default (state = INITIAL_STATE, {payload, type}) => {
         case String(ACTIONS.changeActionsTweet.success):
             const {data: dataTweet} = state.tweets
             const {data: dataBookmarks} = state.bookmarks
+
             for (let i = 0; i < dataTweet.length; i++) {
                 const currentTweet = dataTweet[i];
                 const {tweet, actionType, user} = payload;
@@ -104,11 +111,10 @@ export default (state = INITIAL_STATE, {payload, type}) => {
                     } else {
                         currentTweet.actions.splice(findActionIndex, 1);
                     }
+
+
                 }
-                const findBookmarkIndex = dataBookmarks.findIndex(el => el.id === currentTweet.id)
-                if (findBookmarkIndex > 0) {
-                    dataBookmarks.splice(findBookmarkIndex, 1, currentTweet)
-                }
+
 
                 if (currentLength !== currentTweet.actions.length) break;
             }
