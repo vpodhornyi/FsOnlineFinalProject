@@ -1,6 +1,20 @@
+export const AUTH_ROUTE = "/";
+export const HOME_ROUTE = "/home";
+export const EXPLORE_ROUTE = "/explore";
+export const NOTIFICATIONS_ROUTE = "/notifications";
+export const MESSAGES_ROUTE = "/messages";
+export const LISTS_ROUTE = "/lists";
+export const BOOKMARKS_ROUTE = "/bookmarks";
+export const LOGOUT_ROUTE = "/logout";
+export const FOLLOWERS_ROUTE = "/:user_tag/followers"
+export const FOLLOWINGS_ROUTE = "/:user_tag/followings"
+
+export const SEARCH = "/searchPage"
+
 export const PATH = {
   ROOT: '/',
   HOME: '/home',
+  SEARCH: '/searchPage',
   EXPLORE: '/explore',
   NOTIFICATIONS: '/notifications',
   MESSAGES: {
@@ -23,7 +37,7 @@ export const PATH = {
   lists: userTag =>  `/lists`,
   USER_PAGE: {
     USER_PROFILE: '/:user_tag',
-    userProfile: userTag =>  `/${userTag}`,
+    userProfile: userTag => `/${userTag}`,
     FOLLOWERS: '/:user_tag/followers',
     followers: userTag => `/${userTag}/followers`,
     FOLLOWINGS: '/:user_tag/followings',
@@ -52,10 +66,10 @@ export const PATH = {
     PROFILE: '/settings/profile'
   },
   TWEET: {
-    ROOT:"/tweet",
+    ROOT: "/tweet",
     DELETE: '/tweet/:id',
-    REPLY:'/tweet/reply/:id',
-    IMG:'/tweet/img',
+    REPLY: '/tweet/reply/:id',
+    IMG: '/tweet/img',
   },
   ALL: '*',
 };

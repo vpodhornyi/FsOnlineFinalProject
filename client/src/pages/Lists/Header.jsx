@@ -5,25 +5,25 @@ import PropTypes from "prop-types";
 import {useSelector} from "react-redux";
 import {getPersonalData} from "../../redux/user/selector";
 
-const Header = ({user, page}) => {
-    const authUser = useSelector(getPersonalData);
+const Header = ({page}) => {
+  const authUser = useSelector(getPersonalData);
 
-    return (
-        <BoxWrapper>
-            <Typography className='HeaderTitle' variant='h2'>{page}</Typography>
-            <Typography variant='body2'>{user || authUser?.userTag}</Typography>
-        </BoxWrapper>
-    );
+  return (
+      <BoxWrapper>
+        <Typography className='HeaderTitle' variant='h2'>{page}</Typography>
+        <Typography variant='body2'>{`@${authUser?.userTag}`}</Typography>
+      </BoxWrapper>
+  );
 }
 
 const BoxWrapper = styled(Box)(({theme}) => ({
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
 }));
 
 Header.propTypes = {
-    user: PropTypes.string,
-    page: PropTypes.string
+  user: PropTypes.string,
+  page: PropTypes.string
 }
 export default Header;

@@ -2,17 +2,12 @@ package com.twitterdan.facade.chat.response.message;
 
 import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.chat.Message;
-import com.twitterdan.domain.chat.MessageSeen;
 import com.twitterdan.domain.user.User;
 import com.twitterdan.dto.chat.response.message.privateMessage.PrivateMessageOwnerResponse;
 import com.twitterdan.facade.GeneralFacade;
 import com.twitterdan.service.ChatService;
 import com.twitterdan.service.MessageService;
-import com.twitterdan.utils.message.ForeignerMessageSeenUtil;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PrivateMessageOwnerResponseMapper extends GeneralFacade<Message, PrivateMessageOwnerResponse> {

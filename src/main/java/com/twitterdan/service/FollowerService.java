@@ -4,39 +4,37 @@ import com.twitterdan.dao.UserDao;
 import com.twitterdan.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class FollowerService {
-    private final UserDao userDao;
+  private final UserDao userDao;
 
-    public boolean followUser(Long userId, Long userToFollowId) {
-        Optional<User> user = userDao.findById(userId);
-        Optional<User> userToFollow = userDao.findById(userToFollowId);
+  public boolean followUser(Long userId, Long userToFollowId) {
+    Optional<User> user = userDao.findById(userId);
+    Optional<User> userToFollow = userDao.findById(userToFollowId);
 
-        if (user.isPresent() && userToFollow.isPresent()) {
-            user.get().getFollowings().add(userToFollow.get());
-            userDao.save(user.get());
-            return true;
-        }
-
-        return false;
+    if (user.isPresent() && userToFollow.isPresent()) {
+      user.get().getFollowings().add(userToFollow.get());
+      userDao.save(user.get());
+      return true;
     }
 
-    public boolean unfollowUser (Long userId, Long userToUnfollowId) {
-        Optional<User> user = userDao.findById(userId);
-        Optional<User> userToUnfollow = userDao.findById(userToUnfollowId);
+    return false;
+  }
 
-        if (userToUnfollow.isPresent() && user.isPresent()) {
-            user.get().getFollowings().remove(userToUnfollow.get());
-            userDao.save(user.get());
-            return true;
-        }
+  public boolean unfollowUser(Long userId, Long userToUnfollowId) {
+    Optional<User> user = userDao.findById(userId);
+    Optional<User> userToUnfollow = userDao.findById(userToUnfollowId);
 
-        return false;
+    if (userToUnfollow.isPresent() && user.isPresent()) {
+      user.get().getFollowings().remove(userToUnfollow.get());
+      userDao.save(user.get());
+      return true;
     }
+
+    return false;
+  }
 }

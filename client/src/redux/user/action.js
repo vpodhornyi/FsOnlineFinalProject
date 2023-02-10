@@ -3,18 +3,17 @@ import api, {URLS} from "../../services/API";
 import {ACTIONS as AUTH_ACTIONS} from '../auth/action';
 import {ACTIONS as CHAT_ACTIONS} from "../chat/action";
 import {ACTIONS as MESSAGE_ACTIONS} from "../chat/message/action";
-import {ACTIONS as SNACK_ACTIONS} from "../snack/action";
 
 
 const actions = createActions(
-  {
-    actions: ['UPDATE_COUNT_UNREAD_MESSAGES', 'RESET_DATA', 'SET_CUSTOMIZE',
-      'SET_STOMP_SUBSCRIBE_ID'],
-    async: ['GET_AUTH_USER'],
-  },
-  {
-    prefix: "user",
-  }
+    {
+      actions: ['UPDATE_COUNT_UNREAD_MESSAGES', 'RESET_DATA', 'SET_CUSTOMIZE',
+        'SET_STOMP_SUBSCRIBE_ID'],
+      async: ['GET_AUTH_USER'],
+    },
+    {
+      prefix: "user",
+    }
 );
 
 export const ACTIONS = {

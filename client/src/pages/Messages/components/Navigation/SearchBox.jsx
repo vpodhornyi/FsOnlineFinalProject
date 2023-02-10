@@ -1,6 +1,5 @@
 import React from "react";
 import {styled} from "@mui/material/styles";
-import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import Box from "@mui/material/Box";
 
@@ -40,16 +39,16 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
 
 const SearchBox = () => {
   return (
-    <Box sx={{
-      padding: '11px'
-    }}>
-      <Search>
-        <StyledInputBase
-          placeholder="Search…"
-          inputProps={{'aria-label': 'search'}}
-        />
-      </Search>
-    </Box>
+      <Box sx={{
+        padding: '11px'
+      }}>
+        <Search>
+          <StyledInputBase
+              placeholder="Search…"
+              inputProps={{'aria-label': 'search'}}
+          />
+        </Search>
+      </Box>
   );
 }
 

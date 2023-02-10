@@ -6,8 +6,10 @@ import {
   LISTS_ROUTE, LOGOUT_ROUTE,
   MESSAGES_ROUTE,
   NOTIFICATIONS_ROUTE,
+  SEARCH,
 } from "../utils/constants";
 import UserProfile from "../pages/UserProfile/UserProfile";
+import Search from "../pages/Search/Search"
 import Main from "../pages/Main";
 import Auth from "../pages/Auth";
 import Lists from "../pages/Lists/Lists";
@@ -18,6 +20,12 @@ import Bookmarks from "../pages/Bookmarks/Bookmarks";
 import Subscribing from "../pages/Subscribing/Subscribing";
 
 const routes = [
+  {
+    isPublic: false,
+    exact: true,
+    path: SEARCH,
+    element: Search,
+  },
   {
     isPublic: true,
     isLogin: true,

@@ -1,6 +1,5 @@
 package com.twitterdan.facade.chat.response.chat;
 
-import com.twitterdan.dao.MessageRepository;
 import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.chat.Message;
 import com.twitterdan.domain.user.User;
@@ -13,7 +12,6 @@ import com.twitterdan.service.MessageService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class GroupChatResponseMapper extends GeneralFacade<Chat, GroupChatResponse> {
@@ -31,8 +29,8 @@ public class GroupChatResponseMapper extends GeneralFacade<Chat, GroupChatRespon
   @Override
   protected void decorateDto(GroupChatResponse dto, Chat entity, User user) {
     List<ChatUser> users = entity.getUsers().stream()
-      .map(chatUserMapper::convertToDto)
-      .toList();
+            .map(chatUserMapper::convertToDto)
+            .toList();
     dto.setUsers(users);
     dto.setAvatarImgUrl(entity.getAvatarImgUrl());
 

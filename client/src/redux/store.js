@@ -5,7 +5,7 @@ import {Client} from "@stomp/stompjs";
 import api from "@service/API";
 import {getTokens, setHeaderAuthorization} from "@utils";
 import {interceptor} from "@service/API";
-import {ACTIONS, authUserSocketSubscribe, getAuthUser, getUserLikes, getUserTweets} from "./user/action";
+import {ACTIONS, authUserSocketSubscribe, getAuthUser} from "./user/action";
 import {setFontSize, setBackgroundColor} from "@utils/theme";
 
 import tweetReducer from "./tweet/reducer";
@@ -13,6 +13,7 @@ import authReducer from "./auth/reducer";
 import userReducer from "./user/reducer";
 import dialogReducer from "./dialog/reducer";
 import snackReducer from "./snack/reducer";
+import searchReducer from "./search/reducer";
 
 import chatReducer from "./chat/reducer";
 import messagesReducer from "./chat/message/reducer";
@@ -27,6 +28,7 @@ const reducer = combineReducers({
   user: userReducer,
   dialog: dialogReducer,
   snack: snackReducer,
+  search: searchReducer,
 })
 
 export const stompClient = (onConnect) => {
@@ -34,7 +36,6 @@ export const stompClient = (onConnect) => {
     brokerURL: process.env.REACT_APP_API_BROKER_URL, connectHeaders: {
       login: 'user', passcode: 'password',
     }, debug: function (str) {
-      // console.log(str);
     }, reconnectDelay: 5000, onConnect,
   });
 
@@ -50,22 +51,22 @@ export default () => {
   if (accessToken) {
     setHeaderAuthorization(accessToken, tokenType);
     store.dispatch(getAuthUser(true))
-      .then(() => {
-        store.dispatch(getAuthUser())
-          .then((user) => {
-            //TODO delete mok customize
-            user.customize = {
-              fontSize: 14, color: 'blue', background: 'default'
-            }
-            // ----
-            setFontSize(user?.customize.fontSize);
-            setBackgroundColor(user?.customize.background);
-            store.dispatch(ACTIONS.setCustomize(user?.customize));
-            api.client = stompClient(() => {
-              store.dispatch(authUserSocketSubscribe());
-            });
-          })
-      })
+        .then(() => {
+          store.dispatch(getAuthUser())
+              .then((user) => {
+                //TODO delete mok customize
+                user.customize = {
+                  fontSize: 14, color: 'blue', background: 'default'
+                }
+                // ----
+                setFontSize(user?.customize.fontSize);
+                setBackgroundColor(user?.customize.background);
+                store.dispatch(ACTIONS.setCustomize(user?.customize));
+                api.client = stompClient(() => {
+                  store.dispatch(authUserSocketSubscribe());
+                });
+              })
+        })
   }
   return store;
 }

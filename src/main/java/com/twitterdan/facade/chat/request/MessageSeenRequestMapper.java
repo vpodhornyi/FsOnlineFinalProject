@@ -6,7 +6,6 @@ import com.twitterdan.domain.user.User;
 import com.twitterdan.dto.chat.request.MessageSeenRequest;
 import com.twitterdan.facade.GeneralFacade;
 import com.twitterdan.service.MessageService;
-import com.twitterdan.service.UserService;
 import org.springframework.stereotype.Service;
 
 @Service

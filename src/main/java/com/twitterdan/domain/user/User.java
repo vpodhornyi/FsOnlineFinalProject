@@ -5,7 +5,6 @@ import com.twitterdan.domain.BaseEntity;
 import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.tweet.Tweet;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -15,6 +15,7 @@ const Header = () => {
 const BoxWrapper = styled(Box)(() => ({
   width: '100%',
   display: 'flex',
+  marginTop: '30px',
 }));
 
 export default Header;

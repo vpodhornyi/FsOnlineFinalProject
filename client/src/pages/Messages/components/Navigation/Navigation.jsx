@@ -5,9 +5,8 @@ import PropTypes from "prop-types";
 
 import {getChatsData} from '@redux/chat/selector';
 import ChatRoute from "./ChatRoute";
-import {ACTIONS, getChats} from "@redux/chat/action";
+import {getChats} from "@redux/chat/action";
 import ActionWelcome from "./ActionWelcome";
-import SearchBox from "./SearchBox";
 import {CircularLoader, PrimaryHeader} from "../../../../components";
 import {ModalWindow} from "../../../../components";
 import {useModal} from '../../../../hooks/useModal';
@@ -41,26 +40,26 @@ const Navigation = () => {
 
   if (isChatLoading && !isChatsExist) {
     element = (
-      <Box sx={{height: '100%', position: 'relative'}}>
-        <CircularLoader/>
-      </Box>
+        <Box sx={{height: '100%', position: 'relative'}}>
+          <CircularLoader/>
+        </Box>
     );
   }
 
   if (isChatsExist) {
     element = (
-      <Box>
-        {chats.map(chat => <ChatRoute key={chat.key} chat={chat} toggleModal={toggleModal}/>)}
-        {!loading && <InViewElement toggleVisible={toggleVisible}/>}
-        {loading && (<Box sx={{position: 'relative', pt: 1, pb: 1}}>
-          <CircularLoader/>
-        </Box>)}
-        <ModalWindow
-          isShowing={modal.isShowing}
-          toggleModal={toggleModal}
-          element={modal.element}
-        />
-      </Box>
+        <Box>
+          {chats.map(chat => <ChatRoute key={chat.key} chat={chat} toggleModal={toggleModal}/>)}
+          {!loading && <InViewElement toggleVisible={toggleVisible}/>}
+          {loading && (<Box sx={{position: 'relative', pt: 1, pb: 1}}>
+            <CircularLoader/>
+          </Box>)}
+          <ModalWindow
+              isShowing={modal.isShowing}
+              toggleModal={toggleModal}
+              element={modal.element}
+          />
+        </Box>
     )
   }
 

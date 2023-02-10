@@ -1,0 +1,1 @@
+export const getFoundUsers = state => state.search;

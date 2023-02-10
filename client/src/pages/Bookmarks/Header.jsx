@@ -2,14 +2,17 @@ import React from "react";
 import {styled} from "@mui/material/styles";
 import {Box, Typography} from "@mui/material";
 import PropTypes from "prop-types";
+import {useSelector} from "react-redux";
+import {getPersonalData} from "@redux/user/selector";
 
-const Header = ({user}) => {
+const Header = () => {
+  const authUser = useSelector(getPersonalData);
 
   return (
-    <BoxWrapper>
-      <Typography className='HeaderTitle' variant='h2'>Bookmarks</Typography>
-      <Typography variant='body2'>@{user?.userTag}</Typography>
-    </BoxWrapper>
+      <BoxWrapper>
+        <Typography className='HeaderTitle' variant='h2'>Bookmarks</Typography>
+        <Typography variant='body2'>@{authUser?.userTag}</Typography>
+      </BoxWrapper>
   );
 }
 

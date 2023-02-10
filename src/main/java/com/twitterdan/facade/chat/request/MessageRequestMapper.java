@@ -2,12 +2,10 @@ package com.twitterdan.facade.chat.request;
 
 import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.chat.Message;
-import com.twitterdan.domain.chat.MessageSeen;
 import com.twitterdan.domain.user.User;
 import com.twitterdan.dto.chat.request.MessageRequest;
 import com.twitterdan.facade.GeneralFacade;
 import com.twitterdan.service.ChatService;
-import com.twitterdan.service.UserService;
 import org.springframework.stereotype.Service;
 
 @Service
