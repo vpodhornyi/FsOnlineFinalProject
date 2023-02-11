@@ -6,7 +6,7 @@ const Notifications = () => {
   return (
     <ColumnWrapper>
       <PrimaryColumn>
-        <PrimaryHeader pageElement={NotificationHeader}/>
+        <PrimaryHeader pageElement={<NotificationHeader/>}/>
         BODY Notifications primary column
       </PrimaryColumn>
       <SitebarColumn>

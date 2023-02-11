@@ -6,7 +6,7 @@ const Explore = () => {
   return (
     <ColumnWrapper>
       <PrimaryColumn>
-        <PrimaryHeader pageElement={ExploreHeader}/>
+        <PrimaryHeader pageElement={<ExploreHeader/>}/>
         BODY Explore primary column
       </PrimaryColumn>
 

@@ -11,7 +11,7 @@ const Home = () => {
   return (
     <ColumnWrapper>
       <PrimaryColumn>
-        <PrimaryHeader pageElement={HomeHeader}/>
+        <PrimaryHeader pageElement={<HomeHeader/>}/>
         <TweetForm/>
         <Suspense fallback={<Loading/>}>
           <Tweets/>

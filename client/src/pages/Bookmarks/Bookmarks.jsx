@@ -13,7 +13,7 @@ const Bookmarks = () => {
   return (
     <ColumnWrapper>
       <PrimaryColumn>
-        <PrimaryHeader pageElement={Header}/>
+        <PrimaryHeader pageElement={<Header/>}/>
         <Tweets bookmarksValue={true} />
       </PrimaryColumn>
       <SitebarColumn>

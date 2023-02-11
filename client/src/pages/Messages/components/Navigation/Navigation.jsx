@@ -65,7 +65,7 @@ const Navigation = () => {
   }
 
   return <>
-    <PrimaryHeader pageElement={MessagesHeader}/>
+    <PrimaryHeader pageElement={<MessagesHeader/>}/>
     {element}
     <BoxWrapper/>
   </>

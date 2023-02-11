@@ -3,7 +3,6 @@ import {styled} from "@mui/material/styles";
 import {Box, Typography} from "@mui/material";
 
 const Header = () => {
-
   return (
     <BoxWrapper>
       <Typography className='HeaderTitle' variant='h2'>Notification</Typography>
