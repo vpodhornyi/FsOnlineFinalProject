@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 
 import {StickyHeader, CustomIconButton, MobileDrawer} from "../components";
 
-const PrimaryHeader = ({isBack = false, pageElement: PageElement, page}) => {
+const PrimaryHeader = ({isBack = false, pageElement}) => {
   const [open, setOpen] = useState(false);
   const {authUser} = useSelector(state => state.user);
   const navigate = useNavigate();
@@ -24,7 +24,8 @@ const PrimaryHeader = ({isBack = false, pageElement: PageElement, page}) => {
       {isBack && <Box sx={{mr: 3}} onClick={() => navigate(-1)}>
         <CustomIconButton name='ArrowBackOutlined' title='Back'/>
       </Box>}
-      <PageElement user={authUser} page={page}/>
+      {pageElement}
+      {/*<PageElement user={authUser} page={page}/>*/}
       <Drawer anchor='left'
               open={open}
               onClose={toggleDrawer()}>
@@ -57,7 +58,7 @@ const StyledStickyHeader = styled(StickyHeader)(({theme}) => ({
 }));
 
 PrimaryHeader.propTypes = {
-  pageElement: PropTypes.func,
+  pageElement: PropTypes.object,
   isBack: PropTypes.bool,
   page: PropTypes.string
 }

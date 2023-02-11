@@ -16,18 +16,19 @@ import Header from "../Lists/Header";
 const Subscribing = () => {
     const {user_tag} = useParams();
     const path = useLocation().pathname;
-    console.log(path)
 
     const authUser = useSelector(getPersonalData);
 
     const [userFollowers, setUserFollowers] = useState(null);
     const [userFollowings, setUserFollowings] = useState(null);
+    const [name, setName] = useState("");
 
 
     useEffect( () => {
         getUsers().then(users => {
             setUserFollowers(users?.filter(user => user.followings.includes(user_tag)))
             setUserFollowings(users?.filter(user => user.followers.includes(user_tag)));
+            setName(users?.filter(user => user.userTag === user_tag)[0]?.name)
         });
     }, [authUser]);
 
@@ -58,7 +59,7 @@ const Subscribing = () => {
     return (
         <ColumnWrapper>
             <PrimaryColumn>
-                <PrimaryHeader page={user_tag} pageElement={Header} isBack={true}/>
+                <PrimaryHeader pageElement={<Header user={`@${user_tag}`} page={name || `@${user_tag}`}/>} isBack={true}/>
                 <Box sx={{width: "100%"}}>
                     <Box sx={{borderBottom: 1, borderColor: 'divider', display: "flex", justifyContent: "space-around"}}>
                         <StyledLink sx={{borderBottom: path.includes("followers") ? "2px solid black": "none"}}
