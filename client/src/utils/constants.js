@@ -1,14 +1,3 @@
-export const AUTH_ROUTE = "/";
-export const HOME_ROUTE = "/home";
-export const EXPLORE_ROUTE = "/explore";
-export const NOTIFICATIONS_ROUTE = "/notifications";
-export const MESSAGES_ROUTE = "/messages";
-export const LISTS_ROUTE = "/lists";
-export const BOOKMARKS_ROUTE = "/bookmarks";
-export const LOGOUT_ROUTE = "/logout";
-export const FOLLOWERS_ROUTE = "/:user_tag/followers"
-export const FOLLOWINGS_ROUTE = "/:user_tag/followings"
-
 export const PATH = {
   ROOT: '/',
   HOME: '/home',
@@ -30,8 +19,8 @@ export const PATH = {
     COMPOSE_GROUP: '/messages/compose/group',
   },
   BOOKMARKS: '/i/bookmarks',
-  LISTS: `/:user_tag/lists`,
-  lists: userTag =>  `/${userTag}/lists`,
+  LISTS: `/lists`,
+  lists: userTag =>  `/lists`,
   USER_PAGE: {
     USER_PROFILE: '/:user_tag',
     userProfile: userTag =>  `/${userTag}`,
@@ -77,4 +66,5 @@ export const CHAT_TYPE = {
   GROUP: 'GROUP',
   NEW_GROUP: 'NEW_GROUP',
 }
+
 

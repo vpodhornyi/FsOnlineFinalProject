@@ -31,7 +31,7 @@ const More = ({toggleModal, chat}) => {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
       >
-        <CustomIconButton name='MoreHorizOutlined' title='More' size='middle' iconSize='middle'/>
+        <CustomIconButton name='MoreHorizOutlined' title='More' size='middle' iconSize='middle' color='text'/>
       </Box>
       <Box>
         <MenuWrapper
@@ -57,9 +57,9 @@ const More = ({toggleModal, chat}) => {
 }
 
 const MenuList = ({openLeaveChatConfirm}) => (<>
-  <MenuItem>
+{/*  <MenuItem>
     <ListItemIcon>
-      <IconByName iconName='PushPinOutlined'/>
+      <IconByName iconName='PushPinOutlined' color='text'/>
     </ListItemIcon>
     <ListItemText>
       <Typography variant='body1'>Pin conversation</Typography>
@@ -67,12 +67,12 @@ const MenuList = ({openLeaveChatConfirm}) => (<>
   </MenuItem>
   <MenuItem>
     <ListItemIcon>
-      <IconByName iconName='NotificationsOffOutlined'/>
+      <IconByName iconName='NotificationsOffOutlined' color='text'/>
     </ListItemIcon>
     <ListItemText>
       <Typography variant='body1'>Snooze conversation</Typography>
     </ListItemText>
-  </MenuItem>
+  </MenuItem>*/}
   <MenuItem onClick={openLeaveChatConfirm}>
     <ListItemIcon>
       <IconByName iconStyle={{color: 'red'}} iconName='DeleteOutlined'/>
@@ -87,18 +87,28 @@ const MenuWrapper = styled(Menu)(({theme}) => ({
   '& .MuiPaper-root': {
     boxShadow: 'rgb(101 119 134 / 20%) 0px 0px 15px, rgb(101 119 134 / 15%) 0px 0px 3px 1px !important',
     borderRadius: '12px !important',
+    backgroundColor: theme.palette.background.main,
 
     '& .MuiList-root': {
       padding: 0,
 
       '& .MuiButtonBase-root': {
         padding: '11px 15px',
-        borderBottom: '1px solid rgb(239, 243, 244)',
+        borderBottom: `1px solid ${theme.palette.border.main}`,
+
+        '&:last-child': {
+          borderBottom: 'none',
+        },
 
         '& .MuiTouchRipple-root': {
           display: 'none'
         },
-      }
+
+        '&:hover': {
+          backgroundColor: theme.palette.background[1],
+        }
+      },
+
     }
   },
 }));
@@ -106,7 +116,7 @@ const MobileBoxWrapper = styled(Box)(({theme}) => ({
 
 
   '& .MuiButtonBase-root': {
-    borderBottom: '1px solid rgb(239, 243, 244)',
+    borderBottom: `1px solid ${theme.palette.border.main}`,
 
     '& .MuiTouchRipple-root': {
       display: 'none'

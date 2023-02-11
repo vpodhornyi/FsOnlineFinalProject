@@ -9,13 +9,13 @@ import {PATH} from "../utils/constants";
 import {Display, DeleteTweet} from "../components";
 import Reply from "../components/tweetComponents/Reply";
 import ModalImg from "../components/tweetComponents/ModalImg";
-import {themeStyles} from "../utils/defaultTheme";
 import Subscribing from "../pages/Subscribing/Subscribing";
 import EditProfile from "../pages/UserProfile/pages/EditProfile";
 import Likes from "../pages/UserProfile/pages/Likes";
 import TweetReplies from "../pages/UserProfile/pages/TweetReplies";
+import {themeStyles} from "../utils/theme";
 
-const BREAKPOINTS_VALUES = themeStyles.breakpoints.values;
+const BREAKPOINTS_VALUES = themeStyles().breakpoints.values;
 const lazyLoading = (path) => {
   const LazyElement = lazy(() => import(path));
   return (<LazyElement/>);

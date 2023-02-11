@@ -1,11 +1,7 @@
 import * as React from 'react';
-import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
+import {styled} from "@mui/material/styles";
 
-const Line = () => <Box sx={{
-  borderBottom: '1px solid rgb(239, 243, 244)',
-  width: '45%'
-}}></Box>;
 
 const OrLine = () => {
   return (
@@ -26,4 +22,9 @@ const OrLine = () => {
   )
 };
 
+
+const Line = styled(Box)(({theme}) => ({
+  borderBottom: `1px solid ${theme.palette.border.main}`,
+  width: '45%'
+}))
 export default OrLine;

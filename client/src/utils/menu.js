@@ -13,7 +13,7 @@ export const menu = (userTag, authorized, isChatSelected, countUnreadMessages, c
         path: PATH.EXPLORE,
         iconName: "ExploreOutlined",
         iconActive: "Explore",
-        text: 'Explorer',
+        text: 'Explore',
       },
       {
         path: PATH.NOTIFICATIONS,

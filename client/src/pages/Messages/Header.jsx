@@ -14,7 +14,7 @@ const Header = () => {
     <BoxWrapper>
       <Typography className='HeaderTitle' variant='h2'>Messages</Typography>
       <Box onClick={() => navigate(PATH.MESSAGES.COMPOSE, {state: {background: location}})}>
-        <CustomIconButton name='ForwardToInboxOutlined' title='New message'/>
+        <CustomIconButton name='ForwardToInboxOutlined' title='New message' color='text'/>
       </Box>
     </BoxWrapper>
   );

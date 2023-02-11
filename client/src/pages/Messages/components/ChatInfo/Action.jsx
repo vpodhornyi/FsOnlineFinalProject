@@ -1,11 +1,11 @@
 import React from "react";
-import {styled} from "@mui/material/styles";
+import {alpha, styled} from "@mui/material/styles";
 import {Box, Typography} from "@mui/material";
 import PropTypes from "prop-types";
 
-const Action = ({style, name}) => {
+const Action = ({name}) => {
   return (
-    <BoxWrapper sx={style}>
+    <BoxWrapper className='ChatInfoActionButton'>
       <Typography>{name}</Typography>
     </BoxWrapper>
   );
@@ -18,14 +18,17 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   justifyContent: 'center',
   cursor: 'pointer',
   transition: '0.2s',
-  color: theme.palette.primary.main,
+
+  '& .MuiTypography-root': {
+    color: theme.palette.primary.main,
+  },
+
   '&:hover': {
-    backgroundColor: theme.palette.primary.third,
+    backgroundColor: theme.palette.primary.alpha,
   }
 }));
 
 Action.propTypes = {
-  style: PropTypes.object,
   name: PropTypes.string,
 }
 export default Action;

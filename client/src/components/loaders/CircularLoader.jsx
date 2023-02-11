@@ -23,7 +23,7 @@ const styles = ({theme}) => ({
   bottom: 0,
   left: 0,
   zIndex: 1112,
-  backgroundColor: '#ffffff',
+  backgroundColor: theme.palette.background.main,
 });
 
 const BoxWrapper = styled(Box)(styles);

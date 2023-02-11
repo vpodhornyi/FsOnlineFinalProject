@@ -18,11 +18,11 @@ const PrimaryHeader = ({isBack = false, pageElement}) => {
     setOpen(!open);
   }
 
-  return (
-    <StyledStickyHeader>
+  return (<StickyHeader>
+    <BoxWrapper>
       {authUser?.id && !isBack && <StyledAvatar onClick={toggleDrawer()} src={authUser.avatarImgUrl}/>}
       {isBack && <Box sx={{mr: 3}} onClick={() => navigate(-1)}>
-        <CustomIconButton name='ArrowBackOutlined' title='Back'/>
+        <CustomIconButton name='ArrowBackOutlined' title='Back' color='text'/>
       </Box>}
       {pageElement}
       {/*<PageElement user={authUser} page={page}/>*/}
@@ -31,9 +31,22 @@ const PrimaryHeader = ({isBack = false, pageElement}) => {
               onClose={toggleDrawer()}>
         <MobileDrawer toggleDrawer={toggleDrawer}/>
       </Drawer>
-    </StyledStickyHeader>
-  );
+    </BoxWrapper>
+  </StickyHeader>);
 }
+
+const BoxWrapper = styled(Box)(({theme}) => ({
+  padding: '10px 14px',
+  width: '100%',
+  height: '50px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+
+  '& .HeaderTitle': {
+    fontSize: '1.3rem', fontWeight: theme.typography.fontWeightBold,
+  }
+}));
 
 const StyledAvatar = styled(Avatar)(({theme}) => ({
   cursor: 'pointer',

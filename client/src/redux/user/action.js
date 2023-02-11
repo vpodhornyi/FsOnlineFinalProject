@@ -3,11 +3,13 @@ import api, {URLS} from "../../services/API";
 import {ACTIONS as AUTH_ACTIONS} from '../auth/action';
 import {ACTIONS as CHAT_ACTIONS} from "../chat/action";
 import {ACTIONS as MESSAGE_ACTIONS} from "../chat/message/action";
+import {ACTIONS as SNACK_ACTIONS} from "../snack/action";
 
 
 const actions = createActions(
   {
-    actions: ['UPDATE_COUNT_UNREAD_MESSAGES', 'RESET_DATA'],
+    actions: ['UPDATE_COUNT_UNREAD_MESSAGES', 'RESET_DATA', 'SET_CUSTOMIZE',
+      'SET_STOMP_SUBSCRIBE_ID'],
     async: ['GET_AUTH_USER'],
   },
   {
@@ -25,6 +27,7 @@ export const getAuthUser = (preloader = false) => async (dispatch) => {
     dispatch(ACTIONS.getAuthUser.request(preloader));
     const data = await api.get(URLS.USERS.ROOT);
     dispatch(ACTIONS.getAuthUser.success(data));
+    return data;
 
   } catch (e) {
     console.log(e);
@@ -33,12 +36,22 @@ export const getAuthUser = (preloader = false) => async (dispatch) => {
   }
 }
 
+export const updateCustomize = body => async (dispatch) => {
+  try {
+    const data = await api.put(URLS.USERS.CUSTOMIZE, body);
+    dispatch(ACTIONS.setCustomize(data));
+
+  } catch (err) {
+    // dispatch(SNACK_ACTIONS.open(err?.response?.data));
+  }
+}
+
 export const authUserSocketSubscribe = () => async (dispatch, getState) => {
   try {
     const {user: {authUser}} = getState();
-    authUser?.id && api.client.subscribe(`/queue/user.${authUser.id}`, async (data) => {
+    const subData = authUser?.id && api.client.subscribe(`/queue/user.${authUser.id}`, async (data) => {
       const {body} = JSON.parse(data.body);
-      // console.log('stomp body - ', body);
+      console.log('stomp body - ', body);
       switch (body?.type) {
         case 'MESSAGE_ADD':
           const {chat} = body;
@@ -79,6 +92,9 @@ export const authUserSocketSubscribe = () => async (dispatch, getState) => {
           console.log('no type');
       }
     });
+    if (subData?.id) {
+      dispatch(ACTIONS.setStompSubscribeId(subData.id));
+    }
   } catch (err) {
     console.log('chatSubscribes error - ', err);
   }

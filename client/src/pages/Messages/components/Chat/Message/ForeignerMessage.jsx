@@ -10,7 +10,6 @@ import {moment} from "@utils";
 import {setSeenMessage} from '@redux/chat/message/action';
 import {PATH} from "@utils/constants";
 import Action from "./Action/Action";
-// import Reaction from "./Reaction";
 
 const ForeignerMessage = ({chat, message, sameMessage, toggleModal}) => {
   const dispatch = useDispatch();
@@ -34,11 +33,12 @@ const ForeignerMessage = ({chat, message, sameMessage, toggleModal}) => {
   return (
     <BoxWrapper>
       <MessageBox ref={ref}>
-        {message.isGroupChat && !sameMessage &&
+        {message.isGroupChat && (sameMessage ?
+            <Box sx={{mr: '10px', width: '2.7rem', height: '2.7rem'}}></Box> :
           <Link to={`${PATH.USER_PAGE.userProfile(message.user.id)}`}>
             <Avatar sx={{mr: '10px', width: '2.7rem', height: '2.7rem'}} src={message.user.avatarImgUrl}/>
           </Link>
-        }
+        )}
         <MessageTextBox className={`${sameMessage && 'SameMessageTextBox'}`}>
           <Typography>{message.text}</Typography>
         </MessageTextBox>
@@ -95,7 +95,7 @@ const MessageTextBox = styled(Box)(({theme}) => ({
   padding: '11px 15px',
   borderRadius: 24,
   borderBottomLeftRadius: 4,
-  backgroundColor: '#eff3f4',
+  backgroundColor: theme.palette.background[2],
   color: theme.palette.text.primary,
 
   '& .MuiTypography-root': {
@@ -106,7 +106,8 @@ const MessageTextBox = styled(Box)(({theme}) => ({
 
 const TimeBox = styled(Box)(({theme}) => ({
   display: 'flex',
-  alignItems: 'center'
+  alignItems: 'center',
+  fontFamily: theme.typography.fontFamily
 }));
 
 ForeignerMessage.propTypes = {

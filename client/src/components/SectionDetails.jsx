@@ -3,11 +3,15 @@ import {styled} from "@mui/material/styles";
 
 const StyledSection = styled('section')(({theme}) => ({
   display: 'none',
-  borderRight: '1px solid rgb(239, 243, 244)',
   flexGrow: 1,
   height: '100vh',
   position: 'sticky',
   top: 0,
+  maxWidth: '600px',
+
+  [theme.breakpoints.up('sm')]: {
+    borderRight: `1px solid ${theme.palette.border.main}`,
+  },
 
   [theme.breakpoints.up('md')]: {
     display: 'block',

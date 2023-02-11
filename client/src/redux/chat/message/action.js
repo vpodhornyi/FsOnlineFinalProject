@@ -78,6 +78,7 @@ export const setSeenMessage = ({body}) => async dispatch => {
   try {
     dispatch(ACTIONS.updateForeignerMessageSeen({...body}));
     const data = await api.post(URLS.CHATS.MESSAGES_SEEN, body);
+    // console.log('seen - ', data);
     if (body.countUnreadMessages > 0 ) {
       dispatch(CHAT_ACTIONS.updateCountUnreadMessages(data));
       dispatch(USER_ACTIONS.updateCountUnreadMessages(data));

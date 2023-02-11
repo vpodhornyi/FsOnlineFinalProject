@@ -1,13 +1,18 @@
 import {ACTIONS} from "./action";
 
-// sample, need ref
 const init = {
   preloader: false,
   authUser: {},
   error: "",
+  customize: {
+    fontSize: 14,
+    color: 'blue',
+    background: 'default'
+  },
+  stompSubscribeId: ''
 }
 
-export default (state = init, {payload, type}) => {
+export default (state = JSON.parse(JSON.stringify(init)), {payload, type}) => {
   switch (type) {
     case String(ACTIONS.getAuthUser.request):
       return {
@@ -26,6 +31,11 @@ export default (state = init, {payload, type}) => {
         preloader: false,
         error: payload
       }
+    case String(ACTIONS.setCustomize):
+      return {
+        ...state,
+        customize: {...state.customize, ...payload}
+      }
     case String(ACTIONS.updateCountUnreadMessages):
       const {countUnreadAllChatMessages} = payload;
       if (countUnreadAllChatMessages || countUnreadAllChatMessages === 0) {
@@ -36,6 +46,11 @@ export default (state = init, {payload, type}) => {
         preloader: false,
         error: payload
       }
+    case String(ACTIONS.setStompSubscribeId):
+      return {
+        ...state,
+        stompSubscribeId: payload,
+      };
     case String(ACTIONS.resetData):
       state = init;
       return {

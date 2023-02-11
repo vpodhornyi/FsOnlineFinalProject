@@ -45,15 +45,15 @@ const StartMessage = ({chatId, inputRef, sendMessage}) => {
       <ProgressWrapper>
       </ProgressWrapper>
       <ButtonsBoxWrapper>
-        <Box>
+       {/* <Box>
           <CustomIconButton color='primary' name='PermMediaOutlined' iconSize='small'/>
-        </Box>
-        <Box>
-          <CustomIconButton color='primary' name='GifBoxOutlined' iconSize='small'/>
-        </Box>
-        <Box>
+        </Box>*/}
+        {/*<Box>*/}
+        {/*  <CustomIconButton color='primary' name='GifBoxOutlined' iconSize='small'/>*/}
+        {/*</Box>*/}
+       {/* <Box>
           <CustomIconButton color='primary' name='EmojiEmotionsOutlined' iconSize='small'/>
-        </Box>
+        </Box>*/}
         <TextFieldWrapper
           inputRef={inputRef}
           onChange={handleChangeInputText}
@@ -62,8 +62,9 @@ const StartMessage = ({chatId, inputRef, sendMessage}) => {
           placeholder='Start a new message'
           multiline
           id="messageText"
+          maxRows={10}
           variant="filled"/>
-        <Box onClick={() => onClickSend()}>
+        <Box className='SendButton' onClick={() => onClickSend()}>
           <CustomIconButton
             color='primary'
             name='SendOutlined'
@@ -87,13 +88,21 @@ const ButtonsBoxWrapper = styled(Box)(({theme}) => ({
   padding: '5px',
   display: 'flex',
   alignItems: 'center',
-  backgroundColor: 'rgb(239, 243, 244)',
+  backgroundColor: theme.palette.background[1],
   borderRadius: '16px',
+
+  '& .MuiInputBase-input': {
+    color: theme.palette.text.main,
+  }
 }));
 const BoxWrapper = styled(Box)(({theme}) => ({
   padding: '7px 15px',
-  borderTop: '1px solid rgb(239, 243, 244)',
-  backgroundColor: 'rgba(255,255,255, 1)',
+  borderTop: `1px solid ${theme.palette.border.main}`,
+  backgroundColor: theme.palette.background.main,
+
+  '& .SendButton .MuiIconButton-root.Mui-disabled': {
+    color: theme.palette.primary.custom[200],
+  }
 }));
 const TextFieldWrapper = styled(TextField)(({theme}) => ({
   width: '95%',
@@ -105,7 +114,7 @@ const TextFieldWrapper = styled(TextField)(({theme}) => ({
     overflow: 'overlay !important',
     overflowX: 'hidden',
     maxHeight: '150px',
-    backgroundColor: 'rgb(239, 243, 244)',
+    backgroundColor: theme.palette.background[1],
   },
 
   '& .MuiFilledInput-root': {

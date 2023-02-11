@@ -31,34 +31,45 @@ const Notifications = ({chat}) => {
 
   return (
     <BoxWrapper>
-      <Box sx={{width: '100%', pb: 1, mb: 1, borderBottom: '1px solid rgb(239, 243, 244)'}}>
-        <Typography
-          sx={{padding: '11px 15px'}}
-          fontSize='1.5rem'
-          fontWeight='fontWeightBold'
-          variant='h2'>
-          Notifications
-        </Typography>
-        {chat.isPrivate && privateSwitchActions.map(v => <SwitchAction key={v.key} name={v.name(chat.title)}/>)}
-        {chat.isGroup && groupSwitchActions.map(v => {
-          return <SwitchAction
-            key={v.key}
-            name={v.name(chat.title)}
-            description={v.description}
-          />
-        })}
-      </Box>
-      {chat.isPrivate && <BlockUser userTag={chat?.guestUser?.userTag}/>}
-      <LeaveChat chat={chat}/>
-    </BoxWrapper>);
+{/*      <Box className='NotificationsTitle' pb={1} mb={1}>
+      <Typography
+        sx={{padding: '11px 15px'}}
+        fontSize='1.5rem'
+        fontWeight='fontWeightBold'
+        variant='h2'>
+        Notifications
+      </Typography>
+      {chat.isPrivate && privateSwitchActions.map(v => <SwitchAction key={v.key} name={v.name(chat.title)}/>)}
+      {chat.isGroup && groupSwitchActions.map(v => {
+        return <SwitchAction
+          key={v.key}
+          name={v.name(chat.title)}
+          description={v.description}
+        />
+      })}
+    </Box>
+  {
+    chat.isPrivate && <BlockUser userTag={chat?.guestUser?.userTag}/>
+  }*/}
+  <LeaveChat chat={chat}/>
+</BoxWrapper>)
+  ;
 }
 
 const BoxWrapper = styled(Box)(({theme}) => ({
   width: '100%',
   display: 'flex',
   flexDirection: 'column',
-  borderTop: '1px solid rgb(239, 243, 244)',
+  borderTop: `1px solid ${theme.palette.border.main}`,
   marginTop: 3,
+
+  '& > .MuiBox-root': {
+    width: '100%',
+  },
+
+  '& .NotificationsTitle': {
+    borderBottom: `1px solid ${theme.palette.border.main}`,
+  }
 }));
 
 Notifications.propTypes = {

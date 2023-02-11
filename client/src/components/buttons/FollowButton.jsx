@@ -15,23 +15,23 @@ const FollowButton = ({name = 'Follow', disabled = false}) => {
 const BoxWrapper = styled(Box)(({theme}) => ({
   '& .MuiFab-root': {
     height: '2.2rem',
-    backgroundColor: theme.palette.blackAccent.main,
-    color: '#ffffff',
+    backgroundColor: theme.palette.text.main,
     margin: '10px 0',
     transitionDuration: '0.2s',
 
     '& .CustomFabButtonName': {
       fontWeight: theme.typography.fontWeightBold,
       fontSize: '0.9rem',
+      color: theme.palette.text.secondary,
     },
 
     '&:hover': {
-      backgroundColor: theme.palette.blackAccent.secondary,
+      backgroundColor: theme.palette.text.third,
     }
   },
 
   '& .Disabled': {
-   opacity: 0.5
+    opacity: 0.5
   },
 }));
 

@@ -6,7 +6,6 @@ const {accessToken} = getTokens();
 const init = {
   authorized: Boolean(accessToken),
   loginName: "",
-  preloader: false,
   loading: false,
   newUser: {
     name: "",
@@ -17,16 +16,6 @@ const init = {
 };
 export default (state = JSON.parse(JSON.stringify(init)), {payload, type}) => {
   switch (type) {
-    case String(ACTIONS.preloaderStart):
-      return {
-        ...state,
-        preloader: true
-      };
-    case String(ACTIONS.preloaderEnd):
-      return {
-        ...state,
-        preloader: false
-      };
     case String(ACTIONS.setNewUserData):
       return {
         ...state,
@@ -87,6 +76,7 @@ export default (state = JSON.parse(JSON.stringify(init)), {payload, type}) => {
       state = init;
       return {
         ...state,
+        authorized: false,
       };
     default:
       return state;

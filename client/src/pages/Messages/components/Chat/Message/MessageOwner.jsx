@@ -16,7 +16,7 @@ const MessageOwner = ({message, toggleModal, messageBoxClick, sameMessage, activ
       <MessageBox onClick={() => messageBoxClick(message?.id)}>
         <Action toggleModal={toggleModal} message={message} isRight={true}/>
         <MessageTextBox
-          className={`${sameMessage && 'SameMessageTextBox'} ${active && 'SameMessageTextBoxActive'}`}>
+          className={`${sameMessage ? 'SameMessageTextBox' : null} ${active ? 'SameMessageTextBoxActive' : null}`}>
           <Typography>{message.text}</Typography>
         </MessageTextBox>
       </MessageBox>
@@ -73,17 +73,22 @@ const MessageTextBox = styled(Box)(({theme}) => ({
   borderRadius: 24,
   borderBottomRightRadius: 4,
   backgroundColor: theme.palette.primary.main,
-  color: theme.palette.common.white,
+
+  '&:hover': {
+    backgroundColor: theme.palette.primary.secondary,
+  },
 
   '& .MuiTypography-root': {
     wordWrap: 'break-word',
     minWidth: 0,
+    color: theme.palette.common.textWhite,
   }
 }));
 
 const TimeBox = styled(Box)(({theme}) => ({
   display: 'flex',
-  alignItems: 'center'
+  alignItems: 'center',
+  fontFamily: theme.typography.fontFamily
 }));
 
 MessageOwner.propTypes = {

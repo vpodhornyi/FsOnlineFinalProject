@@ -44,14 +44,14 @@ const styles = ({theme}) => ({
   '& .WriteMessage': {
     padding: '0 40px',
     backgroundColor: theme.palette.primary.main,
-    color: theme.palette.common.white,
 
     '&:hover': {
       backgroundColor: theme.palette.primary.secondary,
     },
 
     '& .CustomFabButtonName': {
-      fontWeight: theme.typography.fontWeightBold
+      fontWeight: theme.typography.fontWeightBold,
+      color: theme.palette.common.textWhite,
     }
   },
 
