@@ -3,6 +3,7 @@ import {useSelector} from "react-redux";
 import {useLocation} from "react-router-dom";
 import {useResizeDetector} from 'react-resize-detector';
 import {ThemeProvider} from "@emotion/react";
+import {GoogleOAuthProvider} from '@react-oauth/google';
 
 import {
   Preloader, RootContainer, LoginPanel, SnackBar,
@@ -27,38 +28,40 @@ const App = () => {
   const mainMenu = menu(authUser.userTag, authorized, isChatSelected, authUser.countUnreadMessages, chatId)
 
   return (preloader ? <Preloader/> :
-      <BackgroundContext.Provider value={{background}}>
-        <ThemeProvider theme={theme}>
-          <RootContainer ref={ref}>
-            <Header>
-              <NavBar
-                user={authUser}
-                menu={mainMenu}
-                authorized={authorized}
-              />
-            </Header>
-            <Main>
-              <MainContainer>
-                <MainRoutes
-                  width={width}
+      <GoogleOAuthProvider clientId="718160775978-trq26lq49hti0dkltjv4e9n9l3vi9576.apps.googleusercontent.com">
+        <BackgroundContext.Provider value={{background}}>
+          <ThemeProvider theme={theme}>
+            <RootContainer ref={ref}>
+              <Header>
+                <NavBar
+                  user={authUser}
+                  menu={mainMenu}
                   authorized={authorized}
-                  location={background || location}
                 />
-              </MainContainer>
-            </Main>
-            {!authorized && <LoginPanel/>}
-            {authorized &&
-              <MobileNavBar
-                user={authUser}
-                isChatSelected={isChatSelected}
-                countUnreadMessages={authUser.countUnreadMessages}
-                chatId={chatId}/>
-            }
-            <ModalRoutes authorized={authorized}/>
-            <SnackBar/>
-          </RootContainer>
-        </ThemeProvider>
-      </BackgroundContext.Provider>
+              </Header>
+              <Main>
+                <MainContainer>
+                  <MainRoutes
+                    width={width}
+                    authorized={authorized}
+                    location={background || location}
+                  />
+                </MainContainer>
+              </Main>
+              {!authorized && <LoginPanel/>}
+              {authorized &&
+                <MobileNavBar
+                  user={authUser}
+                  isChatSelected={isChatSelected}
+                  countUnreadMessages={authUser.countUnreadMessages}
+                  chatId={chatId}/>
+              }
+              <ModalRoutes authorized={authorized}/>
+              <SnackBar/>
+            </RootContainer>
+          </ThemeProvider>
+        </BackgroundContext.Provider>
+      </GoogleOAuthProvider>
   )
 }
 

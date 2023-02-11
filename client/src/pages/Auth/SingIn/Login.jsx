@@ -1,4 +1,5 @@
 import React, {useState, useContext} from 'react';
+import { GoogleLogin } from '@react-oauth/google';
 import {useNavigate, Link} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import {Box, Typography, TextField} from '@mui/material';
@@ -22,12 +23,20 @@ const Login = () => {
   return (
     <Container>
       <Typography className='StepTitle' variant='h1'>{"Sign in to Twitter"}</Typography>
-      <a  href='http://localhost:9000/oauth2/authorization/google'>
+      {/*<a  href='http://localhost:9000/oauth2/authorization/google'>*/}
         {/*<ButtonWrapper onClick={dispatch(authorizeGoogle)}>*/}
-        <ButtonWrapper>
-          <CustomFabButton className='GoogleSingIn' name='Sing in with Google'/>
-        </ButtonWrapper>
-      </a>
+        {/*<ButtonWrapper>*/}
+        {/*  <CustomFabButton className='GoogleSingIn' name='Sing in with Google'/>*/}
+        {/*</ButtonWrapper>*/}
+      {/*</a>*/}
+      <GoogleLogin
+        onSuccess={credentialResponse => {
+          console.log(credentialResponse);
+        }}
+        onError={() => {
+          console.log('Login Failed');
+        }}
+      />
       <OrLine/>
       <TextField
         value={login}

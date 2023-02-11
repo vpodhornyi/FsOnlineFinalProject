@@ -17,6 +17,7 @@
     "@mui/lab": "^5.0.0-alpha.110",
     "@mui/material": "^5.10.9",
     "@mui/system": "^5.10.12",
+    "@react-oauth/google": "^0.7.0",
     "@stomp/stompjs": "^6.1.2",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
