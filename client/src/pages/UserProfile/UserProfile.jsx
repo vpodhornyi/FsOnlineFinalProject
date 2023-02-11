@@ -68,7 +68,7 @@ const UserProfile = () => {
     return (
         <ColumnWrapper>
             <PrimaryColumn>
-                <PrimaryHeader page={user?.name} pageElement={Header} isBack={true}/>
+                <PrimaryHeader pageElement={<Header user={`@${user?.userTag}`} page={user?.name}/>} isBack={true}/>
                 <div style={{width: "100%", padding: "0"}}>
                     <UserBackground imageUrl={user?.headerImgUrl || ""}/>
                     <Box sx={{position: "relative", top: "-7vh", padding: "0 10px"}}>
