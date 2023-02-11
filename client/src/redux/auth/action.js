@@ -45,7 +45,7 @@ export const isAccountExist = (login, showErr = true) => async dispatch => {
     showErr && dispatch(SNACK_ACTIONS.open(err?.response?.data));
     dispatch(ACTIONS.isAccountExist.fail());
     return false;
-}
+  }
 }
 
 export const createNewUser = (body) => async dispatch => {
@@ -94,43 +94,41 @@ export const runSingUpSecondStep =
       disableLoading(dispatch);
     };
 
-export const authorize =
-  ({login, password, navigate}) =>
-    async dispatch => {
-      try {
-        dispatch(ACTIONS.authorize.request());
-        const {type, accessToken, refreshToken} = await api.post(
-          URLS.AUTH.AUTHORIZE,
-          {login, password}
-        );
-        setHeaderAuthorization(accessToken, type);
-        setAuthToken(accessToken);
-        setRefreshToken(refreshToken);
-        setTokenType(type);
-        dispatch(ACTIONS.authorize.success());
-        dispatch(getAuthUser())
-          .then((user) => {
-            //TODO delete mok customize
-            user.customize = {
-              fontSize: 14, color: 'blue', background: 'default'
-            }
-            // ----
-            setFontSize(user?.customize.fontSize);
-            setBackgroundColor(user?.customize.background);
-            dispatch(USER_ACTIONS.setCustomize(user?.customize));
-            api.client = stompClient(() => {
-              dispatch(authUserSocketSubscribe());
-            });
-          })
-        navigate(`${PATH.HOME}`);
-      } catch (err) {
-        setTimeout(() => {
-          dispatch(ACTIONS.disableLoading());
-          dispatch(ACTIONS.authorize.fail());
-        }, 300);
-        dispatch(SNACK_ACTIONS.open(err?.response?.data));
-      }
-    };
+export const authorize = ({login, password, navigate}) => async dispatch => {
+  try {
+    dispatch(ACTIONS.authorize.request());
+    const {type, accessToken, refreshToken} = await api.post(
+      URLS.AUTH.AUTHORIZE,
+      {login, password}
+    );
+    setHeaderAuthorization(accessToken, type);
+    setAuthToken(accessToken);
+    setRefreshToken(refreshToken);
+    setTokenType(type);
+    dispatch(ACTIONS.authorize.success());
+    dispatch(getAuthUser())
+      .then((user) => {
+        //TODO delete mok customize
+        user.customize = {
+          fontSize: 14, color: 'blue', background: 'default'
+        }
+        // ----
+        setFontSize(user?.customize.fontSize);
+        setBackgroundColor(user?.customize.background);
+        dispatch(USER_ACTIONS.setCustomize(user?.customize));
+        api.client = stompClient(() => {
+          dispatch(authUserSocketSubscribe());
+        });
+      })
+    navigate(`${PATH.HOME}`);
+  } catch (err) {
+    setTimeout(() => {
+      dispatch(ACTIONS.disableLoading());
+      dispatch(ACTIONS.authorize.fail());
+    }, 300);
+    dispatch(SNACK_ACTIONS.open(err?.response?.data));
+  }
+};
 
 export const logout = ({navigate}) => async (dispatch, getState) => {
   try {
