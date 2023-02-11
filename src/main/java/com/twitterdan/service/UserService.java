@@ -1,12 +1,12 @@
 package com.twitterdan.service;
 
 import com.twitterdan.dao.UserRepository;
+import com.twitterdan.domain.user.CustomStyle;
 import com.twitterdan.domain.user.User;
 import com.twitterdan.exception.AccountAlreadyExistException;
 import com.twitterdan.exception.CouldNotFindAccountException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -15,20 +15,20 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-  private final UserRepository userRepository;
+	private final UserRepository userRepository;
 
-  public List<User> findAll() {
-    return userRepository.findAll();
-  }
+	public List<User> findAll() {
+		return userRepository.findAll();
+	}
 
-  public User findById(Long id) {
-    Optional<User> optionalUser = userRepository.findById(id);
+	public User findById(Long id) {
+		Optional<User> optionalUser = userRepository.findById(id);
 
-    if (optionalUser.isPresent()) {
-      return optionalUser.get();
-    }
-    throw new CouldNotFindAccountException();
-  }
+		if (optionalUser.isPresent()) {
+			return optionalUser.get();
+		}
+		throw new CouldNotFindAccountException();
+	}
 
   /*  public boolean updateUserProfile(Long id, UserProfileUpdateRequestDto dto) {
     Optional<User> user = userRepository.findById(id);
@@ -66,72 +66,78 @@ public class UserService {
     return false;
   }*/
 
-  public void updateUserHeader(Long id, String headerImgUrl) {
-    Optional<User> user = userRepository.findById(id);
+	public void updateUserHeader(Long id, String headerImgUrl) {
+		Optional<User> user = userRepository.findById(id);
 
-    if (user.isPresent()) {
-      user.get().setHeaderImgUrl(headerImgUrl);
-      userRepository.save(user.get());
-    }
-  }
+		if (user.isPresent()) {
+			user.get().setHeaderImgUrl(headerImgUrl);
+			userRepository.save(user.get());
+		}
+	}
 
-  public void updateUserAvatar(Long id, String avatarImgUrl) {
-    Optional<User> user = userRepository.findById(id);
+	public void updateUserAvatar(Long id, String avatarImgUrl) {
+		Optional<User> user = userRepository.findById(id);
 
-    if (user.isPresent()) {
-      user.get().setAvatarImgUrl(avatarImgUrl);
-      userRepository.save(user.get());
-    }
-  }
+		if (user.isPresent()) {
+			user.get().setAvatarImgUrl(avatarImgUrl);
+			userRepository.save(user.get());
+		}
+	}
 
-  public User createNewUser(User user) {
-    Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
+	public User createNewUser(User user) {
+		Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
 
-    if (optionalUser.isEmpty()) {
-      return userRepository.save(user);
-    }
+		if (optionalUser.isEmpty()) {
+			return userRepository.save(user);
+		}
 
-    throw new AccountAlreadyExistException(user.getEmail());
-  }
+		throw new AccountAlreadyExistException(user.getEmail());
+	}
 
-  public User save(User user) {
-    return userRepository.save(user);
-  }
+	public User save(User user) {
+		return userRepository.save(user);
+	}
 
-  public List<User> getAll() {
-    return userRepository.findAll();
-  }
+	public List<User> getAll() {
+		return userRepository.findAll();
+	}
 
-  public User updateUser(User user) {
-    return userRepository.save(user);
-  }
+	public User updateUser(User user) {
+		return userRepository.save(user);
+	}
 
-  public Boolean deleteUserById(Long id) {
-    userRepository.deleteById(id);
-    return true;
-  }
+	public Boolean deleteUserById(Long id) {
+		userRepository.deleteById(id);
+		return true;
+	}
 
-  public User findByUserTagTrowException(String userTag) {
-    Optional<User> optionalUser = userRepository.findByUserTag(userTag);
+	public User findByUserTagTrowException(String userTag) {
+		Optional<User> optionalUser = userRepository.findByUserTag(userTag);
 
-    if (optionalUser.isPresent()) {
-      return optionalUser.get();
-    }
-    throw new CouldNotFindAccountException();
-  }
+		if (optionalUser.isPresent()) {
+			return optionalUser.get();
+		}
+		throw new CouldNotFindAccountException();
+	}
 
-  public User findByUserEmailTrowException(String email) {
-    Optional<User> optionalUser = userRepository.findByEmail(email);
+	public User findByUserEmailTrowException(String email) {
+		Optional<User> optionalUser = userRepository.findByEmail(email);
 
-    if (optionalUser.isPresent()) {
-      return optionalUser.get();
-    }
-    throw new CouldNotFindAccountException();
-  }
+		if (optionalUser.isPresent()) {
+			return optionalUser.get();
+		}
+		throw new CouldNotFindAccountException();
+	}
 
-  public List<User> findByMatchesInNameOrUserTag(String text) {
-    Optional<List<User>> optionalUsers = userRepository.findTop10ByMatchingNameOrUserTag(text);
+	public List<User> findByMatchesInNameOrUserTag(String text) {
+		Optional<List<User>> optionalUsers = userRepository.findTop10ByMatchingNameOrUserTag(text);
 
-    return optionalUsers.orElse(Collections.emptyList());
-  }
+		return optionalUsers.orElse(Collections.emptyList());
+	}
+
+	public void updateCustomStyle(Long id, CustomStyle customStyle) {
+		User user = findById(id);
+		user.setCustomStyle(customStyle);
+		userRepository.save(user);
+	}
 }

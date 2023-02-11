@@ -8,15 +8,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserResponseMapper extends GeneralFacade<User, UserResponse> {
-  private final MessageService messageService;
+	private final MessageService messageService;
 
-  public UserResponseMapper(MessageService messageService) {
-    super(User.class, UserResponse.class);
-    this.messageService = messageService;
-  }
+	public UserResponseMapper(MessageService messageService) {
+		super(User.class, UserResponse.class);
+		this.messageService = messageService;
+	}
 
-  @Override
-  protected void decorateDto(UserResponse dto, User entity) {
-    dto.setCountUnreadMessages(messageService.getCountAllUnreadChatMessagesByUserId(entity.getId()));
-  }
+	@Override
+	protected void decorateDto(UserResponse dto, User entity) {
+		dto.setCountUnreadMessages(messageService.getCountAllUnreadChatMessagesByUserId(entity.getId()));
+	}
 }
