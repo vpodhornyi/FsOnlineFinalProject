@@ -73,7 +73,7 @@ export default (state = INITIAL_STATE, {payload, type}) => {
             }
             return {
                 ...state,
-                tweets: {...tweets, data: [...tweets.data, payload]}
+                tweets: {...tweets, data: [payload,...tweets.data ]}
 
             };
 
@@ -90,7 +90,6 @@ export default (state = INITIAL_STATE, {payload, type}) => {
 
         case String(ACTIONS.changeActionsTweet.success):
             const {data: dataTweet} = state.tweets
-            const {data: dataBookmarks} = state.bookmarks
 
             for (let i = 0; i < dataTweet.length; i++) {
                 const currentTweet = dataTweet[i];
@@ -112,9 +111,7 @@ export default (state = INITIAL_STATE, {payload, type}) => {
                         currentTweet.actions.splice(findActionIndex, 1);
                     }
 
-
                 }
-
 
                 if (currentLength !== currentTweet.actions.length) break;
             }
@@ -125,11 +122,7 @@ export default (state = INITIAL_STATE, {payload, type}) => {
                         ...dataTweet
                     ]
                 },
-                bookmarks: {
-                    ...state.bookmarks, data: [
-                        ...dataBookmarks
-                    ]
-                }
+
             };
 
         default: {

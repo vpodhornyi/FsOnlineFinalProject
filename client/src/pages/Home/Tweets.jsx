@@ -8,13 +8,20 @@ import {getTweetState, loadingTweetsState,} from "../../redux/tweet/selector";
 import Loading from "../../components/Loader/Loading";
 import PropTypes from "prop-types";
 import {URLS} from "../../services/API";
-
+import { useParams } from "react-router-dom";
 const Tweets = ({bookmarksValue = false}) => {
     const dispatch = useDispatch();
-    const stateValue = bookmarksValue ? {name: 'bookmarks', url: URLS.TWEET.BOOKMARKS} : {
+    // const user_tag = useParams();
+    // console.log(useParams());
+    let stateValue = bookmarksValue ? {name: 'bookmarks', url: URLS.TWEET.BOOKMARKS} : {
         name: 'tweets',
         url: URLS.TWEET._ROOT
     };
+    // if(user_tag){
+    //     // stateValue.url=`${URLS.TWEET.USER_TWEETS}?userTag=${userTag}`
+    //     console.log(user_tag);
+    // }
+
     const tweetState = useSelector(getTweetState);
     const loadingTweets = useSelector(loadingTweetsState);
     const currentState = tweetState[stateValue.name];

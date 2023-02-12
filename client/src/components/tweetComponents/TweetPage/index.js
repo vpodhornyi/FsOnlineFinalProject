@@ -23,7 +23,7 @@ export const TweetPage = () => {
     return (
         <>{tweetInfo && <Box>
             <Tweet tweetInfo={tweetInfo} styles={{"&:hover": {background: "none"}}}/>
-            <TweetForm placeholderText={"Tweet your reply"} tweetType={"REPLY"} parentTweetId={id}/>
+            <TweetForm  placeholderText={"Tweet your reply"} tweetType={"REPLY"} parentTweetId={id}/>
             {replies.map((reply) => (
                 <Tweet key={reply.id} tweetInfo={reply}/>
             ))}

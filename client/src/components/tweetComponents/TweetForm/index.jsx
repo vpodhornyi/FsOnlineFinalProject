@@ -103,7 +103,7 @@ export const TweetForm = ({
   };
 
   return (
-    <TwitterContainer>
+    <TwitterContainer >
       <AvatarContainer>
         <Avatar
           src={user?.avatarImgUrl}

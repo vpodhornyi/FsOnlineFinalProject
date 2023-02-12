@@ -14,16 +14,16 @@ const Tweets = lazy(() => import("./Tweets"));
 
 const Home = () => {
   return (
-      <ColumnWrapper>
-        <PrimaryColumn>
-            <Outlet />
-        </PrimaryColumn>
+    <ColumnWrapper>
+      <PrimaryColumn  sx={{marginBottom:'50px'}}>
+          <Outlet />
+      </PrimaryColumn>
         <SitebarColumn>
-          <StickyHeader>
-            <Searchbar/>
-          </StickyHeader>
+            <StickyHeader>
+                <Searchbar/>
+            </StickyHeader>
         </SitebarColumn>
-      </ColumnWrapper>
+    </ColumnWrapper>
   );
 };
 
