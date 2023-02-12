@@ -18,6 +18,7 @@ const GrabbedUser = ({user, deleteGrabbedUser}) => {
 
 const styles = ({theme}) => ({
   fontSize: '1rem',
+  color: theme.palette.textColor,
 
   '& .MuiSvgIcon-root': {
     color: theme.palette.primary.main,
