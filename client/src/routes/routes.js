@@ -12,12 +12,11 @@ import ModalImg from "../components/tweetComponents/ModalImg";
 import Tweets from "../pages/Home/Tweets";
 import Loading from "../components/Loader/Loading";
 import { TweetPage } from "../components/tweetComponents/TweetPage";
-import {themeStyles} from "../utils/defaultTheme";
+import {themeStyles} from "../utils/theme";
 import Subscribing from "../pages/Subscribing/Subscribing";
 import EditProfile from "../pages/UserProfile/pages/EditProfile";
 import Likes from "../pages/UserProfile/pages/Likes";
 import TweetReplies from "../pages/UserProfile/pages/TweetReplies";
-import {themeStyles} from "../utils/theme";
 
 const BREAKPOINTS_VALUES = themeStyles().breakpoints.values;
 const lazyLoading = (path) => {
@@ -32,10 +31,10 @@ export const mainRoutes = (width, authorized) => {
       [
         {
           path: PATH.ROOT,
-          element: <Navigate to={PATH.HOME}/>,
+          element: <Navigate to={PATH.HOME.ROOT}/>,
         },
         {
-          path: PATH.HOME,
+          path: PATH.HOME.ROOT,
           element: <Home/>,
             children: [{
                 index: true,

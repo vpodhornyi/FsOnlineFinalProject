@@ -13,7 +13,11 @@ export const SEARCH = "/searchPage"
 
 export const PATH = {
   ROOT: '/',
-  HOME: '/home',
+  HOME: {
+    ROOT:'/home',
+    TWEET_PAGE: "/home/tweet-page/:id",
+    tweetPage: (id) => `/home/tweet-page/${id}`,
+  },
   SEARCH: '/searchPage',
   EXPLORE: '/explore',
   NOTIFICATIONS: '/notifications',
@@ -66,8 +70,6 @@ export const PATH = {
     PROFILE: '/settings/profile'
   },
   TWEET: {
-    TWEET_PAGE: "/home/tweet-page/:id",
-    tweetPage: (id) => `/home/tweet-page/${id}`,
     ROOT: "/tweet",
     DELETE: '/tweet/:id',
     REPLY: '/tweet/reply/:id',

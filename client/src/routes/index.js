@@ -10,7 +10,6 @@ import {
 } from "../utils/constants";
 import UserProfile from "../pages/UserProfile/UserProfile";
 import Search from "../pages/Search/Search"
-import Main from "../pages/Main";
 import Auth from "../pages/Auth";
 import Lists from "../pages/Lists/Lists";
 import Explore from "../pages/Explore/Explore";
@@ -18,6 +17,7 @@ import Notifications from "../pages/Notifications/Notifications";
 import Messages from "../pages/Messages";
 import Bookmarks from "../pages/Bookmarks/Bookmarks";
 import Subscribing from "../pages/Subscribing/Subscribing";
+import Home from "../pages/Home/Home";
 
 const routes = [
   {
@@ -37,7 +37,7 @@ const routes = [
     isPublic: false,
     exact: true,
     path: HOME_ROUTE,
-    element: Main,
+    element: Home,
   },
   {
     isPublic: false,
