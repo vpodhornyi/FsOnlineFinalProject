@@ -278,5 +278,5 @@ export const setFontSize = size => {
   document.getElementsByTagName("html")[0].style.fontSize = `${size}px`;
 }
 export const setBackgroundColor = v => {
-  document.getElementsByTagName("body")[0].style.backgroundColor = v;
+  document.getElementsByTagName("body")[0].style.backgroundColor = BACKGROUND[v]?.palette.background.main;
 }
