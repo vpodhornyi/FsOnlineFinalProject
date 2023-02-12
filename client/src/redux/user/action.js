@@ -8,7 +8,7 @@ import {ACTIONS as SNACK_ACTIONS} from "../snack/action";
 
 const actions = createActions(
   {
-    actions: ['UPDATE_COUNT_UNREAD_MESSAGES', 'RESET_DATA', 'SET_CUSTOMIZE'],
+    actions: ['UPDATE_COUNT_UNREAD_MESSAGES', 'RESET_DATA', 'SET_CUSTOMIZE', 'UPDATE_USER_CUSTOM_STYLE'],
     async: ['GET_AUTH_USER'],
   },
   {
@@ -38,7 +38,7 @@ export const getAuthUser = () => async (dispatch) => {
 export const updateCustomize = body => async (dispatch) => {
   try {
     const data = await api.put(URLS.USERS.CUSTOMIZE, body);
-    dispatch(ACTIONS.setCustomize(data));
+    dispatch(ACTIONS.updateUserCustomStyle(data));
 
   } catch (err) {
     dispatch(SNACK_ACTIONS.open(err?.response?.data));

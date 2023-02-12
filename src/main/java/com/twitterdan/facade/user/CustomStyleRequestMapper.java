@@ -20,6 +20,5 @@ public class CustomStyleRequestMapper extends GeneralFacade<CustomStyle, CustomS
 	protected void decorateEntity(CustomStyle entity, CustomStyleRequest dto) {
 		userRepository.findById(dto.getUserId()).ifPresent(entity::setUser);
 	}
-
 }
 

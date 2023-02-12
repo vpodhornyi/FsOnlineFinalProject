@@ -59,16 +59,9 @@ export default () => {
     setHeaderAuthorization(accessToken, tokenType);
     store.dispatch(getAuthUser())
       .then((user) => {
-        //TODO delete mok customize
-        user.customize = {
-          fontSize: 14,
-          color: 'blue',
-          background: 'default'
-        }
-        // ----
-        setFontSize(user?.customize.fontSize);
-        setBackgroundColor(user?.customize.background);
-        store.dispatch(ACTIONS.setCustomize(user?.customize));
+        setFontSize(user?.customStyle.fontSize || 14);
+        setBackgroundColor(user?.customStyle.background);
+        store.dispatch(ACTIONS.setCustomize(user?.customStyle));
         api.client = stompClient(() => {
           store.dispatch(authUserSocketSubscribe());
         });

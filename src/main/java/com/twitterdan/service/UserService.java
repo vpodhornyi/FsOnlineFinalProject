@@ -135,9 +135,10 @@ public class UserService {
 		return optionalUsers.orElse(Collections.emptyList());
 	}
 
-	public void updateCustomStyle(Long id, CustomStyle customStyle) {
+	public CustomStyle updateCustomStyle(Long id, CustomStyle customStyle) {
 		User user = findById(id);
 		user.setCustomStyle(customStyle);
-		userRepository.save(user);
+		User savedUser = userRepository.save(user);
+		return savedUser.getCustomStyle();
 	}
 }
