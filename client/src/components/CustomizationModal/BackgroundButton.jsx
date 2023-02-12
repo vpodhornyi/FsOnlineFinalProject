@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 const BackgroundButton = ({backgroundColor, value, activeColor, title}) => {
   return (
     <FormControlLabelWrapper
-      className={`${activeColor === value ? 'ActiveBackground' : ''} ${value}Class`}
+      className={`${activeColor === value ? 'ActiveBackground' : ''} ${value.toLowerCase()}Class`}
       sx={{backgroundColor, borderColor: backgroundColor}}
       value={value}
       control={<Radio checkedIcon={<CheckCircle/>}/>}

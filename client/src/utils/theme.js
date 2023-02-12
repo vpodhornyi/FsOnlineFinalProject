@@ -218,7 +218,6 @@ export const COLOR = {
   },
 }
 export const themeStyles = (background = 'DEFAULT', color = 'BLUE') => {
-  console.log(background);
   return ({
     breakpoints: {
       values: {

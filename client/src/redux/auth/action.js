@@ -7,7 +7,6 @@ import {getAuthUser, ACTIONS as USER_ACTIONS, authUserSocketSubscribe} from '../
 import {ACTIONS as SNACK_ACTIONS} from '../snack/action';
 import {ACTIONS as CHAT_ACTIONS} from '../chat/action';
 import {ACTIONS as MESSAGE_ACTIONS} from '../chat/message/action';
-import {setFontSize, setBackgroundColor} from "@utils/theme";
 import {stompClient} from "../store";
 
 const actions = createActions(
@@ -109,14 +108,9 @@ export const authorize = ({login, password, navigate}) => async dispatch => {
     dispatch(ACTIONS.authorize.success());
     dispatch(getAuthUser())
       .then((user) => {
-        //TODO delete mok customize
-        user.customize = {
-          fontSize: 14, color: 'blue', background: 'default'
-        }
-        // ----
-        setFontSize(user?.customize.fontSize);
-        setBackgroundColor(user?.customize.background);
-        dispatch(USER_ACTIONS.setCustomize(user?.customize));
+        setFontSize(user?.customStyle.fontSize);
+        setBackgroundColor(user?.customStyle.background);
+        dispatch(USER_ACTIONS.setCustomize(user?.customStyle));
         api.client = stompClient(() => {
           dispatch(authUserSocketSubscribe());
         });
@@ -131,7 +125,7 @@ export const authorize = ({login, password, navigate}) => async dispatch => {
   }
 };
 
-export const logout = ({navigate}) => async dispatch => {
+export const logout = ({navigate}) => async (dispatch, getState) => {
   try {
     await api.get(URLS.AUTH.LOGOUT)
     setAuthToken();

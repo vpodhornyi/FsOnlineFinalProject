@@ -70,7 +70,7 @@ const CustomizationModal = () => {
     close();
   }
 
-  return <BoxWrapper>
+  return fontSize ? <BoxWrapper>
     {loading && <CircularLoader/>}
     <StickyHeader className='DisplayHeader'>
       <Box
@@ -120,7 +120,7 @@ const CustomizationModal = () => {
         </Box>
       </Box>
     </Box>
-  </BoxWrapper>
+  </BoxWrapper> : null;
 }
 
 const StyledTitle = styled(Typography)(({theme}) => ({

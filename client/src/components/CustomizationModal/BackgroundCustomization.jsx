@@ -25,7 +25,6 @@ const BackgroundCustomization = ({handleChange, activeValue}) => {
           key={i + getRandomKey()}
           backgroundColor={v.color}
           value={v.value}
-          color={v.textColor}
           activeColor={activeValue}
           title={v.title}/>;
       })
