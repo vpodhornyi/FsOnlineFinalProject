@@ -2,7 +2,7 @@ import {blue, yellow, pink, purple, orange, green, grey, blueGrey, red} from '@m
 import { alpha } from "@mui/material/styles";
 
 export const BACKGROUND = {
-  default: {
+  DEFAULT: {
     palette:  {
       title: 'Default',
       textColor: '#000000',
@@ -54,7 +54,7 @@ export const BACKGROUND = {
       },
     }
   },
-  dim: {
+  DIM: {
     palette: {
       title: 'Dim',
       textColor: '#ffffff',
@@ -107,7 +107,7 @@ export const BACKGROUND = {
       },
     }
   },
-  lights_out: {
+  LIGHTS_OUT: {
     palette: {
       title: 'Lights out',
       textColor: '#ffffff',
@@ -161,7 +161,7 @@ export const BACKGROUND = {
   },
 }
 export const COLOR = {
-  blue: {
+  BLUE: {
     primary: {
       main: blue[500],
       secondary: blue[600],
@@ -171,7 +171,7 @@ export const COLOR = {
       alpha: alpha(blue[300], 0.2),
     },
   },
-  yellow: {
+  YELLOW: {
     primary: {
       main: yellow[600],
       secondary: yellow[700],
@@ -180,7 +180,7 @@ export const COLOR = {
       alpha: alpha(yellow[300], 0.2),
     },
   },
-  pink: {
+  PINK: {
     primary: {
       main: pink[500],
       secondary: pink[600],
@@ -189,7 +189,7 @@ export const COLOR = {
       alpha: alpha(pink[300], 0.2),
     },
   },
-  purple: {
+  PURPLE: {
     primary: {
       main: purple[500],
       secondary: purple[600],
@@ -198,7 +198,7 @@ export const COLOR = {
       alpha: alpha(purple[300], 0.2),
     },
   },
-  orange: {
+  ORANGE: {
     primary: {
       main: orange[500],
       secondary: orange[600],
@@ -207,7 +207,7 @@ export const COLOR = {
       alpha: alpha(orange[300], 0.2),
     },
   },
-  green: {
+  GREEN: {
     primary: {
       main: green[500],
       secondary: green[600],
@@ -217,7 +217,8 @@ export const COLOR = {
     },
   },
 }
-export const themeStyles = (background = 'default', color = 'blue') => {
+export const themeStyles = (background = 'DEFAULT', color = 'BLUE') => {
+  console.log(background);
   return ({
     breakpoints: {
       values: {

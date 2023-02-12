@@ -1,6 +1,7 @@
 import api, {URLS} from "@service/API";
 import {createActions} from '../utils';
 import {setAuthToken, setTokenType, setHeaderAuthorization, setRefreshToken} from "@utils";
+import {setFontSize, setBackgroundColor, BACKGROUND} from "@utils/theme";
 import {PATH} from "../../utils/constants";
 import {getAuthUser, ACTIONS as USER_ACTIONS, authUserSocketSubscribe} from '../user/action';
 import {ACTIONS as SNACK_ACTIONS} from '../snack/action';
@@ -130,7 +131,7 @@ export const authorize = ({login, password, navigate}) => async dispatch => {
   }
 };
 
-export const logout = ({navigate}) => async (dispatch, getState) => {
+export const logout = ({navigate}) => async dispatch => {
   try {
     await api.get(URLS.AUTH.LOGOUT)
     setAuthToken();
@@ -149,5 +150,7 @@ export const logout = ({navigate}) => async (dispatch, getState) => {
     dispatch(USER_ACTIONS.resetData());
     const {user: {stompSubscribeId}} = getState();
     api.client.unsubscribe(stompSubscribeId);
+    setFontSize(14);
+    setBackgroundColor(BACKGROUND.DEFAULT.palette.background.main);
   }
 }

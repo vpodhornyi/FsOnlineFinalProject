@@ -30,11 +30,11 @@ const tweetInfo = {
 
 const CustomizationModal = () => {
   const {
-    authUser: {customize},
+    authUser: {customStyle, id: userId},
     customize: {
       fontSize,
       color,
-      background: backgroundColor
+      backgroundColor
     }
   } = useSelector(state => state.user);
   const dispatch = useDispatch();
@@ -52,17 +52,18 @@ const CustomizationModal = () => {
     dispatch(ACTIONS.setCustomize({color}));
   };
 
-  const backgroundHandler = (e, background) => {
-    setBackgroundColor(background);
-    dispatch(ACTIONS.setCustomize({background}));
+  const backgroundHandler = (e, backgroundColor) => {
+    setBackgroundColor(backgroundColor);
+    dispatch(ACTIONS.setCustomize({backgroundColor}));
   };
   const submit = async () => {
-    if (customize.fontSize !== fontSize || customize.color !== color || customize.background !== backgroundColor) {
+    if (customStyle.fontSize !== fontSize || customStyle.color !== color || customStyle.backgroundColor !== backgroundColor) {
       setLoading(true);
       await dispatch(updateCustomize({
+        userId,
         fontSize,
         color: color.toUpperCase(),
-        background: backgroundColor.toUpperCase(),
+        backgroundColor: backgroundColor.toUpperCase(),
       }));
       setLoading(false);
     }
@@ -81,7 +82,8 @@ const CustomizationModal = () => {
       <Typography className='DisplayHeaderTitle' variant='h2'>Customize your view</Typography>
     </StickyHeader>
     <Box className='DisplayBody'>
-      <Typography className='SettingsDescription' align='center' variant='body2'>These settings affect all the Twitter
+      <Typography className='SettingsDescription' align='center' variant='body2'>These settings affect all the
+        Twitter
         accounts on
         this
         browser.</Typography>

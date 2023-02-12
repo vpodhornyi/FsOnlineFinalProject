@@ -1,8 +1,13 @@
 package com.twitterdan.controller;
 
+import com.twitterdan.domain.user.CustomStyle;
 import com.twitterdan.domain.user.User;
+import com.twitterdan.dto.user.CustomStyleRequest;
+import com.twitterdan.dto.user.CustomStyleResponse;
 import com.twitterdan.dto.user.UserResponse;
 import com.twitterdan.dto.user.UserUpdateDataRequest;
+import com.twitterdan.facade.user.CustomStyleRequestMapper;
+import com.twitterdan.facade.user.CustomStyleResponseMapper;
 import com.twitterdan.facade.user.UserResponseMapper;
 import com.twitterdan.service.UserService;
 import com.twitterdan.service.auth.JwtAuthService;
@@ -26,6 +31,9 @@ public class UserController {
   private final UserService userService;
   private final UserResponseMapper userResponseMapper;
 
+  private final CustomStyleRequestMapper customStyleRequestMapper;
+  private final CustomStyleResponseMapper customStyleResponseMapper;
+
   @GetMapping
   public UserResponse findAuthUser() {
     String userTag = (String) jwtAuthService.getAuthInfo().getPrincipal();
@@ -36,8 +44,8 @@ public class UserController {
   @GetMapping("/all")
   public List<UserResponse> findAll() {
     return userService.findAll().stream()
-            .map(userResponseMapper::convertToDto)
-            .collect(Collectors.toList());
+      .map(userResponseMapper::convertToDto)
+      .collect(Collectors.toList());
   }
 
   @GetMapping("/{id}")
@@ -55,7 +63,7 @@ public class UserController {
 
   @GetMapping("/")
   public UserResponse findByUserTag(
-          @RequestParam(name = "userTag") String userTag
+    @RequestParam(name = "userTag") String userTag
   ) {
     User user = userService.findByUserTagTrowException(userTag);
     return userResponseMapper.convertToDto(user);
@@ -70,6 +78,11 @@ public class UserController {
     return userService.updateUserProfile(id, dto);
   }
 
+  @PutMapping("/customize")
+  public ResponseEntity<CustomStyleResponse> updateUserProfile(@Valid @RequestBody CustomStyleRequest dto) {
+    CustomStyle customStyle = userService.updateCustomStyle(dto.getUserId(), customStyleRequestMapper.convertToEntity(dto));
+    return ResponseEntity.ok(customStyleResponseMapper.convertToDto(customStyle));
+  }
   @ExceptionHandler({Exception.class, MethodArgumentNotValidException.class})
   public ResponseEntity<Object> handleException(Exception ex) {
     return new ResponseEntity<>(ex.getCause(), HttpStatus.BAD_REQUEST);

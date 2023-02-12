@@ -1,6 +1,7 @@
 package com.twitterdan.service;
 
 import com.twitterdan.dao.UserRepository;
+import com.twitterdan.domain.user.CustomStyle;
 import com.twitterdan.domain.user.User;
 import com.twitterdan.dto.user.UserUpdateDataRequest;
 import com.twitterdan.exception.AccountAlreadyExistException;
@@ -70,8 +71,8 @@ public class UserService {
     return false;
   }
 
-  public void updateUserHeader(Long id, String headerImgUrl) {
-    Optional<User> user = userRepository.findById(id);
+	public void updateUserHeader(Long id, String headerImgUrl) {
+		Optional<User> user = userRepository.findById(id);
 
     if (user.isPresent()) {
       user.get().setHeaderImgUrl(headerImgUrl);
@@ -128,6 +129,13 @@ public class UserService {
   public List<User> findByMatchesInNameOrUserTag(String text) {
     Optional<List<User>> optionalUsers = userRepository.findTop10ByMatchingNameOrUserTag(text);
 
-    return optionalUsers.orElse(Collections.emptyList());
-  }
+		return optionalUsers.orElse(Collections.emptyList());
+	}
+
+	public CustomStyle updateCustomStyle(Long id, CustomStyle customStyle) {
+		User user = findById(id);
+		user.setCustomStyle(customStyle);
+		User savedUser = userRepository.save(user);
+		return savedUser.getCustomStyle();
+	}
 }

@@ -36,7 +36,7 @@ public class UserResponse {
   @JsonProperty("tweets")
   private Set<Long> tweetsIds = new HashSet<>();
   private Integer countUnreadMessages = 0;
-
+  private CustomStyleResponse customStyle;
   @Override
   public String toString() {
     return "UserResponse{" +

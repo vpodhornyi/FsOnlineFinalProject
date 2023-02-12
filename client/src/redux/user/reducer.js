@@ -4,11 +4,7 @@ const init = {
   preloader: false,
   authUser: {},
   error: "",
-  customize: {
-    fontSize: 14,
-    color: 'blue',
-    background: 'default'
-  },
+  customize: {},
   stompSubscribeId: ''
 }
 
@@ -23,7 +19,8 @@ export default (state = JSON.parse(JSON.stringify(init)), {payload, type}) => {
       return {
         ...state,
         authUser: payload,
-        preloader: false
+        customize: payload?.customStyle,
+        preloader: false,
       }
     case String(ACTIONS.getAuthUser.fail):
       return {
@@ -34,7 +31,12 @@ export default (state = JSON.parse(JSON.stringify(init)), {payload, type}) => {
     case String(ACTIONS.setCustomize):
       return {
         ...state,
-        customize: {...state.customize, ...payload}
+        customize: {...state.customize, ...payload},
+      }
+    case String(ACTIONS.updateUserCustomStyle):
+      state.authUser.customStyle = payload;
+      return {
+        ...state,
       }
     case String(ACTIONS.updateCountUnreadMessages):
       const {countUnreadAllChatMessages} = payload;
