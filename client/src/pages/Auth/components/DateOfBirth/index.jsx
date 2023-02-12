@@ -18,7 +18,7 @@ const DateOfBirth = (props) => {
     return (
         <>
             <DialogContentText sx={{paddingTop: "10px", fontWeight: 600, color: '#000'}}>Date of birth </DialogContentText>
-            <DialogContentText sx={{fontSize: 14}}>
+            <DialogContentText sx={{fontSize: 14, color: "black"}}>
                 This will not be shown publicly. Confirm your own age, even if this account is for a business, a pet, or
                 something else.
             </DialogContentText>

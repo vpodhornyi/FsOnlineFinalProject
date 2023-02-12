@@ -1,27 +1,27 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {useParams} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {getPersonalData} from "../../../redux/user/selector";
-import {getUserTweets} from "../../../services/tweetService";
-import {CircularProgress, Typography} from "@mui/material";
+import {getTweetsState, loadingTweetsState} from "../../../redux/tweet/selector";
+import {CircularProgress} from "@mui/material";
 import {Tweet} from "../../../components";
-import {BoxContainer, StyledLoadContainer} from "../../../components/StyledComponents/styledComponents";
+import {StyledLoadContainer} from "../../../components/StyledComponents/styledComponents";
+import {getCurrentUserTweets} from "../../../redux/tweet/action";
+import NoData from "../components/NoData";
 
 const Tweets = () => {
     const {user_tag} = useParams();
-    const [tweets, setTweets] = useState(null);
     const user = useSelector(getPersonalData);
+    const dispatch = useDispatch();
+    const tweets = useSelector(getTweetsState);
+    const loading = useSelector(loadingTweetsState);
 
-    const fetchTweets = async () => {
-        const tweets = await getUserTweets(user_tag);
-        setTweets(tweets || []);
-    }
 
     useEffect(() => {
-        fetchTweets();
+        dispatch(getCurrentUserTweets(user_tag));
     }, []);
 
-    if (!tweets) {
+    if (loading) {
         return <StyledLoadContainer><CircularProgress disableShrink/></StyledLoadContainer>
     }
 
@@ -32,10 +32,7 @@ const Tweets = () => {
                     <Tweet tweetInfo={el}/>
                 </div>
             ) :
-                <BoxContainer>
-                    <Typography sx={{margin: "15px 0 10px 0", fontWeight: "bold"}} variant={"h4"}>{user?.userTag === user_tag ? `You ` : `@${user_tag}`} don’t have any tweets yet</Typography>
-                    <Typography variant={"subtitle2"}>The tweet will be shown as soon as it is published</Typography>
-                </BoxContainer>
+                <NoData text={`${user?.userTag === user_tag ? `You ` : `@${user_tag}`} don’t have any tweets yet}`}/>
             }
         </>
     );

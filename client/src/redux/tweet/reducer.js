@@ -9,6 +9,39 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, {payload, type}) => {
   switch (type) {
+    case String(ACTIONS.getCurrentUserReplies.request):
+      return {
+        ...state,
+        loading: true
+      }
+    case String(ACTIONS.getCurrentUserReplies.success):
+      return {
+        ...state,
+        loading: false,
+        tweets: payload,
+      }
+    case String(ACTIONS.getCurrentUserTweets.request):
+      return {
+        ...state,
+        loading: true
+      }
+    case String(ACTIONS.getCurrentUserTweets.success):
+      return {
+        ...state,
+        loading: false,
+        tweets: payload
+      }
+    case String(ACTIONS.getCurrentUserLikes.request):
+      return {
+        ...state,
+        loading: true
+      }
+    case String(ACTIONS.getCurrentUserLikes.success):
+      return {
+        ...state,
+        loading: false,
+        tweets: payload
+      }
     case String(ACTIONS.getTweets.request):
       return {
         ...state,

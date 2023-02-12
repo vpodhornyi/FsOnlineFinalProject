@@ -29,7 +29,7 @@ const UserProfileData = ({username, userTag, joinedDate, followers, followings, 
                     {location &&
                         <Box sx={{display: "flex", alignItems: "center"}}>
                             <LocationOnOutlinedIcon/>
-                            <Typography sx={{marginLeft: "5px"}}>{location}</Typography>
+                            <Typography sx={{margin: "0 5px"}}>{location}</Typography>
                         </Box>
                     }
 
@@ -38,8 +38,6 @@ const UserProfileData = ({username, userTag, joinedDate, followers, followings, 
                             <CakeOutlinedIcon sx={{color: userProfileSecondaryFontColor}}/>
                             <Typography sx={{margin: "0 5px"}}>Born: {birthDate.replaceAll("-", ".")}</Typography>
                         </>}
-                        <CalendarMonthIcon sx={{color: userProfileSecondaryFontColor, marginRight: "5px"}}/>
-                        <Typography>Joined: {joinedDate}</Typography>
                     </Box>
                 </div>
 
