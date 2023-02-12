@@ -1,6 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, {useContext, useRef, useState} from "react";
 import { Avatar, Box, Input, TextareaAutosize } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import {useNavigate, useLocation} from "react-router-dom";
 import PublicIcon from "@mui/icons-material/Public";
 import EmojiPicker from "emoji-picker-react";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,6 +30,8 @@ import { createTweet } from "../../../redux/tweet/action";
 import { getPersonalData } from "../../../redux/user/selector";
 import ImageListContainer from "../../imageList/ImageListContainer";
 import { uploadImage } from "../../../utils/uploadImage";
+import {PATH} from "../../../utils/constants";
+import {BackgroundContext} from "../../../utils/context";
 
 export const TweetForm = ({
   placeholderText = `What's happening?`,
@@ -44,6 +46,8 @@ export const TweetForm = ({
   const [showReplyText, setShowReplyText] = useState(false);
   const user = useSelector(getPersonalData);
   const navigate = useNavigate();
+  const location= useLocation();
+  const {background} = useContext(BackgroundContext);
   const dispatch = useDispatch();
   const TWEET_TEXT_INTEREST = tweetText.length / (250 / 100);
   const LETTER_COUNTER_COMP =
@@ -97,7 +101,7 @@ export const TweetForm = ({
     setUploadPhotos([]);
     onEmojiVisible(false);
     {
-      tweetType === "REPLY_MODAL" && navigate(-1);
+      tweetType === "REPLY" && navigate(background?.pathname );
     }
     dispatch(createTweet(newTweet));
   };

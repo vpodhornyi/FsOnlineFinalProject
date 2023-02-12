@@ -46,7 +46,6 @@ public class Tweet extends BaseEntity {
   @OneToMany(mappedBy = "tweet")
   @OnDelete(action = OnDeleteAction.CASCADE)
   private Set<TweetAction> actions = new HashSet<>();
-  private Long parentTweetId;
   @ManyToOne
   @JoinColumn(name = "retweet_id")
   private User retweet_user;

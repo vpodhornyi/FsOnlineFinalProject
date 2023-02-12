@@ -73,7 +73,6 @@ export const changeActionsTweet = (obj) => async (dispatch) => {
     dispatch(ACTIONS.changeActionsTweet.request());
     const data = await api.post(URLS.TWEET.CHANGE_ACTIONS, obj);
     dispatch(ACTIONS.changeActionsTweet.success(data));
-    return data;
   } catch (err) {
     dispatch(ACTIONS.changeActionsTweet.fail());
     alert(err.message);
@@ -83,18 +82,6 @@ export const changeBookmark = (id) => (dispatch) => {
   dispatch(ACTIONS.changeBookmark(id));
 };
 
-// export const handlerBookmark = () => async (dispatch) => {
-//   try {
-//     dispatch(ACTIONS.handlerBookmark.request());
-//     const bookmarks = await api.get(URLS.TWEET.BOOKMARKS);
-//     dispatch(ACTIONS.handlerBookmark.success(bookmarks));
-//   } catch (err) {
-//     console.log(err);
-//     //TODO show error
-//     dispatch(ACTIONS.handlerBookmark.fail());
-//     console.log("getBookmarks error - ", err);
-//   }
-// };
 export const handlerReplies = (id) => async (dispatch) => {
   try {
     dispatch(ACTIONS.handlerReplies.request());

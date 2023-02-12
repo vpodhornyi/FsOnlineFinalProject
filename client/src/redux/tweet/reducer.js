@@ -1,5 +1,4 @@
 import {ACTIONS} from "./action";
-import {useParams} from "react-router-dom";
 
 const INITIAL_STATE = {
     loading: false,
@@ -59,7 +58,7 @@ export default (state = INITIAL_STATE, {payload, type}) => {
                 ...state,
                 tweets: {...state.tweets, data: state.tweets.data.filter((el) => el.id !== payload)},
             };
-            case String(ACTIONS.changeBookmark):
+        case String(ACTIONS.changeBookmark):
             return {
                 ...state,
                 bookmarks: {...state.bookmarks, data: state.bookmarks.data.filter((el) => el.id !== payload)},
@@ -71,11 +70,11 @@ export default (state = INITIAL_STATE, {payload, type}) => {
                 if (payload.parentTweetId === tweets.data[i].id) tweets.data[i].replyCounter += 1;
                 if (currentCounter !== tweets.data[i].replyCounter) break;
             }
-            return {
+            return  {
                 ...state,
-                tweets: {...tweets, data: [payload,...tweets.data ]}
+                tweets: {...tweets, data: [payload, ...tweets.data]}
 
-            };
+            } ;
 
         case String(ACTIONS.getTweets.fail):
             return {
@@ -90,31 +89,36 @@ export default (state = INITIAL_STATE, {payload, type}) => {
 
         case String(ACTIONS.changeActionsTweet.success):
             const {data: dataTweet} = state.tweets
-
-            for (let i = 0; i < dataTweet.length; i++) {
-                const currentTweet = dataTweet[i];
-                const {tweet, actionType, user} = payload;
-                const currentLength = currentTweet.actions.length;
-                if (currentTweet.id === tweet.id) {
-                    const findActionIndex = currentTweet.actions.findIndex((action) => {
-                        return (
-                            action.actionType === actionType && action.user.id === user.id
-                        );
-                    });
-
-                    if (findActionIndex < 0) {
-                        currentTweet.actions.push({
-                            actionType: actionType,
-                            user: user,
-                        });
-                    } else {
-                        currentTweet.actions.splice(findActionIndex, 1);
-                    }
+            const {data: dataBookmarks} = state.bookmarks
+            const checkArr = (arr, objActions) => {
+                const findIndex = arr.findIndex(tweetState => tweetState.id === objActions.tweet.id)
+                if (findIndex >= 0) {
+                    changeActionsTweet(arr[findIndex], objActions)
 
                 }
-
-                if (currentLength !== currentTweet.actions.length) break;
             }
+            const changeActionsTweet = (currentTweet, objActions) => {
+                const {tweet, actionType, user} = objActions;
+                const findActionIndex = currentTweet.actions.findIndex((action) => {
+                    return (
+                        action.actionType === actionType && action.user.id === user.id
+                    );
+                });
+
+                if (findActionIndex < 0) {
+                    currentTweet.actions.push({
+                        actionType: actionType,
+                        user: user,
+                    });
+                } else {
+                    currentTweet.actions.splice(findActionIndex, 1);
+                }
+
+            }
+            checkArr(dataTweet, payload)
+            checkArr(dataBookmarks, payload)
+
+
             return {
                 ...state,
                 tweets: {
@@ -122,6 +126,11 @@ export default (state = INITIAL_STATE, {payload, type}) => {
                         ...dataTweet
                     ]
                 },
+                bookmarks: {
+                    ...state.bookmarks, data: [
+                        ...dataBookmarks
+                    ]
+                }
 
             };
 

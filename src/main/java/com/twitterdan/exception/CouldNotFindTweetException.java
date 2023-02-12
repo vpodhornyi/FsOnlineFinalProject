@@ -2,16 +2,16 @@ package com.twitterdan.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class CouldNotFindChatException extends AbstractException {
-  private  static final String MESSAGE = "Sorry, we could not find chat!";
+public class CouldNotFindTweetException extends AbstractException {
+  private  static final String MESSAGE = "Sorry, we could not find tweet!";
   private  static final HttpStatus STATUS = HttpStatus.BAD_REQUEST;
 
-  public CouldNotFindChatException() {
+  public CouldNotFindTweetException() {
 
-    super(HttpStatus.BAD_REQUEST, CouldNotFindChatException.MESSAGE);
+    super(HttpStatus.BAD_REQUEST, CouldNotFindTweetException.MESSAGE);
   }
 
-  public CouldNotFindChatException(Boolean show) {
-    super(CouldNotFindChatException.STATUS, CouldNotFindChatException.MESSAGE, show);
+  public CouldNotFindTweetException(Boolean show) {
+    super(CouldNotFindTweetException.STATUS, CouldNotFindTweetException.MESSAGE, show);
   }
 }
