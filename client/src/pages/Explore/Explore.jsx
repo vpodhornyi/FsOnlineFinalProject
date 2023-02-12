@@ -4,19 +4,19 @@ import ExploreHeader from "./Header";
 
 const Explore = () => {
   return (
-    <ColumnWrapper>
-      <PrimaryColumn>
-        <PrimaryHeader pageElement={<ExploreHeader/>}/>
-        BODY Explore primary column
-      </PrimaryColumn>
+      <ColumnWrapper>
+        <PrimaryColumn>
+          <PrimaryHeader pageElement={<ExploreHeader/>}/>
+        </PrimaryColumn>
 
-      <SitebarColumn>
-        <StickyHeader>
-          HEADER Explore sitebar column
-        </StickyHeader>
-        BODY Explore sitebar column
-      </SitebarColumn>
-    </ColumnWrapper>
+        <SitebarColumn>
+          <StickyHeader>
+          </StickyHeader>
+          Terms of Service
+          Privacy Policy
+          Cookie Policy
+        </SitebarColumn>
+      </ColumnWrapper>
   );
 };
 

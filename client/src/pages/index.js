@@ -1,5 +1,6 @@
 import Home from './Home/Home';
 import Explore from './Explore/Explore';
+import Search from './Search/Search';
 import Notifications from './Notifications/Notifications';
 import Messages from './Messages/Messages';
 import Navigation from './Messages/components/Navigation/Navigation';
@@ -34,6 +35,7 @@ export {
   Home,
   Explore,
   Notifications,
+  Search,
 
   // messages page
   Messages,

@@ -3,7 +3,6 @@ import {useSelector, useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {styled} from "@mui/material/styles";
 import {Avatar, Box, TextField, Typography, Fab} from "@mui/material";
-import PropTypes from "prop-types";
 
 import {BackgroundContext} from "../../../utils/context";
 import {ModalPage, CustomIconButton, FollowButton, IconByName, CircularLoader} from "../../../components";
@@ -56,48 +55,48 @@ const GroupEditPage = () => {
   }
 
   return (
-    <BoxWrapper>
-      <Box className='EditHeader'>
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-          onClick={() => navigate(background?.pathname || PATH.ROOT)}>
-          <CustomIconButton name='Close' color='text'/>
-          <Typography sx={{ml: 2}} fontWeight='fontWeightBold' fontSize='1.5rem' variant='h2'>Edit</Typography>
+      <BoxWrapper>
+        <Box className='EditHeader'>
+          <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+              onClick={() => navigate(background?.pathname || PATH.ROOT)}>
+            <CustomIconButton name='Close' color='text'/>
+            <Typography sx={{ml: 2}} fontWeight='fontWeightBold' fontSize='1.5rem' variant='h2'>Edit</Typography>
+          </Box>
+          <Box onClick={save}>
+            <FollowButton name='Save' disabled={disabled}/>
+          </Box>
         </Box>
-        <Box onClick={save}>
-          <FollowButton name='Save' disabled={disabled}/>
+        <Box className='AddPhoto'>
+          {loader && <CircularLoader/>}
+          <Avatar sx={{width: '6rem', height: '6rem'}} src={imageUrl}/>
+          <Fab className='AddPhotoButton' onClick={() => inputFileRef.current.click()}>
+            <input
+                ref={inputFileRef}
+                type="file"
+                multiple
+                hidden
+                id="file-upload"
+                onChange={handleFileUploader}
+            />
+            <IconByName iconStyle={{fontSize: '1.3rem'}} iconName='AddAPhotoOutlined'/>
+          </Fab>
         </Box>
-      </Box>
-      <Box className='AddPhoto'>
-        {loader && <CircularLoader/>}
-        <Avatar sx={{width: '6rem', height: '6rem'}} src={imageUrl}/>
-        <Fab className='AddPhotoButton' onClick={() => inputFileRef.current.click()}>
-          <input
-            ref={inputFileRef}
-            type="file"
-            multiple
-            hidden
-            id="file-upload"
-            onChange={handleFileUploader}
-          />
-          <IconByName iconStyle={{fontSize: '1.3rem'}} iconName='AddAPhotoOutlined'/>
-        </Fab>
-      </Box>
-      <Box className='GroupNameFieldWrapper'>
-        <TextField
-          color='primary'
-          sx={{width: '100%'}}
-          onChange={e => onChangeName(e)}
-          value={name}
-          id="email"
-          label="Group name"
-          variant="outlined"/>
-      </Box>
-    </BoxWrapper>
+        <Box className='GroupNameFieldWrapper'>
+          <TextField
+              color='primary'
+              sx={{width: '100%'}}
+              onChange={e => onChangeName(e)}
+              value={name}
+              id="email"
+              label="Group name"
+              variant="outlined"/>
+        </Box>
+      </BoxWrapper>
   );
 }
 

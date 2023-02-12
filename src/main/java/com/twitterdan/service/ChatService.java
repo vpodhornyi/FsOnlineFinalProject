@@ -3,7 +3,6 @@ package com.twitterdan.service;
 import com.twitterdan.dao.ChatDeletedRepository;
 import com.twitterdan.dao.ChatRepository;
 import com.twitterdan.dao.MessageRepository;
-import com.twitterdan.dao.MessageSeenRepository;
 import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.chat.ChatType;
 import com.twitterdan.domain.chat.Message;
@@ -14,11 +13,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -102,9 +99,9 @@ public class ChatService {
     Chat chat = this.findById(chatId);
 
     List<User> users = chat.getUsers()
-      .stream()
-      .filter(u -> !u.equals(user))
-      .collect(Collectors.toCollection(ArrayList::new));
+            .stream()
+            .filter(u -> !u.equals(user))
+            .collect(Collectors.toCollection(ArrayList::new));
     chat.setUsers(users);
 
     return chatRepository.save(chat);

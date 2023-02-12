@@ -1,13 +1,13 @@
 import React from "react";
-import {alpha, styled} from "@mui/material/styles";
+import {styled} from "@mui/material/styles";
 import {Box, Typography} from "@mui/material";
 import PropTypes from "prop-types";
 
 const Action = ({name}) => {
   return (
-    <BoxWrapper className='ChatInfoActionButton'>
-      <Typography>{name}</Typography>
-    </BoxWrapper>
+      <BoxWrapper className='ChatInfoActionButton'>
+        <Typography>{name}</Typography>
+      </BoxWrapper>
   );
 }
 

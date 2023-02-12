@@ -3,7 +3,6 @@ package com.twitterdan.service;
 import com.twitterdan.dao.ChatRepository;
 import com.twitterdan.dao.MessageRepository;
 import com.twitterdan.dao.MessageSeenRepository;
-import com.twitterdan.dao.UserRepository;
 import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.chat.Message;
 import com.twitterdan.domain.chat.MessageSeen;
@@ -71,8 +70,8 @@ public class MessageService {
   public Integer getCountAllUnreadChatMessagesByUserId(Long userId) {
     Optional<List<Chat>> optionalChats = chatRepository.findByUsersId(userId);
     return optionalChats.map(chats -> chats.stream()
-      .map(ch -> messageRepository.getCountUnreadMessages(ch.getId(), userId).orElse(0))
-      .reduce(0, Integer::sum)).orElse(0);
+            .map(ch -> messageRepository.getCountUnreadMessages(ch.getId(), userId).orElse(0))
+            .reduce(0, Integer::sum)).orElse(0);
   }
 
   @Transactional
@@ -82,7 +81,7 @@ public class MessageService {
 
   public MessageSeen saveMessageSeen(MessageSeen messageSeen) {
     Optional<MessageSeen> optionalMessageSeen = messageSeenRepository
-      .findByUserIdAndMessageId(messageSeen.getUser().getId(), messageSeen.getMessage().getId());
+            .findByUserIdAndMessageId(messageSeen.getUser().getId(), messageSeen.getMessage().getId());
 
     if (optionalMessageSeen.isEmpty()) {
       return messageSeenRepository.save(messageSeen);

@@ -1,10 +1,8 @@
 import * as React from 'react';
 import {useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
-import Stack from '@mui/material/Stack';
 import {useButton} from '@mui/base/ButtonUnstyled';
 import {styled} from '@mui/system';
-import Preloader from "../Loader/Preloader";
 
 const CustomButtonRootF = style => styled('button')`
   padding: 5px 20px;
@@ -14,7 +12,7 @@ const CustomButtonRootF = style => styled('button')`
   font-size: 14px;
   cursor: pointer;
   border: 0;
- 
+
   ${style}
 `;
 

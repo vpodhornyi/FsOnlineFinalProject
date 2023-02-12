@@ -13,6 +13,7 @@ import authReducer from "./auth/reducer";
 import userReducer from "./user/reducer";
 import dialogReducer from "./dialog/reducer";
 import snackReducer from "./snack/reducer";
+import searchReducer from "./search/reducer";
 
 import chatReducer from "./chat/reducer";
 import messagesReducer from "./chat/message/reducer";
@@ -27,6 +28,7 @@ const reducer = combineReducers({
   user: userReducer,
   dialog: dialogReducer,
   snack: snackReducer,
+  search: searchReducer,
 })
 
 export const stompClient = (onConnect) => {

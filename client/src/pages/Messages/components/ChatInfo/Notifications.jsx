@@ -1,11 +1,9 @@
 import React from "react";
 import {styled} from "@mui/material/styles";
-import {Box, Typography} from "@mui/material";
+import {Box} from "@mui/material";
 import PropTypes from "prop-types";
 
 import {getRandomKey} from "@utils";
-import SwitchAction from './SwitchAction';
-import BlockUser from './BlockUser';
 import LeaveChat from './LeaveChat';
 
 const privateSwitchActions = [
@@ -30,8 +28,8 @@ const groupSwitchActions = [
 const Notifications = ({chat}) => {
 
   return (
-    <BoxWrapper>
-{/*      <Box className='NotificationsTitle' pb={1} mb={1}>
+      <BoxWrapper>
+        {/*      <Box className='NotificationsTitle' pb={1} mb={1}>
       <Typography
         sx={{padding: '11px 15px'}}
         fontSize='1.5rem'
@@ -51,9 +49,9 @@ const Notifications = ({chat}) => {
   {
     chat.isPrivate && <BlockUser userTag={chat?.guestUser?.userTag}/>
   }*/}
-  <LeaveChat chat={chat}/>
-</BoxWrapper>)
-  ;
+        <LeaveChat chat={chat}/>
+      </BoxWrapper>)
+      ;
 }
 
 const BoxWrapper = styled(Box)(({theme}) => ({
