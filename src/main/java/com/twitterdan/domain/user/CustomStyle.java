@@ -17,16 +17,16 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class CustomStyle extends BaseEntity {
 
-	@Enumerated(EnumType.STRING)
-	private BackgroundColor backgroundColor;
+  @Enumerated(EnumType.STRING)
+  private BackgroundColor backgroundColor;
 
-	@Enumerated(EnumType.STRING)
-	private Color color;
+  @Enumerated(EnumType.STRING)
+  private Color color;
 
-	private Integer fontSize;
+  private Integer fontSize;
 
-	@OneToOne()
-	@JoinColumn(name = "user_id")
-	@JsonIgnore
-	private User user;
+  @OneToOne()
+  @JoinColumn(name = "user_id")
+  @JsonIgnore
+  private User user;
 }

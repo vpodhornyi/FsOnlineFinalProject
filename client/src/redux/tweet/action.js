@@ -4,7 +4,7 @@ import {getTweetReplies, getUserLikes, getUserTweets} from "../../services/tweet
 
 const actions = createActions(
   {
-    actions: ["CHANGE_BOOKMARK"],
+    actions: ["CHANGE_BOOKMARK",'SET_PAGE_NUMBER'],
     async: [
       "DELETE_TWEET",
       "CREATE_TWEET",
@@ -14,6 +14,7 @@ const actions = createActions(
       "GET_CURRENT_USER_TWEETS",
       "GET_CURRENT_USER_LIKES",
       "GET_CURRENT_USER_REPLIES"
+      "HANDLER_REPLIES",
     ],
   },
   {
@@ -59,19 +60,28 @@ export const getCurrentUserLikes = (userTag = "") => async dispatch => {
   }
 }
 
-export const getTweets = () => async (dispatch) => {
-  try {
-    dispatch(ACTIONS.getTweets.request());
-    const data = await api.get(URLS.TWEET._ROOT);
-    dispatch(ACTIONS.getTweets.success(data));
+export const getTweets= (url,stateItem) => {
+  return async (dispatch, getState) => {
+    try {
+      const {tweet} = getState();
+      const pageNumber = tweet[stateItem].pageNumber;
+      const pageSize = tweet[stateItem].pageSize;
 
-    return data;
-  } catch (err) {
-    //TODO show error
-    dispatch(ACTIONS.getTweets.fail());
-    console.log("getTweets error - ", err);
-  }
-};
+      dispatch(ACTIONS.getTweets.request());
+      const data = await api.get(url, {params: {pageNumber, pageSize}});
+
+      dispatch(ACTIONS.getTweets.success({data, stateItem}));
+
+      return data;
+
+    } catch (err) {
+      console.log('getTweetsError error - ', err);
+      dispatch(ACTIONS.getTweets.fail());
+      return [];
+    }
+  };
+}
+
 export const createTweet = (obj) => async (dispatch) => {
   try {
     dispatch(ACTIONS.createTweet.request());
@@ -84,11 +94,10 @@ export const createTweet = (obj) => async (dispatch) => {
     console.log("createTweet error - ", err);
   }
 };
-export const deleteTweet = (userId, tweetID) => async (dispatch) => {
+export const deleteTweet = (tweetID) => async (dispatch) => {
   try {
     dispatch(ACTIONS.deleteTweet.request());
-    const data = await api.delete(`${URLS.TWEET._ROOT + userId}/${tweetID}`);
-    console.log(tweetID);
+    const data = await api.delete(URLS.TWEET._ROOT + tweetID);
     dispatch(ACTIONS.deleteTweet.success(tweetID));
   } catch (err) {
     //TODO show error
@@ -101,7 +110,6 @@ export const changeActionsTweet = (obj) => async (dispatch) => {
     dispatch(ACTIONS.changeActionsTweet.request());
     const data = await api.post(URLS.TWEET.CHANGE_ACTIONS, obj);
     dispatch(ACTIONS.changeActionsTweet.success(data));
-    return data;
   } catch (err) {
     dispatch(ACTIONS.changeActionsTweet.fail());
     alert(err.message);
@@ -110,15 +118,16 @@ export const changeActionsTweet = (obj) => async (dispatch) => {
 export const changeBookmark = (id) => (dispatch) => {
   dispatch(ACTIONS.changeBookmark(id));
 };
-export const handlerBookmark = () => async (dispatch) => {
-  try {
-    dispatch(ACTIONS.handlerBookmark.request());
-    const bookmarksId = await api.get(URLS.TWEET.BOOKMARKS);
-    dispatch(ACTIONS.handlerBookmark.success(bookmarksId));
 
+export const handlerReplies = (id) => async (dispatch) => {
+  try {
+    dispatch(ACTIONS.handlerReplies.request());
+    const handlerReplies = await api.get(URLS.TWEET.getReplies(id));
+    dispatch(ACTIONS.handlerReplies.success(handlerReplies));
   } catch (err) {
+    console.log(err);
     //TODO show error
-    dispatch(ACTIONS.handlerBookmark.fail());
-    console.log("getBookmarks error - ", err);
+    dispatch(ACTIONS.handlerReplies.fail());
+    console.log("getReplys error - ", err);
   }
 };

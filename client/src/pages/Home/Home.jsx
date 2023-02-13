@@ -1,29 +1,29 @@
-import React, {lazy, Suspense} from "react";
+import React, { lazy, Suspense } from "react";
 
-import {ColumnWrapper, PrimaryColumn, PrimaryHeader, SitebarColumn, StickyHeader, TweetForm} from '../../components';
-import Loading from "../../components/Loader/Loading";
-import HomeHeader from "./Header";
+import {
+  ColumnWrapper,
+  PrimaryColumn,
+  SitebarColumn,
+  StickyHeader,
+  TweetForm,
+} from "../../components";
+import { Outlet } from "react-router-dom";
 import {Searchbar} from "../../components/Searchbar";
 
-const Tweets = lazy(() => import('./Tweets'));
+const Tweets = lazy(() => import("./Tweets"));
 
 const Home = () => {
-
   return (
-      <ColumnWrapper>
-        <PrimaryColumn>
-          <PrimaryHeader pageElement={<HomeHeader/>}/>
-          <TweetForm/>
-          <Suspense fallback={<Loading/>}>
-            <Tweets/>
-          </Suspense>
-        </PrimaryColumn>
+    <ColumnWrapper>
+      <PrimaryColumn  sx={{marginBottom:'50px'}}>
+          <Outlet />
+      </PrimaryColumn>
         <SitebarColumn>
-          <StickyHeader>
-            <Searchbar/>
-          </StickyHeader>
+            <StickyHeader>
+                <Searchbar/>
+            </StickyHeader>
         </SitebarColumn>
-      </ColumnWrapper>
+    </ColumnWrapper>
   );
 };
 

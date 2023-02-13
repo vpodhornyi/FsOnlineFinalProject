@@ -10,12 +10,12 @@ export const ICONS = [
   {
     itemClassName: {
       "&:hover svg": {
-        backgroundColor: "lightcyan",
-        color: "rgb(29, 155, 240)",
+        backgroundColor: "#e1eef6",
+        color: "#1d9bf0",
         borderRadius: "50%",
       },
       "&:hover span": {
-        color: "rgb(29, 155, 240)",
+        color: "#1d9bf0",
       },
     },
     icon: <ReplyIcon sx={{ padding: 1 }} />,
@@ -24,12 +24,12 @@ export const ICONS = [
   {
     itemClassName: {
       "&:hover svg": {
-        backgroundColor: "lightgreen",
-        color: "green",
+        backgroundColor: "#def1eb",
+        color: "#00ba7c",
         borderRadius: "50%",
       },
       "&:hover span": {
-        color: "green",
+        color: "#00ba7c",
       },
     },
     icon: <RetweetIcon sx={{ padding: 1 }}></RetweetIcon>,
@@ -38,12 +38,12 @@ export const ICONS = [
   {
     itemClassName: {
       "&:hover svg": {
-        backgroundColor: "lightpink",
-        color: "pink",
+        backgroundColor: "#f7e0eb",
+        color: "#f91880",
         borderRadius: "50%",
       },
       "&:hover span": {
-        color: "pink",
+        color: "#f91880",
       },
     },
     icon: <HeartIcon sx={{ padding: 1 }}></HeartIcon>,
@@ -52,8 +52,8 @@ export const ICONS = [
   {
     itemClassName: {
       "&:hover svg": {
-        backgroundColor: "lightcyan",
-        color: "rgb(29, 155, 240)",
+        backgroundColor: "#e1eef6",
+        color: "#1d9bf0",
         borderRadius: "50%",
       },
     },

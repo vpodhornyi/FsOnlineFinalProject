@@ -13,7 +13,7 @@ public class LeaveChatResponse {
   private Long chatId;
   private ChatUser user;
   private final String key = UUID.randomUUID().toString();
-  private final boolean IsLeaveChat = true;
+  private final boolean isLeaveChat = true;
   private final DtoResponseType type = DtoResponseType.LEAVE_CHAT;
   private Integer countUnreadAllChatMessages = 0;
 }

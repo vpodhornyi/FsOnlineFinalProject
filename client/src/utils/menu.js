@@ -4,7 +4,7 @@ export const menu = (userTag, authorized, isChatSelected, countUnreadMessages, c
 
   return authorized ? [
       {
-        path: PATH.HOME,
+        path: PATH.HOME.ROOT,
         iconName: "HomeOutlined",
         iconActive: "Home",
         text: 'Home',

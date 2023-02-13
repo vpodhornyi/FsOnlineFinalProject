@@ -2,7 +2,7 @@ package com.twitterdan.facade.chat.response.message;
 
 import com.twitterdan.domain.chat.Message;
 import com.twitterdan.domain.user.User;
-import com.twitterdan.dto.chat.response.message.privateMessage.PrivateMessageOwnerResponse;
+import com.twitterdan.dto.chat.response.message.privatemessage.PrivateMessageOwnerResponse;
 import com.twitterdan.facade.GeneralFacade;
 import com.twitterdan.utils.message.ForeignerMessageSeenUtil;
 import org.springframework.stereotype.Service;
@@ -23,9 +23,9 @@ public class PagePrivateMessageOwnerResponseMapper extends GeneralFacade<Message
     Optional<User> optionalUser = users.stream().filter(u -> !u.equals(user)).findFirst();
 
     if (optionalUser.isPresent()) {
-      dto.setIsMessageSeen(ForeignerMessageSeenUtil.isMessageSeen(entity, optionalUser.get()));
+      dto.setMessageSeen(ForeignerMessageSeenUtil.isMessageSeen(entity, optionalUser.get()));
     } else {
-      dto.setIsMessageSeen(false);
+      dto.setMessageSeen(false);
     }
   }
 }

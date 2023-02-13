@@ -3,7 +3,7 @@ package com.twitterdan.facade.chat.response.message;
 import com.twitterdan.domain.chat.Message;
 import com.twitterdan.domain.chat.MessageSeen;
 import com.twitterdan.domain.user.User;
-import com.twitterdan.dto.chat.response.message.groupMessage.GroupForeignerMessageResponse;
+import com.twitterdan.dto.chat.response.message.groupmessage.GroupForeignerMessageResponse;
 import com.twitterdan.facade.GeneralFacade;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +26,7 @@ public class PageGroupForeignerMessageResponseMapper extends GeneralFacade<Messa
         .filter(e -> e.getUser().equals(user)).findFirst();
 
       if (optionalMessageSeen.isPresent()) {
-        dto.setIsMessageSeen(true);
+        dto.setMessageSeen(true);
       }
     }
   }

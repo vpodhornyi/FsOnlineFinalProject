@@ -3,7 +3,7 @@ package com.twitterdan.facade.chat.response.message;
 import com.twitterdan.domain.chat.Message;
 import com.twitterdan.domain.chat.MessageSeen;
 import com.twitterdan.domain.user.User;
-import com.twitterdan.dto.chat.response.message.groupMessage.GroupMessageOwnerResponse;
+import com.twitterdan.dto.chat.response.message.groupmessage.GroupMessageOwnerResponse;
 import com.twitterdan.dto.chat.response.seen.MessageOwnerSeenResponse;
 import com.twitterdan.facade.GeneralFacade;
 import com.twitterdan.facade.chat.response.seen.MessageOwnerSeenResponseMapper;

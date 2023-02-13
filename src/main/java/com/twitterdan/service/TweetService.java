@@ -2,22 +2,27 @@ package com.twitterdan.service;
 
 import com.twitterdan.dao.TweetActionRepository;
 import com.twitterdan.dao.TweetRepository;
-import com.twitterdan.dao.UserDao;
 import com.twitterdan.domain.tweet.Tweet;
 import com.twitterdan.domain.tweet.TweetAction;
 import com.twitterdan.domain.user.User;
-import com.twitterdan.dto.tweet.TweetRequest;
 import com.twitterdan.dto.action.TweetActionRequest;
 import com.twitterdan.dto.action.TweetActionResponseAllData;
+import com.twitterdan.dto.tweet.TweetRequest;
+import com.twitterdan.dto.tweet.TweetResponse;
+import com.twitterdan.exception.CouldNotFindTweetException;
+import com.twitterdan.exception.DeleteTweetException;
 import com.twitterdan.facade.action.TweetActionResponseMapper;
+import com.twitterdan.facade.tweet.TweetResponseMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -28,37 +33,44 @@ public class TweetService {
   @Autowired
   private TweetActionRepository tweetActionRepository;
   @Autowired
-  private TweetActionResponseMapper tweetActionResponseMapper;
+  private TweetResponseMapper tweetResponseMapper;
   @Autowired
-  private UserDao userDao;
+  private TweetActionResponseMapper tweetActionResponseMapper;
 
-  public List<Tweet> getTweetsByUserId(Long userId) {
-    return (List<Tweet>) tweetDao.findTweetsByUserId(userId);
-  }
-  public List<Tweet> findCurrentUserLikeTweets(Long userId) {
-    return (List<Tweet>) tweetDao.findCurrentUserLikeTweets(userId);
+  public List<TweetResponse> getTweetsByUserId(Long userId) {
+    List<Tweet> tweets = tweetDao.findCurrentUserActionTweets("RETWEET", userId);
+    return tweets.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
   }
 
-  public List<Tweet> getReplies(Long id) {
+  public List<TweetResponse> findCurrentUserLikeTweets(Long userId) {
+    List<Tweet> tweets = tweetDao.findCurrentUserLikeTweets(userId);
+    return tweets.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
+  }
 
-    return tweetDao.findReplies("REPLY",id );
-  };
 
-  public List<Tweet> getAll() {
-    return (List<Tweet>) tweetDao.findAll();
+  public List<TweetResponse> getAll(Long userId, Pageable pageable) {
+
+    Optional<Page<Tweet>> optionalTweets = tweetDao.findFollowedTweetsAndRetweet(userId, pageable);
+    Page<Tweet> tweets = optionalTweets.orElse(Page.empty());
+    return tweets.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
+
   }
 
   public Tweet save(Tweet tweet) {
     return tweetDao.save(tweet);
   }
 
-  public List<Long> getBookmarks() {
-    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    String username = principal instanceof UserDetails
-            ? ((UserDetails) principal).getUsername()
-            : principal.toString();
-    User user = userDao.findByUserTag(username);
-    return tweetActionRepository.findBookmarks(user.getId(), "BOOKMARK");
+  public List<TweetResponse> getBookmarks(Long userId, Pageable pageable) {
+    Optional<Page<Tweet>> optionalTweets = tweetDao.findBookmarks(userId, pageable);
+    Page<Tweet> tweets = optionalTweets.orElse(Page.empty());
+    return tweets.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
+  }
+
+  public List<TweetResponse> getReplies(Long id) {
+
+    List<Tweet> replies = tweetDao.findReplies("REPLY", id);
+    return replies.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
+
   }
 
   ;
@@ -73,34 +85,37 @@ public class TweetService {
     tweetDao.save(tweet);
   }
 
-  public Tweet findById(Long userId) {
+  public TweetResponse findById(Long userId) {
 
-    return tweetDao.findById(userId).orElse(new Tweet());
+    Tweet tweet = tweetDao.findById(userId).orElse(new Tweet());
+    if (tweet.equals(new Tweet())) {
+      throw new CouldNotFindTweetException();
+
+    }
+    return tweetResponseMapper.convertToDto(tweet);
+  }
+
+  public void deleteById(Long id, User currentUser) throws Exception {
+    TweetResponse tweetResponse = findById(id);
+    if (! tweetResponse.getUser().equals(currentUser)) {
+      throw new DeleteTweetException();
+    } else {
+      tweetDao.deleteById(id);
+
+    }
+
 
   }
 
-  public void deleteById(Long id) {
-    tweetDao.deleteById(id);
-
-
-  }
-
-  public TweetActionResponseAllData changeAction(TweetActionRequest tweetActionRequest) {
-    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    String username = principal instanceof UserDetails
-            ? ((UserDetails) principal).getUsername()
-            : principal.toString();
-
+  public TweetActionResponseAllData changeAction(TweetActionRequest tweetActionRequest, User user) {
     Tweet tweet = tweetDao.findById(tweetActionRequest.getTweetId()).orElse(new Tweet());
-    User user = userDao.findByUserTag(username);
     TweetAction newTweetAction = new TweetAction(tweetActionRequest.getActionType(), tweet, user);
 
-    TweetAction resultFilter =
-            tweet.getActions().stream().filter(action -> action.getActionType().equals(tweetActionRequest.getActionType())
-                    && action.getUser().getUserTag().equals(username)
-            ).findFirst().orElse(newTweetAction);
+    TweetAction resultFilter = tweet.getActions().stream()
+            .filter(action -> action.getActionType().equals(tweetActionRequest.getActionType()) && action.getUser()
+                    .getUserTag().equals(user.getUserTag())).findFirst().orElse(newTweetAction);
 
-    if (!resultFilter.equals(newTweetAction)) {
+    if (! resultFilter.equals(newTweetAction)) {
       tweetActionRepository.deleteById(resultFilter.getId());
     } else {
       tweetActionRepository.save(newTweetAction);

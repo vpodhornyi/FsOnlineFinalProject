@@ -1,16 +1,12 @@
 package com.twitterdan.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.twitterdan.utils.DateSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -23,7 +19,7 @@ public class UserResponse {
   private String name;
   private String userTag;
   private String email;
-//  @JsonSerialize(using = DateSerializer.class)
+  //  @JsonSerialize(using = DateSerializer.class)
   private String birthDate;
   private String bio;
   private String location;
@@ -37,23 +33,13 @@ public class UserResponse {
   private Set<Long> tweetsIds = new HashSet<>();
   private Integer countUnreadMessages = 0;
   private CustomStyleResponse customStyle;
+
   @Override
   public String toString() {
-    return "UserResponse{" +
-            "id=" + id +
-            ", key='" + key + '\'' +
-            ", name='" + name + '\'' +
-            ", userTag='" + userTag + '\'' +
-            ", email='" + email + '\'' +
-            ", birthDate=" + birthDate +
-            ", bio='" + bio + '\'' +
-            ", location='" + location + '\'' +
-            ", avatarImgUrl='" + avatarImgUrl + '\'' +
-            ", headerImgUrl='" + headerImgUrl + '\'' +
-            ", followersTags=" + followersTags +
-            ", followingsTags=" + followingsTags +
-            ", tweetsIds=" + tweetsIds +
-            ", countUnreadMessages=" + countUnreadMessages +
-            '}';
+    return "UserResponse{" + "id=" + id + ", key='" + key + '\'' + ", name='" + name + '\'' + ", userTag='" + userTag + '\''
+            + ", email='" + email + '\'' + ", birthDate=" + birthDate + ", bio='" + bio + '\'' + ", location='" + location
+            + '\'' + ", avatarImgUrl='" + avatarImgUrl + '\'' + ", headerImgUrl='" + headerImgUrl + '\'' + ", followersTags="
+            + followersTags + ", followingsTags=" + followingsTags + ", tweetsIds=" + tweetsIds + ", countUnreadMessages="
+            + countUnreadMessages + '}';
   }
 }

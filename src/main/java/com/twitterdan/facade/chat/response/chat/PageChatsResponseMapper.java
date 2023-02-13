@@ -14,7 +14,8 @@ public class PageChatsResponseMapper {
   private final PrivateChatResponseMapper privateChatResponseMapper;
   private final GroupChatResponseMapper groupChatResponseMapper;
 
-  public PageChatsResponseMapper(PrivateChatResponseMapper privateChatResponseMapper, GroupChatResponseMapper groupChatResponseMapper) {
+  public PageChatsResponseMapper(PrivateChatResponseMapper privateChatResponseMapper,
+                                 GroupChatResponseMapper groupChatResponseMapper) {
     this.privateChatResponseMapper = privateChatResponseMapper;
     this.groupChatResponseMapper = groupChatResponseMapper;
   }
