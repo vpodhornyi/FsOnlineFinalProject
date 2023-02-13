@@ -1,4 +1,4 @@
-import {ACTIONS} from "./action";
+import {ACTIONS, resetStateValue} from "./action";
 
 const INITIAL_STATE = {
     loading: false,
@@ -63,6 +63,16 @@ export default (state = INITIAL_STATE, {payload, type}) => {
                 ...state,
                 bookmarks: {...state.bookmarks, data: state.bookmarks.data.filter((el) => el.id !== payload)},
             };
+        case String(ACTIONS.resetStateValue):
+            return {
+                ...state,
+                [payload]: {
+                    data: [],
+                    pageNumber: 0,
+                    pageSize: 3,
+                    totalPages: true,
+                },
+            };
         case String(ACTIONS.createTweet.success):
             const {tweets} = state
             for (let i = 0; i < tweets.data.length; i++) {
@@ -70,11 +80,11 @@ export default (state = INITIAL_STATE, {payload, type}) => {
                 if (payload.parentTweetId === tweets.data[i].id) tweets.data[i].replyCounter += 1;
                 if (currentCounter !== tweets.data[i].replyCounter) break;
             }
-            return  {
+            return {
                 ...state,
                 tweets: {...tweets, data: [payload, ...tweets.data]}
 
-            } ;
+            };
 
         case String(ACTIONS.getTweets.fail):
             return {

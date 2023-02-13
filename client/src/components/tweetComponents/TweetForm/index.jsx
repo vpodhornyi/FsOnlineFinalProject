@@ -205,7 +205,7 @@ export const TweetForm = ({
             }}
           >
             {LETTER_COUNTER_COMP}
-            <TweetBtn disabled={TWEET_TEXT_INTEREST > 100} onClick={onSubmit}>
+            <TweetBtn disabled={TWEET_TEXT_INTEREST > 100||(uploadPhotos.length===0&&tweetText==="")} onClick={onSubmit}>
               {tweetType}
             </TweetBtn>
           </Box>
