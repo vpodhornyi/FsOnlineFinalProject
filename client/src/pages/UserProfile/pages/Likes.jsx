@@ -26,7 +26,7 @@ const Likes = () => {
 
     return (
         <>
-            {likes.length > 0 ? likes?.map(tweet =>
+            {likes.data.length > 0 ? likes?.data?.map(tweet =>
                     <div key={tweet.id}>
                         <Tweet tweetInfo={tweet}/>
                     </div>

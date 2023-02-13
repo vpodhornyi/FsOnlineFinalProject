@@ -13,7 +13,7 @@ const actions = createActions(
       "HANDLER_BOOKMARK",
       "GET_CURRENT_USER_TWEETS",
       "GET_CURRENT_USER_LIKES",
-      "GET_CURRENT_USER_REPLIES"
+      "GET_CURRENT_USER_REPLIES",
       "HANDLER_REPLIES",
     ],
   },

@@ -27,7 +27,7 @@ const Tweets = () => {
 
     return (
         <>
-            {tweets.length > 0 ? tweets?.filter(t => t.tweetType !== "REPLY")?.map(el =>
+            {tweets.data.length > 0 ? tweets?.data?.filter(t => t.tweetType !== "REPLY")?.map(el =>
                 <div key={el.id}>
                     <Tweet tweetInfo={el}/>
                 </div>

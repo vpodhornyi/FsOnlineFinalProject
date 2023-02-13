@@ -27,7 +27,7 @@ const TweetReplies = ({userId}) => {
 
     return (
         <>
-            {replies.length > 0 ? replies.map(t =>
+            {replies.data.length > 0 ? replies?.data?.map(t =>
                 <div key={t.id}>
                     <Tweet tweetInfo={t}/>
                 </div>) :
