@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {styled} from "@mui/material/styles";
 import {Box} from "@mui/material";
 import {Tweet} from "../../components";
-import {getTweets} from "../../redux/tweet/action";
+import {getTweets, resetStateValue} from "../../redux/tweet/action";
 import {getTweetState, loadingTweetsState,} from "../../redux/tweet/selector";
 import Loading from "../../components/Loader/Loading";
 import PropTypes from "prop-types";
@@ -20,6 +20,7 @@ const Tweets = ({bookmarksValue = false}) => {
     const loadingTweets = useSelector(loadingTweetsState);
     const currentState = tweetState[stateValue.name];
     useEffect(() => {
+        dispatch(resetStateValue(stateValue.name))
         dispatch(getTweets(stateValue.url, stateValue.name))
 
     }, []);

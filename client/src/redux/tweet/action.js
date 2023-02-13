@@ -23,8 +23,8 @@ const actions = createActions(
 );
 
 export const ACTIONS = {
-  ...actions.actions,
-  ...actions.async,
+    ...actions.actions,
+    ...actions.async,
 };
 
 export const getCurrentUserReplies = (userId) => async dispatch => {
@@ -60,7 +60,7 @@ export const getCurrentUserLikes = (userTag = "") => async dispatch => {
   }
 }
 
-export const getTweets= (url,stateItem) => {
+export const getTweets = (url, stateItem) => {
   return async (dispatch, getState) => {
     try {
       const {tweet} = getState();
@@ -81,7 +81,9 @@ export const getTweets= (url,stateItem) => {
     }
   };
 }
-
+export const resetStateValue = (stateItem) => (dispatch) => {
+    dispatch(ACTIONS.resetStateValue(stateItem));
+};
 export const createTweet = (obj) => async (dispatch) => {
   try {
     dispatch(ACTIONS.createTweet.request());
@@ -89,7 +91,6 @@ export const createTweet = (obj) => async (dispatch) => {
 
     dispatch(ACTIONS.createTweet.success(data));
   } catch (err) {
-    //TODO show error
     dispatch(ACTIONS.createTweet.fail());
     console.log("createTweet error - ", err);
   }
@@ -97,37 +98,35 @@ export const createTweet = (obj) => async (dispatch) => {
 export const deleteTweet = (tweetID) => async (dispatch) => {
   try {
     dispatch(ACTIONS.deleteTweet.request());
-    const data = await api.delete(URLS.TWEET._ROOT + tweetID);
+    await api.delete(URLS.TWEET._ROOT + tweetID);
     dispatch(ACTIONS.deleteTweet.success(tweetID));
   } catch (err) {
-    //TODO show error
     dispatch(ACTIONS.deleteTweet.fail());
     alert("deleteTweet error - This is not your tweet");
   }
 };
 export const changeActionsTweet = (obj) => async (dispatch) => {
-  try {
-    dispatch(ACTIONS.changeActionsTweet.request());
-    const data = await api.post(URLS.TWEET.CHANGE_ACTIONS, obj);
-    dispatch(ACTIONS.changeActionsTweet.success(data));
-  } catch (err) {
-    dispatch(ACTIONS.changeActionsTweet.fail());
-    alert(err.message);
-  }
+    try {
+        dispatch(ACTIONS.changeActionsTweet.request());
+        const data = await api.post(URLS.TWEET.CHANGE_ACTIONS, obj);
+        dispatch(ACTIONS.changeActionsTweet.success(data));
+    } catch (err) {
+        dispatch(ACTIONS.changeActionsTweet.fail());
+        alert(err.message);
+    }
 };
 export const changeBookmark = (id) => (dispatch) => {
-  dispatch(ACTIONS.changeBookmark(id));
+    dispatch(ACTIONS.changeBookmark(id));
 };
 
 export const handlerReplies = (id) => async (dispatch) => {
-  try {
-    dispatch(ACTIONS.handlerReplies.request());
-    const handlerReplies = await api.get(URLS.TWEET.getReplies(id));
-    dispatch(ACTIONS.handlerReplies.success(handlerReplies));
-  } catch (err) {
-    console.log(err);
-    //TODO show error
-    dispatch(ACTIONS.handlerReplies.fail());
-    console.log("getReplys error - ", err);
-  }
+    try {
+        dispatch(ACTIONS.handlerReplies.request());
+        const handlerReplies = await api.get(URLS.TWEET.getReplies(id));
+        dispatch(ACTIONS.handlerReplies.success(handlerReplies));
+    } catch (err) {
+        console.log(err);
+        dispatch(ACTIONS.handlerReplies.fail());
+        console.log("getReplys error - ", err);
+    }
 };
