@@ -17,7 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,7 +50,8 @@ public class ChatService {
   }
 
   public Chat findPrivateChatByUsersIds(Long authUserId, Long guestUserId) {
-    Optional<Chat> optionalChat = chatRepository.findPrivateChatByUsersIds(ChatType.PRIVATE.toString(), authUserId, guestUserId);
+    Optional<Chat> optionalChat =
+            chatRepository.findPrivateChatByUsersIds(ChatType.PRIVATE.toString(), authUserId, guestUserId);
 
     if (optionalChat.isPresent()) {
       return optionalChat.get();
@@ -100,7 +103,7 @@ public class ChatService {
 
     List<User> users = chat.getUsers()
             .stream()
-            .filter(u -> !u.equals(user))
+            .filter(u -> ! u.equals(user))
             .collect(Collectors.toCollection(ArrayList::new));
     chat.setUsers(users);
 

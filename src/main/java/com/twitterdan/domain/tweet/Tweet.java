@@ -48,7 +48,7 @@ public class Tweet extends BaseEntity {
   private Set<TweetAction> actions = new HashSet<>();
   @ManyToOne
   @JoinColumn(name = "retweet_id")
-  private User retweet_user;
+  private User retweetUser;
 
 
 
@@ -62,7 +62,7 @@ public class Tweet extends BaseEntity {
             ", notifications=" + notifications +
             ", actions=" + actions +
             ", parentTweetId=" + parentTweetId +
-            ", retweetId=" + retweet_user +
+            ", retweetId=" + retweetUser +
             '}';
   }
 }

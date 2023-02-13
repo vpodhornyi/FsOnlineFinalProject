@@ -3,8 +3,8 @@ package com.twitterdan.exception;
 import org.springframework.http.HttpStatus;
 
 public class DeleteTweetException extends AbstractException {
-  private final static String MESSAGE = "You can't delete this tweet!";
-  private final static HttpStatus STATUS = HttpStatus.BAD_REQUEST;
+  private static final String MESSAGE = "You can't delete this tweet!";
+  private static final HttpStatus STATUS = HttpStatus.BAD_REQUEST;
 
   public DeleteTweetException() {
     super(HttpStatus.BAD_REQUEST, DeleteTweetException.MESSAGE);

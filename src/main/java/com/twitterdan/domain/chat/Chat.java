@@ -26,9 +26,8 @@ public class Chat extends BaseEntity {
   private ChatType type;
   @LazyCollection(LazyCollectionOption.EXTRA)
   @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-  @JoinTable(name = "chats_users",
-    joinColumns = @JoinColumn(name = "chats_id", referencedColumnName = "id"),
-    inverseJoinColumns = @JoinColumn(name = "users_id", referencedColumnName = "id"))
+  @JoinTable(name = "chats_users", joinColumns = @JoinColumn(name = "chats_id", referencedColumnName = "id"),
+          inverseJoinColumns = @JoinColumn(name = "users_id", referencedColumnName = "id"))
   private List<User> users = new ArrayList<>();
 
   @OneToMany(mappedBy = "chat")
@@ -37,12 +36,15 @@ public class Chat extends BaseEntity {
 
   @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "chat")
   private List<ChatDeleted> deleted = new ArrayList<>();
+
   public void setDeleted(List<ChatDeleted> deleted) {
     this.deleted = deleted;
   }
+
   public void addDeleted(User user) {
     deleted.add(new ChatDeleted(this, user));
   }
+
   public void addUsers(List<User> users) {
     users.forEach(u -> {
       Optional<User> optionalUser = this.users.stream().filter(user -> user.equals(u)).findFirst();
@@ -54,10 +56,6 @@ public class Chat extends BaseEntity {
 
   @Override
   public String toString() {
-    return "Chat{" +
-      "title='" + title + '\'' +
-      ", type=" + type +
-      ", users=" + users +
-      '}';
+    return "Chat{" + "title='" + title + '\'' + ", type=" + type + ", users=" + users + '}';
   }
 }

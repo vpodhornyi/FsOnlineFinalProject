@@ -14,6 +14,7 @@ public class PageChatResponse {
   private int totalPages;
   private long totalElements;
   private List<ChatResponseAbstract> chats = new ArrayList<>();
+
   public void addChat(ChatResponseAbstract chat) {
     chats.add(chat);
   }

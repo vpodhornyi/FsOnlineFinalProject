@@ -8,8 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CustomStyleRequest {
-	private Long userId;
-	private Color color;
-	private BackgroundColor backgroundColor;
-	private Integer fontSize;
+  private Long userId;
+  private Color color;
+  private BackgroundColor backgroundColor;
+  private Integer fontSize;
 }

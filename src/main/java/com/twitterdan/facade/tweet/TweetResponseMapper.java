@@ -27,15 +27,15 @@ public class TweetResponseMapper extends GeneralFacade<Tweet, TweetResponse> {
     String userTag = principal instanceof UserDetails
             ? ((UserDetails) principal).getUsername()
             : principal.toString();
-    User retweetUser = entity.getRetweet_user();
+    User retweetUser = entity.getRetweetUser();
     System.out.println(entity);
-    String name = Optional.ofNullable(retweetUser).map(userRetweet-> {
-     String retweetName = userRetweet.getUserTag().equals(userTag)?"You":userRetweet.getName();
-    return retweetName + " Retweeted";
+    String name = Optional.ofNullable(retweetUser).map(userRetweet -> {
+      String retweetName = userRetweet.getUserTag().equals(userTag) ? "You" : userRetweet.getName();
+      return retweetName + " Retweeted";
 
     }).orElse("");
 
-      dto.setRetweetFollowedName(name);
+    dto.setRetweetFollowedName(name);
 
     Integer replyCounter = tweetDao.findReplies("REPLY", entity.getId()).size();
     dto.setReplyCounter(replyCounter);

@@ -16,9 +16,9 @@ import java.util.UUID;
 @NoArgsConstructor
 public class AddUsersToGroupResponse {
   private final DtoResponseType type = DtoResponseType.ADD_TO_GROUP_CHAT;
-  private Long chatId;
   private final String key = UUID.randomUUID().toString();
-  private final boolean IsAddNewUsers = true;
+  private final boolean isAddNewUsers = true;
+  private Long chatId;
   private ChatUser user;
   private List<ChatUser> addedUsers;
 }

@@ -12,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CustomStyleResponse {
-	private Color color;
-	private BackgroundColor backgroundColor;
-	private Integer fontSize;
+  private Color color;
+  private BackgroundColor backgroundColor;
+  private Integer fontSize;
 }

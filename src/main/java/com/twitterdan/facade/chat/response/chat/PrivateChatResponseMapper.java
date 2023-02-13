@@ -18,7 +18,8 @@ public class PrivateChatResponseMapper extends GeneralFacade<Chat, PrivateChatRe
   private final MessageService messageService;
   private final LastChatMessageMapper lastChatMessageMapper;
 
-  public PrivateChatResponseMapper(ChatUserMapper chatUserMapper, MessageService messageService, LastChatMessageMapper lastChatMessageMapper) {
+  public PrivateChatResponseMapper(ChatUserMapper chatUserMapper,
+                                   MessageService messageService, LastChatMessageMapper lastChatMessageMapper) {
     super(Chat.class, PrivateChatResponse.class);
     this.chatUserMapper = chatUserMapper;
     this.messageService = messageService;

@@ -44,8 +44,8 @@ public class UserController {
   @GetMapping("/all")
   public List<UserResponse> findAll() {
     return userService.findAll().stream()
-      .map(userResponseMapper::convertToDto)
-      .collect(Collectors.toList());
+            .map(userResponseMapper::convertToDto)
+            .collect(Collectors.toList());
   }
 
   @GetMapping("/{id}")
@@ -63,7 +63,7 @@ public class UserController {
 
   @GetMapping("/")
   public UserResponse findByUserTag(
-    @RequestParam(name = "userTag") String userTag
+          @RequestParam(name = "userTag") String userTag
   ) {
     User user = userService.findByUserTagTrowException(userTag);
     return userResponseMapper.convertToDto(user);
@@ -83,6 +83,7 @@ public class UserController {
     CustomStyle customStyle = userService.updateCustomStyle(dto.getUserId(), customStyleRequestMapper.convertToEntity(dto));
     return ResponseEntity.ok(customStyleResponseMapper.convertToDto(customStyle));
   }
+
   @ExceptionHandler({Exception.class, MethodArgumentNotValidException.class})
   public ResponseEntity<Object> handleException(Exception ex) {
     return new ResponseEntity<>(ex.getCause(), HttpStatus.BAD_REQUEST);

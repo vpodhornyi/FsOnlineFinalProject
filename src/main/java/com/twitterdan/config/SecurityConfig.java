@@ -24,12 +24,10 @@ public class SecurityConfig {
   private final String token;
   private final String signup;
 
-  public SecurityConfig(JwtFilter jwtFilter,
-                        @Value("/ws") String ws,
-                        @Value("${api.version}/auth/account") String account,
-                        @Value("${api.version}/auth/login") String login,
-                        @Value("${api.version}/auth/signup") String signup,
-                        @Value("${api.version}/auth/access") String token) {
+  public SecurityConfig(
+          JwtFilter jwtFilter, @Value("/ws") String ws, @Value("${api.version}/auth/account") String account,
+          @Value("${api.version}/auth/login") String login, @Value("${api.version}/auth/signup") String signup,
+          @Value("${api.version}/auth/access") String token) {
     this.ws = ws;
     this.jwtFilter = jwtFilter;
     this.account = account;
@@ -45,18 +43,12 @@ public class SecurityConfig {
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    return http
-            .httpBasic().disable()
-            .csrf().disable()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+    return http.httpBasic().disable().csrf().disable().sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
-            .authorizeHttpRequests(
-                    auth -> auth
-                            .antMatchers(ws, account, login, token, signup).permitAll()
-                            .anyRequest().authenticated()
-                            .and()
-                            .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-            ).build();
+            .authorizeHttpRequests(auth ->
+                    auth.antMatchers(ws, account, login, token, signup).permitAll().anyRequest().authenticated()
+                            .and().addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)).build();
   }
 
   @Bean

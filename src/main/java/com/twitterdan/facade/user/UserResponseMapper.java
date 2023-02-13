@@ -30,7 +30,9 @@ public class UserResponseMapper extends GeneralFacade<User, UserResponse> {
     dto.setCountUnreadMessages(messageService.getCountAllUnreadChatMessagesByUserId(entity.getId()));
     CustomStyle customStyle = entity.getCustomStyle();
 
-    if (customStyle == null) dto.setCustomStyle(new CustomStyleResponse(Color.BLUE, BackgroundColor.DEFAULT, 14));
+    if (customStyle == null) {
+      dto.setCustomStyle(new CustomStyleResponse(Color.BLUE, BackgroundColor.DEFAULT, 14));
+    }
 
     for (Tweet tweet : entity.getTweets()) {
       dto.getTweetsIds().add(tweet.getId());

@@ -19,7 +19,8 @@ public class GroupChatResponseMapper extends GeneralFacade<Chat, GroupChatRespon
   private final MessageService messageService;
   private final LastChatMessageMapper lastChatMessageMapper;
 
-  public GroupChatResponseMapper(ChatUserMapper chatUserMapper, MessageService messageService, LastChatMessageMapper lastChatMessageMapper) {
+  public GroupChatResponseMapper(ChatUserMapper chatUserMapper,
+                                 MessageService messageService, LastChatMessageMapper lastChatMessageMapper) {
     super(Chat.class, GroupChatResponse.class);
     this.chatUserMapper = chatUserMapper;
     this.messageService = messageService;

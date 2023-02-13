@@ -3,7 +3,7 @@ package com.twitterdan.facade.chat.response.message;
 import com.twitterdan.domain.chat.Message;
 import com.twitterdan.domain.chat.MessageSeen;
 import com.twitterdan.domain.user.User;
-import com.twitterdan.dto.chat.response.message.groupMessage.GroupForeignerMessageResponse;
+import com.twitterdan.dto.chat.response.message.groupmessage.GroupForeignerMessageResponse;
 import com.twitterdan.facade.GeneralFacade;
 import com.twitterdan.facade.chat.response.chat.GroupChatResponseMapper;
 import com.twitterdan.service.MessageService;
@@ -17,7 +17,8 @@ public class GroupForeignerMessageResponseMapper extends GeneralFacade<Message, 
   private final MessageService messageService;
   private final GroupChatResponseMapper groupChatResponseMapper;
 
-  public GroupForeignerMessageResponseMapper(MessageService messageService, GroupChatResponseMapper groupChatResponseMapper) {
+  public GroupForeignerMessageResponseMapper(MessageService messageService,
+                                             GroupChatResponseMapper groupChatResponseMapper) {
     super(Message.class, GroupForeignerMessageResponse.class);
     this.messageService = messageService;
     this.groupChatResponseMapper = groupChatResponseMapper;
@@ -44,7 +45,7 @@ public class GroupForeignerMessageResponseMapper extends GeneralFacade<Message, 
         .filter(e -> e.getUser().equals(user)).findFirst();
 
       if (optionalMessageSeen.isPresent()) {
-        dto.setIsMessageSeen(true);
+        dto.setMessageSeen(true);
       }
     }
   }

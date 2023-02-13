@@ -25,7 +25,8 @@ public class MessageService {
   private final MessageRepository messageRepository;
   private final MessageSeenRepository messageSeenRepository;
 
-  public MessageService(ChatRepository chatRepository, MessageRepository messageRepository, MessageSeenRepository messageSeenRepository) {
+  public MessageService(ChatRepository chatRepository, MessageRepository messageRepository,
+                        MessageSeenRepository messageSeenRepository) {
     this.chatRepository = chatRepository;
     this.messageRepository = messageRepository;
     this.messageSeenRepository = messageSeenRepository;
@@ -105,7 +106,7 @@ public class MessageService {
     Message message = optionalMessage.get();
     User messageOwner = message.getUser();
 
-    if (!user.equals(messageOwner)) {
+    if (! user.equals(messageOwner)) {
       throw new DeleteMessageException();
     }
     messageRepository.deleteById(messageId);

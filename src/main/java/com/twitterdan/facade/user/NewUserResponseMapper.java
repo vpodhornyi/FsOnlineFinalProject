@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class NewUserResponseMapper extends GeneralFacade<User, NewUserResponse> {
   private final JwtAuthService jwtAuthService;
+
   public NewUserResponseMapper(JwtAuthService jwtAuthService) {
     super(User.class, NewUserResponse.class);
     this.jwtAuthService = jwtAuthService;
