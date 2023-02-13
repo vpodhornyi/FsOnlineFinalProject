@@ -1,25 +1,28 @@
-import React, {lazy} from 'react';
-import {Navigate} from "react-router-dom";
+import React, { lazy, Suspense } from "react";
+import { Navigate } from "react-router-dom";
 import {
   Home, Explore, Notifications, Messages, Chat, ChatInfo, Bookmarks, CreateAccount, SelectMessage,
   Lists, UserProfile, UserSearch, Auth, Login, Password, ForgotPassword, SingUp, UserData, Participants,
   GroupEditPage, Navigation, Search
 } from "../pages";
-import {PATH} from "../utils/constants";
-import {Display, DeleteTweet} from "../components";
+import { PATH } from "../utils/constants";
+import { DeleteTweet, Display, TweetForm } from "../components";
 import Reply from "../components/tweetComponents/Reply";
 import ModalImg from "../components/tweetComponents/ModalImg";
+import Tweets from "../pages/Home/Tweets";
+import Loading from "../components/Loader/Loading";
+import { TweetPage } from "../components/tweetComponents/TweetPage";
+import {themeStyles} from "../utils/theme";
 import Subscribing from "../pages/Subscribing/Subscribing";
 import EditProfile from "../pages/UserProfile/pages/EditProfile";
 import Likes from "../pages/UserProfile/pages/Likes";
 import TweetReplies from "../pages/UserProfile/pages/TweetReplies";
-import {themeStyles} from "../utils/theme";
 
 const BREAKPOINTS_VALUES = themeStyles().breakpoints.values;
 const lazyLoading = (path) => {
   const LazyElement = lazy(() => import(path));
-  return (<LazyElement/>);
-}
+  return <LazyElement />;
+};
 
 export const mainRoutes = (width, authorized) => {
   const isMiddle = width > BREAKPOINTS_VALUES.md;
@@ -28,12 +31,24 @@ export const mainRoutes = (width, authorized) => {
       [
         {
           path: PATH.ROOT,
-          element: <Navigate to={PATH.HOME}/>,
+          element: <Navigate to={PATH.HOME.ROOT}/>,
         },
         {
-          path: PATH.HOME,
+          path: PATH.HOME.ROOT,
           element: <Home/>,
-          children: [],
+            children: [{
+                index: true,
+                element: (
+                    <>
+                        <TweetForm />
+                        <Suspense fallback={<Loading />}>
+                            <Tweets />{" "}
+                        </Suspense>
+                    </>
+                ),
+            },
+                { path: PATH.HOME.TWEET_PAGE, element: <TweetPage /> },
+            ],
         },
         {
           path: PATH.SEARCH,

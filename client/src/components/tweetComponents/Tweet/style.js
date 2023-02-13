@@ -5,7 +5,9 @@ export const TweetContainer = styled(Box)({
   color: "rgb(83, 100, 113)",
   textDecoration: "none",
   cursor: "pointer",
-
+  "&:hover": {
+    background: "#f7f7f7",
+  },
   position: "relative",
   padding: "1rem",
 
@@ -49,11 +51,11 @@ export const UserName = styled(Link)({
 });
 export const IconBlue = styled(Box)({
   "&:hover svg": {
-    backgroundColor: "lightcyan",
-    color: "rgb(29, 155, 240)",
+    backgroundColor: "#e1eef6",
+    color: "#1d9bf0",
     borderRadius: "50%",
   },
   "&:hover span": {
-    color: "rgb(29, 155, 240)",
+    color: "#1d9bf0",
   },
 });

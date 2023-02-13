@@ -17,6 +17,7 @@ public class TweetRequestMapper extends GeneralFacade<Tweet, TweetRequest> {
 
   @Override
   public void decorateEntity(Tweet entity, TweetRequest dto) {
+
     Set<AttachmentImage> newAttachment =
             dto.getImages().stream().map(el -> new AttachmentImage(el, entity)).collect(Collectors.toSet());
     entity.setImages(newAttachment);

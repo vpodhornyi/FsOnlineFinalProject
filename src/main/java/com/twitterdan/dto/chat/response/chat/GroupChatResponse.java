@@ -13,5 +13,5 @@ public class GroupChatResponse extends ChatResponseAbstract {
   private final DtoResponseType type = DtoResponseType.GROUP_CHAT;
   private List<ChatUser> users;
   private String avatarImgUrl;
-  private final boolean IsGroup = true;
+  private final boolean isGroup = true;
 }

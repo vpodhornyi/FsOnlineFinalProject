@@ -8,17 +8,17 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CustomStyleRequestMapper extends GeneralFacade<CustomStyle, CustomStyleRequest> {
-	private final UserRepository userRepository;
+  private final UserRepository userRepository;
 
 
-	public CustomStyleRequestMapper(UserRepository userRepository) {
-		super(CustomStyle.class, CustomStyleRequest.class);
-		this.userRepository = userRepository;
-	}
+  public CustomStyleRequestMapper(UserRepository userRepository) {
+    super(CustomStyle.class, CustomStyleRequest.class);
+    this.userRepository = userRepository;
+  }
 
-	@Override
-	protected void decorateEntity(CustomStyle entity, CustomStyleRequest dto) {
-		userRepository.findById(dto.getUserId()).ifPresent(entity::setUser);
-	}
+  @Override
+  protected void decorateEntity(CustomStyle entity, CustomStyleRequest dto) {
+    userRepository.findById(dto.getUserId()).ifPresent(entity::setUser);
+  }
 }
 

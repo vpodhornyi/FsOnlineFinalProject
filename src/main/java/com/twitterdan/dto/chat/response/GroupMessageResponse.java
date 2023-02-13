@@ -10,6 +10,6 @@ import java.util.List;
 @Getter
 @Setter
 public class GroupMessageResponse extends MessageResponseAbstract {
-  private final boolean IsGroupChat = true;
+  private final boolean isGroupChat = true;
   private List<MessageOwnerSeenResponse> messagesSeen;
 }

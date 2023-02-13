@@ -11,7 +11,6 @@ const Tweets = () => {
     const {user_tag} = useParams();
     const [tweets, setTweets] = useState(null);
     const user = useSelector(getPersonalData);
-
     const fetchTweets = async () => {
         const tweets = await getUserTweets(user_tag);
         setTweets(tweets || []);

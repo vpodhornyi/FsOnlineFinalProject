@@ -2,7 +2,7 @@ package com.twitterdan.facade.chat.response.message;
 
 import com.twitterdan.domain.chat.Message;
 import com.twitterdan.domain.user.User;
-import com.twitterdan.dto.chat.response.message.privateMessage.PrivateForeignerMessageResponse;
+import com.twitterdan.dto.chat.response.message.privatemessage.PrivateForeignerMessageResponse;
 import com.twitterdan.facade.GeneralFacade;
 import com.twitterdan.utils.message.ForeignerMessageSeenUtil;
 import org.springframework.stereotype.Service;
@@ -17,6 +17,6 @@ public class PagePrivateForeignerMessageResponseMapper extends GeneralFacade<Mes
   @Override
   protected void decorateDto(PrivateForeignerMessageResponse dto, Message entity, User user) {
     dto.setChatId(entity.getChat().getId());
-    dto.setIsMessageSeen(ForeignerMessageSeenUtil.isMessageSeen(entity, user));
+    dto.setMessageSeen(ForeignerMessageSeenUtil.isMessageSeen(entity, user));
   }
 }

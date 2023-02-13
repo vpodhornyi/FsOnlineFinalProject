@@ -46,11 +46,23 @@ public class Tweet extends BaseEntity {
   @OneToMany(mappedBy = "tweet")
   @OnDelete(action = OnDeleteAction.CASCADE)
   private Set<TweetAction> actions = new HashSet<>();
+  @ManyToOne
+  @JoinColumn(name = "retweet_id")
+  private User retweetUser;
+
+
 
   @Override
   public String toString() {
-    return "Tweet{" + "tweetType=" + tweetType + ", body='" + body + '\'' + ", user=" + user + ", images=" + images
-            + ", notifications=" + notifications + ", actions=" + actions + '}';
+    return "Tweet{" +
+            "tweetType=" + tweetType +
+            ", body='" + body + '\'' +
+            ", user=" + user +
+            ", images=" + images +
+            ", notifications=" + notifications +
+            ", actions=" + actions +
+            ", parentTweetId=" + parentTweetId +
+            ", retweetId=" + retweetUser +
+            '}';
   }
-
 }

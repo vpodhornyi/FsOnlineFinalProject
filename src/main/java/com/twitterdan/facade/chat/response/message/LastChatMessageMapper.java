@@ -23,9 +23,9 @@ public class LastChatMessageMapper extends GeneralFacade<Message, LastChatMessag
     Long chatId = entity.getChat().getId();
     dto.setCountUnreadMessages(messageService.getCountUnreadChatMessagesByUserId(chatId, userId));
     dto.setCountUnreadAllChatMessages(messageService.getCountAllUnreadChatMessagesByUserId(userId));
-    dto.setIsMessageSeen(ForeignerMessageSeenUtil.isMessageSeen(entity, user));
+    dto.setMessageSeen(ForeignerMessageSeenUtil.isMessageSeen(entity, user));
     dto.setChatId(chatId);
-    dto.setIsMessageOwner(user.equals(entity.getUser()));
+    dto.setMessageOwner(user.equals(entity.getUser()));
     dto.setLastSeenChatMessageId(messageService.findLastSeenChatMessageId(userId, chatId));
   }
 }

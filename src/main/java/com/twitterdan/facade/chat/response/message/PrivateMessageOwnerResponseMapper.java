@@ -3,7 +3,7 @@ package com.twitterdan.facade.chat.response.message;
 import com.twitterdan.domain.chat.Chat;
 import com.twitterdan.domain.chat.Message;
 import com.twitterdan.domain.user.User;
-import com.twitterdan.dto.chat.response.message.privateMessage.PrivateMessageOwnerResponse;
+import com.twitterdan.dto.chat.response.message.privatemessage.PrivateMessageOwnerResponse;
 import com.twitterdan.facade.GeneralFacade;
 import com.twitterdan.service.ChatService;
 import com.twitterdan.service.MessageService;
@@ -22,13 +22,12 @@ public class PrivateMessageOwnerResponseMapper extends GeneralFacade<Message, Pr
 
   @Override
   protected void decorateDto(PrivateMessageOwnerResponse dto, Message entity, User user) {
-    Chat chat = entity.getChat();
     Long userId = user.getId();
     Long chatId = entity.getChat().getId();
     dto.setChatId(chatId);
     dto.setCountUnreadMessages(messageService.getCountUnreadChatMessagesByUserId(chatId, userId));
     dto.setLastSeenChatMessageId(messageService.findLastSeenChatMessageId(userId, chatId));
-
+    Chat chat = entity.getChat();
     if (chat.getDeleted().size() > 0) {
       chatService.resetDeletedChat(userId, chatId);
     }

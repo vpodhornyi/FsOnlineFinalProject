@@ -13,6 +13,7 @@ public class LeaveChatResponseMapper extends GeneralFacade<Chat, LeaveChatRespon
   private final ChatUserMapper chatUserMapper;
 
   private final MessageService messageService;
+
   public LeaveChatResponseMapper(ChatUserMapper chatUserMapper, MessageService messageService) {
     super(Chat.class, LeaveChatResponse.class);
     this.chatUserMapper = chatUserMapper;
