@@ -51,7 +51,8 @@ export const StyledLoadContainer = styled(props => (<Container {...props}/>))(()
         width: "100%",
         display: "flex",
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        marginTop: "25px"
     }
 }));
 

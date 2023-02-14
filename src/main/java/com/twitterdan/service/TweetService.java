@@ -66,6 +66,12 @@ public class TweetService {
     return tweets.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
   }
 
+  public List<TweetResponse> getTweetsAndRepliesByUserId(Long id) {
+    List<Tweet> replies = tweetDao.findTweetsAndRepliesByUserId(id);
+    return replies.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
+
+  }
+
   public List<TweetResponse> getReplies(Long id) {
 
     List<Tweet> replies = tweetDao.findReplies("REPLY", id);

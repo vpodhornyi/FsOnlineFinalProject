@@ -12,6 +12,7 @@ import {getPersonalData} from "../../redux/user/selector";
 import {PATH} from "../../utils/constants";
 import {ColumnWrapper, PrimaryColumn, PrimaryHeader, SitebarColumn, StickyHeader} from "../../components";
 import Header from "../Lists/Header";
+import {Searchbar} from "../../components/Searchbar";
 
 const Subscribing = () => {
   const {user_tag} = useParams();
@@ -141,9 +142,8 @@ const Subscribing = () => {
         </PrimaryColumn>
         <SitebarColumn>
           <StickyHeader>
-            HEADER Lists sitebar column
+            <Searchbar/>
           </StickyHeader>
-          BODY Lists sitebar column
         </SitebarColumn>
       </ColumnWrapper>
   );

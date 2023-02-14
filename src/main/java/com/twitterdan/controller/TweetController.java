@@ -73,6 +73,11 @@ public class TweetController {
 
   }
 
+  @GetMapping("/replies/")
+  public List<TweetResponse> getRepliesByUserId(@RequestParam(name = "id") String userId) {
+    return tweetService.getTweetsAndRepliesByUserId(Long.parseLong(userId));
+  }
+
   @GetMapping("/replies/{id}")
   public List<TweetResponse> getReplies(@PathVariable("id") String tweetId) {
     return tweetService.getReplies(Long.parseLong(tweetId));
