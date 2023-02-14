@@ -136,7 +136,7 @@ const UserProfile = () => {
                       onChange={handleTabVal}
                       aria-label="basic tabs example"
                       indicatorColor={"primary"}
-                      textColor={"primary"}
+                      textColor={"inherit"}
                   >
                     <Tab onClick={() => navigate(PATH.USER_PAGE.userProfile(user_tag))}
                          label="Tweets" {...a11yProps(0)} />

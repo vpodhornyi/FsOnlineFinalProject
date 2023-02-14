@@ -59,6 +59,9 @@ public interface TweetRepository extends PagingAndSortingRepository<Tweet, Long>
           nativeQuery = true)
   List<Tweet> findReplies(String type, Long id);
 
+  @Query(value = "Select * from TWEETS where USER_ID=:id ", nativeQuery = true)
+  List<Tweet> findTweetsAndRepliesByUserId(Long id);
+
   List<Tweet> findTweetsByParentTweetIdIsNull();
 
   List<Tweet> findTweetsByUserId(Long userId);

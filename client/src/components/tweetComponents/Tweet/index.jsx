@@ -100,7 +100,10 @@ const Tweet = forwardRef((props, ref) => {
                         <Box>
                             <Box sx={{marginLeft: 0.688}}>
                                 <PostInfo>
-                                    <UserName variant="h2" underline={"hover"}>
+                                    <UserName onClick={(e) => {
+                                        e.stopPropagation();
+                                        navigate(PATH.USER_PAGE.userProfile(userTag))
+                                    }} variant="h2" underline={"hover"}>
                                         {name}
                                     </UserName>
                                     <VerifiedIcon

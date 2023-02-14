@@ -245,6 +245,11 @@ const EditProfile = () => {
                             <Grid sx={{padding: "20px"}}>
                                 <Grid item xs={12} sx={{padding: '10px 0'}}>
                                     <TextField
+                                        sx={{
+                                            ".MuiFormHelperText-root": {
+                                                color: "black !important"
+                                            }
+                                        }}
                                         error={name.length < 3 || name.length > 50}
                                         helperText={(name.length < 3 || name.length > 50) ? `${name.length} / 50. Name must includes from 3 to 50 symbols!` : `${name.length} / 50`}
                                         value={name}
@@ -257,6 +262,11 @@ const EditProfile = () => {
                                 </Grid>
                                 <Grid item sx={{padding: '10px 0'}}>
                                     <TextField
+                                        sx={{
+                                            ".MuiFormHelperText-root": {
+                                                color: "black !important"
+                                            }
+                                        }}
                                         error={bio.length > 160}
                                         helperText={bio.length > 160 ? `${bio.length} / 160. Bio must includes max to 160 symbols!` : `${bio.length} / 160`}
                                         value={bio}
@@ -269,6 +279,11 @@ const EditProfile = () => {
                                 </Grid>
                                 <Grid item sx={{padding: '10px 0'}}>
                                     <TextField
+                                        sx={{
+                                            ".MuiFormHelperText-root": {
+                                                color: "black !important"
+                                            }
+                                        }}
                                         error={location.length > 30}
                                         helperText={location.length > 30 ? `${location.length} / 30. Location must includes max to 30 symbols!` : `${location.length} / 30`}
                                         value={location}

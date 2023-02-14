@@ -19,26 +19,58 @@ const INITIAL_STATE = {
 };
 
 export default (state = INITIAL_STATE, {payload, type}) => {
-    switch (type) {
-
-        case String(ACTIONS.getTweets.request):
-            return {
-                ...state,
-                loading: true,
-            };
-        case String(ACTIONS.getTweets.success):
-            const {data, stateItem} = payload
-            const tweetsId = state[stateItem].data.map(tweet => tweet.id)
-            const newTweets = data?.filter(resTweet => !tweetsId.includes(resTweet.id));
-            if (newTweets.length) {
-                return {
-                    ...state,
-                    loading: false,
-                    [stateItem]: {
-                        ...state[stateItem], data: [...state[stateItem].data, ...newTweets],
-                        pageNumber: state[stateItem].pageNumber + 1
-                    },
-                }
+  switch (type) {
+      case String(ACTIONS.getCurrentUserTweetsAndReplies.request):
+          return {
+              ...state,
+              loading: true
+          }
+      case String(ACTIONS.getCurrentUserTweetsAndReplies.success):
+          return {
+              ...state,
+              loading: false,
+              tweets: {...state.tweets, data: payload, pageSize: 100, pageNumber: 0}
+          }
+      case String(ACTIONS.getCurrentUserTweets.request):
+          return {
+              ...state,
+              loading: true
+          }
+      case String(ACTIONS.getCurrentUserTweets.success):
+          return {
+              ...state,
+              loading: false,
+              tweets: {...state.tweets, data: payload}
+          }
+      case String(ACTIONS.getCurrentUserLikes.request):
+          return {
+              ...state,
+              loading: true
+          }
+      case String(ACTIONS.getCurrentUserLikes.success):
+          return {
+              ...state,
+              loading: false,
+              tweets: {...state.tweets, data: payload}
+          }
+      case String(ACTIONS.getTweets.request):
+          return {
+              ...state,
+              loading: true,
+          };
+      case String(ACTIONS.getTweets.success):
+          const {data, stateItem} = payload
+          const tweetsId = state[stateItem].data.map(tweet => tweet.id)
+          const newTweets = data?.filter(resTweet => !tweetsId.includes(resTweet.id));
+          if (newTweets.length) {
+              return {
+                  ...state,
+                  loading: false,
+                  [stateItem]: {
+                      ...state[stateItem], data: [...state[stateItem].data, ...newTweets],
+                      pageNumber: state[stateItem].pageNumber + 1
+                  },
+              }
 
             } else {
                 return {
