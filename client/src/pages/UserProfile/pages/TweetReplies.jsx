@@ -7,19 +7,22 @@ import {getPersonalData} from "../../../redux/user/selector";
 import {Tweet} from "../../../components";
 import {StyledLoadContainer} from "../../../components/StyledComponents/styledComponents";
 import {getTweetsState, loadingTweetsState} from "../../../redux/tweet/selector";
-import {getCurrentUserReplies} from "../../../redux/tweet/action";
+import {getCurrentUserTweetsAndReplies} from "../../../redux/tweet/action";
 import NoData from "../components/NoData";
+import {replaceDuplicatesByProperty} from "../../../utils/replaceDuplicatesByProperty";
 
 const TweetReplies = ({userId}) => {
     const {user_tag} = useParams();
     const user = useSelector(getPersonalData)
     const dispatch = useDispatch();
-    const replies = useSelector(getTweetsState);
+    const tweets = useSelector(getTweetsState);
     const loading = useSelector(loadingTweetsState);
 
     useEffect(() => {
-        dispatch(getCurrentUserReplies(userId));
+        dispatch(getCurrentUserTweetsAndReplies(userId, user_tag))
     }, []);
+
+    const unique = replaceDuplicatesByProperty(tweets?.data, "key")
 
     if (loading) {
         return <StyledLoadContainer><CircularProgress disableShrink/></StyledLoadContainer>
@@ -27,12 +30,13 @@ const TweetReplies = ({userId}) => {
 
     return (
         <>
-            {replies.data.length > 0 ? replies?.data?.map(t =>
-                <div key={t.id}>
-                    <Tweet tweetInfo={t}/>
-                </div>) :
+            {unique?.length > 0 ? unique?.map(t =>
+                    <div key={t.id}>
+                        <Tweet tweetInfo={t}/>
+                    </div>) :
                 <NoData text={`${user?.userTag === user_tag ? `You ` : `@${user_tag}`} don't have any replies yet.`}/>
             }
+
         </>
     );
 };

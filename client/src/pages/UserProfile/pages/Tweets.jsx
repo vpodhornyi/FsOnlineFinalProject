@@ -8,6 +8,7 @@ import {Tweet} from "../../../components";
 import {StyledLoadContainer} from "../../../components/StyledComponents/styledComponents";
 import {getCurrentUserTweets} from "../../../redux/tweet/action";
 import NoData from "../components/NoData";
+import {replaceDuplicatesByProperty} from "../../../utils/replaceDuplicatesByProperty";
 
 const Tweets = () => {
     const {user_tag} = useParams();
@@ -21,13 +22,15 @@ const Tweets = () => {
         dispatch(getCurrentUserTweets(user_tag));
     }, []);
 
+    const unique = replaceDuplicatesByProperty(tweets?.data, "key");
+
     if (loading) {
         return <StyledLoadContainer><CircularProgress disableShrink/></StyledLoadContainer>
     }
 
     return (
         <>
-            {tweets.data.length > 0 ? tweets?.data?.filter(t => t.tweetType !== "REPLY")?.map(el =>
+            {unique?.length > 0 ? unique?.filter(t => t.tweetType !== "REPLY")?.map(el =>
                 <div key={el.id}>
                     <Tweet tweetInfo={el}/>
                 </div>

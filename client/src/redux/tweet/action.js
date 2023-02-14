@@ -1,6 +1,6 @@
 import { createActions } from "../utils";
 import api, { URLS } from "../../services/API";
-import {getTweetReplies, getUserLikes, getUserTweets} from "../../services/tweetService";
+import {getTweetsAndReplies, getUserLikes, getUserTweets} from "../../services/tweetService";
 
 const actions = createActions(
   {
@@ -13,7 +13,7 @@ const actions = createActions(
       "HANDLER_BOOKMARK",
       "GET_CURRENT_USER_TWEETS",
       "GET_CURRENT_USER_LIKES",
-      "GET_CURRENT_USER_REPLIES",
+      "GET_CURRENT_USER_TWEETS_AND_REPLIES",
       "HANDLER_REPLIES",
     ],
   },
@@ -27,13 +27,15 @@ export const ACTIONS = {
     ...actions.async,
 };
 
-export const getCurrentUserReplies = (userId) => async dispatch => {
+export const getCurrentUserTweetsAndReplies = (userId, userTag) => async dispatch => {
   try {
-    dispatch(ACTIONS.getCurrentUserReplies.request());
-    const data = await getTweetReplies(userId);
-    dispatch(ACTIONS.getCurrentUserReplies.success(data));
+    dispatch(ACTIONS.getCurrentUserTweetsAndReplies.request());
+    const tweets = await getUserTweets(userTag);
+    const replies = await getTweetsAndReplies(userId);
+    const combinedData = [...tweets, ...replies];
+    dispatch(ACTIONS.getCurrentUserTweetsAndReplies.success(combinedData));
   }catch (e) {
-    dispatch(ACTIONS.getCurrentUserReplies.fail());
+    dispatch(ACTIONS.getCurrentUserTweetsAndReplies.fail());
     console.log("get user replies error", e)
   }
 }

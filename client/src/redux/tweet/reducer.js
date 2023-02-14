@@ -20,16 +20,16 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, {payload, type}) => {
   switch (type) {
-      case String(ACTIONS.getCurrentUserReplies.request):
+      case String(ACTIONS.getCurrentUserTweetsAndReplies.request):
           return {
               ...state,
               loading: true
           }
-      case String(ACTIONS.getCurrentUserReplies.success):
+      case String(ACTIONS.getCurrentUserTweetsAndReplies.success):
           return {
               ...state,
               loading: false,
-              tweets: {...state.tweets, data: payload},
+              tweets: {...state.tweets, data: payload, pageSize: 100, pageNumber: 0}
           }
       case String(ACTIONS.getCurrentUserTweets.request):
           return {
