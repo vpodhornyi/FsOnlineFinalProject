@@ -85,7 +85,7 @@ const ChatBody = ({chatId}) => {
         return;
       }
       const newMessage = {
-        chatId, key: getRandomKey(), text: textMessage, isMessageOwner: true, sending: true,
+        chatId, key: getRandomKey(), text: textMessage, messageOwner: true, sending: true,
       };
 
       if (selectedChat.isPrivate || type === NEW_PRIVATE) {
@@ -153,7 +153,7 @@ const ChatBody = ({chatId}) => {
   const showMessage = (m, i) => {
     let message = null;
     let notification = null;
-    if (m.isMessageOwner) {
+    if (m.messageOwner) {
       message = <MessageViewElement
         key={m?.key}
         toggleVisible={toggleElementVisible}
@@ -167,7 +167,7 @@ const ChatBody = ({chatId}) => {
       />
     }
 
-    if (m.isForeignerMessage) {
+    if (m.foreignerMessage) {
       message = <MessageViewElement
         key={m?.key}
         toggleVisible={toggleElementVisible}
@@ -180,7 +180,7 @@ const ChatBody = ({chatId}) => {
       />
     }
 
-    if ((m.id === lastSeenChatMessageId) && messages.length - 1 !== i && !messages[i + 1]?.isMessageOwner) {
+    if ((m.id === lastSeenChatMessageId) && messages.length - 1 !== i && !messages[i + 1]?.messageOwner) {
       notification = <UnreadMessagesNotification key={getRandomKey()}/>
     }
 
