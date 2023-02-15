@@ -79,7 +79,7 @@ const Tweet = forwardRef((props, ref) => {
                 ref={ref}
                 sx={styles}
                 onClick={() => {
-                    navigate(PATH.HOME.tweetPage(id));
+                    navigate(PATH.TWEET.tweetPage(id));
                 }}
             >
                 {retweetFollowedName!==""&&<Typography sx={{
