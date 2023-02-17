@@ -63,7 +63,6 @@ export const Searchbar = ({isExplore}) => {
                              fullWidth value={text}
                              onChange={onInputChange}
                              InputProps={{
-                               disableUnderline: true,
                                startAdornment: <Search className='SearchIcon' style={{marginRight: '10px'}}/>,
                                endAdornment: showClearSearch &&
                                    <Cancel className='CancelButton' onClick={handleClearSearch}/>,
