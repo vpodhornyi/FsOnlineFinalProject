@@ -1,5 +1,5 @@
-import { styled } from "@mui/material/styles";
-import { Box, Button, List, ListItem } from "@mui/material";
+import {styled} from "@mui/material/styles";
+import {Box, Button, List, ListItem} from "@mui/material";
 
 export const TwitterContainer = styled(Box)({
 
@@ -29,8 +29,8 @@ export const TweetInput = styled(Box)({
 });
 
 export const FormFooter = styled(Box)({
-  position:"relative",
-  marginTop:"10px",
+  position: "relative",
+  marginTop: "10px",
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
@@ -39,8 +39,8 @@ export const TextCount = styled(Box)({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  fontWeight:"bold",
-  color:"green"
+  fontWeight: "bold",
+  color: "green"
 });
 
 export const IconsList = styled(List)({
@@ -64,11 +64,12 @@ export const ReplyText = styled(Box)({
   marginTop: 15,
 });
 
-export const TweetBtn = styled(Button)({
+export const TweetBtn = styled(Button)(({theme}) => ({
   color: "#fff",
-  backgroundColor: "rgb(29, 155, 240)",
-  padding: "0 20",
-  marginLeft:"20px",
+  backgroundColor: theme.palette.primary.main,
+  padding: "0 24",
+  minWidth: 70,
+  marginLeft: "20px",
   justifySelf: "center",
   borderRadius: 30,
   height: 35,
@@ -82,4 +83,10 @@ export const TweetBtn = styled(Button)({
     top: 5,
     right: 5,
   },
-});
+  "&:disabled": {
+    color: '#fff',
+  },
+  "&:hover": {
+    backgroundColor: theme.palette.primary.main,
+  },
+}));
