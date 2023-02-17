@@ -31,10 +31,11 @@ export const mainRoutes = (width, authorized) => {
       [
         {
           path: PATH.ROOT,
-          element: <Navigate to={PATH.HOME.ROOT}/>,
+          element: <Navigate to={PATH.HOME}/>,
         },
+
         {
-          path: PATH.HOME.ROOT,
+          path: PATH.HOME,
           element: <Home/>,
             children: [{
                 index: true,
@@ -47,7 +48,7 @@ export const mainRoutes = (width, authorized) => {
                     </>
                 ),
             },
-                { path: PATH.HOME.TWEET_PAGE, element: <TweetPage /> },
+                { path: PATH.TWEET.TWEET_PAGE, element: <TweetPage /> },
             ],
         },
         {

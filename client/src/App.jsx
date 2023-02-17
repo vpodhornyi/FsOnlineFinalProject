@@ -20,7 +20,7 @@ const App = () => {
   const {width, ref} = useResizeDetector();
   const {authorized} = useSelector(state => state.auth);
   const {authUser, preloader, customize} = useSelector(state => state.user);
-  const theme = createTheme(themeStyles(customize.backgroundColor, customize.color));
+  const theme = createTheme(themeStyles(customize?.backgroundColor, customize?.color));
   const {isChatSelected, chatId} = useSelector(getChatsData);
   const location = useLocation();
   const background = location.state?.background;

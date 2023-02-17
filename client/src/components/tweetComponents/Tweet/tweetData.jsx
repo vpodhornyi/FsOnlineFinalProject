@@ -5,6 +5,11 @@ import {
   ReplyIcon,
   RetweetIcon,
 } from "../../../media/icons";
+import {changeActionsTweet, changeBookmark} from "../../../redux/tweet/action";
+import {PATH} from "../../../utils/constants";
+import {useDispatch} from "react-redux";
+
+
 
 export const ICONS = [
   {
@@ -61,3 +66,5 @@ export const ICONS = [
     tooltip: "Bookmark",
   },
 ];
+
+
