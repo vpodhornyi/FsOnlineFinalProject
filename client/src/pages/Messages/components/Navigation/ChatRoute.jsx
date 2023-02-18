@@ -27,45 +27,44 @@ const ChatRoute = ({chat, toggleModal}) => {
   }
 
   return (
-    <BoxWrapper onClick={() => handleChatClick(chat)}>
-      <Box
-        className={id && (id == chat.id) ? `ChatRoutWrapperActive` : chat?.lastMessage?.countUnreadMessages ? 'NotReadMessagesExist' : ''}>
-        <Box sx={{display: 'flex'}}>
-          <Avatar sx={{mr: '10px', width: '3.3rem', height: '3.3rem'}} src={chat.avatarImgUrl}/>
-          <Box>
-            <Box sx={{display: 'flex'}}>
-              <Typography sx={{fontWeight: 600}}>{chat.title}</Typography>
+      <BoxWrapper onClick={() => handleChatClick(chat)}>
+        <Box
+            className={id && (id === chat.id) ? `ChatRoutWrapperActive` : chat?.lastMessage?.countUnreadMessages ? 'NotReadMessagesExist' : ''}>
+          <Box sx={{display: 'flex'}}>
+            <Avatar sx={{mr: '10px', width: '3.3rem', height: '3.3rem'}} src={chat.avatarImgUrl}/>
+            <Box>
+              <Box sx={{display: 'flex'}}>
+                <Typography sx={{fontWeight: 600}}>{chat.title}</Typography>
 
-              {chat.isPrivate && <Typography variant='body2' sx={{ml: '5px'}}>@{chat.userTag}</Typography>}
-              {chat?.lastMessage &&
-                <Typography variant='body2' sx={{
-                  '&:before': {
-                    content: '"·"',
-                    marginLeft: '5px',
-                    marginRight: '5px',
-                  }
-                }}>{moment(chat?.lastMessage?.createdAt).fromNow(true)}</Typography>
-              }
-            </Box>
-            <Box sx={{display: 'flex'}}>
-              {authUser?.id !== chat?.lastMessage?.user.id && chat?.lastMessage?.user.name &&
-                <Typography variant='body2' sx={{mr: 1}}>{chat?.lastMessage?.user.name}:</Typography>}
-              <Typography variant='body2'>{getText(chat?.lastMessage?.text)}</Typography>
+                {chat.isPrivate && <Typography variant='body2' sx={{ml: '5px'}}>@{chat.userTag}</Typography>}
+                {chat?.lastMessage &&
+                    <Typography variant='body2' sx={{
+                      '&:before': {
+                        content: '"·"',
+                        marginLeft: '5px',
+                        marginRight: '5px',
+                      }
+                    }}>{moment(chat?.lastMessage?.createdAt).fromNow(true)}</Typography>
+                }
+              </Box>
+              <Box sx={{display: 'flex'}}>
+                {authUser?.id !== chat?.lastMessage?.user.id && chat?.lastMessage?.user.name &&
+                    <Typography variant='body2' sx={{mr: 1}}>{chat?.lastMessage?.user.name}:</Typography>}
+                <Typography variant='body2'>{getText(chat?.lastMessage?.text)}</Typography>
+              </Box>
             </Box>
           </Box>
+          <Badge
+              badgeContent={chat?.lastMessage?.countUnreadMessages}
+              color="primary"
+              max={99}
+          >
+            <Box className='MoreIcon'>
+              <More toggleModal={toggleModal} chat={chat}/>
+            </Box>
+          </Badge>
         </Box>
-        <Badge
-          badgeContent={chat?.lastMessage?.countUnreadMessages}
-          color="primary"
-          max={99}
-          // variant="dot"
-        >
-          <Box className='MoreIcon'>
-            <More toggleModal={toggleModal} chat={chat}/>
-          </Box>
-        </Badge>
-      </Box>
-    </BoxWrapper>);
+      </BoxWrapper>);
 }
 
 const BoxWrapper = styled(Box)(({theme}) => ({

@@ -1,28 +1,26 @@
 import React from "react";
 import IconsByName from "@components/icons/IconByName";
-import {IconButton, Tooltip, Box} from "@mui/material";
+import {IconButton, Box} from "@mui/material";
 import PropTypes from "prop-types";
 import {styled} from "@mui/material/styles";
 
-const CustomIconButton = ({name, title, size = 'medium', disabled = false, iconSize, color}) => {
+const CustomIconButton = ({name, size = 'medium', disabled = false, iconSize, color}) => {
   return (
-    // <Tooltip title={title}>
-    <Box className='CustomIconButtonWrapper'>
-      <StyledIconButton color={color} size={size} disabled={disabled}>
-        <IconsByName iconName={name} iconSize={iconSize}/>
-      </StyledIconButton>
-    </Box>
-    // </Tooltip>
+      <Box className='CustomIconButtonWrapper'>
+        <StyledIconButton color={color} size={size} disabled={disabled}>
+          <IconsByName iconName={name} iconSize={iconSize}/>
+        </StyledIconButton>
+      </Box>
   )
 };
 
-const StyledIconButton = styled(IconButton)(({theme}) => ({
+const StyledIconButton = styled(IconButton)({
   padding: '11px !important',
 
   '& .MuiTouchRipple-root': {
     display: 'none',
   },
-}));
+});
 
 CustomIconButton.propTypes = {
   iconColor: PropTypes.string,

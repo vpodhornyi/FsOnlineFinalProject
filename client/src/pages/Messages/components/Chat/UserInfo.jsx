@@ -10,15 +10,14 @@ const UserInfo = () => {
   const {selectedChat} = useSelector(getChatsData);
 
   return (
-    <Link to={PATH.USER_PAGE.userProfile(selectedChat.userTag)} style={{textDecoration: 'none', color: '#000000'}}>
-      <BoxWrapper>
-        <Avatar sx={{width: '5rem', height: '5rem'}} src={selectedChat.avatarImgUrl}/>
-        <Typography sx={{fontWeight: 600}}>{selectedChat.title}</Typography>
-        <Typography variant='body2' sx={{pb: 2}}>@{selectedChat.userTag}</Typography>
-        <Typography variant='body2'>Joined November 2022 · 1 Follower</Typography>
-        {/*<Typography variant='body2'>User Tag</Typography>*/}
-      </BoxWrapper>
-    </Link>
+      <Link to={PATH.USER_PAGE.userProfile(selectedChat.userTag)} style={{textDecoration: 'none', color: '#000000'}}>
+        <BoxWrapper>
+          <Avatar sx={{width: '5rem', height: '5rem'}} src={selectedChat.avatarImgUrl}/>
+          <Typography sx={{fontWeight: 600}}>{selectedChat.title}</Typography>
+          <Typography variant='body2' sx={{pb: 2}}>@{selectedChat.userTag}</Typography>
+          <Typography variant='body2'>Joined November 2022 · 1 Follower</Typography>
+        </BoxWrapper>
+      </Link>
   );
 }
 

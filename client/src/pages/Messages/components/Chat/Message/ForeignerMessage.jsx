@@ -31,30 +31,29 @@ const ForeignerMessage = ({chat, message, sameMessage, toggleModal}) => {
   }, [inView])
 
   return (
-    <BoxWrapper>
-      <MessageBox ref={ref}>
-        {message.isGroupChat && (sameMessage ?
-            <Box sx={{mr: '10px', width: '2.7rem', height: '2.7rem'}}></Box> :
-          <Link to={`${PATH.USER_PAGE.userProfile(message.user.id)}`}>
-            <Avatar sx={{mr: '10px', width: '2.7rem', height: '2.7rem'}} src={message.user.avatarImgUrl}/>
-          </Link>
-        )}
-        <MessageTextBox className={`${sameMessage && 'SameMessageTextBox'}`}>
-          <Typography>{message.text}</Typography>
-        </MessageTextBox>
-        <Action toggleModal={toggleModal} message={message}/>
-      </MessageBox>
-      <Box className={`InfoMessageBox ${sameMessage && 'SameMessage'}`}>
-        {/*<Reaction/>*/}
-        <TimeBox>
-          <Typography variant='body3'>{moment(message.createdAt).fromNow(true)}</Typography>
-        </TimeBox>
-      </Box>
-    </BoxWrapper>
+      <BoxWrapper>
+        <MessageBox ref={ref}>
+          {message.isGroupChat && (sameMessage ?
+                  <Box sx={{mr: '10px', width: '2.7rem', height: '2.7rem'}}></Box> :
+                  <Link to={`${PATH.USER_PAGE.userProfile(message.user.id)}`}>
+                    <Avatar sx={{mr: '10px', width: '2.7rem', height: '2.7rem'}} src={message.user.avatarImgUrl}/>
+                  </Link>
+          )}
+          <MessageTextBox className={`${sameMessage && 'SameMessageTextBox'}`}>
+            <Typography>{message.text}</Typography>
+          </MessageTextBox>
+          <Action toggleModal={toggleModal} message={message}/>
+        </MessageBox>
+        <Box className={`InfoMessageBox ${sameMessage && 'SameMessage'}`}>
+          <TimeBox>
+            <Typography variant='body3'>{moment(message.createdAt).fromNow(true)}</Typography>
+          </TimeBox>
+        </Box>
+      </BoxWrapper>
   );
 }
 
-const BoxWrapper = styled(Box)(({theme}) => ({
+const BoxWrapper = styled(Box)({
   display: 'flex',
   justifyContent: 'flex-start',
   flexDirection: 'column',
@@ -76,9 +75,9 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   '& .SameMessageTextBox': {
     borderBottomLeftRadius: 24,
   },
-}));
+});
 
-const MessageBox = styled(Box)(({theme}) => ({
+const MessageBox = styled(Box)({
   cursor: 'pointer',
   width: '87.5%',
   display: 'flex',
@@ -88,7 +87,7 @@ const MessageBox = styled(Box)(({theme}) => ({
   '&:hover .Actions': {
     opacity: 1
   },
-}))
+});
 
 const MessageTextBox = styled(Box)(({theme}) => ({
   flexShrink: 1,

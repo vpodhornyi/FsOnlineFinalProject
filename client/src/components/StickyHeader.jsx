@@ -11,9 +11,6 @@ const StickyHeader = styled(Box)(({theme}) => ({
   zIndex: 1000,
   backgroundColor: theme.palette.background.alpha,
   backdropFilter: 'blur(12px)',
-  // display: 'flex',
-  // alignItems: 'center',
-  // justifyContent: 'space-between',
 }));
 
 export default StickyHeader;

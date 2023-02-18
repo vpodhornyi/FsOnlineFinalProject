@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {styled} from "@mui/material/styles";
-import {ListItemIcon, ListItemText, Typography, Box, MenuItem, Menu, Drawer} from "@mui/material";
+import {ListItemIcon, ListItemText, Typography, Box, MenuItem, Menu} from "@mui/material";
 import PropTypes from "prop-types";
 
 import CustomIconButton from "@components/buttons/CustomIconButton";
@@ -23,56 +23,40 @@ const More = ({toggleModal, chat}) => {
   }
 
   return (
-    <Box onClick={e => e.stopPropagation()}>
-      <Box
-        id="demo-positioned-button"
-        aria-controls={open ? 'demo-positioned-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
-      >
-        <CustomIconButton name='MoreHorizOutlined' title='More' size='middle' iconSize='middle' color='text'/>
-      </Box>
-      <Box>
-        <MenuWrapper
-          id="demo-positioned-menu"
-          aria-labelledby="demo-positioned-button"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
+      <Box onClick={e => e.stopPropagation()}>
+        <Box
+            id="demo-positioned-button"
+            aria-controls={open ? 'demo-positioned-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+            onClick={handleClick}
         >
-          <MenuList openLeaveChatConfirm={openLeaveChatConfirm}/>
-        </MenuWrapper>
+          <CustomIconButton name='MoreHorizOutlined' title='More' size='middle' iconSize='middle' color='text'/>
+        </Box>
+        <Box>
+          <MenuWrapper
+              id="demo-positioned-menu"
+              aria-labelledby="demo-positioned-button"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+          >
+            <MenuList openLeaveChatConfirm={openLeaveChatConfirm}/>
+          </MenuWrapper>
+        </Box>
       </Box>
-    </Box>
   );
 }
 
 const MenuList = ({openLeaveChatConfirm}) => (<>
-{/*  <MenuItem>
-    <ListItemIcon>
-      <IconByName iconName='PushPinOutlined' color='text'/>
-    </ListItemIcon>
-    <ListItemText>
-      <Typography variant='body1'>Pin conversation</Typography>
-    </ListItemText>
-  </MenuItem>
-  <MenuItem>
-    <ListItemIcon>
-      <IconByName iconName='NotificationsOffOutlined' color='text'/>
-    </ListItemIcon>
-    <ListItemText>
-      <Typography variant='body1'>Snooze conversation</Typography>
-    </ListItemText>
-  </MenuItem>*/}
   <MenuItem onClick={openLeaveChatConfirm}>
     <ListItemIcon>
       <IconByName iconStyle={{color: 'red'}} iconName='DeleteOutlined'/>

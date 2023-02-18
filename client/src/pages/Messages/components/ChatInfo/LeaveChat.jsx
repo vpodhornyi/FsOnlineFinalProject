@@ -12,14 +12,14 @@ const LeaveChat = ({chat}) => {
   const {modal, toggleModal} = useModal();
 
   return (
-    <BoxWrapper onClick={() => toggleModal(<LeaveChatConfirm toggleModal={toggleModal} chat={chat}/>, true)}>
-      <Action name={`Leave conversation`}/>
-      <ModalWindow
-        isShowing={modal.isShowing}
-        toggleModal={toggleModal}
-        element={modal.element}
-      />
-    </BoxWrapper>);
+      <BoxWrapper onClick={() => toggleModal(<LeaveChatConfirm toggleModal={toggleModal} chat={chat}/>, true)}>
+        <Action name={`Leave conversation`}/>
+        <ModalWindow
+            isShowing={modal.isShowing}
+            toggleModal={toggleModal}
+            element={modal.element}
+        />
+      </BoxWrapper>);
 }
 
 const BoxWrapper = styled(Box)(({theme}) => ({
@@ -40,5 +40,3 @@ LeaveChat.propTypes = {
 }
 
 export default LeaveChat;
-
-//ChatInfoActionButton

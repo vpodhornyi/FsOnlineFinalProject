@@ -29,65 +29,57 @@ const More = ({toggleModal, message, isRight}) => {
   }
 
   return (
-    <Box>
-      <Box
-        id="demo-positioned-button"
-        aria-controls={open ? 'demo-positioned-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
-      >
-        <CustomIconButton
-          color='action'
-          name='MoreHorizOutlined'
-          title='More'
-          size='small'
-          iconSize='small'/>
-      </Box>
-      <MenuWrapper
-        id="demo-positioned-menu"
-        aria-labelledby="demo-positioned-button"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: `${isRight ? 'right' : 'left'}`,
-        }}
-      >
-        <MenuItem onClick={deleteForYou}>
-          <ListItemIcon>
-            <IconByName iconStyle={{color: 'red'}} iconName='DeleteOutlined'/>
-          </ListItemIcon>
-          <ListItemText>
-            <Typography color='red' variant='body1'>Delete for you</Typography>
-          </ListItemText>
-        </MenuItem>
-        {
-          message?.isMessageOwner &&
-          <MenuItem onClick={deleteForAll}>
+      <Box>
+        <Box
+            id="demo-positioned-button"
+            aria-controls={open ? 'demo-positioned-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+            onClick={handleClick}
+        >
+          <CustomIconButton
+              color='action'
+              name='MoreHorizOutlined'
+              title='More'
+              size='small'
+              iconSize='small'/>
+        </Box>
+        <MenuWrapper
+            id="demo-positioned-menu"
+            aria-labelledby="demo-positioned-button"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: `${isRight ? 'right' : 'left'}`,
+            }}
+        >
+          <MenuItem onClick={deleteForYou}>
             <ListItemIcon>
               <IconByName iconStyle={{color: 'red'}} iconName='DeleteOutlined'/>
             </ListItemIcon>
             <ListItemText>
-              <Typography color='red' variant='body1'>Delete for all</Typography>
+              <Typography color='red' variant='body1'>Delete for you</Typography>
             </ListItemText>
           </MenuItem>
-        }
-{/*        <MenuItem>
-          <ListItemIcon>
-            <IconByName iconName='ContentCopy' color='text'/>
-          </ListItemIcon>
-          <ListItemText>
-            <Typography variant='body1'>Copy text</Typography>
-          </ListItemText>
-        </MenuItem>*/}
-      </MenuWrapper>
-    </Box>
+          {
+              message?.isMessageOwner &&
+              <MenuItem onClick={deleteForAll}>
+                <ListItemIcon>
+                  <IconByName iconStyle={{color: 'red'}} iconName='DeleteOutlined'/>
+                </ListItemIcon>
+                <ListItemText>
+                  <Typography color='red' variant='body1'>Delete for all</Typography>
+                </ListItemText>
+              </MenuItem>
+          }
+        </MenuWrapper>
+      </Box>
   );
 }
 

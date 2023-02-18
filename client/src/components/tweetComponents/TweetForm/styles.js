@@ -47,12 +47,12 @@ export const IconsList = styled(List)({
   display: "inline-flex",
 });
 
-export const Icon = styled(ListItem)({
+export const Icon = styled(ListItem)(({theme}) => ({
   width: 20,
   height: 20,
-  color: "rgb(29, 155, 240)",
+  color: theme.palette.primary.main,
   marginRight: 10,
-});
+}));
 
 export const ReplyText = styled(Box)({
   paddingBottom: 15,

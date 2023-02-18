@@ -25,7 +25,6 @@ const PrimaryHeader = ({isBack = false, pageElement}) => {
         <CustomIconButton name='ArrowBackOutlined' title='Back' color='text'/>
       </Box>}
       {pageElement}
-      {/*<PageElement user={authUser} page={page}/>*/}
       <Drawer anchor='left'
               open={open}
               onClose={toggleDrawer()}>
