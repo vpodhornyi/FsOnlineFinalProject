@@ -7,14 +7,14 @@ import {ACTIONS as SNACK_ACTIONS} from "../snack/action";
 
 
 const actions = createActions(
-  {
-    actions: ['UPDATE_COUNT_UNREAD_MESSAGES', 'RESET_DATA', 'SET_CUSTOMIZE',
-      'SET_STOMP_SUBSCRIBE_ID', 'UPDATE_USER_CUSTOM_STYLE'],
-    async: ['GET_AUTH_USER'],
-  },
-  {
-    prefix: "user",
-  }
+    {
+      actions: ['UPDATE_COUNT_UNREAD_MESSAGES', 'RESET_DATA', 'SET_CUSTOMIZE',
+        'SET_STOMP_SUBSCRIBE_ID', 'UPDATE_USER_CUSTOM_STYLE'],
+      async: ['GET_AUTH_USER'],
+    },
+    {
+      prefix: "user",
+    }
 );
 
 export const ACTIONS = {
@@ -51,7 +51,6 @@ export const authUserSocketSubscribe = () => async (dispatch, getState) => {
     const {user: {authUser}} = getState();
     const subData = authUser?.id && api.client.subscribe(`/queue/user.${authUser.id}`, async (data) => {
       const {body} = JSON.parse(data.body);
-      // console.log('stomp body - ', body);
       switch (body?.type) {
         case 'MESSAGE_ADD':
           const {chat} = body;

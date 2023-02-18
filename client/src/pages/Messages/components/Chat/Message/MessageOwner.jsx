@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import {styled} from "@mui/material/styles";
 import {Box, Typography} from "@mui/material";
 import Seen from "./Seen";
-// import Reaction from "./Reaction";
 import Action from "./Action/Action";
 import {moment} from "@utils";
 
@@ -12,22 +11,21 @@ const MessageOwner = ({message, toggleModal, messageBoxClick, sameMessage, activ
   const active = message.id === activeMessageId;
 
   return (
-    <BoxWrapper>
-      <MessageBox onClick={() => messageBoxClick(message?.id)}>
-        <Action toggleModal={toggleModal} message={message} isRight={true}/>
-        <MessageTextBox
-          className={`${sameMessage ? 'SameMessageTextBox' : null} ${active ? 'SameMessageTextBoxActive' : null}`}>
-          <Typography>{message.text}</Typography>
-        </MessageTextBox>
-      </MessageBox>
-      <Box className={`InfoMessageBox ${sameMessage && !active && 'SameMessage'}`}>
-        {/*<Reaction/>*/}
-        <TimeBox>
-          <Typography variant='body3'>{moment(message.createdAt).fromNow(true)}</Typography>
-          <Seen message={message}/>
-        </TimeBox>
-      </Box>
-    </BoxWrapper>
+      <BoxWrapper>
+        <MessageBox onClick={() => messageBoxClick(message?.id)}>
+          <Action toggleModal={toggleModal} message={message} isRight={true}/>
+          <MessageTextBox
+              className={`${sameMessage ? 'SameMessageTextBox' : null} ${active ? 'SameMessageTextBoxActive' : null}`}>
+            <Typography>{message.text}</Typography>
+          </MessageTextBox>
+        </MessageBox>
+        <Box className={`InfoMessageBox ${sameMessage && !active && 'SameMessage'}`}>
+          <TimeBox>
+            <Typography variant='body3'>{moment(message.createdAt).fromNow(true)}</Typography>
+            <Seen message={message}/>
+          </TimeBox>
+        </Box>
+      </BoxWrapper>
   );
 }
 
@@ -55,7 +53,7 @@ const BoxWrapper = styled(Box)(({theme}) => ({
   }
 }));
 
-const MessageBox = styled(Box)(({theme}) => ({
+const MessageBox = styled(Box)({
   cursor: 'pointer',
   width: '87.5%',
   display: 'flex',
@@ -65,7 +63,7 @@ const MessageBox = styled(Box)(({theme}) => ({
   '&:hover .Actions': {
     opacity: 1
   },
-}))
+});
 
 const MessageTextBox = styled(Box)(({theme}) => ({
   flexShrink: 1,

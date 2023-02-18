@@ -9,27 +9,27 @@ const MainMenu = ({user, menu}) => {
   const location = useLocation();
 
   return (
-    <MenuNav className='NavigationMenu'>
-      {menu?.map(({path, text, iconName, iconActive, isBadge, badgeContent, modalPage}) => (
-        <NavLink
-          key={path}
-          to={path}
-          state={modalPage ? {background: location} : {}}
-        >
-          {({isActive}) => {
-            return <MenuItem>
-              <MainMenuButton
-                user={user}
-                isActive={isActive}
-                isBadge={isBadge}
-                badgeContent={badgeContent}
-                iconName={isActive ? iconActive : iconName}
-                text={text}/>
-            </MenuItem>
-          }}
-        </NavLink>
-      ))}
-    </MenuNav>
+      <MenuNav className='NavigationMenu'>
+        {menu?.map(({path, text, iconName, iconActive, isBadge, badgeContent, modalPage}) => (
+            <NavLink
+                key={path}
+                to={path}
+                state={modalPage ? {background: location} : {}}
+            >
+              {({isActive}) => {
+                return <MenuItem>
+                  <MainMenuButton
+                      user={user}
+                      isActive={isActive}
+                      isBadge={isBadge}
+                      badgeContent={badgeContent}
+                      iconName={isActive ? iconActive : iconName}
+                      text={text}/>
+                </MenuItem>
+              }}
+            </NavLink>
+        ))}
+      </MenuNav>
   );
 }
 
@@ -46,7 +46,6 @@ const MenuItem = styled('div')(({theme}) => ({
   margin: '4px 0',
   display: 'flex',
   cursor: 'pointer',
-  // color: theme.palette.action.active,
 
   '& .MainMenuButton': {
     borderRadius: 40,

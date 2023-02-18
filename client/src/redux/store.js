@@ -5,7 +5,7 @@ import {Client} from "@stomp/stompjs";
 import api from "@service/API";
 import {getTokens, setHeaderAuthorization} from "@utils";
 import {interceptor} from "@service/API";
-import {ACTIONS, authUserSocketSubscribe, getAuthUser, getUserLikes, getUserTweets} from "./user/action";
+import {ACTIONS, authUserSocketSubscribe, getAuthUser} from "./user/action";
 import {setFontSize, setBackgroundColor} from "@utils/theme";
 
 import tweetReducer from "./tweet/reducer";
@@ -36,7 +36,6 @@ export const stompClient = (onConnect) => {
     brokerURL: process.env.REACT_APP_API_BROKER_URL, connectHeaders: {
       login: 'user', passcode: 'password',
     }, debug: function (str) {
-      // console.log(str);
     }, reconnectDelay: 5000, onConnect,
   });
 
@@ -52,14 +51,14 @@ export default () => {
   if (accessToken) {
     setHeaderAuthorization(accessToken, tokenType);
     store.dispatch(getAuthUser())
-      .then((user) => {
-        setFontSize(user?.customStyle.fontSize || 14);
-        setBackgroundColor(user?.customStyle.background);
-        store.dispatch(ACTIONS.setCustomize(user?.customStyle));
-        api.client = stompClient(() => {
-          store.dispatch(authUserSocketSubscribe());
-        });
-      })
+        .then((user) => {
+          setFontSize(user?.customStyle.fontSize || 14);
+          setBackgroundColor(user?.customStyle.background);
+          store.dispatch(ACTIONS.setCustomize(user?.customStyle));
+          api.client = stompClient(() => {
+            store.dispatch(authUserSocketSubscribe());
+          });
+        })
   }
   return store;
 }

@@ -9,18 +9,17 @@ import {PATH} from "@utils/constants";
 
 const UserInfo = ({user}) => {
   return (
-    <BoxWrapper>
-      <Link  to={PATH.USER_PAGE.userProfile(user.userTag)}>
-        <Avatar sx={{width: '3.5rem', height: '3.5rem', mb: 1}} src={user.avatarImgUrl}/>
-      </Link>
-      <Typography fontWeight='bold' fontSize='1.3rem'>{user.name}</Typography>
-      <Typography variant='body2' sx={{pb: 2}}>@{user.userTag}</Typography>
-      <Box sx={{display: 'flex'}}>
-        <Typography sx={{mr: 2}} variant='body2'><span className='FollowCount'>{4}</span> Following</Typography>
-        <Typography variant='body2'><span className='FollowCount'>{1}</span> Follower</Typography>
-      </Box>
-      {/*<Typography variant='body2'>User Tag</Typography>*/}
-    </BoxWrapper>);
+      <BoxWrapper>
+        <Link to={PATH.USER_PAGE.userProfile(user.userTag)}>
+          <Avatar sx={{width: '3.5rem', height: '3.5rem', mb: 1}} src={user.avatarImgUrl}/>
+        </Link>
+        <Typography fontWeight='bold' fontSize='1.3rem'>{user.name}</Typography>
+        <Typography variant='body2' sx={{pb: 2}}>@{user.userTag}</Typography>
+        <Box sx={{display: 'flex'}}>
+          <Typography sx={{mr: 2}} variant='body2'><span className='FollowCount'>{4}</span> Following</Typography>
+          <Typography variant='body2'><span className='FollowCount'>{1}</span> Follower</Typography>
+        </Box>
+      </BoxWrapper>);
 }
 
 const BoxWrapper = styled(Box)(({theme}) => ({

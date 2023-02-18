@@ -41,48 +41,40 @@ const StartMessage = ({chatId, inputRef, sendMessage}) => {
   }
 
   return (
-    <BoxWrapper>
-      <ProgressWrapper>
-      </ProgressWrapper>
-      <ButtonsBoxWrapper>
-       {/* <Box>
-          <CustomIconButton color='primary' name='PermMediaOutlined' iconSize='small'/>
-        </Box>*/}
-        {/*<Box>*/}
-        {/*  <CustomIconButton color='primary' name='GifBoxOutlined' iconSize='small'/>*/}
-        {/*</Box>*/}
-       {/* <Box>
-          <CustomIconButton color='primary' name='EmojiEmotionsOutlined' iconSize='small'/>
-        </Box>*/}
-        <TextFieldWrapper
-          inputRef={inputRef}
-          onChange={handleChangeInputText}
-          onKeyDown={onKeyDown}
-          value={text}
-          placeholder='Start a new message'
-          multiline
-          id="messageText"
-          maxRows={10}
-          variant="filled"/>
-        <Box className='SendButton' onClick={() => onClickSend()}>
-          <CustomIconButton
-            color='primary'
-            name='SendOutlined'
-            iconSize='small'
-            disabled={!text || text?.trim() === ''}/>
-        </Box>
-      </ButtonsBoxWrapper>
-    </BoxWrapper>
+      <BoxWrapper>
+        <ProgressWrapper>
+        </ProgressWrapper>
+        <ButtonsBoxWrapper>
+          <TextFieldWrapper
+              inputRef={inputRef}
+              onChange={handleChangeInputText}
+              onKeyDown={onKeyDown}
+              value={text}
+              placeholder='Start a new message'
+              multiline
+              id="messageText"
+              maxRows={10}
+              variant="filled"/>
+          <Box className='SendButton' onClick={() => onClickSend()}>
+            <CustomIconButton
+                color='primary'
+                name='SendOutlined'
+                iconSize='small'
+                disabled={!text || text?.trim() === ''}/>
+          </Box>
+        </ButtonsBoxWrapper>
+      </BoxWrapper>
   );
 }
 
-const ProgressWrapper = styled(Box)(({theme}) => ({
+const ProgressWrapper = styled(Box)({
   position: 'absolute',
   height: 2,
   top: 0,
   left: 0,
   right: 0,
-}));
+});
+
 const ButtonsBoxWrapper = styled(Box)(({theme}) => ({
   position: 'relative',
   padding: '5px',
