@@ -1,20 +1,14 @@
 import React from "react";
-import {styled} from "@mui/material/styles";
 import {Box} from "@mui/material";
 import {Searchbar} from "../../components/Searchbar";
 
 const Header = () => {
 
-  return (
-      <BoxWrapper>
-        <Searchbar isExplore={true}/>
-      </BoxWrapper>
-  );
+    return (
+        <Box sx={{width: "100%", padding: "40px 0 0 0"}}>
+            <Searchbar isExplore={true}/>
+        </Box>
+    );
 }
-
-const BoxWrapper = styled(Box)(() => ({
-  width: '100%',
-  display: 'flex',
-}));
 
 export default Header;

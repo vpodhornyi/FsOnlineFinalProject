@@ -11,8 +11,8 @@ import Container from "@mui/material/Container";
 import {getPersonalData} from "../../redux/user/selector";
 import {PATH} from "../../utils/constants";
 import {ColumnWrapper, PrimaryColumn, PrimaryHeader, SitebarColumn, StickyHeader} from "../../components";
-import Header from "../Lists/Header";
 import {Searchbar} from "../../components/Searchbar";
+import PageHeader from "../../components/PageHeader/PageHeader";
 
 const Subscribing = () => {
   const {user_tag} = useParams();
@@ -60,7 +60,7 @@ const Subscribing = () => {
   return (
       <ColumnWrapper>
         <PrimaryColumn>
-          <PrimaryHeader pageElement={<Header user={`@${user_tag}`} page={name || `@${user_tag}`}/>} isBack={true}/>
+          <PrimaryHeader pageElement={<PageHeader subtitle={`@${user_tag}`} page={name || `@${user_tag}`}/>} isBack={true}/>
           <Box sx={{width: "100%"}}>
             <Box sx={{borderBottom: 1, borderColor: 'divider', display: "flex", justifyContent: "space-around"}}>
               <StyledLink sx={{borderBottom: path.includes("followers") ? "2px solid black" : "none"}}
