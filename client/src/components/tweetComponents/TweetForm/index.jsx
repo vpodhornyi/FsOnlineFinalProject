@@ -48,7 +48,6 @@ export const TweetForm = ({
   const user = useSelector(getPersonalData);
   const navigate = useNavigate();
   const { background } = useContext(BackgroundContext);
-  console.log(background);
   const dispatch = useDispatch();
   const TWEET_TEXT_INTEREST = tweetText.length / (250 / 100);
   const LETTER_COUNTER_COMP =

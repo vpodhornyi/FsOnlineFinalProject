@@ -11,7 +11,7 @@ import api, { URLS } from "../../../services/API";
 import { getPersonalData } from "../../../redux/user/selector";
 import { useSelector } from "react-redux";
 
-const Reply = () => {
+const TweetModal = () => {
   const { background } = useContext(BackgroundContext);
   const navigate = useNavigate();
   const { id } = useParams();
@@ -90,4 +90,4 @@ const BoxWrapper = styled(Box)(({ theme }) => ({
   },
 }));
 
-export default Reply;
+export default TweetModal;
