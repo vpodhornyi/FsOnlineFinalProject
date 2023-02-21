@@ -1,21 +1,21 @@
-import {styled} from "@mui/material/styles";
-import {Box, Button, List, ListItem} from "@mui/material";
+import { styled } from "@mui/material/styles";
+import { Box, Button, List, ListItem } from "@mui/material";
 
 export const TwitterContainer = styled(Box)({
-
   fontFamily: "Arial",
   paddingTop: 5,
   paddingBottom: 10,
   paddingLeft: 16,
   paddingRight: 16,
-  borderBottom: "1px solid #eff3f4",
+  // borderBottom: "1px solid #eff3f4",
   display: "flex",
+  flex: 1,
 });
 
 export const AvatarContainer = styled(Box)({
   flexBasis: 48,
   marginRight: 12,
-  cursor: 'pointer',
+  cursor: "pointer",
 });
 
 export const Form = styled(Box)({
@@ -26,6 +26,12 @@ export const Form = styled(Box)({
 
 export const TweetInput = styled(Box)({
   borderBottom: "1px solid #eff3f4",
+  ["@media (min-width:700px)"]: {
+    flex: 1,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+  },
 });
 
 export const FormFooter = styled(Box)({
@@ -40,14 +46,14 @@ export const TextCount = styled(Box)({
   justifyContent: "center",
   alignItems: "center",
   fontWeight: "bold",
-  color: "green"
+  color: "green",
 });
 
 export const IconsList = styled(List)({
   display: "inline-flex",
 });
 
-export const Icon = styled(ListItem)(({theme}) => ({
+export const Icon = styled(ListItem)(({ theme }) => ({
   width: 20,
   height: 20,
   color: theme.palette.primary.main,
@@ -64,7 +70,7 @@ export const ReplyText = styled(Box)({
   marginTop: 15,
 });
 
-export const TweetBtn = styled(Button)(({theme}) => ({
+export const TweetBtn = styled(Button)(({ theme }) => ({
   color: "#fff",
   backgroundColor: theme.palette.primary.main,
   padding: "0 24",
@@ -84,7 +90,7 @@ export const TweetBtn = styled(Button)(({theme}) => ({
     right: 5,
   },
   "&:disabled": {
-    color: '#fff',
+    color: "#fff",
   },
   "&:hover": {
     backgroundColor: theme.palette.primary.main,

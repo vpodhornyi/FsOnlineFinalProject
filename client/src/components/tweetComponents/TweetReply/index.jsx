@@ -1,9 +1,6 @@
 import Box from "@mui/material/Box";
 import React from "react";
-import {
-  Link,
-  Typography,
-} from "@mui/material";
+import { Link, Typography } from "@mui/material";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import PropTypes from "prop-types";
 import {
@@ -15,7 +12,7 @@ import {
   UserName,
 } from "./style";
 const TweetReply = ({ tweetInfo }) => {
-  const {  body } = tweetInfo;
+  const { body } = tweetInfo;
   const { name, avatarImgUrl, userTag, created_at } = tweetInfo.user;
 
   return (
@@ -46,15 +43,21 @@ const TweetReply = ({ tweetInfo }) => {
                     {created_at}
                   </Link>
                 </PostInfo>
-                <Typography sx={{wordWrap: "break-word", maxWidth: "480px",display:"block"}} variant="p">{body}</Typography>
+                <Typography
+                  sx={{
+                    wordWrap: "break-word",
+                    maxWidth: "480px",
+                    display: "block",
+                  }}
+                  variant="p"
+                >
+                  {body}
+                </Typography>
               </Box>
             </Box>
           </Box>{" "}
-
         </Content>
-
       </TweetContainer>
-
     </>
   );
 };
