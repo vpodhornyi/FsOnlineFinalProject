@@ -1,18 +1,38 @@
 import React, { lazy, Suspense } from "react";
 import { Navigate } from "react-router-dom";
 import {
-  Home, Explore, Notifications, Messages, Chat, ChatInfo, Bookmarks, CreateAccount, SelectMessage,
-  Lists, UserProfile, UserSearch, Auth, Login, Password, ForgotPassword, SingUp, UserData, Participants,
-  GroupEditPage, Navigation, Search
+  Home,
+  Explore,
+  Notifications,
+  Messages,
+  Chat,
+  ChatInfo,
+  Bookmarks,
+  CreateAccount,
+  SelectMessage,
+  Lists,
+  UserProfile,
+  UserSearch,
+  Auth,
+  Login,
+  Password,
+  ForgotPassword,
+  SingUp,
+  UserData,
+  Participants,
+  GroupEditPage,
+  Navigation,
+  Search,
 } from "../pages";
 import { PATH } from "../utils/constants";
-import {DeleteTweet, Display, PrimaryColumn, PrimaryHeader, TweetForm} from "../components";
 import Reply from "../components/tweetComponents/Reply";
+import { DeleteTweet, Display, TweetForm, PrimaryColumn, PrimaryHeader } from "../components";
+import TweetModal from "../components/tweetComponents/TweetModal";
 import ModalImg from "../components/tweetComponents/ModalImg";
 import Tweets from "../pages/Home/Tweets";
 import Loading from "../components/Loader/Loading";
 import { TweetPage } from "../components/tweetComponents/TweetPage";
-import {themeStyles} from "../utils/theme";
+import { themeStyles } from "../utils/theme";
 import Subscribing from "../pages/Subscribing/Subscribing";
 import EditProfile from "../pages/UserProfile/pages/EditProfile";
 import Likes from "../pages/UserProfile/pages/Likes";
@@ -28,11 +48,11 @@ const lazyLoading = (path) => {
 export const mainRoutes = (width, authorized) => {
   const isMiddle = width > BREAKPOINTS_VALUES.md;
 
-  return authorized ?
-      [
+  return authorized
+    ? [
         {
           path: PATH.ROOT,
-          element: <Navigate to={PATH.HOME}/>,
+          element: <Navigate to={PATH.HOME} />,
         },
 
         {
@@ -50,118 +70,105 @@ export const mainRoutes = (width, authorized) => {
                     </>
                 ),
             },
-                { path: PATH.TWEET.TWEET_PAGE, element: <TweetPage /> },
-            ],
+            { path: PATH.TWEET.TWEET_PAGE, element: <TweetPage /> },
+          ],
         },
         {
           path: PATH.SEARCH,
-          element: <Search/>,
+          element: <Search />,
           children: [],
         },
         {
           path: PATH.EXPLORE,
-          element: <Explore/>,
+          element: <Explore />,
           children: [],
         },
         {
           path: PATH.NOTIFICATIONS,
-          element: <Notifications/>,
+          element: <Notifications />,
           children: [],
         },
         {
           path: PATH.MESSAGES.ROOT,
-          element: <Messages isMiddle={isMiddle}/>,
-          children: isMiddle ? [
-            {
-              index: true,
-              element: <SelectMessage/>,
-            },
-            {
-              path: PATH.MESSAGES.CHAT,
-              element: <Chat/>,
-              children: [
+          element: <Messages isMiddle={isMiddle} />,
+          children: isMiddle
+            ? [
                 {
-                  path: PATH.MESSAGES.CHAT_INFO,
-                  element: <ChatInfo/>,
+                  index: true,
+                  element: <SelectMessage />,
                 },
                 {
-                  path: PATH.MESSAGES.PARTICIPANTS,
-                  element: <Participants/>,
-                },
-              ]
-            },
-          ] : [
-            {
-              index: true,
-              element: <Navigation/>,
-            },
-            {
-              index: true,
-              element: <SelectMessage/>,
-            },
-            {
-              path: PATH.MESSAGES.CHAT,
-              element: <Chat/>,
-              children: [
-                {
-                  path: PATH.MESSAGES.CHAT_INFO,
-                  element: <ChatInfo/>,
-                },
-                {
-                  path: PATH.MESSAGES.PARTICIPANTS,
-                  element: <Participants/>,
+                  path: PATH.MESSAGES.CHAT,
+                  element: <Chat />,
+                  children: [
+                    {
+                      path: PATH.MESSAGES.CHAT_INFO,
+                      element: <ChatInfo />,
+                    },
+                    {
+                      path: PATH.MESSAGES.PARTICIPANTS,
+                      element: <Participants />,
+                    },
+                  ],
                 },
               ]
-            },
-          ],
+            : [
+                {
+                  index: true,
+                  element: <Navigation />,
+                },
+                {
+                  index: true,
+                  element: <SelectMessage />,
+                },
+                {
+                  path: PATH.MESSAGES.CHAT,
+                  element: <Chat />,
+                  children: [
+                    {
+                      path: PATH.MESSAGES.CHAT_INFO,
+                      element: <ChatInfo />,
+                    },
+                    {
+                      path: PATH.MESSAGES.PARTICIPANTS,
+                      element: <Participants />,
+                    },
+                  ],
+                },
+              ],
         },
         {
           path: PATH.BOOKMARKS,
-          element: <Bookmarks/>,
+          element: <Bookmarks />,
           children: [],
         },
         {
           path: PATH.LISTS,
-          element: <Lists/>,
+          element: <Lists />,
           children: [],
         },
         {
           path: PATH.USER_PAGE.USER_PROFILE,
-          element: <UserProfile/>,
+          element: <UserProfile />,
           children: [
             {
               path: PATH.USER_PAGE.LIKES,
-              element: <Likes/>,
+              element: <Likes />,
             },
             {
               path: PATH.USER_PAGE.TWEET_REPLIES,
-              element: <TweetReplies/>,
+              element: <TweetReplies />,
             },
           ],
         },
         {
           path: PATH.USER_PAGE.FOLLOWERS,
-          element: <Subscribing/>,
-          children: []
+          element: <Subscribing />,
+          children: [],
         },
         {
           path: PATH.USER_PAGE.FOLLOWINGS,
-          element: <Subscribing/>,
-          children: []
-        },
-        {
-          path: PATH.NO_MATCHES,
-          element: <>Not Found PAGE</>,
-        },
-      ] :
-      [
-        {
-          path: PATH.ROOT,
-          element: <Navigate to={PATH.EXPLORE}/>,
-        },
-        {
-          path: PATH.EXPLORE,
-          element: <Explore/>,
+          element: <Subscribing />,
           children: [],
         },
         {
@@ -169,54 +176,69 @@ export const mainRoutes = (width, authorized) => {
           element: <>Not Found PAGE</>,
         },
       ]
-}
+    : [
+        {
+          path: PATH.ROOT,
+          element: <Navigate to={PATH.EXPLORE} />,
+        },
+        {
+          path: PATH.EXPLORE,
+          element: <Explore />,
+          children: [],
+        },
+        {
+          path: PATH.NO_MATCHES,
+          element: <>Not Found PAGE</>,
+        },
+      ];
+};
 
-export const modalRoutes = authorized => {
-
-  return authorized ? [
+export const modalRoutes = (authorized) => {
+  return authorized
+    ? [
         {
           path: PATH.MESSAGES.COMPOSE,
-          element: <UserSearch isGroup={false}/>,
+          element: <UserSearch isGroup={false} />,
           children: [],
         },
         {
           path: PATH.MESSAGES.COMPOSE_GROUP,
-          element: <UserSearch isGroup={true}/>,
+          element: <UserSearch isGroup={true} />,
           children: [],
         },
         {
           path: PATH.MESSAGES.ADD_PEOPLE,
-          element: <UserSearch isAdd={true}/>,
+          element: <UserSearch isAdd={true} />,
           children: [],
         },
         {
           path: PATH.MESSAGES.GROUP_INFO,
-          element: <GroupEditPage/>,
+          element: <GroupEditPage />,
         },
         {
           path: PATH.SETTINGS.DISPLAY,
-          element: <Display/>,
+          element: <Display />,
           children: [],
         },
 
         {
           path: PATH.TWEET.DELETE,
-          element: <DeleteTweet/>,
+          element: <DeleteTweet />,
           children: [],
         },
         {
           path: PATH.SETTINGS.PROFILE,
-          element: <EditProfile/>,
-          children: []
+          element: <EditProfile />,
+          children: [],
         },
         {
           path: PATH.TWEET.REPLY,
-          element: <Reply/>,
+          element: <TweetModal />,
           children: [],
         },
         {
           path: PATH.TWEET.IMG,
-          element: <ModalImg/>,
+          element: <ModalImg />,
           children: [],
         },
 
@@ -224,35 +246,35 @@ export const modalRoutes = authorized => {
           path: PATH.ALL,
           element: <></>,
         },
-      ] :
-      [
+      ]
+    : [
         {
           path: PATH.AUTH.ROOT,
-          element: <Auth/>,
+          element: <Auth />,
           children: [
             {
               path: PATH.AUTH.SING_IN.LOGIN,
-              element: <Login/>,
+              element: <Login />,
             },
             {
               path: PATH.AUTH.SING_IN.PASSWORD,
-              element: <Password/>,
+              element: <Password />,
             },
             {
               path: PATH.AUTH.SING_IN.FORGOT_PASSWORD,
-              element: <ForgotPassword/>,
+              element: <ForgotPassword />,
             },
             {
               path: PATH.AUTH.SING_UP.ROOT,
-              element: <SingUp/>,
+              element: <SingUp />,
             },
             {
               path: PATH.AUTH.SING_UP.SET_DATA,
-              element: <UserData/>,
+              element: <UserData />,
             },
             {
               path: PATH.AUTH.SING_UP.CREATE_ACCOUNT,
-              element: <CreateAccount/>,
+              element: <CreateAccount />,
             },
           ],
         },
@@ -261,4 +283,4 @@ export const modalRoutes = authorized => {
           element: <></>,
         },
       ];
-}
+};

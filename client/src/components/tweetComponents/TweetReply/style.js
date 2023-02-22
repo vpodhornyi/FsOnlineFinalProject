@@ -1,16 +1,20 @@
 import { styled } from "@mui/material/styles";
 import { Avatar, Box, Link } from "@mui/material";
+
 export const TweetContainer = styled(Box)({
   borderRadius: 0,
   color: "rgb(83, 100, 113)",
   textDecoration: "none",
   cursor: "pointer",
-
+  flex: "unset",
   position: "relative",
   padding: "1rem",
 
   borderTop: "1px solid  rgb(239, 243, 244)",
   maxWidth: 600,
+  ["@media (min-width:700px)"]: {
+    flex: 7,
+  },
 });
 
 export const Content = styled(Box)({
