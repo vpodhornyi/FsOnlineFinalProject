@@ -1,6 +1,8 @@
 package com.twitterdan.dao;
 
 import com.twitterdan.domain.user.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,4 +19,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
   @Query("select u from User u where u.name like %:text% or u.userTag like %:text%")
   Optional<List<User>> findTop10ByMatchingNameOrUserTag(@Param("text") String text);
+
+  @Query(value = "SELECT * FROM USERS WHERE ID <> :userId AND ID NOT IN (" +
+          "SELECT FOLLOWED_ID\n" +
+          "FROM FOLLOWERS\n" +
+          "WHERE FOLLOWER_ID =:userId )",
+          nativeQuery = true)
+  Optional<Page<User>> findAllNotFollowingUsers (Long userId, Pageable pageable);
 }

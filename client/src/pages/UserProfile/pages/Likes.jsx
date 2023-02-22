@@ -31,7 +31,7 @@ const Likes = () => {
                         <Tweet tweetInfo={tweet}/>
                     </div>
                 ) :
-                <NoData text={`${user?.userTag === user_tag ? `You ` : `@${user_tag}`} don't have any likes yet`}/>
+                <NoData text={`${user?.userTag === user_tag ? `You ` : `@${user_tag}`} don't have any likes yet.`}/>
             }
         </>
     );

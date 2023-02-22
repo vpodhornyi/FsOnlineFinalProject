@@ -11,7 +11,7 @@ import {followUser, unfollowUser} from "../../services/followService";
 import {getAuthUser} from "../../redux/user/action";
 
 const ProfilePreview = (props) => {
-    const {id, avatar, username, userTag, descr, followers, followings} = props;
+    const {id, avatar, username, userTag, descr, followers, isBio} = props;
 
     const authUser = useSelector(getPersonalData);
     const dispatch = useDispatch();
@@ -24,7 +24,7 @@ const ProfilePreview = (props) => {
                     "&:hover": {
                         cursor: "pointer",
                         transition: "0.5s",
-                        backgroundColor: "#f0f0f0"
+                        backgroundColor: "#cbcbcb"
                     },
                     display: "flex",
                     padding: "10px",
@@ -45,7 +45,7 @@ const ProfilePreview = (props) => {
                             }
                         </Typography>
                         <StyledTypography>@{userTag}</StyledTypography>
-                        <StyledTypography>{descr}</StyledTypography>
+                        { isBio && <StyledTypography>{descr}</StyledTypography>}
                     </div>
                 </div>
                 </Link>
@@ -95,7 +95,7 @@ ProfilePreview.propTypes = {
     userTag: PropTypes.string,
     descr: PropTypes.string,
     followers: PropTypes.array,
-    followings: PropTypes.array,
+    isBio: PropTypes.bool,
 }
 
 export default ProfilePreview;

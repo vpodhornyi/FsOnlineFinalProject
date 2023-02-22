@@ -12,6 +12,9 @@ import com.twitterdan.facade.user.UserResponseMapper;
 import com.twitterdan.service.UserService;
 import com.twitterdan.service.auth.JwtAuthService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -33,6 +36,19 @@ public class UserController {
 
   private final CustomStyleRequestMapper customStyleRequestMapper;
   private final CustomStyleResponseMapper customStyleResponseMapper;
+
+  @GetMapping("/no-following")
+  public List<UserResponse> getNotFollowingUsers(
+          @RequestParam String userId,
+          @RequestParam int pageNumber,
+          @RequestParam int pageSize
+  ) {
+    Pageable pageable = PageRequest.of(pageNumber, pageSize);
+    return userService.findAllNotFollowingUsers(Long.parseLong(userId), pageable)
+            .stream()
+            .map(userResponseMapper::convertToDto)
+            .collect(Collectors.toList());
+  }
 
   @GetMapping
   public UserResponse findAuthUser() {

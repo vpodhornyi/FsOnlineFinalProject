@@ -7,6 +7,8 @@ import com.twitterdan.dto.user.UserUpdateDataRequest;
 import com.twitterdan.exception.AccountAlreadyExistException;
 import com.twitterdan.exception.CouldNotFindAccountException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -21,6 +23,10 @@ public class UserService {
 
   public List<User> findAll() {
     return userRepository.findAll();
+  }
+
+  public Page<User> findAllNotFollowingUsers(Long userId, Pageable pageable) {
+    return userRepository.findAllNotFollowingUsers(userId, pageable).orElse(Page.empty());
   }
 
   public User findById(Long id) {
