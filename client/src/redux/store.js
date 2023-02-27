@@ -49,23 +49,3 @@ const stompClient = (onConnect) => {
   return client;
 }
 
-export default () => {
-  const {accessToken, tokenType} = getTokens();
-  const store = createStore(
-    reducer,
-    composeWithDevTools(applyMiddleware(thunk))
-  );
-  interceptor(store);
-
-  if (accessToken) {
-    setHeaderAuthorization(accessToken, tokenType);
-    store.dispatch(getAuthUser())
-      .then(() => {
-        api.client = stompClient(() => {
-          store.dispatch(authUserSocketSubscribe());
-        });
-      })
-  }
-
-  return store;
-}

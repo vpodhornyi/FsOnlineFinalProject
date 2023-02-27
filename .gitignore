@@ -1,3 +1,5 @@
+/node_modules/
+
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
@@ -33,3 +35,4 @@ build/
 
 ### VS Code ###
 .vscode/
+/client/node_modules/
