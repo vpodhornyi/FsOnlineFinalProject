@@ -112,7 +112,7 @@ export default (state = INITIAL_STATE, { payload, type }) => {
         [payload]: {
           data: [],
           pageNumber: 0,
-          pageSize: 3,
+          pageSize: 8,
           totalPages: true,
         },
       };

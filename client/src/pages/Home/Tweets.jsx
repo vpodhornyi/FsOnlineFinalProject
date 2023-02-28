@@ -8,6 +8,7 @@ import { getTweetState, loadingTweetsState } from "../../redux/tweet/selector";
 import Loading from "../../components/Loader/Loading";
 import PropTypes from "prop-types";
 import { URLS } from "../../services/API";
+import EmptyBookmark from "../Bookmarks/EmptyBookmark";
 
 const Tweets = ({
   stateValue = {
@@ -16,7 +17,6 @@ const Tweets = ({
   },
 }) => {
   const dispatch = useDispatch();
-  const loading = useSelector(loadingTweetsState);
   const tweetState = useSelector(getTweetState);
   const loadingTweets = useSelector(loadingTweetsState);
   const currentState = tweetState[stateValue.name];
@@ -26,7 +26,6 @@ const Tweets = ({
   }, []);
   const lastItem = createRef();
   const observerLoader = useRef();
-  console.log("test");
   const actionInSight = (entries) => {
     if (entries[0].isIntersecting && currentState.totalPages) {
       dispatch(getTweets(stateValue.url, stateValue.name));
@@ -39,12 +38,13 @@ const Tweets = ({
     observerLoader.current = new IntersectionObserver(actionInSight);
     if (lastItem.current) observerLoader.current.observe(lastItem.current);
   }, [lastItem]);
-
-  return (
-    <BoxWrapper>
-      {loadingTweets && <Loading />}
-      {!loadingTweets &&
-        currentState.data?.map((e, i) => {
+  if (loadingTweets) {
+    return <Loading />;
+  }
+  if (!loadingTweets) {
+    return (
+      <BoxWrapper>
+        {currentState.data?.map((e, i) => {
           if (e.tweetType === "REPLY") {
             return;
           }
@@ -55,8 +55,12 @@ const Tweets = ({
             return <Tweet key={keyValue} tweetInfo={e} />;
           }
         })}
-    </BoxWrapper>
-  );
+        {stateValue.name === "bookmarks" && !currentState.data.length && (
+          <EmptyBookmark />
+        )}
+      </BoxWrapper>
+    );
+  }
 };
 
 const styles = ({ theme }) => ({
