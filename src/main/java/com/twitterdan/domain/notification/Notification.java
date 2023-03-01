@@ -1,11 +1,13 @@
 package com.twitterdan.domain.notification;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.twitterdan.domain.BaseEntity;
 import com.twitterdan.domain.tweet.Tweet;
 import com.twitterdan.domain.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
@@ -14,6 +16,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@Accessors(chain=true)
 public class Notification extends BaseEntity {
 
   @Enumerated(EnumType.STRING)
@@ -29,7 +32,18 @@ public class Notification extends BaseEntity {
 
   @ManyToOne
   @JoinColumn(name = "tweet_id")
+  @JsonIgnore
   private Tweet tweet;
 
   private boolean isRead;
+
+  @Override
+  public String toString() {
+    return "Notification{" +
+            "notificationType=" + notificationType +
+            ", userReceiver=" + userReceiver.getUserTag() +
+            ", userInitiator=" + userInitiator.getUserTag() +
+            ", isRead=" + isRead +
+            '}';
+  }
 }

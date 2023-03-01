@@ -4,7 +4,9 @@ import {ACTIONS as AUTH_ACTIONS} from '../auth/action';
 import {ACTIONS as CHAT_ACTIONS} from "../chat/action";
 import {ACTIONS as MESSAGE_ACTIONS} from "../chat/message/action";
 import {ACTIONS as SNACK_ACTIONS} from "../snack/action";
-
+import NOTIFICATION_ACTIONS_Cust, {ACTIONS as NOTIFICATION_ACTIONS} from "../notification/action";
+import destinations from '../../subscriptions.js';
+import NOTIFICATIONS_ACTIONS from '@redux/notification/action';
 
 const actions = createActions(
     {
@@ -27,6 +29,7 @@ export const getAuthUser = (preloader = false) => async (dispatch) => {
     dispatch(ACTIONS.getAuthUser.request(preloader));
     const data = await api.get(URLS.USERS.ROOT);
     dispatch(ACTIONS.getAuthUser.success(data));
+    dispatch(NOTIFICATIONS_ACTIONS.getNotifications());
     return data;
 
   } catch (e) {
