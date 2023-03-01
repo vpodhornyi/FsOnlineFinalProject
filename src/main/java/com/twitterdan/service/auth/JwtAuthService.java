@@ -46,11 +46,11 @@ public class JwtAuthService implements AuthService {
 
   public JwtResponse login(String login, String password) {
     User user;
-
+    System.out.println(" in JwtResponse login(String login, String password), login: " + login + " password: " + password);
     try {
       user = userService.findByUserTagTrowException(login);
     } catch (Exception e) {
-      user = userService.findByUserEmailTrowException(password);
+      user = userService.findByUserEmailTrowException(login);
     }
 
     if (passwordEncoder.matches(password, user.getPassword())) {
