@@ -118,15 +118,12 @@ public class UserService {
 
     public User findByUserTagTrowException(String userTag) {
         Optional<User> optionalUser = userRepository.findByUserTag(userTag);
-
         if (optionalUser.isPresent()) {
 
-            Notification notification = new Notification()
+// не удалять!  - тестовая отправка нотификейшна - срабатывает всегда при перезагрузке страницы на фронте:
+/*            Notification notification = new Notification()
                     .setNotificationType(NotificationType.LOGGED_IN).setUserReceiver(optionalUser.get()).setUserInitiator(optionalUser.get()).setTweet(null).setRead(false);
-//TODO удалить отсюда отправку нотификейшна
-            simpMessagingTemplate.convertAndSend(genNotificationsDest + optionalUser.get().getId(), notification);
-
-
+            simpMessagingTemplate.convertAndSend(genNotificationsDest + optionalUser.get().getId(), notification);*/
             return optionalUser.get();
         }
         throw new CouldNotFindAccountException();

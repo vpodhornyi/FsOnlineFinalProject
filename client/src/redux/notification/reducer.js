@@ -4,7 +4,7 @@ const init = {
     notifications: []
 };
 const initNotifications_ = [
-    {
+/*    {
         id: 1,
         notificationType: "LIKE",
         userReceiver: {id: 2, userTag: "Joshuah"},
@@ -32,7 +32,7 @@ const initNotifications_ = [
         userInitiator: {id: 2, userTag: "Ben"},
         tweet: null,
         isRead: false
-    },
+    },*/
 ]
 
 

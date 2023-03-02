@@ -2,7 +2,6 @@ package com.twitterdan.service;
 
 import com.twitterdan.dao.TweetActionRepository;
 import com.twitterdan.dao.TweetRepository;
-import com.twitterdan.dao.UserRepository;
 import com.twitterdan.domain.notification.Notification;
 import com.twitterdan.domain.notification.NotificationType;
 import com.twitterdan.domain.tweet.Tweet;
@@ -26,7 +25,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -51,6 +49,27 @@ public class TweetService {
   @Autowired
   private UserService userService;
 
+  private  void postTweetNotification(Tweet tweet, NotificationType type, String method){
+
+    String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    User user = userService.findByUserTagTrowException(principal);
+
+    try {
+      Notification notification = new Notification();
+      notification.setNotificationType(type);
+      notification.setUserInitiator(user);
+
+      if(tweet.getUser()!=null){
+        notification.setUserReceiver(tweet.getUser());
+      }
+      simpMessagingTemplate.convertAndSend(genNotificationsDest + user.getId(), notification);
+
+    } catch (RuntimeException e) {
+      System.out.println("TweetService::"+method+"()-> error creating a notification: " + e.getMessage());
+    }
+  }
+
+
   public List<TweetResponse> getTweetsByUserId(Long userId) {
     List<Tweet> tweets = tweetDao.findCurrentUserActionTweets("RETWEET", userId);
     return tweets.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
@@ -71,31 +90,8 @@ public class TweetService {
   }
 
   public Tweet save(Tweet tweet) {
-    //TODO  здесь создается новый твит
-
-    String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    User user = userService.findByUserTagTrowException(principal);
-
-    try {
-      Notification notification = new Notification();
-      notification.setNotificationType(NotificationType.NEW_TWEET);
-
-      if(tweet.getRetweetUser()!=null){
-        notification.setUserInitiator(tweet.getRetweetUser());
-        System.out.print("initiatorUserId set to tweet.getRetweetUser(): "+notification.getUserInitiator());
-      }
-      if(tweet.getUser()!=null){
-        notification.setUserInitiator(tweet.getUser());
-        System.out.print("initiatorUserId set to tweet.getUser(): "+notification.getUserInitiator());
-      }
-
-
-      System.out.println("tweet notification created: " + notification);
-    simpMessagingTemplate.convertAndSend(genNotificationsDest + user.getId(), notification);
-
-    } catch (Exception e) {
-      System.out.println("e.message: " + e.getMessage());
-    }
+    //TODO
+    postTweetNotification(tweet, NotificationType.NEW_TWEET, "save");
     return tweetDao.save(tweet);
   }
 
@@ -121,22 +117,13 @@ public class TweetService {
   ;
 
   public void update(TweetRequest tweetUpdate) {
-    // TODO здесь изменяется твит
-    System.out.println("in TweetService::update");
-    System.out.println(tweetUpdate.getId());
+    // TODO
     Tweet tweet = tweetDao.findById(tweetUpdate.getId()).get();
     tweet.setTweetType(tweetUpdate.getTweetType());
     tweet.setBody(tweetUpdate.getBody());
     tweet.setUser(tweetUpdate.getUser());
 
-    Principal principal = (Principal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    System.out.println("in TweetService->   update.");
-    Notification notification = new Notification()
-            .setNotificationType(NotificationType.TWEET_UPDATE).setUserReceiver(tweet.getRetweetUser()).setUserInitiator(tweet.getRetweetUser()).setTweet(null).setRead(false);
-    System.out.println("tweet notification created: " + notification);
-//    simpMessagingTemplate.convertAndSend(genNotificationsDest + optionalUser.get().getId(), notification);
-    System.out.println("Principal: " + principal);
-
+    postTweetNotification(tweet, NotificationType.TWEET_UPDATE, "update");
     tweetDao.save(tweet);
   }
 
@@ -163,7 +150,7 @@ public class TweetService {
   }
 
   public TweetActionResponseAllData changeAction(TweetActionRequest tweetActionRequest, User user) {
-    //TODO здесь отправляется или отменяется ретвит
+    //TODO
     Tweet tweet = tweetDao.findById(tweetActionRequest.getTweetId()).orElse(new Tweet());
     TweetAction newTweetAction = new TweetAction(tweetActionRequest.getActionType(), tweet, user);
 
@@ -176,6 +163,12 @@ public class TweetService {
     } else {
       tweetActionRepository.save(newTweetAction);
     }
+
+/***
+ RETWEET_NOTIFY_RETWEETTER
+ RETWEET_NOTIFY_TWEET_AUTHOR
+ ***/
+    postTweetNotification(tweet, NotificationType.RETWEET, "changeAction");
     return tweetActionResponseMapper.convertToDto(newTweetAction);
   }
 }

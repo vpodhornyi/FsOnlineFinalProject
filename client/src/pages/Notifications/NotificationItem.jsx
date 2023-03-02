@@ -6,18 +6,23 @@ import PropTypes from "prop-types";
 
 const NotificationItem = ({notification, handleNotificationClick}) => {
 
+    if(!notification) {
+        return;
+    }
+
     return (
         <BoxWrapper onClick={handleNotificationClick}>
             <Box data-name={`${notification.id}`}
                 className={`NotReadMessagesExist`}
             >
                 <Box sx={{display: 'flex'}}>
-                    <Avatar sx={{mr: '10px', width: '3.3rem', height: '3.3rem'}} src={notification?.userInitiator?.avatarImgUrl ?  notification.userInitiator.avatarImgUrl : ""}/>
+                    <Avatar sx={{mr: '10px', width: '3.3rem', height: '3.3rem'}} src={notification.userInitiator?.avatarImgUrl ?  notification.userInitiator.avatarImgUrl : ""}/>
                     <Box>
                         <Box sx={{display: 'flex'}}>
-                            <Typography sx={{fontWeight: 600}}>{notification.title}</Typography>
+                            <Typography sx={{fontWeight: 600}}>{notification.title ? notification.title : ""}</Typography>
 
-                            {<Typography variant='body2' sx={{ml: '5px'}}>@{notification.userInitiator.userTag}</Typography>}
+                            {/*{<Typography variant='body2' sx={{ml: '5px'}}>initiator: @{notification.userInitiator?.userTag ? notification.userInitiator.userTag : ""}</Typography>}*/}
+                            {/*{<Typography variant='body2' sx={{ml: '5px'}}>receiver: @{notification.userReceiver?.userTag ? notification.userReceiver.userTag : ""}</Typography>}*/}
                         </Box>
                     </Box>
                 </Box>

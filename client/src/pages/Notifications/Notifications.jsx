@@ -20,7 +20,7 @@ const Notifications = () => {
         if ( !isNaN(notificationId) ) {
             dispatch(ACTIONS_Cust.deactivateNotification(notificationId));
             dispatch(ACTIONS_Cust.deleteNotification(notificationId));
-            // dispatch(NOTIFICATION_ACTIONS.unckeckNotification(notificationId));
+            // dispatch(NOTIFICATION_ACTIONS.unckeckNotification(notificationId));  //TODO раскомметировать для смены цвета статуса кликнутого уведомления
             dispatch(NOTIFICATION_ACTIONS.dismissNotification(notificationId)); //TODO раскомметировать для мгновенного удаления кликнутого уведомления с экрана
         }
 
@@ -28,24 +28,38 @@ const Notifications = () => {
 
 
     const notificationElements = notifications.map((notification, ind) => {
+        const who = `${notification.userInitiator?.userTag ? notification.userInitiator.userTag : ""}`;
+        const whom = `${notification.userReceiver?.userTag ? notification.userReceiver.userTag : ""}`;
+        let action;
+
             switch (notification.notificationType) {
                 case "LIKE":
-                    notification.title = `Your tweet liked by: ${notification.userInitiator.userTag}`;
+                    action = " liked tweet of ";
+                    notification.title = `${who}${action}${whom}`;
                     break;
                 case "QUOTE_TWEET":
-                    notification.title = `Your tweet quoted by: ${notification.userInitiator.userTag}`;
+                    action = " quoted tweet of ";
+                    notification.title = `${who}${action}${whom}`;
                     break;
                 case "REPLY":
-                    notification.title = `Your tweet replied by: ${notification.userInitiator.userTag}`;
+                    action = " replied tweet of ";
+                    notification.title = `${who}${action}${whom}`;
                     break;
                 case "RETWEET":
-                    notification.title = `Your tweet retweeted by: ${notification.userInitiator.userTag}`;
+                    action = " retweeted ";
+                    notification.title = `${who}${action}${whom}`;
                     break;
-                case "LEAVE_CHAT":
-                    notification.title = `You left one of your chats: ${notification.userInitiator.userTag}`;
+                    case "NEW_TWEET":
+                        action = " posted new tweet";
+                        notification.title = `${who}${action}`;
+                    break;
+                    case "TWEET_UPDATE":
+                        action = " updated his tweet";
+                        notification.title = `${who}${action}`;
                     break;
                 case "LOGGED_IN":
-                    notification.title = `You logged!: ${notification.userReceiver.userTag}`;
+                        action = " logged in";
+                        notification.title = `${who}${action}`;
                     break;
                 default:
             }
