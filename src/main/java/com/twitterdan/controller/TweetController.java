@@ -28,98 +28,97 @@ import java.util.List;
 @RequestMapping("${api.version}/tweets")
 @Slf4j
 public class TweetController {
-    private final TweetService tweetService;
-    private final TweetRequestMapper tweetRequestMapper;
-    private final TweetResponseMapper tweetResponseMapper;
-    @Autowired
-    private UserDao userDao;
+  private final TweetService tweetService;
+  private final TweetRequestMapper tweetRequestMapper;
+  private final TweetResponseMapper tweetResponseMapper;
+  @Autowired
+  private UserDao userDao;
 
-    public TweetController(TweetService tweetService, TweetRequestMapper tweetRequestMapper,
-                           TweetResponseMapper tweetResponseMapper) {
-        this.tweetService = tweetService;
-        this.tweetRequestMapper = tweetRequestMapper;
-        this.tweetResponseMapper = tweetResponseMapper;
-    }
-
-    @GetMapping("/all")
-    public List<TweetResponse> getAllTweets(Principal principal, @RequestParam int pageNumber, @RequestParam int pageSize) {
-        User userCurrent = userDao.findByUserTag(principal.getName());
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        return tweetService.findAllTweetsUserIdIsNot(userCurrent.getId(), pageable);
-    }
-
-    @GetMapping
-    public List<TweetResponse> getAll(Principal principal, @RequestParam int pageNumber, @RequestParam int pageSize) {
-        User userCurrent = userDao.findByUserTag(principal.getName());
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        return tweetService.getAll(userCurrent.getId(), pageable);
-    }
-
-    @GetMapping("/user-tweets/")
-    public List<TweetResponse> getTweetsByUserId(@RequestParam(name = "userTag") String userTag) {
-        User user = userDao.findByUserTag(userTag);
-        return tweetService.getTweetsByUserId(user.getId());
-
-    }
-
-    @GetMapping("/user-likes/")
-    public List<TweetResponse> findCurrentUserLikeTweets(@RequestParam(name = "userTag") String userTag) {
-        User user = userDao.findByUserTag(userTag);
-        return tweetService.findCurrentUserLikeTweets(user.getId());
-
-    }
+  public TweetController(TweetService tweetService, TweetRequestMapper tweetRequestMapper,
+                         TweetResponseMapper tweetResponseMapper) {
+    this.tweetService = tweetService;
+    this.tweetRequestMapper = tweetRequestMapper;
+    this.tweetResponseMapper = tweetResponseMapper;
+  }
 
 
-    @GetMapping("/bookmarks")
-    public List<TweetResponse> getBookmarks(Principal principal, @RequestParam int pageNumber, @RequestParam int pageSize) {
-        User user = userDao.findByUserTag(principal.getName());
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        return tweetService.getBookmarks(user.getId(), pageable);
+  @GetMapping("/all")
+  public List<TweetResponse> getAllTweets(Principal principal, @RequestParam int pageNumber, @RequestParam int pageSize) {
+    User userCurrent = userDao.findByUserTag(principal.getName());
+    Pageable pageable = PageRequest.of(pageNumber, pageSize);
+    return tweetService.findAllTweetsUserIdIsNot(userCurrent.getId(), pageable);
+  }
 
-    }
+  @GetMapping
+  public List<TweetResponse> getAll(Principal principal, @RequestParam int pageNumber, @RequestParam int pageSize) {
+    User userCurrent = userDao.findByUserTag(principal.getName());
+    Pageable pageable = PageRequest.of(pageNumber, pageSize);
+    return tweetService.getAll(userCurrent.getId(), pageable);
+  }
 
-    @GetMapping("/replies/")
-    public List<TweetResponse> getRepliesByUserId(@RequestParam(name = "id") String userId) {
-        return tweetService.getTweetsAndRepliesByUserId(Long.parseLong(userId));
-    }
+  @GetMapping("/user-tweets/")
+  public List<TweetResponse> getTweetsByUserId(@RequestParam(name = "userTag") String userTag) {
+    User user = userDao.findByUserTag(userTag);
+    return tweetService.getTweetsByUserId(user.getId());
 
-    @GetMapping("/replies/{id}")
-    public List<TweetResponse> getReplies(@PathVariable("id") String tweetId) {
-        return tweetService.getReplies(Long.parseLong(tweetId));
-    }
+  }
 
-    @GetMapping("/{id}")
-    public TweetResponse getById(@PathVariable("id") String userId) throws Exception {
-        return tweetService.findById(Long.parseLong(userId));
+  @GetMapping("/user-likes/")
+  public List<TweetResponse> findCurrentUserLikeTweets(@RequestParam(name = "userTag") String userTag) {
+    User user = userDao.findByUserTag(userTag);
+    return tweetService.findCurrentUserLikeTweets(user.getId());
 
-    }
+  }
 
-    @DeleteMapping("/{tweetId}")
-    public void delete(Principal principal, @PathVariable(value = "tweetId") Long tweetId) throws Exception {
-        User userCurrent = userDao.findByUserTag(principal.getName());
-        tweetService.deleteById(tweetId, userCurrent);
 
-    }
+  @GetMapping("/bookmarks")
+  public List<TweetResponse> getBookmarks(Principal principal, @RequestParam int pageNumber, @RequestParam int pageSize) {
+    User user = userDao.findByUserTag(principal.getName());
+    Pageable pageable = PageRequest.of(pageNumber, pageSize);
+    return tweetService.getBookmarks(user.getId(), pageable);
 
-    @PutMapping("/update")
-    public void update(@Valid @RequestBody TweetRequest dto) {
-        tweetService.update(dto);
-    }
+  }
 
-    @PostMapping("/create")
-    public TweetResponse create(@RequestBody TweetRequest dto) {
-        Tweet tweet = tweetRequestMapper.convertToEntity(dto);
-        return tweetResponseMapper.convertToDto(tweetService.save(tweet));
-    }
+  @GetMapping("/replies/")
+  public List<TweetResponse> getRepliesByUserId(@RequestParam(name = "id") String userId) {
+    return tweetService.getTweetsAndRepliesByUserId(Long.parseLong(userId));
+  }
 
-    @PostMapping("/change_actions")
-    public TweetActionResponseAllData changeAction(@RequestBody TweetActionRequest tweetActionRequest, Principal principal) {
-        User user = userDao.findByUserTag(principal.getName());
-        return tweetService.changeAction(tweetActionRequest, user);
-    }
+  @GetMapping("/replies/{id}")
+  public List<TweetResponse> getReplies(@PathVariable("id") String tweetId) {
+    return tweetService.getReplies(Long.parseLong(tweetId));
+  }
 
-    @ExceptionHandler({Exception.class, MethodArgumentNotValidException.class})
-    public ResponseEntity<Object> handleException(Exception ex) {
-        return new ResponseEntity<>(ex.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
-    }
+  @GetMapping("/{id}")
+  public TweetResponse getById(@PathVariable("id") String userId) throws Exception {
+    return tweetService.findById(Long.parseLong(userId));
+  }
+
+  @DeleteMapping("/{tweetId}")
+  public void delete(Principal principal, @PathVariable(value = "tweetId") Long tweetId) throws Exception {
+    User userCurrent = userDao.findByUserTag(principal.getName());
+    tweetService.deleteById(tweetId, userCurrent);
+  }
+
+  @PutMapping("/update")
+  public void update(@Valid @RequestBody TweetRequest dto) {
+    tweetService.update(dto);
+  }
+
+  @PostMapping("/create")
+  public TweetResponse create(@RequestBody TweetRequest dto) {
+    Tweet tweet = tweetRequestMapper.convertToEntity(dto);
+    return tweetResponseMapper.convertToDto(tweetService.save(tweet));
+  }
+
+  @PostMapping("/change_actions")
+  public TweetActionResponseAllData changeAction(@RequestBody TweetActionRequest tweetActionRequest, Principal principal) {
+    User user = userDao.findByUserTag(principal.getName());
+    return tweetService.changeAction(tweetActionRequest, user);
+  }
+
+  @ExceptionHandler({Exception.class, MethodArgumentNotValidException.class})
+  public ResponseEntity<Object> handleException(Exception ex) {
+    return new ResponseEntity<>(ex.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
+  }
 }

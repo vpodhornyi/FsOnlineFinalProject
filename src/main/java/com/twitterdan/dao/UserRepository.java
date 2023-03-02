@@ -13,14 +13,15 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByEmail(String email);
+  Optional<User> findByEmail(String email);
 
-    Optional<User> findByUserTag(String userTag);
+  Optional<User> findByUserTag(String userTag);
 
-    @Query("select u from User u where u.name like %:text% or u.userTag like %:text%")
-    Optional<List<User>> findTop10ByMatchingNameOrUserTag(@Param("text") String text);
+  @Query("select u from User u where u.name like %:text% or u.userTag like %:text%")
+  Optional<List<User>> findTop10ByMatchingNameOrUserTag(@Param("text") String text);
 
-    @Query(value = "SELECT * FROM users WHERE id !=:userId AND id NOT IN (SELECT FOLLOWED_ID FROM FOLLOWERS WHERE FOLLOWER_ID =:userId)",
+  @Query(value = "SELECT * FROM users WHERE id !=:userId AND id NOT IN " +
+          "(SELECT FOLLOWED_ID FROM FOLLOWERS WHERE FOLLOWER_ID =:userId)",
             nativeQuery = true)
-    Optional<Page<User>> findAllNotFollowingUsers(Long userId, Pageable pageable);
+  Optional<Page<User>> findAllNotFollowingUsers(Long userId, Pageable pageable);
 }
