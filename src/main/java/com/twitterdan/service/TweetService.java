@@ -2,6 +2,9 @@ package com.twitterdan.service;
 
 import com.twitterdan.dao.TweetActionRepository;
 import com.twitterdan.dao.TweetRepository;
+import com.twitterdan.dao.UserRepository;
+import com.twitterdan.domain.notification.Notification;
+import com.twitterdan.domain.notification.NotificationType;
 import com.twitterdan.domain.tweet.Tweet;
 import com.twitterdan.domain.tweet.TweetAction;
 import com.twitterdan.domain.user.User;
@@ -15,11 +18,15 @@ import com.twitterdan.facade.action.TweetActionResponseMapper;
 import com.twitterdan.facade.tweet.TweetResponseMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -36,6 +43,13 @@ public class TweetService {
   private TweetResponseMapper tweetResponseMapper;
   @Autowired
   private TweetActionResponseMapper tweetActionResponseMapper;
+
+  @Value("${genNotificationsDest}")
+  private String genNotificationsDest;
+  @Autowired
+  private SimpMessagingTemplate simpMessagingTemplate;
+  @Autowired
+  private UserService userService;
 
   public List<TweetResponse> getTweetsByUserId(Long userId) {
     List<Tweet> tweets = tweetDao.findCurrentUserActionTweets("RETWEET", userId);
@@ -57,6 +71,29 @@ public class TweetService {
   }
 
   public Tweet save(Tweet tweet) {
+    //TODO  здесь создается новый твит
+
+    String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    User user = userService.findByUserTagTrowException(principal);
+
+    try {
+      Notification notification = new Notification();
+      notification.setNotificationType(NotificationType.NEW_TWEET);
+
+      if(tweet.getRetweetUser()!=null){
+        notification.setUserInitiator(tweet.getRetweetUser());
+        System.out.print("initiatorUserId: ");
+        System.out.println(tweet.getRetweetUser());
+      }else {
+        System.out.println("tweet.getRetweetUser() is null");
+      }
+
+      System.out.println("tweet notification created: " + notification);
+    simpMessagingTemplate.convertAndSend(genNotificationsDest + user.getId(), notification);
+
+    } catch (Exception e) {
+      System.out.println("e.message: " + e.getMessage());
+    }
     return tweetDao.save(tweet);
   }
 
@@ -82,11 +119,21 @@ public class TweetService {
   ;
 
   public void update(TweetRequest tweetUpdate) {
+    // TODO здесь изменяется твит
+    System.out.println("in TweetService::update");
     System.out.println(tweetUpdate.getId());
     Tweet tweet = tweetDao.findById(tweetUpdate.getId()).get();
     tweet.setTweetType(tweetUpdate.getTweetType());
     tweet.setBody(tweetUpdate.getBody());
     tweet.setUser(tweetUpdate.getUser());
+
+    Principal principal = (Principal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    System.out.println("in TweetService->   update.");
+    Notification notification = new Notification()
+            .setNotificationType(NotificationType.TWEET_UPDATE).setUserReceiver(tweet.getRetweetUser()).setUserInitiator(tweet.getRetweetUser()).setTweet(null).setRead(false);
+    System.out.println("tweet notification created: " + notification);
+//    simpMessagingTemplate.convertAndSend(genNotificationsDest + optionalUser.get().getId(), notification);
+    System.out.println("Principal: " + principal);
 
     tweetDao.save(tweet);
   }
@@ -114,6 +161,7 @@ public class TweetService {
   }
 
   public TweetActionResponseAllData changeAction(TweetActionRequest tweetActionRequest, User user) {
+    //TODO здесь отправляется или отменяется ретвит
     Tweet tweet = tweetDao.findById(tweetActionRequest.getTweetId()).orElse(new Tweet());
     TweetAction newTweetAction = new TweetAction(tweetActionRequest.getActionType(), tweet, user);
 

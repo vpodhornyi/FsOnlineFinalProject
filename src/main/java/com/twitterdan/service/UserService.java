@@ -22,137 +22,135 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-  private final UserRepository userRepository;
-  @Value("${genNotificationsDest}")
-  private String genNotificationsDest;
-  @Autowired
-  private SimpMessagingTemplate simpMessagingTemplate;
+    private final UserRepository userRepository;
+    @Value("${genNotificationsDest}")
+    private String genNotificationsDest;
+    @Autowired
+    private SimpMessagingTemplate simpMessagingTemplate;
 
-  public List<User> findAll() {
-    return userRepository.findAll();
-  }
-
-  public User findById(Long id) {
-    Optional<User> optionalUser = userRepository.findById(id);
-
-    if (optionalUser.isPresent()) {
-      return optionalUser.get();
-    }
-    throw new CouldNotFindAccountException();
-  }
-
-  public boolean updateUserProfile(Long id, UserUpdateDataRequest dto) {
-    Optional<User> user = userRepository.findById(id);
-
-    String dtoName = dto.getName();
-    String dtoBio = dto.getBio();
-    String dtoLocation = dto.getLocation();
-    String dtoBirth = dto.getBirth();
-    String dtoHeaderImgUrl = dto.getHeaderImgUrl();
-
-    System.out.println(dtoBirth);
-
-    if (user.isPresent()) {
-      if (dtoName != null && dtoName.length() > 0) {
-        user.get().setName(dtoName);
-      }
-      if (dtoBio != null) {
-        user.get().setBio(dtoBio);
-      }
-      if (dtoLocation != null) {
-        user.get().setLocation(dtoLocation);
-      }
-
-      if (dtoBirth != null && dtoBirth.length() > 4) {
-        LocalDate date = LocalDate.parse(dtoBirth);
-        user.get().setBirthDate(date);
-      }
-
-      if (dtoHeaderImgUrl != null && dtoHeaderImgUrl.length() == 0) {
-        user.get().setHeaderImgUrl("");
-      }
-
-      userRepository.save(user.get());
-      return true;
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 
-    return false;
-  }
+    public User findById(Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
 
-  public void updateUserHeader(Long id, String headerImgUrl) {
-    Optional<User> user = userRepository.findById(id);
-
-    if (user.isPresent()) {
-      user.get().setHeaderImgUrl(headerImgUrl);
-      userRepository.save(user.get());
-    }
-  }
-
-  public void updateUserAvatar(Long id, String avatarImgUrl) {
-    Optional<User> user = userRepository.findById(id);
-
-    if (user.isPresent()) {
-      user.get().setAvatarImgUrl(avatarImgUrl);
-      userRepository.save(user.get());
-    }
-  }
-
-  public User createNewUser(User user) {
-    Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
-
-    if (optionalUser.isEmpty()) {
-      return userRepository.save(user);
+        if (optionalUser.isPresent()) {
+            return optionalUser.get();
+        }
+        throw new CouldNotFindAccountException();
     }
 
-    throw new AccountAlreadyExistException(user.getEmail());
-  }
+    public boolean updateUserProfile(Long id, UserUpdateDataRequest dto) {
+        Optional<User> user = userRepository.findById(id);
 
-  public User save(User user) {
-    return userRepository.save(user);
-  }
+        String dtoName = dto.getName();
+        String dtoBio = dto.getBio();
+        String dtoLocation = dto.getLocation();
+        String dtoBirth = dto.getBirth();
+        String dtoHeaderImgUrl = dto.getHeaderImgUrl();
 
-  public Boolean deleteUserById(Long id) {
-    userRepository.deleteById(id);
-    return true;
-  }
+        System.out.println(dtoBirth);
 
-  public User findByUserTagTrowException(String userTag) {
-    Optional<User> optionalUser = userRepository.findByUserTag(userTag);
+        if (user.isPresent()) {
+            if (dtoName != null && dtoName.length() > 0) {
+                user.get().setName(dtoName);
+            }
+            if (dtoBio != null) {
+                user.get().setBio(dtoBio);
+            }
+            if (dtoLocation != null) {
+                user.get().setLocation(dtoLocation);
+            }
 
-    if (optionalUser.isPresent()) {
+            if (dtoBirth != null && dtoBirth.length() > 4) {
+                LocalDate date = LocalDate.parse(dtoBirth);
+                user.get().setBirthDate(date);
+            }
 
+            if (dtoHeaderImgUrl != null && dtoHeaderImgUrl.length() == 0) {
+                user.get().setHeaderImgUrl("");
+            }
 
-      Notification notification = new Notification()
-              .setNotificationType(NotificationType.LOGGED_IN).setUserReceiver(optionalUser.get()).setUserInitiator(optionalUser.get()).setTweet(null).setRead(false);
-      System.out.println("findByUserTag-> genNotificationsDest + optionalUser.get().getId(): "+ genNotificationsDest + optionalUser.get().getId());
-      simpMessagingTemplate.convertAndSend(genNotificationsDest + optionalUser.get().getId(), notification);
+            userRepository.save(user.get());
+            return true;
+        }
 
-
-
-      return optionalUser.get();
+        return false;
     }
-    throw new CouldNotFindAccountException();
-  }
 
-  public User findByUserEmailTrowException(String email) {
-    Optional<User> optionalUser = userRepository.findByEmail(email);
+    public void updateUserHeader(Long id, String headerImgUrl) {
+        Optional<User> user = userRepository.findById(id);
 
-    if (optionalUser.isPresent()) {
-      return optionalUser.get();
+        if (user.isPresent()) {
+            user.get().setHeaderImgUrl(headerImgUrl);
+            userRepository.save(user.get());
+        }
     }
-    throw new CouldNotFindAccountException();
-  }
 
-  public List<User> findByMatchesInNameOrUserTag(String text) {
-    Optional<List<User>> optionalUsers = userRepository.findTop10ByMatchingNameOrUserTag(text);
+    public void updateUserAvatar(Long id, String avatarImgUrl) {
+        Optional<User> user = userRepository.findById(id);
 
-    return optionalUsers.orElse(Collections.emptyList());
-  }
+        if (user.isPresent()) {
+            user.get().setAvatarImgUrl(avatarImgUrl);
+            userRepository.save(user.get());
+        }
+    }
 
-  public CustomStyle updateCustomStyle(Long id, CustomStyle customStyle) {
-    User user = findById(id);
-    user.setCustomStyle(customStyle);
-    User savedUser = userRepository.save(user);
-    return savedUser.getCustomStyle();
-  }
+    public User createNewUser(User user) {
+        Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
+
+        if (optionalUser.isEmpty()) {
+            return userRepository.save(user);
+        }
+
+        throw new AccountAlreadyExistException(user.getEmail());
+    }
+
+    public User save(User user) {
+        return userRepository.save(user);
+    }
+
+    public Boolean deleteUserById(Long id) {
+        userRepository.deleteById(id);
+        return true;
+    }
+
+    public User findByUserTagTrowException(String userTag) {
+        Optional<User> optionalUser = userRepository.findByUserTag(userTag);
+
+        if (optionalUser.isPresent()) {
+
+            Notification notification = new Notification()
+                    .setNotificationType(NotificationType.LOGGED_IN).setUserReceiver(optionalUser.get()).setUserInitiator(optionalUser.get()).setTweet(null).setRead(false);
+//TODO удалить отсюда отправку нотификейшна
+            simpMessagingTemplate.convertAndSend(genNotificationsDest + optionalUser.get().getId(), notification);
+
+
+            return optionalUser.get();
+        }
+        throw new CouldNotFindAccountException();
+    }
+
+    public User findByUserEmailTrowException(String email) {
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+
+        if (optionalUser.isPresent()) {
+            return optionalUser.get();
+        }
+        throw new CouldNotFindAccountException();
+    }
+
+    public List<User> findByMatchesInNameOrUserTag(String text) {
+        Optional<List<User>> optionalUsers = userRepository.findTop10ByMatchingNameOrUserTag(text);
+
+        return optionalUsers.orElse(Collections.emptyList());
+    }
+
+    public CustomStyle updateCustomStyle(Long id, CustomStyle customStyle) {
+        User user = findById(id);
+        user.setCustomStyle(customStyle);
+        User savedUser = userRepository.save(user);
+        return savedUser.getCustomStyle();
+    }
 }

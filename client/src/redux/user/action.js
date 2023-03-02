@@ -52,6 +52,7 @@ export const updateCustomize = body => async (dispatch) => {
 export const authUserSocketSubscribe = () => async (dispatch, getState) => {
   try {
     const {user: {authUser}} = getState();
+
     const subData = authUser?.id && api.client.subscribe(`/queue/user.${authUser.id}`, async (data) => {
       const {body} = JSON.parse(data.body);
       switch (body?.type) {

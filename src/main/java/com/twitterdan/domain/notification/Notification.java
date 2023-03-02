@@ -41,8 +41,8 @@ public class Notification extends BaseEntity {
   public String toString() {
     return "Notification{" +
             "notificationType=" + notificationType +
-            ", userReceiver=" + userReceiver.getUserTag() +
-            ", userInitiator=" + userInitiator.getUserTag() +
+            ", userReceiver=" + (userReceiver!=null && userReceiver.getUserTag() !=null  ? userReceiver.getUserTag(): "" ) +
+            ", userInitiator=" + (userInitiator!=null && userInitiator.getUserTag() !=null  ? userInitiator.getUserTag(): "" ) +
             ", isRead=" + isRead +
             '}';
   }

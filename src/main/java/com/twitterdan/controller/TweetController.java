@@ -98,6 +98,8 @@ public class TweetController {
 
   @PutMapping("/update")
   public void update(@Valid @RequestBody TweetRequest dto) {
+    // TODO здесь изменяется твит
+    System.out.println("in TweetController::update");
     tweetService.update(dto);
   }
 

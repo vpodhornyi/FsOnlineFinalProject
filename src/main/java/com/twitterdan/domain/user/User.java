@@ -66,7 +66,7 @@ public class User extends BaseEntity {
 
   @Override
   public String toString() {
-    return "User{" + "userTag='" + userTag + '\'' + '}';
+    return "User{" + "userTag='" + userTag + '\'' + ", id:" + this.getId() + '}';
   }
 
   @Override
