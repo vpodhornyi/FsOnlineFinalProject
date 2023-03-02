@@ -49,11 +49,9 @@ public class TweetService {
 
 
   public List<TweetResponse> getAll(Long userId, Pageable pageable) {
-
     Optional<Page<Tweet>> optionalTweets = tweetDao.findFollowedTweetsAndRetweet(userId, pageable);
     Page<Tweet> tweets = optionalTweets.orElse(Page.empty());
     return tweets.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
-
   }
 
   public Tweet save(Tweet tweet) {
@@ -102,14 +100,12 @@ public class TweetService {
 
   public void deleteById(Long id, User currentUser) throws Exception {
     TweetResponse tweetResponse = findById(id);
+
     if (! tweetResponse.getUser().equals(currentUser)) {
       throw new DeleteTweetException();
     } else {
       tweetDao.deleteById(id);
-
     }
-
-
   }
 
   public TweetActionResponseAllData changeAction(TweetActionRequest tweetActionRequest, User user) {
@@ -126,5 +122,11 @@ public class TweetService {
       tweetActionRepository.save(newTweetAction);
     }
     return tweetActionResponseMapper.convertToDto(newTweetAction);
+  }
+
+  public List<TweetResponse> findAllTweetsUserIdIsNot(Long userId, Pageable pageable) {
+    Optional<Page<Tweet>> optionalTweets = Optional.ofNullable(tweetDao.findAllByUserIdIsNot(userId, pageable));
+    Page<Tweet> tweets = optionalTweets.orElse(Page.empty());
+    return tweets.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
   }
 }

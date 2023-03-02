@@ -53,7 +53,8 @@ export const URLS = {
   USERS: {
     ROOT: "/users",
     SEARCH: "/users/search",
-    CUSTOMIZE: "/users/customize"
+    CUSTOMIZE: "/users/customize",
+    RECOMANDATIONS: "/users/no-following"
   },
   SUBSCRIBING: {
     FOLLOW: "/subscribing/follow",
@@ -61,6 +62,7 @@ export const URLS = {
   },
   TWEET: {
     _ROOT: "/tweets/",
+    ALL: "/tweets/all",
     getTweet:(id)=>`/tweets/${id}`,
     CREATE_TWEET: "/tweets/create",
     CHANGE_ACTIONS: "/tweets/change_actions",

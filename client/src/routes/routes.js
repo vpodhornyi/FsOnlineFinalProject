@@ -25,7 +25,7 @@ import {
   Search,
 } from "../pages";
 import { PATH } from "../utils/constants";
-import { DeleteTweet, Display, TweetForm } from "../components";
+import { DeleteTweet, Display, TweetForm, PrimaryHeader } from "../components";
 import TweetModal from "../components/tweetComponents/TweetModal";
 import ModalImg from "../components/tweetComponents/ModalImg";
 import Tweets from "../pages/Home/Tweets";
@@ -36,6 +36,7 @@ import Subscribing from "../pages/Subscribing/Subscribing";
 import EditProfile from "../pages/UserProfile/pages/EditProfile";
 import Likes from "../pages/UserProfile/pages/Likes";
 import TweetReplies from "../pages/UserProfile/pages/TweetReplies";
+import PageHeader from "../components/PageHeader/PageHeader";
 
 const BREAKPOINTS_VALUES = themeStyles().breakpoints.values;
 const lazyLoading = (path) => {
@@ -55,18 +56,18 @@ export const mainRoutes = (width, authorized) => {
 
         {
           path: PATH.HOME,
-          element: <Home />,
-          children: [
-            {
-              index: true,
-              element: (
-                <>
-                  <TweetForm />
-                  <Suspense fallback={<Loading />}>
-                    <Tweets />{" "}
-                  </Suspense>
-                </>
-              ),
+          element: <Home/>,
+            children: [{
+                index: true,
+                element: (
+                    <>
+                        <PrimaryHeader pageElement={<PageHeader page={"Home"}/>} isBack={false}/>
+                        <TweetForm />
+                        <Suspense fallback={<Loading />}>
+                            <Tweets />{" "}
+                        </Suspense>
+                    </>
+                ),
             },
             { path: PATH.TWEET.TWEET_PAGE, element: <TweetPage /> },
           ],

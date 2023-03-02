@@ -15,3 +15,7 @@ export const getUserByUserTag = async (userTag) => {
 export const getUsers = async () => {
     return await api.get(`${URLS.USERS.ROOT}/all`);
 }
+
+export const getNotFollowingUsers = async (userId, pageNumber, pageSize) => {
+    return await api.get(`${URLS.USERS.RECOMANDATIONS}?userId=${userId}&pageNumber=${pageNumber}&pageSize=${pageSize}`)
+}

@@ -42,12 +42,18 @@ public class TweetController {
   }
 
 
+  @GetMapping("/all")
+  public List<TweetResponse> getAllTweets(Principal principal, @RequestParam int pageNumber, @RequestParam int pageSize) {
+    User userCurrent = userDao.findByUserTag(principal.getName());
+    Pageable pageable = PageRequest.of(pageNumber, pageSize);
+    return tweetService.findAllTweetsUserIdIsNot(userCurrent.getId(), pageable);
+  }
+
   @GetMapping
   public List<TweetResponse> getAll(Principal principal, @RequestParam int pageNumber, @RequestParam int pageSize) {
     User userCurrent = userDao.findByUserTag(principal.getName());
     Pageable pageable = PageRequest.of(pageNumber, pageSize);
     return tweetService.getAll(userCurrent.getId(), pageable);
-
   }
 
   @GetMapping("/user-tweets/")
@@ -86,14 +92,12 @@ public class TweetController {
   @GetMapping("/{id}")
   public TweetResponse getById(@PathVariable("id") String userId) throws Exception {
     return tweetService.findById(Long.parseLong(userId));
-
   }
 
   @DeleteMapping("/{tweetId}")
   public void delete(Principal principal, @PathVariable(value = "tweetId") Long tweetId) throws Exception {
     User userCurrent = userDao.findByUserTag(principal.getName());
     tweetService.deleteById(tweetId, userCurrent);
-
   }
 
   @PutMapping("/update")

@@ -35,7 +35,7 @@ const Tweets = () => {
                     <Tweet tweetInfo={el}/>
                 </div>
             ) :
-                <NoData text={`${user?.userTag === user_tag ? `You ` : `@${user_tag}`} don’t have any tweets yet}`}/>
+                <NoData text={`${user?.userTag === user_tag ? `You ` : `@${user_tag}`} don’t have any tweets yet.`}/>
             }
         </>
     );
