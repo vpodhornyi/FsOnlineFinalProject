@@ -12,7 +12,7 @@ const NotificationItem = ({notification, handleNotificationClick}) => {
                 className={`NotReadMessagesExist`}
             >
                 <Box sx={{display: 'flex'}}>
-                    <Avatar sx={{mr: '10px', width: '3.3rem', height: '3.3rem'}} src={notification.userInitiator.avatarImgUrl}/>
+                    <Avatar sx={{mr: '10px', width: '3.3rem', height: '3.3rem'}} src={notification?.userInitiator?.avatarImgUrl ?  notification.userInitiator.avatarImgUrl : ""}/>
                     <Box>
                         <Box sx={{display: 'flex'}}>
                             <Typography sx={{fontWeight: 600}}>{notification.title}</Typography>

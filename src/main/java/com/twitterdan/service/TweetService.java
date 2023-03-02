@@ -82,11 +82,13 @@ public class TweetService {
 
       if(tweet.getRetweetUser()!=null){
         notification.setUserInitiator(tweet.getRetweetUser());
-        System.out.print("initiatorUserId: ");
-        System.out.println(tweet.getRetweetUser());
-      }else {
-        System.out.println("tweet.getRetweetUser() is null");
+        System.out.print("initiatorUserId set to tweet.getRetweetUser(): "+notification.getUserInitiator());
       }
+      if(tweet.getUser()!=null){
+        notification.setUserInitiator(tweet.getUser());
+        System.out.print("initiatorUserId set to tweet.getUser(): "+notification.getUserInitiator());
+      }
+
 
       System.out.println("tweet notification created: " + notification);
     simpMessagingTemplate.convertAndSend(genNotificationsDest + user.getId(), notification);

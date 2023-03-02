@@ -40,7 +40,6 @@ public class NotificationsController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> deleteNotificationById(@PathVariable("id") Long id) {
-        System.out.println("in controller.deleteNotificationById(Long id), id: " +id);
         notificationService.deleteNotificationById(id);
         return ResponseEntity.ok(true);
     }

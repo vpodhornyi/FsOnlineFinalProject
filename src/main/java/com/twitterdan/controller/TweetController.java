@@ -105,6 +105,8 @@ public class TweetController {
 
   @PostMapping("/create")
   public TweetResponse create(@RequestBody TweetRequest dto) {
+    System.out.println("TweetController::create-> ");
+    System.out.println("TweetRequest: "+dto);
     Tweet tweet = tweetRequestMapper.convertToEntity(dto);
     return tweetResponseMapper.convertToDto(tweetService.save(tweet));
   }

@@ -66,7 +66,10 @@ public class User extends BaseEntity {
 
   @Override
   public String toString() {
-    return "User{" + "userTag='" + userTag + '\'' + ", id:" + this.getId() + '}';
+    return "User{" + "userTag='" + userTag + '\'' + ", id:" + this.getId() +
+            ", avatarImgUrl" +this.avatarImgUrl+
+
+            '}';
   }
 
   @Override
