@@ -79,10 +79,7 @@ public class TweetService {
 
     }
 
-    ;
-
     public void update(TweetRequest tweetUpdate) {
-        System.out.println(tweetUpdate.getId());
         Tweet tweet = tweetDao.findById(tweetUpdate.getId()).get();
         tweet.setTweetType(tweetUpdate.getTweetType());
         tweet.setBody(tweetUpdate.getBody());
@@ -133,6 +130,5 @@ public class TweetService {
         Optional<Page<Tweet>> optionalTweets = Optional.ofNullable(tweetDao.findAllByUserIdIsNot(userId, pageable));
         Page<Tweet> tweets = optionalTweets.orElse(Page.empty());
         return tweets.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
-
     }
 }
