@@ -8,11 +8,11 @@ import {getTweetState, loadingTweetsState,} from "../../redux/tweet/selector";
 import Loading from "../../components/Loader/Loading";
 import PropTypes from "prop-types";
 import {URLS} from "../../services/API";
-const Tweets = ({bookmarksValue = false}) => {
+const Tweets = ({bookmarksValue = false, exploreValue = false}) => {
     const dispatch = useDispatch();
     let stateValue = bookmarksValue ? {name: 'bookmarks', url: URLS.TWEET.BOOKMARKS} : {
         name: 'tweets',
-        url: URLS.TWEET._ROOT
+        url: exploreValue ? URLS.TWEET.ALL : URLS.TWEET._ROOT
     };
 
 
@@ -72,5 +72,6 @@ const styles = ({theme}) => ({
 const BoxWrapper = styled(Box)(styles);
 Tweets.propTypes = {
     bookmarksValue: PropTypes.bool,
+    exploreValue: PropTypes.bool
 };
 export default Tweets;

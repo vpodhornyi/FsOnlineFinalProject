@@ -6,7 +6,7 @@ const init = {
     recommends: {
         data: [],
         pageNumber: 0,
-        pageSize: 3,
+        pageSize: 4,
         isPageable: true,
     },
     error: "",

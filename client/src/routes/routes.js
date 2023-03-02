@@ -25,8 +25,7 @@ import {
   Search,
 } from "../pages";
 import { PATH } from "../utils/constants";
-import Reply from "../components/tweetComponents/Reply";
-import { DeleteTweet, Display, TweetForm, PrimaryColumn, PrimaryHeader } from "../components";
+import { DeleteTweet, Display, TweetForm, PrimaryHeader } from "../components";
 import TweetModal from "../components/tweetComponents/TweetModal";
 import ModalImg from "../components/tweetComponents/ModalImg";
 import Tweets from "../pages/Home/Tweets";

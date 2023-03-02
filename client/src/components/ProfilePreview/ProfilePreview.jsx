@@ -11,7 +11,7 @@ import {followUser, unfollowUser} from "../../services/followService";
 import {getAuthUser} from "../../redux/user/action";
 
 const ProfilePreview = (props) => {
-    const {id, avatar, username, userTag, descr, followers, isBio} = props;
+    const {id, avatar, username, userTag, descr, isBio} = props;
 
     const authUser = useSelector(getPersonalData);
     const dispatch = useDispatch();
@@ -53,7 +53,7 @@ const ProfilePreview = (props) => {
 
                 {
                     <Box style={{display: authUser?.userTag === userTag ? "none" : "block"}}>
-                        {followers.includes(authUser?.userTag) ?
+                        {authUser?.followings.includes(userTag) ?
                             <StyledLightButton
                                 sx={{
                                     "&:hover": {
@@ -94,7 +94,6 @@ ProfilePreview.propTypes = {
     username: PropTypes.string,
     userTag: PropTypes.string,
     descr: PropTypes.string,
-    followers: PropTypes.array,
     isBio: PropTypes.bool,
 }
 

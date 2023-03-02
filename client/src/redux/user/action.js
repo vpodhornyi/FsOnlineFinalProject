@@ -23,12 +23,9 @@ export const ACTIONS = {
     ...actions.async,
 }
 
-export const clearUserRecommends = () => async (dispatch, getState) => {
+export const clearUserRecommends = () => async (dispatch) => {
     try {
-        const {user} = getState();
-        let recommendsData = user.recommends.data;
-        recommendsData?.splice(3, recommendsData.length - 3);
-        dispatch(ACTIONS.clearUserRecommends.success(recommendsData));
+        dispatch(ACTIONS.clearUserRecommends.success([]));
     }catch (e) {
         dispatch(ACTIONS.clearUserRecommends.fail(e));
     }
@@ -37,7 +34,7 @@ export const clearUserRecommends = () => async (dispatch, getState) => {
 export const getUserRecommends = (userId, addPageNumber = false) => async (dispatch, getState) => {
     try {
         const {user} = getState();
-        const pageNumber = addPageNumber ? user.recommends.pageNumber + 1 : user.recommends.pageNumber;
+        const pageNumber = user.recommends.pageNumber;
         const pageSize = user.recommends.pageSize;
         dispatch(ACTIONS.getUserRecommends.request())
         const data = await getNotFollowingUsers(userId, pageNumber, pageSize);

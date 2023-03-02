@@ -11,9 +11,13 @@ import {
     getUserLoadingState,
     getUserRecommendsState
 } from "../../redux/user/selector";
-import {clearUserRecommends, getUserRecommends} from "../../redux/user/action";
+import {clearUserRecommends, getAuthUser, getUserRecommends} from "../../redux/user/action";
 import ProfilePreview from "../../components/ProfilePreview/ProfilePreview";
 import CircularLoader from "../../components/loaders/CircularLoader";
+import {getAuthorized} from "../../redux/auth/selector";
+import {getTweets} from "../../redux/tweet/action";
+import {URLS} from "../../services/API";
+import {getTweetState, loadingTweetsState} from "../../redux/tweet/selector";
 
 const Explore = () => {
     const dispatch = useDispatch();
@@ -21,16 +25,17 @@ const Explore = () => {
     const loading = useSelector(getUserLoadingState);
     const isPageable = useSelector(getIsPageableState);
     const recommends = useSelector(getUserRecommendsState);
+    const isAuth = useSelector(getAuthorized);
 
     useEffect(() => {
+        dispatch(getAuthUser());
         dispatch(clearUserRecommends());
+        dispatch(getUserRecommends(user?.id, false))
     }, []);
 
     const onShowMoreButtonClick = async () => {
         dispatch(getUserRecommends(user?.id, true));
     };
-
-    console.log(recommends.data.length % 3 > 0)
 
     return (
         <ColumnWrapper>
@@ -38,34 +43,51 @@ const Explore = () => {
             <PrimaryColumn>
                 <PrimaryHeader pageElement={<ExploreHeader/>}/>
                 <Box sx={{margin: "20px 0 0 0"}}>
-                    <Tweets bookmarksValue={false}/>
+                    <Tweets exploreValue={true} bookmarksValue={false}/>
                 </Box>
             </PrimaryColumn>
 
             <SitebarColumn>
                 <StickyHeader>
                     <StyledBox>
-                        <Box>
-                            <Typography sx={{fontSize: "18px", fontWeight: "bold"}}>Who to follow</Typography>
-                        </Box>
-                        <Box>
-                            {loading ? <CircularLoader/> : recommends?.data.map(u =>
-                                <ProfilePreview
-                                    key={u.id}
-                                    userTag={u.userTag}
-                                    username={u.name}
-                                    id={u.id}
-                                    avatar={u.avatarImgUrl}
-                                    descr={u.bio}
-                                    followers={u.followers}
-                                    isBio={false}
-                                />
-                            )}
-                        </Box>
-                        <Button
-                            disabled={!isPageable}
-                            onClick={onShowMoreButtonClick}>{!isPageable ? "Sorry. It is all recommends for you." : "Show more"}
-                        </Button>
+                        {isAuth ?
+                            <>
+                                <Box>
+                                    <Typography sx={{fontSize: "18px", fontWeight: "bold"}}>Who to follow</Typography>
+                                    {recommends?.data.length > 0 &&
+                                        <Typography fontSize={"small"}>Recommendations for you</Typography>}
+                                </Box>
+                                <Box>
+                                    {loading ? <CircularLoader/> : recommends?.data.map(u =>
+                                        <ProfilePreview
+                                            key={u.id}
+                                            userTag={u.userTag}
+                                            username={u.name}
+                                            id={u.id}
+                                            avatar={u.avatarImgUrl}
+                                            descr={u.bio}
+                                            followers={u.followers}
+                                            isBio={false}
+                                        />
+                                    )}
+                                </Box>
+                                {recommends?.data.length > 0 ?
+                                    <Button
+                                        disabled={!isPageable}
+                                        onClick={onShowMoreButtonClick}>{!isPageable ? "Sorry. It is all recommends for you." : "Show more"}
+                                    </Button> :
+                                    <Typography fontSize={"small"}>Sorry. There are not recommendations for you.
+                                        Comeback
+                                        soon.
+                                    </Typography>
+                                }
+                            </> :
+                            <>
+                                <Typography sx={{fontSize: "18px", fontWeight: "bold"}}>New to twitter?</Typography>
+                                <Typography fontSize={"small"}>Sign up now to get your own personalized
+                                    feed!</Typography>
+                            </>
+                        }
                     </StyledBox>
                 </StickyHeader>
             </SitebarColumn>

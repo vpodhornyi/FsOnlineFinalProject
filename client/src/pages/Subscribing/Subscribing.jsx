@@ -18,8 +18,6 @@ const Subscribing = () => {
     const {user_tag} = useParams();
     const path = useLocation().pathname;
 
-    const authUser = useSelector(getPersonalData);
-
     const [userFollowers, setUserFollowers] = useState(null);
     const [userFollowings, setUserFollowings] = useState(null);
     const [name, setName] = useState("");
@@ -31,7 +29,7 @@ const Subscribing = () => {
             setUserFollowings(users?.filter(user => user.followers.includes(user_tag)));
             setName(users?.filter(user => user.userTag === user_tag)[0]?.name)
         });
-    }, [authUser]);
+    }, []);
 
 
     const StyledLink = styled(props => (<Link {...props}/>))(() => ({
@@ -87,7 +85,6 @@ const Subscribing = () => {
                                         id={u.id}
                                         avatar={u.avatarImgUrl}
                                         descr={u.bio}
-                                        followers={u.followers}
                                         isBio={true}
                                     />
                                 )) :
@@ -121,7 +118,6 @@ const Subscribing = () => {
                                         id={u.id}
                                         avatar={u.avatarImgUrl}
                                         descr={u.bio}
-                                        followers={u.followers}
                                         isBio={true}
                                     />
 

@@ -68,5 +68,6 @@ public interface TweetRepository extends PagingAndSortingRepository<Tweet, Long>
 
   Page<Tweet> findAll(Pageable pageable);
 
+  Page<Tweet> findAllByUserIdIsNot(Long userId, Pageable pageable);
 }
 
