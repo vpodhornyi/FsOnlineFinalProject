@@ -15,9 +15,7 @@ import {clearUserRecommends, getAuthUser, getUserRecommends} from "../../redux/u
 import ProfilePreview from "../../components/ProfilePreview/ProfilePreview";
 import CircularLoader from "../../components/loaders/CircularLoader";
 import {getAuthorized} from "../../redux/auth/selector";
-import {getTweets} from "../../redux/tweet/action";
 import {URLS} from "../../services/API";
-import {getTweetState, loadingTweetsState} from "../../redux/tweet/selector";
 
 const Explore = () => {
     const dispatch = useDispatch();
@@ -43,7 +41,7 @@ const Explore = () => {
             <PrimaryColumn>
                 <PrimaryHeader pageElement={<ExploreHeader/>}/>
                 <Box sx={{margin: "20px 0 0 0"}}>
-                    <Tweets exploreValue={true} bookmarksValue={false}/>
+                    <Tweets stateValue={{name: "tweets", url: URLS.TWEET.ALL}}/>
                 </Box>
             </PrimaryColumn>
 
