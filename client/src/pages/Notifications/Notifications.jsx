@@ -37,6 +37,18 @@ const Notifications = () => {
                     action = " liked tweet of ";
                     notification.title = `${who}${action}${whom}`;
                     break;
+                case "BOOKMARK":
+                    action = " bookmarked tweet of ";
+                    notification.title = `${who}${action}${whom}`;
+                    break;
+                    case "FOLLOW":
+                    action = " now follows ";
+                    notification.title = `${who}${action}${whom}`;
+                    break;
+                    case "UNFOLLOW":
+                    action = " has unfollowed ";
+                    notification.title = `${who}${action}${whom}`;
+                    break;
                 case "QUOTE_TWEET":
                     action = " quoted tweet of ";
                     notification.title = `${who}${action}${whom}`;

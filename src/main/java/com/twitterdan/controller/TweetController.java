@@ -54,14 +54,12 @@ public class TweetController {
   public List<TweetResponse> getTweetsByUserId(@RequestParam(name = "userTag") String userTag) {
     User user = userDao.findByUserTag(userTag);
     return tweetService.getTweetsByUserId(user.getId());
-
   }
 
   @GetMapping("/user-likes/")
   public List<TweetResponse> findCurrentUserLikeTweets(@RequestParam(name = "userTag") String userTag) {
     User user = userDao.findByUserTag(userTag);
     return tweetService.findCurrentUserLikeTweets(user.getId());
-
   }
 
 
@@ -98,15 +96,11 @@ public class TweetController {
 
   @PutMapping("/update")
   public void update(@Valid @RequestBody TweetRequest dto) {
-    // TODO здесь изменяется твит
-    System.out.println("in TweetController::update");
     tweetService.update(dto);
   }
 
   @PostMapping("/create")
   public TweetResponse create(@RequestBody TweetRequest dto) {
-    System.out.println("TweetController::create-> ");
-    System.out.println("TweetRequest: "+dto);
     Tweet tweet = tweetRequestMapper.convertToEntity(dto);
     return tweetResponseMapper.convertToDto(tweetService.save(tweet));
   }

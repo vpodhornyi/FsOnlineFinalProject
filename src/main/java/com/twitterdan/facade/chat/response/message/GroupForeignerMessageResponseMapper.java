@@ -32,7 +32,7 @@ public class GroupForeignerMessageResponseMapper extends GeneralFacade<Message, 
     dto.setChat(groupChatResponseMapper.convertToDto(entity.getChat()));
     dto.setCountUnreadMessages(messageService.getCountUnreadChatMessagesByUserId(chatId, userId));
     int foo = messageService.getCountAllUnreadChatMessagesByUserId(userId);
-    System.out.println(foo);
+//    System.out.println(foo);
     dto.setCountUnreadAllChatMessages(foo);
     Optional<List<MessageSeen>> seen = entity.getSeen();
 

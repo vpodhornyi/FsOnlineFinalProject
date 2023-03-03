@@ -28,7 +28,7 @@ public class TweetResponseMapper extends GeneralFacade<Tweet, TweetResponse> {
             ? ((UserDetails) principal).getUsername()
             : principal.toString();
     User retweetUser = entity.getRetweetUser();
-    System.out.println(entity);
+//    System.out.println(entity);
     String name = Optional.ofNullable(retweetUser).map(userRetweet -> {
       String retweetName = userRetweet.getUserTag().equals(userTag) ? "You" : userRetweet.getName();
       return retweetName + " Retweeted";
