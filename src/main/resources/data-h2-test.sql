@@ -33,14 +33,14 @@ values ('2023-01-05 22:51:08.764847','e6b8be4a-cc42-47b9-8be4-5db08164bf30', 'LI
        ('2023-01-05 22:51:08.764847','785a2e3b-a256-4b37-8ffe-ee6c4f7011f6', 'LIKE', 4, 3),
        ('2023-01-05 22:51:08.764847','234bca02-771b-4bdb-919a-32a9dd96d307', 'RETWEET', 4, 2);
 
-INSERT INTO notifications (uuid, is_read, notification_type, tweet_id, initiator_id, receiver_id)
-values
-    ('4b794df5-f4d2-40d9-bfb3-c97e3c910ea1', false, 'LIKE', 1, 2, 1),
-    ('ac1e4f3c-e4a4-4712-8bd4-9dcd8a391770', false, 'LIKE', 1, 3, 1),
-    ('32a034bf-1319-4d68-a304-89b407216d1c', false, 'REPLY', 2, 4, 2),
-    ('53fde888-94b0-4e1f-9a30-debf5c161ca0', false, 'LIKE', 3, 2, 3),
-    ('1fd9a3d1-2277-4e6e-98a4-fa4270a3b6dd', false, 'RETWEET', 4, 1, 4),
-    ('d5b00f3e-e084-41d7-bf70-053e09fd3d9f', false, 'LIKE', 4, 3, 4);
+-- INSERT INTO notifications (uuid, is_read, notification_type, tweet_id, initiator_id, receiver_id)
+-- values
+--     ('4b794df5-f4d2-40d9-bfb3-c97e3c910ea1', false, 'LIKE', 1, 2, 1),
+--     ('ac1e4f3c-e4a4-4712-8bd4-9dcd8a391770', false, 'LIKE', 1, 3, 1),
+--     ('32a034bf-1319-4d68-a304-89b407216d1c', false, 'REPLY', 2, 4, 2),
+--     ('53fde888-94b0-4e1f-9a30-debf5c161ca0', false, 'LIKE', 3, 2, 3),
+--     ('1fd9a3d1-2277-4e6e-98a4-fa4270a3b6dd', false, 'RETWEET', 4, 1, 4),
+--     ('d5b00f3e-e084-41d7-bf70-053e09fd3d9f', false, 'LIKE', 4, 3, 4);
 
 
 INSERT INTO attachment_images (uuid, img_url, tweet_id)

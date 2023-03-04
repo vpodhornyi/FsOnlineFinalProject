@@ -6,6 +6,9 @@ import {ACTIONS as MESSAGE_ACTIONS} from "../chat/message/action";
 import {ACTIONS as SNACK_ACTIONS} from "../snack/action";
 import {getNotFollowingUsers} from "../../services/userApi";
 
+import NOTIFICATION_ACTIONS_Cust from "../notification/action";
+import destinations from '../../subscriptions.js';
+import NOTIFICATIONS_ACTIONS from '@redux/notification/action';
 
 const actions = createActions(
     {
@@ -50,6 +53,7 @@ export const getAuthUser = (preloader = false) => async (dispatch) => {
         dispatch(ACTIONS.getAuthUser.request(preloader));
         const data = await api.get(URLS.USERS.ROOT);
         dispatch(ACTIONS.getAuthUser.success(data));
+      dispatch(NOTIFICATIONS_ACTIONS.getNotifications());
         return data;
 
     } catch (e) {
@@ -72,7 +76,20 @@ export const updateCustomize = body => async (dispatch) => {
 export const authUserSocketSubscribe = () => async (dispatch, getState) => {
     try {
         const {user: {authUser}} = getState();
-        const subData = authUser?.id && api.client.subscribe(`/queue/user.${authUser.id}`, async (data) => {
+
+      /*** блок коллбэков stomp-Notifications ***/
+      authUser?.id && api.client.subscribe(`${destinations.genNotificationsDest}${authUser.id}`, (json) => {
+        console.log("subscribing to:  ", `${destinations.genNotificationsDest}${authUser.id}`)
+        //backEnd sends to:    /queue/generalNotifications.user.1
+        if (json.body) {
+          const message = JSON.parse(json.body);
+          dispatch(NOTIFICATION_ACTIONS_Cust.storeNotification(message));
+
+        }
+      });
+      /*** конец блока коллбэков stomp-Notifications ***/
+
+      const subData = authUser?.id && api.client.subscribe(`/queue/user.${authUser.id}`, async (data) => {
             const {body} = JSON.parse(data.body);
             switch (body?.type) {
                 case 'MESSAGE_ADD':

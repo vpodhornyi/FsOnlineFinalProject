@@ -62,7 +62,7 @@ public class Tweet extends BaseEntity {
             ", notifications=" + notifications +
             ", actions=" + actions +
             ", parentTweetId=" + parentTweetId +
-            ", retweetId=" + retweetUser +
+            ", retweetUser=" + retweetUser +
             '}';
   }
 }

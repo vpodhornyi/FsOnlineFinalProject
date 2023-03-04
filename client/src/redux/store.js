@@ -17,6 +17,8 @@ import searchReducer from "./search/reducer";
 
 import chatReducer from "./chat/reducer";
 import messagesReducer from "./chat/message/reducer";
+import notificationsReducer from "./notification/reducer";
+
 
 const {applyMiddleware, combineReducers, createStore} = require("redux");
 
@@ -29,6 +31,7 @@ const reducer = combineReducers({
     dialog: dialogReducer,
     snack: snackReducer,
     search: searchReducer,
+  notificationData: notificationsReducer,
 })
 
 export const stompClient = (onConnect) => {
@@ -38,6 +41,7 @@ export const stompClient = (onConnect) => {
         }, debug: function (str) {
         }, reconnectDelay: 5000, onConnect,
     });
+  api.client = client;
 
     client.activate();
     return client;

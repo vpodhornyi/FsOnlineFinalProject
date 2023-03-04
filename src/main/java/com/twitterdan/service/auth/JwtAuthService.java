@@ -46,7 +46,6 @@ public class JwtAuthService implements AuthService {
 
   public JwtResponse login(String login, String password) {
     User user;
-
     try {
       user = userService.findByUserTagTrowException(login);
     } catch (Exception e) {

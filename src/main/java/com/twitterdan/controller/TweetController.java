@@ -60,14 +60,12 @@ public class TweetController {
   public List<TweetResponse> getTweetsByUserId(@RequestParam(name = "userTag") String userTag) {
     User user = userDao.findByUserTag(userTag);
     return tweetService.getTweetsByUserId(user.getId());
-
   }
 
   @GetMapping("/user-likes/")
   public List<TweetResponse> findCurrentUserLikeTweets(@RequestParam(name = "userTag") String userTag) {
     User user = userDao.findByUserTag(userTag);
     return tweetService.findCurrentUserLikeTweets(user.getId());
-
   }
 
 
