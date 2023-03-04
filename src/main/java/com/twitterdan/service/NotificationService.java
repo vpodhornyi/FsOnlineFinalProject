@@ -4,6 +4,7 @@ import com.twitterdan.dao.NotificationRepository;
 import com.twitterdan.domain.notification.Notification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -13,17 +14,15 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class NotificationService {
 
     private final NotificationRepository notificationRepository;
     private final EntityManagerFactory emf;
 
     public Long saveNotification(Notification notification) {
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.persist(notification);
-        em.getTransaction().commit();
-        return notification.getId();
+        return notificationRepository.save(notification).getId();
+
     }
 
     public Optional<Notification> getNotificationById(Long id) {
