@@ -4,8 +4,31 @@ import React from "react";
 import {Box, Typography} from "@mui/material";
 import Container from "@mui/material/Container";
 
-export const userProfileSecondaryFontColor = "rgb(83, 100, 113)";
+export const ThemeButtonDark = styled(props => (<Button {...props}/>))(({theme}) => ({
+    "&": {
+        height: "35px",
+        alignSelf: "flex-end",
+        borderRadius: 40,
+        color: theme.palette.background.main,
+        backgroundColor: theme.palette.text.main,
+    }
+}));
 
+export const ThemeButtonLight = styled(props => (<Button {...props}/>))(({theme}) => ({
+    "&": {
+        height: "35px",
+        alignSelf: "flex-end",
+        borderRadius: 40,
+        color: theme.palette.text.main,
+        backgroundColor: theme.palette.background.main,
+        border: `1px solid ${theme.palette.text.main}`
+    },
+    "&:hover": {
+        borderColor: theme.palette.redAccent.secondary,
+        color: theme.palette.redAccent.main,
+        backgroundColor: theme.palette.redAccent.mainTransparent,
+    }
+}));
 
 export const StyledDarkButton = styled(props => (<Button {...props}/>))(() => ({
     "&": {
@@ -36,10 +59,7 @@ export const StyledLightButton = styled(props => (<Button {...props}></Button>))
     },
 }));
 
-export const StyledTypography = styled(props => (<Typography {...props}/>))(() => ({
-    "&": {
-        color: userProfileSecondaryFontColor,
-    },
+export const StyledTypography = styled(props => (<Typography {...props}/>))(({theme}) => ({
     "&: hover": {
         textDecoration: "underline",
         cursor: "pointer",

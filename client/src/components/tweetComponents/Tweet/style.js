@@ -1,19 +1,19 @@
 import { styled } from "@mui/material/styles";
 import { Avatar, Box, Link } from "@mui/material";
-export const TweetContainer = styled(Box)({
+export const TweetContainer = styled(Box)(({theme}) => ({
   borderRadius: 0,
-  color: "rgb(83, 100, 113)",
+  color: theme.palette.textColor,
   textDecoration: "none",
   cursor: "pointer",
   "&:hover": {
-    background: "#f7f7f7",
+    background: theme.palette.input.background,
   },
   position: "relative",
   padding: "1rem",
 
-  borderTop: "1px solid  rgb(239, 243, 244)",
+  borderTop: `1px solid ${theme.palette.border.main}`,
   maxWidth: 600,
-});
+}));
 
 export const Content = styled(Box)({
   display: "flex",
@@ -44,18 +44,18 @@ export const PostInfo = styled(Box)({
   alignItems: "center",
   marginBottom: 0.125,
 });
-export const UserName = styled(Link)({
+export const UserName = styled(Link)(({theme}) => ({
   fontSize: "inherit",
   fontWeight: 700,
-  color: "black",
-});
-export const IconBlue = styled(Box)({
+  color: theme.palette.textColor,
+}));
+export const IconBlue = styled(Box)(({theme}) =>({
   "&:hover svg": {
-    backgroundColor: "#e1eef6",
+    backgroundColor: theme.palette.action.iconHover,
     color: "#1d9bf0",
     borderRadius: "50%",
   },
   "&:hover span": {
     color: "#1d9bf0",
   },
-});
+}));

@@ -51,9 +51,9 @@ const Explore = () => {
                         {isAuth ?
                             <>
                                 <Box>
-                                    <Typography sx={{fontSize: "18px", fontWeight: "bold"}}>Who to follow</Typography>
+                                    <Typography sx={{fontSize: "1.3rem", fontWeight: "bold"}} variant={"h2"}>Who to follow</Typography>
                                     {recommends?.data.length > 0 &&
-                                        <Typography fontSize={"small"}>Recommendations for you</Typography>}
+                                        <Typography variant={"body2"}>Recommendations for you</Typography>}
                                 </Box>
                                 <Box>
                                     {loading ? <CircularLoader/> : recommends?.data.map(u =>
@@ -93,17 +93,17 @@ const Explore = () => {
     );
 };
 
-const StyledBox = styled(props => (<Box {...props}/>))(() => ({
+const StyledBox = styled(props => (<Box {...props}/>))(({theme}) => ({
     "&": {
         padding: "10px",
         margin: "20px 0 0 0",
         display: "flex",
         flexDirection: "column",
         width: "100%",
-        backgroundColor: "#eee",
+        backgroundColor: theme.palette.border.main,
         border: "0 solid black",
         borderRadius: "2%",
-        transition: "0.5s"
+        transition: "0.5s",
     }
 }));
 

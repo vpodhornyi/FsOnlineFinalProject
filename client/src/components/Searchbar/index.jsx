@@ -67,8 +67,7 @@ export const Searchbar = ({isExplore}) => {
                                          startAdornment: <Search className='SearchIcon' style={{marginRight: '10px'}}/>,
                                          endAdornment: showClearSearch &&
                                              <Cancel className='CancelButton' onClick={handleClearSearch}/>,
-                                     }
-                                     }
+                                     }}
                     />
                 </form>
                 <Box sx={{height: 2}}>
