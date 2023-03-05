@@ -84,6 +84,12 @@ export const URLS = {
   CLOUD: {
     IMAGE: "/cloud/image",
     IMAGES: "/cloud/images"
+  },
+  NOTIFICATIONS: {
+    DELETE: '/notifications',
+    POST: '/notifications',
+    GET_ALL: '/notifications/all',
+    GET_ONE: '/notifications',
   }
 };
 

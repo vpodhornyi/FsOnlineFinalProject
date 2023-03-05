@@ -18,9 +18,9 @@ const Action = ({title, description, btnName}) => {
         <Typography className='Description' sx={{pb: 3, pt: 1}} variant='body1'>
           {description}
         </Typography>
-        <Box onClick={() => navigate(PATH.MESSAGES.COMPOSE, {state: {background: location}})}>
+        {!!btnName ? <Box onClick={() => navigate(PATH.MESSAGES.COMPOSE, {state: {background: location}})}>
           <CustomFabButton className={'WriteMessage'} name={btnName}/>
-        </Box>
+        </Box> : null}
       </Box>
     </StyledBox>);
 }

@@ -2,6 +2,8 @@ package com.twitterdan.service;
 
 import com.twitterdan.dao.UserRepository;
 import com.twitterdan.domain.user.CustomStyle;
+import com.twitterdan.domain.notification.Notification;
+import com.twitterdan.domain.notification.NotificationType;
 import com.twitterdan.domain.user.User;
 import com.twitterdan.dto.user.UserUpdateDataRequest;
 import com.twitterdan.exception.AccountAlreadyExistException;
@@ -9,6 +11,9 @@ import com.twitterdan.exception.CouldNotFindAccountException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -19,7 +24,11 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-  private final UserRepository userRepository;
+    private final UserRepository userRepository;
+    @Value("${genNotificationsDest}")
+    private String genNotificationsDest;
+    @Autowired
+    private SimpMessagingTemplate simpMessagingTemplate;
 
   public List<User> findAll() {
     return userRepository.findAll();
@@ -113,14 +122,18 @@ public class UserService {
     return true;
   }
 
-  public User findByUserTagTrowException(String userTag) {
-    Optional<User> optionalUser = userRepository.findByUserTag(userTag);
+    public User findByUserTagTrowException(String userTag) {
+        Optional<User> optionalUser = userRepository.findByUserTag(userTag);
+        if (optionalUser.isPresent()) {
 
-    if (optionalUser.isPresent()) {
-      return optionalUser.get();
+// не удалять!  - тестовая отправка нотификейшна - срабатывает всегда при перезагрузке страницы на фронте:
+/*            Notification notification = new Notification()
+                    .setNotificationType(NotificationType.LOGGED_IN).setUserReceiver(optionalUser.get()).setUserInitiator(optionalUser.get()).setTweet(null).setRead(false);
+            simpMessagingTemplate.convertAndSend(genNotificationsDest + optionalUser.get().getId(), notification);*/
+            return optionalUser.get();
+        }
+        throw new CouldNotFindAccountException();
     }
-    throw new CouldNotFindAccountException();
-  }
 
   public User findByUserEmailTrowException(String email) {
     Optional<User> optionalUser = userRepository.findByEmail(email);

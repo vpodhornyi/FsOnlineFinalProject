@@ -6,8 +6,8 @@ import io.jsonwebtoken.security.Keys;
 
 public class GenerateKeys {
   public static void main(String[] args) {
-    System.out.println(generateKey());
-    System.out.println(generateKey());
+//    System.out.println(generateKey());
+//    System.out.println(generateKey());
   }
 
   public static String generateKey() {
