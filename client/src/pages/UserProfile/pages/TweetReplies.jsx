@@ -5,7 +5,7 @@ import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {getPersonalData} from "../../../redux/user/selector";
 import {Tweet} from "../../../components";
-import {StyledLoadContainer} from "../../../components/StyledComponents/styledComponents";
+import {StyledLoadContainer} from "./styledComponents";
 import {getTweetsState, loadingTweetsState} from "../../../redux/tweet/selector";
 import {getCurrentUserTweetsAndReplies} from "../../../redux/tweet/action";
 import NoData from "../components/NoData";

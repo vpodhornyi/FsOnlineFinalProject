@@ -30,33 +30,15 @@ export const ThemeButtonLight = styled(props => (<Button {...props}/>))(({theme}
     }
 }));
 
-export const StyledDarkButton = styled(props => (<Button {...props}/>))(() => ({
+export const ThemeButtonLightNoHover = styled(Button)(({theme}) => ({
     "&": {
         height: "35px",
         alignSelf: "flex-end",
-        backgroundColor: "rgb(15, 20, 25)",
         borderRadius: 40,
-        color: "white"
-    },
-    "&:hover": {
-        backgroundColor: "rgb(39, 44, 48)",
-    },
-    "&:disabled": {
-        cursor: "pointer",
-        backgroundColor: "rgba(39, 44, 48, 0.4)",
-        color: "white"
+        color: theme.palette.text.main,
+        backgroundColor: theme.palette.background.main,
+        border: `1px solid ${theme.palette.text.main}`
     }
-}));
-
-export const StyledLightButton = styled(props => (<Button {...props}></Button>))(() => ({
-    "&": {
-        height: "35px",
-        alignSelf: "flex-end",
-        backgroundColor: "rgb(255, 255, 255)",
-        borderRadius: 40,
-        color: "rgb(15, 20, 25)",
-        border: "1px solid black"
-    },
 }));
 
 export const StyledTypography = styled(props => (<Typography {...props}/>))(({theme}) => ({
@@ -85,3 +67,10 @@ export const BoxContainer = styled(props => (<Box {...props}/>))(() => ({
         margin: "0 auto"
     }
 }));
+
+export const TypographyBold = styled(Typography)(({theme}) => ({
+    "&": {
+        fontSize: "1.3rem",
+        fontWeight: "bold"
+    }
+}))

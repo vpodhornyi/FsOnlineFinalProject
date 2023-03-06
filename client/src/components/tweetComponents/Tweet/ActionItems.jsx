@@ -13,13 +13,16 @@ import {
   changeBookmark,
 } from "../../../redux/tweet/action";
 import { PATH } from "../../../utils/constants";
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import {getCustomizationTheme} from "../../../redux/user/selector";
+import {BACKGROUND} from "../../../utils/theme";
 
 const ActionItems = ({ actions, replyCounter, tweetId, user }) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
+  const {backgroundColor} = useSelector(getCustomizationTheme);
 
   const changeAction = (action) =>
     dispatch(changeActionsTweet({ actionType: action, tweetId: tweetId }));

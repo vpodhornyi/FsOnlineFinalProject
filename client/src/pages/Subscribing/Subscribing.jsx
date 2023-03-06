@@ -16,6 +16,7 @@ import {getCustomizationTheme} from "../../redux/user/selector";
 import {BACKGROUND} from "../../utils/theme";
 import {a11yProps} from "../../utils/anyProps";
 import TabPanel from "../UserProfile/components/TabPanel";
+import {TypographyBold} from "../UserProfile/pages/styledComponents";
 
 const Subscribing = () => {
     const {user_tag} = useParams();
@@ -42,7 +43,7 @@ const Subscribing = () => {
 
     const TypographyTab = styled(props => (<Typography {...props}/>))(() => ({
         "&": {
-            color: BACKGROUND[backgroundColor].palette.textColor,
+            color: BACKGROUND[backgroundColor]?.palette.textColor,
             cursor: "pointer",
             fontSize: "16px",
             width: "100%",
@@ -51,7 +52,7 @@ const Subscribing = () => {
         },
         "&:hover": {
             transition: "0.2s",
-            backgroundColor: BACKGROUND[backgroundColor].palette.action.main
+            backgroundColor: BACKGROUND[backgroundColor]?.palette.action.main
         }
     }));
 
@@ -67,7 +68,7 @@ const Subscribing = () => {
                 <PrimaryHeader pageElement={<PageHeader subtitle={`@${user_tag}`} page={name || `@${user_tag}`}/>}
                                isBack={true}/>
                 <Box sx={{width: "100%"}}>
-                    <Box sx={{display: "flex", justifyContent: "center", color: BACKGROUND[backgroundColor].palette.textColor}}>
+                    <Box sx={{display: "flex", justifyContent: "center", color: BACKGROUND[backgroundColor]?.palette.textColor}}>
                         <Tabs
                             value={tabVal}
                             onChange={handleTabVal}
@@ -103,10 +104,10 @@ const Subscribing = () => {
                                     margin: "0 auto"
                                 }}>
                                     <img src={noFollowers} alt="No followers image."/>
-                                    <Typography sx={{margin: "15px 0 10px 0", fontWeight: "bold"}} variant={"h4"}>Looking
+                                    <TypographyBold sx={{margin: "15px 0 10px 0"}} variant={"h2"}>Looking
                                         for
-                                        followers?</Typography>
-                                    <Typography variant={"subtitle2"}>When someone follows this account, they’ll show up
+                                        followers?</TypographyBold>
+                                    <Typography variant={"body2"}>When someone follows this account, they’ll show up
                                         here.
                                         Tweeting and interacting with others helps boost followers.</Typography>
                                 </Box>
@@ -134,10 +135,10 @@ const Subscribing = () => {
                                     maxWidth: "70%",
                                     margin: "0 auto"
                                 }}>
-                                    <Typography sx={{margin: "15px 0 10px 0", fontWeight: "bold"}} variant={"h4"}>Be in
+                                    <TypographyBold sx={{margin: "15px 0 10px 0"}} variant={"h2"}>Be in
                                         the
-                                        know</Typography>
-                                    <Typography variant={"subtitle2"}>Following accounts is an easy way to curate your
+                                        know</TypographyBold>
+                                    <Typography variant={"body2"}>Following accounts is an easy way to curate your
                                         timeline and
                                         know what’s happening with the topics and people you’re interested
                                         in.</Typography>

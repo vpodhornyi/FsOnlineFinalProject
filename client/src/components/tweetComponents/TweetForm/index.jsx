@@ -27,12 +27,13 @@ import {
 } from "./styles";
 
 import { createTweet } from "../../../redux/tweet/action";
-import { getPersonalData } from "../../../redux/user/selector";
+import {getCustomizationTheme, getPersonalData} from "../../../redux/user/selector";
 import ImageListContainer from "../../imageList/ImageListContainer";
 import { uploadImage } from "../../../utils/uploadImage";
 import { BackgroundContext } from "../../../utils/context";
 import { PATH } from "../../../utils/constants";
 import * as theme from "@mui/system";
+import {BACKGROUND, COLOR} from "../../../utils/theme";
 
 export const TweetForm = ({
   placeholderText = `What's happening?`,
@@ -46,10 +47,12 @@ export const TweetForm = ({
   const [selectedEmoji, setSelectedEmoji] = useState("");
   const [showReplyText, setShowReplyText] = useState(false);
   const user = useSelector(getPersonalData);
+  const {color} = useSelector(getCustomizationTheme)
   const navigate = useNavigate();
   const { background } = useContext(BackgroundContext);
   const dispatch = useDispatch();
   const TWEET_TEXT_INTEREST = tweetText.length / (250 / 100);
+  const {backgroundColor} = useSelector(getCustomizationTheme);
   const LETTER_COUNTER_COMP =
     TWEET_TEXT_INTEREST <= 100 ? (
       <CircularProgress
@@ -121,7 +124,9 @@ export const TweetForm = ({
             style={{
               resize: "none",
               width: "100%",
-              outline: "white",
+              backgroundColor: BACKGROUND[backgroundColor]?.palette.background.main,
+              color: BACKGROUND[backgroundColor]?.palette.textColor,
+              outline: BACKGROUND[backgroundColor]?.palette.textColor,
               fontSize: "16px",
               border: "none",
             }}
@@ -142,8 +147,8 @@ export const TweetForm = ({
                 alignItems: "center",
               }}
             >
-              <ReplyText>
-                <PublicIcon fontSize={"small"} style={{ paddingRight: 10 }} />{" "}
+              <ReplyText sx={{color: COLOR[color]?.primary.main}}>
+                <PublicIcon fontSize={"small"} style={{ paddingRight: 10, color: COLOR[color]?.primary.main}} />{" "}
                 Everyone can reply
               </ReplyText>
             </Box>
@@ -152,7 +157,7 @@ export const TweetForm = ({
         <FormFooter>
           <IconsList>
             <Icon disabled={uploadPhotos.length >= 4}>
-              <ImageIcon onClick={handleFileUploadClick} />
+              <ImageIcon sx={{cursor: "pointer"}} onClick={handleFileUploadClick} />
               <input
                 style={{ display: "none" }}
                 ref={inputRef}
@@ -162,16 +167,7 @@ export const TweetForm = ({
               />
             </Icon>
             <Icon>
-              <GifIcon />
-            </Icon>
-            <Icon>
-              <PollIcon />
-            </Icon>
-            <Icon>
-              <EmojiIcon onClick={() => onEmojiVisible()} />
-            </Icon>
-            <Icon>
-              <ScheduleIcon />
+              <EmojiIcon sx={{cursor: "pointer"}} onClick={() => onEmojiVisible()} />
             </Icon>
           </IconsList>
           {isEmojiVisible && (
@@ -204,6 +200,11 @@ export const TweetForm = ({
           >
             {LETTER_COUNTER_COMP}
             <TweetBtn
+              sx={{
+                "&:disabled": {
+                  backgroundColor: COLOR[color]?.primary.light
+                }
+              }}
               disabled={
                 TWEET_TEXT_INTEREST > 100 ||
                 (uploadPhotos.length === 0 && tweetText === "")

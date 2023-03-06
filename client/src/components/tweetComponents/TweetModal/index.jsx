@@ -8,13 +8,15 @@ import { PATH } from "../../../utils/constants";
 import { BackgroundContext } from "../../../utils/context";
 import TweetReply from "../TweetReply";
 import api, { URLS } from "../../../services/API";
-import { getPersonalData } from "../../../redux/user/selector";
+import {getCustomizationTheme, getPersonalData} from "../../../redux/user/selector";
 import { useSelector } from "react-redux";
+import {BACKGROUND} from "../../../utils/theme";
 
 const TweetModal = () => {
   const { background } = useContext(BackgroundContext);
   const navigate = useNavigate();
   const { id } = useParams();
+  const {backgroundColor} = useSelector(getCustomizationTheme)
   const [tweetInfo, setTweetInfo] = useState(null);
   const user = useSelector(getPersonalData);
   useEffect(() => {
@@ -44,7 +46,7 @@ const TweetModal = () => {
     <>
       {tweetInfo && (
         <ModalPage
-          styles={{ alignItems: "start", paddingBottom: 0 }}
+          styles={{ alignItems: "start", paddingBottom: 0}}
           element={
             <BoxWrapper
               sx={{
@@ -52,12 +54,14 @@ const TweetModal = () => {
                 flexDirection: "column",
                 minHeight: "300px",
                 paddingBottom: 0,
+                background: BACKGROUND[backgroundColor]?.palette.background.main
               }}
             >
               <IconButton
                 className="Close"
                 aria-label="close"
                 onClick={() => navigate(background?.pathname || PATH.ROOT)}
+                sx={{color: BACKGROUND[backgroundColor]?.palette.textColor}}
               >
                 <IconByName iconName="Close" />
               </IconButton>

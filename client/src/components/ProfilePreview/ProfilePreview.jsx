@@ -7,7 +7,7 @@ import {
     ThemeButtonDark,
     StyledTypography,
     ThemeButtonLight
-} from "../StyledComponents/styledComponents";
+} from "../../pages/UserProfile/pages/styledComponents";
 import {useDispatch, useSelector} from "react-redux";
 import {getPersonalData} from "../../redux/user/selector";
 import {Link} from "react-router-dom";
@@ -53,7 +53,7 @@ const ProfilePreview = (props) => {
                                 variant="contained"
                                 onMouseEnter={handleOnMouseEnter}
                                 onMouseLeave={handleOnMouseLeave}
-                                onClick={() => {
+                                onClick={async () => {
                                     unfollowUser(authUser?.id, id);
                                     dispatch(getAuthUser());
                                 }}
@@ -61,7 +61,7 @@ const ProfilePreview = (props) => {
                                 Following
                             </ThemeButtonLight> :
                             <ThemeButtonDark
-                                onClick={() => {
+                                onClick={async () => {
                                     followUser(authUser?.id, id);
                                     dispatch(getAuthUser());
                                 }}

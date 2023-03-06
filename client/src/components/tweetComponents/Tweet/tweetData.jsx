@@ -5,17 +5,14 @@ import {
   ReplyIcon,
   RetweetIcon,
 } from "../../../media/icons";
-import {changeActionsTweet, changeBookmark} from "../../../redux/tweet/action";
-import {PATH} from "../../../utils/constants";
-import {useDispatch} from "react-redux";
 
-
+const palette = JSON.parse(localStorage.getItem('palette'));
 
 export const ICONS = [
   {
     itemClassName: {
       "&:hover svg": {
-        backgroundColor: "#e1eef6",
+        backgroundColor: palette?.action.iconHover,
         color: "#1d9bf0",
         borderRadius: "50%",
       },
@@ -23,13 +20,13 @@ export const ICONS = [
         color: "#1d9bf0",
       },
     },
-    icon: <ReplyIcon sx={{ padding: 1 }} />,
+    icon: <ReplyIcon sx={{ padding: 1, color: palette.textColor }} />,
     tooltip: "Reply",
   },
   {
     itemClassName: {
       "&:hover svg": {
-        backgroundColor: "#def1eb",
+        backgroundColor: palette?.action.iconHover,
         color: "#00ba7c",
         borderRadius: "50%",
       },
@@ -37,13 +34,13 @@ export const ICONS = [
         color: "#00ba7c",
       },
     },
-    icon: <RetweetIcon sx={{ padding: 1 }}></RetweetIcon>,
+    icon: <RetweetIcon sx={{ padding: 1, color: palette.textColor }}></RetweetIcon>,
     tooltip: "Retweet",
   },
   {
     itemClassName: {
       "&:hover svg": {
-        backgroundColor: "#f7e0eb",
+        backgroundColor: palette?.action.iconHover,
         color: "#f91880",
         borderRadius: "50%",
       },
@@ -51,18 +48,18 @@ export const ICONS = [
         color: "#f91880",
       },
     },
-    icon: <HeartIcon sx={{ padding: 1 }}></HeartIcon>,
+    icon: <HeartIcon sx={{ padding: 1, color: palette.textColor }}></HeartIcon>,
     tooltip: "Like",
   },
   {
     itemClassName: {
       "&:hover svg": {
-        backgroundColor: "#e1eef6",
+        backgroundColor: palette?.action.iconHover,
         color: "#1d9bf0",
         borderRadius: "50%",
       },
     },
-    icon: <DownloadIcon sx={{ padding: 1 }}></DownloadIcon>,
+    icon: <DownloadIcon sx={{ padding: 1, color: palette.textColor }}></DownloadIcon>,
     tooltip: "Bookmark",
   },
 ];

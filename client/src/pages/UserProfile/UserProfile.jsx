@@ -8,8 +8,8 @@ import {useLocation, useNavigate, useParams} from "react-router-dom";
 import TabPanel from "./components/TabPanel";
 import {
     ThemeButtonDark,
-    ThemeButtonLight,
-} from "../../components/StyledComponents/styledComponents";
+    ThemeButtonLight, ThemeButtonLightNoHover,
+} from "./pages/styledComponents";
 import UserProfileData from "./components/UserProfileData";
 import {useDispatch, useSelector} from "react-redux";
 import {getCustomizationTheme, getPersonalData} from "../../redux/user/selector";
@@ -46,7 +46,6 @@ const UserProfile = () => {
     }
 
     useEffect(() => {
-        setUser(null);
         fetchUser();
     }, [user_tag, authUser]);
 
@@ -74,26 +73,18 @@ const UserProfile = () => {
                                       iconLetter={user?.name[0].toUpperCase()}/>
                             {
                                 authUser?.userTag === user_tag ?
-                                    <ThemeButtonLight sx={
-                                        {"&:hover": {backgroundColor: "rgba(15, 20, 25, 0.1)"}}
-                                    } onClick={() => navigate(PATH.SETTINGS.PROFILE, {
-                                        state: {background: location}
-                                    })}>
+                                    <ThemeButtonLightNoHover
+                                        onClick={() => navigate(PATH.SETTINGS.PROFILE, {
+                                            state: {background: location}
+                                        })}
+                                    >
                                         Edit profile
-                                    </ThemeButtonLight>
+                                    </ThemeButtonLightNoHover>
                                     :
                                     <>
                                         {user?.followers.includes(authUser?.userTag)
                                             ?
                                             <ThemeButtonLight
-                                                sx={{
-                                                    "&:hover": {
-                                                        borderColor: "rgb(253, 201, 206)",
-                                                        color: "rgb(244, 33, 46)",
-                                                        backgroundColor: "rgba(244, 33, 46, 0.1)",
-                                                        transition: "0.5s",
-                                                    }
-                                                }}
                                                 variant="contained"
                                                 onMouseEnter={handleOnMouseEnter}
                                                 onMouseLeave={handleOnMouseLeave}
@@ -101,10 +92,11 @@ const UserProfile = () => {
                                                     unfollowUser(authUser?.id, user?.id);
                                                     dispatch(getAuthUser());
                                                 }}
+
                                             >Following</ThemeButtonLight>
                                             :
                                             <ThemeButtonDark
-                                                onClick={() => {
+                                                onClick={async () => {
                                                     followUser(authUser?.id, user?.id);
                                                     dispatch(getAuthUser());
                                                 }}
@@ -126,7 +118,7 @@ const UserProfile = () => {
                             followings={user?.followings.length}
                         />
                         <Box sx={{width: '100%', marginTop: "25px"}}>
-                            <Box sx={{color: BACKGROUND[backgroundColor].palette.textColor}}>
+                            <Box sx={{color: BACKGROUND[backgroundColor]?.palette.textColor}}>
                                 <Tabs
                                     value={tabVal}
                                     onChange={handleTabVal}

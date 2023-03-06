@@ -3,14 +3,18 @@ import Box from "@mui/material/Box";
 import {Typography} from "@mui/material";
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import CakeOutlinedIcon from '@mui/icons-material/CakeOutlined';
-import {StyledTypography} from "../../../components/StyledComponents/styledComponents";
+import {StyledTypography} from "../pages/styledComponents";
 import PropTypes from "prop-types";
 import {useNavigate} from "react-router-dom";
 import {PATH} from "../../../utils/constants";
 import {styled} from "@mui/system";
+import {useSelector} from "react-redux";
+import {getCustomizationTheme} from "../../../redux/user/selector";
+import {BACKGROUND} from "../../../utils/theme";
 
 const UserProfileData = ({username, userTag, followers, followings, bio, location, birthDate}) => {
     const navigate = useNavigate();
+    const {backgroundColor} = useSelector(getCustomizationTheme);
 
     return (
         <>
@@ -44,29 +48,18 @@ const UserProfileData = ({username, userTag, followers, followings, bio, locatio
                 </Box>
 
                 <Box style={{display: "flex"}}>
-                    <StyledTypography>
-                        <SubTypography variant='body2'>{followers}
-                            <Typography
-                                sx={{marginLeft: "5px"}}
-                                variant='body2'
-                                onClick={() => navigate(PATH.USER_PAGE.followers(userTag))}
-                            >
-                                Followers
-                            </Typography>
-                        </SubTypography>
-                    </StyledTypography>
+                    <SubsLink
+                        onClick={() => navigate(PATH.USER_PAGE.followers(userTag))}
+                    >
+                        {followers} Followers
+                    </SubsLink>
 
-                    <StyledTypography sx={{marginLeft: "10px"}}>
-                        <SubTypography variant='body2'>{followings}
-                            <Typography
-                                sx={{marginLeft: "5px"}}
-                                variant='body2'
-                                onClick={() => navigate(PATH.USER_PAGE.followings(userTag))}
-                            >
-                                Followings
-                            </Typography>
-                        </SubTypography>
-                    </StyledTypography>
+                    <SubsLink
+                        sx={{marginLeft: "10px"}}
+                        onClick={() => navigate(PATH.USER_PAGE.followings(userTag))}
+                    >
+                        {followings} Followings
+                    </SubsLink>
                 </Box>
             </Box>
         </>
@@ -80,11 +73,15 @@ const UserName = styled(props => (<Typography {...props}/>))(({theme}) => ({
     }
 }))
 
-const SubTypography = styled(props => (<Typography {...props}/>))(({theme}) => ({
+const SubsLink = styled(props => (<Typography {...props}/>))(({theme}) => ({
     "&": {
         color: theme.palette.textColor,
         display: "flex",
         alignItems: "center"
+    },
+    "&:hover": {
+        textDecoration: "underline",
+        cursor: "pointer",
     }
 }));
 

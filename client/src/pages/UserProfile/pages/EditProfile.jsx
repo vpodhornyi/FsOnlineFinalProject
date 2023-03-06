@@ -8,7 +8,7 @@ import DialogContent from "@mui/material/DialogContent";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import DateOfBirth from "../../Auth/components/DateOfBirth";
-import {ThemeButtonDark} from "../../../components/StyledComponents/styledComponents";
+import {ThemeButtonDark} from "./styledComponents";
 import UserBackground from "../components/UserBackground";
 import UserIcon from "../components/UserIcon";
 import LinkedCameraOutlinedIcon from '@mui/icons-material/LinkedCameraOutlined';

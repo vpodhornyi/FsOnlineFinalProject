@@ -6,7 +6,7 @@ const init = {
     recommends: {
         data: [],
         pageNumber: 0,
-        pageSize: 4,
+        pageSize: 2,
         isPageable: true,
     },
     error: "",
@@ -45,7 +45,7 @@ export default (state = JSON.parse(JSON.stringify(init)), {payload, type}) => {
                     data: [...state.recommends.data, ...payload],
                     pageNumber: state.recommends.pageNumber + 1,
                     pageSize: state.recommends.pageSize,
-                    isPageable: payload.length > 0,
+                    isPageable: state.recommends.pageNumber !== 2,
                 },
                 loading: false,
             }

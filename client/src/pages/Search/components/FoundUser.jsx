@@ -16,7 +16,7 @@ const FoundUser = ({user, onClick}) => {
       </BoxWrapper>);
 }
 
-const BoxWrapper = styled(Box)(() => ({
+const BoxWrapper = styled(Box)(({theme}) => ({
   '& > .MuiBox-root': {
     boxSizing: 'border-box',
     width: '100%',
@@ -32,10 +32,13 @@ const BoxWrapper = styled(Box)(() => ({
     }
   },
   '& > .Selectable': {
+    background: theme.palette.background.main,
     cursor: 'pointer',
 
     '&:hover': {
-      backgroundColor: 'rgb(247, 249, 249)',
+      cursor: "pointer",
+      transition: "0.5s",
+      backgroundColor: theme.palette.input.background
     },
   },
 

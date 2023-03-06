@@ -1,16 +1,16 @@
 import { styled } from "@mui/material/styles";
 import { Box, Button, List, ListItem } from "@mui/material";
 
-export const TwitterContainer = styled(Box)({
+export const TwitterContainer = styled(Box)(({theme}) => ({
   fontFamily: "Arial",
   paddingTop: 5,
   paddingBottom: 10,
   paddingLeft: 16,
   paddingRight: 16,
-  // borderBottom: "1px solid #eff3f4",
+  background: theme.palette.background.main,
   display: "flex",
   flex: 1,
-});
+}));
 
 export const AvatarContainer = styled(Box)({
   flexBasis: 48,
@@ -24,15 +24,15 @@ export const Form = styled(Box)({
   width: "95%",
 });
 
-export const TweetInput = styled(Box)({
-  borderBottom: "1px solid #eff3f4",
+export const TweetInput = styled(Box)(({theme}) => ({
+  borderBottom: `1px solid ${theme?.palette.border.main}`,
   ["@media (min-width:700px)"]: {
     flex: 1,
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
   },
-});
+}));
 
 export const FormFooter = styled(Box)({
   position: "relative",

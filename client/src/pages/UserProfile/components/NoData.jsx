@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import {BoxContainer} from "../../../components/StyledComponents/styledComponents";
+import {BoxContainer} from "../pages/styledComponents";
 import {Typography} from "@mui/material";
 
 const NoData = ({text}) => {
