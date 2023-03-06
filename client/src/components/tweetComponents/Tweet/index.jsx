@@ -110,19 +110,21 @@ const Tweet = forwardRef((props, ref) => {
               </Box>
             </Box>
           </Box>{" "}
-          <IconBlue>
-            <Tooltip title={"Delete"}>
-              <MoreIcon
-                onClick={(e) => {
-                  e.stopPropagation();
-                  navigate(PATH.TWEET.ROOT + `/${id}`, {
-                    state: { background: location },
-                  });
-                }}
-                sx={{ padding: 1 }}
-              />
-            </Tooltip>{" "}
-          </IconBlue>
+          {user.userTag === userTag && (
+            <IconBlue>
+              <Tooltip title={"Delete"}>
+                <MoreIcon
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(PATH.TWEET.ROOT + `/${id}`, {
+                      state: { background: location },
+                    });
+                  }}
+                  sx={{ padding: 1 }}
+                />
+              </Tooltip>{" "}
+            </IconBlue>
+          )}
         </Content>
         {images.length > 0 && <ImageListContainer photos={images} />}
         <ActionItems
