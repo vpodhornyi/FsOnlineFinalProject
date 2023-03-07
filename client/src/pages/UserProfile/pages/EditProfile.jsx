@@ -8,14 +8,14 @@ import DialogContent from "@mui/material/DialogContent";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import DateOfBirth from "../../Auth/components/DateOfBirth";
-import {StyledDarkButton} from "../../../components/StyledComponents/styledComponents";
+import {ThemeButtonDark} from "./styledComponents";
 import UserBackground from "../components/UserBackground";
 import UserIcon from "../components/UserIcon";
 import LinkedCameraOutlinedIcon from '@mui/icons-material/LinkedCameraOutlined';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
-import {getPersonalData} from "../../../redux/user/selector";
+import {getCustomizationTheme, getPersonalData} from "../../../redux/user/selector";
 import {getAuthUser} from "../../../redux/user/action";
 import {uploadImage, uploadTypes} from "../../../utils/uploadImage";
 import {Backdrop, CircularProgress} from "@mui/material";
@@ -25,12 +25,15 @@ import {BackgroundContext} from "../../../utils/context";
 import {ModalPage} from "../../../components";
 import {PATH} from "../../../utils/constants";
 import {styled} from "@mui/material/styles";
+import {BACKGROUND, COLOR} from "../../../utils/theme";
 
 const EditProfile = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const {background} = useContext(BackgroundContext);
+    const {backgroundColor, color} = useSelector(getCustomizationTheme);
 
+    const themeTextColor = BACKGROUND[backgroundColor]?.palette.textColor;
     const headerFileUpload = useRef(null);
     const avatarFileUpload = useRef(null);
     const handleHeaderFileClick = () => headerFileUpload.current.click();
@@ -157,6 +160,22 @@ const EditProfile = () => {
         );
     }
 
+    const inputStyles = {
+        '& .MuiOutlinedInput-root': {
+            color: themeTextColor,
+            '& fieldset': {
+                borderColor: themeTextColor,
+                color: themeTextColor
+            },
+            '&:hover fieldset': {
+                borderColor: COLOR[color]?.primary.main,
+            },
+        },
+        "& .MuiFormHelperText-root": {
+            color: themeTextColor
+        }
+    }
+
     return (
         <ModalPage
             element={
@@ -166,15 +185,15 @@ const EditProfile = () => {
                         justifyContent: 'space-between',
                         alignItems: 'center',
                     }}>
-                        <IconButton aria-label="close" sx={{}}
+                        <IconButton aria-label="close"
                                     onClick={() => navigate(background?.pathname || PATH.ROOT)}>
-                            <CloseIcon/>
+                            <CloseIcon sx={{color: themeTextColor}}/>
                         </IconButton>
 
-                        <DialogTitle sx={{padding: "15px 0 15px 40px"}}>Edit profile</DialogTitle>
+                        <DialogTitle sx={{padding: "15px 0 15px 40px", color: themeTextColor}}>Edit profile</DialogTitle>
 
                         <Box sx={{padding: "5px"}}>
-                            <StyledDarkButton
+                            <ThemeButtonDark
                             disabled={
                                 name.length < 3 ||
                                 name.length > 50 ||
@@ -185,7 +204,7 @@ const EditProfile = () => {
                             onClick={() => {
                                 handleSaveClick()
                                 navigate(-1)
-                            }}>Save</StyledDarkButton>
+                            }}>Save</ThemeButtonDark>
                         </Box>
                     </Box>
                     <Box sx={{
@@ -245,11 +264,7 @@ const EditProfile = () => {
                             <Grid sx={{padding: "20px"}}>
                                 <Grid item xs={12} sx={{padding: '10px 0'}}>
                                     <TextField
-                                        sx={{
-                                            ".MuiFormHelperText-root": {
-                                                color: "black !important"
-                                            }
-                                        }}
+                                        sx={inputStyles}
                                         error={name.length < 3 || name.length > 50}
                                         helperText={(name.length < 3 || name.length > 50) ? `${name.length} / 50. Name must includes from 3 to 50 symbols!` : `${name.length} / 50`}
                                         value={name}
@@ -262,11 +277,7 @@ const EditProfile = () => {
                                 </Grid>
                                 <Grid item sx={{padding: '10px 0'}}>
                                     <TextField
-                                        sx={{
-                                            ".MuiFormHelperText-root": {
-                                                color: "black !important"
-                                            }
-                                        }}
+                                        sx={inputStyles}
                                         error={bio.length > 160}
                                         helperText={bio.length > 160 ? `${bio.length} / 160. Bio must includes max to 160 symbols!` : `${bio.length} / 160`}
                                         value={bio}
@@ -279,11 +290,7 @@ const EditProfile = () => {
                                 </Grid>
                                 <Grid item sx={{padding: '10px 0'}}>
                                     <TextField
-                                        sx={{
-                                            ".MuiFormHelperText-root": {
-                                                color: "black !important"
-                                            }
-                                        }}
+                                        sx={inputStyles}
                                         error={location.length > 30}
                                         helperText={location.length > 30 ? `${location.length} / 30. Location must includes max to 30 symbols!` : `${location.length} / 30`}
                                         value={location}
@@ -315,7 +322,7 @@ const EditProfile = () => {
 const BoxWrapper = styled(Box)(({theme}) => ({
     width: '100%',
     height: '90%',
-    backgroundColor: theme.palette.common.white,
+    backgroundColor: theme.palette.background.main,
     padding: '0 0',
     position: 'relative',
     zIndex: "10",

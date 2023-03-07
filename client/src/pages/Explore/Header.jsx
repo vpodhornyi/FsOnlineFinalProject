@@ -6,7 +6,7 @@ const Header = () => {
 
     return (
         <Box sx={{width: "100%", padding: "40px 0 0 0"}}>
-            <Searchbar isExplore={true}/>
+            <Searchbar isExplore={false}/>
         </Box>
     );
 }

@@ -5,7 +5,7 @@ import {getPersonalData} from "../../../redux/user/selector";
 import {getTweetsState, loadingTweetsState} from "../../../redux/tweet/selector";
 import {CircularProgress} from "@mui/material";
 import {Tweet} from "../../../components";
-import {StyledLoadContainer} from "../../../components/StyledComponents/styledComponents";
+import {StyledLoadContainer} from "./styledComponents";
 import {getCurrentUserTweets} from "../../../redux/tweet/action";
 import NoData from "../components/NoData";
 import {replaceDuplicatesByProperty} from "../../../utils/replaceDuplicatesByProperty";

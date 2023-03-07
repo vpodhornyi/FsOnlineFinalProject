@@ -3,12 +3,17 @@ import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
 import {Typography} from "@mui/material";
-import {StyledDarkButton, StyledLightButton, StyledTypography} from "../StyledComponents/styledComponents";
+import {
+    ThemeButtonDark,
+    StyledTypography,
+    ThemeButtonLight
+} from "../../pages/UserProfile/pages/styledComponents";
 import {useDispatch, useSelector} from "react-redux";
 import {getPersonalData} from "../../redux/user/selector";
 import {Link} from "react-router-dom";
 import {followUser, unfollowUser} from "../../services/followService";
 import {getAuthUser} from "../../redux/user/action";
+import {styled} from "@mui/system";
 
 const ProfilePreview = (props) => {
     const {id, avatar, username, userTag, descr, isBio} = props;
@@ -19,17 +24,7 @@ const ProfilePreview = (props) => {
     const handleOnMouseLeave = (e) => e.target.innerText = "Following";
 
     return (
-            <Box
-                sx={{
-                    "&:hover": {
-                        cursor: "pointer",
-                        transition: "0.5s",
-                        backgroundColor: "#cbcbcb"
-                    },
-                    display: "flex",
-                    padding: "10px",
-                    justifyContent: "space-between",
-                }}>
+            <BoxWrapper>
                 <Link style={{textDecoration: "none"}} to={`/${userTag}`}>
 
                 <div style={{display: "flex"}}>
@@ -54,39 +49,42 @@ const ProfilePreview = (props) => {
                 {
                     <Box style={{display: authUser?.userTag === userTag ? "none" : "block"}}>
                         {authUser?.followings.includes(userTag) ?
-                            <StyledLightButton
-                                sx={{
-                                    "&:hover": {
-                                        borderColor: "rgb(253, 201, 206)",
-                                        color: "rgb(244, 33, 46)",
-                                        backgroundColor: "rgba(244, 33, 46, 0.1)",
-                                        transition: "0.5s",
-                                    }
-                                }}
+                            <ThemeButtonLight
                                 variant="contained"
                                 onMouseEnter={handleOnMouseEnter}
                                 onMouseLeave={handleOnMouseLeave}
-                                onClick={() => {
+                                onClick={async () => {
                                     unfollowUser(authUser?.id, id);
                                     dispatch(getAuthUser());
                                 }}
                             >
                                 Following
-                            </StyledLightButton> :
-                            <StyledDarkButton
-                                onClick={() => {
+                            </ThemeButtonLight> :
+                            <ThemeButtonDark
+                                onClick={async () => {
                                     followUser(authUser?.id, id);
                                     dispatch(getAuthUser());
                                 }}
                             >
                                 Follow
-                            </StyledDarkButton>
+                            </ThemeButtonDark>
                         }
                     </Box>
                 }
-            </Box>
+            </BoxWrapper>
     );
 };
+
+const BoxWrapper = styled(Box)(({theme}) => ({
+    "&:hover": {
+        cursor: "pointer",
+        transition: "0.5s",
+        backgroundColor: theme.palette.input.background
+    },
+    display: "flex",
+    padding: "10px",
+    justifyContent: "space-between"
+}));
 
 ProfilePreview.propTypes = {
     id: PropTypes.number,

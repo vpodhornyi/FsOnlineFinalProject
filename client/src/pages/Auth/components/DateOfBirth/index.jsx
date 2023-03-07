@@ -6,8 +6,13 @@ import {MenuItem} from "@mui/material";
 import {months, days} from "./birthData";
 import years from "./birthData";
 import PropTypes from "prop-types";
+import {useSelector} from "react-redux";
+import {getCustomizationTheme} from "../../../../redux/user/selector";
+import {BACKGROUND} from "../../../../utils/theme";
 
 const DateOfBirth = (props) => {
+    const {backgroundColor} = useSelector(getCustomizationTheme);
+    const themeTextColor = BACKGROUND[backgroundColor]?.palette.textColor;
 
     const {
         month, setMonth,
@@ -17,8 +22,8 @@ const DateOfBirth = (props) => {
 
     return (
         <>
-            <DialogContentText sx={{paddingTop: "10px", fontWeight: 600, color: '#000'}}>Date of birth </DialogContentText>
-            <DialogContentText sx={{fontSize: 14, color: "black"}}>
+            <DialogContentText sx={{paddingTop: "10px", fontWeight: 600, color: themeTextColor}}>Date of birth </DialogContentText>
+            <DialogContentText sx={{fontSize: 14, color: themeTextColor, marginBottom: "10px"}}>
                 This will not be shown publicly. Confirm your own age, even if this account is for a business, a pet, or
                 something else.
             </DialogContentText>
@@ -33,7 +38,7 @@ const DateOfBirth = (props) => {
                         onChange={setMonth}
                     >
                         {months.map((option) => (
-                            <MenuItem sx={{position: "relative", zIndex: "101"}} key={option.value} value={option.value}>
+                            <MenuItem sx={{position: "relative", zIndex: "101", color: themeTextColor}} key={option.value} value={option.value}>
                                 {option.label}
                             </MenuItem>
                         ))}

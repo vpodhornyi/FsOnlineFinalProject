@@ -6,6 +6,7 @@ export const BACKGROUND = {
     palette:  {
       title: 'Default',
       textColor: '#000000',
+      profileBackground: '#313135',
       background: {
         main: '#ffffff',
         1: grey[100],
@@ -20,6 +21,10 @@ export const BACKGROUND = {
         custom: grey,
         alpha: alpha('#ffffff', 0.35)
       },
+      input: {
+        background: '#eff3f4',
+        focused: '#ffffff'
+      },
       border: {
         main: grey[200],
       },
@@ -30,6 +35,7 @@ export const BACKGROUND = {
       },
       action: {
         main: grey[500],
+        iconHover: '#e1eef6'
       },
       logo: {
         main: blue[500]
@@ -58,6 +64,7 @@ export const BACKGROUND = {
     palette: {
       title: 'Dim',
       textColor: '#ffffff',
+      profileBackground: '#313135',
       background: {
         main: blueGrey[900],
         1: blueGrey[800],
@@ -72,6 +79,10 @@ export const BACKGROUND = {
         custom: blueGrey,
         alpha: alpha(blueGrey[900], 0.35)
       },
+      input: {
+        background: '#273340',
+        focused: blueGrey[900]
+      },
       border: {
         main: blueGrey[700],
       },
@@ -82,6 +93,7 @@ export const BACKGROUND = {
       },
       action: {
         main: grey[400],
+        iconHover: 'rgba(29, 155, 240, 0.1)'
       },
       logo: {
         main: blueGrey[50],
@@ -111,6 +123,7 @@ export const BACKGROUND = {
     palette: {
       title: 'Lights out',
       textColor: '#ffffff',
+      profileBackground: '#313135',
       background: {
         main: '#000000',
         1: grey[900],
@@ -125,6 +138,10 @@ export const BACKGROUND = {
         custom: grey,
         alpha: alpha(grey[900], 0.35)
       },
+      input: {
+        background: '#202327',
+        focused: "#000000"
+      },
       border: {
         main: grey[800],
       },
@@ -135,6 +152,7 @@ export const BACKGROUND = {
       },
       action: {
         main: grey[300],
+        iconHover: 'rgba(29, 155, 240, 0.1)'
       },
       logo: {
         main: grey[50],
@@ -243,6 +261,7 @@ export const themeStyles = (background = 'DEFAULT', color = 'BLUE') => {
       redAccent: {
         main: 'rgb(244, 33, 46)',
         secondary: 'rgb(220, 30, 41)',
+        mainTransparent: 'rgba(244, 33, 46, 0.2)',
         third: alpha(red[900], 0.2),
         light: alpha(red[300], 0.2),
         custom: red,
