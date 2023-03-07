@@ -3,14 +3,14 @@ import {styled} from "@mui/material/styles";
 
 const styles = ({theme}) => ({
   "& .MuiOutlinedInput-root": {
-    backgroundColor: theme.palette.grey[200],
-    borderColor: theme.palette.grey[200],
+    backgroundColor: theme.palette.input.background,
+    borderColor: theme.palette.input.background,
     borderRadius: 30,
     height: 42,
     color: theme.palette.text.main,
     "&.MuiInputAdornment-root": {
       "& svg path": {
-        color: theme.palette.grey[200],
+        color: "red",
         fill: '#eff3f4',
         marginRight: 10,
       },
@@ -23,7 +23,7 @@ const styles = ({theme}) => ({
       borderWidth: 1,
     },
     "&.Mui-focused": {
-      backgroundColor: theme.palette.background.paper,
+      backgroundColor: theme.palette.input.focused,
       "& fieldset": {borderWidth: 1, borderColor: theme.palette.primary.main},
       "& svg path": {
         fill: theme.palette.primary.main,

@@ -1,7 +1,7 @@
 import { styled } from "@mui/material/styles";
 import { Avatar, Box, Link } from "@mui/material";
 
-export const TweetContainer = styled(Box)({
+export const TweetContainer = styled(Box)(({theme}) => ({
   borderRadius: 0,
   color: "rgb(83, 100, 113)",
   textDecoration: "none",
@@ -10,12 +10,12 @@ export const TweetContainer = styled(Box)({
   position: "relative",
   padding: "1rem",
 
-  borderTop: "1px solid  rgb(239, 243, 244)",
+  borderTop: `1px solid ${theme.palette.border.main}`,
   maxWidth: 600,
   ["@media (min-width:700px)"]: {
     flex: 7,
   },
-});
+}));
 
 export const Content = styled(Box)({
   display: "flex",
@@ -46,11 +46,11 @@ export const PostInfo = styled(Box)({
   alignItems: "center",
   marginBottom: 0.125,
 });
-export const UserName = styled(Link)({
+export const UserName = styled(Link)(({theme}) => ({
   fontSize: "inherit",
   fontWeight: 700,
-  color: "black",
-});
+  color: theme.palette.textColor,
+}));
 export const IconBlue = styled(Box)({
   "&:hover svg": {
     backgroundColor: "lightcyan",

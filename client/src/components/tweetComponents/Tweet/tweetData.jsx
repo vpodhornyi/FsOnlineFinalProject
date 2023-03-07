@@ -5,66 +5,73 @@ import {
   ReplyIcon,
   RetweetIcon,
 } from "../../../media/icons";
-import {changeActionsTweet, changeBookmark} from "../../../redux/tweet/action";
-import {PATH} from "../../../utils/constants";
-import {useDispatch} from "react-redux";
 
-
-
-export const ICONS = [
-  {
-    itemClassName: {
-      "&:hover svg": {
-        backgroundColor: "#e1eef6",
-        color: "#1d9bf0",
-        borderRadius: "50%",
+export const icons = (palette) => {
+  return [
+    {
+      itemClassName: {
+        "&:hover svg": {
+          backgroundColor: palette?.action.iconHover,
+          color: "#1d9bf0",
+          borderRadius: "50%",
+        },
+        "&:hover span": {
+          color: "#1d9bf0",
+        },
       },
-      "&:hover span": {
-        color: "#1d9bf0",
-      },
+      icon: <ReplyIcon sx={{ padding: 1, color: palette?.textColor }} />,
+      tooltip: "Reply",
     },
-    icon: <ReplyIcon sx={{ padding: 1 }} />,
-    tooltip: "Reply",
-  },
-  {
-    itemClassName: {
-      "&:hover svg": {
-        backgroundColor: "#def1eb",
-        color: "#00ba7c",
-        borderRadius: "50%",
+    {
+      itemClassName: {
+        "&:hover svg": {
+          backgroundColor: palette?.action.iconHover,
+          color: "#00ba7c",
+          borderRadius: "50%",
+        },
+        "&:hover span": {
+          color: "#00ba7c",
+        },
       },
-      "&:hover span": {
-        color: "#00ba7c",
-      },
+      icon: (
+          <RetweetIcon sx={{ padding: 1, color: palette?.textColor }}></RetweetIcon>
+      ),
+      tooltip: "Retweet",
     },
-    icon: <RetweetIcon sx={{ padding: 1 }}></RetweetIcon>,
-    tooltip: "Retweet",
-  },
-  {
-    itemClassName: {
-      "&:hover svg": {
-        backgroundColor: "#f7e0eb",
-        color: "#f91880",
-        borderRadius: "50%",
+    {
+      itemClassName: {
+        "&:hover svg": {
+          backgroundColor: palette?.action.iconHover,
+          color: "#f91880",
+          borderRadius: "50%",
+        },
+        "&:hover span": {
+          color: "#f91880",
+        },
       },
-      "&:hover span": {
-        color: "#f91880",
-      },
+      icon: (
+          <HeartIcon sx={{ padding: 1, color: palette?.textColor }}></HeartIcon>
+      ),
+      tooltip: "Like",
     },
-    icon: <HeartIcon sx={{ padding: 1 }}></HeartIcon>,
-    tooltip: "Like",
-  },
-  {
-    itemClassName: {
-      "&:hover svg": {
-        backgroundColor: "#e1eef6",
-        color: "#1d9bf0",
-        borderRadius: "50%",
+    {
+      itemClassName: {
+        "&:hover svg": {
+          backgroundColor: palette?.action.iconHover,
+          color: "#1d9bf0",
+          borderRadius: "50%",
+        },
       },
+      icon: (
+          <DownloadIcon
+              sx={{ padding: 1, color: palette?.textColor }}
+          ></DownloadIcon>
+      ),
+      tooltip: "Bookmark",
     },
-    icon: <DownloadIcon sx={{ padding: 1 }}></DownloadIcon>,
-    tooltip: "Bookmark",
-  },
-];
+  ]
+
+};
 
 
+// const styled

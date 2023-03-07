@@ -1,22 +1,30 @@
 import React, {useEffect, useState} from 'react';
 import Box from "@mui/material/Box";
-import {Link, useLocation, useParams} from "react-router-dom";
-import {styled} from "@mui/system";
-import {useSelector} from "react-redux";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import ProfilePreview from "../../components/ProfilePreview/ProfilePreview";
 import noFollowers from "../../assets/img/no_followers.png"
-import {CircularProgress, Typography} from "@mui/material";
+import {CircularProgress, Tab, Tabs, Typography} from "@mui/material";
 import {getUsers} from "../../services/userApi";
 import Container from "@mui/material/Container";
-import {getPersonalData} from "../../redux/user/selector";
 import {PATH} from "../../utils/constants";
 import {ColumnWrapper, PrimaryColumn, PrimaryHeader, SitebarColumn, StickyHeader} from "../../components";
 import {Searchbar} from "../../components/Searchbar";
 import PageHeader from "../../components/PageHeader/PageHeader";
+import {styled} from "@mui/system";
+import {useSelector} from "react-redux";
+import {getCustomizationTheme} from "../../redux/user/selector";
+import {BACKGROUND} from "../../utils/theme";
+import {a11yProps} from "../../utils/anyProps";
+import TabPanel from "../UserProfile/components/TabPanel";
+import {TypographyBold} from "../UserProfile/pages/styledComponents";
 
 const Subscribing = () => {
     const {user_tag} = useParams();
+    const navigate = useNavigate();
     const path = useLocation().pathname;
+    const {backgroundColor} = useSelector(getCustomizationTheme);
+
+    const [tabVal, setTabVal] = useState(path === PATH.USER_PAGE.followers(user_tag) ? 0 : 1)
 
     const [userFollowers, setUserFollowers] = useState(null);
     const [userFollowings, setUserFollowings] = useState(null);
@@ -31,23 +39,22 @@ const Subscribing = () => {
         });
     }, []);
 
+    const handleTabVal = (e, newVal) => setTabVal(newVal);
 
-    const StyledLink = styled(props => (<Link {...props}/>))(() => ({
-        "&:hover": {
-            backgroundColor: "rgba(15, 20, 25, 0.1)",
-            transition: "0.2s"
-        },
+    const TypographyTab = styled(props => (<Typography {...props}/>))(() => ({
         "&": {
-            color: "black",
+            color: BACKGROUND[backgroundColor]?.palette.textColor,
             cursor: "pointer",
             fontSize: "16px",
             width: "100%",
             textAlign: "center",
             padding: "15px 0",
-            fontFamily: "Arial, sans-serif",
-            textDecoration: "none"
+        },
+        "&:hover": {
+            transition: "0.2s",
+            backgroundColor: BACKGROUND[backgroundColor]?.palette.action.main
         }
-    }))
+    }));
 
     if (userFollowers === null || userFollowings === null) {
         return <Container sx={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
@@ -61,21 +68,22 @@ const Subscribing = () => {
                 <PrimaryHeader pageElement={<PageHeader subtitle={`@${user_tag}`} page={name || `@${user_tag}`}/>}
                                isBack={true}/>
                 <Box sx={{width: "100%"}}>
-                    <Box
-                        sx={{borderBottom: 1, borderColor: 'divider', display: "flex", justifyContent: "space-around"}}>
-                        <StyledLink sx={{borderBottom: path.includes("followers") ? "2px solid black" : "none"}}
-                                    to={`${PATH.USER_PAGE.followers(user_tag)}`}>
-                            Followers
-                        </StyledLink>
-
-                        <StyledLink sx={{borderBottom: path.includes("followings") ? "2px solid black" : "none"}}
-                                    to={`${PATH.USER_PAGE.followings(user_tag)}`}>
-                            Followings
-                        </StyledLink>
+                    <Box sx={{display: "flex", justifyContent: "center", color: BACKGROUND[backgroundColor]?.palette.textColor}}>
+                        <Tabs
+                            value={tabVal}
+                            onChange={handleTabVal}
+                            aria-label="Subscribings"
+                            indicatorColor={"primary"}
+                            textColor={"inherit"}
+                        >
+                            <Tab onClick={() => navigate(PATH.USER_PAGE.followers(user_tag))}
+                                 label="Followers" {...a11yProps(0)} />
+                            <Tab onClick={() => navigate(PATH.USER_PAGE.followings(user_tag))}
+                                 label="Followings" {...a11yProps(1)} />
+                        </Tabs>
                     </Box>
 
-                    {
-                        path.includes("followers") &&
+                    <TabPanel value={tabVal} index={0}>
                         <>
                             {userFollowers?.length > 0 ? userFollowers?.map(u => (
                                     <ProfilePreview
@@ -96,19 +104,17 @@ const Subscribing = () => {
                                     margin: "0 auto"
                                 }}>
                                     <img src={noFollowers} alt="No followers image."/>
-                                    <Typography sx={{margin: "15px 0 10px 0", fontWeight: "bold"}} variant={"h4"}>Looking
+                                    <TypographyBold sx={{margin: "15px 0 10px 0"}} variant={"h2"}>Looking
                                         for
-                                        followers?</Typography>
-                                    <Typography variant={"subtitle2"}>When someone follows this account, they’ll show up
+                                        followers?</TypographyBold>
+                                    <Typography variant={"body2"}>When someone follows this account, they’ll show up
                                         here.
                                         Tweeting and interacting with others helps boost followers.</Typography>
                                 </Box>
                             }
                         </>
-
-                    }
-                    {
-                        path.includes("followings") &&
+                    </TabPanel>
+                    <TabPanel value={tabVal} index={1}>
                         <>
                             {userFollowings.length > 0 ? userFollowings?.map(u => (
                                     <ProfilePreview
@@ -129,17 +135,17 @@ const Subscribing = () => {
                                     maxWidth: "70%",
                                     margin: "0 auto"
                                 }}>
-                                    <Typography sx={{margin: "15px 0 10px 0", fontWeight: "bold"}} variant={"h4"}>Be in
+                                    <TypographyBold sx={{margin: "15px 0 10px 0"}} variant={"h2"}>Be in
                                         the
-                                        know</Typography>
-                                    <Typography variant={"subtitle2"}>Following accounts is an easy way to curate your
+                                        know</TypographyBold>
+                                    <Typography variant={"body2"}>Following accounts is an easy way to curate your
                                         timeline and
                                         know what’s happening with the topics and people you’re interested
                                         in.</Typography>
                                 </Box>
                             }
                         </>
-                    }
+                    </TabPanel>
                 </Box>
 
             </PrimaryColumn>

@@ -67,8 +67,7 @@ export const Searchbar = ({isExplore}) => {
                                          startAdornment: <Search className='SearchIcon' style={{marginRight: '10px'}}/>,
                                          endAdornment: showClearSearch &&
                                              <Cancel className='CancelButton' onClick={handleClearSearch}/>,
-                                     }
-                                     }
+                                     }}
                     />
                 </form>
                 <Box sx={{height: 2}}>
@@ -92,9 +91,12 @@ const BoxWrapper = styled(Box)(({theme}) => ({
     height: '60%',
 
     '& .FoundUsersBox': {
+        top: "60px",
+        zIndex: 2,
+        position: "absolute",
         width: '100%',
-        overflow: 'overlay',
-        overflowX: 'hidden',
+        display: 'block',
+        background: theme.palette.background.main,
         borderRadius: '8px',
         boxShadow: 'rgb(101 119 134 / 20%) 0px 0px 15px, rgb(101 119 134 / 15%) 0px 0px 3px 1px',
     },

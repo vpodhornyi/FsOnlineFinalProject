@@ -7,12 +7,12 @@ import {CircularProgress, Tab, Tabs} from "@mui/material";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import TabPanel from "./components/TabPanel";
 import {
-    StyledDarkButton,
-    StyledLightButton,
-} from "../../components/StyledComponents/styledComponents";
+    ThemeButtonDark,
+    ThemeButtonLight, ThemeButtonLightNoHover,
+} from "./pages/styledComponents";
 import UserProfileData from "./components/UserProfileData";
 import {useDispatch, useSelector} from "react-redux";
-import {getPersonalData} from "../../redux/user/selector";
+import {getCustomizationTheme, getPersonalData} from "../../redux/user/selector";
 import {getUserByUserTag} from "../../services/userApi";
 import {followUser, unfollowUser} from "../../services/followService";
 import {getAuthUser} from "../../redux/user/action";
@@ -25,8 +25,10 @@ import Tweets from "./pages/Tweets";
 import {Searchbar} from "../../components/Searchbar";
 import PageHeader from "../../components/PageHeader/PageHeader";
 import {a11yProps} from "../../utils/anyProps";
+import {BACKGROUND} from "../../utils/theme";
 
 const UserProfile = () => {
+    const {backgroundColor} = useSelector(getCustomizationTheme);
     const dispatch = useDispatch();
     const authUser = useSelector(getPersonalData);
     const {user_tag} = useParams();
@@ -44,7 +46,6 @@ const UserProfile = () => {
     }
 
     useEffect(() => {
-        setUser(null);
         fetchUser();
     }, [user_tag, authUser]);
 
@@ -72,26 +73,18 @@ const UserProfile = () => {
                                       iconLetter={user?.name[0].toUpperCase()}/>
                             {
                                 authUser?.userTag === user_tag ?
-                                    <StyledLightButton sx={
-                                        {"&:hover": {backgroundColor: "rgba(15, 20, 25, 0.1)"}}
-                                    } onClick={() => navigate(PATH.SETTINGS.PROFILE, {
-                                        state: {background: location}
-                                    })}>
+                                    <ThemeButtonLightNoHover
+                                        onClick={() => navigate(PATH.SETTINGS.PROFILE, {
+                                            state: {background: location}
+                                        })}
+                                    >
                                         Edit profile
-                                    </StyledLightButton>
+                                    </ThemeButtonLightNoHover>
                                     :
                                     <>
                                         {user?.followers.includes(authUser?.userTag)
                                             ?
-                                            <StyledLightButton
-                                                sx={{
-                                                    "&:hover": {
-                                                        borderColor: "rgb(253, 201, 206)",
-                                                        color: "rgb(244, 33, 46)",
-                                                        backgroundColor: "rgba(244, 33, 46, 0.1)",
-                                                        transition: "0.5s",
-                                                    }
-                                                }}
+                                            <ThemeButtonLight
                                                 variant="contained"
                                                 onMouseEnter={handleOnMouseEnter}
                                                 onMouseLeave={handleOnMouseLeave}
@@ -99,16 +92,17 @@ const UserProfile = () => {
                                                     unfollowUser(authUser?.id, user?.id);
                                                     dispatch(getAuthUser());
                                                 }}
-                                            >Following</StyledLightButton>
+
+                                            >Following</ThemeButtonLight>
                                             :
-                                            <StyledDarkButton
-                                                onClick={() => {
+                                            <ThemeButtonDark
+                                                onClick={async () => {
                                                     followUser(authUser?.id, user?.id);
                                                     dispatch(getAuthUser());
                                                 }}
                                                 variant="contained"
                                             >Follow
-                                            </StyledDarkButton>
+                                            </ThemeButtonDark>
                                         }
                                     </>
                             }
@@ -124,11 +118,11 @@ const UserProfile = () => {
                             followings={user?.followings.length}
                         />
                         <Box sx={{width: '100%', marginTop: "25px"}}>
-                            <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
+                            <Box sx={{color: BACKGROUND[backgroundColor]?.palette.textColor}}>
                                 <Tabs
                                     value={tabVal}
                                     onChange={handleTabVal}
-                                    aria-label="basic tabs example"
+                                    aria-label="User profile"
                                     indicatorColor={"primary"}
                                     textColor={"inherit"}
                                 >

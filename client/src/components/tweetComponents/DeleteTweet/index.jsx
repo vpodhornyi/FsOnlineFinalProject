@@ -8,14 +8,16 @@ import { PATH } from "../../../utils/constants";
 import { BackgroundContext } from "../../../utils/context";
 import { deleteTweet } from "../../../redux/tweet/action";
 import { useDispatch, useSelector } from "react-redux";
-import { getPersonalData } from "../../../redux/user/selector";
+import {getCustomizationTheme, getPersonalData} from "../../../redux/user/selector";
 import { ModalButton } from "../../buttons/ModalButton";
+import {BACKGROUND} from "../../../utils/theme";
 
 const DeleteTweet = () => {
   const { background } = useContext(BackgroundContext);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { id } = useParams();
+  const {backgroundColor} = useSelector(getCustomizationTheme);
   return (
     <ModalPage
       styles={{
@@ -56,7 +58,7 @@ const DeleteTweet = () => {
             </Typography>{" "}
           </Box>
           <ModalButton
-              styles={{background: "red", color: "white","&:hover":{background:"#dc1e29"}}}
+              styles={{background: "red", color: "#fff","&:hover":{background:"#dc1e29"}}}
             click={() => {
               dispatch(deleteTweet(+id));
               navigate(-1);
@@ -65,7 +67,7 @@ const DeleteTweet = () => {
             Delete
           </ModalButton>
           <ModalButton
-              styles={{border: "1px solid rgb(207, 217, 222)",color:"black","&:hover":{background:"#e7e7e8"}}}
+              styles={{border: "1px solid rgb(207, 217, 222)",color:"black","&:hover":{background:BACKGROUND[backgroundColor]?.palette.input.background}}}
             click={() => navigate(background?.pathname || PATH.ROOT)}
           >
             Cancel
@@ -79,7 +81,8 @@ const DeleteTweet = () => {
 const BoxWrapper = styled(Box)(({ theme }) => ({
   maxWidth: "314px",
   maxHeight: "304px",
-  backgroundColor: theme.palette.common.white,
+  backgroundColor: theme.palette.background.main,
+  color: theme.palette.textColor,
   padding: "32px",
   position: "relative",
     borderRadius:"15px",
