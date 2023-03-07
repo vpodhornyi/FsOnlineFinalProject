@@ -111,7 +111,7 @@ export const TweetForm = ({
           src={user?.avatarImgUrl}
           onClick={() => navigate(`/${user?.userTag}`)}
         >
-          {user?.name?.toUpperCase()}
+          {user?.name?.charAt(0).toUpperCase()}
         </Avatar>
       </AvatarContainer>
       <Form>

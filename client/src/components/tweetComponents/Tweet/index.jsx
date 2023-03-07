@@ -67,7 +67,7 @@ const Tweet = forwardRef((props, ref) => {
         <Content>
           <Box sx={{ display: "flex" }}>
             <AvatarWrapper>
-              <UserAvatar alt={name} src={avatarImgUrl}></UserAvatar>
+              <UserAvatar alt={name.charAt(0)} src={avatarImgUrl}></UserAvatar>
               <AvatarDecorate variant={"span"}></AvatarDecorate>
             </AvatarWrapper>
             <Box>
