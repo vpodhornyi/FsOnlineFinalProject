@@ -1,5 +1,5 @@
 import React from "react";
-import { ICONS } from "./tweetData";
+import {icons} from "./tweetData";
 import {
   List,
   ListItem,
@@ -23,6 +23,9 @@ const ActionItems = ({ actions, replyCounter, tweetId, user }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const {backgroundColor} = useSelector(getCustomizationTheme);
+
+
+  const ICONS = icons(BACKGROUND[backgroundColor]?.palette);
 
   const changeAction = (action) =>
     dispatch(changeActionsTweet({ actionType: action, tweetId: tweetId }));

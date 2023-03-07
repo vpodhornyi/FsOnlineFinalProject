@@ -11,6 +11,9 @@ export const ThemeButtonDark = styled(props => (<Button {...props}/>))(({theme})
         borderRadius: 40,
         color: theme.palette.background.main,
         backgroundColor: theme.palette.text.main,
+    },
+    "&: disabled": {
+        color: theme.palette.background.alpha
     }
 }));
 

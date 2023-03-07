@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState } from "react";
 import { Avatar, Box, TextareaAutosize } from "@mui/material";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import PublicIcon from "@mui/icons-material/Public";
 import EmojiPicker from "emoji-picker-react";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,10 +8,7 @@ import PropTypes from "prop-types";
 import { CircularProgress } from "@mui/material";
 import {
   EmojiIcon,
-  GifIcon,
   ImageIcon,
-  PollIcon,
-  ScheduleIcon,
 } from "../../../media/icons";
 import {
   AvatarContainer,
@@ -31,8 +28,6 @@ import {getCustomizationTheme, getPersonalData} from "../../../redux/user/select
 import ImageListContainer from "../../imageList/ImageListContainer";
 import { uploadImage } from "../../../utils/uploadImage";
 import { BackgroundContext } from "../../../utils/context";
-import { PATH } from "../../../utils/constants";
-import * as theme from "@mui/system";
 import {BACKGROUND, COLOR} from "../../../utils/theme";
 
 export const TweetForm = ({
