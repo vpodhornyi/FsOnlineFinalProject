@@ -22,10 +22,9 @@ const Recommendations = () => {
     const recommends = useSelector(getUserRecommendsState);
     const isAuth = useSelector(getAuthorized);
 
+
     useEffect(() => {
-        dispatch(getAuthUser());
-        dispatch(clearUserRecommends());
-        dispatch(getUserRecommends(user?.id, false))
+        isAuth && (dispatch(getAuthUser()), dispatch(clearUserRecommends()), dispatch(getUserRecommends(user?.id, false)))
     }, []);
 
     const onShowMoreButtonClick = async () => {

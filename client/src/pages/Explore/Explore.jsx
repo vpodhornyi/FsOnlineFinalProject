@@ -19,13 +19,15 @@ import {URLS} from "../../services/API";
 import Recommendations from "../../components/Recommendations/Recommendations";
 
 const Explore = () => {
+    const isAuth = useSelector(getAuthorized);
+
     return (
         <ColumnWrapper>
 
             <PrimaryColumn>
                 <PrimaryHeader pageElement={<ExploreHeader/>}/>
                 <Box sx={{margin: "20px 0 0 0"}}>
-                    <Tweets stateValue={{name: "tweets", url: URLS.TWEET.ALL}}/>
+                    <Tweets stateValue={{name: "tweets", url: isAuth ? URLS.TWEET.ALL : URLS.TWEET.EXPLORE}}/>
                 </Box>
             </PrimaryColumn>
 
