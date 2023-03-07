@@ -6,7 +6,7 @@ import {
   RetweetIcon,
 } from "../../../media/icons";
 
-const palette = JSON.parse(localStorage.getItem('palette'));
+const palette = JSON.parse(localStorage.getItem("palette"));
 
 export const ICONS = [
   {
@@ -20,7 +20,7 @@ export const ICONS = [
         color: "#1d9bf0",
       },
     },
-    icon: <ReplyIcon sx={{ padding: 1, color: palette.textColor }} />,
+    icon: <ReplyIcon sx={{ padding: 1, color: palette?.textColor }} />,
     tooltip: "Reply",
   },
   {
@@ -34,7 +34,9 @@ export const ICONS = [
         color: "#00ba7c",
       },
     },
-    icon: <RetweetIcon sx={{ padding: 1, color: palette.textColor }}></RetweetIcon>,
+    icon: (
+      <RetweetIcon sx={{ padding: 1, color: palette?.textColor }}></RetweetIcon>
+    ),
     tooltip: "Retweet",
   },
   {
@@ -48,7 +50,9 @@ export const ICONS = [
         color: "#f91880",
       },
     },
-    icon: <HeartIcon sx={{ padding: 1, color: palette.textColor }}></HeartIcon>,
+    icon: (
+      <HeartIcon sx={{ padding: 1, color: palette?.textColor }}></HeartIcon>
+    ),
     tooltip: "Like",
   },
   {
@@ -59,9 +63,11 @@ export const ICONS = [
         borderRadius: "50%",
       },
     },
-    icon: <DownloadIcon sx={{ padding: 1, color: palette.textColor }}></DownloadIcon>,
+    icon: (
+      <DownloadIcon
+        sx={{ padding: 1, color: palette?.textColor }}
+      ></DownloadIcon>
+    ),
     tooltip: "Bookmark",
   },
 ];
-
-
