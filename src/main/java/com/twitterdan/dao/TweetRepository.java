@@ -1,17 +1,19 @@
 package com.twitterdan.dao;
 
 import com.twitterdan.domain.tweet.Tweet;
+import com.twitterdan.domain.tweet.TweetType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface TweetRepository extends PagingAndSortingRepository<Tweet, Long> {
+public interface TweetRepository extends JpaRepository<Tweet, Long> {
   @Query(value = "SELECT tweets.* FROM tweets   \n" + "WHERE tweets.user_id=:userId AND tweets.tweet_type='TWEET'\n"
           + " UNION ALL \n"
           + "SELECT tweets.id, tweets.created_at,"
@@ -55,19 +57,15 @@ public interface TweetRepository extends PagingAndSortingRepository<Tweet, Long>
                           + "        bookmarkTweets", nativeQuery = true)
   Optional<Page<Tweet>> findBookmarks(Long id, Pageable pageable);
 
-  @Query(value = "Select * from TWEETS where TWEET_TYPE=:type and PARENT_TWEET_ID=:id ",
-          nativeQuery = true)
-  List<Tweet> findReplies(String type, Long id);
 
-  @Query(value = "Select * from TWEETS where USER_ID=:id ", nativeQuery = true)
-  List<Tweet> findTweetsAndRepliesByUserId(Long id);
 
-  List<Tweet> findTweetsByParentTweetIdIsNull();
+
+  List<Tweet> findTweetsByTweetTypeAndParentTweetId(TweetType tweetType, Long parentTweetId);
 
   List<Tweet> findTweetsByUserId(Long userId);
 
-  Page<Tweet> findAll(Pageable pageable);
 
   Page<Tweet> findAllByUserIdIsNot(Long userId, Pageable pageable);
+
 }
 
