@@ -41,6 +41,10 @@ public class TweetController {
     this.tweetResponseMapper = tweetResponseMapper;
   }
 
+  @GetMapping("/explore")
+  public List<TweetResponse> getExploreTweets (@RequestParam int pageNumber, @RequestParam int pageSize) {
+    return tweetService.findAllExplore(PageRequest.of(pageNumber, pageSize));
+  }
 
   @GetMapping("/all")
   public List<TweetResponse> getAllTweets(Principal principal, @RequestParam int pageNumber, @RequestParam int pageSize) {

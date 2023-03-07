@@ -129,4 +129,9 @@ public class TweetService {
     Page<Tweet> tweets = optionalTweets.orElse(Page.empty());
     return tweets.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
   }
+
+  public List<TweetResponse> findAllExplore (Pageable pageable) {
+    Page<Tweet> tweets = Optional.ofNullable(tweetDao.findAll(pageable)).orElse(Page.empty());
+    return tweets.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
+  }
 }
