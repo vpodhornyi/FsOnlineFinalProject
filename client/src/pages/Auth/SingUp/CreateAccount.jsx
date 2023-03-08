@@ -10,7 +10,27 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createNewUser } from "../../../redux/auth/action";
 import { PATH } from "../../../utils/constants";
-
+import { useFormik } from "formik";
+import * as yup from "yup";
+const validationSchema = yup.object({
+  email: yup
+    .string("Enter your email")
+    .email("Enter a valid email")
+    .required("Email is required"),
+  birthDate: yup
+    .date()
+    .transform(function (value, originalValue) {
+      if (this.isType(value)) {
+        return value;
+      }
+      const result = parse(originalValue, "dd.MM.yyyy", new Date());
+      return result;
+    })
+    .typeError("please enter a valid date")
+    .required()
+    .min("1945-11-13", "Date is too early")
+    .max(new Date().toLocaleString(), "please enter a valid date"),
+});
 const SingUpSecondStep = () => {
   const dispatch = useDispatch();
   const {
@@ -20,73 +40,74 @@ const SingUpSecondStep = () => {
     password: savePassword,
   } = useSelector((state) => state.auth.newUser);
   const navigate = useNavigate();
-  const [name, setName] = useState(savedName);
-  const [email, setEmail] = useState(savedEmail);
-  const [birthDate, setBirthDate] = useState(savedBirthDate);
-  const [password, setPassword] = useState(savePassword);
-
-  const onChangeLogin = (e) => {
-    setName(() => e.target.value);
-  };
-  const onChangeEmail = (e) => {
-    setEmail(() => e.target.value);
-  };
-  const onChangeDate = (e) => {
-    setBirthDate(() => e.target.value);
-  };
-
-  const onChangePassword = (e) => {
-    setPassword(() => e.target.value);
-  };
-
-  const submit = async () => {
-    await dispatch(createNewUser({ name, email, password, birthDate }));
-    navigate(`${PATH.EXPLORE}`);
-  };
-
+  const formik = useFormik({
+    initialValues: {
+      name: savedName,
+      email: savedEmail,
+      password: savePassword,
+      birthDate: savedBirthDate,
+    },
+    validationSchema: validationSchema,
+    onSubmit: async (values) => {
+      await dispatch(createNewUser(values));
+      navigate(`${PATH.EXPLORE}`);
+    },
+  });
   return (
     <Container sx={{ justifyContent: "space-between", height: "100%" }}>
-      <Box>
+      <form>
         <Typography className="StepTitle" variant="h1">
           Create your account
         </Typography>
         <Stack spacing={5}>
           <TextField
-            value={name}
-            onChange={(e) => onChangeLogin(e)}
+            id="name"
+            name="name"
+            value={formik.values.name}
+            onChange={formik.handleChange}
             sx={{ width: "100%" }}
             label="Name"
             variant="outlined"
           />
           <TextField
-            value={email}
-            onChange={(e) => onChangeEmail(e)}
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
             sx={{ width: "100%" }}
+            id="email"
+            name="email"
             label="Email"
             variant="outlined"
           />
           <TextField
-            value={password}
-            onChange={(e) => onChangePassword(e)}
             label="Password"
             type="password"
+            id="password"
+            name="password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
             sx={{ width: "100%" }}
             InputLabelProps={{
               shrink: true,
             }}
           />
           <TextField
-            value={birthDate}
-            onChange={(e) => onChangeDate(e)}
+            value={formik.values.birthDate}
+            onChange={formik.handleChange}
+            error={formik.touched.birthDate && Boolean(formik.errors.birthDate)}
+            helperText={formik.touched.birthDate && formik.errors.birthDate}
             label="Birthday"
             type="date"
+            id="birth-date"
+            name="birthDate"
             sx={{ width: "100%" }}
             InputLabelProps={{
               shrink: true,
             }}
           />
         </Stack>
-      </Box>
+      </form>
       <Box>
         <Typography sx={{ fontSize: "0.8rem", mb: 2 }}>
           By signing up, you agree to the Terms of Service and Privacy Policy,
@@ -97,7 +118,8 @@ const SingUpSecondStep = () => {
           <CustomFabButton
             className="NextStepBtn"
             disabled={false}
-            onClick={() => submit()}
+            type="submit"
+            onClick={formik.handleSubmit}
             name="Sing up"
           />
         </ButtonWrapperStyled>

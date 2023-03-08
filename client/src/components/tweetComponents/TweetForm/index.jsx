@@ -6,10 +6,7 @@ import EmojiPicker from "emoji-picker-react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { CircularProgress } from "@mui/material";
-import {
-  EmojiIcon,
-  ImageIcon,
-} from "../../../media/icons";
+import { EmojiIcon, ImageIcon } from "../../../media/icons";
 import {
   AvatarContainer,
   Form,
@@ -24,11 +21,14 @@ import {
 } from "./styles";
 
 import { createTweet } from "../../../redux/tweet/action";
-import {getCustomizationTheme, getPersonalData} from "../../../redux/user/selector";
+import {
+  getCustomizationTheme,
+  getPersonalData,
+} from "../../../redux/user/selector";
 import ImageListContainer from "../../imageList/ImageListContainer";
 import { uploadImage } from "../../../utils/uploadImage";
 import { BackgroundContext } from "../../../utils/context";
-import {BACKGROUND, COLOR} from "../../../utils/theme";
+import { BACKGROUND, COLOR } from "../../../utils/theme";
 
 export const TweetForm = ({
   placeholderText = `What's happening?`,
@@ -42,12 +42,12 @@ export const TweetForm = ({
   const [selectedEmoji, setSelectedEmoji] = useState("");
   const [showReplyText, setShowReplyText] = useState(false);
   const user = useSelector(getPersonalData);
-  const {color} = useSelector(getCustomizationTheme)
+  const theme = useSelector(getCustomizationTheme);
   const navigate = useNavigate();
   const { background } = useContext(BackgroundContext);
   const dispatch = useDispatch();
   const TWEET_TEXT_INTEREST = tweetText.length / (250 / 100);
-  const {backgroundColor} = useSelector(getCustomizationTheme);
+  // const { backgroundColor } = useSelector(getCustomizationTheme);
   const LETTER_COUNTER_COMP =
     TWEET_TEXT_INTEREST <= 100 ? (
       <CircularProgress
@@ -119,9 +119,10 @@ export const TweetForm = ({
             style={{
               resize: "none",
               width: "100%",
-              backgroundColor: BACKGROUND[backgroundColor]?.palette.background.main,
-              color: BACKGROUND[backgroundColor]?.palette.textColor,
-              outline: BACKGROUND[backgroundColor]?.palette.textColor,
+              backgroundColor:
+                BACKGROUND[theme?.backgroundColor]?.palette.background.main,
+              color: BACKGROUND[theme?.backgroundColor]?.palette.textColor,
+              outline: BACKGROUND[theme?.backgroundColor]?.palette.textColor,
               fontSize: "16px",
               border: "none",
             }}
@@ -142,8 +143,14 @@ export const TweetForm = ({
                 alignItems: "center",
               }}
             >
-              <ReplyText sx={{color: COLOR[color]?.primary.main}}>
-                <PublicIcon fontSize={"small"} style={{ paddingRight: 10, color: COLOR[color]?.primary.main}} />{" "}
+              <ReplyText sx={{ color: COLOR[theme?.color]?.primary.main }}>
+                <PublicIcon
+                  fontSize={"small"}
+                  style={{
+                    paddingRight: 10,
+                    color: COLOR[theme?.color]?.primary.main,
+                  }}
+                />{" "}
                 Everyone can reply
               </ReplyText>
             </Box>
@@ -152,7 +159,10 @@ export const TweetForm = ({
         <FormFooter>
           <IconsList>
             <Icon disabled={uploadPhotos.length >= 4}>
-              <ImageIcon sx={{cursor: "pointer"}} onClick={handleFileUploadClick} />
+              <ImageIcon
+                sx={{ cursor: "pointer" }}
+                onClick={handleFileUploadClick}
+              />
               <input
                 style={{ display: "none" }}
                 ref={inputRef}
@@ -162,7 +172,10 @@ export const TweetForm = ({
               />
             </Icon>
             <Icon>
-              <EmojiIcon sx={{cursor: "pointer"}} onClick={() => onEmojiVisible()} />
+              <EmojiIcon
+                sx={{ cursor: "pointer" }}
+                onClick={() => onEmojiVisible()}
+              />
             </Icon>
           </IconsList>
           {isEmojiVisible && (
@@ -197,8 +210,8 @@ export const TweetForm = ({
             <TweetBtn
               sx={{
                 "&:disabled": {
-                  backgroundColor: COLOR[color]?.primary.light
-                }
+                  backgroundColor: COLOR[theme?.color]?.primary.light,
+                },
               }}
               disabled={
                 TWEET_TEXT_INTEREST > 100 ||
