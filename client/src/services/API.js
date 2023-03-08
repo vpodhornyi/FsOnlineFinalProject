@@ -69,7 +69,7 @@ export const URLS = {
     CHANGE_ACTIONS: "/tweets/change_actions",
     BOOKMARKS: "/tweets/bookmarks",
     getReplies: (id) => `/tweets/replies/${id}`,
-    USER_TWEETS: "/tweets/user-tweets",
+    USER_TWEETS: "/tweets/user-tweets/",
     USER_LIKES: "/tweets/user-likes/",
     USER_REPLIES: "/tweets/replies/"
   },

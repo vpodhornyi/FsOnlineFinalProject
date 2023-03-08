@@ -60,14 +60,13 @@ public class TweetController {
     return tweetService.getAll(userCurrent.getId(), pageable);
   }
 
-  @GetMapping("/user-tweets")
+  @GetMapping("/user-tweets/")
   public List<TweetResponse> getTweetsByUserId(@RequestParam(name = "userTag") String userTag,
                                                @RequestParam int pageNumber,
                                                @RequestParam int pageSize
   ) {
     User user = userDao.findByUserTag(userTag);
     return tweetService.getTweetsByUserId(user.getId(), PageRequest.of(pageNumber, pageSize));
-
   }
 
   @GetMapping("/user-likes/")
