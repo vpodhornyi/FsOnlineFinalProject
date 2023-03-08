@@ -42,7 +42,7 @@ public class TweetController {
   }
 
   @GetMapping("/explore")
-  public List<TweetResponse> getExploreTweets (@RequestParam int pageNumber, @RequestParam int pageSize) {
+  public List<TweetResponse> getExploreTweets(@RequestParam int pageNumber, @RequestParam int pageSize) {
     return tweetService.findAllExplore(PageRequest.of(pageNumber, pageSize));
   }
 
