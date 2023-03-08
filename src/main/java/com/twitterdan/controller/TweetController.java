@@ -66,16 +66,19 @@ public class TweetController {
                                                @RequestParam int pageSize
   ) {
     User user = userDao.findByUserTag(userTag);
-    return tweetService.getTweetsByUserId(user.getId(), PageRequest.of(pageNumber, pageSize));
+    return tweetService.getTweetsAndRetweetsByUserId(user.getId(), PageRequest.of(pageNumber, pageSize));
   }
 
   @GetMapping("/user-likes/")
-  public List<TweetResponse> findCurrentUserLikeTweets(@RequestParam(name = "userTag") String userTag) {
+  public List<TweetResponse> findCurrentUserLikeTweets(@RequestParam(name = "userTag") String userTag, @RequestParam int pageNumber, @RequestParam int pageSize) {
     User user = userDao.findByUserTag(userTag);
-    return tweetService.findCurrentUserLikeTweets(user.getId());
+    return tweetService.getLikedTweetsByUserId(user.getId(), PageRequest.of(pageNumber, pageSize));
 
   }
-
+  @GetMapping("/replies/")
+  public List<TweetResponse> getRepliesByUserId(@RequestParam(name = "id") String userId, @RequestParam int pageNumber, @RequestParam int pageSize) {
+    return tweetService.getTweetsAndRepliesByUserId(Long.parseLong(userId), PageRequest.of(pageNumber, pageSize));
+  }
 
   @GetMapping("/bookmarks")
   public List<TweetResponse> getBookmarks(Principal principal, @RequestParam int pageNumber, @RequestParam int pageSize) {
@@ -83,11 +86,6 @@ public class TweetController {
     Pageable pageable = PageRequest.of(pageNumber, pageSize);
     return tweetService.getBookmarks(user.getId(), pageable);
 
-  }
-
-  @GetMapping("/replies/")
-  public List<TweetResponse> getRepliesByUserId(@RequestParam(name = "id") String userId) {
-    return tweetService.getTweetsAndRepliesByUserId(Long.parseLong(userId));
   }
 
   @GetMapping("/replies/{id}")
@@ -121,10 +119,5 @@ public class TweetController {
   public TweetActionResponseAllData changeAction(@RequestBody TweetActionRequest tweetActionRequest, Principal principal) {
     User user = userDao.findByUserTag(principal.getName());
     return tweetService.changeAction(tweetActionRequest, user);
-  }
-
-  @ExceptionHandler({Exception.class, MethodArgumentNotValidException.class})
-  public ResponseEntity<Object> handleException(Exception ex) {
-    return new ResponseEntity<>(ex.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
   }
 }

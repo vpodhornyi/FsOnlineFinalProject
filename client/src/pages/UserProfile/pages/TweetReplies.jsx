@@ -9,26 +9,14 @@ import {StyledLoadContainer} from "./styledComponents";
 import {getTweetsState, loadingTweetsState} from "../../../redux/tweet/selector";
 import NoData from "../components/NoData";
 import {replaceDuplicatesByProperty} from "../../../utils/replaceDuplicatesByProperty";
+import Tweets from "../../Home/Tweets";
+import {URLS} from "../../../services/API";
 
 const TweetReplies = ({userId}) => {
-    const {user_tag} = useParams();
-    const user = useSelector(getPersonalData)
-    const dispatch = useDispatch();
-    const tweets = useSelector(getTweetsState);
-    const loading = useSelector(loadingTweetsState);
-
-    // useEffect(() => {
-    //     dispatch(getCurrentUserTweetsAndReplies(userId, user_tag))
-    // }, []);
-
-    // const unique = replaceDuplicatesByProperty(tweets?.data, "key")
-    //
-    // if (loading) {
-    //     return <StyledLoadContainer><CircularProgress disableShrink/></StyledLoadContainer>
-    // }
 
     return (
         <>
+            <Tweets stateValue={{name: "tweets", url: `${URLS.TWEET.USER_REPLIES}?id=${userId}`}}/>
             {/*{unique?.length > 0 ? unique?.map(t =>*/}
             {/*        <div key={t.id}>*/}
             {/*            <Tweet tweetInfo={t}/>*/}
