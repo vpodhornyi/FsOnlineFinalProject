@@ -47,7 +47,6 @@ export const TweetForm = ({
   const { background } = useContext(BackgroundContext);
   const dispatch = useDispatch();
   const TWEET_TEXT_INTEREST = tweetText.length / (250 / 100);
-  // const { backgroundColor } = useSelector(getCustomizationTheme);
   const LETTER_COUNTER_COMP =
     TWEET_TEXT_INTEREST <= 100 ? (
       <CircularProgress

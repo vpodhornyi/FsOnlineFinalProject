@@ -1,7 +1,7 @@
 import { styled } from "@mui/material/styles";
 import { Box, Button, List, ListItem } from "@mui/material";
 
-export const TwitterContainer = styled(Box)(({theme}) => ({
+export const TwitterContainer = styled(Box)(({ theme }) => ({
   fontFamily: "Arial",
   paddingTop: 5,
   paddingBottom: 10,
@@ -10,6 +10,7 @@ export const TwitterContainer = styled(Box)(({theme}) => ({
   background: theme.palette.background.main,
   display: "flex",
   flex: 1,
+  borderRadius: "16px",
 }));
 
 export const AvatarContainer = styled(Box)({
@@ -24,7 +25,7 @@ export const Form = styled(Box)({
   width: "95%",
 });
 
-export const TweetInput = styled(Box)(({theme}) => ({
+export const TweetInput = styled(Box)(({ theme }) => ({
   borderBottom: `1px solid ${theme?.palette.border.main}`,
   ["@media (min-width:700px)"]: {
     flex: 1,

@@ -1,19 +1,21 @@
 import {
   AUTH_ROUTE,
   BOOKMARKS_ROUTE,
-  EXPLORE_ROUTE, FOLLOWERS_ROUTE, FOLLOWINGS_ROUTE,
+  EXPLORE_ROUTE,
+  FOLLOWERS_ROUTE,
+  FOLLOWINGS_ROUTE,
   HOME_ROUTE,
-  LISTS_ROUTE, LOGOUT_ROUTE,
+  LISTS_ROUTE,
+  LOGOUT_ROUTE,
   MESSAGES_ROUTE,
   NOTIFICATIONS_ROUTE,
   SEARCH,
 } from "../utils/constants";
 import UserProfile from "../pages/UserProfile/UserProfile";
-import Search from "../pages/Search/Search"
+import Search from "../pages/Search/Search";
 import Auth from "../pages/Auth";
 import Lists from "../pages/Lists/Lists";
 import Explore from "../pages/Explore/Explore";
-import Notifications from "../pages/Notifications/Notifications";
 import Messages from "../pages/Messages";
 import Bookmarks from "../pages/Bookmarks/Bookmarks";
 import Subscribing from "../pages/Subscribing/Subscribing";
@@ -48,12 +50,6 @@ const routes = [
   {
     isPublic: false,
     exact: true,
-    path: NOTIFICATIONS_ROUTE,
-    element: Notifications,
-  },
-  {
-    isPublic: false,
-    exact: true,
     path: MESSAGES_ROUTE,
     element: Messages,
   },
@@ -67,7 +63,7 @@ const routes = [
     isPublic: false,
     exact: true,
     path: LISTS_ROUTE,
-    element: Lists
+    element: Lists,
   },
   {
     isPublic: false,
@@ -92,7 +88,7 @@ const routes = [
     exact: true,
     path: FOLLOWINGS_ROUTE,
     element: Subscribing,
-  }
+  },
 ];
 
 export default routes;
