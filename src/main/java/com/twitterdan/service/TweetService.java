@@ -38,8 +38,8 @@ public class TweetService {
   @Autowired
   private TweetActionResponseMapper tweetActionResponseMapper;
 
-  public List<TweetResponse> getTweetsByUserId(Long userId) {
-    List<Tweet> tweets = tweetDao.findCurrentUserActionTweets("RETWEET", userId);
+  public List<TweetResponse> getTweetsByUserId(Long userId, Pageable pageable) {
+    Page<Tweet> tweets = tweetDao.findCurrentUserActionTweets("RETWEET", userId, pageable).orElse(Page.empty());
     return tweets.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
   }
 

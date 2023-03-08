@@ -22,7 +22,7 @@ public interface TweetRepository extends JpaRepository<Tweet, Long> {
           + "JOIN tweet_actions ON tweet_actions.tweet_id =tweets.id \n"
           + "WHERE  tweet_actions.action_type=:type AND tweet_actions.user_id=:userId \n"
           + " ORDER BY created_at  DESC", nativeQuery = true)
-  List<Tweet> findCurrentUserActionTweets(String type, Long userId);
+  Optional<Page<Tweet>> findCurrentUserActionTweets(String type, Long userId, Pageable pageable);
 
   @Query(value =
           "  SELECT tweets.id, tweets.created_at, tweets.created_by,"

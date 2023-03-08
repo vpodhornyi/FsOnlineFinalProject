@@ -8,6 +8,7 @@ import {StyledLoadContainer} from "./styledComponents";
 import {getTweetsState, loadingTweetsState} from "../../../redux/tweet/selector";
 import {getCurrentUserLikes} from "../../../redux/tweet/action";
 import NoData from "../components/NoData";
+import Tweets from "../../Home/Tweets";
 
 const Likes = () => {
     const {user_tag} = useParams();
@@ -26,6 +27,7 @@ const Likes = () => {
 
     return (
         <>
+            {/*<Tweets/>*/}
             {likes.data.length > 0 ? likes?.data?.map(tweet =>
                     <div key={tweet.id}>
                         <Tweet tweetInfo={tweet}/>

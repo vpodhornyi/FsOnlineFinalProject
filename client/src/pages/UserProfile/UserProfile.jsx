@@ -21,7 +21,7 @@ import {ColumnWrapper, PrimaryColumn, PrimaryHeader, SitebarColumn, StickyHeader
 
 import Likes from "./pages/Likes";
 import TweetReplies from "./pages/TweetReplies";
-import Tweets from "./pages/Tweets";
+import UserTweets from "./pages/UserTweets";
 import {Searchbar} from "../../components/Searchbar";
 import PageHeader from "../../components/PageHeader/PageHeader";
 import {a11yProps} from "../../utils/anyProps";
@@ -140,7 +140,7 @@ const UserProfile = () => {
                                 </Tabs>
                             </Box>
                             <TabPanel value={tabVal} index={0}>
-                                <Tweets/>
+                                <UserTweets/>
                             </TabPanel>
                             <TabPanel value={tabVal} index={1}>
                                 <TweetReplies userId={user?.id}/>
