@@ -4,6 +4,7 @@ import com.twitterdan.dao.TweetActionRepository;
 import com.twitterdan.dao.TweetRepository;
 import com.twitterdan.domain.tweet.Tweet;
 import com.twitterdan.domain.tweet.TweetAction;
+import com.twitterdan.domain.tweet.TweetType;
 import com.twitterdan.domain.user.User;
 import com.twitterdan.dto.action.TweetActionRequest;
 import com.twitterdan.dto.action.TweetActionResponseAllData;
@@ -65,14 +66,14 @@ public class TweetService {
   }
 
   public List<TweetResponse> getTweetsAndRepliesByUserId(Long id) {
-    List<Tweet> replies = tweetDao.findTweetsAndRepliesByUserId(id);
+    List<Tweet> replies = tweetDao.findTweetsByUserId(id);
     return replies.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
 
   }
 
   public List<TweetResponse> getReplies(Long id) {
 
-    List<Tweet> replies = tweetDao.findReplies("REPLY", id);
+    List<Tweet> replies = tweetDao.findTweetsByTweetTypeAndParentTweetId(TweetType.REPLY, id);
     return replies.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
 
   }

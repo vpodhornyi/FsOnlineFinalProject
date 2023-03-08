@@ -2,6 +2,7 @@ package com.twitterdan.facade.tweet;
 
 import com.twitterdan.dao.TweetRepository;
 import com.twitterdan.domain.tweet.Tweet;
+import com.twitterdan.domain.tweet.TweetType;
 import com.twitterdan.domain.user.User;
 import com.twitterdan.dto.tweet.TweetResponse;
 import com.twitterdan.facade.GeneralFacade;
@@ -36,7 +37,7 @@ public class TweetResponseMapper extends GeneralFacade<Tweet, TweetResponse> {
 
     dto.setRetweetFollowedName(name);
 
-    Integer replyCounter = tweetDao.findReplies("REPLY", entity.getId()).size();
+    Integer replyCounter = tweetDao.findTweetsByTweetTypeAndParentTweetId(TweetType.REPLY, entity.getId()).size();
     dto.setReplyCounter(replyCounter);
 
 

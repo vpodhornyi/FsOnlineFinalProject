@@ -65,17 +65,13 @@ export default (state = INITIAL_STATE, { payload, type }) => {
       };
     case String(ACTIONS.getTweets.success):
       const { data, stateItem } = payload;
-      const tweetsId = state[stateItem].data.map((tweet) => tweet.id);
-      const newTweets = data?.filter(
-        (resTweet) => !tweetsId.includes(resTweet.id)
-      );
-      if (newTweets.length) {
+      if (data.length) {
         return {
           ...state,
           loading: false,
           [stateItem]: {
             ...state[stateItem],
-            data: [...state[stateItem].data, ...newTweets],
+            data: [...state[stateItem].data, ...data],
             pageNumber: state[stateItem].pageNumber + 1,
           },
         };
