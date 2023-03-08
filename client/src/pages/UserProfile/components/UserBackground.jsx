@@ -13,7 +13,7 @@ const UserBackground = ({imageUrl, styles, children}) => {
                 width: "100%",
                 height: "25vh",
                 backgroundImage: imageUrl ? `url('${imageUrl}')` : "none",
-                bgcolor: BACKGROUND[backgroundColor]?.palette.profileBackground,
+                bgcolor: BACKGROUND[backgroundColor]?.palette.profileBackground || '#313135',
                 backgroundPosition: "center",
                 backgroundSize: "cover",
                 display: "block"

@@ -26,7 +26,7 @@ const Explore = () => {
 
             <PrimaryColumn>
                 <PrimaryHeader pageElement={<ExploreHeader/>}/>
-                <Box sx={{margin: "20px 0 0 0"}}>
+                <Box sx={{margin: "20px 0 50px 0"}}>
                     <Tweets stateValue={{name: "tweets", url: isAuth ? URLS.TWEET.ALL : URLS.TWEET.EXPLORE}}/>
                 </Box>
             </PrimaryColumn>

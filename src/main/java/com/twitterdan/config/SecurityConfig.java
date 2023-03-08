@@ -26,6 +26,7 @@ public class SecurityConfig {
   private final String tweets;
   private final String user;
   private final String search;
+  private final String userTweets;
   private final String replies;
   private final String likes;
 
@@ -34,8 +35,9 @@ public class SecurityConfig {
           @Value("${api.version}/auth/login") String login, @Value("${api.version}/auth/signup") String signup,
           @Value("${api.version}/auth/access") String token, @Value("${api.version}/tweets/explore") String tweets,
           @Value("${api.version}/users/") String user, @Value("${api.version}/users/search") String search,
-          @Value("${api.version}/tweets/user-tweets") String replies,
-          @Value("${api.version}/tweets/user-likes") String likes) {
+          @Value("${api.version}/tweets/user-tweets/") String userTweets,
+          @Value("${api.version}/tweets/replies/") String replies,
+          @Value("${api.version}/tweets/user-likes/") String likes) {
     this.ws = ws;
     this.jwtFilter = jwtFilter;
     this.account = account;
@@ -45,6 +47,7 @@ public class SecurityConfig {
     this.tweets = tweets;
     this.user = user;
     this.search = search;
+    this.userTweets = userTweets;
     this.replies = replies;
     this.likes = likes;
   }
@@ -60,7 +63,7 @@ public class SecurityConfig {
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeHttpRequests(auth ->
-                    auth.antMatchers(ws, account, login, token, signup, tweets, user, search, replies, likes)
+                    auth.antMatchers(ws, account, login, token, signup, tweets, user, search, userTweets, replies, likes)
                             .permitAll().anyRequest().authenticated()
                             .and().addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)).build();
   }

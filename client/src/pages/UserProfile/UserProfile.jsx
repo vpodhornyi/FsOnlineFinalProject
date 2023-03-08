@@ -26,6 +26,7 @@ import {Searchbar} from "../../components/Searchbar";
 import PageHeader from "../../components/PageHeader/PageHeader";
 import {a11yProps} from "../../utils/anyProps";
 import {BACKGROUND} from "../../utils/theme";
+import {getAuthorized} from "../../redux/auth/selector";
 
 const UserProfile = () => {
     const {backgroundColor} = useSelector(getCustomizationTheme);
@@ -39,6 +40,7 @@ const UserProfile = () => {
             location.pathname === PATH.USER_PAGE.tweetReplies(user_tag) ? 1 : 2
     );
     const [user, setUser] = useState(null);
+    const isAuth = useSelector(getAuthorized);
 
     const fetchUser = async () => {
         const data = await getUserByUserTag(user_tag);
@@ -97,8 +99,11 @@ const UserProfile = () => {
                                             :
                                             <ThemeButtonDark
                                                 onClick={async () => {
-                                                    followUser(authUser?.id, user?.id);
-                                                    dispatch(getAuthUser());
+                                                    if (isAuth) {
+                                                        followUser(authUser?.id, user?.id);
+                                                        dispatch(getAuthUser());
+                                                    } else {
+                                                        navigate(`${PATH.AUTH.ROOT}/${PATH.AUTH.SING_IN.LOGIN}`, {state: {background: location}});                                                    }
                                                 }}
                                                 variant="contained"
                                             >Follow

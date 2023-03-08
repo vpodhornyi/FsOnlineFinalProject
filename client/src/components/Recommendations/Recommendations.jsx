@@ -12,7 +12,9 @@ import {
 } from "../../redux/user/selector";
 import {getAuthorized} from "../../redux/auth/selector";
 import {clearUserRecommends, getAuthUser, getUserRecommends} from "../../redux/user/action";
-import {TypographyBold} from "../../pages/UserProfile/pages/styledComponents";
+import {ThemeButtonLightNoHover, TypographyBold} from "../../pages/UserProfile/pages/styledComponents";
+import {useLocation, useNavigate} from "react-router-dom";
+import {PATH} from "../../utils/constants";
 
 const Recommendations = () => {
     const dispatch = useDispatch();
@@ -21,11 +23,17 @@ const Recommendations = () => {
     const isPageable = useSelector(getIsPageableState);
     const recommends = useSelector(getUserRecommendsState);
     const isAuth = useSelector(getAuthorized);
+    const navigate = useNavigate();
+    const location = useLocation();
 
 
     useEffect(() => {
-        isAuth && (dispatch(getAuthUser()), dispatch(clearUserRecommends()), dispatch(getUserRecommends(user?.id, false)))
-    }, []);
+        if (isAuth && user.id) {
+            dispatch(getAuthUser());
+            dispatch(clearUserRecommends());
+            dispatch(getUserRecommends(user?.id, false));
+        }
+    }, [user.id]);
 
     const onShowMoreButtonClick = async () => {
         dispatch(getUserRecommends(user?.id, true));
@@ -65,11 +73,23 @@ const Recommendations = () => {
                         </Typography>
                     }
                 </> :
-                <>
+                <Box sx={{display: "flex", flexDirection: "column"}}>
                     <Typography sx={{fontSize: "18px", fontWeight: "bold"}}>New to twitter?</Typography>
-                    <Typography fontSize={"small"}>Sign up now to get your own personalized
-                        feed!</Typography>
-                </>
+                    <Typography fontSize={"small"}>Sign up now to get your own personalized feed!</Typography>
+                    <ThemeButtonLightNoHover
+                        onClick={() => navigate(`${PATH.AUTH.ROOT}/${PATH.AUTH.SING_UP.ROOT}`, {state: {background: location}})}
+                        sx={{width: "100%", margin: "10px 0"}}
+                    >
+                        Sign up
+                    </ThemeButtonLightNoHover>
+                    <ThemeButtonLightNoHover
+                        onClick={() => navigate(`${PATH.AUTH.ROOT}/${PATH.AUTH.SING_IN.LOGIN}`, {state: {background: location}})}
+                        sx={{width: "100%", margin: "10px 0"}}
+                    >
+                        Log in
+                    </ThemeButtonLightNoHover>
+
+                </Box>
             }
         </StyledBox>
     );

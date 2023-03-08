@@ -9,6 +9,7 @@ import {StyledLoadContainer} from "./styledComponents";
 import {getCurrentUserTweets} from "../../../redux/tweet/action";
 import NoData from "../components/NoData";
 import {replaceDuplicatesByProperty} from "../../../utils/replaceDuplicatesByProperty";
+import {getAuthorized} from "../../../redux/auth/selector";
 
 const Tweets = () => {
     const {user_tag} = useParams();
@@ -16,7 +17,7 @@ const Tweets = () => {
     const dispatch = useDispatch();
     const tweets = useSelector(getTweetsState);
     const loading = useSelector(loadingTweetsState);
-
+    const isAuth = useSelector(getAuthorized)
 
     useEffect(() => {
         dispatch(getCurrentUserTweets(user_tag));

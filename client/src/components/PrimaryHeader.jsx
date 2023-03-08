@@ -72,6 +72,7 @@ const StyledStickyHeader = styled(StickyHeader)(({theme}) => ({
 PrimaryHeader.propTypes = {
   pageElement: PropTypes.object,
   isBack: PropTypes.bool,
-  page: PropTypes.string
+  page: PropTypes.string,
+  navigateTo: PropTypes.string
 }
 export default PrimaryHeader;

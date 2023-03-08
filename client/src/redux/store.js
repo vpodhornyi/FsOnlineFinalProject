@@ -58,7 +58,6 @@ export default () => {
                 api.client = stompClient(() => {
                     store.dispatch(authUserSocketSubscribe());
                 });
-                store.dispatch(getUserRecommends(user?.id))
             })
     }
     return store;
