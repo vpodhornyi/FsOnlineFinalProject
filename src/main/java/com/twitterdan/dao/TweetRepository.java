@@ -61,6 +61,7 @@ public interface TweetRepository extends JpaRepository<Tweet, Long> {
 
 
   List<Tweet> findTweetsByTweetTypeAndParentTweetId(TweetType tweetType, Long parentTweetId);
+
   Optional<Page<Tweet>> findTweetsByUserId(Long userId, Pageable pageable);
 
 

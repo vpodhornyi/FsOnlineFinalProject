@@ -70,13 +70,20 @@ public class TweetController {
   }
 
   @GetMapping("/user-likes/")
-  public List<TweetResponse> findCurrentUserLikeTweets(@RequestParam(name = "userTag") String userTag, @RequestParam int pageNumber, @RequestParam int pageSize) {
+  public List<TweetResponse> findCurrentUserLikeTweets(@RequestParam(name = "userTag") String userTag,
+                                                       @RequestParam int pageNumber,
+                                                       @RequestParam int pageSize
+  ) {
     User user = userDao.findByUserTag(userTag);
     return tweetService.getLikedTweetsByUserId(user.getId(), PageRequest.of(pageNumber, pageSize));
 
   }
+
   @GetMapping("/replies/")
-  public List<TweetResponse> getRepliesByUserId(@RequestParam(name = "id") String userId, @RequestParam int pageNumber, @RequestParam int pageSize) {
+  public List<TweetResponse> getRepliesByUserId(@RequestParam(name = "id") String userId,
+                                                @RequestParam int pageNumber,
+                                                @RequestParam int pageSize
+  ) {
     return tweetService.getTweetsAndRepliesByUserId(Long.parseLong(userId), PageRequest.of(pageNumber, pageSize));
   }
 

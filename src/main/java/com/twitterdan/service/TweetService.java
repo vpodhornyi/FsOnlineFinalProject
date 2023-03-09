@@ -42,7 +42,7 @@ public class TweetService {
     Page<Tweet> tweets = tweetDao.findCurrentUserActionTweets("RETWEET",userId, pageable).orElse(Page.empty());
     try {
       return tweets.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
-    }catch (DataAccessException dae) {
+    } catch (DataAccessException dae) {
       return Collections.emptyList();
     }
   }
@@ -52,16 +52,17 @@ public class TweetService {
 
     try {
       return tweets.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
-    }catch (DataAccessException dae) {
+    } catch (DataAccessException dae) {
       return Collections.emptyList();
     }
   }
+
   public List<TweetResponse> getTweetsAndRepliesByUserId(Long id, Pageable pageable) {
     Page<Tweet> replies = tweetDao.findTweetsByUserId(id, pageable).orElse(Page.empty());
 
     try {
       return replies.stream().map(tweetResponseMapper::convertToDto).collect(Collectors.toList());
-    }catch (DataAccessException dae) {
+    } catch (DataAccessException dae) {
       return Collections.emptyList();
     }
 

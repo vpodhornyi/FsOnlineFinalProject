@@ -45,7 +45,7 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler(DataAccessException.class)
-  public ResponseEntity<List<TweetResponse>> emptyListException (DataAccessException dae) {
+  public ResponseEntity<List<TweetResponse>> emptyListException(DataAccessException dae) {
     return ResponseEntity.ok(Collections.emptyList());
   }
 }
