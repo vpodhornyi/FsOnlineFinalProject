@@ -47,8 +47,6 @@ public class UserService {
     String dtoBirth = dto.getBirth();
     String dtoHeaderImgUrl = dto.getHeaderImgUrl();
 
-    System.out.println(dtoBirth);
-
     if (user.isPresent()) {
       if (dtoName != null && dtoName.length() > 0) {
         user.get().setName(dtoName);

@@ -8,9 +8,7 @@ import { getTweetState, loadingTweetsState } from "../../redux/tweet/selector";
 import Loading from "../../components/Loader/Loading";
 import PropTypes from "prop-types";
 import { URLS } from "../../services/API";
-import EmptyBookmark from "../Bookmarks/EmptyBookmark";
-import { getPersonalData } from "../../redux/user/selector";
-import { useLocation } from "react-router-dom";
+import {useParams} from "react-router-dom";
 import { replaceDuplicatesByProperty } from "../../utils/replaceDuplicatesByProperty";
 
 const Tweets = ({
@@ -20,6 +18,7 @@ const Tweets = ({
     showReply: false,
   },
 }) => {
+  const {user_tag} = useParams();
   const dispatch = useDispatch();
   const tweetState = useSelector(getTweetState);
   const loadingTweets = useSelector(loadingTweetsState);
@@ -27,7 +26,7 @@ const Tweets = ({
   useEffect(() => {
     dispatch(resetStateValue(stateValue.name));
     dispatch(getTweets(stateValue.url, stateValue.name));
-  }, []);
+  }, [user_tag]);
   const lastItem = createRef();
   const observerLoader = useRef();
   const actionInSight = (entries) => {
@@ -40,7 +39,7 @@ const Tweets = ({
     }
   };
 
-  const unique = replaceDuplicatesByProperty(currentState?.data, "key");
+  const unique = replaceDuplicatesByProperty(currentState.data, "key");
 
   useEffect(() => {
     if (observerLoader.current) {
@@ -58,8 +57,8 @@ const Tweets = ({
         if (e.tweetType === "REPLY" && !stateValue.showReply) {
           return;
         }
-        const keyValue = e.id + e.retweetFollowedName;
-        if (i + 1 === unique.length) {
+        const keyValue = e.id + e.retweetFollowedName + i;
+        if (i + 1 === unique?.length) {
           return <Tweet key={keyValue} tweetInfo={e} ref={lastItem} />;
         } else {
           return <Tweet key={keyValue} tweetInfo={e} />;

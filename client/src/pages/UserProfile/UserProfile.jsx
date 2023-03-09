@@ -134,7 +134,7 @@ const UserProfile = () => {
                                     <Tab onClick={() => navigate(PATH.USER_PAGE.userProfile(user_tag))}
                                          label="Tweets" {...a11yProps(0)} />
                                     <Tab onClick={() => navigate(PATH.USER_PAGE.tweetReplies(user_tag))}
-                                         label="Tweets & Replies" {...a11yProps(1)} />
+                                         label="Replies" {...a11yProps(1)} />
                                     <Tab onClick={() => navigate(PATH.USER_PAGE.likes(user_tag))}
                                          label="Likes" {...a11yProps(2)} />
                                 </Tabs>
