@@ -63,6 +63,7 @@ export const URLS = {
   TWEET: {
     _ROOT: "/tweets/",
     ALL: "/tweets/all",
+    EXPLORE: "/tweets/explore",
     getTweet:(id)=>`/tweets/${id}`,
     CREATE_TWEET: "/tweets/create",
     CHANGE_ACTIONS: "/tweets/change_actions",

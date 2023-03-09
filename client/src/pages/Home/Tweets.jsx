@@ -8,14 +8,17 @@ import { getTweetState, loadingTweetsState } from "../../redux/tweet/selector";
 import Loading from "../../components/Loader/Loading";
 import PropTypes from "prop-types";
 import { URLS } from "../../services/API";
-import EmptyBookmark from "../Bookmarks/EmptyBookmark";
+import {useParams} from "react-router-dom";
+import { replaceDuplicatesByProperty } from "../../utils/replaceDuplicatesByProperty";
 
 const Tweets = ({
   stateValue = {
     name: "tweets",
     url: URLS.TWEET._ROOT,
+    showReply: false,
   },
 }) => {
+  const {user_tag} = useParams();
   const dispatch = useDispatch();
   const tweetState = useSelector(getTweetState);
   const loadingTweets = useSelector(loadingTweetsState);
@@ -23,7 +26,7 @@ const Tweets = ({
   useEffect(() => {
     dispatch(resetStateValue(stateValue.name));
     dispatch(getTweets(stateValue.url, stateValue.name));
-  }, []);
+  }, [user_tag]);
   const lastItem = createRef();
   const observerLoader = useRef();
   const actionInSight = (entries) => {
@@ -35,6 +38,8 @@ const Tweets = ({
       dispatch(getTweets(stateValue.url, stateValue.name));
     }
   };
+
+  const unique = replaceDuplicatesByProperty(currentState.data, "key");
 
   useEffect(() => {
     if (observerLoader.current) {
@@ -48,21 +53,19 @@ const Tweets = ({
 
   return (
     <BoxWrapper>
-      {currentState.data?.map((e, i) => {
-        if (e.tweetType === "REPLY") {
+      {unique?.map((e, i) => {
+        if (e.tweetType === "REPLY" && !stateValue.showReply) {
           return;
         }
-        const keyValue = e.id + e.retweetFollowedName;
-        if (i + 1 === currentState.data.length) {
+        const keyValue = e.id + e.retweetFollowedName + i;
+        if (i + 1 === unique?.length) {
           return <Tweet key={keyValue} tweetInfo={e} ref={lastItem} />;
         } else {
           return <Tweet key={keyValue} tweetInfo={e} />;
         }
       })}
       {loadingTweets && <Loading />}
-      {stateValue.name === "bookmarks" && !currentState.data.length && (
-        <EmptyBookmark />
-      )}
+      {!loadingTweets && !currentState.data.length && stateValue?.emptyList}
     </BoxWrapper>
   );
 };

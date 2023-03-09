@@ -21,11 +21,12 @@ import {ColumnWrapper, PrimaryColumn, PrimaryHeader, SitebarColumn, StickyHeader
 
 import Likes from "./pages/Likes";
 import TweetReplies from "./pages/TweetReplies";
-import Tweets from "./pages/Tweets";
+import UserTweets from "./pages/UserTweets";
 import {Searchbar} from "../../components/Searchbar";
 import PageHeader from "../../components/PageHeader/PageHeader";
 import {a11yProps} from "../../utils/anyProps";
 import {BACKGROUND} from "../../utils/theme";
+import {getAuthorized} from "../../redux/auth/selector";
 
 const UserProfile = () => {
     const {backgroundColor} = useSelector(getCustomizationTheme);
@@ -39,6 +40,7 @@ const UserProfile = () => {
             location.pathname === PATH.USER_PAGE.tweetReplies(user_tag) ? 1 : 2
     );
     const [user, setUser] = useState(null);
+    const isAuth = useSelector(getAuthorized);
 
     const fetchUser = async () => {
         const data = await getUserByUserTag(user_tag);
@@ -97,8 +99,11 @@ const UserProfile = () => {
                                             :
                                             <ThemeButtonDark
                                                 onClick={async () => {
-                                                    followUser(authUser?.id, user?.id);
-                                                    dispatch(getAuthUser());
+                                                    if (isAuth) {
+                                                        followUser(authUser?.id, user?.id);
+                                                        dispatch(getAuthUser());
+                                                    } else {
+                                                        navigate(`${PATH.AUTH.ROOT}/${PATH.AUTH.SING_IN.LOGIN}`, {state: {background: location}});                                                    }
                                                 }}
                                                 variant="contained"
                                             >Follow
@@ -129,13 +134,13 @@ const UserProfile = () => {
                                     <Tab onClick={() => navigate(PATH.USER_PAGE.userProfile(user_tag))}
                                          label="Tweets" {...a11yProps(0)} />
                                     <Tab onClick={() => navigate(PATH.USER_PAGE.tweetReplies(user_tag))}
-                                         label="Tweets & Replies" {...a11yProps(1)} />
+                                         label="Replies" {...a11yProps(1)} />
                                     <Tab onClick={() => navigate(PATH.USER_PAGE.likes(user_tag))}
                                          label="Likes" {...a11yProps(2)} />
                                 </Tabs>
                             </Box>
                             <TabPanel value={tabVal} index={0}>
-                                <Tweets/>
+                                <UserTweets/>
                             </TabPanel>
                             <TabPanel value={tabVal} index={1}>
                                 <TweetReplies userId={user?.id}/>

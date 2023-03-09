@@ -28,6 +28,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { PATH } from "../../../utils/constants";
 import { getPersonalData } from "../../../redux/user/selector";
 import ActionItems from "./ActionItems";
+import {getAuthorized} from "../../../redux/auth/selector";
 const Tweet = forwardRef((props, ref) => {
   const { tweetInfo, styles } = props;
   const { id, body, images, actions, replyCounter, retweetFollowedName } =
@@ -36,6 +37,7 @@ const Tweet = forwardRef((props, ref) => {
   const user = useSelector(getPersonalData);
   const navigate = useNavigate();
   const location = useLocation();
+  const isAuth = useSelector(getAuthorized);
 
   return (
     <>
@@ -43,7 +45,7 @@ const Tweet = forwardRef((props, ref) => {
         ref={ref}
         sx={styles}
         onClick={() => {
-          navigate(PATH.TWEET.tweetPage(id));
+          isAuth ? navigate(PATH.TWEET.tweetPage(id)): navigate(`${PATH.AUTH.ROOT}/${PATH.AUTH.SING_IN.LOGIN}`, {state: {background: location}})
         }}
       >
         {retweetFollowedName !== "" && (

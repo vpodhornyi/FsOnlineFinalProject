@@ -9,15 +9,18 @@ import NavBarFooter from "./NavBarFooter";
 import { LogoIcon } from "../.";
 import { PATH } from "../../utils/constants";
 import { TweetButton } from "../buttons";
+import {useSelector} from "react-redux";
+import {getAuthorized} from "../../redux/auth/selector";
 
 const NavBar = ({ user, authorized, menu }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const isAuth = useSelector(getAuthorized);
 
   return (
     <StyledBox>
       <Box className="NavWrapper">
-        <Link className="Logo" to={PATH.HOME}>
+        <Link className="Logo" to={isAuth ? PATH.HOME : PATH.EXPLORE}>
           <LogoIcon />
         </Link>
         <MainMenu user={user} authorized={authorized} menu={menu} />

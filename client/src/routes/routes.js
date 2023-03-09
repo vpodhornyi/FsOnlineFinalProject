@@ -3,7 +3,6 @@ import { Navigate } from "react-router-dom";
 import {
   Home,
   Explore,
-  Notifications,
   Messages,
   Chat,
   ChatInfo,
@@ -56,18 +55,22 @@ export const mainRoutes = (width, authorized) => {
 
         {
           path: PATH.HOME,
-          element: <Home/>,
-            children: [{
-                index: true,
-                element: (
-                    <>
-                        <PrimaryHeader pageElement={<PageHeader page={"Home"}/>} isBack={false}/>
-                        <TweetForm />
-                        <Suspense fallback={<Loading />}>
-                            <Tweets />{" "}
-                        </Suspense>
-                    </>
-                ),
+          element: <Home />,
+          children: [
+            {
+              index: true,
+              element: (
+                <>
+                  <PrimaryHeader
+                    pageElement={<PageHeader page={"Home"} />}
+                    isBack={false}
+                  />
+                  <TweetForm />
+                  <Suspense fallback={<Loading />}>
+                    <Tweets />{" "}
+                  </Suspense>
+                </>
+              ),
             },
             { path: PATH.TWEET.TWEET_PAGE, element: <TweetPage /> },
           ],
@@ -82,11 +85,7 @@ export const mainRoutes = (width, authorized) => {
           element: <Explore />,
           children: [],
         },
-        {
-          path: PATH.NOTIFICATIONS,
-          element: <Notifications />,
-          children: [],
-        },
+
         {
           path: PATH.MESSAGES.ROOT,
           element: <Messages isMiddle={isMiddle} />,
@@ -183,6 +182,30 @@ export const mainRoutes = (width, authorized) => {
         {
           path: PATH.EXPLORE,
           element: <Explore />,
+          children: [],
+        },
+        {
+          path: PATH.USER_PAGE.USER_PROFILE,
+          element: <UserProfile />,
+          children: [
+            {
+              path: PATH.USER_PAGE.LIKES,
+              element: <Likes />,
+            },
+            {
+              path: PATH.USER_PAGE.TWEET_REPLIES,
+              element: <TweetReplies />,
+            },
+          ],
+        },
+        {
+          path: PATH.USER_PAGE.FOLLOWERS,
+          element: <Subscribing />,
+          children: [],
+        },
+        {
+          path: PATH.USER_PAGE.FOLLOWINGS,
+          element: <Subscribing />,
           children: [],
         },
         {

@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +21,7 @@ public interface TweetRepository extends JpaRepository<Tweet, Long> {
           + "JOIN tweet_actions ON tweet_actions.tweet_id =tweets.id \n"
           + "WHERE  tweet_actions.action_type=:type AND tweet_actions.user_id=:userId \n"
           + " ORDER BY created_at  DESC", nativeQuery = true)
-  List<Tweet> findCurrentUserActionTweets(String type, Long userId);
+  Optional<Page<Tweet>> findCurrentUserActionTweets(String type, Long userId, Pageable pageable);
 
   @Query(value =
           "  SELECT tweets.id, tweets.created_at, tweets.created_by,"
@@ -31,7 +30,8 @@ public interface TweetRepository extends JpaRepository<Tweet, Long> {
                   + "        JOIN tweet_actions ON tweet_actions.tweet_id =tweets.id\n"
                   + "        WHERE  tweet_actions.action_type='LIKE' AND tweet_actions.user_id=:userId\n"
                   + "        ORDER BY created_at  DESC", nativeQuery = true)
-  List<Tweet> findCurrentUserLikeTweets(Long userId);
+  Optional<Page<Tweet>> findCurrentUserLikeTweets(Long userId, Pageable pageable);
+
 
   @Query(value =
           "SELECT tweets.* FROM tweets JOIN followers ON followers.followed_id=tweets.user_id\n"
@@ -62,7 +62,7 @@ public interface TweetRepository extends JpaRepository<Tweet, Long> {
 
   List<Tweet> findTweetsByTweetTypeAndParentTweetId(TweetType tweetType, Long parentTweetId);
 
-  List<Tweet> findTweetsByUserId(Long userId);
+  Optional<Page<Tweet>> findTweetsByUserId(Long userId, Pageable pageable);
 
 
   Page<Tweet> findAllByUserIdIsNot(Long userId, Pageable pageable);

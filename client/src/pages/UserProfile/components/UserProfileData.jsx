@@ -3,18 +3,17 @@ import Box from "@mui/material/Box";
 import {Typography} from "@mui/material";
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import CakeOutlinedIcon from '@mui/icons-material/CakeOutlined';
-import {StyledTypography} from "../pages/styledComponents";
 import PropTypes from "prop-types";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {PATH} from "../../../utils/constants";
 import {styled} from "@mui/system";
 import {useSelector} from "react-redux";
-import {getCustomizationTheme} from "../../../redux/user/selector";
-import {BACKGROUND} from "../../../utils/theme";
+import {getAuthorized} from "../../../redux/auth/selector";
 
 const UserProfileData = ({username, userTag, followers, followings, bio, location, birthDate}) => {
     const navigate = useNavigate();
-    const {backgroundColor} = useSelector(getCustomizationTheme);
+    const locale = useLocation();
+    const isAuth = useSelector(getAuthorized);
 
     return (
         <>
@@ -49,14 +48,14 @@ const UserProfileData = ({username, userTag, followers, followings, bio, locatio
 
                 <Box style={{display: "flex"}}>
                     <SubsLink
-                        onClick={() => navigate(PATH.USER_PAGE.followers(userTag))}
+                        onClick={() => isAuth ? navigate(PATH.USER_PAGE.followers(userTag)) : navigate(`${PATH.AUTH.ROOT}/${PATH.AUTH.SING_IN.LOGIN}`, {state: {background: locale}})}
                     >
                         {followers} Followers
                     </SubsLink>
 
                     <SubsLink
                         sx={{marginLeft: "10px"}}
-                        onClick={() => navigate(PATH.USER_PAGE.followings(userTag))}
+                        onClick={() => isAuth ? navigate(PATH.USER_PAGE.followings(userTag)) : navigate(`${PATH.AUTH.ROOT}/${PATH.AUTH.SING_IN.LOGIN}`, {state: {background: locale}})}
                     >
                         {followings} Followings
                     </SubsLink>

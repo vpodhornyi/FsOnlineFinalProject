@@ -38,9 +38,9 @@ export const ThemeButtonLightNoHover = styled(Button)(({theme}) => ({
         height: "35px",
         alignSelf: "flex-end",
         borderRadius: 40,
-        color: theme.palette.text.main,
-        backgroundColor: theme.palette.background.main,
-        border: `1px solid ${theme.palette.text.main}`
+        color: theme.palette.text.main || 'rgb(15, 20, 25)',
+        backgroundColor: theme.palette.background.main || '#fff',
+        border: `1px solid ${theme.palette.text.main || `rgb(15, 20, 25)`}`,
     }
 }));
 

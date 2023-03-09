@@ -1,13 +1,17 @@
 package com.twitterdan.controller;
 
 import com.twitterdan.dto.error.ResponseError;
+import com.twitterdan.dto.tweet.TweetResponse;
 import com.twitterdan.exception.AbstractException;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 @ControllerAdvice
@@ -38,5 +42,10 @@ public class GlobalExceptionHandler {
     final ResponseError responseError = new ResponseError(statusCode, serverErrorMessage, true, exception.getMessage());
 
     return ResponseEntity.status(statusCode).body(responseError);
+  }
+
+  @ExceptionHandler(DataAccessException.class)
+  public ResponseEntity<List<TweetResponse>> emptyListException(DataAccessException dae) {
+    return ResponseEntity.ok(Collections.emptyList());
   }
 }
